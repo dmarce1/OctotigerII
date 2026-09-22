@@ -1,0 +1,31 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "release",
+      "displayName": "CPU, HPX and Silo",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/release",
+      "cacheVariables": {"CMAKE_BUILD_TYPE": "Release"}
+    },
+    {
+      "name": "serial",
+      "displayName": "Standalone serial CPU",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-serial",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OCTOTIGERII_WITH_HPX": "OFF",
+        "OCTOTIGERII_WITH_SILO": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {"name": "release", "configurePreset": "release"},
+    {"name": "serial", "configurePreset": "serial"}
+  ],
+  "testPresets": [
+    {"name": "release", "configurePreset": "release", "output": {"outputOnFailure": true}},
+    {"name": "serial", "configurePreset": "serial", "output": {"outputOnFailure": true}}
+  ]
+}
