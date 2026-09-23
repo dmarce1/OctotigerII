@@ -140,6 +140,15 @@ elseif(CHECK_DEPENDENCY STREQUAL "PAPI")
     endif()
     file(WRITE "${CMAKE_BINARY_DIR}/papi-include" "${Papi_INCLUDE_DIR}\n")
     file(WRITE "${CMAKE_BINARY_DIR}/papi-library" "${Papi_LIBRARY}\n")
+elseif(CHECK_DEPENDENCY STREQUAL "COMPILER")
+    include(CheckCXXSourceCompiles)
+    set(CMAKE_REQUIRED_FLAGS "-std=c++20")
+    check_cxx_source_compiles("#include <span>
+        int main() { int value = 0; std::span<int> values(&value, 1); return values[0]; }"
+        HAS_CXX20)
+    if(NOT HAS_CXX20)
+        message(FATAL_ERROR "The selected C++ compiler and standard library must support C++20")
+    endif()
 endif()
 EOF
 
@@ -193,6 +202,28 @@ if ! probe_dependency HWLOC; then
         printf 'hwloc not found; HPX will fetch it.\n'
     fi
 fi
+# Prefer the matching GCC pair on PATH when no compiler was specified. CMake's
+# default cc/c++ may still point to an older system GCC after a cluster module
+# prepends a newer gcc/g++ to PATH.
+if [[ -z "${CC:-}" && -z "${CXX:-}" ]] && \
+    command -v gcc >/dev/null 2>&1 && command -v g++ >/dev/null 2>&1; then
+    compiler_args=("-DCMAKE_C_COMPILER=$(command -v gcc)"
+        "-DCMAKE_CXX_COMPILER=$(command -v g++)")
+fi
+if ! probe_dependency COMPILER; then
+    cat "$probe_dir/log" >&2
+    printf 'Load a C++20 toolchain (on QB4: module load GCC/13.2.0), or set CC and CXX.\n' >&2
+    exit 1
+fi
+selected_cc="$(sed -n 's/^CMAKE_C_COMPILER:[^=]*=//p' "$probe_dir/build/CMakeCache.txt" | head -n 1)"
+selected_cxx="$(sed -n 's/^CMAKE_CXX_COMPILER:[^=]*=//p' "$probe_dir/build/CMakeCache.txt" | head -n 1)"
+[[ -n "$selected_cc" && -n "$selected_cxx" ]] || {
+    printf 'Could not determine the compiler pair from the CMake probe.\n' >&2
+    exit 1
+}
+compiler_args=("-DCMAKE_C_COMPILER=$selected_cc" "-DCMAKE_CXX_COMPILER=$selected_cxx")
+printf 'Using compilers: %s, %s\n' "$selected_cc" "$selected_cxx"
+
 # PAPI is a separate development library, not a standard Linux installation.
 # Let site modules/system packages take precedence; build without root if absent.
 papi_found=OFF
@@ -216,11 +247,7 @@ if [[ "$papi_found" == OFF ]]; then
     if [[ "$papi_mode" != build ]] && probe_dependency PAPI; then
         papi_found=ON
     else
-        for program in make cc; do
-            # CC can name a non-default compiler; the configure step uses it.
-            [[ "$program" != cc || -z "${CC:-}" ]] || continue
-            command -v "$program" >/dev/null || { printf 'Missing required program: %s\n' "$program" >&2; exit 1; }
-        done
+        command -v make >/dev/null || { printf 'Missing required program: make\n' >&2; exit 1; }
         papi_src="$papi_dir/src"
         papi_tag=papi-7-2-0-t
         if [[ ! -d "$papi_src/.git" ]]; then
@@ -234,12 +261,19 @@ if [[ "$papi_found" == OFF ]]; then
         printf 'Building PAPI 7.2.0 in %s\n' "$papi_dir"
         (
             cd -- "$papi_src/src"
-            ./configure --prefix="$papi_root" --with-shared-lib=yes --with-static-lib=yes --with-tests=no
+            CC="$selected_cc" CXX="$selected_cxx" ./configure \
+                --prefix="$papi_root" --with-shared-lib=yes --with-static-lib=yes --with-tests=no
+            # The same source checkout may contain objects from an earlier
+            # configure with another compiler (for example, Intel icc).
+            make clean
             make -j "$jobs"
             make install
         )
         if ! probe_dependency PAPI; then
             cat "$probe_dir/log" >&2
+            if [[ -f "$probe_dir/build/CMakeFiles/CMakeError.log" ]]; then
+                tail -n 100 "$probe_dir/build/CMakeFiles/CMakeError.log" >&2
+            fi
             printf 'Local PAPI installation failed the compile/link check.\n' >&2
             exit 1
         fi
