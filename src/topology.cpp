@@ -1,10 +1,9 @@
 #include "octotigerII/subgrid/topology.hpp"
-#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <limits>
 #include <map>
 #include <tuple>
-
+#include "octotigerII/profiling.hpp"
 
 namespace octotigerII {
 
@@ -51,6 +50,8 @@ HaloPlan makeHaloPlan(Config const& config_, std::vector<Subgrid> const& blocks_
 			global[axis] = block.location.coordinates[axis] * config_.mesh.cells + cell[axis] - 2;
 		auto const mapped = config_.mesh.boundary.map(global, globalCells);
 		plan.reflectionMasks.push_back(mapped.analytic ? 0 : mapped.reflectionMask);
+		plan.outflowLowerMasks.push_back(mapped.analytic ? 0 : mapped.outflowLowerMask);
+		plan.outflowUpperMasks.push_back(mapped.analytic ? 0 : mapped.outflowUpperMask);
 		if (mapped.analytic) {
 			mesh::PhysicalCoordinates position{};
 			for (int axis = 0; axis < ndim; ++axis)

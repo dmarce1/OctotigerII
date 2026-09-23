@@ -17,13 +17,14 @@ Use the same dotted names on the command line, for example
 build accepts x and y faces. Inactive-axis options and unknown boundary names
 are errors. Analytic faces require a problem evaluator, as described below.
 
-The four values are:
+The five values are:
 
 | Value | Ghost-cell treatment |
 | --- | --- |
 | `periodic` | Read the corresponding cell on the opposite side of the domain. Both faces of that axis must be periodic. |
 | `reflecting` | Mirror each ghost layer across the face and negate only the normal hydro momentum or normal radiation flux. Density, energy, and tangential components retain their values. |
-| `outflow` | Copy the nearest interior cell in the normal direction (constant extrapolation / zero normal gradient). This does not clamp inward velocity or flux. |
+| `outflow` | Copy the outermost interior cell, then zero inward normal hydro momentum and inward normal radiation flux independently. Lower faces clamp positive components; upper faces clamp negative components. Other values, including total energy, are copied unchanged. |
+| `inflow` | Copy the outermost interior cell without clamping momentum or radiation flux. Both inward and outward flow are permitted. |
 | `analytic` | Evaluate the problem's prescribed physical state at the actual ghost-cell center and current stage time. |
 
 Different axes and nonperiodic lower/upper faces can use different rules.
@@ -33,11 +34,17 @@ at the original ghost position takes precedence over wrapping, clamping, and
 reflection. A single problem evaluator defines this extension consistently;
 users implementing custom problems must choose compatible data at face intersections.
 
+`inflow` names constant extrapolation here; it does not prescribe a separate
+inlet state. Use `analytic` for prescribed data. Older configurations that need
+the previous unclamped `outflow` behavior should select `inflow`.
+
 ## Defaults and precedence
 
 Existing problem defaults are retained: Kelvin–Helmholtz, radiation-pulse, and
 streaming default to all periodic; Sod, collapse, and gravity tests default to
 all outflow. Sod and Kelvin–Helmholtz can now override their defaults.
+Rayleigh–Taylor defaults to periodic transverse faces and reflecting walls on
+both ends of the last active axis (z in 3D, y in 2D).
 
 `mesh.periodic=on` remains a shorthand for setting every active face to
 periodic; `mesh.periodic=off` sets every face to outflow. For each input source,
@@ -74,13 +81,13 @@ Implemented evaluators:
   transport speed and storing the physical flux F = cE in its propagation
   direction. Only axes with paired periodic faces wrap their coordinates.
 
-Kelvin–Helmholtz, radiation-pulse, and the gravity problems do not currently
+Kelvin–Helmholtz, Rayleigh–Taylor, radiation-pulse, and the gravity problems do not currently
 provide analytic boundary data. They reject analytic faces during configuration.
 Add a callback in the selected `bin/.../problem.cpp` to support another problem;
 an analytic boundary prescription does not require a full-domain exact solution.
 
 Callbacks are constructed independently on each locality from the serialized
-configuration. Cached halo plans store only geometry and reflection masks;
+configuration. Cached halo plans store geometry, reflection masks, and lower/upper outflow masks;
 analytic states are evaluated anew at the current stage time, including for
 stolen work. MUSCL–Hancock fills at the step's starting time and predicts face
 states to the half step. The owning-patch interface also refreshes ghosts at
@@ -94,7 +101,8 @@ runs still execute but do not claim that full-domain reference is exact.
 
 ## Gravity
 
-Gravity supports outflow, paired periodic faces, and reflecting faces. The
+Gravity supports outflow, inflow, paired periodic faces, and reflecting faces.
+Outflow and inflow both have an isolated gravitational exterior. The
 periodic source lattice may span one, two, or three axes. Reflecting faces add
 same-sign image masses; paired reflecting faces give an infinite even extension
 with twice the domain period. When all axes repeat, a uniform compensating
@@ -108,7 +116,8 @@ acceptance tests, Ewald kernels, potential conventions, and verification.
 
 `boundaryChecks` covers face parsing, precedence, invalid pairs, inactive axes,
 ghost layers, mixed faces/edges/corners, analytic precedence and physical time,
-reflecting conservation, decomposition agreement, and the supported gravity boundaries.
+inflow copying, directional outflow clamping, reflecting conservation,
+decomposition agreement, and the supported gravity boundaries.
 It is registered with CTest and with the existing two-/three-locality HPX test
 launcher. HPX serialization tests cover the per-face configuration and halo
 metadata. Run the focused checks from a configured build directory with:

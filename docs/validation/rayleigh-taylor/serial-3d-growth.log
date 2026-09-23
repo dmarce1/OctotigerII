@@ -1,0 +1,11 @@
+Internal ctest changing into directory: /workspace/scratch/3c74a02c5a19/build-rt-serial
+Test project /workspace/scratch/3c74a02c5a19/build-rt-serial
+    Start 91: rayleigh-taylor.3d.RayleighTaylor.PerturbationGrowsUnderGravity
+1/1 Test #91: rayleigh-taylor.3d.RayleighTaylor.PerturbationGrowsUnderGravity ...   Passed   22.75 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Label Time Summary:
+integration    =  22.75 sec*proc (1 test)
+
+Total Test time (real) =  22.76 sec

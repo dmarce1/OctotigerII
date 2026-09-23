@@ -10,7 +10,7 @@ namespace octotigerII::gravity {
 inline void validateBoundaries(physics::BoundaryConditions const& boundaries) {
 	boundaries.validate();
 	if (boundaries.contains(physics::BoundaryCondition::Analytic))
-		throw std::invalid_argument("Gravity supports outflow, periodic, and reflecting faces; analytic gravity is not implemented");
+		throw std::invalid_argument("Gravity supports outflow, inflow, periodic, and reflecting faces; analytic gravity is not implemented");
 }
 
 }	 // namespace octotigerII::gravity

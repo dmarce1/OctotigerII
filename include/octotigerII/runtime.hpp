@@ -64,7 +64,7 @@ public:
 	/// Validate a complete gravity field directory, fill the next bank, then publish it.
 	void setGravity(std::vector<std::vector<gravity::State>> const& fields);
 
-	/// Apply a synchronized gravity impulse and adjust total energy by the kinetic change.
+	/// Apply self gravity plus uniform external acceleration and its kinetic-energy change.
 	/// Internal energy is preserved; physical time is unchanged by this substep.
 	void kickGravity(units::Time dt);
 

@@ -93,7 +93,7 @@ template <typename System>
 void applyHaloBoundaries(HaloPlan const& plan, std::vector<typename System::State>& ghosts, System const& system,
 	units::Time time, physics::AnalyticBoundary<typename System::State> const& analytic = {}) {
 	for (std::size_t i = 0; i < plan.reflectionMasks.size(); ++i)
-		if (plan.reflectionMasks[i]) ghosts.at(i) = physics::reflectBoundary(ghosts.at(i), plan.reflectionMasks[i], system);
+		ghosts.at(i) = physics::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i), system);
 	for (auto const& ghost : plan.analyticGhosts)
 		ghosts.at(ghost.destination) = physics::evaluateBoundary(analytic, ghost.position, time, system);
 }

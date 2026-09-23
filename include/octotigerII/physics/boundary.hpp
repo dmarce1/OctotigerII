@@ -18,16 +18,18 @@ enum class BoundaryCondition
 	Outflow,
 	Periodic,
 	Reflecting,
-	Analytic
+	Analytic,
+	Inflow
 };
 
 
 inline BoundaryCondition parseBoundaryCondition(std::string const& value) {
 	if (value == "outflow") return BoundaryCondition::Outflow;
+	if (value == "inflow") return BoundaryCondition::Inflow;
 	if (value == "periodic") return BoundaryCondition::Periodic;
 	if (value == "reflecting") return BoundaryCondition::Reflecting;
 	if (value == "analytic") return BoundaryCondition::Analytic;
-	throw std::invalid_argument("Expected periodic, reflecting, outflow, or analytic boundary: " + value);
+	throw std::invalid_argument("Expected periodic, reflecting, outflow, inflow, or analytic boundary: " + value);
 }
 
 
@@ -37,6 +39,7 @@ public:
 
 	mesh::Coordinates source{};
 	unsigned reflectionMask = 0;
+	unsigned outflowLowerMask = 0, outflowUpperMask = 0;
 	bool analytic = false;
 };
 
@@ -77,6 +80,7 @@ public:
 			for (auto face : {lower[axis], upper[axis]}) {
 				switch (face) {
 				case BoundaryCondition::Outflow:
+				case BoundaryCondition::Inflow:
 				case BoundaryCondition::Periodic:
 				case BoundaryCondition::Reflecting:
 				case BoundaryCondition::Analytic:
@@ -104,6 +108,9 @@ public:
 					x = (x % count + count) % count;
 					break;
 				case BoundaryCondition::Outflow:
+					(low ? result.outflowLowerMask : result.outflowUpperMask) |= 1u << axis;
+					[[fallthrough]];
+				case BoundaryCondition::Inflow:
 					x = std::clamp(x, 0, count - 1);
 					break;
 				case BoundaryCondition::Reflecting:
@@ -142,6 +149,17 @@ typename System::State reflectBoundary(typename System::State state, unsigned ma
 	return state;
 }
 
+/// Clamp at the donor's outflow face, then reflect into the requested image.
+/// Inflow has no transform: it retains the complete nearest interior state.
+template <typename System>
+typename System::State transformBoundary(
+	typename System::State state, unsigned reflections, unsigned outflowLower, unsigned outflowUpper, System const& system) {
+	for (int axis = 0; axis < ndim; ++axis) {
+		if (outflowLower & (1u << axis)) state = system.outflow(state, axis, true);
+		if (outflowUpper & (1u << axis)) state = system.outflow(state, axis, false);
+	}
+	return reflectBoundary(state, reflections, system);
+}
 
 /// Sample prescribed data, rejecting missing functions and invalid physical states.
 template <typename System>

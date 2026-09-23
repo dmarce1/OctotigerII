@@ -44,6 +44,12 @@ RadiationSystem::State RadiationSystem::reflected(State state, int normal) const
 	return state;
 }
 
+RadiationSystem::State RadiationSystem::outflow(State state, int normal, bool lower) const {
+	auto& flux = state.radiativeFlux(normal);
+	if (lower ? flux > units::EnergyFlux{} : flux < units::EnergyFlux{}) flux = {};
+	return state;
+}
+
 units::Velocity RadiationSystem::maximumSignalSpeed(State const& state, int normal) const {
 	auto const waves = Method::physicalFlux(toCalculationState(state), normal, reducedLightSpeed_);
 	return std::max(units::abs(waves.minus), units::abs(waves.plus));

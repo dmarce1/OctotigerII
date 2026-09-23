@@ -1,0 +1,15 @@
+# Rayleigh-Taylor: heavy fluid above light, uniform downward gravity.
+# CGS; defaults choose periodic transverse axes and reflecting vertical walls.
+# Vertical is z in 3D and y in 2D, so this input works for both builds.
+mesh.cells=16
+mesh.level=1
+mesh.lower=-0.5
+mesh.upper=0.5
+runtime.stopTime=10
+hydro.gamma=1.4
+rayleighTaylor.densityLower=1
+rayleighTaylor.densityUpper=2
+rayleighTaylor.interfacePressure=2.5
+rayleighTaylor.perturbation=0.01
+output.directory=output/rayleigh-taylor
+output.every=50

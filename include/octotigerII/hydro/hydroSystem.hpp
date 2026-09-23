@@ -48,6 +48,9 @@ public:
 	/// Reverse normal momentum while preserving density, tangential momenta, and energy.
 	State reflected(State, int normal) const;
 
+	/// Zero inward normal momentum; copy density, total energy, and tangential momenta.
+	State outflow(State, int normal, bool lower) const;
+
 	/// Return |v_n| plus the adiabatic sound speed.
 	units::Velocity maximumSignalSpeed(State const&, int normal) const;
 

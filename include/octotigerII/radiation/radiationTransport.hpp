@@ -49,6 +49,9 @@ public:
 	/// Reverse only the physical flux component normal to the reflecting surface.
 	State reflected(State, int normal) const;
 
+	/// Zero inward normal radiation flux; copy energy and tangential fluxes.
+	State outflow(State, int normal, bool lower) const;
+
 	/// Return the largest magnitude of the M1 normal characteristic speeds, using ĉ.
 	units::Velocity maximumSignalSpeed(State const&, int normal) const;
 

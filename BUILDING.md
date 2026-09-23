@@ -31,15 +31,22 @@ Each problem implements the three hooks in `problems.hpp`:
 - `validateProblem(Config const&)`: restrictions specific to that setup.
 - `initializeProblem(Snapshot&, Config const&)`: initialize one interior block.
 
-The input parser, mesh, storage and timestep scheduler do not branch on problem
-names. Add a directory, manifest, implementation, and inputs to introduce a
+The mesh, storage and timestep scheduler do not branch on problem names.
+The parser registers the selected problem's additional typed parameters;
+Rayleigh–Taylor exposes its layer densities, interface pressure, and seed amplitude.
+Add a directory, manifest, implementation, and inputs to introduce a
 new problem. A new physics implementation still needs its own common-library
 integration; manifests select existing modules rather than creating a solver.
 
 Unlike Castro's generated `_prob_params`, this revision does not introduce a
 parameter-code generator. The current fixtures use the existing typed Config
-settings. A future problem requiring additional options should add a typed
-problem-parameter interface, not an untyped map inside numerical kernels.
+settings, including `Config::RayleighTaylorOptions`. Additional options should
+remain typed rather than becoming an untyped map inside numerical kernels.
+
+Uniform external gravity uses `Config::HydroOptions::acceleration` and can
+be used by a `HYDRO` problem without selecting `GRAVITY` (which enables the
+self-gravity FMM). Rayleigh–Taylor selects this hydro-only configuration in
+2D and 3D, with downward acceleration along the last active axis.
 
 ## Compile-time dimension
 

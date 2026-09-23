@@ -25,9 +25,9 @@ TEST(BoundaryOptions, EveryActiveFaceAndPeriodicPairAreValidated) {
 		for (auto side : {"Lower", "Upper"}) {
 			EXPECT_THROW(parseConfig({"--mesh.periodic=off", prefix + side + "=periodic"}), std::invalid_argument);
 			EXPECT_THROW(parseConfig({prefix + side + "=invalid"}), std::invalid_argument);
-			for (auto rule : {"reflecting", "outflow", "analytic"}) {
+			for (auto rule : {"reflecting", "outflow", "inflow", "analytic"}) {
 				auto args = std::vector<std::string>{"--mesh.periodic=off", prefix + side + "=" + rule};
-				bool const available = std::string(rule) == "outflow" || std::string(rule) == "reflecting" ||
+				bool const available = std::string(rule) == "outflow" || std::string(rule) == "inflow" || std::string(rule) == "reflecting" ||
 					(!build::gravity &&
 						(std::string(rule) == "reflecting" || std::string(build::problem) == "sod" || std::string(build::problem) == "streaming"));
 				if (available)
@@ -104,7 +104,7 @@ TEST(GravityBoundaries, OutflowPeriodicAndReflectingAreSupported) {
 	EXPECT_NO_THROW(gravity::validateBoundaries(Boundaries{}));
 	for (int axis = 0; axis < ndim; ++axis) {
 		for (bool lower : {true, false}) {
-			for (auto rule : {Rule::Reflecting, Rule::Analytic}) {
+			for (auto rule : {Rule::Reflecting, Rule::Inflow, Rule::Analytic}) {
 				Boundaries bc;
 				(lower ? bc.lower : bc.upper)[axis] = rule;
 				if (bc.contains(Rule::Analytic))
@@ -171,19 +171,47 @@ protected:
 			p.density() = units::Density::from_value(scale);
 			p.pressure() = units::Pressure::from_value(2);
 			for (int axis = 0; axis < ndim; ++axis)
-				p.velocity(axis) = units::Velocity::from_value(0.1 * (axis + 1));
+				p.velocity(axis) = units::Velocity::from_value(0.1 * (axis + 1) * (int(scale) % 2 ? -1 : 1));
 			return system.conservedState(p);
 		} else {
 			State value;
 			value.energy() = units::EnergyDensity::from_value(scale);
 			for (int axis = 0; axis < ndim; ++axis)
-				value.radiativeFlux(axis) = (0.1 * (axis + 1) / ndim) * constants::c * value.energy();
+				value.radiativeFlux(axis) = (0.1 * (axis + 1) / ndim) * (int(scale) % 2 ? -1.0 : 1.0) * constants::c * value.energy();
 			return value;
 		}
 	}
 };
 
 TYPED_TEST_SUITE(BoundaryTransport, Systems);
+
+TYPED_TEST(BoundaryTransport, OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns) {
+	using State = typename TypeParam::State;
+	for (auto rule : {Rule::Outflow, Rule::Inflow})
+		for (int axis = 0; axis < ndim; ++axis)
+			for (bool lower : {true, false})
+				for (Real scale : {1.0, 2.0}) {
+					mesh::PatchData<State> patch(mesh::MeshLayout(4, 2), units::Length::from_value(0.25));
+					auto const donor = this->state(scale);
+					patch.layout().forEachInterior([&](auto cell, auto) { patch.atInterior(cell) = donor; });
+					auto boundaries = Boundaries::uniform(Rule::Inflow);
+					(lower ? boundaries.lower : boundaries.upper)[axis] = rule;
+					physics::fillGhostCells(patch, boundaries, this->system);
+					auto expected = donor;
+					bool const inward = lower ? scale == 2 : scale == 1;
+					if (rule == Rule::Outflow && inward) {
+						if constexpr (std::is_same_v<TypeParam, hydro::HydroSystem>)
+							expected.momentum(axis) = {};
+						else
+							expected.radiativeFlux(axis) = {};
+					}
+					for (int layer = 0; layer < 2; ++layer) {
+						auto ghost = mesh::filledCoordinates(3);
+						ghost[axis] = lower ? layer : 6 + layer;
+						test::expectStateNear(patch.atStorage(ghost), expected, 0);
+					}
+				}
+}
 
 TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEveryFace) {
 	using State = typename TypeParam::State;
@@ -212,9 +240,10 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 	}
 	// Rotate which axis is periodic, asymmetric, or analytic to cover all 6 faces.
 	for (int normal = 0; normal < ndim; ++normal) {
-		for (bool analyticFace : {false, true}) {
+		for (auto upperRule : {Rule::Outflow, Rule::Inflow, Rule::Analytic}) {
 			c.mesh.boundary = Boundaries::uniform(Rule::Reflecting);
-			c.mesh.boundary.upper[normal] = analyticFace ? Rule::Analytic : Rule::Outflow;
+			c.mesh.boundary.upper[normal] = upperRule;
+			if (upperRule == Rule::Inflow) c.mesh.boundary.lower[normal] = Rule::Outflow;
 			if (ndim > 1) c.mesh.boundary.lower[(normal + 1) % ndim] = c.mesh.boundary.upper[(normal + 1) % ndim] = Rule::Periodic;
 			physics::AnalyticBoundary<State> analytic = [&](auto const& x, auto time) {
 				Real scale = 50 + units::value(time);
@@ -235,6 +264,7 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 						mesh::Coordinates donor{};
 						mesh::PhysicalCoordinates position{};
 						unsigned reflections = 0;
+						unsigned outflowLower = 0, outflowUpper = 0;
 						bool prescribed = false;
 						for (int d = 0; d < ndim; ++d) {
 							int const x = 4 * block.location.coordinates[d] + storageCell[d] - 2;
@@ -243,7 +273,8 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 							if (x >= 0 && x < 8) continue;
 							auto const rule = x < 0 ? c.mesh.boundary.lower[d] : c.mesh.boundary.upper[d];
 							if (rule == Rule::Periodic) donor[d] = (x + 8) % 8;
-							if (rule == Rule::Outflow) donor[d] = std::clamp(x, 0, 7);
+							if (rule == Rule::Outflow || rule == Rule::Inflow) donor[d] = std::clamp(x, 0, 7);
+							if (rule == Rule::Outflow) (x < 0 ? outflowLower : outflowUpper) |= 1u << d;
 							if (rule == Rule::Reflecting) {
 								donor[d] = x < 0 ? -1 - x : 15 - x;
 								reflections |= 1u << d;
@@ -255,8 +286,17 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 							expected = analytic(position, time);
 						else {
 							expected = this->state(1 + mesh::linearIndex(donor, mesh::filledCoordinates(8)));
-							for (int d = 0; d < ndim; ++d)
+							for (int d = 0; d < ndim; ++d) {
+								auto& normal = [&]() -> auto& {
+									if constexpr (std::is_same_v<TypeParam, hydro::HydroSystem>)
+										return expected.momentum(d);
+									else
+										return expected.radiativeFlux(d);
+								}();
+								using Quantity = std::remove_reference_t<decltype(normal)>;
+								if (((outflowLower & (1u << d)) && normal > Quantity{}) || ((outflowUpper & (1u << d)) && normal < Quantity{})) normal = {};
 								if (reflections & (1u << d)) expected = this->system.reflected(expected, d);
+							}
 						}
 						test::expectStateNear(ghosts.at(plan.ghostIndices.at(padded.index(storageCell))), expected, 0);
 					});
@@ -315,7 +355,7 @@ TEST(BoundaryRuntime, MixedAndAnalyticBoundariesAreIndependentOfDecomposition) {
 	using State = radiation::RadiationSystem::State;
 #endif
 	// Run through the real executor and work-stealing path, including changing stage times.
-	for (auto rule : {Rule::Reflecting, Rule::Analytic}) {
+	for (auto rule : {Rule::Reflecting, Rule::Inflow, Rule::Outflow, Rule::Analytic}) {
 		auto fine = parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 		if (rule == Rule::Analytic && !problemBoundary(fine)) continue;
 		fine.mesh.boundary.lower[0] = rule;

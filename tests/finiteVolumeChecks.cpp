@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <limits>
 #include "octotigerII/buildConfig.hpp"
-#include "octotigerII/physics/finiteVolume.hpp"
 #include "octotigerII/hydro/hydroSystem.hpp"
+#include "octotigerII/physics/finiteVolume.hpp"
 #include "octotigerII/radiation/radiationTransport.hpp"
 #include "testSupport.hpp"
 
@@ -100,7 +100,8 @@ TYPED_TEST(FiniteVolume, NonuniformPeriodicEvolutionConservesEveryComponent) {
 
 
 TYPED_TEST(FiniteVolume, GhostRulesCoverFacesEdgesAndCorners) {
-	for (auto boundary : {physics::BoundaryCondition::Periodic, physics::BoundaryCondition::Outflow, physics::BoundaryCondition::Reflecting}) {
+	for (auto boundary : {physics::BoundaryCondition::Periodic, physics::BoundaryCondition::Outflow, physics::BoundaryCondition::Inflow,
+			 physics::BoundaryCondition::Reflecting}) {
 		auto patch = this->patch();
 		patch.layout().forEachInterior([&](auto const& cell, auto) {
 			patch.atInterior(cell) = this->state(1 + mesh::linearIndex(cell, mesh::filledCoordinates(8)));
@@ -115,13 +116,25 @@ TYPED_TEST(FiniteVolume, GhostRulesCoverFacesEdgesAndCorners) {
 			for (int d = 0; d < ndim; ++d) {
 				int const x = storage[d] - 2;
 				reflect[d] = x < 0 || x >= 8;
-				if (boundary == physics::BoundaryCondition::Periodic) source[d] = (x + 8) % 8;
-				else if (boundary == physics::BoundaryCondition::Outflow) source[d] = std::clamp(x, 0, 7);
-				else source[d] = x < 0 ? -1 - x : x >= 8 ? 15 - x : x;
+				if (boundary == physics::BoundaryCondition::Periodic)
+					source[d] = (x + 8) % 8;
+				else if (boundary == physics::BoundaryCondition::Outflow || boundary == physics::BoundaryCondition::Inflow)
+					source[d] = std::clamp(x, 0, 7);
+				else
+					source[d] = x < 0 ? -1 - x : x >= 8 ? 15 - x : x;
 			}
 			auto expected = patch.atInterior(source);
 			if (boundary == physics::BoundaryCondition::Reflecting)
-				for (int d = 0; d < ndim; ++d) if (reflect[d]) expected = this->system.reflected(expected, d);
+				for (int d = 0; d < ndim; ++d)
+					if (reflect[d]) expected = this->system.reflected(expected, d);
+			if (boundary == physics::BoundaryCondition::Outflow)
+				for (int d = 0; d < ndim; ++d)
+					if (storage[d] < 2) {
+						if constexpr (std::is_same_v<TypeParam, hydro::HydroSystem>)
+							expected.momentum(d) = {};
+						else
+							expected.radiativeFlux(d) = {};
+					}
 			test::expectStateNear(patch.atStorage(storage), expected, 0);
 		});
 	}

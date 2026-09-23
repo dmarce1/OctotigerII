@@ -1,0 +1,17 @@
+Note: Google Test filter = -RayleighTaylor.PerturbationGrowsUnderGravity
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from RayleighTaylor
+[ RUN      ] RayleighTaylor.DefaultsAndPhysicalParameterValidation
+[       OK ] RayleighTaylor.DefaultsAndPhysicalParameterValidation (0 ms)
+[ RUN      ] RayleighTaylor.InitialLayersHaveHydrostaticPressureAndZeroMeanSeed
+[       OK ] RayleighTaylor.InitialLayersHaveHydrostaticPressureAndZeroMeanSeed (0 ms)
+[ RUN      ] RayleighTaylor.ExternalKickPreservesInternalEnergyAndRestrictsTimestep
+[       OK ] RayleighTaylor.ExternalKickPreservesInternalEnergyAndRestrictsTimestep (2 ms)
+[ RUN      ] RayleighTaylor.EvolvingGravityAndWallsAgreeAcrossPartitions
+[       OK ] RayleighTaylor.EvolvingGravityAndWallsAgreeAcrossPartitions (19 ms)
+[----------] 4 tests from RayleighTaylor (22 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (22 ms total)
+[  PASSED  ] 4 tests.

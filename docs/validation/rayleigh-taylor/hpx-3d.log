@@ -1,0 +1,231 @@
+Internal ctest changing into directory: /workspace/scratch/3c74a02c5a19/build-rt-hpx
+Test project /workspace/scratch/3c74a02c5a19/build-rt-hpx
+        Start   1: rayleigh-taylor.3d.Units.CgsConversionsAndConstants
+        Start   2: rayleigh-taylor.3d.Units.HydroEnergyAndFluxDimensions
+        Start   3: rayleigh-taylor.3d.Units.DimensionalMeshAndChildTopology
+  1/109 Test   #3: rayleigh-taylor.3d.Units.DimensionalMeshAndChildTopology ........................................................................   Passed    0.01 sec
+        Start   4: rayleigh-taylor.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce
+  2/109 Test   #2: rayleigh-taylor.3d.Units.HydroEnergyAndFluxDimensions ...........................................................................   Passed    0.02 sec
+        Start   5: rayleigh-taylor.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+  3/109 Test   #1: rayleigh-taylor.3d.Units.CgsConversionsAndConstants .............................................................................   Passed    0.02 sec
+        Start   6: rayleigh-taylor.3d.Mesh.CgsGeometryAndPatchBounds
+  4/109 Test   #4: rayleigh-taylor.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce .....................................................................   Passed    0.01 sec
+        Start   7: rayleigh-taylor.3d.BlockTopology.ChildBitsParentAndInvalidSlots
+  5/109 Test   #5: rayleigh-taylor.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes .................................................................   Passed    0.02 sec
+        Start   8: rayleigh-taylor.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals
+  6/109 Test   #6: rayleigh-taylor.3d.Mesh.CgsGeometryAndPatchBounds ...............................................................................   Passed    0.02 sec
+        Start   9: rayleigh-taylor.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+  7/109 Test   #7: rayleigh-taylor.3d.BlockTopology.ChildBitsParentAndInvalidSlots .................................................................   Passed    0.02 sec
+        Start  10: rayleigh-taylor.3d.StorageLayout.EmptyPartitionsOverflowAndSlices
+  8/109 Test   #9: rayleigh-taylor.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact ...........................................   Passed    0.01 sec
+        Start  11: rayleigh-taylor.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+  9/109 Test   #8: rayleigh-taylor.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals ......................................................   Passed    0.02 sec
+        Start  12: rayleigh-taylor.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+ 10/109 Test  #10: rayleigh-taylor.3d.StorageLayout.EmptyPartitionsOverflowAndSlices ...............................................................   Passed    0.02 sec
+        Start  13: rayleigh-taylor.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+ 11/109 Test  #11: rayleigh-taylor.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 ..................................................   Passed    0.02 sec
+        Start  14: rayleigh-taylor.3d.VectorMath.InitializationArithmeticAndDotProduct
+ 12/109 Test  #12: rayleigh-taylor.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 ..................................................   Passed    0.02 sec
+        Start  15: rayleigh-taylor.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision
+ 13/109 Test  #13: rayleigh-taylor.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 ..................................................   Passed    0.01 sec
+        Start  16: rayleigh-taylor.3d.VectorMath.SplitConcatenateAndUnitVectors
+ 14/109 Test  #14: rayleigh-taylor.3d.VectorMath.InitializationArithmeticAndDotProduct .............................................................   Passed    0.01 sec
+        Start  17: rayleigh-taylor.3d.Options.HierarchicalIniSections
+ 15/109 Test  #15: rayleigh-taylor.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision ...........................................................   Passed    0.02 sec
+        Start  18: rayleigh-taylor.3d.Options.CliOverridesIniRegardlessOfArgumentOrder
+ 16/109 Test  #16: rayleigh-taylor.3d.VectorMath.SplitConcatenateAndUnitVectors ....................................................................   Passed    0.01 sec
+        Start  19: rayleigh-taylor.3d.Options.LegacyAndCanonicalNamesSharePrecedence
+ 17/109 Test  #17: rayleigh-taylor.3d.Options.HierarchicalIniSections ..............................................................................   Passed    0.02 sec
+        Start  20: rayleigh-taylor.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+ 18/109 Test  #18: rayleigh-taylor.3d.Options.CliOverridesIniRegardlessOfArgumentOrder .............................................................   Passed    0.01 sec
+        Start  21: rayleigh-taylor.3d.Options.MissingAndMalformedIniAreRejected
+ 19/109 Test  #19: rayleigh-taylor.3d.Options.LegacyAndCanonicalNamesSharePrecedence ...............................................................   Passed    0.01 sec
+        Start  22: rayleigh-taylor.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+ 20/109 Test  #20: rayleigh-taylor.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth ..........................................................   Passed    0.02 sec
+        Start  23: rayleigh-taylor.3d.OptionValues.DuplicateAliasIsRejected
+ 21/109 Test  #22: rayleigh-taylor.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp ..........................................................   Passed    0.01 sec
+        Start  24: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1
+ 22/109 Test  #21: rayleigh-taylor.3d.Options.MissingAndMalformedIniAreRejected ....................................................................   Passed    0.02 sec
+        Start  25: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2
+ 23/109 Test  #25: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2 ............................................................   Passed    0.01 sec
+        Start  26: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3
+ 24/109 Test  #24: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1 ............................................................   Passed    0.01 sec
+        Start  27: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4
+ 25/109 Test  #23: rayleigh-taylor.3d.OptionValues.DuplicateAliasIsRejected ........................................................................   Passed    0.02 sec
+        Start  28: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5
+ 26/109 Test  #26: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3 ............................................................   Passed    0.01 sec
+        Start  29: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6
+ 27/109 Test  #27: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4 ............................................................   Passed    0.01 sec
+        Start  30: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7
+ 28/109 Test  #28: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5 ............................................................   Passed    0.01 sec
+        Start  31: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8
+ 29/109 Test  #29: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6 ............................................................   Passed    0.01 sec
+        Start  32: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9
+ 30/109 Test  #31: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8 ............................................................   Passed    0.01 sec
+        Start  33: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10
+ 31/109 Test  #30: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7 ............................................................   Passed    0.01 sec
+        Start  34: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1"
+ 32/109 Test  #32: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9 ............................................................   Passed    0.02 sec
+        Start  35: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod"
+ 33/109 Test  #33: rayleigh-taylor.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10 ...........................................................   Passed    0.01 sec
+        Start  36: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3"
+ 34/109 Test  #34: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1" .............................................   Passed    0.01 sec
+        Start  37: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3"
+ 35/109 Test  #36: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3" .................................................   Passed    0.01 sec
+        Start  38: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1"
+ 36/109 Test  #37: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3" ................................................   Passed    0.01 sec
+        Start  39: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0"
+ 37/109 Test  #35: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod" ............................................   Passed    0.02 sec
+        Start  40: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11"
+ 38/109 Test  #40: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11" ...................................   Passed    0.01 sec
+        Start  41: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0"
+ 39/109 Test  #38: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1" ...............................................   Passed    0.02 sec
+        Start  42: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6"
+ 40/109 Test  #39: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0" ....................................   Passed    0.02 sec
+        Start  43: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan"
+ 41/109 Test  #41: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0" ......................................   Passed    0.02 sec
+        Start  44: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4"
+ 42/109 Test  #42: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6" ....................................   Passed    0.01 sec
+        Start  45: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf"
+ 43/109 Test  #43: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan" ....................................   Passed    0.01 sec
+        Start  46: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1"
+ 44/109 Test  #45: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf" .............................................   Passed    0.01 sec
+        Start  47: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid"
+ 45/109 Test  #46: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1" ...............................................   Passed    0.02 sec
+        Start  48: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1"
+ 46/109 Test  #44: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4" ........................................   Passed    0.02 sec
+        Start  49: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0"
+ 47/109 Test  #47: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid" .......................   Passed    0.02 sec
+        Start  50: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1"
+ 48/109 Test  #48: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1" ...............................   Passed    0.01 sec
+        Start  51: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes"
+ 49/109 Test  #49: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0" ...............................   Passed    0.01 sec
+        Start  52: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1"
+ 50/109 Test  #52: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1" .........................................   Passed    0.01 sec
+        Start  53: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0"
+ 51/109 Test  #51: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes" ....................................   Passed    0.02 sec
+        Start  54: rayleigh-taylor.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+ 52/109 Test  #50: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1" ...............................................   Passed    0.02 sec
+        Start  55: rayleigh-taylor.3d.BoundaryOptions.IniCliAndLegacyPrecedence
+ 53/109 Test  #53: rayleigh-taylor.3d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0" .................................   Passed    0.02 sec
+        Start  56: rayleigh-taylor.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+ 54/109 Test  #54: rayleigh-taylor.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated ...................................................   Passed    0.03 sec
+        Start  57: rayleigh-taylor.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+ 55/109 Test  #55: rayleigh-taylor.3d.BoundaryOptions.IniCliAndLegacyPrecedence ....................................................................   Passed    0.03 sec
+        Start  58: rayleigh-taylor.3d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported
+ 56/109 Test  #56: rayleigh-taylor.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ............................................   Passed    0.05 sec
+        Start  59: rayleigh-taylor.3d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes
+ 57/109 Test  #58: rayleigh-taylor.3d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported ...................................................   Passed    0.04 sec
+        Start  60: rayleigh-taylor.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+ 58/109 Test  #57: rayleigh-taylor.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums ...............................................................   Passed    0.04 sec
+        Start  61: rayleigh-taylor.3d.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::hydro::HydroSystem>
+ 59/109 Test  #60: rayleigh-taylor.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ................................................   Passed    0.03 sec
+        Start  62: rayleigh-taylor.3d.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::hydro::HydroSystem>
+ 60/109 Test  #61: rayleigh-taylor.3d.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::hydro::HydroSystem> .....   Passed    0.03 sec
+        Start  63: rayleigh-taylor.3d.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::hydro::HydroSystem>
+ 61/109 Test  #59: rayleigh-taylor.3d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes ............................................................   Passed    0.04 sec
+        Start  64: rayleigh-taylor.3d.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::hydro::HydroSystem>
+ 62/109 Test  #63: rayleigh-taylor.3d.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::hydro::HydroSystem> .........   Passed    0.06 sec
+        Start  65: rayleigh-taylor.3d.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition
+ 63/109 Test  #64: rayleigh-taylor.3d.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::hydro::HydroSystem> .......................   Passed    0.06 sec
+        Start  66: rayleigh-taylor.3d.SlopeValues.IndependentUnequalSlopeValues
+ 64/109 Test  #62: rayleigh-taylor.3d.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::hydro::HydroSystem> ...   Passed    0.07 sec
+        Start  67: rayleigh-taylor.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00>
+ 65/109 Test  #66: rayleigh-taylor.3d.SlopeValues.IndependentUnequalSlopeValues ....................................................................   Passed    0.02 sec
+        Start  68: rayleigh-taylor.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00>
+ 66/109 Test  #67: rayleigh-taylor.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00> .......................   Passed    0.01 sec
+        Start  69: rayleigh-taylor.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00>
+ 67/109 Test  #68: rayleigh-taylor.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00> .......................   Passed    0.02 sec
+        Start  70: rayleigh-taylor.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00>
+ 68/109 Test  #69: rayleigh-taylor.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00> .......................   Passed    0.01 sec
+        Start  71: rayleigh-taylor.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00>
+ 69/109 Test  #70: rayleigh-taylor.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00> ......................   Passed    0.02 sec
+        Start  72: rayleigh-taylor.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00>
+ 70/109 Test  #71: rayleigh-taylor.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00> ......................   Passed    0.01 sec
+        Start  73: rayleigh-taylor.3d.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy
+ 71/109 Test  #72: rayleigh-taylor.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00> ......................   Passed    0.01 sec
+        Start  74: rayleigh-taylor.3d.Hydro.EulerFluxAndAcousticSpeedInEveryDirection
+ 72/109 Test  #73: rayleigh-taylor.3d.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy ............................................................   Passed    0.01 sec
+        Start  75: rayleigh-taylor.3d.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux
+ 73/109 Test  #65: rayleigh-taylor.3d.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition ......................................   Passed    0.07 sec
+        Start  76: rayleigh-taylor.3d.Hydro.SupersonicRiemannFluxUsesUpwindState
+ 74/109 Test  #74: rayleigh-taylor.3d.Hydro.EulerFluxAndAcousticSpeedInEveryDirection ..............................................................   Passed    0.01 sec
+        Start  77: rayleigh-taylor.3d.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive
+ 75/109 Test  #75: rayleigh-taylor.3d.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux ...................................................   Passed    0.02 sec
+        Start  78: rayleigh-taylor.3d.Hydro.RejectsVacuumNegativePressureAndNonfiniteState
+ 76/109 Test  #77: rayleigh-taylor.3d.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive .....................................................   Passed    0.01 sec
+        Start  79: rayleigh-taylor.3d.Hydro.FluxLimiterRepairsDestructiveFluxConservatively
+ 77/109 Test  #76: rayleigh-taylor.3d.Hydro.SupersonicRiemannFluxUsesUpwindState ...................................................................   Passed    0.01 sec
+        Start  80: rayleigh-taylor.3d.HydroValidation.RejectsInvalidEosAndFloors
+ 78/109 Test  #79: rayleigh-taylor.3d.Hydro.FluxLimiterRepairsDestructiveFluxConservatively ........................................................   Passed    0.01 sec
+        Start  81: rayleigh-taylor.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem>
+ 79/109 Test  #78: rayleigh-taylor.3d.Hydro.RejectsVacuumNegativePressureAndNonfiniteState .........................................................   Passed    0.01 sec
+        Start  82: rayleigh-taylor.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem>
+ 80/109 Test  #80: rayleigh-taylor.3d.HydroValidation.RejectsInvalidEosAndFloors ...................................................................   Passed    0.01 sec
+        Start  83: rayleigh-taylor.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem>
+ 81/109 Test  #83: rayleigh-taylor.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem> ............................   Passed    0.04 sec
+        Start  84: rayleigh-taylor.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem>
+ 82/109 Test  #81: rayleigh-taylor.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem> .........................   Passed    0.06 sec
+        Start  85: rayleigh-taylor.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem>
+ 83/109 Test  #82: rayleigh-taylor.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem> .............   Passed    0.06 sec
+        Start  86: rayleigh-taylor.3d.Transport.HydroDecompositionConservationAndAdmissibility
+ 84/109 Test  #84: rayleigh-taylor.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem> ..................   Passed    0.03 sec
+        Start  87: rayleigh-taylor.3d.RayleighTaylor.DefaultsAndPhysicalParameterValidation
+ 85/109 Test  #85: rayleigh-taylor.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem> ....................   Passed    0.03 sec
+        Start  88: rayleigh-taylor.3d.RayleighTaylor.InitialLayersHaveHydrostaticPressureAndZeroMeanSeed
+ 86/109 Test  #86: rayleigh-taylor.3d.Transport.HydroDecompositionConservationAndAdmissibility .....................................................   Passed    0.05 sec
+        Start  89: rayleigh-taylor.3d.RayleighTaylor.ExternalKickPreservesInternalEnergyAndRestrictsTimestep
+ 87/109 Test  #87: rayleigh-taylor.3d.RayleighTaylor.DefaultsAndPhysicalParameterValidation ........................................................   Passed    0.04 sec
+        Start  90: rayleigh-taylor.3d.RayleighTaylor.EvolvingGravityAndWallsAgreeAcrossPartitions
+ 88/109 Test  #88: rayleigh-taylor.3d.RayleighTaylor.InitialLayersHaveHydrostaticPressureAndZeroMeanSeed ...........................................   Passed    0.03 sec
+        Start  91: rayleigh-taylor.3d.RayleighTaylor.PerturbationGrowsUnderGravity
+ 89/109 Test  #89: rayleigh-taylor.3d.RayleighTaylor.ExternalKickPreservesInternalEnergyAndRestrictsTimestep .......................................   Passed    0.09 sec
+        Start  92: rayleigh-taylor.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement
+ 90/109 Test  #92: rayleigh-taylor.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement ........................................................   Passed    0.06 sec
+        Start  93: rayleigh-taylor.3d.Runtime.FailedStageRollsBackAndRetryPublishesOnce
+ 91/109 Test  #93: rayleigh-taylor.3d.Runtime.FailedStageRollsBackAndRetryPublishesOnce ............................................................   Passed    0.08 sec
+        Start  94: rayleigh-taylor.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities
+ 92/109 Test  #90: rayleigh-taylor.3d.RayleighTaylor.EvolvingGravityAndWallsAgreeAcrossPartitions ..................................................   Passed    0.24 sec
+        Start  95: rayleigh-taylor.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy
+ 93/109 Test  #94: rayleigh-taylor.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities .................................................   Passed    0.04 sec
+        Start  96: rayleigh-taylor.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+ 94/109 Test  #95: rayleigh-taylor.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy ................................................................   Passed    0.04 sec
+        Start  97: rayleigh-taylor.3d.Serialization.TypedConfigSnapshotsAndFluxPacketsRoundTrip
+ 95/109 Test  #96: rayleigh-taylor.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip ...............................................   Passed    0.05 sec
+        Start  98: rayleigh-taylor.3d.Serialization.PerFaceBoundariesAndHaloPlansRoundTrip
+ 96/109 Test  #97: rayleigh-taylor.3d.Serialization.TypedConfigSnapshotsAndFluxPacketsRoundTrip ....................................................   Passed    0.04 sec
+        Start  99: rayleigh-taylor.3d.Serialization.InflowAndDirectionalOutflowMasksRoundTrip
+ 97/109 Test  #98: rayleigh-taylor.3d.Serialization.PerFaceBoundariesAndHaloPlansRoundTrip .........................................................   Passed    0.04 sec
+        Start 100: example.rayleigh-taylor.3d
+ 98/109 Test  #99: rayleigh-taylor.3d.Serialization.InflowAndDirectionalOutflowMasksRoundTrip ......................................................   Passed    0.06 sec
+        Start 101: application
+ 99/109 Test #101: application .....................................................................................................................   Passed    0.74 sec
+100/109 Test #100: example.rayleigh-taylor.3d ......................................................................................................   Passed    7.17 sec
+101/109 Test  #91: rayleigh-taylor.3d.RayleighTaylor.PerturbationGrowsUnderGravity .................................................................   Passed   26.98 sec
+        Start 102: distributed.storageChecks.2
+102/109 Test #102: distributed.storageChecks.2 .....................................................................................................   Passed    0.22 sec
+        Start 103: distributed.numericalChecks.2
+103/109 Test #103: distributed.numericalChecks.2 ...................................................................................................   Passed    0.31 sec
+        Start 104: distributed.boundaryChecks.2
+104/109 Test #104: distributed.boundaryChecks.2 ....................................................................................................   Passed    1.26 sec
+        Start 105: rayleigh-taylor.distributed.2
+105/109 Test #105: rayleigh-taylor.distributed.2 ...................................................................................................   Passed    0.20 sec
+        Start 106: distributed.storageChecks.3
+106/109 Test #106: distributed.storageChecks.3 .....................................................................................................   Passed    0.25 sec
+        Start 107: distributed.numericalChecks.3
+107/109 Test #107: distributed.numericalChecks.3 ...................................................................................................   Passed    0.20 sec
+        Start 108: distributed.boundaryChecks.3
+108/109 Test #108: distributed.boundaryChecks.3 ....................................................................................................   Passed    1.41 sec
+        Start 109: rayleigh-taylor.distributed.3
+109/109 Test #109: rayleigh-taylor.distributed.3 ...................................................................................................   Passed    0.25 sec
+
+100% tests passed, 0 tests failed out of 109
+
+Label Time Summary:
+application        =   7.90 sec*proc (2 tests)
+distributed        =   4.09 sec*proc (8 tests)
+integration        =  27.94 sec*proc (16 tests)
+rayleigh-taylor    =   0.45 sec*proc (2 tests)
+unit               =   1.72 sec*proc (83 tests)
+
+Total Test time (real) =  31.88 sec

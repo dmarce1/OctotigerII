@@ -1,9 +1,9 @@
 #include "octotigerII/simulation.hpp"
-#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <cmath>
 #include <limits>
 #include <stdexcept>
+#include "octotigerII/profiling.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
 
@@ -63,6 +63,7 @@ RunResult run(Config const& c, Observer const& observer) {
 	c.validate();
 	verification::reference(c, c.runtime.stopTime);
 	Runtime runtime(c);
+	bool const kick = build::hydro && (build::gravity || c.hasExternalAcceleration());
 	RunResult result;
 	if constexpr (build::gravity) result.gravityWork = runtime.solveGravity();
 	auto snapshots = runtime.snapshots();
@@ -74,7 +75,7 @@ RunResult run(Config const& c, Observer const& observer) {
 		auto const dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
 			throw std::runtime_error("Timestep cannot advance physical time");
-		if constexpr (build::gravity) runtime.kickGravity(dt / 2.0);
+		if (kick) runtime.kickGravity(dt / 2.0);
 		runtime.advance(dt);
 		if constexpr (build::gravity) {
 			auto const work = runtime.solveGravity();
@@ -84,8 +85,8 @@ RunResult run(Config const& c, Observer const& observer) {
 			result.gravityWork.ewaldPairs += work.ewaldPairs;
 			result.gravityWork.reflectedPairs += work.reflectedPairs;
 			result.gravityWork.localityCells = work.localityCells;
-			runtime.kickGravity(dt / 2.0);
 		}
+		if (kick) runtime.kickGravity(dt / 2.0);
 		snapshots = runtime.snapshots();
 		++result.steps;
 		result.final = diagnose(snapshots, c);

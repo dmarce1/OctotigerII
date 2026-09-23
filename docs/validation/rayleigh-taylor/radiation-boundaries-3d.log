@@ -1,0 +1,53 @@
+Internal ctest changing into directory: /workspace/scratch/3c74a02c5a19/build-inflow-radiation
+Test project /workspace/scratch/3c74a02c5a19/build-inflow-radiation
+      Start 17: streaming.3d.Options.HierarchicalIniSections
+ 1/21 Test #17: streaming.3d.Options.HierarchicalIniSections ......................................................................................   Passed    0.01 sec
+      Start 18: streaming.3d.Options.CliOverridesIniRegardlessOfArgumentOrder
+ 2/21 Test #18: streaming.3d.Options.CliOverridesIniRegardlessOfArgumentOrder .....................................................................   Passed    0.00 sec
+      Start 19: streaming.3d.Options.LegacyAndCanonicalNamesSharePrecedence
+ 3/21 Test #19: streaming.3d.Options.LegacyAndCanonicalNamesSharePrecedence .......................................................................   Passed    0.00 sec
+      Start 20: streaming.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+ 4/21 Test #20: streaming.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth ..................................................................   Passed    0.00 sec
+      Start 21: streaming.3d.Options.MissingAndMalformedIniAreRejected
+ 5/21 Test #21: streaming.3d.Options.MissingAndMalformedIniAreRejected ............................................................................   Passed    0.00 sec
+      Start 54: streaming.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+ 6/21 Test #54: streaming.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated ...........................................................   Passed    0.00 sec
+      Start 55: streaming.3d.BoundaryOptions.IniCliAndLegacyPrecedence
+ 7/21 Test #55: streaming.3d.BoundaryOptions.IniCliAndLegacyPrecedence ............................................................................   Passed    0.00 sec
+      Start 56: streaming.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+ 8/21 Test #56: streaming.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ....................................................   Passed    0.00 sec
+      Start 57: streaming.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+ 9/21 Test #57: streaming.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums .......................................................................   Passed    0.00 sec
+      Start 60: streaming.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+10/21 Test #60: streaming.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ........................................................   Passed    0.00 sec
+      Start 61: streaming.3d.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::radiation::RadiationSystem>
+11/21 Test #61: streaming.3d.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::radiation::RadiationSystem> .....   Passed    0.00 sec
+      Start 62: streaming.3d.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::radiation::RadiationSystem>
+12/21 Test #62: streaming.3d.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::radiation::RadiationSystem> ...   Passed    0.02 sec
+      Start 63: streaming.3d.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::radiation::RadiationSystem>
+13/21 Test #63: streaming.3d.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::radiation::RadiationSystem> .........   Passed    0.01 sec
+      Start 64: streaming.3d.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::radiation::RadiationSystem>
+14/21 Test #64: streaming.3d.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::radiation::RadiationSystem> .......................   Passed    0.04 sec
+      Start 65: streaming.3d.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition
+15/21 Test #65: streaming.3d.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition ..............................................   Passed    0.26 sec
+      Start 84: streaming.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem>
+16/21 Test #84: streaming.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem> .........................   Passed    0.08 sec
+      Start 85: streaming.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem>
+17/21 Test #85: streaming.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem> .............   Passed    0.09 sec
+      Start 86: streaming.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem>
+18/21 Test #86: streaming.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem> ............................   Passed    0.01 sec
+      Start 87: streaming.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem>
+19/21 Test #87: streaming.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem> ..................   Passed    0.01 sec
+      Start 88: streaming.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem>
+20/21 Test #88: streaming.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem> ....................   Passed    0.01 sec
+      Start 97: application
+21/21 Test #97: application .......................................................................................................................   Passed    0.14 sec
+
+100% tests passed, 0 tests failed out of 21
+
+Label Time Summary:
+application    =   0.14 sec*proc (1 test)
+integration    =   0.20 sec*proc (5 tests)
+unit           =   0.36 sec*proc (15 tests)
+
+Total Test time (real) =   0.79 sec

@@ -77,7 +77,8 @@ void fillGhostCells(mesh::PatchData<typename System::State>& patch, BoundaryCond
 				position[axis] = patch.lower()[axis] + (Real(cell[axis]) + 0.5) * patch.cellWidth();
 			patch.atStorage(destination) = evaluateBoundary(analytic, position, patch.timeState().time, system);
 		} else {
-			patch.atStorage(destination) = reflectBoundary(patch.atInterior(mapped.source), mapped.reflectionMask, system);
+			patch.atStorage(destination) =
+				transformBoundary(patch.atInterior(mapped.source), mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, system);
 		}
 	});
 }

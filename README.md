@@ -68,6 +68,7 @@ Builds, dependencies, and output directories are excluded.
 | --- | --- | --- |
 | `sod` | `hydro_tests/Sod` | 1, 2, 3 |
 | `kelvin-helmholtz` | `hydro_tests/KelvinHelmholtz` | 2, 3 |
+| `rayleigh-taylor` | `hydro_tests/RayleighTaylor` | 2, 3 (default 3) |
 | `streaming` | `radiation_tests/Streaming` | 1, 2, 3 |
 | `radiation-pulse` | `radiation_tests/RadiationPulse` | 1, 2, 3 |
 | `gravity-sphere` | `gravity_tests/Sphere` | 3 |
@@ -79,6 +80,10 @@ Sod is planar along x in every dimension; Kelvin–Helmholtz uses x/y and is
 extruded uniformly along z in 3D. Streaming propagates along the diagonal of
 the compiled dimension. The pulse is initially isotropic. Static gravity
 problems use `runtime.stopTime=0`; collapse evolves gas and gravity with the selected image boundaries.
+
+[Rayleigh–Taylor](docs/rayleigh-taylor.md) places heavy fluid above light fluid
+under uniform downward gravity. Transverse faces are periodic and both vertical
+faces reflect. In 3D vertical is z; in 2D it is y.
 
 Inputs contain dotted `key=value` entries; `--key=value` overrides them on
 the command line, independent of argument order. For example, set
@@ -200,8 +205,9 @@ energy fluxes, `dphi/dt` evolution, or exact total-energy conservation claims.
 
 ## Scope of this first version
 
-Included: CPU numerics, 1D/2D/3D fixed tiled meshes, per-face periodic/reflecting/outflow/analytic transport,
-isolated 3D gravity, shared timesteps, distributed field storage and locality work queues, and Silo output.
+Included: CPU numerics, 1D/2D/3D fixed tiled meshes, per-face periodic/reflecting/outflow/inflow/analytic transport,
+3D gravity with periodic/reflecting images, uniform external acceleration, shared timesteps,
+distributed field storage and locality work queues, and Silo output.
 
 Omitted: CUDA, HIP, Kokkos, Vc, CPPuddle, Unitiger, the old FMM, old problems
 and test harnesses, SCF, binary-star setup, rotating frames, species/degenerate

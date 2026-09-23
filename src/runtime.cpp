@@ -1,14 +1,14 @@
 #include "octotigerII/runtime.hpp"
-#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <exception>
 #include <limits>
 #include <map>
 #include <mutex>
 #include <optional>
+#include "octotigerII/problems.hpp"
+#include "octotigerII/profiling.hpp"
 #include "octotigerII/storage/registry.hpp"
 #include "octotigerII/subgrid/view.hpp"
-#include "octotigerII/problems.hpp"
 #include "octotigerII/verification/analytic.hpp"
 #if OCTOTIGERII_GRAVITY
 #include "octotigerII/gravity/fieldSolver.hpp"
@@ -320,9 +320,10 @@ private:
 					workspace.radiation.advance(block, fields_.radiation, plan,
 						radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), bank_, dt, time_, radiationBoundary_);
 				if constexpr (build::gravity) copyFields(fields_.gravity, block.interior, bank_);
-			} else if constexpr (build::gravity && build::hydro) {
+			} else if constexpr (build::hydro) {
 				kick(block, dt);
-				copyFields(fields_.gravity, block.interior, bank_);
+				if constexpr (build::gravity) copyFields(fields_.gravity, block.interior, bank_);
+				if constexpr (build::radiation) copyFields(fields_.radiation, block.interior, bank_);
 			} else {
 				throw std::logic_error("Gravity kicks are not part of this executable");
 			}
@@ -369,21 +370,23 @@ private:
 		};
 		if constexpr (build::hydro) {
 			result = fieldStep(fields_.hydro, hydro::HydroSystem(config_.hydro.gamma));
+			units::Acceleration acceleration{};
+			for (auto component : config_.hydro.acceleration)
+				acceleration += units::abs(component);
 			if constexpr (build::gravity) {
 				auto input = fields_.gravity.read(block.interior, bank_).get();
-				units::Acceleration acceleration{};
 				for (std::size_t i = 0; i < block.interior.count; ++i) {
 					units::Acceleration norm{};
 					for (int d = 0; d < ndim; ++d)
-						norm += units::abs(input.at(i).acceleration(d));
+						norm += units::abs(input.at(i).acceleration(d) + config_.hydro.acceleration[d]);
 					acceleration = std::max(acceleration, norm);
 				}
-				if (acceleration > units::Acceleration{}) {
-					auto const b = config_.timestep.cfl / result;
-					auto const a = 0.5 * acceleration / block.cellWidth;
-					result = 2 * config_.timestep.cfl / (b + units::sqrt(b * b + 4.0 * a * config_.timestep.cfl));
-					result = std::min(result, 0.2 * units::sqrt(block.cellWidth / acceleration));
-				}
+			}
+			if (acceleration > units::Acceleration{}) {
+				auto const b = config_.timestep.cfl / result;
+				auto const a = 0.5 * acceleration / block.cellWidth;
+				result = 2 * config_.timestep.cfl / (b + units::sqrt(b * b + 4.0 * a * config_.timestep.cfl));
+				result = std::min(result, 0.2 * units::sqrt(block.cellWidth / acceleration));
 			}
 		}
 		if constexpr (build::radiation)
@@ -393,7 +396,8 @@ private:
 
 	void kick(Subgrid const& block, units::Time dt) {
 		auto input = fields_.hydro.read(block.interior, bank_).get();
-		auto gravity = fields_.gravity.read(block.interior, bank_).get();
+		std::optional<storage::Columns<gravity::State>> gravity;
+		if constexpr (build::gravity) gravity = fields_.gravity.read(block.interior, bank_).get();
 		auto output = fields_.hydro.output(block.interior, bank_ ^ 1);
 		{
 			profiling::Region profile("gravity.kick");
@@ -402,7 +406,9 @@ private:
 				units::EnergyDensity work{};
 				for (int d = 0; d < ndim; ++d) {
 					auto const old = state.momentum(d);
-					auto const impulse = dt * state.density() * gravity.at(i).acceleration(d);
+					auto acceleration = config_.hydro.acceleration[d];
+					if constexpr (build::gravity) acceleration += gravity->at(i).acceleration(d);
+					auto const impulse = dt * state.density() * acceleration;
 					state.momentum(d) += impulse;
 					work += impulse * (old + 0.5 * impulse) / state.density();
 				}
@@ -581,8 +587,8 @@ void Runtime::advance(units::Time dt) {
 void Runtime::kickGravity(units::Time dt) {
 	profiling::Elapsed profile("runtime.gravity_kick.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
-	if (!impl_->config.hydroEnabled() || !impl_->config.gravityEnabled() || !impl_->gravityReady || impl_->gravityTime != impl_->time.time ||
-		!(dt > units::Time{}) || !units::finite(dt))
+	if (!impl_->config.hydroEnabled() || (!build::gravity && !impl_->config.hasExternalAcceleration()) ||
+		(build::gravity && (!impl_->gravityReady || impl_->gravityTime != impl_->time.time)) || !(dt > units::Time{}) || !units::finite(dt))
 		throw std::logic_error("Gravity kick requires synchronized gas and gravity");
 	impl_->phase(Operation::Kick, dt);
 	impl_->bank ^= 1;

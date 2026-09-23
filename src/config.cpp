@@ -5,8 +5,8 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "octotigerII/problems.hpp"
 #include "octotigerII/gravity/boundary.hpp"
+#include "octotigerII/problems.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
 #ifdef OCTOTIGERII_WITH_HPX
@@ -43,7 +43,7 @@ namespace {
 		for (int axis = 0; axis < ndim; ++axis)
 			for (auto side : {"Lower", "Upper"}) {
 				auto const key = std::string("mesh.boundary.") + "xyz"[axis] + side;
-				options(key.c_str(), po::value<std::string>(), "Face boundary: periodic, reflecting, outflow, analytic");
+				options(key.c_str(), po::value<std::string>(), "Face boundary: periodic, reflecting, outflow, inflow, analytic");
 			}
 		options("runtime.stopTime", po::value<Real>(), "Stop time (s)");
 		options("runtime.maxSteps", po::value<int>(), "Maximum number of steps");
@@ -51,6 +51,17 @@ namespace {
 		options("runtime.workStealing", po::value<std::string>(), "Remote work stealing: on/off");
 		options("timestep.cfl", po::value<Real>(), "Courant factor");
 		options("hydro.gamma", po::value<Real>(), "Ideal-gas adiabatic index");
+		if constexpr (build::hydro)
+			for (int axis = 0; axis < ndim; ++axis) {
+				auto const key = std::string("hydro.acceleration.") + "xyz"[axis];
+				options(key.c_str(), po::value<Real>(), "Uniform external acceleration (cm/s^2)");
+			}
+		if (std::string(build::problem) == "rayleigh-taylor") {
+			options("rayleighTaylor.densityLower", po::value<Real>(), "Lower-layer density (g/cm^3)");
+			options("rayleighTaylor.densityUpper", po::value<Real>(), "Upper-layer density (g/cm^3)");
+			options("rayleighTaylor.interfacePressure", po::value<Real>(), "Pressure at the domain midpoint (dyn/cm^2)");
+			options("rayleighTaylor.perturbation", po::value<Real>(), "Vertical velocity perturbation amplitude (cm/s)");
+		}
 		options("radiation.lightSpeedRatio", po::value<Real>(), "Radiation transport speed divided by c");
 		options("gravity.multipoleOrder", po::value<int>(), "Gravity expansion order (1..10)");
 		options("gravity.openingAngle", po::value<Real>(), "Gravity opening angle");
@@ -106,6 +117,13 @@ namespace {
 		}
 	}
 
+	template <typename Quantity>
+	void readQuantity(po::variables_map const& values, char const* key, Quantity& target) {
+		Real value = units::value(target);
+		readNumber(values, key, value);
+		target = Quantity::from_value(value);
+	}
+
 	void applySettings(Config& config, po::variables_map const& values) {
 		if (values.count("problem.name") || values.count("mesh.ndim"))
 			throw std::invalid_argument("Problem and dimension are build choices; select OCTOTIGERII_PROBLEM and OCTOTIGERII_NDIM in CMake");
@@ -146,6 +164,14 @@ namespace {
 
 		readNumber(values, "timestep.cfl", config.timestep.cfl);
 		readNumber(values, "hydro.gamma", config.hydro.gamma);
+		for (int axis = 0; axis < ndim; ++axis) {
+			auto const key = std::string("hydro.acceleration.") + "xyz"[axis];
+			readQuantity(values, key.c_str(), config.hydro.acceleration[axis]);
+		}
+		readQuantity(values, "rayleighTaylor.densityLower", config.rayleighTaylor.densityLower);
+		readQuantity(values, "rayleighTaylor.densityUpper", config.rayleighTaylor.densityUpper);
+		readQuantity(values, "rayleighTaylor.interfacePressure", config.rayleighTaylor.interfacePressure);
+		readQuantity(values, "rayleighTaylor.perturbation", config.rayleighTaylor.perturbation);
 		readNumber(values, "radiation.lightSpeedRatio", config.radiation.lightSpeedRatio, "radiation.light_speed_ratio");
 		readOption(values, "gravity.multipoleOrder", config.gravity.multipoleOrder, "gravity.multipole_order");
 		readNumber(values, "gravity.openingAngle", config.gravity.openingAngle, "gravity.opening_angle");
@@ -171,6 +197,9 @@ void Config::validate() const {
 	if (verification.directMaxPairs < 1 || verification.directSamples < 0)
 		throw std::invalid_argument("Direct pair budget must be positive and directSamples nonnegative");
 	if (randomSeed < 0) throw std::invalid_argument("randomSeed must be nonnegative");
+	for (auto component : hydro.acceleration)
+		if (!units::finite(component)) throw std::invalid_argument("External acceleration must be finite");
+	if (!hydroEnabled() && hasExternalAcceleration()) throw std::invalid_argument("External acceleration requires hydro");
 	mesh.boundary.validate();
 	if (gravityEnabled()) gravity::validateBoundaries(mesh.boundary);
 	validateProblem(*this);

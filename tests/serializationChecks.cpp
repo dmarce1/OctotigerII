@@ -33,7 +33,10 @@ void check() {
 	c.verification.gravityReference = "continuum";
 	c.verification.relativeL1Tolerance = 0.05;
 	c.verification.absoluteTolerance = 2e-12;
+	c.rayleighTaylor.perturbation = units::Velocity::from_value(0.031);
 	auto before = initialSnapshot(c, {0, {}});
+	// Round-trip all option types even in builds without hydro.
+	c.hydro.acceleration[ndim - 1] = units::Acceleration::from_value(-0.17);
 	before.time = units::Time::from_value(0.125);
 	before.hydro = hydro::Fields(before.layout, before.cellWidth, before.lower);
 	before.gravity = gravity::Fields(before.layout, before.cellWidth, before.lower);
@@ -83,6 +86,11 @@ void check() {
 	EXPECT_TRUE(restored.verification.analytic == c.verification.analytic && restored.verification.relativeL1Tolerance == c.verification.relativeL1Tolerance &&
 		restored.verification.absoluteTolerance == c.verification.absoluteTolerance);
 	EXPECT_TRUE(before.time == after.time && before.cellWidth == after.cellWidth && before.lower == after.lower);
+	EXPECT_EQ(restored.hydro.acceleration, c.hydro.acceleration);
+	EXPECT_EQ(restored.rayleighTaylor.densityLower, c.rayleighTaylor.densityLower);
+	EXPECT_EQ(restored.rayleighTaylor.densityUpper, c.rayleighTaylor.densityUpper);
+	EXPECT_EQ(restored.rayleighTaylor.interfacePressure, c.rayleighTaylor.interfacePressure);
+	EXPECT_EQ(restored.rayleighTaylor.perturbation, c.rayleighTaylor.perturbation);
 	samePatch(before.hydro, after.hydro);
 	samePatch(before.radiation, after.radiation);
 	samePatch(before.gravity, after.gravity);
@@ -124,6 +132,8 @@ TEST(Serialization, PerFaceBoundariesAndHaloPlansRoundTrip) {
 	EXPECT_EQ(restoredPlan.ghostCount, plan.ghostCount);
 	EXPECT_EQ(restoredPlan.ghostIndices, plan.ghostIndices);
 	EXPECT_EQ(restoredPlan.reflectionMasks, plan.reflectionMasks);
+	EXPECT_EQ(restoredPlan.outflowLowerMasks, plan.outflowLowerMasks);
+	EXPECT_EQ(restoredPlan.outflowUpperMasks, plan.outflowUpperMasks);
 	ASSERT_EQ(restoredPlan.analyticGhosts.size(), plan.analyticGhosts.size());
 	for (std::size_t i = 0; i < plan.analyticGhosts.size(); ++i) {
 		EXPECT_EQ(restoredPlan.analyticGhosts[i].destination, plan.analyticGhosts[i].destination);
@@ -142,4 +152,27 @@ TEST(Serialization, PerFaceBoundariesAndHaloPlansRoundTrip) {
 			EXPECT_EQ(actual.copies[j].destination, expected.copies[j].destination);
 		}
 	}
+}
+
+TEST(Serialization, InflowAndDirectionalOutflowMasksRoundTrip) {
+	auto c = parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=0"});
+	c.mesh.boundary.upper.fill(physics::BoundaryCondition::Inflow);
+	CartesianTopology topology(c, 1);
+	auto const plan = makeHaloPlan(c, topology.blocks(), 0);
+	std::vector<char> buffer;
+	{
+		hpx::serialization::output_archive archive(buffer);
+		archive & c & plan;
+	}
+	Config restored;
+	HaloPlan restoredPlan;
+	{
+		hpx::serialization::input_archive archive(buffer);
+		archive & restored & restoredPlan;
+	}
+	EXPECT_EQ(restored.mesh.boundary.lower, c.mesh.boundary.lower);
+	EXPECT_EQ(restored.mesh.boundary.upper, c.mesh.boundary.upper);
+	EXPECT_EQ(restoredPlan.outflowLowerMasks, plan.outflowLowerMasks);
+	EXPECT_EQ(restoredPlan.outflowUpperMasks, plan.outflowUpperMasks);
+	EXPECT_NE(std::count_if(plan.outflowLowerMasks.begin(), plan.outflowLowerMasks.end(), [](auto mask) { return mask != 0; }), 0);
 }

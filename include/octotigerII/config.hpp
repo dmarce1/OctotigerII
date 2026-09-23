@@ -3,6 +3,8 @@
  * @ingroup runtime
  */
 #pragma once
+#include <algorithm>
+#include <array>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -60,13 +62,27 @@ public:
 	class HydroOptions {
 	public:
 		Real gamma = 1.4;
+		std::array<units::Acceleration, ndim> acceleration{};
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
 			archive & gamma;
+			for (auto& component : acceleration)
+				archive & component;
 		}
 	} hydro;
 
+	class RayleighTaylorOptions {
+	public:
+		units::Density densityLower = units::Density::from_value(1), densityUpper = units::Density::from_value(2);
+		units::Pressure interfacePressure = units::Pressure::from_value(2.5);
+		units::Velocity perturbation = units::Velocity::from_value(0.01);
+
+		template <typename Archive>
+		void serialize(Archive& archive, unsigned) {
+			archive & densityLower & densityUpper & interfacePressure & perturbation;
+		}
+	} rayleighTaylor;
 
 	class RadiationOptions {
 	public:
@@ -120,6 +136,10 @@ public:
 	/// Reject invalid runtime capacities and physical configuration values.
 	void validate() const;
 
+	bool hasExternalAcceleration() const {
+		return std::any_of(hydro.acceleration.begin(), hydro.acceleration.end(), [](auto component) { return component != units::Acceleration{}; });
+	}
+
 	static constexpr bool hydroEnabled() {
 		return build::hydro;
 	}
@@ -135,7 +155,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & randomSeed & mesh & runtime & timestep & hydro & radiation & gravity & output & verification;
+		archive & randomSeed & mesh & runtime & timestep & hydro & rayleighTaylor & radiation & gravity & output & verification;
 	}
 };
 

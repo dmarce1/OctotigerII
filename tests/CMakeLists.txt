@@ -65,6 +65,9 @@ if(PROBLEM_GRAVITY)
     PROPERTIES TIMEOUT 300 LABELS "integration")
 endif()
 octo_test(numericalChecks OctotigerII::Application "integration")
+if(OCTOTIGERII_PROBLEM STREQUAL "rayleigh-taylor")
+  octo_test(rayleighTaylorChecks OctotigerII::Application "integration;rayleigh-taylor")
+endif()
 if(OCTOTIGERII_PROBLEM STREQUAL "streaming" AND OCTOTIGERII_NDIM STREQUAL "1")
   target_compile_definitions(numericalChecks PRIVATE OCTOTIGERII_TEST_STREAMING_PROFILE=1)
 endif()
@@ -85,6 +88,9 @@ endif()
 add_test(NAME example.${OCTOTIGERII_PROBLEM}.${OCTOTIGERII_NDIM}d COMMAND octotigerII
   --config=${PROBLEM_DIRECTORY}/inputs --mesh.cells=4 --mesh.level=1 --output.enabled=off ${testRuntimeArgs})
 set_tests_properties(example.${OCTOTIGERII_PROBLEM}.${OCTOTIGERII_NDIM}d PROPERTIES TIMEOUT 120 LABELS "application")
+if(OCTOTIGERII_PROBLEM STREQUAL "rayleigh-taylor")
+  set_tests_properties(example.${OCTOTIGERII_PROBLEM}.${OCTOTIGERII_NDIM}d PROPERTIES TIMEOUT 180)
+endif()
 find_package(Python3 QUIET COMPONENTS Interpreter)
 if(Python3_Interpreter_FOUND)
   add_test(NAME application COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/application.py
@@ -104,6 +110,13 @@ if(Python3_Interpreter_FOUND)
           ${CMAKE_CURRENT_SOURCE_DIR}/distributed.py $<TARGET_FILE:gravityParallelChecks>)
         set_tests_properties(gravity.distributed.${count} PROPERTIES
           ENVIRONMENT "OCTOTIGERII_TEST_LOCALITIES=${count}" TIMEOUT 360 LABELS "distributed;gravity" RUN_SERIAL TRUE)
+      endif()
+      if(OCTOTIGERII_PROBLEM STREQUAL "rayleigh-taylor")
+        add_test(NAME rayleigh-taylor.distributed.${count} COMMAND ${Python3_EXECUTABLE}
+          ${CMAKE_CURRENT_SOURCE_DIR}/distributed.py $<TARGET_FILE:rayleighTaylorChecks>
+          --gtest_filter=-RayleighTaylor.PerturbationGrowsUnderGravity)
+        set_tests_properties(rayleigh-taylor.distributed.${count} PROPERTIES
+          ENVIRONMENT "OCTOTIGERII_TEST_LOCALITIES=${count}" TIMEOUT 360 LABELS "distributed;rayleigh-taylor" RUN_SERIAL TRUE)
       endif()
     endforeach()
   endif()

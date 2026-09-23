@@ -1,11 +1,11 @@
 #include "octotigerII/verification/analytic.hpp"
-#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
 #include <ostream>
 #include <stdexcept>
 #include "octotigerII/problems.hpp"
+#include "octotigerII/profiling.hpp"
 #if OCTOTIGERII_GRAVITY
 #include "octotigerII/verification/directGravity.hpp"
 #endif
@@ -55,7 +55,12 @@ Reference reference(Config const& c, units::Time time) {
 		return result;
 	}
 	result = problemReference(c);
-	if (build::gravity && !c.mesh.boundary.all(physics::BoundaryCondition::Outflow)) {
+	if (c.hasExternalAcceleration() && result.evaluate) {
+		result.evaluate = {};
+		result.reason = "This analytic reference does not include external acceleration";
+	}
+	if (build::gravity &&
+		(c.mesh.boundary.contains(physics::BoundaryCondition::Periodic) || c.mesh.boundary.contains(physics::BoundaryCondition::Reflecting))) {
 		result.evaluate = {};
 		result.reason = "Isolated continuum gravity reference is unavailable with image boundaries; use verification.gravityReference=direct";
 	}

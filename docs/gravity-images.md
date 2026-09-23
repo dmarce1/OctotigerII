@@ -7,10 +7,10 @@ physical dimensions even when only one or two directions are periodic.
 
 | Faces on an axis | Gravitational source extension |
 | --- | --- |
-| outflow / outflow | No source images on that axis; free-space gravity. |
+| outflow or inflow / outflow or inflow | No source images on that axis; free-space gravity. |
 | periodic / periodic | Infinite image lattice with the domain length as its period. |
-| reflecting / outflow | Original sources plus their same-sign mirror across the lower face. |
-| outflow / reflecting | Original sources plus their same-sign mirror across the upper face. |
+| reflecting / outflow or inflow | Original sources plus their same-sign mirror across the lower face. |
+| outflow or inflow / reflecting | Original sources plus their same-sign mirror across the upper face. |
 | reflecting / reflecting | Even extension with period twice the domain length; includes the entire infinite sequence of mirrors. |
 
 Reflections in different directions compose, including edges and corners. Every

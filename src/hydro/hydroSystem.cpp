@@ -137,6 +137,12 @@ ConservedState HydroSystem::reflected(ConservedState state, int normal) const {
 	return state;
 }
 
+ConservedState HydroSystem::outflow(State state, int normal, bool lower) const {
+	auto& momentum = state.momentum(normal);
+	if (lower ? momentum > units::MomentumDensity{} : momentum < units::MomentumDensity{}) momentum = {};
+	return state;
+}
+
 units::Velocity HydroSystem::maximumSignalSpeed(ConservedState const& state, int normal) const {
 	PrimitiveState const primitive = reconstructionVariables(state);
 	return units::abs(primitive.velocity(normal)) + units::sqrt(adiabaticIndex_ * primitive.pressure() / primitive.density());

@@ -99,12 +99,13 @@ public:
 	std::vector<std::size_t> ghostIndices;
 	std::size_t ghostCount = 0;
 	std::vector<unsigned> reflectionMasks;
+	std::vector<unsigned> outflowLowerMasks, outflowUpperMasks;
 	std::vector<AnalyticGhost> analyticGhosts;
 
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & reads & ghostIndices & ghostCount & reflectionMasks & analyticGhosts;
+		archive & reads & ghostIndices & ghostCount & reflectionMasks & outflowLowerMasks & outflowUpperMasks & analyticGhosts;
 	}
 };
 
