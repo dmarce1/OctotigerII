@@ -68,7 +68,7 @@ Builds, dependencies, and output directories are excluded.
 | --- | --- | --- |
 | `sod` | `hydro_tests/Sod` | 1, 2, 3 |
 | `kelvin-helmholtz` | `hydro_tests/KelvinHelmholtz` | 2, 3 |
-| `rayleigh-taylor` | `hydro_tests/RayleighTaylor` | 2, 3 (default 3) |
+| `rayleigh-taylor` | `hydro_tests/RayleighTaylor` | 3 |
 | `streaming` | `radiation_tests/Streaming` | 1, 2, 3 |
 | `radiation-pulse` | `radiation_tests/RadiationPulse` | 1, 2, 3 |
 | `gravity-sphere` | `gravity_tests/Sphere` | 3 |
@@ -82,8 +82,8 @@ the compiled dimension. The pulse is initially isotropic. Static gravity
 problems use `runtime.stopTime=0`; collapse evolves gas and gravity with the selected image boundaries.
 
 [Rayleigh–Taylor](docs/rayleigh-taylor.md) places heavy fluid above light fluid
-under uniform downward gravity. Transverse faces are periodic and both vertical
-faces reflect. In 3D vertical is z; in 2D it is y.
+under uniform downward gravity in 3D. The x and y faces are periodic and both
+z faces reflect.
 
 Inputs contain dotted `key=value` entries; `--key=value` overrides them on
 the command line, independent of argument order. For example, set
@@ -148,6 +148,15 @@ Each output frame is a Silo database with dimensional multimeshes,
 zone-centered fields with CGS unit labels, coordinates labeled in cm,
 time in seconds, and cycle. `frames.visit` lists the frame series.
 Silo creation uses `DB_CLOBBER`.
+
+Momentum, velocity, radiation flux, and gravitational acceleration are native
+Silo vectors named `momentum`, `velocity`, `radiationFlux`, and `acceleration`.
+Their available reference and signed-error fields are also vectors, such as
+`momentumExact` and `momentumError`. Scalars use `DBPutQuadvar1`; vectors use
+`DBPutQuadvar` with the active components in x, y, z order. Select a vector
+component in VisIt with an expression such as `momentum[0]`.
+AMR frames declare changing metadata and connectivity so VisIt refreshes its
+domain list after regridding.
 
 Each example has its own relative `output.directory`; paths are relative to
 the working directory. Frame zero and the final frame are always written;

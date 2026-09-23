@@ -20,6 +20,8 @@ octo_problem(sod DIMENSIONS 1 2 3 DEFAULT_DIMENSION 1 HYDRO)
 `HYDRO`, `RADIATION`, and `GRAVITY` select the required physics. CMake rejects
 unsupported dimensions, including any gravity build outside 3D. The generated
 header exposes `octotigerII::ndim` and `build::{problem,hydro,radiation,gravity}`.
+Rayleigh–Taylor also requires 3D. A 1D or 2D hydro executable rejects nonzero
+`hydro.acceleration` components at input validation.
 Only the selected problem's `problem.cpp` is linked. The gravity FMM sources
 are compiled only for gravity problems. Unneeded hydro/radiation adapters are
 not application dependencies; the optional units/serialization checks may

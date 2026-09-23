@@ -66,9 +66,13 @@ The final console summary lists each field's **relative** L1, L2, and Linf error
 With a continuum reference, each written Silo frame additionally contains `<field>Exact`
 and `<field>Error`, where the signed error is numerical minus exact. For Sod,
 these include density, pressure, total gas energy, velocity, and momentum;
-for gravity, potential and every acceleration component; for streaming,
-radiation energy and every flux component. These fields can be overlaid or
-plotted directly in VisIt. Hydro output also includes the numerical velocity.
+for gravity, potential and acceleration; for streaming, radiation energy and
+flux. Momentum, velocity, acceleration, and radiation flux are native Silo
+vectors, including their `Exact` and `Error` fields. Components follow x, y, z
+order over the active dimensions; for example, `radiationFluxError[0]` is the
+signed x-flux error in a VisIt expression. The console and JSON error norms
+continue to report each component separately. In a 1D build the stored vector
+has one active component, which VisIt's Silo reader displays as a scalar.
 
 `analytic-errors.json` in the output directory contains the latest written
 frame's time, resolution, reference status, relative `L1`, `L2`, and `Linf`

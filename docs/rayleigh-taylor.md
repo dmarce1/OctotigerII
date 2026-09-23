@@ -2,8 +2,8 @@
 
 Select `-DOCTOTIGERII_PROBLEM=rayleigh-taylor -DOCTOTIGERII_NDIM=3`, or use
 `./build.sh release --problem rayleigh-taylor --ndim 3`. The executable is
-`octotigerII-rayleigh-taylor-3d`. A 2D build is also supported; the last active
-coordinate is vertical in either case.
+`octotigerII-rayleigh-taylor-3d`. Rayleigh–Taylor is available only in 3D,
+with z as the vertical coordinate.
 
 ```sh
 cmake -S . -B build-rt -DCMAKE_BUILD_TYPE=Release \
@@ -16,9 +16,8 @@ cmake --build build-rt -j 8
 
 The default 3D box is `[-0.5,0.5]` cm on each axis. Both x faces and both y
 faces are periodic. Both z faces are reflecting. These defaults can be
-overridden through the usual per-face options. In 2D, x is periodic and both
-y faces reflect. The shared input file deliberately relies on these
-dimension-aware defaults.
+overridden through the usual per-face options. The shared input file relies
+on these defaults.
 
 The [linked Wikipedia article](https://en.wikipedia.org/wiki/Rayleigh%E2%80%93Taylor_instability)
 uses vertically unbounded fluids with perturbations vanishing at infinity;
@@ -31,7 +30,7 @@ than reproducing that paper's aspect ratio and random perturbations.
 ## Initial state and controls
 
 All values are CGS. Let `L=mesh.upper-mesh.lower`, `z0` be the domain midpoint,
-and `z` denote the last active coordinate. Defaults are:
+and `z` denote the vertical coordinate. Defaults are:
 
 | Input | Default | Meaning |
 | --- | --- | --- |
@@ -39,7 +38,7 @@ and `z` denote the last active coordinate. Defaults are:
 | `rayleighTaylor.densityUpper` | 2 g/cm³ | Density above the interface |
 | `rayleighTaylor.interfacePressure` | 2.5 dyn/cm² | Continuous pressure at `z0` |
 | `rayleighTaylor.perturbation` | 0.01 cm/s | Vertical velocity seed amplitude |
-| `hydro.acceleration.z` (3D) / `.y` (2D) | −0.1 cm/s² | Uniform external gravity |
+| `hydro.acceleration.z` | −0.1 cm/s² | Uniform external gravity |
 | `hydro.gamma` | 1.4 | Ideal-gas adiabatic index |
 | `runtime.stopTime` | 10 s | End time |
 
@@ -56,8 +55,8 @@ through the upper wall. Set the perturbation or gravity to zero for control
 runs. Runtime inputs reject nonfinite values and incompatible profiles.
 
 The build enables hydrodynamics and prescribed gravity; it does not enable
-self gravity. Uniform acceleration is supported by hydro builds through
-`hydro.acceleration.x/y/z` for active axes. The runtime applies symmetric
+self gravity. Uniform acceleration is supported by 3D hydro builds through
+`hydro.acceleration.x/y/z`. The runtime applies symmetric
 half kicks around each transport step, updating momentum and the kinetic
 part of total energy while preserving internal energy during each kick.
 The timestep includes an acceleration limit. If self gravity is compiled,

@@ -220,9 +220,11 @@ void Config::validate() const {
 	if (verification.directMaxPairs < 1 || verification.directSamples < 0)
 		throw std::invalid_argument("Direct pair budget must be positive and directSamples nonnegative");
 	if (randomSeed < 0) throw std::invalid_argument("randomSeed must be nonnegative");
-	for (auto component : hydro.acceleration)
+	for (auto component : hydro.acceleration) {
 		if (!units::finite(component)) throw std::invalid_argument("External acceleration must be finite");
+	}
 	if (!hydroEnabled() && hasExternalAcceleration()) throw std::invalid_argument("External acceleration requires hydro");
+	if (ndim != 3 && hasExternalAcceleration()) throw std::invalid_argument("Gravity requires a 3D build");
 	mesh.boundary.validate();
 	if (gravityEnabled()) gravity::validateBoundaries(mesh.boundary);
 	validateProblem(*this);

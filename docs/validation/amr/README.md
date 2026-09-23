@@ -18,14 +18,16 @@ OCTOTIGERII_TEST_LOCALITIES=2 python3 tests/distributed.py BUILD_DIRECTORY/tests
 OCTOTIGERII_TEST_LOCALITIES=3 python3 tests/distributed.py BUILD_DIRECTORY/tests/amrChecks
 ```
 
-The serial matrix checked Sod 1D, Rayleigh–Taylor 2D, streaming 3D, and gravity
-sphere 3D. The coupled collapse 3D build ran the AMR suite. Distributed runs
+The historical serial matrix checked Sod 1D, Rayleigh–Taylor 2D, streaming 3D,
+and gravity sphere 3D. New Rayleigh–Taylor builds require 3D. The coupled
+collapse 3D build ran the AMR suite. Distributed runs
 checked Rayleigh–Taylor, streaming, and gravity sphere, all in 3D.
 
-The RT smoke run used the new example input:
+The historical RT smoke run used the example input in 2D. The current 3D
+command is:
 
 ```bash
-BUILD_DIRECTORY/octotigerII-rayleigh-taylor-2d \
+BUILD_DIRECTORY/octotigerII-rayleigh-taylor-3d \
   --config=examples/rayleigh-taylor-amr.ini \
   --runtime.stopTime=0.2 --output.every=4
 ```

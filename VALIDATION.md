@@ -1,5 +1,13 @@
 # Validation of OctotigerII
 
+## Adaptive Silo metadata and native vectors (2026-09-23)
+
+All 18 Silo output checks passed across six serial/HPX problem and dimension
+configurations. A 3D RT rerun reproduced the 64-to-512 block transition and
+confirmed full domain coverage with the corrected time-varying metadata.
+See [the Silo validation record](docs/validation/silo-amr-vectors.md) for the
+diagnosis, vector checks, commands, and validation limits.
+
 ## Adaptive mesh, evolved shadows, and independent gravity tree (2026-09-23)
 
 Release builds with GCC 13.3.0 passed the complete serial suites below.
@@ -8,7 +16,7 @@ Skipped cases require physics absent from that executable.
 | Build | Passed | Skipped | Failed |
 | --- | ---: | ---: | ---: |
 | Sod 1D | 104 | 0 | 0 |
-| Rayleigh–Taylor 2D | 108 | 0 | 0 |
+| Rayleigh–Taylor 2D (historical; new builds require 3D) | 108 | 0 | 0 |
 | Streaming radiation 3D | 106 | 1 | 0 |
 | Gravity sphere 3D | 108 | 4 | 0 |
 

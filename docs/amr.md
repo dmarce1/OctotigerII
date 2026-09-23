@@ -48,8 +48,11 @@ release/rayleigh-taylor/3d/octotigerII-rayleigh-taylor-3d \
   --config=examples/rayleigh-taylor-amr.ini
 ```
 
-Open `output/rayleigh-taylor-amr/frames.visit` in VisIt. Use the corresponding
-`2d` executable for a two-dimensional run.
+Open `output/rayleigh-taylor-amr/frames.visit` in VisIt. Rayleigh–Taylor requires
+a 3D build. Every AMR frame includes `MetadataIsTimeVarying=1` and
+`ConnectivityIsTimeVarying=1`, allowing VisIt to refresh its block list and
+connectivity as blocks split or merge. After rebuilding an older output writer,
+write a new series and close/reopen the database in VisIt to discard its cache.
 
 Criteria combine by OR. A cell exceeding the mass limit is refined until the
 limit is met or `amr.maxLevel` is reached. An entire block is split when any

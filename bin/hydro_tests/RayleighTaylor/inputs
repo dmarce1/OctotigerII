@@ -1,6 +1,6 @@
 # Rayleigh-Taylor: heavy fluid above light, uniform downward gravity.
 # CGS; defaults choose periodic transverse axes and reflecting vertical walls.
-# Vertical is z in 3D and y in 2D, so this input works for both builds.
+# The only supported Rayleigh-Taylor build is 3D, with z vertical.
 mesh.cells=16
 mesh.level=1
 mesh.lower=-0.5
