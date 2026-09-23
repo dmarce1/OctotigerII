@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <iomanip>
+#include <map>
 #include <memory>
 #include <silo.h>
 #include <sstream>
@@ -17,21 +18,21 @@ namespace {
 	public:
 		std::string name;
 		std::string units;
-		bool isVector = false;
-		std::vector<std::vector<double>> values;
+		std::string vectorName;
+		std::vector<double> values;
 	};
 
 	std::vector<Variable> variables(Snapshot const& b, [[maybe_unused]] Config const& c) {
 		std::vector<Variable> result;
-		if (c.amr.enabled) result.push_back({"refinementLevel", "", false, {std::vector<double>(b.layout.interiorCellCount(), b.location.level)}});
+		if (c.amr.enabled) result.push_back({"refinementLevel", "", "", std::vector<double>(b.layout.interiorCellCount(), b.location.level)});
 		auto field = [&](std::string name, std::string units, bool isVector, auto value) {
 			int const components = isVector ? ndim : 1;
-			Variable v{std::move(name), std::move(units), isVector, std::vector<std::vector<double>>(components)};
 			for (int axis = 0; axis < components; ++axis) {
-				v.values[axis].reserve(b.layout.interiorCellCount());
-				b.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) { v.values[axis].push_back(units::value(value(i, axis))); });
+				Variable v{name + (isVector ? std::string(1, "XYZ"[axis]) : ""), units, isVector ? name : "", {}};
+				v.values.reserve(b.layout.interiorCellCount());
+				b.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) { v.values.push_back(units::value(value(i, axis))); });
+				result.push_back(std::move(v));
 			}
-			result.push_back(std::move(v));
 		};
 #if OCTOTIGERII_HYDRO
 		{
@@ -61,21 +62,14 @@ namespace {
 		auto const numericalCount = result.size();
 		for (std::size_t v = 0; v < numericalCount; ++v) {
 			auto const& numerical = result[v];
-			Variable exact{numerical.name + "Exact", numerical.units, numerical.isVector, {}};
-			Variable error{numerical.name + "Error", numerical.units, numerical.isVector, {}};
-			for (std::size_t axis = 0; axis < numerical.values.size(); ++axis) {
-				auto const name = numerical.name + (numerical.isVector ? std::string(1, "XYZ"[axis]) : "");
-				auto const match = std::find_if(comparisons.begin(), comparisons.end(), [&](auto const& f) { return f.name == name; });
-				if (match == comparisons.end()) break;
-				exact.values.push_back(match->exact);
-				auto& component = error.values.emplace_back();
-				component.reserve(match->exact.size());
-				for (std::size_t i = 0; i < match->exact.size(); ++i) {
-					component.push_back(match->numerical[i] - match->exact[i]);
-				}
+			auto const match = std::find_if(comparisons.begin(), comparisons.end(), [&](auto const& f) { return f.name == numerical.name; });
+			if (match == comparisons.end()) continue;
+			Variable exact{numerical.name + "Exact", numerical.units, numerical.vectorName.empty() ? "" : numerical.vectorName + "Exact", match->exact};
+			Variable error{numerical.name + "Error", numerical.units, numerical.vectorName.empty() ? "" : numerical.vectorName + "Error", {}};
+			error.values.reserve(match->exact.size());
+			for (std::size_t i = 0; i < match->exact.size(); ++i) {
+				error.values.push_back(match->numerical[i] - match->exact[i]);
 			}
-			if (exact.values.empty()) continue;
-			if (exact.values.size() != numerical.values.size()) throw std::logic_error("Incomplete analytic Silo vector: " + numerical.name);
 			result.push_back(std::move(exact));
 			result.push_back(std::move(error));
 		}
@@ -129,21 +123,8 @@ namespace {
 			auto const fields = variables(patch, c);
 			for (std::size_t f = 0; f < fields.size(); ++f) {
 				status |= DBAddOption(options.get(), DBOPT_UNITS, const_cast<char*>(fields[f].units.c_str()));
-				if (fields[f].isVector) {
-					std::array<std::string, ndim> componentNames;
-					std::array<char const*, ndim> componentPointers{};
-					std::array<void const*, ndim> valuePointers{};
-					for (int axis = 0; axis < ndim; ++axis) {
-						componentNames[axis] = fields[f].name + "_" + "xyz"[axis];
-						componentPointers[axis] = componentNames[axis].c_str();
-						valuePointers[axis] = fields[f].values[axis].data();
-					}
-					status |= DBPutQuadvar(file.get(), fields[f].name.c_str(), "mesh", ndim, componentPointers.data(), valuePointers.data(), zoneDims,
-						ndim, nullptr, 0, DB_DOUBLE, DB_ZONECENT, options.get());
-				} else {
-					status |= DBPutQuadvar1(file.get(), fields[f].name.c_str(), "mesh", fields[f].values.front().data(), zoneDims, ndim, nullptr, 0,
-						DB_DOUBLE, DB_ZONECENT, options.get());
-				}
+				status |= DBPutQuadvar1(file.get(), fields[f].name.c_str(), "mesh", fields[f].values.data(), zoneDims, ndim, nullptr, 0,
+					DB_DOUBLE, DB_ZONECENT, options.get());
 				names[f].push_back(block + "/" + fields[f].name);
 				status |= DBClearOption(options.get(), DBOPT_UNITS);
 			}
@@ -158,15 +139,43 @@ namespace {
 		std::fill(types.begin(), types.end(), DB_QUADVAR);
 		char meshName[] = "mesh";
 		status |= DBAddOption(options.get(), DBOPT_MMESH_NAME, meshName);
+		int tensorRank = DB_VARTYPE_SCALAR;
+		status |= DBAddOption(options.get(), DBOPT_TENSOR_RANK, &tensorRank);
+		std::map<std::string, std::vector<std::string>> vectorComponents;
 		for (std::size_t f = 0; f < names.size(); ++f) {
 			pointers.clear();
 			for (auto const& name : names[f]) {
 				pointers.push_back(name.c_str());
 			}
-			int tensorRank = fieldList[f].isVector ? DB_VARTYPE_VECTOR : DB_VARTYPE_SCALAR;
-			status |= DBAddOption(options.get(), DBOPT_TENSOR_RANK, &tensorRank);
 			status |= DBPutMultivar(file.get(), fieldList[f].name.c_str(), static_cast<int>(patches.size()), pointers.data(), types.data(), options.get());
-			status |= DBClearOption(options.get(), DBOPT_TENSOR_RANK);
+			if (!fieldList[f].vectorName.empty()) {
+				vectorComponents[fieldList[f].vectorName].push_back(fieldList[f].name);
+			}
+		}
+		if (!vectorComponents.empty()) {
+			// Define vectors from the root scalar multivars so VisIt can plot both
+			// components and vectors without storing a second copy of the arrays.
+			std::vector<std::string> definitions;
+			std::vector<char const*> expressionNames, expressionValues;
+			std::vector<int> expressionTypes(vectorComponents.size(), DB_VARTYPE_VECTOR);
+			for (auto const& [name, components] : vectorComponents) {
+				if (components.size() != ndim) throw std::logic_error("Incomplete Silo vector expression: " + name);
+				std::string definition = "{";
+				for (int axis = 0; axis < 3; ++axis) {
+					if (axis != 0) definition += ',';
+					// VisIt needs three components. Inactive directions are expressions,
+					// not stored arrays; explicit zone centering matches the scalars.
+					definition += axis < ndim ? components[axis] : "zonal_constant(<mesh>,0)";
+				}
+				definition += '}';
+				definitions.push_back(std::move(definition));
+				expressionNames.push_back(name.c_str());
+			}
+			for (auto const& definition : definitions) {
+				expressionValues.push_back(definition.c_str());
+			}
+			status |= DBPutDefvars(file.get(), "expressions", static_cast<int>(definitions.size()), expressionNames.data(), expressionTypes.data(),
+				expressionValues.data(), nullptr);
 		}
 		status |= DBClose(file.release());
 		if (status < 0) throw std::runtime_error("Silo write failed: " + filename);

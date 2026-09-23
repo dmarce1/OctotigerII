@@ -67,12 +67,15 @@ With a continuum reference, each written Silo frame additionally contains `<fiel
 and `<field>Error`, where the signed error is numerical minus exact. For Sod,
 these include density, pressure, total gas energy, velocity, and momentum;
 for gravity, potential and acceleration; for streaming, radiation energy and
-flux. Momentum, velocity, acceleration, and radiation flux are native Silo
-vectors, including their `Exact` and `Error` fields. Components follow x, y, z
-order over the active dimensions; for example, `radiationFluxError[0]` is the
-signed x-flux error in a VisIt expression. The console and JSON error norms
-continue to report each component separately. In a 1D build the stored vector
-has one active component, which VisIt's Silo reader displays as a scalar.
+flux. Momentum, velocity, acceleration, and radiation flux retain separate
+scalar components over the active dimensions. For example,
+`radiationFluxXExact` and `radiationFluxXError` are directly selectable in
+Pseudocolor, with the latter storing the signed x-flux error. Embedded VisIt
+vector expressions combine these scalars in x, y, z order, exposing names
+such as `radiationFlux`, `radiationFluxExact`, and `radiationFluxError` for
+Vector plots. The expressions add no duplicate field arrays; inactive
+directions in 1D/2D use zone-centered zero expressions. The console and JSON
+error norms continue to report each component separately.
 
 `analytic-errors.json` in the output directory contains the latest written
 frame's time, resolution, reference status, relative `L1`, `L2`, and `Linf`

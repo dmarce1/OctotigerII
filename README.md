@@ -149,12 +149,18 @@ zone-centered fields with CGS unit labels, coordinates labeled in cm,
 time in seconds, and cycle. `frames.visit` lists the frame series.
 Silo creation uses `DB_CLOBBER`.
 
-Momentum, velocity, radiation flux, and gravitational acceleration are native
-Silo vectors named `momentum`, `velocity`, `radiationFlux`, and `acceleration`.
-Their available reference and signed-error fields are also vectors, such as
-`momentumExact` and `momentumError`. Scalars use `DBPutQuadvar1`; vectors use
-`DBPutQuadvar` with the active components in x, y, z order. Select a vector
-component in VisIt with an expression such as `momentum[0]`.
+Momentum, velocity, radiation flux, and gravitational acceleration are stored
+as separate scalar components with `DBPutQuadvar1`, such as `momentumX`,
+`momentumY`, and `momentumZ` in 3D. VisIt vector expressions named `momentum`,
+`velocity`, `radiationFlux`, and `acceleration` combine the corresponding
+components. These expressions are embedded with `DBPutDefvars` and loaded
+automatically, without duplicating the field arrays. Select `momentumZ` for
+a Pseudocolor plot or `momentum` for a Vector plot.
+
+Available reference and signed-error components follow the same convention:
+`momentumXExact` and `momentumXError` are scalars, while `momentumExact` and
+`momentumError` are vector expressions. Only active components are stored;
+in 1D/2D, the expressions supply zone-centered zeros in inactive directions.
 AMR frames declare changing metadata and connectivity so VisIt refreshes its
 domain list after regridding.
 

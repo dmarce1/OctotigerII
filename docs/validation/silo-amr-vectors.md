@@ -31,13 +31,25 @@ coarse, mixed, fine, and coarsened frames, checks both flags and block counts,
 and verifies exactly-once coverage on a finest-level block lattice using
 coordinates read from disk.
 
-Native vectors use `DBPutQuadvar`; scalar fields use `DBPutQuadvar1`.
-Multivars explicitly name their mesh and scalar/vector rank. The tests read
-every component, CGS units, centering, active dimension count, exact values,
+Vector quantities now retain X/Y/Z scalar components over the active
+dimensions, written with `DBPutQuadvar1`. Their scalar multivars explicitly
+name their mesh and rank. A root `expressions` object written with
+`DBPutDefvars` exposes `momentum`, `velocity`, `radiationFlux`, and
+`acceleration` as VisIt vector expressions referencing these multivars.
+Available `Exact` and `Error` fields follow the same convention: for example,
+`momentumError = {momentumXError,momentumYError,momentumZError}` in 3D.
+This replaces the interim native-vector output so scalar components remain
+directly selectable in Pseudocolor. The vector definitions add metadata only.
+
+The tests read every scalar component, CGS units, centering, exact values,
 and signed errors. Test inputs give components distinct values to expose
-permutations and sign mistakes. No separate X/Y/Z scalar quadvars or
-multivars remain for vector quantities. JSON component error norms retain
-their existing format.
+permutations and sign mistakes. Readback checks the expression names, vector
+types, component ordering, and scalar references on every AMR block across
+refinement and coarsening. It also checks the absence of duplicate stored
+vectors, inactive component arrays, and analytic expressions when verification
+is disabled. In 1D/2D, missing expression components use
+`zonal_constant(<mesh>,0)` to preserve centering without extra arrays.
+JSON component error norms retain their existing format.
 
 All three Silo tests passed in each of these Release configurations:
 
@@ -50,9 +62,10 @@ All three Silo tests passed in each of these Release configurations:
 | Gravity sphere | 3 | Serial | 3 |
 | Rayleigh–Taylor | 3 | HPX 1.11, two threads | 3 |
 
-The RT run above was repeated after the fix. Its console diagnostics matched
-the original run, and readback confirmed complete volume, mass, bounds, and
-the new metadata flags across all four frames. VisIt itself was unavailable
+The RT run above was repeated with scalar components and vector expressions.
+Its console diagnostics matched the original run, and readback confirmed
+complete volume, mass, bounds, and the metadata flags across all four frames.
+VisIt itself was unavailable
 in the validation environment; these are Silo-level checks and inspection of
 the VisIt 3.4.2 reader source.
 
@@ -64,5 +77,7 @@ References:
 
 - [VisIt 3.4.2 Silo reader](https://github.com/visit-dav/visit/blob/v3.4.2/src/databases/Silo/avtSiloFileFormat.C)
 - [VisIt report of the same AMR time-series metadata issue](https://github.com/visit-dav/visit/issues/4845)
-- [Silo quad variables](https://silo.readthedocs.io/latest/objects.html#dbputquadvar)
+- [Silo scalar quad variables](https://silo.readthedocs.io/latest/objects.html#dbputquadvar1)
+- [Silo derived variable definitions](https://silo.readthedocs.io/latest/objects.html#dbputdefvars)
 - [Silo multivars](https://silo.readthedocs.io/latest/parallel.html#dbputmultivar)
+- [VisIt vector expressions](https://visit-sphinx-github-user-manual.readthedocs.io/en/develop/using_visit/Quantitative/Expressions.html#vector-and-color-expressions)

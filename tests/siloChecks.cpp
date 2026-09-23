@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <memory>
+#include <set>
 #include <silo.h>
 #include <stdexcept>
 #include "octotigerII/output.hpp"
@@ -12,6 +13,46 @@
 using namespace octotigerII;
 
 namespace {
+
+void checkVectorExpression(DBfile* file, std::string const& stem, std::string const& suffix, int blocks) {
+	std::unique_ptr<DBdefvars, decltype(&DBFreeDefvars)> expressions(DBGetDefvars(file, "expressions"), &DBFreeDefvars);
+	ASSERT_TRUE(expressions);
+	auto const name = stem + suffix;
+	int index = -1;
+	for (int i = 0; i < expressions->ndefs; ++i) {
+		if (name == expressions->names[i]) {
+			ASSERT_EQ(index, -1) << "Duplicate expression: " << name;
+			index = i;
+		}
+	}
+	ASSERT_GE(index, 0) << "Missing vector expression: " << name;
+	EXPECT_EQ(expressions->types[index], DB_VARTYPE_VECTOR);
+	EXPECT_TRUE(!expressions->guihides || expressions->guihides[index] == 0);
+	std::array<std::string, 3> components;
+	components.fill("zonal_constant(<mesh>,0)");
+	for (int axis = 0; axis < ndim; ++axis) {
+		components[axis] = stem + "XYZ"[axis] + suffix;
+		std::unique_ptr<DBmultivar, decltype(&DBFreeMultivar)> multi(DBGetMultivar(file, components[axis].c_str()), &DBFreeMultivar);
+		ASSERT_TRUE(multi) << "Expression component: " << components[axis];
+		ASSERT_EQ(multi->nvars, blocks);
+		EXPECT_EQ(multi->tensor_rank, DB_VARTYPE_SCALAR);
+		EXPECT_STREQ(multi->mmesh_name, "mesh");
+		for (int b = 0; b < blocks; ++b) {
+			EXPECT_EQ(multi->vartypes[b], DB_QUADVAR);
+			EXPECT_EQ(std::string(multi->varnames[b]), "block" + std::to_string(b) + "/" + components[axis]);
+			std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> var(DBGetQuadvar(file, multi->varnames[b]), &DBFreeQuadvar);
+			ASSERT_TRUE(var);
+			EXPECT_EQ(var->nvals, 1);
+			EXPECT_EQ(var->centering, DB_ZONECENT);
+		}
+	}
+	EXPECT_EQ(std::string(expressions->defns[index]), "{" + components[0] + "," + components[1] + "," + components[2] + "}");
+	// The vector is only an expression: no duplicate vector arrays or objects.
+	EXPECT_EQ(DBInqVarExists(file, name.c_str()), 0);
+	for (int b = 0; b < blocks; ++b) {
+		EXPECT_EQ(DBInqVarExists(file, ("block" + std::to_string(b) + "/" + name).c_str()), 0);
+	}
+}
 
 void check(std::string const& problem, int dimensions, std::filesystem::path const& root) {
 	using std::abs;
@@ -81,27 +122,13 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 			++j;
 		});
 	};
+	std::set<std::string> expectedExpressions;
 	auto vector = [&](char const* name, char const* units, auto expected) {
-		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> var(DBGetQuadvar(file.get(), ("block0/" + std::string(name)).c_str()), &DBFreeQuadvar);
-		ASSERT_TRUE(var);
-		ASSERT_EQ(var->datatype, DB_DOUBLE);
-		ASSERT_EQ(var->centering, DB_ZONECENT);
-		ASSERT_EQ(var->nvals, ndim);
-		ASSERT_EQ(var->nels, int(patch.layout.interiorCellCount()));
-		EXPECT_STREQ(var->units, units);
-		EXPECT_EQ(var->cycle, 0);
-		EXPECT_EQ(var->dtime, 0);
+		checkVectorExpression(file.get(), name, "", 1);
+		expectedExpressions.insert(name);
 		for (int axis = 0; axis < ndim; ++axis) {
-			auto const* values = static_cast<double const*>(var->vals[axis]);
-			for (int i = 0; i < var->nels; ++i) {
-				EXPECT_DOUBLE_EQ(values[i], units::value(expected(std::size_t(i), axis)));
-			}
+			field((std::string(name) + "XYZ"[axis]).c_str(), units, [&](std::size_t i) { return expected(i, axis); });
 		}
-		std::unique_ptr<DBmultivar, decltype(&DBFreeMultivar)> multiVar(DBGetMultivar(file.get(), name), &DBFreeMultivar);
-		ASSERT_TRUE(multiVar);
-		EXPECT_EQ(multiVar->nvars, 1);
-		EXPECT_EQ(multiVar->tensor_rank, DB_VARTYPE_VECTOR);
-		EXPECT_STREQ(multiVar->mmesh_name, "mesh");
 	};
 	if (patch.hydroEnabled) {
 		field("density", "g/cm^3", [&](std::size_t i) { return patch.hydro.values()[i].density(); });
@@ -118,44 +145,40 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 		vector("acceleration", "cm/s^2", [](std::size_t, int axis) { return units::Acceleration::from_value(axis + 1); });
 	}
 	for (auto const& f : verification::sample(patch, c, verification::reference(c, patch.time))) {
-		std::string name = f.name;
-		int component = 0, components = 1;
-		bool isVector = false;
 		for (auto stem : {"momentum", "velocity", "radiationFlux", "acceleration"}) {
-			for (int axis = 0; axis < ndim; ++axis) {
-				if (f.name == std::string(stem) + "XYZ"[axis]) {
-					name = stem;
-					component = axis;
-					components = ndim;
-					isVector = true;
+			if (f.name == std::string(stem) + "X") {
+				for (auto suffix : {"Exact", "Error"}) {
+					checkVectorExpression(file.get(), stem, suffix, 1);
+					expectedExpressions.insert(std::string(stem) + suffix);
 				}
 			}
 		}
-		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> exact(DBGetQuadvar(file.get(), ("block0/" + name + "Exact").c_str()), &DBFreeQuadvar);
-		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> error(DBGetQuadvar(file.get(), ("block0/" + name + "Error").c_str()), &DBFreeQuadvar);
+		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> exact(DBGetQuadvar(file.get(), ("block0/" + f.name + "Exact").c_str()), &DBFreeQuadvar);
+		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> error(DBGetQuadvar(file.get(), ("block0/" + f.name + "Error").c_str()), &DBFreeQuadvar);
 		ASSERT_TRUE(exact && error && exact->nels == int(f.exact.size()) && error->nels == exact->nels) << "Analytic Silo arrays";
-		ASSERT_EQ(exact->nvals, components);
-		ASSERT_EQ(error->nvals, components);
+		ASSERT_EQ(exact->nvals, 1);
+		ASSERT_EQ(error->nvals, 1);
 		EXPECT_TRUE(exact->units && f.units == exact->units && error->units && f.units == error->units) << "Analytic Silo CGS units";
 		for (std::size_t i = 0; i < f.exact.size(); ++i) {
-			EXPECT_TRUE(static_cast<double const*>(exact->vals[component])[i] == f.exact[i]) << "Analytic Silo value";
-			EXPECT_TRUE(static_cast<double const*>(error->vals[component])[i] == f.numerical[i] - f.exact[i]) << "Signed Silo error";
+			EXPECT_TRUE(static_cast<double const*>(exact->vals[0])[i] == f.exact[i]) << "Analytic Silo value";
+			EXPECT_TRUE(static_cast<double const*>(error->vals[0])[i] == f.numerical[i] - f.exact[i]) << "Signed Silo error";
 		}
 		for (auto suffix : {"Exact", "Error"}) {
-			std::unique_ptr<DBmultivar, decltype(&DBFreeMultivar)> multiComparison(DBGetMultivar(file.get(), (name + suffix).c_str()), &DBFreeMultivar);
+			std::unique_ptr<DBmultivar, decltype(&DBFreeMultivar)> multiComparison(DBGetMultivar(file.get(), (f.name + suffix).c_str()), &DBFreeMultivar);
 			ASSERT_TRUE(multiComparison && multiComparison->nvars == 1) << "Analytic Silo multivar";
-			EXPECT_EQ(multiComparison->tensor_rank, isVector ? DB_VARTYPE_VECTOR : DB_VARTYPE_SCALAR);
+			EXPECT_EQ(multiComparison->tensor_rank, DB_VARTYPE_SCALAR);
 			EXPECT_STREQ(multiComparison->mmesh_name, "mesh");
 		}
 	}
-	auto* toc = DBGetToc(file.get());
-	ASSERT_TRUE(toc != nullptr) << "Silo table of contents";
+	std::unique_ptr<DBdefvars, decltype(&DBFreeDefvars)> expressions(DBGetDefvars(file.get(), "expressions"), &DBFreeDefvars);
+	ASSERT_TRUE(expressions);
+	EXPECT_EQ(expressions->ndefs, int(expectedExpressions.size()));
 	for (auto stem : {"momentum", "velocity", "radiationFlux", "acceleration"}) {
-		for (int axis = 0; axis < 3; ++axis) {
+		for (int axis = ndim; axis < 3; ++axis) {
 			for (auto suffix : {"", "Exact", "Error"}) {
 				auto const name = std::string(stem) + "XYZ"[axis] + suffix;
-				EXPECT_EQ(DBInqVarExists(file.get(), name.c_str()), 0) << "Separate scalar vector component: " << name;
-				EXPECT_EQ(DBInqVarExists(file.get(), ("block0/" + name).c_str()), 0) << "Separate scalar vector component: " << name;
+				EXPECT_EQ(DBInqVarExists(file.get(), name.c_str()), 0) << "Inactive component: " << name;
+				EXPECT_EQ(DBInqVarExists(file.get(), ("block0/" + name).c_str()), 0) << "Inactive component: " << name;
 			}
 		}
 	}
@@ -264,6 +287,19 @@ TEST(SiloOutput, AmrTimeSeriesRefreshesDomainsAndPreservesCoverage) {
 		ASSERT_TRUE(levels);
 		ASSERT_EQ(multi->nblocks, counts[frame]);
 		ASSERT_EQ(levels->nvars, counts[frame]);
+		if constexpr (build::hydro) {
+			checkVectorExpression(file.get(), "momentum", "", counts[frame]);
+			checkVectorExpression(file.get(), "velocity", "", counts[frame]);
+		}
+		if constexpr (build::radiation) {
+			checkVectorExpression(file.get(), "radiationFlux", "", counts[frame]);
+		}
+		if constexpr (build::gravity) {
+			checkVectorExpression(file.get(), "acceleration", "", counts[frame]);
+		}
+		std::unique_ptr<DBdefvars, decltype(&DBFreeDefvars)> expressions(DBGetDefvars(file.get(), "expressions"), &DBFreeDefvars);
+		ASSERT_TRUE(expressions);
+		EXPECT_EQ(expressions->ndefs, 2 * int(build::hydro) + int(build::radiation) + int(build::gravity)) << "Analytic expressions disabled";
 		// Count coverage on the finest block lattice using only coordinates read
 		// from disk: every region must appear once, with no holes or overlaps.
 		auto const lattice = mesh::filledCoordinates(4);

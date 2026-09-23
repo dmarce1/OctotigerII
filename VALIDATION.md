@@ -1,10 +1,12 @@
 # Validation of OctotigerII
 
-## Adaptive Silo metadata and native vectors (2026-09-23)
+## Adaptive Silo metadata, scalar components, and vector expressions (2026-09-23)
 
 All 18 Silo output checks passed across six serial/HPX problem and dimension
-configurations. A 3D RT rerun reproduced the 64-to-512 block transition and
-confirmed full domain coverage with the corrected time-varying metadata.
+configurations, including component values, embedded vector expressions,
+and their scalar references across AMR changes. A 3D RT rerun reproduced
+the 64-to-512 block transition and confirmed full domain coverage with the
+corrected time-varying metadata.
 See [the Silo validation record](docs/validation/silo-amr-vectors.md) for the
 diagnosis, vector checks, commands, and validation limits.
 
