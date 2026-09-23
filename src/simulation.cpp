@@ -81,6 +81,8 @@ RunResult run(Config const& c, Observer const& observer) {
 			result.gravityWork.multipolePairs += work.multipolePairs;
 			result.gravityWork.directPairs += work.directPairs;
 			result.gravityWork.workerTasks += work.workerTasks;
+			result.gravityWork.ewaldPairs += work.ewaldPairs;
+			result.gravityWork.reflectedPairs += work.reflectedPairs;
 			result.gravityWork.localityCells = work.localityCells;
 			runtime.kickGravity(dt / 2.0);
 		}

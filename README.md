@@ -78,7 +78,7 @@ Each directory owns its `CMakeLists.txt`, `problem.cpp`, and `inputs`.
 Sod is planar along x in every dimension; Kelvin–Helmholtz uses x/y and is
 extruded uniformly along z in 3D. Streaming propagates along the diagonal of
 the compiled dimension. The pulse is initially isotropic. Static gravity
-problems use `runtime.stopTime=0`; collapse evolves gas and isolated gravity.
+problems use `runtime.stopTime=0`; collapse evolves gas and gravity with the selected image boundaries.
 
 Inputs contain dotted `key=value` entries; `--key=value` overrides them on
 the command line, independent of argument order. For example, set
@@ -267,3 +267,6 @@ See [analytic verification](docs/analytic-verification.md) for available
 solutions, accuracy gates, interpretation, and the standard problem interface.
 
 Physical boundary options and analytic problem hooks are documented in [docs/boundaries.md](docs/boundaries.md).
+
+Periodic and reflecting gravity, Ewald image sums, and examples are documented in
+[docs/gravity-images.md](docs/gravity-images.md).

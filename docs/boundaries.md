@@ -92,21 +92,23 @@ faces it has no boundary-crossing time limit. Streaming verification accepts
 axes with paired periodic or paired analytic faces; other valid mixed-face
 runs still execute but do not claim that full-domain reference is exact.
 
-## Gravity and future extensions
+## Gravity
 
-Gravity currently requires **outflow on every face**, including in coupled
-hydro/gravity builds. This selects the existing isolated gravitational solve;
-it does not impose zero-gradient potential on the FMM. Unsupported faces are
-rejected before execution. The capability restriction lives in
-`gravity::validateBoundaries`, separate from transport mapping and the
-serializable per-face configuration, so future periodic/reflecting gravitational
-solvers can extend it without redesigning transport.
+Gravity supports outflow, paired periodic faces, and reflecting faces. The
+periodic source lattice may span one, two, or three axes. Reflecting faces add
+same-sign image masses; paired reflecting faces give an infinite even extension
+with twice the domain period. When all axes repeat, a uniform compensating
+background removes the volume-averaged density. The 1P/2P line/sheet zero modes
+remain. Analytic gravity is not implemented.
+
+See [periodic and reflecting gravity](gravity-images.md) for the image geometry,
+acceptance tests, Ewald kernels, potential conventions, and verification.
 
 ## Tests
 
 `boundaryChecks` covers face parsing, precedence, invalid pairs, inactive axes,
 ghost layers, mixed faces/edges/corners, analytic precedence and physical time,
-reflecting conservation, decomposition agreement, and the gravity restriction.
+reflecting conservation, decomposition agreement, and the supported gravity boundaries.
 It is registered with CTest and with the existing two-/three-locality HPX test
 launcher. HPX serialization tests cover the per-face configuration and halo
 metadata. Run the focused checks from a configured build directory with:

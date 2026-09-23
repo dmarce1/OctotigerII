@@ -1,0 +1,11 @@
+OctotigerII 0.1.0 | serial fields | collapse | 3D
+step=0 time=0.000000e+00 mass=5.028633e+30 gasEnergy=2.000000e+40 radiationEnergy=0.000000e+00
+step=1 time=1.000000e-02 mass=5.028633e+30 gasEnergy=2.002268e+40 radiationEnergy=0.000000e+00
+Analytic comparison: available | Direct cell-center image summation with Ewald lattice correction | cell centers | t=1.000000e-02 s | relative L1/L2/Linf
+  direct targets=64/64 sources=64 | all targets | mt19937_64 seed=5489
+  potential L1=3.258298e-15 L2=3.135564e-15 Linf=3.869008e-15
+  accelerationX L1=5.533942e-16 L2=6.331892e-16 Linf=1.214389e-15
+  accelerationY L1=5.202363e-16 L2=6.101040e-16 Linf=1.214389e-15
+  accelerationZ L1=5.305267e-16 L2=6.318754e-16 Linf=1.214389e-15
+gravity multipolePairs=0 directPairs=16256 workerTasks=20 cellsPerLocality= 64
+Completed 1 steps at t=1.000000e-02 s

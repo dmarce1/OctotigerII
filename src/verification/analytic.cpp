@@ -55,6 +55,10 @@ Reference reference(Config const& c, units::Time time) {
 		return result;
 	}
 	result = problemReference(c);
+	if (build::gravity && !c.mesh.boundary.all(physics::BoundaryCondition::Outflow)) {
+		result.evaluate = {};
+		result.reason = "Isolated continuum gravity reference is unavailable with image boundaries; use verification.gravityReference=direct";
+	}
 	if (time > result.validUntil) result.evaluate = {};
 	if (!result.evaluate && (c.verification.analytic == "on" || c.verification.relativeL1Tolerance >= 0))
 		throw std::invalid_argument("Analytic comparison unavailable: " + result.reason);

@@ -1,5 +1,4 @@
 #include "octotigerII/verification/directGravity.hpp"
-#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -7,10 +6,11 @@
 #include <random>
 #include <set>
 #include <stdexcept>
-
+#include "octotigerII/gravity/ewald.hpp"
+#include "octotigerII/gravity/images.hpp"
+#include "octotigerII/profiling.hpp"
 
 namespace octotigerII::verification {
-
 
 std::vector<std::size_t> directTargets(std::size_t population, std::size_t count, std::uint64_t seed) {
 	count = std::min(count, population);
@@ -38,7 +38,6 @@ std::vector<std::size_t> directTargets(std::size_t population, std::size_t count
 	}
 	return {selected.begin(), selected.end()};
 }
-
 
 ErrorNorm directErrorNorm(Field const& field, std::size_t population) {
 	using std::abs;
@@ -90,13 +89,14 @@ ErrorNorm directErrorNorm(Field const& field, std::size_t population) {
 	return result;
 }
 
-
 Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config const& c) {
 	profiling::Region profile("verification.direct_gravity");
 	static_assert(ndim == 3);
 	if (snapshots.empty()) throw std::invalid_argument("Direct gravity comparison needs snapshots");
+	gravity::ImageGeometry const images(c.mesh.boundary);
 	Comparison result;
 	result.name = "Direct summation of cell-center masses";
+	if (images.active()) result.name = "Direct cell-center image summation with Ewald lattice correction";
 	result.referenceKind = "direct";
 	result.status = "available";
 	result.time = snapshots.front().time;
@@ -149,8 +149,23 @@ Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config c
 		auto const x = coordinates(target);
 		std::array<long double, 4> sum{};
 		for (auto const source : sources) {
-			if (target == source) continue;
 			auto const y = coordinates(source);
+			if (images.active()) {
+				gravity::diagonal::Coefficients local(5, 0);
+				for (auto const& image : images.images()) {
+					auto const r = images.separation(x, y, n, image);
+					if (r != gravity::diagonal::Offset{}) gravity::diagonal::addDirect(local, units::value(masses[source]), r, units::value(h));
+					if (images.periodic()) gravity::ewald::addDirect(local, units::value(masses[source]), r, images.periods(n), units::value(h));
+				}
+				sum[0] += units::value(constants::G) * local[0];
+				for (int d = 0; d < 3; ++d) {
+					std::array<int, 3> e{};
+					e[d] = 1;
+					sum[d + 1] -= units::value(constants::G) * gravity::diagonal::derivative(local, e[0], e[1], e[2]) / units::value(h);
+				}
+				continue;
+			}
+			if (target == source) continue;
 			std::array<units::Length, 3> const r{h * Real(x[0] - y[0]), h * Real(x[1] - y[1]), h * Real(x[2] - y[2])};
 			auto const distance = units::sqrt(r[0] * r[0] + r[1] * r[1] + r[2] * r[2]);
 			auto const potential = -constants::G * masses[source] / distance;

@@ -283,3 +283,10 @@ Additional application checks:
 HPX was unavailable here. The new per-face configuration/halo serialization
 regression and the two-/three-locality boundary tests are registered, but their
 HPX execution was not verified in this environment.
+
+## Periodic and reflecting gravity
+
+The Ewald/image implementation passed 101 serial and 111 HPX CTest cases, including
+two- and three-locality checks and coupled collapse smoke runs. See
+[the validation record](docs/validation/gravity-images/README.md) for the logs and
+[the implementation notes](docs/gravity-images.md) for image geometry and kernels.

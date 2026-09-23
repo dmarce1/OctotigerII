@@ -1,4 +1,3 @@
-#include "googleTestMain.hpp"
 #include <algorithm>
 #include <bit>
 #include <chrono>
@@ -7,6 +6,7 @@
 #include <iostream>
 #include <numeric>
 #include <stdexcept>
+#include "googleTestMain.hpp"
 #include "octotigerII/gravity/fieldSolver.hpp"
 #include "octotigerII/runtime.hpp"
 #ifdef OCTOTIGERII_WITH_HPX
@@ -16,7 +16,6 @@
 using namespace octotigerII;
 
 namespace {
-
 
 std::size_t globalIndex(Subgrid const& block, mesh::Coordinates c, int cells, int n) {
 	for (int d = 0; d < ndim; ++d)
@@ -34,11 +33,12 @@ std::vector<storage::Locality> localities() {
 
 class Fixture {
 public:
-	Fixture(int cells, int level, int order, Real theta, int workers, int pattern)
+	Fixture(int cells, int level, int order, Real theta, int workers, int pattern, physics::BoundaryConditions boundaries = {})
 	  : config(parseConfig({"--mesh.cells=" + std::to_string(cells), "--mesh.level=" + std::to_string(level), "--output.enabled=off"}))
 	  , owners(localities())
 	  , topology(config, owners.size())
 	  , repository(config, topology.storageLayout(), owners) {
+		config.mesh.boundary = boundaries;
 		config.gravity.multipoleOrder = order;
 		config.gravity.openingAngle = theta;
 		config.runtime.workerTasks = workers;
@@ -148,9 +148,11 @@ std::vector<gravity::State> check(int cells, int level, int order, Real theta, i
 	Fixture fixture(cells, level, order, theta, workers, pattern);
 	auto const expected = gravity::solve(fixture.density, fixture.n, fixture.h, order, theta);
 	auto const work = fixture.solver->solve(0);
-	EXPECT_TRUE(work.multipolePairs == expected.statistics.multipolePairs && work.directPairs == expected.statistics.directPairs) << "Partitioned FMM lost or duplicated interactions";
+	EXPECT_TRUE(work.multipolePairs == expected.statistics.multipolePairs && work.directPairs == expected.statistics.directPairs)
+		<< "Partitioned FMM lost or duplicated interactions";
 	EXPECT_TRUE(work.localityCells.size() == fixture.owners.size()) << "Missing FMM locality reports";
-	EXPECT_TRUE(std::accumulate(work.localityCells.begin(), work.localityCells.end(), std::uint64_t(0)) == fixture.density.size()) << "Missing FMM leaf targets";
+	EXPECT_TRUE(std::accumulate(work.localityCells.begin(), work.localityCells.end(), std::uint64_t(0)) == fixture.density.size())
+		<< "Missing FMM leaf targets";
 	if (fixture.density.size() >= fixture.owners.size())
 		for (auto count : work.localityCells)
 			EXPECT_TRUE(count > 0) << "A locality did not evaluate its leaves";
@@ -220,23 +222,50 @@ int main(int argc, char** argv) {
 	return googleTestMain(argc, argv);
 }
 
-
 TEST(PartitionedGravity, WorkerAndBlockDecompositionAreBitwiseReproducible) {
 	auto const single = check(4, 1, 3, 0.5, 1, 0);
 	compare(check(4, 1, 3, 0.5, 4, 0), single, 0);
 	compare(check(8, 0, 3, 0.5, 4, 0), single, 0);
 }
 
-
 class PartitionedGravityCase : public ::testing::TestWithParam<std::tuple<int, int, Real, int>> {};
-
 
 TEST_P(PartitionedGravityCase, FieldsInteractionsPublicationAndFailureRecovery) {
 	auto const [level, order, theta, pattern] = GetParam();
 	(void) check(4, level, order, theta, 4, pattern);
 }
 
-
 INSTANTIATE_TEST_SUITE_P(Regimes, PartitionedGravityCase,
-	::testing::Values(std::tuple{1, 1, Real(0.57), 0}, std::tuple{1, 10, Real(0.4), 0},
-		std::tuple{0, 3, Real(0.1), 1}, std::tuple{0, 3, Real(0.5), 2}, std::tuple{2, 3, Real(0.5), 0}));
+	::testing::Values(std::tuple{1, 1, Real(0.57), 0}, std::tuple{1, 10, Real(0.4), 0}, std::tuple{0, 3, Real(0.1), 1}, std::tuple{0, 3, Real(0.5), 2},
+		std::tuple{2, 3, Real(0.5), 0}));
+
+TEST(PartitionedGravity, PeriodicAndReflectedImagesMatchSerialAcrossOwners) {
+	using B = physics::BoundaryConditions;
+	using R = physics::BoundaryCondition;
+	std::vector<B> cases;
+	B one;
+	one.lower[0] = one.upper[0] = R::Periodic;
+	cases.push_back(one);
+	B slab = one;
+	slab.lower[1] = slab.upper[1] = R::Periodic;
+	cases.push_back(slab);
+	cases.push_back(B::periodic());
+	B wall = one;
+	wall.lower[1] = R::Reflecting;
+	wall.upper[2] = R::Reflecting;
+	cases.push_back(wall);
+	cases.push_back(B::uniform(R::Reflecting));
+	for (auto const& bc : cases) {
+		Fixture fixture(4, 1, 3, 0.5, 4, 0, bc);
+		auto expected = gravity::solve(fixture.density, fixture.n, fixture.h, 3, 0.5, bc);
+		auto statistics = fixture.solver->solve(0);
+		compare(fixture.read(1), expected.fields, 3e-12);
+		EXPECT_EQ(statistics.directPairs, expected.statistics.directPairs);
+		EXPECT_EQ(statistics.multipolePairs, expected.statistics.multipolePairs);
+		EXPECT_EQ(statistics.ewaldPairs, expected.statistics.ewaldPairs);
+		EXPECT_EQ(statistics.reflectedPairs, expected.statistics.reflectedPairs);
+		fixture.checkCopiedState();
+		fixture.solver->solve(1);
+		compare(fixture.read(0), fixture.read(1), 0);
+	}
+}

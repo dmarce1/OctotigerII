@@ -1,0 +1,213 @@
+Internal ctest changing into directory: /workspace/scratch/3c74a02c5a19/build-ewald-serial
+Test project /workspace/scratch/3c74a02c5a19/build-ewald-serial
+        Start  98: gravity-sphere.3d.AnalyticConvergence.MeshRefinementReducesError
+        Start  79: gravity-sphere.3d.GravityImages.FmmMatchesDirectWithIndependentImageAcceptance
+        Start  88: gravity-sphere.3d.PartitionedGravity.PeriodicAndReflectedImagesMatchSerialAcrossOwners
+  1/101 Test  #88: gravity-sphere.3d.PartitionedGravity.PeriodicAndReflectedImagesMatchSerialAcrossOwners .............................   Passed    3.82 sec
+        Start  94: gravity-sphere.3d.GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum
+  2/101 Test  #94: gravity-sphere.3d.GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum ....................................   Passed    1.88 sec
+        Start  80: gravity-sphere.3d.GravityImages.ClosedReflectingBoxAndPeriodicUniformLatticeHaveZeroForce
+  3/101 Test  #80: gravity-sphere.3d.GravityImages.ClosedReflectingBoxAndPeriodicUniformLatticeHaveZeroForce ..........................   Passed    0.32 sec
+        Start 101: application
+  4/101 Test #101: application ........................................................................................................   Passed    0.25 sec
+        Start  87: gravity-sphere.3d.PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible
+  5/101 Test  #87: gravity-sphere.3d.PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible .............................   Passed    0.10 sec
+        Start 100: example.gravity-sphere.3d
+  6/101 Test #100: example.gravity-sphere.3d ..........................................................................................   Passed    0.09 sec
+        Start  71: gravity-sphere.3d.EwaldKernel.SplitAndQuadratureIndependenceIncludingHighDerivatives
+  7/101 Test  #71: gravity-sphere.3d.EwaldKernel.SplitAndQuadratureIndependenceIncludingHighDerivatives ...............................   Passed    0.06 sec
+        Start  99: gravity-sphere.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+  8/101 Test  #99: gravity-sphere.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip ...................................   Passed    0.03 sec
+        Start  72: gravity-sphere.3d.EwaldKernel.GradientAndHessianArePotentialDerivatives
+  9/101 Test  #72: gravity-sphere.3d.EwaldKernel.GradientAndHessianArePotentialDerivatives ............................................   Passed    0.01 sec
+        Start  77: gravity-sphere.3d.EwaldM2L.TraceAndLocalLaplacianAgreeWithIndividualSources
+ 10/101 Test  #77: gravity-sphere.3d.EwaldM2L.TraceAndLocalLaplacianAgreeWithIndividualSources ........................................   Passed    0.01 sec
+        Start  75: gravity-sphere.3d.EwaldKernel.PeriodicSeamsSelfLimitAndCubicMadelungConstant
+ 11/101 Test  #75: gravity-sphere.3d.EwaldKernel.PeriodicSeamsSelfLimitAndCubicMadelungConstant .......................................   Passed    0.01 sec
+        Start  73: gravity-sphere.3d.EwaldKernel.SinglePeriodicAxisMatchesLongDirectImageSum
+ 12/101 Test  #73: gravity-sphere.3d.EwaldKernel.SinglePeriodicAxisMatchesLongDirectImageSum ..........................................   Passed    0.01 sec
+        Start  54: gravity-sphere.3d.BoundaryOptions.IniCliAndLegacyPrecedence
+ 13/101 Test  #54: gravity-sphere.3d.BoundaryOptions.IniCliAndLegacyPrecedence ........................................................   Passed    0.01 sec
+        Start   6: gravity-sphere.3d.BlockTopology.ChildBitsParentAndInvalidSlots
+ 14/101 Test   #6: gravity-sphere.3d.BlockTopology.ChildBitsParentAndInvalidSlots .....................................................   Passed    0.00 sec
+        Start  53: gravity-sphere.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+ 15/101 Test  #53: gravity-sphere.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated .......................................   Passed    0.00 sec
+        Start  70: gravity-sphere.3d.Gravity.RejectsInvalidGeometryOrderAngleAndDensity
+ 16/101 Test  #70: gravity-sphere.3d.Gravity.RejectsInvalidGeometryOrderAngleAndDensity ...............................................   Passed    0.00 sec
+        Start  31: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9
+ 17/101 Test  #31: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9 ................................................   Passed    0.00 sec
+        Start  68: gravity-sphere.3d.Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce
+ 18/101 Test  #68: gravity-sphere.3d.Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce ............................   Passed    0.00 sec
+        Start  69: gravity-sphere.3d.Gravity.SuperpositionAndDensityScaling
+ 19/101 Test  #69: gravity-sphere.3d.Gravity.SuperpositionAndDensityScaling ...........................................................   Passed    0.00 sec
+        Start  32: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10
+ 20/101 Test  #32: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10 ...............................................   Passed    0.00 sec
+        Start   5: gravity-sphere.3d.Mesh.CgsGeometryAndPatchBounds
+ 21/101 Test   #5: gravity-sphere.3d.Mesh.CgsGeometryAndPatchBounds ...................................................................   Passed    0.00 sec
+        Start  95: gravity-sphere.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement
+ 22/101 Test  #95: gravity-sphere.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement ............................................   Passed    0.00 sec
+        Start   8: gravity-sphere.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+ 23/101 Test   #8: gravity-sphere.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact ...............................   Passed    0.00 sec
+        Start  17: gravity-sphere.3d.Options.CliOverridesIniRegardlessOfArgumentOrder
+ 24/101 Test  #17: gravity-sphere.3d.Options.CliOverridesIniRegardlessOfArgumentOrder .................................................   Passed    0.02 sec
+        Start  37: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1"
+ 25/101 Test  #37: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1" ...................................   Passed    0.00 sec
+        Start   7: gravity-sphere.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals
+ 26/101 Test   #7: gravity-sphere.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals ..........................................   Passed    0.00 sec
+        Start  15: gravity-sphere.3d.VectorMath.SplitConcatenateAndUnitVectors
+ 27/101 Test  #15: gravity-sphere.3d.VectorMath.SplitConcatenateAndUnitVectors ........................................................   Passed    0.00 sec
+        Start  36: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3"
+ 28/101 Test  #36: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3" ....................................   Passed    0.00 sec
+        Start  38: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0"
+ 29/101 Test  #38: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0" ........................   Passed    0.00 sec
+        Start   4: gravity-sphere.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+ 30/101 Test   #4: gravity-sphere.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes .....................................................   Passed    0.00 sec
+        Start  22: gravity-sphere.3d.OptionValues.DuplicateAliasIsRejected
+ 31/101 Test  #22: gravity-sphere.3d.OptionValues.DuplicateAliasIsRejected ............................................................   Passed    0.00 sec
+        Start  16: gravity-sphere.3d.Options.HierarchicalIniSections
+ 32/101 Test  #16: gravity-sphere.3d.Options.HierarchicalIniSections ..................................................................   Passed    0.00 sec
+        Start  10: gravity-sphere.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+ 33/101 Test  #10: gravity-sphere.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 ......................................   Passed    0.00 sec
+        Start  85: gravity-sphere.3d.DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder
+ 34/101 Test  #85: gravity-sphere.3d.DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder ...............................   Passed    0.00 sec
+        Start  21: gravity-sphere.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+ 35/101 Test  #21: gravity-sphere.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp ..............................................   Passed    0.00 sec
+        Start  60: gravity-sphere.3d.SlopeValues.IndependentUnequalSlopeValues
+ 36/101 Test  #60: gravity-sphere.3d.SlopeValues.IndependentUnequalSlopeValues ........................................................   Passed    0.00 sec
+        Start  49: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1"
+ 37/101 Test  #49: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1" ...................................   Passed    0.00 sec
+        Start   9: gravity-sphere.3d.StorageLayout.EmptyPartitionsOverflowAndSlices
+ 38/101 Test   #9: gravity-sphere.3d.StorageLayout.EmptyPartitionsOverflowAndSlices ...................................................   Passed    0.00 sec
+        Start  67: gravity-sphere.3d.Gravity.VacuumHasExactlyZeroPotentialAndForce
+ 39/101 Test  #67: gravity-sphere.3d.Gravity.VacuumHasExactlyZeroPotentialAndForce ....................................................   Passed    0.00 sec
+        Start  35: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3"
+ 40/101 Test  #35: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3" .....................................   Passed    0.00 sec
+        Start  25: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3
+ 41/101 Test  #25: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3 ................................................   Passed    0.00 sec
+        Start  39: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11"
+ 42/101 Test  #39: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11" .......................   Passed    0.00 sec
+        Start  20: gravity-sphere.3d.Options.MissingAndMalformedIniAreRejected
+ 43/101 Test  #20: gravity-sphere.3d.Options.MissingAndMalformedIniAreRejected ........................................................   Passed    0.00 sec
+        Start  55: gravity-sphere.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+ 44/101 Test  #55: gravity-sphere.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ................................   Passed    0.00 sec
+        Start  14: gravity-sphere.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision
+ 45/101 Test  #14: gravity-sphere.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision ...............................................   Passed    0.00 sec
+        Start  48: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0"
+ 46/101 Test  #48: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0" ...................   Passed    0.00 sec
+        Start  18: gravity-sphere.3d.Options.LegacyAndCanonicalNamesSharePrecedence
+ 47/101 Test  #18: gravity-sphere.3d.Options.LegacyAndCanonicalNamesSharePrecedence ...................................................   Passed    0.00 sec
+        Start  34: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod"
+ 48/101 Test  #34: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod" ................................   Passed    0.00 sec
+        Start  11: gravity-sphere.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+ 49/101 Test  #11: gravity-sphere.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 ......................................   Passed    0.02 sec
+        Start  24: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2
+ 50/101 Test  #24: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2 ................................................   Passed    0.00 sec
+        Start  23: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1
+ 51/101 Test  #23: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1 ................................................   Passed    0.00 sec
+        Start  26: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4
+ 52/101 Test  #26: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4 ................................................   Passed    0.00 sec
+        Start  74: gravity-sphere.3d.EwaldKernel.SlabMatchesIndependentFourierGreenFunctionAndSheetField
+ 53/101 Test  #74: gravity-sphere.3d.EwaldKernel.SlabMatchesIndependentFourierGreenFunctionAndSheetField ..............................   Passed    0.00 sec
+        Start   1: gravity-sphere.3d.Units.CgsConversionsAndConstants
+ 54/101 Test   #1: gravity-sphere.3d.Units.CgsConversionsAndConstants .................................................................   Passed    0.00 sec
+        Start   3: gravity-sphere.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce
+ 55/101 Test   #3: gravity-sphere.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce .........................................................   Passed    0.00 sec
+        Start  13: gravity-sphere.3d.VectorMath.InitializationArithmeticAndDotProduct
+ 56/101 Test  #13: gravity-sphere.3d.VectorMath.InitializationArithmeticAndDotProduct .................................................   Passed    0.00 sec
+        Start  41: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6"
+ 57/101 Test  #41: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6" ........................   Passed    0.00 sec
+        Start   2: gravity-sphere.3d.Units.DimensionalMeshAndChildTopology
+ 58/101 Test   #2: gravity-sphere.3d.Units.DimensionalMeshAndChildTopology ............................................................   Passed    0.00 sec
+        Start  19: gravity-sphere.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+ 59/101 Test  #19: gravity-sphere.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth ..............................................   Passed    0.00 sec
+        Start  56: gravity-sphere.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+ 60/101 Test  #56: gravity-sphere.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums ...................................................   Passed    0.00 sec
+        Start  51: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1"
+ 61/101 Test  #51: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1" .............................   Passed    0.01 sec
+        Start  12: gravity-sphere.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+ 62/101 Test  #12: gravity-sphere.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 ......................................   Passed    0.00 sec
+        Start  43: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4"
+ 63/101 Test  #43: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4" ............................   Passed    0.00 sec
+        Start  42: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan"
+ 64/101 Test  #42: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan" ........................   Passed    0.00 sec
+        Start  47: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1"
+ 65/101 Test  #47: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1" ...................   Passed    0.00 sec
+        Start  30: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8
+ 66/101 Test  #30: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8 ................................................   Passed    0.01 sec
+        Start  59: gravity-sphere.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+ 67/101 Test  #59: gravity-sphere.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ....................................   Passed    0.00 sec
+        Start  78: gravity-sphere.3d.GravityImages.GeometryAndReflectionParity
+ 68/101 Test  #78: gravity-sphere.3d.GravityImages.GeometryAndReflectionParity ........................................................   Passed    0.00 sec
+        Start  40: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0"
+ 69/101 Test  #40: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0" ..........................   Passed    0.00 sec
+        Start  52: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0"
+ 70/101 Test  #52: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0" .....................   Passed    0.00 sec
+        Start  50: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes"
+ 71/101 Test  #50: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes" ........................   Passed    0.00 sec
+        Start  44: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf"
+ 72/101 Test  #44: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf" .................................   Passed    0.00 sec
+        Start  83: gravity-sphere.3d.DirectReference.ReproducibleDistinctSampling
+ 73/101 Test  #83: gravity-sphere.3d.DirectReference.ReproducibleDistinctSampling .....................................................   Passed    0.00 sec
+        Start  33: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1"
+ 74/101 Test  #33: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1" .................................   Passed    0.00 sec
+        Start  27: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5
+ 75/101 Test  #27: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5 ................................................   Passed    0.00 sec
+        Start  45: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1"
+ 76/101 Test  #45: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1" ...................................   Passed    0.01 sec
+        Start  84: gravity-sphere.3d.DirectReference.SamplingUncertaintyAndCensusLimits
+ 77/101 Test  #84: gravity-sphere.3d.DirectReference.SamplingUncertaintyAndCensusLimits ...............................................   Passed    0.00 sec
+        Start  57: gravity-sphere.3d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported
+ 78/101 Test  #57: gravity-sphere.3d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported .......................................   Passed    0.00 sec
+        Start  46: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid"
+ 79/101 Test  #46: gravity-sphere.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid" ...........   Passed    0.00 sec
+        Start  58: gravity-sphere.3d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes
+ 80/101 Test  #58: gravity-sphere.3d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes ................................................   Passed    0.00 sec
+        Start  28: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6
+ 81/101 Test  #28: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6 ................................................   Passed    0.00 sec
+        Start  96: gravity-sphere.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities
+ 82/101 Test  #96: gravity-sphere.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities .....................................   Passed    0.00 sec
+        Start  97: gravity-sphere.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy
+ 83/101 Test  #97: gravity-sphere.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy ....................................................   Passed    0.00 sec
+        Start  29: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7
+ 84/101 Test  #29: gravity-sphere.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7 ................................................   Passed    0.00 sec
+        Start  61: gravity-sphere.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00>
+ 85/101 Test  #61: gravity-sphere.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00> ...........   Passed    0.00 sec
+        Start  62: gravity-sphere.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00>
+ 86/101 Test  #62: gravity-sphere.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00> ...........   Passed    0.00 sec
+        Start  63: gravity-sphere.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00>
+ 87/101 Test  #63: gravity-sphere.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00> ...........   Passed    0.00 sec
+        Start  64: gravity-sphere.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00>
+ 88/101 Test  #64: gravity-sphere.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00> ..........   Passed    0.00 sec
+        Start  65: gravity-sphere.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00>
+ 89/101 Test  #65: gravity-sphere.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00> ..........   Passed    0.00 sec
+        Start  66: gravity-sphere.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00>
+ 90/101 Test  #66: gravity-sphere.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00> ..........   Passed    0.00 sec
+        Start  76: gravity-sphere.3d.EwaldKernel.HighestOrderAndLargeOpenDisplacementsConverge
+ 91/101 Test  #76: gravity-sphere.3d.EwaldKernel.HighestOrderAndLargeOpenDisplacementsConverge ........................................   Passed    0.14 sec
+        Start  81: gravity-sphere.3d.GravityImages.ThreeSingleWallsMatchExplicitMirroredMasses
+ 92/101 Test  #81: gravity-sphere.3d.GravityImages.ThreeSingleWallsMatchExplicitMirroredMasses ........................................   Passed    0.02 sec
+        Start  82: gravity-sphere.3d.GravityImages.RootEwaldCorrectionSurvivesDownwardPropagation
+ 93/101 Test  #82: gravity-sphere.3d.GravityImages.RootEwaldCorrectionSurvivesDownwardPropagation .....................................   Passed    0.72 sec
+        Start  86: gravity-sphere.3d.DirectReference.ImageFieldsAndContinuumAvailabilityFollowBoundaries
+ 94/101 Test  #86: gravity-sphere.3d.DirectReference.ImageFieldsAndContinuumAvailabilityFollowBoundaries ..............................   Passed    0.40 sec
+        Start  89: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 1, 0.57, 0)
+ 95/101 Test  #89: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 1, 0.57, 0) ...   Passed    0.02 sec
+        Start  90: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 10, 0.4, 0)
+ 96/101 Test  #90: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 10, 0.4, 0) ...   Passed    1.04 sec
+        Start  91: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.1, 1)
+ 97/101 Test  #91: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.1, 1) ....   Passed    0.00 sec
+        Start  92: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.5, 2)
+ 98/101 Test  #92: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.5, 2) ....   Passed    0.00 sec
+        Start  93: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(2, 3, 0.5, 0)
+ 99/101 Test  #93: gravity-sphere.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(2, 3, 0.5, 0) ....   Passed    0.54 sec
+100/101 Test  #79: gravity-sphere.3d.GravityImages.FmmMatchesDirectWithIndependentImageAcceptance .....................................   Passed   11.00 sec
+101/101 Test  #98: gravity-sphere.3d.AnalyticConvergence.MeshRefinementReducesError ...................................................   Passed   17.89 sec
+
+100% tests passed, 0 tests failed out of 101
+
+Label Time Summary:
+application    =   0.35 sec*proc (2 tests)
+integration    =  25.74 sec*proc (17 tests)
+unit           =  12.55 sec*proc (82 tests)
+
+Total Test time (real) =  17.96 sec

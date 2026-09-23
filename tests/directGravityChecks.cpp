@@ -122,3 +122,27 @@ TEST(DirectReference, SamplingUncertaintyAndCensusLimits) {
 TEST(DirectReference, SingleMassSelfExclusionSamplingPolicyAndBlockOrder) {
 	directReference();
 }
+
+TEST(DirectReference, ImageFieldsAndContinuumAvailabilityFollowBoundaries) {
+	using B = physics::BoundaryConditions;
+	using R = physics::BoundaryCondition;
+	for (int mode=0;mode<4;++mode) {
+		auto c=parseConfig({"--mesh.cells=4","--mesh.level=0","--runtime.stopTime=0","--output.enabled=off"});
+		if(mode==0) c.mesh.boundary.lower[0]=c.mesh.boundary.upper[0]=R::Periodic;
+		if(mode==1) c.mesh.boundary.lower[2]=R::Reflecting;
+		if(mode==2) c.mesh.boundary=B::periodic();
+		if(mode==3) c.mesh.boundary=B::uniform(R::Reflecting);
+		c.gravity.openingAngle=0.1;
+		c.verification.directSamples=13;
+		Runtime runtime(c);
+		runtime.solveGravity();
+		auto comparison=verification::compare(runtime.snapshots(),c);
+		EXPECT_EQ(comparison.status,"available");
+		EXPECT_EQ(comparison.cells,13u);
+		for(auto const& f:comparison.fields) EXPECT_LE(f.linf,3e-13*f.referenceLinf+1e-20);
+		c.verification.gravityReference="continuum";
+		EXPECT_FALSE(verification::reference(c,units::Time{}).evaluate);
+		c.verification.analytic="on";
+		EXPECT_THROW(verification::reference(c,units::Time{}),std::invalid_argument);
+	}
+}

@@ -30,7 +30,8 @@ if not static:
     execute('--runtime.maxSteps=1', '--runtime.stopTime=1e6', '--output.enabled=off',
             '--mesh.cells=4', '--mesh.level=0', success=False)
 if problem in ('gravity-sphere', 'gravity-gaussian', 'collapse'):
-    execute('--mesh.periodic=on', success=False)
+    execute('--mesh.periodic=on', '--mesh.cells=4', '--mesh.level=0',
+            '--runtime.stopTime=0', '--output.enabled=off')
 
 result = execute('--config=' + str(inputs), '--mesh.cells=4', '--mesh.level=0',
                  '--runtime.stopTime=' + ('0' if static else '0.001'),

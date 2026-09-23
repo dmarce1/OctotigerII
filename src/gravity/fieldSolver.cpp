@@ -1,4 +1,6 @@
 #include "octotigerII/gravity/fieldSolver.hpp"
+#include "octotigerII/gravity/ewald.hpp"
+#include "octotigerII/gravity/images.hpp"
 #include "octotigerII/profiling.hpp"
 
 #include <algorithm>
@@ -13,9 +15,7 @@
 #include <hpx/runtime_local/get_os_thread_count.hpp>
 #endif
 
-
 namespace octotigerII::gravity {
-
 
 namespace {
 
@@ -57,6 +57,8 @@ namespace {
 		to.multipolePairs += from.multipolePairs;
 		to.directPairs += from.directPairs;
 		to.workerTasks += from.workerTasks;
+		to.ewaldPairs += from.ewaldPairs;
+		to.reflectedPairs += from.reflectedPairs;
 	}
 
 #ifdef OCTOTIGERII_WITH_HPX
@@ -75,7 +77,6 @@ namespace {
 		return result;
 	}
 #endif
-
 
 	class Level {
 	public:
@@ -99,7 +100,6 @@ namespace {
 		std::size_t leaf = 0;
 	};
 
-
 	enum class Stage
 	{
 		Initialize,
@@ -107,7 +107,6 @@ namespace {
 		Downward,
 		Publish
 	};
-
 
 }	 // namespace
 
@@ -123,6 +122,7 @@ public:
 
 	FmmPartition(Config const& config, std::vector<Subgrid> const& blocks, FieldDirectory fields, std::size_t owner, std::size_t partitions)
 	  : config_(config)
+	  , images_(config.mesh.boundary)
 	  , fields_(std::move(fields))
 	  , owner_(owner)
 	  , partitions_(partitions) {
@@ -131,7 +131,7 @@ public:
 		n_ = config_.mesh.cells * (1 << config_.mesh.level);
 		cellWidth_ = (config_.mesh.upper - config_.mesh.lower) / Real(n_);
 		Real const h = units::value(cellWidth_);
-		int const coefficients = diagonal::coefficientCount(config_.gravity.multipoleOrder);
+		int const coefficients = diagonal::coefficientCount(config_.gravity.multipoleOrder) + (images_.active() ? 1 : 0);
 		for (int count = 1; count <= n_; count *= 2)
 			levels_.emplace_back(count, h * (n_ / count), coefficients, owner_, partitions_, count == n_);
 #ifdef OCTOTIGERII_WITH_HPX
@@ -204,6 +204,7 @@ private:
 	};
 
 	Config config_;
+	ImageGeometry images_;
 	FieldDirectory fields_;
 	std::size_t owner_ = 0, partitions_ = 1, workers_ = 1;
 	int n_ = 0;
@@ -389,12 +390,65 @@ private:
 			auto const c = coordinate(level.begin + i, level.count);
 			for (int slot = 0; slot < 8; ++slot)
 				add(level.moments[i],
-					diagonal::shiftMultipole(children.at(index(child(c, slot), fine.count)), childOffset(slot), 0.5, config_.gravity.multipoleOrder));
+					(images_.active() ? imageShiftMultipole : diagonal::shiftMultipole)(
+						children.at(index(child(c, slot), fine.count)), childOffset(slot), 0.5, config_.gravity.multipoleOrder));
+		}));
+		return result;
+	}
+
+	Statistics imageDownward(unsigned depth, std::vector<storage::Locality> const& peers) {
+		auto& level = levels_.at(depth);
+		Statistics result;
+		bool const leaf = depth + 1 == levels_.size();
+		int const order = config_.gravity.multipoleOrder;
+		auto interactionsFor = [&](std::size_t target, auto const& f) {
+			images_.interactions(depth, coordinate(target, level.count), leaf, config_.gravity.openingAngle,
+				[&](Coordinate b, auto r, unsigned mask, bool correction) { f(index(b, level.count), r, mask, correction); });
+		};
+		auto sources = fetch(
+			depth, false, level.locals.size(),
+			[&](std::size_t i, auto need) { interactionsFor(level.begin + i, [&](std::size_t source, auto, unsigned, bool) { need(source); }); }, peers,
+			result);
+		// Root corrections are allowed; they have no parent local to fetch.
+		auto parents = depth ?
+			fetch(
+				depth - 1, true, level.locals.size(),
+				[&](std::size_t i, auto need) { need(index(parent(coordinate(level.begin + i, level.count)), level.count / 2)); }, peers, result) :
+			Sources{level, true, {}};
+		accumulate(result, parallel(level.locals.size(), "gravity.images.m2l_l2l", [&](std::size_t i, std::size_t, Statistics& statistics) {
+			auto& local = level.locals[i];
+			interactionsFor(level.begin + i, [&](std::size_t source, diagonal::Offset r, unsigned mask, bool correction) {
+				auto const& moment = sources.at(source);
+				if (moment[0] == 0) return;
+				if (leaf) {
+					if (correction)
+						ewald::addDirect(local, moment[0], r, images_.periods(level.count), level.width);
+					else
+						diagonal::addDirect(local, moment[0], r, level.width);
+					++statistics.directPairs;
+				} else {
+					auto const reflected = reflectMultipole(moment, mask, order);
+					if (correction)
+						ewald::getOperator(order, r, images_.periods(level.count))->add(local, reflected, level.width);
+					else
+						diagonal::getOperator(order, r)->add(local, reflected, level.width);
+					++statistics.multipolePairs;
+				}
+				if (correction) ++statistics.ewaldPairs;
+				if (mask) ++statistics.reflectedPairs;
+			});
+			if (depth) {
+				auto const c = coordinate(level.begin + i, level.count);
+				int const slot = (c[0] & 1) + 2 * (c[1] & 1) + 4 * (c[2] & 1);
+				add(local, imageShiftLocal(parents.at(index(parent(c), level.count / 2)), childOffset(slot), 0.5, order));
+			}
 		}));
 		return result;
 	}
 
 	Statistics downward(unsigned depth, std::vector<storage::Locality> const& peers) {
+		if (images_.active()) return imageDownward(depth, peers);
+		if (depth == 0) return {};
 		profiling::Elapsed profile("gravity.downward.wall_ns");
 		auto& level = levels_.at(depth);
 		Statistics result;
@@ -466,7 +520,6 @@ private:
 	}
 };
 
-
 }	 // namespace octotigerII::gravity
 
 #ifdef OCTOTIGERII_WITH_HPX
@@ -476,9 +529,7 @@ HPX_REGISTER_ACTION(octotigerII::gravity::FmmPartition::ExecuteAction, octotiger
 HPX_REGISTER_ACTION(octotigerII::gravity::FmmPartition::ReadAction, octotigerII_fmm_read)
 #endif
 
-
 namespace octotigerII::gravity {
-
 
 class FieldSolver::Impl {
 public:
@@ -553,7 +604,7 @@ Statistics FieldSolver::solve(unsigned bank) {
 	auto result = impl_->phase(Stage::Initialize, 0, bank);
 	for (unsigned depth = impl_->depths - 1; depth > 0; --depth)
 		accumulate(result, impl_->phase(Stage::Upward, depth - 1, bank));
-	for (unsigned depth = 1; depth < impl_->depths; ++depth)
+	for (unsigned depth = 0; depth < impl_->depths; ++depth)
 		accumulate(result, impl_->phase(Stage::Downward, depth, bank));
 	auto publication = impl_->phase(Stage::Publish, 0, bank);
 	accumulate(result, publication);
@@ -561,8 +612,9 @@ Statistics FieldSolver::solve(unsigned bank) {
 	profiling::sample("gravity.multipole_pairs", double(result.multipolePairs));
 	profiling::sample("gravity.direct_pairs", double(result.directPairs));
 	profiling::sample("gravity.worker_tasks", double(result.workerTasks));
+	profiling::sample("gravity.ewald_pairs", double(result.ewaldPairs));
+	profiling::sample("gravity.reflected_pairs", double(result.reflectedPairs));
 	return result;
 }
-
 
 }	 // namespace octotigerII::gravity

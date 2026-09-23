@@ -1,19 +1,16 @@
 /** @file
- * @brief Boundary capability of the current isolated gravity solver.
+ * @brief Supported gravity image boundary conditions.
  */
 #pragma once
 #include "octotigerII/physics/boundary.hpp"
 
-
 namespace octotigerII::gravity {
 
-
-/// Keep gravity capability separate from transport geometry for future extensions.
+/// Analytic transport faces do not specify an exterior gravitational source.
 inline void validateBoundaries(physics::BoundaryConditions const& boundaries) {
 	boundaries.validate();
-	if (!boundaries.all(physics::BoundaryCondition::Outflow))
-		throw std::invalid_argument("Gravity currently supports only outflow boundaries on every face (isolated gravity)");
+	if (boundaries.contains(physics::BoundaryCondition::Analytic))
+		throw std::invalid_argument("Gravity supports outflow, periodic, and reflecting faces; analytic gravity is not implemented");
 }
 
-
-} // namespace octotigerII::gravity
+}	 // namespace octotigerII::gravity

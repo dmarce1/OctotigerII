@@ -1,58 +1,55 @@
 // Distributed under the Boost Software License, Version 1.0.
 #include "octotigerII/gravity/solver.hpp"
-#include "octotigerII/profiling.hpp"
 #include <array>
 #include <cmath>
 #include <functional>
 #include <stdexcept>
 #include "octotigerII/gravity/diagonal/fmm.hpp"
-
+#include "octotigerII/gravity/ewald.hpp"
+#include "octotigerII/gravity/images.hpp"
+#include "octotigerII/profiling.hpp"
 
 namespace octotigerII::gravity {
 static_assert(ndim == 3, "The gravity solver requires a 3D build");
 
-
 namespace {
-using diagonal::Coefficients;
-using Coordinate = std::array<int, 3>;
+	using diagonal::Coefficients;
+	using Coordinate = std::array<int, 3>;
 
-std::size_t index(Coordinate c, int n) {
-	return (static_cast<std::size_t>(c[2]) * n + c[1]) * n + c[0];
-}
+	std::size_t index(Coordinate c, int n) {
+		return (static_cast<std::size_t>(c[2]) * n + c[1]) * n + c[0];
+	}
 
-Coordinate child(Coordinate c, int slot) {
-	return {2 * c[0] + (slot & 1), 2 * c[1] + ((slot >> 1) & 1), 2 * c[2] + ((slot >> 2) & 1)};
-}
+	Coordinate child(Coordinate c, int slot) {
+		return {2 * c[0] + (slot & 1), 2 * c[1] + ((slot >> 1) & 1), 2 * c[2] + ((slot >> 2) & 1)};
+	}
 
-diagonal::Vector childOffset(int slot) {
-	return {(slot & 1) ? 0.25 : -0.25, (slot & 2) ? 0.25 : -0.25, (slot & 4) ? 0.25 : -0.25};
-}
+	diagonal::Vector childOffset(int slot) {
+		return {(slot & 1) ? 0.25 : -0.25, (slot & 2) ? 0.25 : -0.25, (slot & 4) ? 0.25 : -0.25};
+	}
 
-void add(Coefficients& destination, Coefficients const& source) {
-	for (std::size_t i = 0; i < destination.size(); ++i)
-		destination[i] += source[i];
-}
+	void add(Coefficients& destination, Coefficients const& source) {
+		for (std::size_t i = 0; i < destination.size(); ++i)
+			destination[i] += source[i];
+	}
 
+	class Level {
+	public:
+		int count;
+		Real width;
+		std::vector<Coefficients> moments, locals;
 
-class Level {
-public:
-
-	int count;
-	Real width;
-	std::vector<Coefficients> moments, locals;
-
-	Level(int n, Real h, int coefficients)
-	  : count(n)
-	  , width(h)
-	  , moments(static_cast<std::size_t>(n) * n * n, Coefficients(coefficients))
-	  , locals(moments.size(), Coefficients(coefficients)) {}
-};
-
+		Level(int n, Real h, int coefficients)
+		  : count(n)
+		  , width(h)
+		  , moments(static_cast<std::size_t>(n) * n * n, Coefficients(coefficients))
+		  , locals(moments.size(), Coefficients(coefficients)) {}
+	};
 
 }	 // namespace
 
-
-Solution solve(std::vector<units::Density> const& density, int n, units::Length cellWidth, int order, Real theta) {
+Solution solve(
+	std::vector<units::Density> const& density, int n, units::Length cellWidth, int order, Real theta, physics::BoundaryConditions const& boundaries) {
 	using std::hypot;
 	using std::isfinite;
 	using std::sqrt;
@@ -67,9 +64,10 @@ Solution solve(std::vector<units::Density> const& density, int n, units::Length 
 	if (n < 2 || (n & (n - 1)) || density.size() != static_cast<std::size_t>(n) * n * n || !(h > 0) || !isfinite(h) || order < 1 || order > 10 ||
 		!(theta > 0 && theta < 1 / sqrt(3.0)))
 		throw std::invalid_argument("Gravity requires a power-of-two cubic mesh, p=1..10, 0<theta<1/sqrt(3)");
+	ImageGeometry const images(boundaries);
 	std::vector<Level> levels;
 	for (int count = 1; count <= n; count *= 2)
-		levels.emplace_back(count, h * (n / count), diagonal::coefficientCount(order));
+		levels.emplace_back(count, h * (n / count), diagonal::coefficientCount(order) + (images.active() ? 1 : 0));
 	auto& leaves = levels.back();
 	auto const volume = cellWidth * cellWidth * cellWidth;
 	for (std::size_t i = 0; i < density.size(); ++i) {
@@ -89,7 +87,8 @@ Solution solve(std::vector<units::Density> const& density, int n, units::Length 
 						Coordinate const c{x, y, z};
 						for (int slot = 0; slot < 8; ++slot)
 							add(parent.moments[index(c, parent.count)],
-								diagonal::shiftMultipole(fine.moments[index(child(c, slot), fine.count)], childOffset(slot), 0.5, order));
+								(images.active() ? imageShiftMultipole : diagonal::shiftMultipole)(
+									fine.moments[index(child(c, slot), fine.count)], childOffset(slot), 0.5, order));
 					}
 		}
 	}
@@ -126,7 +125,39 @@ Solution solve(std::vector<units::Density> const& density, int n, units::Length 
 	};
 	{
 		profiling::Region interactions("gravity.serial.interactions");
-		interact(0, {0, 0, 0}, {0, 0, 0});
+		if (!images.active())
+			interact(0, {0, 0, 0}, {0, 0, 0});
+		else
+			for (unsigned depth = 0; depth < levels.size(); ++depth) {
+				auto& level = levels[depth];
+				bool const leaf = depth + 1 == levels.size();
+				for (int z = 0; z < level.count; ++z)
+					for (int y = 0; y < level.count; ++y)
+						for (int x = 0; x < level.count; ++x) {
+							Coordinate const a{x, y, z};
+							auto& local = level.locals[index(a, level.count)];
+							images.interactions(depth, a, leaf, theta, [&](Coordinate b, diagonal::Offset r, unsigned mask, bool correction) {
+								auto const& source = level.moments[index(b, level.count)];
+								if (source[0] == 0) return;
+								if (leaf) {
+									if (correction)
+										ewald::addDirect(local, source[0], r, images.periods(level.count), level.width);
+									else
+										diagonal::addDirect(local, source[0], r, level.width);
+									++result.statistics.directPairs;
+								} else {
+									auto const moment = reflectMultipole(source, mask, order);
+									if (correction)
+										ewald::getOperator(order, r, images.periods(level.count))->add(local, moment, level.width);
+									else
+										diagonal::getOperator(order, r)->add(local, moment, level.width);
+									++result.statistics.multipolePairs;
+								}
+								if (correction) ++result.statistics.ewaldPairs;
+								if (mask) ++result.statistics.reflectedPairs;
+							});
+						}
+			}
 	}
 	// Downward pass: normalized derivatives scale with the level width.
 	{
@@ -140,7 +171,8 @@ Solution solve(std::vector<units::Density> const& density, int n, units::Length 
 						Coordinate const c{x, y, z};
 						for (int slot = 0; slot < 8; ++slot)
 							add(fine.locals[index(child(c, slot), fine.count)],
-								diagonal::shiftLocal(parent.locals[index(c, parent.count)], childOffset(slot), 0.5, order));
+								(images.active() ? imageShiftLocal : diagonal::shiftLocal)(
+									parent.locals[index(c, parent.count)], childOffset(slot), 0.5, order));
 					}
 		}
 	}

@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <fstream>
+#include <gtest/gtest.h>
 #include <limits>
 #include "octotigerII/gravity/boundary.hpp"
 #include "octotigerII/problems.hpp"
@@ -19,7 +19,6 @@ namespace {
 using Rule = physics::BoundaryCondition;
 using Boundaries = physics::BoundaryConditions;
 
-
 TEST(BoundaryOptions, EveryActiveFaceAndPeriodicPairAreValidated) {
 	for (int axis = 0; axis < ndim; ++axis) {
 		auto const prefix = std::string("--mesh.boundary.") + "xyz"[axis];
@@ -28,23 +27,23 @@ TEST(BoundaryOptions, EveryActiveFaceAndPeriodicPairAreValidated) {
 			EXPECT_THROW(parseConfig({prefix + side + "=invalid"}), std::invalid_argument);
 			for (auto rule : {"reflecting", "outflow", "analytic"}) {
 				auto args = std::vector<std::string>{"--mesh.periodic=off", prefix + side + "=" + rule};
-				bool const available = std::string(rule) == "outflow" ||
-					(!build::gravity && (std::string(rule) == "reflecting" || std::string(build::problem) == "sod" || std::string(build::problem) == "streaming"));
-				if (available) EXPECT_NO_THROW(parseConfig(args));
-				else EXPECT_THROW(parseConfig(args), std::invalid_argument);
+				bool const available = std::string(rule) == "outflow" || std::string(rule) == "reflecting" ||
+					(!build::gravity &&
+						(std::string(rule) == "reflecting" || std::string(build::problem) == "sod" || std::string(build::problem) == "streaming"));
+				if (available)
+					EXPECT_NO_THROW(parseConfig(args));
+				else
+					EXPECT_THROW(parseConfig(args), std::invalid_argument);
 			}
 		}
 		auto args = std::vector<std::string>{"--mesh.periodic=off", prefix + "Lower=periodic", prefix + "Upper=periodic"};
-		if constexpr (build::gravity) EXPECT_THROW(parseConfig(args), std::invalid_argument);
-		else EXPECT_TRUE(parseConfig(args).mesh.boundary.periodic(axis));
+		EXPECT_TRUE(parseConfig(args).mesh.boundary.periodic(axis));
 	}
 	for (int axis = ndim; axis < 3; ++axis)
 		EXPECT_THROW(parseConfig({std::string("--mesh.boundary.") + "xyz"[axis] + "Lower=outflow"}), std::exception);
 }
 
-
 TEST(BoundaryOptions, IniCliAndLegacyPrecedence) {
-	if constexpr (build::gravity) GTEST_SKIP() << "Mixed transport faces require a transport-only build";
 	test::TemporaryDirectory temporary;
 	auto const path = (temporary.path / "boundaries.ini").string();
 	{
@@ -65,7 +64,6 @@ TEST(BoundaryOptions, IniCliAndLegacyPrecedence) {
 	}
 	EXPECT_TRUE(parseConfig({"--config=" + path, "--mesh.boundary.xUpper=periodic"}).mesh.boundary.periodic(0));
 }
-
 
 TEST(BoundaryMapping, ReflectionMirrorsBothLayersAndAllCornerComponents) {
 	for (int normal = 0; normal < ndim; ++normal) {
@@ -89,7 +87,6 @@ TEST(BoundaryMapping, ReflectionMirrorsBothLayersAndAllCornerComponents) {
 	EXPECT_EQ(bc.map(mesh::filledCoordinates(-17), 8).source, mesh::filledCoordinates(0));
 }
 
-
 TEST(BoundaryMapping, AsymmetricFacesAndInvalidEnums) {
 	Boundaries bc;
 	bc.lower[0] = Rule::Reflecting;
@@ -103,23 +100,24 @@ TEST(BoundaryMapping, AsymmetricFacesAndInvalidEnums) {
 	EXPECT_THROW(bc.validate(), std::invalid_argument);
 }
 
-
-TEST(GravityBoundaries, OnlyAllOutflowIsCurrentlySupported) {
+TEST(GravityBoundaries, OutflowPeriodicAndReflectingAreSupported) {
 	EXPECT_NO_THROW(gravity::validateBoundaries(Boundaries{}));
 	for (int axis = 0; axis < ndim; ++axis) {
 		for (bool lower : {true, false}) {
 			for (auto rule : {Rule::Reflecting, Rule::Analytic}) {
 				Boundaries bc;
 				(lower ? bc.lower : bc.upper)[axis] = rule;
-				EXPECT_THROW(gravity::validateBoundaries(bc), std::invalid_argument);
+				if (bc.contains(Rule::Analytic))
+					EXPECT_THROW(gravity::validateBoundaries(bc), std::invalid_argument);
+				else
+					EXPECT_NO_THROW(gravity::validateBoundaries(bc));
 			}
 		}
 		Boundaries bc;
 		bc.lower[axis] = bc.upper[axis] = Rule::Periodic;
-		EXPECT_THROW(gravity::validateBoundaries(bc), std::invalid_argument);
+		EXPECT_NO_THROW(gravity::validateBoundaries(bc));
 	}
 }
-
 
 TEST(AnalyticBoundaries, StreamingWrapsOnlyPeriodicAxes) {
 	Config c;
@@ -139,7 +137,6 @@ TEST(AnalyticBoundaries, StreamingWrapsOnlyPeriodicAxes) {
 	EXPECT_FALSE(verification::streamingReference(c).evaluate);
 }
 
-
 TEST(AnalyticBoundaries, ProblemReferencePolicyTracksBoundaryChoice) {
 	if (std::string(build::problem) == "sod") {
 		auto c = parseConfig({"--mesh.boundary.xLower=analytic", "--mesh.boundary.xUpper=analytic"});
@@ -150,7 +147,6 @@ TEST(AnalyticBoundaries, ProblemReferencePolicyTracksBoundaryChoice) {
 	}
 }
 
-
 #if (OCTOTIGERII_HYDRO || OCTOTIGERII_RADIATION) && !OCTOTIGERII_GRAVITY
 #if OCTOTIGERII_HYDRO
 using Systems = ::testing::Types<hydro::HydroSystem>;
@@ -158,15 +154,15 @@ using Systems = ::testing::Types<hydro::HydroSystem>;
 using Systems = ::testing::Types<radiation::RadiationSystem>;
 #endif
 
-
 template <typename System>
 class BoundaryTransport : public ::testing::Test {
 protected:
-
 	using State = typename System::State;
 	System system = [] {
-		if constexpr (std::is_same_v<System, hydro::HydroSystem>) return System(1.4);
-		else return System(0.25 * constants::c);
+		if constexpr (std::is_same_v<System, hydro::HydroSystem>)
+			return System(1.4);
+		else
+			return System(0.25 * constants::c);
 	}();
 
 	State state(Real scale) const {
@@ -174,20 +170,20 @@ protected:
 			hydro::PrimitiveState p;
 			p.density() = units::Density::from_value(scale);
 			p.pressure() = units::Pressure::from_value(2);
-			for (int axis = 0; axis < ndim; ++axis) p.velocity(axis) = units::Velocity::from_value(0.1 * (axis + 1));
+			for (int axis = 0; axis < ndim; ++axis)
+				p.velocity(axis) = units::Velocity::from_value(0.1 * (axis + 1));
 			return system.conservedState(p);
 		} else {
 			State value;
 			value.energy() = units::EnergyDensity::from_value(scale);
-			for (int axis = 0; axis < ndim; ++axis) value.radiativeFlux(axis) = (0.1 * (axis + 1) / ndim) * constants::c * value.energy();
+			for (int axis = 0; axis < ndim; ++axis)
+				value.radiativeFlux(axis) = (0.1 * (axis + 1) / ndim) * constants::c * value.energy();
 			return value;
 		}
 	}
 };
 
-
 TYPED_TEST_SUITE(BoundaryTransport, Systems);
-
 
 TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEveryFace) {
 	using State = typename TypeParam::State;
@@ -208,7 +204,8 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 	for (auto const& block : topology.blocks()) {
 		auto output = fields.handle().output(block.interior, 0);
 		block.layout.forEachInterior([&](auto cell, auto i) {
-			for (int d = 0; d < ndim; ++d) cell[d] += 4 * block.location.coordinates[d];
+			for (int d = 0; d < ndim; ++d)
+				cell[d] += 4 * block.location.coordinates[d];
 			output.put(i, this->state(1 + mesh::linearIndex(cell, mesh::filledCoordinates(8))));
 		});
 		fields.handle().commit(block.interior, 0, output);
@@ -221,7 +218,8 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 			if (ndim > 1) c.mesh.boundary.lower[(normal + 1) % ndim] = c.mesh.boundary.upper[(normal + 1) % ndim] = Rule::Periodic;
 			physics::AnalyticBoundary<State> analytic = [&](auto const& x, auto time) {
 				Real scale = 50 + units::value(time);
-				for (int d = 0; d < ndim; ++d) scale += (d + 1) * units::value(x[d]);
+				for (int d = 0; d < ndim; ++d)
+					scale += (d + 1) * units::value(x[d]);
 				return this->state(scale);
 			};
 			for (auto const& block : topology.blocks()) {
@@ -246,14 +244,19 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 							auto const rule = x < 0 ? c.mesh.boundary.lower[d] : c.mesh.boundary.upper[d];
 							if (rule == Rule::Periodic) donor[d] = (x + 8) % 8;
 							if (rule == Rule::Outflow) donor[d] = std::clamp(x, 0, 7);
-							if (rule == Rule::Reflecting) { donor[d] = x < 0 ? -1 - x : 15 - x; reflections |= 1u << d; }
+							if (rule == Rule::Reflecting) {
+								donor[d] = x < 0 ? -1 - x : 15 - x;
+								reflections |= 1u << d;
+							}
 							if (rule == Rule::Analytic) prescribed = true;
 						}
 						State expected;
-						if (prescribed) expected = analytic(position, time);
+						if (prescribed)
+							expected = analytic(position, time);
 						else {
 							expected = this->state(1 + mesh::linearIndex(donor, mesh::filledCoordinates(8)));
-							for (int d = 0; d < ndim; ++d) if (reflections & (1u << d)) expected = this->system.reflected(expected, d);
+							for (int d = 0; d < ndim; ++d)
+								if (reflections & (1u << d)) expected = this->system.reflected(expected, d);
 						}
 						test::expectStateNear(ghosts.at(plan.ghostIndices.at(padded.index(storageCell))), expected, 0);
 					});
@@ -262,7 +265,6 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 		}
 	}
 }
-
 
 TYPED_TEST(BoundaryTransport, AnalyticPatchUsesCurrentTimeAndRejectsInvalidData) {
 	using State = typename TypeParam::State;
@@ -273,7 +275,10 @@ TYPED_TEST(BoundaryTransport, AnalyticPatchUsesCurrentTimeAndRejectsInvalidData)
 	physics::AnalyticBoundary<State> invalid = [&](auto const&, auto) { return Real(-1) * this->state(1); };
 	EXPECT_THROW(physics::fillGhostCells(patch, boundaries, this->system, invalid), std::runtime_error);
 	std::vector<units::Time> times;
-	physics::AnalyticBoundary<State> evaluator = [&](auto const&, auto time) { times.push_back(time); return this->state(1); };
+	physics::AnalyticBoundary<State> evaluator = [&](auto const&, auto time) {
+		times.push_back(time);
+		return this->state(1);
+	};
 	physics::MusclHancock<TypeParam> solver(this->system);
 	auto const dt = solver.stableTimestep(patch, 0.25);
 	solver.advance(patch, dt, boundaries, evaluator);
@@ -281,7 +286,6 @@ TYPED_TEST(BoundaryTransport, AnalyticPatchUsesCurrentTimeAndRejectsInvalidData)
 	EXPECT_EQ(times.back(), dt);
 	EXPECT_EQ(std::count(times.begin(), times.end(), dt), times.size() / 2);
 }
-
 
 TYPED_TEST(BoundaryTransport, ReflectingBoxConservesMassAndEnergy) {
 	using State = typename TypeParam::State;
@@ -294,17 +298,18 @@ TYPED_TEST(BoundaryTransport, ReflectingBoxConservesMassAndEnergy) {
 	};
 	auto const before = total();
 	physics::MusclHancock<TypeParam> solver(this->system);
-	for (int i = 0; i < 5; ++i) solver.advance(patch, solver.stableTimestep(patch, 0.2), Boundaries::uniform(Rule::Reflecting));
+	for (int i = 0; i < 5; ++i)
+		solver.advance(patch, solver.stableTimestep(patch, 0.2), Boundaries::uniform(Rule::Reflecting));
 	auto const after = total();
 	if constexpr (std::is_same_v<TypeParam, hydro::HydroSystem>) {
 		EXPECT_NEAR(Real(after.density() / before.density()), 1, 2e-13);
 		EXPECT_NEAR(Real(after.totalEnergy() / before.totalEnergy()), 1, 2e-13);
-	} else EXPECT_NEAR(Real(after.energy() / before.energy()), 1, 2e-13);
+	} else
+		EXPECT_NEAR(Real(after.energy() / before.energy()), 1, 2e-13);
 }
 
-
 TEST(BoundaryRuntime, MixedAndAnalyticBoundariesAreIndependentOfDecomposition) {
-	#if OCTOTIGERII_HYDRO
+#if OCTOTIGERII_HYDRO
 	using State = hydro::ConservedState;
 #else
 	using State = radiation::RadiationSystem::State;
@@ -330,7 +335,8 @@ TEST(BoundaryRuntime, MixedAndAnalyticBoundariesAreIndependentOfDecomposition) {
 			std::vector<State> states(mesh::MeshLayout(8).interiorCellCount());
 			for (auto const& snapshot : runtime.snapshots()) {
 				snapshot.layout.forEachInterior([&](auto cell, auto i) {
-					for (int d = 0; d < ndim; ++d) cell[d] += snapshot.location.coordinates[d] * snapshot.layout.cellsPerActiveDimension();
+					for (int d = 0; d < ndim; ++d)
+						cell[d] += snapshot.location.coordinates[d] * snapshot.layout.cellsPerActiveDimension();
 #if OCTOTIGERII_HYDRO
 					states[mesh::linearIndex(cell, mesh::filledCoordinates(8))] = snapshot.hydro.values()[i];
 #else
@@ -341,9 +347,10 @@ TEST(BoundaryRuntime, MixedAndAnalyticBoundariesAreIndependentOfDecomposition) {
 			return states;
 		};
 		auto actual = flatten(a), expected = flatten(b);
-		for (std::size_t i = 0; i < actual.size(); ++i) test::expectStateNear(actual[i], expected[i], 3e-12);
+		for (std::size_t i = 0; i < actual.size(); ++i)
+			test::expectStateNear(actual[i], expected[i], 3e-12);
 	}
 }
 #endif
 
-} // namespace
+}	 // namespace

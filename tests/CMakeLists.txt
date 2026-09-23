@@ -54,6 +54,7 @@ if(PROBLEM_HYDRO OR PROBLEM_RADIATION)
 endif()
 if(PROBLEM_GRAVITY)
   octo_test(gravityChecks OctotigerII::Gravity "unit")
+  octo_test(ewaldChecks OctotigerII::Gravity "unit;gravity")
   octo_test(directGravityChecks OctotigerII::Application "integration")
   # Has a custom main to preserve the existing 'benchmark [level] [order]' CLI.
   add_executable(gravityParallelChecks gravityParallelChecks.cpp)

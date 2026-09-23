@@ -1,6 +1,5 @@
 // Distributed under the Boost Software License, Version 1.0.
 #include "octotigerII/gravity/diagonal/fmm.hpp"
-#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <cmath>
 #include <map>
@@ -8,62 +7,78 @@
 #include <shared_mutex>
 #include <stdexcept>
 #include <tuple>
-
+#include "octotigerII/profiling.hpp"
 
 namespace octotigerII::gravity::diagonal {
 
-
 namespace {
-constexpr double pi = 3.1415926535897932384626433832795;
+	constexpr double pi = 3.1415926535897932384626433832795;
 
-int index(int x, int y, int z) {
-	const int n = x + y + z;
-	return n * n + (z == 0 ? x : n + 1 + x);
-}
-
-double power(double x, int n) {
-	double r = 1;
-	for (int i = 0; i < n; ++i)
-		r *= x;
-	return r;
-}
-
-double factorial(int n) {
-	double r = 1;
-	for (int i = 2; i <= n; ++i)
-		r *= i;
-	return r;
-}
-
-void reduce(Coefficients& a, int x, int y, int z, double v) {
-	if (z < 2)
-		a[index(x, y, z)] += v;
-	else {
-		reduce(a, x + 2, y, z - 2, -v);
-		reduce(a, x, y + 2, z - 2, -v);
+	int index(int x, int y, int z) {
+		const int n = x + y + z;
+		return n * n + (z == 0 ? x : n + 1 + x);
 	}
-}
-std::map<std::array<int, 4>, std::shared_ptr<const Operator>> cache;
-std::shared_mutex cacheMutex;
 
-// Golub-Welsch is unnecessary at these tiny orders: Newton iteration on L_n.
-std::vector<std::pair<double, double>> laguerre(int n) {
-	using std::abs;
+	double power(double x, int n) {
+		double r = 1;
+		for (int i = 0; i < n; ++i)
+			r *= x;
+		return r;
+	}
 
-	std::vector<std::pair<double, double>> q;
-	double z = 0;
-	for (int i = 0; i < n; ++i) {
-		if (i == 0)
-			z = 3.0 / (1 + 2.4 * n);
-		else if (i == 1)
-			z += 15.0 / (1 + 2.5 * n);
+	double factorial(int n) {
+		double r = 1;
+		for (int i = 2; i <= n; ++i)
+			r *= i;
+		return r;
+	}
+
+	void reduce(Coefficients& a, int x, int y, int z, double v) {
+		if (z < 2)
+			a[index(x, y, z)] += v;
 		else {
-			const double a = i - 1;
-			z += (1 + 2.55 * a) / (1.9 * a) * (z - q[i - 2].first);
+			reduce(a, x + 2, y, z - 2, -v);
+			reduce(a, x, y + 2, z - 2, -v);
 		}
-		double prev = 0, deriv = 0;
-		bool converged = false;
-		for (int it = 0; it < 50; ++it) {
+	}
+	std::map<std::array<int, 4>, std::shared_ptr<const Operator>> cache;
+	std::shared_mutex cacheMutex;
+
+	// Golub-Welsch is unnecessary at these tiny orders: Newton iteration on L_n.
+	std::vector<std::pair<double, double>> laguerre(int n) {
+		using std::abs;
+
+		std::vector<std::pair<double, double>> q;
+		double z = 0;
+		for (int i = 0; i < n; ++i) {
+			if (i == 0)
+				z = 3.0 / (1 + 2.4 * n);
+			else if (i == 1)
+				z += 15.0 / (1 + 2.5 * n);
+			else {
+				const double a = i - 1;
+				z += (1 + 2.55 * a) / (1.9 * a) * (z - q[i - 2].first);
+			}
+			double prev = 0, deriv = 0;
+			bool converged = false;
+			for (int it = 0; it < 50; ++it) {
+				double l = 1;
+				prev = 0;
+				for (int j = 1; j <= n; ++j) {
+					const double old = prev;
+					prev = l;
+					l = ((2 * j - 1 - z) * prev - (j - 1) * old) / j;
+				}
+				deriv = n * (l - prev) / z;
+				const double dz = l / deriv;
+				z -= dz;
+				if (abs(dz) < 2e-15 * (1 + abs(z))) {
+					converged = true;
+					break;
+				}
+			}
+			if (!converged) throw std::runtime_error("diagonal FMM Laguerre quadrature failed");
+			// Reevaluate derivative at the converged root.
 			double l = 1;
 			prev = 0;
 			for (int j = 1; j <= n; ++j) {
@@ -72,30 +87,12 @@ std::vector<std::pair<double, double>> laguerre(int n) {
 				l = ((2 * j - 1 - z) * prev - (j - 1) * old) / j;
 			}
 			deriv = n * (l - prev) / z;
-			const double dz = l / deriv;
-			z -= dz;
-			if (abs(dz) < 2e-15 * (1 + abs(z))) {
-				converged = true;
-				break;
-			}
+			q.emplace_back(z, 1 / (z * deriv * deriv));
 		}
-		if (!converged) throw std::runtime_error("diagonal FMM Laguerre quadrature failed");
-		// Reevaluate derivative at the converged root.
-		double l = 1;
-		prev = 0;
-		for (int j = 1; j <= n; ++j) {
-			const double old = prev;
-			prev = l;
-			l = ((2 * j - 1 - z) * prev - (j - 1) * old) / j;
-		}
-		deriv = n * (l - prev) / z;
-		q.emplace_back(z, 1 / (z * deriv * deriv));
+		return q;
 	}
-	return q;
-}
 
 }	 // namespace
-
 
 int coefficientCount(int p) {
 	if (p < 0 || p > 10) throw std::invalid_argument("diagonal FMM order must be 0..10");
@@ -223,15 +220,16 @@ Operator::Operator(int p, Offset r)
 void Operator::add(Coefficients& l, const Coefficients& m, double h) const {
 	using std::isfinite;
 
-	if (!(h > 0) || !isfinite(h) || (m.size() != 1 && m.size() != std::size_t(count_)) || (l.size() != 4 && l.size() != std::size_t(count_)))
+	if (!(h > 0) || !isfinite(h) || (m.size() != 1 && m.size() != std::size_t(count_) && m.size() != std::size_t(count_ + 1)) ||
+		(l.size() != 4 && l.size() != std::size_t(count_) && l.size() != std::size_t(count_ + 1)))
 		throw std::invalid_argument("invalid M2L data");
 	for (std::size_t q = 0; q < diagonal_.size(); ++q) {
 		std::complex<double> wave = 0;
 		const auto off = q * count_;
-		for (std::size_t i = 0; i < m.size(); ++i)
+		for (std::size_t i = 0; i < std::min(m.size(), std::size_t(count_)); ++i)
 			wave += toWave_[off + i] * m[i];
 		wave *= diagonal_[q] / h;
-		for (std::size_t i = 0; i < l.size(); ++i)
+		for (std::size_t i = 0; i < std::min(l.size(), std::size_t(count_)); ++i)
 			l[i] += (fromWave_[off + i] * wave).real();
 	}
 }
