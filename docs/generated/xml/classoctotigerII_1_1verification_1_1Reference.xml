@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1verification_1_1Reference" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::verification::Reference</compoundname>
+    <includes refid="analytic_8hpp" local="no">analytic.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Reference_1a8c76e364485f717f55f22c51b40c7efa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Reference::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>octotigerII::verification::Reference::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="29" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="29" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" compoundref="analytic_8cpp" startline="45" endline="61">octotigerII::verification::reference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a66c6ee6dcf8a951e88e1257ef9fd6a0d" compoundref="solutions_8cpp" startline="10" endline="80">octotigerII::verification::sodReference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" compoundref="solutions_8cpp" startline="83" endline="136">octotigerII::verification::sphereReference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a2e9ae4e7a511dcc613eb1a005fb38a46" compoundref="solutions_8cpp" startline="139" endline="169">octotigerII::verification::streamingReference</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Reference_1ae7f9e59faf823af778b62f70010b7764" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Reference::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>octotigerII::verification::Reference::reason</qualifiedname>
+        <initializer>= &quot;This problem has no implemented analytic solution&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="30" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="30" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" compoundref="analytic_8cpp" startline="45" endline="61">octotigerII::verification::reference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a66c6ee6dcf8a951e88e1257ef9fd6a0d" compoundref="solutions_8cpp" startline="10" endline="80">octotigerII::verification::sodReference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a2e9ae4e7a511dcc613eb1a005fb38a46" compoundref="solutions_8cpp" startline="139" endline="169">octotigerII::verification::streamingReference</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Reference_1a852e4230e387f2a939f63808e8b0a726" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::verification::Reference::validUntil</definition>
+        <argsstring></argsstring>
+        <name>validUntil</name>
+        <qualifiedname>octotigerII::verification::Reference::validUntil</qualifiedname>
+        <initializer>= units::Time::from_value(std::numeric_limits&lt;<ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref>&gt;::infinity())</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="31" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="31" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" compoundref="analytic_8cpp" startline="45" endline="61">octotigerII::verification::reference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a66c6ee6dcf8a951e88e1257ef9fd6a0d" compoundref="solutions_8cpp" startline="10" endline="80">octotigerII::verification::sodReference</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Reference_1aa602058966b85c1d8b50fe9878ade6eb" prot="public" static="no" mutable="no">
+        <type>std::function&lt; <ref refid="classoctotigerII_1_1verification_1_1ExactState" kindref="compound">ExactState</ref>(<ref refid="namespaceoctotigerII_1_1mesh_1a75c6d3d571de04dad3c8dc3fe7b53b0e" kindref="member">mesh::PhysicalCoordinates</ref> const  &amp;, <ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref>)&gt;</type>
+        <definition>std::function&lt;ExactState(mesh::PhysicalCoordinates const&amp;, units::Time)&gt; octotigerII::verification::Reference::evaluate</definition>
+        <argsstring></argsstring>
+        <name>evaluate</name>
+        <qualifiedname>octotigerII::verification::Reference::evaluate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="32" column="15" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="32" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" compoundref="analytic_8cpp" startline="45" endline="61">octotigerII::verification::reference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a66c6ee6dcf8a951e88e1257ef9fd6a0d" compoundref="solutions_8cpp" startline="10" endline="80">octotigerII::verification::sodReference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" compoundref="solutions_8cpp" startline="83" endline="136">octotigerII::verification::sphereReference</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a2e9ae4e7a511dcc613eb1a005fb38a46" compoundref="solutions_8cpp" startline="139" endline="169">octotigerII::verification::streamingReference</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>An empty evaluator explicitly means that no analytic solution is available. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>References are sampled at cell centers, at the actual snapshot time. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/verification/analytic.hpp" line="27" column="1" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="27" bodyend="33"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1verification_1_1Reference_1aa602058966b85c1d8b50fe9878ade6eb" prot="public" virt="non-virtual"><scope>octotigerII::verification::Reference</scope><name>evaluate</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Reference_1a8c76e364485f717f55f22c51b40c7efa" prot="public" virt="non-virtual"><scope>octotigerII::verification::Reference</scope><name>name</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Reference_1ae7f9e59faf823af778b62f70010b7764" prot="public" virt="non-virtual"><scope>octotigerII::verification::Reference</scope><name>reason</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Reference_1a852e4230e387f2a939f63808e8b0a726" prot="public" virt="non-virtual"><scope>octotigerII::verification::Reference</scope><name>validUntil</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

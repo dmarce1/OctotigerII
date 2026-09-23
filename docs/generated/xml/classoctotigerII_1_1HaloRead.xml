@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1HaloRead" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::HaloRead</compoundname>
+    <includes refid="topology_8hpp" local="no">topology.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1HaloRead_1aa815448aa38eb0caaf83d76ae8f9f508" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">storage::Range</ref></type>
+        <definition>storage::Range octotigerII::HaloRead::range</definition>
+        <argsstring></argsstring>
+        <name>range</name>
+        <qualifiedname>octotigerII::HaloRead::range</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="61" column="16" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="61" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1HaloRead_1a1aa3d4fe7b76628239a42eed4ee17358" compoundref="topology_8hpp" startline="66" endline="68">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1HaloRead_1ad6d3064402c3b1aef938276047c5f175" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1HaloCopy" kindref="compound">HaloCopy</ref> &gt;</type>
+        <definition>std::vector&lt;HaloCopy&gt; octotigerII::HaloRead::copies</definition>
+        <argsstring></argsstring>
+        <name>copies</name>
+        <qualifiedname>octotigerII::HaloRead::copies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="62" column="13" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="62" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1HaloRead_1a1aa3d4fe7b76628239a42eed4ee17358" compoundref="topology_8hpp" startline="66" endline="68">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1HaloRead_1a1aa3d4fe7b76628239a42eed4ee17358" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::HaloRead::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::HaloRead::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="66" column="6" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="66" bodyend="68"/>
+        <references refid="classoctotigerII_1_1HaloRead_1ad6d3064402c3b1aef938276047c5f175" compoundref="topology_8hpp" startline="62">copies</references>
+        <references refid="classoctotigerII_1_1HaloRead_1aa815448aa38eb0caaf83d76ae8f9f508" compoundref="topology_8hpp" startline="61">range</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Contiguous source range plus its destination mappings in the halo. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>octotigerII::HaloRead</label>
+        <link refid="classoctotigerII_1_1HaloRead"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>range</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::storage::Range</label>
+        <link refid="classoctotigerII_1_1storage_1_1Range"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/subgrid/topology.hpp" line="58" column="1" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="58" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1HaloRead_1ad6d3064402c3b1aef938276047c5f175" prot="public" virt="non-virtual"><scope>octotigerII::HaloRead</scope><name>copies</name></member>
+      <member refid="classoctotigerII_1_1HaloRead_1aa815448aa38eb0caaf83d76ae8f9f508" prot="public" virt="non-virtual"><scope>octotigerII::HaloRead</scope><name>range</name></member>
+      <member refid="classoctotigerII_1_1HaloRead_1a1aa3d4fe7b76628239a42eed4ee17358" prot="public" virt="non-virtual"><scope>octotigerII::HaloRead</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

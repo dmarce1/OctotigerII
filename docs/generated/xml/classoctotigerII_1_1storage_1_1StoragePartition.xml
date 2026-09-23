@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1StoragePartition" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::StoragePartition</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">hpx::components::component_base&lt; StoragePartition &gt;</basecompoundref>
+    <includes refid="partition_8hpp" local="no">partition.hpp</includes>
+    <innerclass refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column" prot="private">octotigerII::storage::StoragePartition::Column</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase" prot="private">octotigerII::storage::StoragePartition::ColumnBase</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1StoragePartition_1aa922ff892c8434caece054aeba2229a7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex octotigerII::storage::StoragePartition::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="129" column="20" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="129" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1StoragePartition_1a3a88a9e7100a8d5ba2f8f88959785fbe" compoundref="partition_8hpp" startline="117" endline="127">allocation</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1StoragePartition_1a6f45467c3bb2b8a857a5cb222ef5fa29" compoundref="partition_8hpp" startline="50" endline="55">create</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1StoragePartition_1a65ffbfbe4fba08432638b4150785506d" compoundref="partition_8hpp" startline="58" endline="61">retire</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1StoragePartition_1af838bf22b3f6f3b1a0df93fd5cd0a6f5" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref>, std::shared_ptr&lt; <ref refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase" kindref="compound">ColumnBase</ref> &gt; &gt;</type>
+        <definition>std::map&lt;FieldId, std::shared_ptr&lt;ColumnBase&gt; &gt; octotigerII::storage::StoragePartition::columns_</definition>
+        <argsstring></argsstring>
+        <name>columns_</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::columns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="130" column="10" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="130" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1StoragePartition_1a3a88a9e7100a8d5ba2f8f88959785fbe" compoundref="partition_8hpp" startline="117" endline="127">allocation</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1StoragePartition_1a6f45467c3bb2b8a857a5cb222ef5fa29" compoundref="partition_8hpp" startline="50" endline="55">create</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1StoragePartition_1a65ffbfbe4fba08432638b4150785506d" compoundref="partition_8hpp" startline="58" endline="61">retire</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1StoragePartition_1a6548ee2533fa69bef5be66982afa13fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::storage::StoragePartition::StoragePartition</definition>
+        <argsstring>()=default</argsstring>
+        <name>StoragePartition</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::StoragePartition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="42" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1StoragePartition_1a6f45467c3bb2b8a857a5cb222ef5fa29" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::storage::StoragePartition::create</definition>
+        <argsstring>(FieldId id, std::size_t capacity, unsigned banks, std::string name)</argsstring>
+        <name>create</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::create</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>banks</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Allocate a new typed column before publishing its metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fresh identity, unique within the partition set. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements in each bank of this partition. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>banks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of independently allocated versions, at least one. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Descriptive field name; it does not determine the C++ type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="50" column="6" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="50" bodyend="55"/>
+        <references refid="classoctotigerII_1_1storage_1_1StoragePartition_1af838bf22b3f6f3b1a0df93fd5cd0a6f5" compoundref="partition_8hpp" startline="130">columns_</references>
+        <references refid="classoctotigerII_1_1storage_1_1StoragePartition_1aa922ff892c8434caece054aeba2229a7" compoundref="partition_8hpp" startline="129">mutex_</references>
+        <references refid="output_8cpp_1a9b45b3e13bd9167aab02e17e08916231" compoundref="output_8cpp" startline="19">name</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1StoragePartition_1a65ffbfbe4fba08432638b4150785506d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::storage::StoragePartition::retire</definition>
+        <argsstring>(FieldId id)</argsstring>
+        <name>retire</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::retire</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Retire a field after its tasks drain. Existing views retain their bank. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="58" column="6" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="58" bodyend="61"/>
+        <references refid="classoctotigerII_1_1storage_1_1StoragePartition_1af838bf22b3f6f3b1a0df93fd5cd0a6f5" compoundref="partition_8hpp" startline="130">columns_</references>
+        <references refid="classoctotigerII_1_1storage_1_1StoragePartition_1aa922ff892c8434caece054aeba2229a7" compoundref="partition_8hpp" startline="129">mutex_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1StoragePartition_1a0d9db3673737e49fdaba7fac2f2852bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; T &gt;</type>
+        <definition>Buffer&lt; T &gt; octotigerII::storage::StoragePartition::read</definition>
+        <argsstring>(FieldId id, unsigned bank, std::size_t begin, std::size_t count) const</argsstring>
+        <name>read</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::read</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Retain a typed bank range after checking identity, type, bank, and bounds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The HPX reference buffer keeps the allocation alive during serialization. Callers must keep its contents immutable until readers and sends finish. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="67" column="8" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="67" bodyend="76"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1StoragePartition_1a0727e128e0f151b5c027cac3c0b21e9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::storage::StoragePartition::write</definition>
+        <argsstring>(FieldId id, unsigned bank, std::size_t begin, Buffer&lt; T &gt; const &amp;values)</argsstring>
+        <name>write</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::write</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; T &gt; const &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Copy a received range into an exclusively owned output allocation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This final placement copy remains even with zero-copy receive serialization. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="81" column="6" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="81" bodyend="84"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="output_8cpp_1a2ad192c64ff93c02f9f41c320e7aa1bc" compoundref="output_8cpp" startline="21">values</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1StoragePartition_1a3a88a9e7100a8d5ba2f8f88959785fbe" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::shared_ptr&lt; std::vector&lt; T &gt; &gt;</type>
+        <definition>std::shared_ptr&lt; std::vector&lt; T &gt; &gt; octotigerII::storage::StoragePartition::allocation</definition>
+        <argsstring>(FieldId id, unsigned bank, std::size_t begin, std::size_t count) const</argsstring>
+        <name>allocation</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::allocation</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Resolve under a short metadata lock and retain the validated bank. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="117" column="17" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="117" bodyend="127"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="classoctotigerII_1_1storage_1_1StoragePartition_1af838bf22b3f6f3b1a0df93fd5cd0a6f5" compoundref="partition_8hpp" startline="130">columns_</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <references refid="classoctotigerII_1_1storage_1_1StoragePartition_1aa922ff892c8434caece054aeba2229a7" compoundref="partition_8hpp" startline="129">mutex_</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HPX component owning multiple typed columns, independent of geometry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each bank has a stable allocation. A short metadata lock protects lookup; numerical reads/writes obey the caller&apos;s immutable-input/single-writer policy. Retained buffers keep their bank alive through transmission and retirement. See <ref refid="bibliography_1ref_biddiscombe2017" kindref="member">Biddiscombe et al. (2017)</ref> for HPX buffer transfers. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>hpx::components::component_base&lt; StoragePartition &gt;</label>
+      </node>
+      <node id="1">
+        <label>octotigerII::storage::StoragePartition</label>
+        <link refid="classoctotigerII_1_1storage_1_1StoragePartition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>hpx::components::component_base&lt; StoragePartition &gt;</label>
+      </node>
+      <node id="1">
+        <label>octotigerII::storage::StoragePartition</label>
+        <link refid="classoctotigerII_1_1storage_1_1StoragePartition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/storage/partition.hpp" line="34" column="1" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="38" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a3a88a9e7100a8d5ba2f8f88959785fbe" prot="private" virt="non-virtual"><scope>octotigerII::storage::StoragePartition</scope><name>allocation</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1af838bf22b3f6f3b1a0df93fd5cd0a6f5" prot="private" virt="non-virtual"><scope>octotigerII::storage::StoragePartition</scope><name>columns_</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a6f45467c3bb2b8a857a5cb222ef5fa29" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition</scope><name>create</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1aa922ff892c8434caece054aeba2229a7" prot="private" virt="non-virtual"><scope>octotigerII::storage::StoragePartition</scope><name>mutex_</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a0d9db3673737e49fdaba7fac2f2852bb" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition</scope><name>read</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a65ffbfbe4fba08432638b4150785506d" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition</scope><name>retire</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a6548ee2533fa69bef5be66982afa13fb" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition</scope><name>StoragePartition</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a0727e128e0f151b5c027cac3c0b21e9b" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

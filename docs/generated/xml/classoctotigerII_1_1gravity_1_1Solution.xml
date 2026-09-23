@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1gravity_1_1Solution" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::gravity::Solution</compoundname>
+    <includes refid="solver_8hpp" local="no">solver.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1Solution_1aba73da2bcfcd1b543267b9cfb695c6c4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1gravity_1abace521e5efaecbfd9fdda34ec20b58e" kindref="member">State</ref> &gt;</type>
+        <definition>std::vector&lt;State&gt; octotigerII::gravity::Solution::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>octotigerII::gravity::Solution::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/solver.hpp" line="40" column="13" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="40" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1Solution_1a00d9bcced5c9d50b24f243548a37aa02" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::Solution::statistics</definition>
+        <argsstring></argsstring>
+        <name>statistics</name>
+        <qualifiedname>octotigerII::gravity::Solution::statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/solver.hpp" line="41" column="12" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="41" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Gravity fields in the same x-contiguous order as the input density, plus work counts. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>octotigerII::gravity::Solution</label>
+        <link refid="classoctotigerII_1_1gravity_1_1Solution"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>statistics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::gravity::Statistics</label>
+        <link refid="classoctotigerII_1_1gravity_1_1Statistics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/gravity/solver.hpp" line="37" column="1" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="37" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1gravity_1_1Solution_1aba73da2bcfcd1b543267b9cfb695c6c4" prot="public" virt="non-virtual"><scope>octotigerII::gravity::Solution</scope><name>fields</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1Solution_1a00d9bcced5c9d50b24f243548a37aa02" prot="public" virt="non-virtual"><scope>octotigerII::gravity::Solution</scope><name>statistics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

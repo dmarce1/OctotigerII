@@ -1,3 +1,4 @@
+#include <gtest/gtest.h>
 #include <cmath>
 #include <filesystem>
 #include <iostream>
@@ -11,9 +12,6 @@ using namespace octotigerII;
 
 
 namespace {
-void require(bool ok, char const* message) {
-	if (!ok) throw std::runtime_error(message);
-}
 
 void check(std::string const& problem, int dimensions, std::filesystem::path const& root) {
 	using std::abs;
@@ -37,28 +35,27 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 	}
 	std::string const filename = (std::filesystem::path(c.output.directory) / "frame_000000.silo").string();
 	std::unique_ptr<DBfile, decltype(&DBClose)> file(DBOpen(filename.c_str(), DB_HDF5, DB_READ), &DBClose);
-	require(bool(file), "Silo open");
+	ASSERT_TRUE(bool(file)) << "Silo open";
 	std::unique_ptr<DBmultimesh, decltype(&DBFreeMultimesh)> multi(DBGetMultimesh(file.get(), "mesh"), &DBFreeMultimesh);
-	require(multi && multi->nblocks == 1, "Silo multimesh");
+	ASSERT_TRUE(multi && multi->nblocks == 1) << "Silo multimesh";
 	std::unique_ptr<DBquadmesh, decltype(&DBFreeQuadmesh)> mesh(DBGetQuadmesh(file.get(), "block0/mesh"), &DBFreeQuadmesh);
-	require(mesh && mesh->ndims == dimensions, "Silo dimensional geometry");
+	ASSERT_TRUE(mesh && mesh->ndims == dimensions) << "Silo dimensional geometry";
 	for (int axis = 0; axis < dimensions; ++axis) {
-		require(mesh->dims[axis] == 5, "Silo coordinate count");
-		require(mesh->units[axis] && std::string(mesh->units[axis]) == "cm", "Silo coordinate units");
+		EXPECT_TRUE(mesh->dims[axis] == 5) << "Silo coordinate count";
+		EXPECT_TRUE(mesh->units[axis] && std::string(mesh->units[axis]) == "cm") << "Silo coordinate units";
 		auto const* values = static_cast<double const*>(mesh->coords[axis]);
-		require(values[0] == units::value(patch.lower[axis]) && values[4] == units::value(patch.lower[axis] + 4.0 * patch.cellWidth), "Silo coordinates");
+		EXPECT_TRUE(values[0] == units::value(patch.lower[axis]) && values[4] == units::value(patch.lower[axis] + 4.0 * patch.cellWidth)) << "Silo coordinates";
 	}
 	auto field = [&](char const* name, char const* units, auto expected) {
 		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> var(DBGetQuadvar(file.get(), ("block0/" + std::string(name)).c_str()), &DBFreeQuadvar);
-		require(
-			var && var->datatype == DB_DOUBLE && var->centering == DB_ZONECENT && var->nels == int(patch.layout.interiorCellCount()), "Silo field metadata");
-		require(var->units && std::string(var->units) == units, "Silo CGS field units");
-		require(var->dtime == 0 && var->cycle == 0, "Silo time/cycle");
+		ASSERT_TRUE(var && var->datatype == DB_DOUBLE && var->centering == DB_ZONECENT && var->nels == int(patch.layout.interiorCellCount())) << "Silo field metadata";
+		EXPECT_TRUE(var->units && std::string(var->units) == units) << "Silo CGS field units";
+		EXPECT_TRUE(var->dtime == 0 && var->cycle == 0) << "Silo time/cycle";
 		auto const* values = static_cast<double const*>(var->vals[0]);
 		std::size_t j = 0;
 		patch.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) {
 			Real const value = units::value(expected(i));
-			require(isfinite(values[j]) && abs(values[j] - value) <= 1e-14 * std::max(Real(1), abs(value)), "Silo field roundtrip");
+			EXPECT_TRUE(isfinite(values[j]) && abs(values[j] - value) <= 1e-14 * std::max(Real(1), abs(value))) << "Silo field roundtrip";
 			++j;
 		});
 	};
@@ -77,22 +74,21 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 	for (auto const& f : verification::sample(patch, c, verification::reference(c, patch.time))) {
 		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> exact(DBGetQuadvar(file.get(), ("block0/" + f.name + "Exact").c_str()), &DBFreeQuadvar);
 		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> error(DBGetQuadvar(file.get(), ("block0/" + f.name + "Error").c_str()), &DBFreeQuadvar);
-		require(exact && error && exact->nels == int(f.exact.size()) && error->nels == exact->nels, "Analytic Silo arrays");
-		require(exact->units && f.units == exact->units && error->units && f.units == error->units, "Analytic Silo CGS units");
+		ASSERT_TRUE(exact && error && exact->nels == int(f.exact.size()) && error->nels == exact->nels) << "Analytic Silo arrays";
+		EXPECT_TRUE(exact->units && f.units == exact->units && error->units && f.units == error->units) << "Analytic Silo CGS units";
 		for (std::size_t i = 0; i < f.exact.size(); ++i) {
-			require(static_cast<double const*>(exact->vals[0])[i] == f.exact[i], "Analytic Silo value");
-			require(static_cast<double const*>(error->vals[0])[i] == f.numerical[i] - f.exact[i], "Signed Silo error");
+			EXPECT_TRUE(static_cast<double const*>(exact->vals[0])[i] == f.exact[i]) << "Analytic Silo value";
+			EXPECT_TRUE(static_cast<double const*>(error->vals[0])[i] == f.numerical[i] - f.exact[i]) << "Signed Silo error";
 		}
 		std::unique_ptr<DBmultivar, decltype(&DBFreeMultivar)> multiExact(DBGetMultivar(file.get(), (f.name + "Exact").c_str()), &DBFreeMultivar);
-		require(multiExact && multiExact->nvars == 1, "Analytic Silo multivar");
+		EXPECT_TRUE(multiExact && multiExact->nvars == 1) << "Analytic Silo multivar";
 	}
 	auto* toc = DBGetToc(file.get());
-	require(toc != nullptr, "Silo table of contents");
+	ASSERT_TRUE(toc != nullptr) << "Silo table of contents";
 	for (int axis = ndim; axis < 3; ++axis) {
 		for (int i = 0; i < toc->nmultivar; ++i) {
 			std::string const name = toc->multivar_names[i];
-			require(
-				name != std::string("momentum") + "XYZ"[axis] && name != std::string("radiationFlux") + "XYZ"[axis], "Silo contains inactive vector component");
+			EXPECT_TRUE(name != std::string("momentum") + "XYZ"[axis] && name != std::string("radiationFlux") + "XYZ"[axis]) << "Silo contains inactive vector component";
 		}
 	}
 	std::cout << problem << ' ' << dimensions << "D Silo roundtrip passed\n";
@@ -101,14 +97,9 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 }	 // namespace
 
 
-int main(int argc, char** argv) {
-	try {
-		if (argc != 2) throw std::invalid_argument("Expected output directory");
-		std::filesystem::path const root(argv[1]);
-		check(build::problem, ndim, root);
-		return 0;
-	} catch (std::exception const& error) {
-		std::cerr << error.what() << '\n';
-		return 1;
-	}
+#include "testSupport.hpp"
+
+TEST(SiloOutput, GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip) {
+	test::TemporaryDirectory directory;
+	check(build::problem, ndim, directory.path);
 }

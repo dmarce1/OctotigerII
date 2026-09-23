@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="buffer_8hpp" kind="file" language="C++">
+    <compoundname>buffer.hpp</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes refid="cgs_8hpp" local="yes">octotigerII/units/cgs.hpp</includes>
+    <includes local="no">hpx/include/async.hpp</includes>
+    <includes local="no">hpx/include/serialization.hpp</includes>
+    <includes local="no">hpx/serialization/serialize_buffer.hpp</includes>
+    <includes local="yes">octotigerII/storage/types.def</includes>
+    <includedby refid="partition_8hpp" local="yes">include/octotigerII/storage/partition.hpp</includedby>
+    <incdepgraph>
+      <node id="17">
+        <label>octotigerII/math/Real.hpp</label>
+        <link refid="Real_8hpp"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/octotigerII/storage/buffer.hpp</label>
+        <link refid="buffer_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>octotigerII/units/cgs.hpp</label>
+        <link refid="cgs_8hpp"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>boost/units/base_units/cgs/centimeter.hpp</label>
+      </node>
+      <node id="9">
+        <label>boost/units/base_units/cgs/gram.hpp</label>
+      </node>
+      <node id="10">
+        <label>boost/units/base_units/si/kelvin.hpp</label>
+      </node>
+      <node id="11">
+        <label>boost/units/base_units/si/second.hpp</label>
+      </node>
+      <node id="12">
+        <label>boost/units/cmath.hpp</label>
+      </node>
+      <node id="13">
+        <label>boost/units/derived_dimension.hpp</label>
+      </node>
+      <node id="14">
+        <label>boost/units/make_system.hpp</label>
+      </node>
+      <node id="15">
+        <label>boost/units/quantity.hpp</label>
+      </node>
+      <node id="16">
+        <label>cmath</label>
+      </node>
+      <node id="20">
+        <label>hpx/include/async.hpp</label>
+      </node>
+      <node id="21">
+        <label>hpx/include/serialization.hpp</label>
+      </node>
+      <node id="22">
+        <label>hpx/serialization/serialize_buffer.hpp</label>
+      </node>
+      <node id="18">
+        <label>limits</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="19">
+        <label>numbers</label>
+      </node>
+      <node id="23">
+        <label>octotigerII/storage/types.def</label>
+      </node>
+      <node id="3">
+        <label>type_traits</label>
+      </node>
+      <node id="4">
+        <label>utility</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="6">
+        <label>include/octotigerII/gravity/fieldSolver.hpp</label>
+        <link refid="fieldSolver_8hpp"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/octotigerII/storage/buffer.hpp</label>
+        <link refid="buffer_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/octotigerII/storage/columns.hpp</label>
+        <link refid="columns_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/octotigerII/storage/field.hpp</label>
+        <link refid="field_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/octotigerII/storage/partition.hpp</label>
+        <link refid="partition_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/octotigerII/storage/registry.hpp</label>
+        <link refid="registry_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/octotigerII/subgrid/view.hpp</label>
+        <link refid="view_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/gravity/fieldSolver.cpp</label>
+        <link refid="fieldSolver_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/runtime.cpp</label>
+        <link refid="runtime_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/storage.cpp</label>
+        <link refid="storage_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/storage_acceleration.cpp</label>
+        <link refid="storage__acceleration_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/storage_density.cpp</label>
+        <link refid="storage__density_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/storage_energy.cpp</label>
+        <link refid="storage__energy_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/storage_momentum.cpp</label>
+        <link refid="storage__momentum_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/storage_potential.cpp</label>
+        <link refid="storage__potential_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceoctotigerII">octotigerII</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1storage">octotigerII::storage</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="buffer_8hpp_1aadd2a86a08d34168c5bf512b8666f490" prot="public" static="no">
+        <name>OCTO_STORAGE_TYPE</name>
+        <param><defname>Type</defname></param>
+        <param><defname>Name</defname></param>
+        <initializer>	static_assert(sizeof(Type) == sizeof(<ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref>) &amp;&amp; std::is_standard_layout_v&lt;Type&gt;); \
+	HPX_IS_BITWISE_SERIALIZABLE(Type)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/buffer.hpp" line="22" column="9" bodyfile="include/octotigerII/storage/buffer.hpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reference-backed typed buffers and serial/HPX future abstractions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/buffer.hpp"/>
+  </compounddef>
+</doxygen>

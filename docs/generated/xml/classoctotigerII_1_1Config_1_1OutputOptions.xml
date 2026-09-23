@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Config_1_1OutputOptions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Config::OutputOptions</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1OutputOptions_1a6d87b68e0ff80d3d2a282cf37c880d90" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::Config::OutputOptions::every</definition>
+        <argsstring></argsstring>
+        <name>every</name>
+        <qualifiedname>octotigerII::Config::OutputOptions::every</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="95" column="5" bodyfile="include/octotigerII/config.hpp" bodystart="95" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">octotigerII::Output::operator()</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1OutputOptions_1ab3647078c37104a06bbe8c5a3fe20df5" compoundref="config_8hpp" startline="100" endline="102">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1OutputOptions_1a6d9d80b440b8e2c72499373090e88f32" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::Config::OutputOptions::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>octotigerII::Config::OutputOptions::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="96" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="96" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">octotigerII::Output::operator()</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1OutputOptions_1ab3647078c37104a06bbe8c5a3fe20df5" compoundref="config_8hpp" startline="100" endline="102">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1OutputOptions_1a4fb28530038e9b7e76ad3c01deb99e4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::Config::OutputOptions::directory</definition>
+        <argsstring></argsstring>
+        <name>directory</name>
+        <qualifiedname>octotigerII::Config::OutputOptions::directory</qualifiedname>
+        <initializer>= &quot;output&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="97" column="13" bodyfile="include/octotigerII/config.hpp" bodystart="97" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">octotigerII::Output::operator()</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1OutputOptions_1ab3647078c37104a06bbe8c5a3fe20df5" compoundref="config_8hpp" startline="100" endline="102">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Config_1_1OutputOptions_1ab3647078c37104a06bbe8c5a3fe20df5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Config::OutputOptions::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Config::OutputOptions::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="100" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="100" bodyend="102"/>
+        <references refid="classoctotigerII_1_1Config_1_1OutputOptions_1a4fb28530038e9b7e76ad3c01deb99e4b" compoundref="config_8hpp" startline="97">directory</references>
+        <references refid="classoctotigerII_1_1Config_1_1OutputOptions_1a6d9d80b440b8e2c72499373090e88f32" compoundref="config_8hpp" startline="96">enabled</references>
+        <references refid="classoctotigerII_1_1Config_1_1OutputOptions_1a6d87b68e0ff80d3d2a282cf37c880d90" compoundref="config_8hpp" startline="95">every</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="93" column="1" bodyfile="include/octotigerII/config.hpp" bodystart="93" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Config_1_1OutputOptions_1a4fb28530038e9b7e76ad3c01deb99e4b" prot="public" virt="non-virtual"><scope>octotigerII::Config::OutputOptions</scope><name>directory</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1OutputOptions_1a6d9d80b440b8e2c72499373090e88f32" prot="public" virt="non-virtual"><scope>octotigerII::Config::OutputOptions</scope><name>enabled</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1OutputOptions_1a6d87b68e0ff80d3d2a282cf37c880d90" prot="public" virt="non-virtual"><scope>octotigerII::Config::OutputOptions</scope><name>every</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1OutputOptions_1ab3647078c37104a06bbe8c5a3fe20df5" prot="public" virt="non-virtual"><scope>octotigerII::Config::OutputOptions</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

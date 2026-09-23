@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1gravity_1_1diagonal" kind="namespace" language="C++">
+    <compoundname>octotigerII::gravity::diagonal</compoundname>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index" prot="public">octotigerII::gravity::diagonal::Index</innerclass>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator" prot="public">octotigerII::gravity::diagonal::Operator</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1ac7d5630269921b2bafbc53c0c2bdc75b" prot="public" static="no">
+        <type>std::array&lt; double, 3 &gt;</type>
+        <definition>using octotigerII::gravity::diagonal::Vector = typedef std::array&lt;double, 3&gt;</definition>
+        <argsstring></argsstring>
+        <name>Vector</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="16" column="1" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6a84296cfc13edbc19b8070c982e2d34" prot="public" static="no">
+        <type>std::array&lt; int, 3 &gt;</type>
+        <definition>using octotigerII::gravity::diagonal::Offset = typedef std::array&lt;int, 3&gt;</definition>
+        <argsstring></argsstring>
+        <name>Offset</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="17" column="1" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" prot="public" static="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>using octotigerII::gravity::diagonal::Coefficients = typedef std::vector&lt;double&gt;</definition>
+        <argsstring></argsstring>
+        <name>Coefficients</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Coefficients</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="18" column="1" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a81a9eb30df8edf02f749d8856b6c3109" prot="public" static="no">
+        <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref> &gt;</type>
+        <definition>using octotigerII::gravity::diagonal::Field = typedef std::vector&lt;Coefficients&gt;</definition>
+        <argsstring></argsstring>
+        <name>Field</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="19" column="1" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a02054386dab8b2a39dfe2d467c2dfb15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int octotigerII::gravity::diagonal::coefficientCount</definition>
+        <argsstring>(int p)</argsstring>
+        <name>coefficientCount</name>
+        <qualifiedname>octotigerII::gravity::diagonal::coefficientCount</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Return (p+1)² harmonic-equivalent coefficients for a supported order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="99" column="5" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="99" bodyend="102" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="39" declcolumn="5"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" compoundref="fieldSolver_8cpp" startline="285" endline="334">octotigerII::gravity::FmmPartition::fetch</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a46f4b28cc69a966ddb592c8ba66830ea" compoundref="fmm_8cpp" startline="104" endline="118">indices</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a1ae2418720aa3f562a7298f1ae6d89d0" compoundref="fmm_8cpp" startline="120" endline="129">point</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a46f4b28cc69a966ddb592c8ba66830ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index" kindref="compound">Index</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Index &gt; &amp; octotigerII::gravity::diagonal::indices</definition>
+        <argsstring>(int p)</argsstring>
+        <name>indices</name>
+        <qualifiedname>octotigerII::gravity::diagonal::indices</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Return exponent triples in total-degree order for the supported expansion order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="104" column="19" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="104" bodyend="118" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="42" declcolumn="19"/>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a02054386dab8b2a39dfe2d467c2dfb15" compoundref="fmm_8cpp" startline="99" endline="102">coefficientCount</references>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a6ee6375940538f846f98c3decc4e6b12" compoundref="fmm_8cpp" startline="172" endline="219">octotigerII::gravity::diagonal::Operator::Operator</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1aef4d9e75b8216ba034de0b5507cb83a5" compoundref="fmm_8cpp" startline="149" endline="165">shiftLocal</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a3184157d9ffd1b68e3960c03ba32c593" compoundref="fmm_8cpp" startline="131" endline="142">shiftMultipole</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a1ae2418720aa3f562a7298f1ae6d89d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref></type>
+        <definition>Coefficients octotigerII::gravity::diagonal::point</definition>
+        <argsstring>(double mass, const Vector &amp;offset, int p)</argsstring>
+        <name>point</name>
+        <qualifiedname>octotigerII::gravity::diagonal::point</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>mass</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1ac7d5630269921b2bafbc53c0c2bdc75b" kindref="member">Vector</ref> &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Form the harmonic-equivalent moments of one normalized point source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="120" column="14" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="120" bodyend="129" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="45" declcolumn="14"/>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a02054386dab8b2a39dfe2d467c2dfb15" compoundref="fmm_8cpp" startline="99" endline="102">coefficientCount</references>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a3184157d9ffd1b68e3960c03ba32c593" compoundref="fmm_8cpp" startline="131" endline="142">shiftMultipole</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a3184157d9ffd1b68e3960c03ba32c593" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref></type>
+        <definition>Coefficients octotigerII::gravity::diagonal::shiftMultipole</definition>
+        <argsstring>(const Coefficients &amp;, const Vector &amp;offset, double ratio, int p)</argsstring>
+        <name>shiftMultipole</name>
+        <qualifiedname>octotigerII::gravity::diagonal::shiftMultipole</qualifiedname>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref> &amp;</type>
+          <defname>a</defname>
+        </param>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1ac7d5630269921b2bafbc53c0c2bdc75b" kindref="member">Vector</ref> &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ratio</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Translate source moments: offset=(old center−new center)/new scale; ratio=old scale/new scale. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="131" column="14" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="131" bodyend="142" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="50" declcolumn="14"/>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a46f4b28cc69a966ddb592c8ba66830ea" compoundref="fmm_8cpp" startline="104" endline="118">indices</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a1ae2418720aa3f562a7298f1ae6d89d0" compoundref="fmm_8cpp" startline="120" endline="129">point</references>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1aef4d9e75b8216ba034de0b5507cb83a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref></type>
+        <definition>Coefficients octotigerII::gravity::diagonal::shiftLocal</definition>
+        <argsstring>(const Coefficients &amp;, const Vector &amp;offset, double ratio, int p)</argsstring>
+        <name>shiftLocal</name>
+        <qualifiedname>octotigerII::gravity::diagonal::shiftLocal</qualifiedname>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref> &amp;</type>
+          <defname>l</defname>
+        </param>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1ac7d5630269921b2bafbc53c0c2bdc75b" kindref="member">Vector</ref> &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ratio</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Translate local derivatives: offset=(new center−old center)/old scale; ratio=new scale/old scale. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="149" column="14" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="149" bodyend="165" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="56" declcolumn="14"/>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6109366ed08bbd4c7944c0e12eaa580d" compoundref="fmm_8cpp" startline="144" endline="147">derivative</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a46f4b28cc69a966ddb592c8ba66830ea" compoundref="fmm_8cpp" startline="104" endline="118">indices</references>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a8fa5d19e8ec9e38f977cf054f617db1f" compoundref="fmm_8cpp" startline="167" endline="170">evaluate</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6109366ed08bbd4c7944c0e12eaa580d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double octotigerII::gravity::diagonal::derivative</definition>
+        <argsstring>(const Coefficients &amp;, int x, int y, int z)</argsstring>
+        <name>derivative</name>
+        <qualifiedname>octotigerII::gravity::diagonal::derivative</qualifiedname>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref> &amp;</type>
+          <defname>l</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+<para>Recover a normalized-coordinate potential derivative using harmonic reduction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="144" column="8" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="144" bodyend="147" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="59" declcolumn="8"/>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6109366ed08bbd4c7944c0e12eaa580d" compoundref="fmm_8cpp" startline="144" endline="147">derivative</references>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6109366ed08bbd4c7944c0e12eaa580d" compoundref="fmm_8cpp" startline="144" endline="147">derivative</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a8fa5d19e8ec9e38f977cf054f617db1f" compoundref="fmm_8cpp" startline="167" endline="170">evaluate</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1aef4d9e75b8216ba034de0b5507cb83a5" compoundref="fmm_8cpp" startline="149" endline="165">shiftLocal</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a8fa5d19e8ec9e38f977cf054f617db1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::array&lt; double, 4 &gt;</type>
+        <definition>std::array&lt; double, 4 &gt; octotigerII::gravity::diagonal::evaluate</definition>
+        <argsstring>(const Coefficients &amp;, const Vector &amp;offset, int p)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>octotigerII::gravity::diagonal::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref> &amp;</type>
+          <defname>l</defname>
+        </param>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1ac7d5630269921b2bafbc53c0c2bdc75b" kindref="member">Vector</ref> &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Return potential and three normalized-coordinate derivatives at an offset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="167" column="12" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="167" bodyend="170" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="62" declcolumn="12"/>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6109366ed08bbd4c7944c0e12eaa580d" compoundref="fmm_8cpp" startline="144" endline="147">derivative</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1aef4d9e75b8216ba034de0b5507cb83a5" compoundref="fmm_8cpp" startline="149" endline="165">shiftLocal</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1a9818f3547f2de0fa274dd6343c286b15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; const <ref refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator" kindref="compound">Operator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; const Operator &gt; octotigerII::gravity::diagonal::getOperator</definition>
+        <argsstring>(int p, Offset separation)</argsstring>
+        <name>getOperator</name>
+        <qualifiedname>octotigerII::gravity::diagonal::getOperator</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6a84296cfc13edbc19b8070c982e2d34" kindref="member">Offset</ref></type>
+          <declname>separation</declname>
+        </param>
+        <briefdescription>
+<para>Find or build an immutable cached translation for the order and integer separation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="237" column="17" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="237" bodyend="251" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="96" declcolumn="17"/>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1ab0a41e06b06a56619ffc78aa03e9d09f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::gravity::diagonal::cachedOperatorCount</definition>
+        <argsstring>()</argsstring>
+        <name>cachedOperatorCount</name>
+        <qualifiedname>octotigerII::gravity::diagonal::cachedOperatorCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of cached order/separation translation operators. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="253" column="13" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="253" bodyend="256" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="99" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1_1diagonal_1af226d57a955c7b03d2d9593636ad03a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::gravity::diagonal::addDirect</definition>
+        <argsstring>(Coefficients &amp;local, double sourceMass, Offset separation, double cellWidth)</argsstring>
+        <name>addDirect</name>
+        <qualifiedname>octotigerII::gravity::diagonal::addDirect</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sourceMass</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6a84296cfc13edbc19b8070c982e2d34" kindref="member">Offset</ref></type>
+          <declname>separation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cellWidth</declname>
+        </param>
+        <briefdescription>
+<para>Add the exact non-self point-source potential and derivatives. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The caller excludes zero separation; physical G is applied by the typed driver. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/diagonal/fmm.cpp" line="258" column="6" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="258" bodyend="268" declfile="include/octotigerII/gravity/diagonal/fmm.hpp" declline="104" declcolumn="6"/>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="15" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="problem_builds" kind="page">
+    <compoundname>problem_builds</compoundname>
+    <title>Problem-specific builds</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The organization follows Castro&apos;s separation of common solver code from problem-local setup, using CMake and OctotigerII&apos;s typed storage/runtime. A build directory selects one problem and one dimension. All executable and library translation units in that directory use the same generated <computeroutput>include/octotigerII/buildConfig.hpp</computeroutput>; no dimension is sent as mutable runtime metadata. Headers that depend on this file must be compiled through the CMake library targets so they inherit the correct generated include directory.</para>
+<sect1 id="problem_builds_1autotoc_md36">
+<title>Problem manifests and implementation</title>
+<para>The top-level CMake configuration discovers <computeroutput>bin/*/*/CMakeLists.txt</computeroutput> manifests. For example, the Sod manifest contains:</para>
+<para><programlisting filename=".cmake"><codeline><highlight class="normal">octo_problem(sod<sp/>DIMENSIONS<sp/>1<sp/>2<sp/>3<sp/>DEFAULT_DIMENSION<sp/>1<sp/>HYDRO)</highlight></codeline>
+</programlisting></para>
+<para><computeroutput>HYDRO</computeroutput>, <computeroutput>RADIATION</computeroutput>, and <computeroutput>GRAVITY</computeroutput> select the required physics. CMake rejects unsupported dimensions, including any gravity build outside 3D. The generated header exposes <computeroutput><ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">octotigerII::ndim</ref></computeroutput> and <computeroutput>build::{problem,hydro,radiation,gravity}</computeroutput>. Only the selected problem&apos;s <computeroutput>problem.cpp</computeroutput> is linked. The gravity FMM sources are compiled only for gravity problems. Unneeded hydro/radiation adapters are not application dependencies; the optional units/serialization checks may still build both adapters to check the common physical interfaces.</para>
+<para>Each problem implements the three hooks in <computeroutput><ref refid="problems_8hpp" kindref="compound">problems.hpp</ref></computeroutput>:</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>problemDefaults(Config&amp;)</computeroutput>: defaults before runtime inputs are applied.</para>
+</listitem><listitem><para><computeroutput>validateProblem(Config const&amp;)</computeroutput>: restrictions specific to that setup.</para>
+</listitem><listitem><para><computeroutput>initializeProblem(Snapshot&amp;, Config const&amp;)</computeroutput>: initialize one interior block.</para>
+</listitem></itemizedlist>
+</para>
+<para>The input parser, mesh, storage and timestep scheduler do not branch on problem names. Add a directory, manifest, implementation, and inputs to introduce a new problem. A new physics implementation still needs its own common-library integration; manifests select existing modules rather than creating a solver.</para>
+<para>Unlike Castro&apos;s generated <computeroutput>_prob_params</computeroutput>, this revision does not introduce a parameter-code generator. The current fixtures use the existing typed Config settings. A future problem requiring additional options should add a typed problem-parameter interface, not an untyped map inside numerical kernels.</para>
+</sect1>
+<sect1 id="problem_builds_1autotoc_md37">
+<title>Compile-time dimension</title>
+<para><computeroutput>OCTOTIGERII_NDIM</computeroutput> sets the literal <computeroutput>ndim</computeroutput> constant. There is no runtime fallback or dispatch between 1D/2D/3D solvers. Coordinates and geometry arrays contain exactly <computeroutput>ndim</computeroutput> entries. Cartesian traversal carries over those entries directly. A block has <computeroutput>cells^ndim</computeroutput> interiors and <computeroutput>(cells+2*ghostWidth)^ndim</computeroutput> padded temporary cells. Child counts are <computeroutput>2^ndim</computeroutput>; each transport workspace has <computeroutput>ndim</computeroutput> directional arrays. Stored hydro states have <computeroutput>ndim+2</computeroutput> scalars; radiation has <computeroutput>ndim+1</computeroutput>. Silo writes only the corresponding coordinates and vector components.</para>
+<para>Lower-dimensional hydro evolves only those momentum components; radiation evolves only those flux components. This is not a 1D/2D calculation retaining three-component transverse dynamics. The M1 closure still describes physical radiation: its isotropic pressure is E/3 even in a 1D or 2D spatial calculation. The 3D gravity algorithm and physical dimensional exponents retain their mathematical constants. CGS diagnostic totals retain a unit transverse measure in reduced dimensions without adding mesh axes or cells.</para>
+</sect1>
+<sect1 id="problem_builds_1autotoc_md38">
+<title>Build and run choices</title>
+<para>Build choices: problem, dimension, compiler, build type and HPX backend. Runtime choices: block cells, level, domain bounds, supported boundaries, physical parameters, timestep and output controls. Changing a runtime choice never regenerates the build header. A gravity executable remains 3D even if an input file attempts to say otherwise; runtime problem/dimension options are rejected with a message identifying the CMake settings.</para>
+<para>Use separate build directories such as <computeroutput>release/sod/1d</computeroutput>, <computeroutput>release/sod/2d</computeroutput>, and <computeroutput>release/collapse/3d</computeroutput>. The executable names are <computeroutput>octotigerII-sod-1d</computeroutput>, <computeroutput>octotigerII-sod-2d</computeroutput>, and <computeroutput>octotigerII-collapse-3d</computeroutput>. Do not mix executables from different builds within an HPX run: their state shapes and action payloads differ.</para>
+<para>The existing <computeroutput>build.sh</computeroutput> is noninteractive and passes these choices to CMake. It shares its HPX dependency between problems of the same build type. The interactive problem/dimension/level wizard is deliberately deferred; see <ref refid="md_ROADMAP" kindref="compound">the roadmap</ref>.</para>
+</sect1>
+<sect1 id="problem_builds_1autotoc_md39">
+<title>Eclipse and clangd</title>
+<para>The checked-in default Eclipse build path and clangd compilation database point to <computeroutput>release/sod/1d</computeroutput>, matching the default preset. For another variant, point Eclipse&apos;s build directory and <computeroutput>.clangd</computeroutput>&apos;s <computeroutput>CompilationDatabase</computeroutput> at that variant&apos;s build directory. CMake writes <computeroutput>compile_commands.json</computeroutput> there, including the matching generated include path. Do not combine dimension-specific generated headers in one include search path.</para>
+</sect1>
+<sect1 id="problem_builds_1autotoc_md40">
+<title>Existing checks</title>
+<para>CTest currently launches custom assertion-based regression executables and a Python application check. It is a test runner, not the Google Test framework. Each configured build checks its own dimension and selected problem; validate multiple builds to cover multiple dimensions. Tests include dimensional types, Cartesian indexing and child topology, selected problem evolution, tiled versus single-block transport, periodic conservation, admissibility, storage lifetime and transfer checks, and Silo readback. Gravity adds the independent direct-sum reference; HPX adds typed serialization checks. Formal Google Test fixtures and individual test cases are a separately deferred step. </para>
+</sect1>
+    </detaileddescription>
+    <location file="BUILDING.md"/>
+  </compounddef>
+</doxygen>

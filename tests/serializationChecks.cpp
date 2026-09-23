@@ -1,3 +1,4 @@
+#include <gtest/gtest.h>
 #include <hpx/include/serialization.hpp>
 #include <iostream>
 #include <stdexcept>
@@ -7,20 +8,17 @@ using namespace octotigerII;
 
 
 namespace {
-void require(bool ok) {
-	if (!ok) throw std::runtime_error("Typed HPX archive roundtrip mismatch");
-}
 
 template <typename State>
 void same(State const& a, State const& b) {
-	a.forEach([&](auto f, auto const& q) { require(q == b.template get<f>()); });
+	a.forEach([&](auto f, auto const& q) { EXPECT_TRUE(q == b.template get<f>()); });
 }
 
 template <typename State>
 void samePatch(mesh::PatchData<State> const& a, mesh::PatchData<State> const& b) {
-	require(a.cellWidth() == b.cellWidth() && a.lower() == b.lower());
-	require(a.timeState().time == b.timeState().time && a.timeState().stepSize == b.timeState().stepSize);
-	require(a.values().size() == b.values().size());
+	EXPECT_TRUE(a.cellWidth() == b.cellWidth() && a.lower() == b.lower());
+	EXPECT_TRUE(a.timeState().time == b.timeState().time && a.timeState().stepSize == b.timeState().stepSize);
+	ASSERT_EQ(a.values().size(), b.values().size());
 	for (std::size_t i = 0; i < a.values().size(); ++i)
 		same(a.values()[i], b.values()[i]);
 }
@@ -78,17 +76,17 @@ void check() {
 		hpx::serialization::input_archive archive(buffer);
 		archive & restored & after & restoredGas & restoredRad;
 	}
-	require(restored.mesh.lower == c.mesh.lower && restored.mesh.upper == c.mesh.upper && restored.runtime.stopTime == c.runtime.stopTime);
-	require(restored.randomSeed == c.randomSeed && restored.verification.gravityReference == c.verification.gravityReference &&
+	EXPECT_TRUE(restored.mesh.lower == c.mesh.lower && restored.mesh.upper == c.mesh.upper && restored.runtime.stopTime == c.runtime.stopTime);
+	EXPECT_TRUE(restored.randomSeed == c.randomSeed && restored.verification.gravityReference == c.verification.gravityReference &&
 		restored.verification.directSamples == c.verification.directSamples && restored.verification.directMaxPairs == c.verification.directMaxPairs);
-	require(restored.verification.analytic == c.verification.analytic && restored.verification.relativeL1Tolerance == c.verification.relativeL1Tolerance &&
+	EXPECT_TRUE(restored.verification.analytic == c.verification.analytic && restored.verification.relativeL1Tolerance == c.verification.relativeL1Tolerance &&
 		restored.verification.absoluteTolerance == c.verification.absoluteTolerance);
-	require(before.time == after.time && before.cellWidth == after.cellWidth && before.lower == after.lower);
+	EXPECT_TRUE(before.time == after.time && before.cellWidth == after.cellWidth && before.lower == after.lower);
 	samePatch(before.hydro, after.hydro);
 	samePatch(before.radiation, after.radiation);
 	samePatch(before.gravity, after.gravity);
-	require(before.density.values() == after.density.values());
-	require(restoredGas.interval.begin == gasFlux.interval.begin && restoredGas.interval.end == gasFlux.interval.end);
+	EXPECT_TRUE(before.density.values() == after.density.values());
+	EXPECT_TRUE(restoredGas.interval.begin == gasFlux.interval.begin && restoredGas.interval.end == gasFlux.interval.end);
 	same(gasFlux.fluxes[0][0], restoredGas.fluxes[0][0]);
 	same(radFlux.fluxes[0][0], restoredRad.fluxes[0][0]);
 }
@@ -96,13 +94,6 @@ void check() {
 }	 // namespace
 
 
-int main() {
-	try {
-		check();
-		std::cout << "Typed CGS HPX serialization passed\n";
-		return 0;
-	} catch (std::exception const& e) {
-		std::cerr << e.what() << '\n';
-		return 1;
-	}
+TEST(Serialization, TypedConfigSnapshotsAndFluxPacketsRoundTrip) {
+	check();
 }

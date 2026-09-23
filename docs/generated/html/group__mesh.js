@@ -1,0 +1,166 @@
+var group__mesh =
+[
+    [ "mesh.hpp", "mesh_8hpp.html", null ],
+    [ "fluxPacket.hpp", "fluxPacket_8hpp.html", null ],
+    [ "subgrid.hpp", "subgrid_8hpp.html", null ],
+    [ "topology.hpp", "topology_8hpp.html", null ],
+    [ "view.hpp", "view_8hpp.html", null ],
+    [ "octotigerII::mesh::MeshLayout", "classoctotigerII_1_1mesh_1_1MeshLayout.html", [
+      [ "MeshLayout", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a7b2803c48c9daa7d1b0bc2120e799091", null ],
+      [ "MeshLayout", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a2923cbb2a975678df1c03834d452c09f", null ],
+      [ "activeChildSlots", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a19372d8bcc8f4497a09a46c67511bd73", null ],
+      [ "cellCenter", "classoctotigerII_1_1mesh_1_1MeshLayout.html#afaa04a837767705f1d129159b56a4a3b", null ],
+      [ "cellCount", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a07538a4a6c7fbcc68a4ce4cbf67d640b", null ],
+      [ "cellMeasure", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a39ec08f5c51aad143dfbeb111b011e3c", null ],
+      [ "cellsPerActiveDimension", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a03b992f37546d7987ddb2cd949bf7953", null ],
+      [ "childCount", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a1f8233705e3e67439c10ede4074d87a6", null ],
+      [ "extent", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a58be569386e2b9fdc7f40affd33e3b68", null ],
+      [ "extents", "classoctotigerII_1_1mesh_1_1MeshLayout.html#ab64d409bc72bff5ecb2028ae7bf3f1ff", null ],
+      [ "faceCount", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a137e20904272d598895291a3eb348e4f", null ],
+      [ "faceExtents", "classoctotigerII_1_1mesh_1_1MeshLayout.html#ac63a9277b676e92dcff233115ec10188", null ],
+      [ "faceIndex", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a647ac0996d4fff4cc081f050e601f214", null ],
+      [ "faceMeasure", "classoctotigerII_1_1mesh_1_1MeshLayout.html#abe1597dfed6152bb296fe41999094bd2", null ],
+      [ "forEachInterior", "classoctotigerII_1_1mesh_1_1MeshLayout.html#acf63adb7ed9fc3ff9043508e337924d0", null ],
+      [ "ghostWidth", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a230c2f0c6f052d03e537800b8d92929d", null ],
+      [ "index", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a963f0fbbdd8826b893db08ba8b4143b2", null ],
+      [ "interiorCellCount", "classoctotigerII_1_1mesh_1_1MeshLayout.html#ab2846127caf35985fea7e72df3af16a1", null ],
+      [ "interiorCoordinates", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a73e36593605365d73a7b4cde65d9d7da", null ],
+      [ "interiorExtent", "classoctotigerII_1_1mesh_1_1MeshLayout.html#aafb6ca9739fdbf2189d4c01012b38d33", null ],
+      [ "interiorExtents", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a12d1ae2608da4f6d8b0dfe8091ba7397", null ],
+      [ "isActiveChild", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a040942501616863ad54a6cbf7a9bb113", null ],
+      [ "isInterior", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a7542062903f8fd03fa7797a75b9a7ed4", null ],
+      [ "product", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a5f832fb8b72f726c80aaa72582942e5a", null ],
+      [ "rebuild", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a9fe864a8e8fedd475a957b42a1ad6e87", null ],
+      [ "serialize", "classoctotigerII_1_1mesh_1_1MeshLayout.html#acee717bdcef55703263b5cfc1aaf5f52", null ],
+      [ "storageCoordinates", "classoctotigerII_1_1mesh_1_1MeshLayout.html#aa2a3dd2fd51fa129ec68f014e40a66de", null ],
+      [ "validateAxis", "classoctotigerII_1_1mesh_1_1MeshLayout.html#abc85a4a713f78426bfc281c3c0a6811b", null ],
+      [ "cellsPerActiveDimension_", "classoctotigerII_1_1mesh_1_1MeshLayout.html#ad2fcd5c952930809317ecfb9eb201743", null ],
+      [ "extents_", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a185971bfd9acd624684a84563c4fb21a", null ],
+      [ "ghostWidth_", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a9bf16616c52e39c5a0e62239943cec0f", null ],
+      [ "interiorExtents_", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a6ce33584ec980fc629d98b87ca8d1278", null ],
+      [ "strides_", "classoctotigerII_1_1mesh_1_1MeshLayout.html#a7a1a2d66bb5abb80436290073b2ee5d1", null ]
+    ] ],
+    [ "octotigerII::mesh::BlockLocation", "classoctotigerII_1_1mesh_1_1BlockLocation.html", [
+      [ "child", "classoctotigerII_1_1mesh_1_1BlockLocation.html#a33d3a1bbb58ec3a0222b3f314fc982ad", null ],
+      [ "childSlot", "classoctotigerII_1_1mesh_1_1BlockLocation.html#a3d2cdddf863395b32d5a0adbb38b0dc5", null ],
+      [ "isRoot", "classoctotigerII_1_1mesh_1_1BlockLocation.html#adf383406a6070b933f16ea24140f420d", null ],
+      [ "parent", "classoctotigerII_1_1mesh_1_1BlockLocation.html#acdb92e656f156b31986ffc1a7bfae37e", null ],
+      [ "serialize", "classoctotigerII_1_1mesh_1_1BlockLocation.html#ab0a4911b2433e3700026716d818397ba", null ],
+      [ "operator==", "classoctotigerII_1_1mesh_1_1BlockLocation.html#a8b65fa1300fc9440388824b87d376acc", null ],
+      [ "coordinates", "classoctotigerII_1_1mesh_1_1BlockLocation.html#aae28a031664c222e73d5b81756695123", null ],
+      [ "level", "classoctotigerII_1_1mesh_1_1BlockLocation.html#a85c8ffba90ae97515580c35ef84d51cf", null ]
+    ] ],
+    [ "octotigerII::mesh::BlockLocationHash", "classoctotigerII_1_1mesh_1_1BlockLocationHash.html", [
+      [ "operator()", "classoctotigerII_1_1mesh_1_1BlockLocationHash.html#a45d7cab7961656e0f4db152af0377057", null ]
+    ] ],
+    [ "octotigerII::mesh::TimeState", "classoctotigerII_1_1mesh_1_1TimeState.html", [
+      [ "completeStep", "classoctotigerII_1_1mesh_1_1TimeState.html#ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1", null ],
+      [ "nextTime", "classoctotigerII_1_1mesh_1_1TimeState.html#a55e34488b1e37a377dc4ae32058839cd", null ],
+      [ "serialize", "classoctotigerII_1_1mesh_1_1TimeState.html#a9a02ec4a2b2a9e74e78695e3870c8556", null ],
+      [ "synchronizedWith", "classoctotigerII_1_1mesh_1_1TimeState.html#abf492b30064177a753197998c56cf9d9", null ],
+      [ "step", "classoctotigerII_1_1mesh_1_1TimeState.html#a94e52817f7cecaccd74a780c2c1a3a55", null ],
+      [ "stepSize", "classoctotigerII_1_1mesh_1_1TimeState.html#a84894582bfa257d5e0dcff8280722158", null ],
+      [ "substep", "classoctotigerII_1_1mesh_1_1TimeState.html#aabeb54f5ba0f535c1cf084ee9acf4519", null ],
+      [ "temporalLevel", "classoctotigerII_1_1mesh_1_1TimeState.html#a7ab0e56960fcce92042b4fbf7376327e", null ],
+      [ "time", "classoctotigerII_1_1mesh_1_1TimeState.html#ac136e67baee38ef8c070855f2784966c", null ]
+    ] ],
+    [ "octotigerII::mesh::TimeInterval", "classoctotigerII_1_1mesh_1_1TimeInterval.html", [
+      [ "contains", "classoctotigerII_1_1mesh_1_1TimeInterval.html#a0b9a076ef3d6e8ca73868dbfa5407ca0", null ],
+      [ "duration", "classoctotigerII_1_1mesh_1_1TimeInterval.html#ad88a88f3279d0101d0c2a94cfa3d3216", null ],
+      [ "serialize", "classoctotigerII_1_1mesh_1_1TimeInterval.html#a1d4eee69338069873d10ec7d7fb07ae1", null ],
+      [ "begin", "classoctotigerII_1_1mesh_1_1TimeInterval.html#a6828c99f501964ef0ff349ff137e229b", null ],
+      [ "end", "classoctotigerII_1_1mesh_1_1TimeInterval.html#a3f121bea32fcfad416f25567e148b027", null ]
+    ] ],
+    [ "octotigerII::mesh::PatchData< State >", "classoctotigerII_1_1mesh_1_1PatchData.html", [
+      [ "PatchData", "classoctotigerII_1_1mesh_1_1PatchData.html#a1345ac9415cbb84b73df399f7fa72f43", null ],
+      [ "PatchData", "classoctotigerII_1_1mesh_1_1PatchData.html#adddc4d40807c6f1e148c981ee71f9257", null ],
+      [ "atInterior", "classoctotigerII_1_1mesh_1_1PatchData.html#a20727b0d5fab10f657388f166cd27a79", null ],
+      [ "atInterior", "classoctotigerII_1_1mesh_1_1PatchData.html#a88859a96cf8c4481ad91c0a929ccc512", null ],
+      [ "atStorage", "classoctotigerII_1_1mesh_1_1PatchData.html#a71a63123a81958de3f7a2e942f0d38ff", null ],
+      [ "atStorage", "classoctotigerII_1_1mesh_1_1PatchData.html#a62f231cf1e795acae33838558418f75d", null ],
+      [ "cellWidth", "classoctotigerII_1_1mesh_1_1PatchData.html#a77145162ffb0a577000f15e9d04dfcea", null ],
+      [ "layout", "classoctotigerII_1_1mesh_1_1PatchData.html#a2211e21573bb7f2357f25d4f0ee7c124", null ],
+      [ "lower", "classoctotigerII_1_1mesh_1_1PatchData.html#af4d32cbc6eb8d41846b97917b46bc2a7", null ],
+      [ "serialize", "classoctotigerII_1_1mesh_1_1PatchData.html#a564315a1f369f7ec07934b59f0d4f8d8", null ],
+      [ "timeState", "classoctotigerII_1_1mesh_1_1PatchData.html#a222cbe783dbd1b4a43dbeea3e8dc2e97", null ],
+      [ "timeState", "classoctotigerII_1_1mesh_1_1PatchData.html#a6482b9ef6d7e480fffeea63d44c1d36e", null ],
+      [ "values", "classoctotigerII_1_1mesh_1_1PatchData.html#a963a779b95491e27dc71334e9811a9f1", null ],
+      [ "values", "classoctotigerII_1_1mesh_1_1PatchData.html#a9b9d2373c91486bab4c9c91797c16bc6", null ],
+      [ "cellWidth_", "classoctotigerII_1_1mesh_1_1PatchData.html#a57185c3c73f73ba0b485e169ec237ab0", null ],
+      [ "layout_", "classoctotigerII_1_1mesh_1_1PatchData.html#a720414efdbd4cd715588a834d66aca97", null ],
+      [ "lower_", "classoctotigerII_1_1mesh_1_1PatchData.html#a6e753b3c793c83c13ce5c559b306e284", null ],
+      [ "timeState_", "classoctotigerII_1_1mesh_1_1PatchData.html#a8217418d8a169aa0c77d94eca48403b3", null ],
+      [ "values_", "classoctotigerII_1_1mesh_1_1PatchData.html#a39a8ab36926f1d4d0b1a340f4ffe0740", null ]
+    ] ],
+    [ "octotigerII::FieldFluxPacket< State >", "structoctotigerII_1_1FieldFluxPacket.html", [
+      [ "serialize", "structoctotigerII_1_1FieldFluxPacket.html#a736c35f311e350425d19e431a23237b7", null ],
+      [ "serialize", "structoctotigerII_1_1FieldFluxPacket.html#a736c35f311e350425d19e431a23237b7", null ],
+      [ "cellWidth", "structoctotigerII_1_1FieldFluxPacket.html#a89b05a198fc84d327a84a281f822728a", null ],
+      [ "fluxes", "structoctotigerII_1_1FieldFluxPacket.html#ae56f062bb391d91e672f5872c74f86cc", null ],
+      [ "interval", "structoctotigerII_1_1FieldFluxPacket.html#a13d02c314d8ef4edb962d362c782ca5b", null ],
+      [ "layout", "structoctotigerII_1_1FieldFluxPacket.html#a5667523a5871f3719acd18f1e9c9f880", null ],
+      [ "location", "structoctotigerII_1_1FieldFluxPacket.html#afea884bd5e0c3316e8a5070d06406491", null ],
+      [ "lower", "structoctotigerII_1_1FieldFluxPacket.html#a3425b064b818a7112e3c4ad646f4dd7e", null ]
+    ] ],
+    [ "octotigerII::Snapshot", "classoctotigerII_1_1Snapshot.html", [
+      [ "serialize", "classoctotigerII_1_1Snapshot.html#ae23b87b2ebf6be5802a72816a474478f", null ],
+      [ "cellWidth", "classoctotigerII_1_1Snapshot.html#acc0009efba1f7723faaf9a3267fadb1a", null ],
+      [ "density", "classoctotigerII_1_1Snapshot.html#a898cba6e3e7d46c9165b7a2c3764cf9d", null ],
+      [ "gravity", "classoctotigerII_1_1Snapshot.html#ae4ee69893cc739158ec25ac0bc07fc30", null ],
+      [ "gravityEnabled", "classoctotigerII_1_1Snapshot.html#aebb654624db4d4b90ef7df5339d4f2ea", null ],
+      [ "hydro", "classoctotigerII_1_1Snapshot.html#a297b51fa084fe51816181e1e09a1219e", null ],
+      [ "hydroEnabled", "classoctotigerII_1_1Snapshot.html#ae678641a91816426ebace0c5b832a61b", null ],
+      [ "layout", "classoctotigerII_1_1Snapshot.html#ae7afcfe262a676095526b633c918ca81", null ],
+      [ "location", "classoctotigerII_1_1Snapshot.html#af67d64db71174c845073c16c215d1a47", null ],
+      [ "lower", "classoctotigerII_1_1Snapshot.html#a571359395d5fc10fbb565c2e84f9ea46", null ],
+      [ "radiation", "classoctotigerII_1_1Snapshot.html#a46648a2cc4a7bb406f77ca88f5abba3f", null ],
+      [ "radiationEnabled", "classoctotigerII_1_1Snapshot.html#ae1937e11cbc5cfd0c9d4928bdaa0cb61", null ],
+      [ "time", "classoctotigerII_1_1Snapshot.html#a42348fb70bc15406f78fb904ae92cbe2", null ]
+    ] ],
+    [ "octotigerII::Subgrid", "classoctotigerII_1_1Subgrid.html", [
+      [ "serialize", "classoctotigerII_1_1Subgrid.html#a395c046a72d801d0daf2ffe087cce28d", null ],
+      [ "cellWidth", "classoctotigerII_1_1Subgrid.html#ad78e1b97121711764150cb3766bf2398", null ],
+      [ "id", "classoctotigerII_1_1Subgrid.html#ad9ce450822e2cbf0f569975475dd7640", null ],
+      [ "interior", "classoctotigerII_1_1Subgrid.html#a80a4f5e2bec4153114bac4d6140801f9", null ],
+      [ "layout", "classoctotigerII_1_1Subgrid.html#a23e9d249bdf53c62604a3d72aa3b131d", null ],
+      [ "location", "classoctotigerII_1_1Subgrid.html#a9b121b42447139730774e7ca7071807c", null ],
+      [ "lower", "classoctotigerII_1_1Subgrid.html#a9150fc6c931a4b19ddf75a424374dee4", null ]
+    ] ],
+    [ "octotigerII::HaloCopy", "classoctotigerII_1_1HaloCopy.html", [
+      [ "serialize", "classoctotigerII_1_1HaloCopy.html#ad73dbae54f2d26486a92a50271d5f3fa", null ],
+      [ "destination", "classoctotigerII_1_1HaloCopy.html#a08df39385888d61170802e759a71277c", null ],
+      [ "source", "classoctotigerII_1_1HaloCopy.html#a09e8350707699ed6f9cc8454df8e1112", null ]
+    ] ],
+    [ "octotigerII::HaloRead", "classoctotigerII_1_1HaloRead.html", [
+      [ "serialize", "classoctotigerII_1_1HaloRead.html#a1aa3d4fe7b76628239a42eed4ee17358", null ],
+      [ "copies", "classoctotigerII_1_1HaloRead.html#ad6d3064402c3b1aef938276047c5f175", null ],
+      [ "range", "classoctotigerII_1_1HaloRead.html#aa815448aa38eb0caaf83d76ae8f9f508", null ]
+    ] ],
+    [ "octotigerII::HaloPlan", "classoctotigerII_1_1HaloPlan.html", [
+      [ "serialize", "classoctotigerII_1_1HaloPlan.html#ab80e8dd8d4bd582b5ab1aa5df18f2917", null ],
+      [ "ghostCount", "classoctotigerII_1_1HaloPlan.html#aa26f8ecb46cd5ac17082b4fd1167e6f3", null ],
+      [ "ghostIndices", "classoctotigerII_1_1HaloPlan.html#a2a21fc7d0231f03884f1b0e402652b99", null ],
+      [ "reads", "classoctotigerII_1_1HaloPlan.html#a35601b21d3135a3fffcde7edff3b77ca", null ]
+    ] ],
+    [ "octotigerII::CartesianTopology", "classoctotigerII_1_1CartesianTopology.html", [
+      [ "CartesianTopology", "classoctotigerII_1_1CartesianTopology.html#ae2f84422ca930c73dc752a83586cbdf3", null ],
+      [ "blocks", "classoctotigerII_1_1CartesianTopology.html#a2ec716ed001a17c829aa920cc842dc8d", null ],
+      [ "halo", "classoctotigerII_1_1CartesianTopology.html#afc2403e247e49041a4ae82933c25766c", null ],
+      [ "storageLayout", "classoctotigerII_1_1CartesianTopology.html#a522e0d6cb2a7b9318c062c2c9d4702de", null ],
+      [ "blocks_", "classoctotigerII_1_1CartesianTopology.html#a570f99b9887b2624241ddbb2e6a2225b", null ],
+      [ "config_", "classoctotigerII_1_1CartesianTopology.html#a67d6b4cd8dc932c40720314402ebb938", null ],
+      [ "layout_", "classoctotigerII_1_1CartesianTopology.html#abae117c1319635179aba2b979eab014e", null ]
+    ] ],
+    [ "octotigerII::PatchView< State >", "classoctotigerII_1_1PatchView.html", [
+      [ "PatchView", "classoctotigerII_1_1PatchView.html#a58b1531d4a7fa5f4c2fb1a24ba6eb76e", null ],
+      [ "atInterior", "classoctotigerII_1_1PatchView.html#a900f457eddd87993c109c5983c50c866", null ],
+      [ "atStorage", "classoctotigerII_1_1PatchView.html#afc9d4bbcca2b8da4ee11e14824092741", null ],
+      [ "cellWidth", "classoctotigerII_1_1PatchView.html#aa8f16e39e0d875bc371a093207047968", null ],
+      [ "layout", "classoctotigerII_1_1PatchView.html#a29b713655acbfcd034ca87073f280378", null ],
+      [ "block_", "classoctotigerII_1_1PatchView.html#ac53670035bc14a13f6d7e7c44c44eac6", null ],
+      [ "ghosts_", "classoctotigerII_1_1PatchView.html#ae3d133c89d4a6e5da2fde0b2b64b2614", null ],
+      [ "interior_", "classoctotigerII_1_1PatchView.html#a49422fcca7682643df4291569ee5271e", null ],
+      [ "padded_", "classoctotigerII_1_1PatchView.html#a3e7ddad71e5e73e69773ad3029424946", null ],
+      [ "plan_", "classoctotigerII_1_1PatchView.html#a84d7fac4b2b3f9ec25a2c5fcace2069d", null ]
+    ] ]
+];

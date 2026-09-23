@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_06cbe8445dabb17c6a194d53b129790a" kind="dir">
+    <compoundname>Exec/science</compoundname>
+    <innerdir refid="dir_6a6c834c12e94b15b749cb9f20c3fedd">Exec/science/Collapse</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Exec/science/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1_0d40" kind="namespace" language="C++">
+    <compoundname>octotigerII</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespaceoctotigerII_1_1_0d40_1ab05f736d54be34e3cb6ab2c92b749a69" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Operation</name>
+        <qualifiedname>octotigerII::Operation</qualifiedname>
+        <enumvalue id="namespaceoctotigerII_1_1_0d40_1ab05f736d54be34e3cb6ab2c92b749a69a2163174f7d9e4d664ad78062c435ddd1" prot="public">
+          <name>Timestep</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1_0d40_1ab05f736d54be34e3cb6ab2c92b749a69a0a86dddc699c7e6fe7f1e43153a5cbee" prot="public">
+          <name>Advance</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1_0d40_1ab05f736d54be34e3cb6ab2c92b749a69a3e07960fcc45408894cf1402257bd9fd" prot="public">
+          <name>Kick</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="121" column="1" bodyfile="src/runtime.cpp" bodystart="122" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/runtime.cpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

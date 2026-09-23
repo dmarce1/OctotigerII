@@ -1,0 +1,1410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="82"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-09-23T01:42:34"
+	>
+	<testcase name="sod.2d.Units.CgsConversionsAndConstants" classname="sod.2d.Units.CgsConversionsAndConstants" time="0.00352732" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Units.CgsConversionsAndConstants
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Units
+[ RUN      ] Units.CgsConversionsAndConstants
+[       OK ] Units.CgsConversionsAndConstants (0 ms)
+[----------] 1 test from Units (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Units.HydroEnergyAndFluxDimensions" classname="sod.2d.Units.HydroEnergyAndFluxDimensions" time="0.00335645" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Units.HydroEnergyAndFluxDimensions
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Units
+[ RUN      ] Units.HydroEnergyAndFluxDimensions
+[       OK ] Units.HydroEnergyAndFluxDimensions (0 ms)
+[----------] 1 test from Units (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Units.DimensionalMeshAndChildTopology" classname="sod.2d.Units.DimensionalMeshAndChildTopology" time="0.00363561" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Units.DimensionalMeshAndChildTopology
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Units
+[ RUN      ] Units.DimensionalMeshAndChildTopology
+[       OK ] Units.DimensionalMeshAndChildTopology (0 ms)
+[----------] 1 test from Units (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Mesh.FaceIndicesCoverEachFaceExactlyOnce" classname="sod.2d.Mesh.FaceIndicesCoverEachFaceExactlyOnce" time="0.00382037" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.FaceIndicesCoverEachFaceExactlyOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.FaceIndicesCoverEachFaceExactlyOnce
+[       OK ] Mesh.FaceIndicesCoverEachFaceExactlyOnce (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes" classname="sod.2d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes" time="0.00374946" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+[       OK ] Mesh.RejectsInvalidExtentsCoordinatesAndAxes (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Mesh.CgsGeometryAndPatchBounds" classname="sod.2d.Mesh.CgsGeometryAndPatchBounds" time="0.0037813" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.CgsGeometryAndPatchBounds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.CgsGeometryAndPatchBounds
+[       OK ] Mesh.CgsGeometryAndPatchBounds (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.BlockTopology.ChildBitsParentAndInvalidSlots" classname="sod.2d.BlockTopology.ChildBitsParentAndInvalidSlots" time="0.00376085" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = BlockTopology.ChildBitsParentAndInvalidSlots
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from BlockTopology
+[ RUN      ] BlockTopology.ChildBitsParentAndInvalidSlots
+[       OK ] BlockTopology.ChildBitsParentAndInvalidSlots (0 ms)
+[----------] 1 test from BlockTopology (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.TimeMetadata.StepPublicationSynchronizationAndIntervals" classname="sod.2d.TimeMetadata.StepPublicationSynchronizationAndIntervals" time="0.00373068" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TimeMetadata.StepPublicationSynchronizationAndIntervals
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeMetadata
+[ RUN      ] TimeMetadata.StepPublicationSynchronizationAndIntervals
+[       OK ] TimeMetadata.StepPublicationSynchronizationAndIntervals (0 ms)
+[----------] 1 test from TimeMetadata (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact" classname="sod.2d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact" time="0.00366733" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StorageLayout
+[ RUN      ] StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+[       OK ] StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact (0 ms)
+[----------] 1 test from StorageLayout (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.StorageLayout.EmptyPartitionsOverflowAndSlices" classname="sod.2d.StorageLayout.EmptyPartitionsOverflowAndSlices" time="0.0037913" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = StorageLayout.EmptyPartitionsOverflowAndSlices
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StorageLayout
+[ RUN      ] StorageLayout.EmptyPartitionsOverflowAndSlices
+[       OK ] StorageLayout.EmptyPartitionsOverflowAndSlices (0 ms)
+[----------] 1 test from StorageLayout (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0" classname="sod.2d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0" time="0.00354237" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1" classname="sod.2d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1" time="0.00351761" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2" classname="sod.2d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2" time="0.0033877" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.VectorMath.InitializationArithmeticAndDotProduct" classname="sod.2d.VectorMath.InitializationArithmeticAndDotProduct" time="0.00294946" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.InitializationArithmeticAndDotProduct
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.InitializationArithmeticAndDotProduct
+[       OK ] VectorMath.InitializationArithmeticAndDotProduct (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.VectorMath.InPlaceScalarAliasingAndIntegerDivision" classname="sod.2d.VectorMath.InPlaceScalarAliasingAndIntegerDivision" time="0.00286545" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.InPlaceScalarAliasingAndIntegerDivision
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.InPlaceScalarAliasingAndIntegerDivision
+[       OK ] VectorMath.InPlaceScalarAliasingAndIntegerDivision (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.VectorMath.SplitConcatenateAndUnitVectors" classname="sod.2d.VectorMath.SplitConcatenateAndUnitVectors" time="0.00259933" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.SplitConcatenateAndUnitVectors
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.SplitConcatenateAndUnitVectors
+[       OK ] VectorMath.SplitConcatenateAndUnitVectors (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Options.HierarchicalIniSections" classname="sod.2d.Options.HierarchicalIniSections" time="0.00279825" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.HierarchicalIniSections
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.HierarchicalIniSections
+[       OK ] Options.HierarchicalIniSections (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Options.CliOverridesIniRegardlessOfArgumentOrder" classname="sod.2d.Options.CliOverridesIniRegardlessOfArgumentOrder" time="0.00293713" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.CliOverridesIniRegardlessOfArgumentOrder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.CliOverridesIniRegardlessOfArgumentOrder
+[       OK ] Options.CliOverridesIniRegardlessOfArgumentOrder (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Options.LegacyAndCanonicalNamesSharePrecedence" classname="sod.2d.Options.LegacyAndCanonicalNamesSharePrecedence" time="0.00291746" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.LegacyAndCanonicalNamesSharePrecedence
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.LegacyAndCanonicalNamesSharePrecedence
+[       OK ] Options.LegacyAndCanonicalNamesSharePrecedence (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Options.LaterIniOverridesEarlierAndCliOverridesBoth" classname="sod.2d.Options.LaterIniOverridesEarlierAndCliOverridesBoth" time="0.00295227" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.LaterIniOverridesEarlierAndCliOverridesBoth
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.LaterIniOverridesEarlierAndCliOverridesBoth
+[       OK ] Options.LaterIniOverridesEarlierAndCliOverridesBoth (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Options.MissingAndMalformedIniAreRejected" classname="sod.2d.Options.MissingAndMalformedIniAreRejected" time="0.00294138" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.MissingAndMalformedIniAreRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.MissingAndMalformedIniAreRejected
+[       OK ] Options.MissingAndMalformedIniAreRejected (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp" classname="sod.2d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp" time="0.00312228" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from OptionValues
+[ RUN      ] OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+[       OK ] OptionValues.SplitArgumentsSamplingAndGeneratedHelp (0 ms)
+[----------] 1 test from OptionValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.OptionValues.DuplicateAliasIsRejected" classname="sod.2d.OptionValues.DuplicateAliasIsRejected" time="0.00312835" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = OptionValues.DuplicateAliasIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from OptionValues
+[ RUN      ] OptionValues.DuplicateAliasIsRejected
+[       OK ] OptionValues.DuplicateAliasIsRejected (0 ms)
+[----------] 1 test from OptionValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/1" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/1" time="0.00331236" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/0
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/0 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/2" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/2" time="0.00307697" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/1
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/1 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/3" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/3" time="0.00285147" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/2
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/2 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/4" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/4" time="0.00301191" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/3
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/3 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/5" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/5" time="0.00296482" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/4
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/4
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/4 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/6" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/6" time="0.00349959" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/5
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/5
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/5 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/7" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/7" time="0.00358073" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/6
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/6
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/6 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/8" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/8" time="0.00379786" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/7
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/7
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/7 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/9" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/9" time="0.00364223" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/8
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/8
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/8 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/10" classname="sod.2d.Orders/MultipoleOption.SupportedOrderIsAccepted/10" time="0.00299629" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/9
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/9
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/9 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--not.an.option=1&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--not.an.option=1&quot;" time="0.00283512" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/0
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/0 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--problem.name=sod&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--problem.name=sod&quot;" time="0.00281079" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/1
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/1 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.ndim=3&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.ndim=3&quot;" time="0.00281716" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/2
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/2 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.cells=3&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.cells=3&quot;" time="0.00282003" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/3
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/3 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.level=-1&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.level=-1&quot;" time="0.00434202" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/4
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/4
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/4 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=0&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=0&quot;" time="0.00394632" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/5
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/5
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/5 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=11&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=11&quot;" time="0.00393766" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/6
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/6
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/6 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0&quot;" time="0.00391685" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/7
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/7
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/7 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0.6&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0.6&quot;" time="0.00245596" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/8
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/8
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/8 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=nan&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=nan&quot;" time="0.00247517" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/9
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/9
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/9 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleO=4&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleO=4&quot;" time="0.00258147" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/10
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/10
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/10 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=inf&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=inf&quot;" time="0.00250652" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/11
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/11
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/11 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=1&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=1&quot;" time="0.00252216" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/12
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/12
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/12 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.gravityReference=invalid&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.gravityReference=invalid&quot;" time="0.00269545" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/13
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/13
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/13 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directSamples=-1&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directSamples=-1&quot;" time="0.00257802" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/14
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/14
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/14 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directMaxPairs=0&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directMaxPairs=0&quot;" time="0.00255751" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/15
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/15
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/15 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--randomSeed=-1&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--randomSeed=-1&quot;" time="0.00257371" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/16
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/16
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/16 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.workStealing=yes&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.workStealing=yes&quot;" time="0.0023877" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/17
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/17
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/17 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.stopTime=-1&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.stopTime=-1&quot;" time="0.00238715" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/18
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/18
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/18 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--radiation.lightSpeedRatio=0&quot;" classname="sod.2d.Validation/InvalidOption.RejectsInvalidValue/&quot;--radiation.lightSpeedRatio=0&quot;" time="0.00366996" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/19
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/19
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/19 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.SlopeValues.IndependentUnequalSlopeValues" classname="sod.2d.SlopeValues.IndependentUnequalSlopeValues" time="0.003626" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = SlopeValues.IndependentUnequalSlopeValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SlopeValues
+[ RUN      ] SlopeValues.IndependentUnequalSlopeValues
+[       OK ] SlopeValues.IndependentUnequalSlopeValues (0 ms)
+[----------] 1 test from SlopeValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;00-00 00-00&gt;" classname="sod.2d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;00-00 00-00&gt;" time="0.00362118" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;01-00 00-00&gt;" classname="sod.2d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;01-00 00-00&gt;" time="0.00420507" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;02-00 00-00&gt;" classname="sod.2d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;02-00 00-00&gt;" time="0.00312855" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;00-00 00-00&gt;" classname="sod.2d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;00-00 00-00&gt;" time="0.003162" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;01-00 00-00&gt;" classname="sod.2d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;01-00 00-00&gt;" time="0.0047361" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;02-00 00-00&gt;" classname="sod.2d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;02-00 00-00&gt;" time="0.00196499" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy" classname="sod.2d.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy" time="0.00338828" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Hydro.PrimitiveRoundTripAndIndependentTotalEnergy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Hydro
+[ RUN      ] Hydro.PrimitiveRoundTripAndIndependentTotalEnergy
+[       OK ] Hydro.PrimitiveRoundTripAndIndependentTotalEnergy (0 ms)
+[----------] 1 test from Hydro (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Hydro.EulerFluxAndAcousticSpeedInEveryDirection" classname="sod.2d.Hydro.EulerFluxAndAcousticSpeedInEveryDirection" time="0.00382985" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Hydro.EulerFluxAndAcousticSpeedInEveryDirection
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Hydro
+[ RUN      ] Hydro.EulerFluxAndAcousticSpeedInEveryDirection
+[       OK ] Hydro.EulerFluxAndAcousticSpeedInEveryDirection (0 ms)
+[----------] 1 test from Hydro (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux" classname="sod.2d.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux" time="0.00394826" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Hydro
+[ RUN      ] Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux
+[       OK ] Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux (0 ms)
+[----------] 1 test from Hydro (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Hydro.SupersonicRiemannFluxUsesUpwindState" classname="sod.2d.Hydro.SupersonicRiemannFluxUsesUpwindState" time="0.00300491" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Hydro.SupersonicRiemannFluxUsesUpwindState
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Hydro
+[ RUN      ] Hydro.SupersonicRiemannFluxUsesUpwindState
+[       OK ] Hydro.SupersonicRiemannFluxUsesUpwindState (0 ms)
+[----------] 1 test from Hydro (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive" classname="sod.2d.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive" time="0.00458498" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Hydro
+[ RUN      ] Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive
+[       OK ] Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive (0 ms)
+[----------] 1 test from Hydro (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Hydro.RejectsVacuumNegativePressureAndNonfiniteState" classname="sod.2d.Hydro.RejectsVacuumNegativePressureAndNonfiniteState" time="0.00188463" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Hydro.RejectsVacuumNegativePressureAndNonfiniteState
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Hydro
+[ RUN      ] Hydro.RejectsVacuumNegativePressureAndNonfiniteState
+[       OK ] Hydro.RejectsVacuumNegativePressureAndNonfiniteState (0 ms)
+[----------] 1 test from Hydro (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Hydro.FluxLimiterRepairsDestructiveFluxConservatively" classname="sod.2d.Hydro.FluxLimiterRepairsDestructiveFluxConservatively" time="0.00380909" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Hydro.FluxLimiterRepairsDestructiveFluxConservatively
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Hydro
+[ RUN      ] Hydro.FluxLimiterRepairsDestructiveFluxConservatively
+[       OK ] Hydro.FluxLimiterRepairsDestructiveFluxConservatively (0 ms)
+[----------] 1 test from Hydro (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.HydroValidation.RejectsInvalidEosAndFloors" classname="sod.2d.HydroValidation.RejectsInvalidEosAndFloors" time="0.00392318" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = HydroValidation.RejectsInvalidEosAndFloors
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from HydroValidation
+[ RUN      ] HydroValidation.RejectsInvalidEosAndFloors
+[       OK ] HydroValidation.RejectsInvalidEosAndFloors (0 ms)
+[----------] 1 test from HydroValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.FiniteVolume.UniformStateIsPreservedForEveryLimiter&lt;octotigerII::hydro::HydroSystem&gt;" classname="sod.2d.FiniteVolume.UniformStateIsPreservedForEveryLimiter&lt;octotigerII::hydro::HydroSystem&gt;" time="0.00398124" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.UniformStateIsPreservedForEveryLimiter
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::hydro::HydroSystem
+[ RUN      ] FiniteVolume/0.UniformStateIsPreservedForEveryLimiter
+[       OK ] FiniteVolume/0.UniformStateIsPreservedForEveryLimiter (0 ms)
+[----------] 1 test from FiniteVolume/0 (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent&lt;octotigerII::hydro::HydroSystem&gt;" classname="sod.2d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent&lt;octotigerII::hydro::HydroSystem&gt;" time="0.00504257" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.NonuniformPeriodicEvolutionConservesEveryComponent
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::hydro::HydroSystem
+[ RUN      ] FiniteVolume/0.NonuniformPeriodicEvolutionConservesEveryComponent
+[       OK ] FiniteVolume/0.NonuniformPeriodicEvolutionConservesEveryComponent (1 ms)
+[----------] 1 test from FiniteVolume/0 (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners&lt;octotigerII::hydro::HydroSystem&gt;" classname="sod.2d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners&lt;octotigerII::hydro::HydroSystem&gt;" time="0.00192896" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.GhostRulesCoverFacesEdgesAndCorners
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::hydro::HydroSystem
+[ RUN      ] FiniteVolume/0.GhostRulesCoverFacesEdgesAndCorners
+[       OK ] FiniteVolume/0.GhostRulesCoverFacesEdgesAndCorners (0 ms)
+[----------] 1 test from FiniteVolume/0 (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs&lt;octotigerII::hydro::HydroSystem&gt;" classname="sod.2d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs&lt;octotigerII::hydro::HydroSystem&gt;" time="0.00389301" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.CflScalesWithCellWidthAndRejectsInvalidInputs
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::hydro::HydroSystem
+[ RUN      ] FiniteVolume/0.CflScalesWithCellWidthAndRejectsInvalidInputs
+[       OK ] FiniteVolume/0.CflScalesWithCellWidthAndRejectsInvalidInputs (0 ms)
+[----------] 1 test from FiniteVolume/0 (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes&lt;octotigerII::hydro::HydroSystem&gt;" classname="sod.2d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes&lt;octotigerII::hydro::HydroSystem&gt;" time="0.00429568" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.BoundaryUpdaterReceivesBeginningAndEndTimes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::hydro::HydroSystem
+[ RUN      ] FiniteVolume/0.BoundaryUpdaterReceivesBeginningAndEndTimes
+[       OK ] FiniteVolume/0.BoundaryUpdaterReceivesBeginningAndEndTimes (0 ms)
+[----------] 1 test from FiniteVolume/0 (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Transport.HydroDecompositionConservationAndAdmissibility" classname="sod.2d.Transport.HydroDecompositionConservationAndAdmissibility" time="0.00450091" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Transport.HydroDecompositionConservationAndAdmissibility
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Transport
+[ RUN      ] Transport.HydroDecompositionConservationAndAdmissibility
+sod 2D decomposition and admissibility passed
+  Scheduling: 24 local, 0 stolen tasks
+[       OK ] Transport.HydroDecompositionConservationAndAdmissibility (0 ms)
+[----------] 1 test from Transport (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Storage.IndependentFieldsBanksViewsTypesAndRetirement" classname="sod.2d.Storage.IndependentFieldsBanksViewsTypesAndRetirement" time="0.0029874" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Storage.IndependentFieldsBanksViewsTypesAndRetirement
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Storage
+[ RUN      ] Storage.IndependentFieldsBanksViewsTypesAndRetirement
+Shared partitions, independent layouts/fields, physical flux, views, banks, type validation and retirement passed
+[       OK ] Storage.IndependentFieldsBanksViewsTypesAndRetirement (0 ms)
+[----------] 1 test from Storage (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.Runtime.FailedStageRollsBackAndRetryPublishesOnce" classname="sod.2d.Runtime.FailedStageRollsBackAndRetryPublishesOnce" time="0.0037256" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Runtime.FailedStageRollsBackAndRetryPublishesOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Runtime
+[ RUN      ] Runtime.FailedStageRollsBackAndRetryPublishesOnce
+Failed stage rollback, retry, publication and task accounting passed (8 local, 0 stolen tasks)
+[       OK ] Runtime.FailedStageRollsBackAndRetryPublishesOnce (0 ms)
+[----------] 1 test from Runtime (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.AnalyticReference.IndependentSphereSodAndStreamingIdentities" classname="sod.2d.AnalyticReference.IndependentSphereSodAndStreamingIdentities" time="0.00198623" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = AnalyticReference.IndependentSphereSodAndStreamingIdentities
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AnalyticReference
+[ RUN      ] AnalyticReference.IndependentSphereSodAndStreamingIdentities
+[       OK ] AnalyticReference.IndependentSphereSodAndStreamingIdentities (0 ms)
+[----------] 1 test from AnalyticReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.AnalyticReference.ErrorNormsAndAccuracyPolicy" classname="sod.2d.AnalyticReference.ErrorNormsAndAccuracyPolicy" time="0.00367972" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = AnalyticReference.ErrorNormsAndAccuracyPolicy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AnalyticReference
+[ RUN      ] AnalyticReference.ErrorNormsAndAccuracyPolicy
+[       OK ] AnalyticReference.ErrorNormsAndAccuracyPolicy (0 ms)
+[----------] 1 test from AnalyticReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.AnalyticConvergence.MeshRefinementReducesError" classname="sod.2d.AnalyticConvergence.MeshRefinementReducesError" time="0.389855" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = AnalyticConvergence.MeshRefinementReducesError
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AnalyticConvergence
+[ RUN      ] AnalyticConvergence.MeshRefinementReducesError
+n=32
+Analytic comparison: available | Sod exact Riemann solution | cell centers | t=0.15 s | relative L1/L2/Linf
+  density L1=0.0256999 L2=0.0366648 Linf=0.0656344
+  pressure L1=0.0236738 L2=0.0385353 Linf=0.0910477
+  gasEnergy L1=0.0240957 L2=0.0389408 Linf=0.10154
+  velocityX L1=0.106272 L2=0.188671 Linf=0.566667
+  momentumX L1=0.104427 L2=0.127486 Linf=0.252465
+  velocityY L1=undefined L2=undefined Linf=undefined (zero analytic field; absolute [cm/s] L1=0 L2=0 Linf=0)
+  momentumY L1=undefined L2=undefined Linf=undefined (zero analytic field; absolute [g/(cm^2 s)] L1=0 L2=0 Linf=0)
+n=64
+Analytic comparison: available | Sod exact Riemann solution | cell centers | t=0.15 s | relative L1/L2/Linf
+  density L1=0.0129469 L2=0.0226831 Linf=0.070955...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="sod.2d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip" classname="sod.2d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip" time="0.0166176" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SiloOutput
+[ RUN      ] SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+sod 2D Silo roundtrip passed
+[       OK ] SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip (9 ms)
+[----------] 1 test from SiloOutput (9 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (9 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="example.sod.2d" classname="example.sod.2d" time="0.00736882" status="run">
+		<properties>
+			<property name="cmake_labels" value="application"/>
+		</properties>
+		<system-out>OctotigerII 0.1.0 | serial fields | sod | 2D
+step=0 time=0.000000e+00 mass=5.625000e-01 gasEnergy=1.375000e+00 radiationEnergy=0.000000e+00
+step=10 time=1.724705e-01 mass=5.624214e-01 gasEnergy=1.374792e+00 radiationEnergy=0.000000e+00
+step=12 time=2.000000e-01 mass=5.621449e-01 gasEnergy=1.374012e+00 radiationEnergy=0.000000e+00
+Analytic comparison: available | Sod exact Riemann solution | cell centers | t=2.000000e-01 s | relative L1/L2/Linf
+  density L1=6.093725e-02 L2=6.411165e-02 Linf=8.100434e-02
+  pressure L1=8.115091e-02 L2=8.642625e-02 Linf=1.005681e-01
+  gasEnergy L1=7.761777e-02 L2=8.751805e-02 Linf=1.058611e-01
+  velocityX L1=1.851236e-01 L2=2.019810e-01 Linf=2.844178e-01
+  momentumX L1=1.946313e-01 L2=1.922591e-01 Linf=2.597004e-01
+  velocityY L1=undefined L2=undefined Linf=undefined (zero analytic field; absolute [cm/s] L1=0.000000e+00 L2=0.000000e+00 Linf=0.000000e+00)
+  momentumY L1=undefined L2=undefined Linf=undefined (zero analytic field; absolute [g/(cm^2 s)] L1=0.000000e+00 L2=0.000000e+0...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="application" classname="application" time="0.12536" status="run">
+		<properties>
+			<property name="cmake_labels" value="application"/>
+		</properties>
+		<system-out>Compiled problem/dimension, application options and Silo time series passed
+Analytic report, availability, and failing accuracy gates passed
+</system-out>
+	</testcase>
+</testsuite>

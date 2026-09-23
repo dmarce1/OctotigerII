@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_6bcd818ea168b45e4779b96abffaf263" kind="dir">
+    <compoundname>include/octotigerII/gravity/diagonal</compoundname>
+    <innerfile refid="fmm_8hpp">fmm.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/diagonal/"/>
+  </compounddef>
+</doxygen>

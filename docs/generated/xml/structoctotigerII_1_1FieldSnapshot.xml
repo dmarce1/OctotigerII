@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structoctotigerII_1_1FieldSnapshot" kind="struct" language="C++" prot="public">
+    <compoundname>octotigerII::FieldSnapshot</compoundname>
+    <includes refid="exchange_8hpp" local="no">exchange.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>class State</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structoctotigerII_1_1FieldSnapshot_1a8b56c854e468c125d5232630290eb098" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1BlockLocation" kindref="compound">mesh::BlockLocation</ref></type>
+        <definition>mesh::BlockLocation octotigerII::FieldSnapshot&lt; State &gt;::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>octotigerII::FieldSnapshot::location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="16" column="21" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="16" bodyend="-1"/>
+        <referencedby refid="structoctotigerII_1_1FieldSnapshot_1a261088a95087d94e42e956a3b7a6e0a2" compoundref="exchange_8hpp" startline="18" endline="20">octotigerII::FieldSnapshot&lt; State &gt;::serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1FieldSnapshot_1a3a4a1d7cd75bce5d50e712f5702228e6" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; State &gt;</type>
+        <definition>mesh::PatchData&lt;State&gt; octotigerII::FieldSnapshot&lt; State &gt;::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>octotigerII::FieldSnapshot::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="17" column="17" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="17" bodyend="-1"/>
+        <referencedby refid="structoctotigerII_1_1FieldSnapshot_1a261088a95087d94e42e956a3b7a6e0a2" compoundref="exchange_8hpp" startline="18" endline="20">octotigerII::FieldSnapshot&lt; State &gt;::serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structoctotigerII_1_1FieldSnapshot_1a261088a95087d94e42e956a3b7a6e0a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::FieldSnapshot&lt; State &gt;::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::FieldSnapshot::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="18" column="18" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="18" bodyend="20"/>
+        <references refid="structoctotigerII_1_1FieldSnapshot_1a3a4a1d7cd75bce5d50e712f5702228e6" compoundref="exchange_8hpp" startline="17">octotigerII::FieldSnapshot&lt; State &gt;::fields</references>
+        <references refid="structoctotigerII_1_1FieldSnapshot_1a8b56c854e468c125d5232630290eb098" compoundref="exchange_8hpp" startline="16">octotigerII::FieldSnapshot&lt; State &gt;::location</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>octotigerII::FieldSnapshot&lt; State &gt;</label>
+        <link refid="structoctotigerII_1_1FieldSnapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>location</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::mesh::BlockLocation</label>
+        <link refid="classoctotigerII_1_1mesh_1_1BlockLocation"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/subgrid/exchange.hpp" line="15" column="12" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="15" bodyend="21"/>
+    <listofallmembers>
+      <member refid="structoctotigerII_1_1FieldSnapshot_1a3a4a1d7cd75bce5d50e712f5702228e6" prot="public" virt="non-virtual"><scope>octotigerII::FieldSnapshot</scope><name>fields</name></member>
+      <member refid="structoctotigerII_1_1FieldSnapshot_1a8b56c854e468c125d5232630290eb098" prot="public" virt="non-virtual"><scope>octotigerII::FieldSnapshot</scope><name>location</name></member>
+      <member refid="structoctotigerII_1_1FieldSnapshot_1a261088a95087d94e42e956a3b7a6e0a2" prot="public" virt="non-virtual"><scope>octotigerII::FieldSnapshot</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

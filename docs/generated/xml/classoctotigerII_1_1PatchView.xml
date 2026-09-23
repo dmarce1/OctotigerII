@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1PatchView" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::PatchView</compoundname>
+    <includes refid="view_8hpp" local="no">view.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename State</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1PatchView_1ac53670035bc14a13f6d7e7c44c44eac6" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> const  &amp;</type>
+        <definition>Subgrid const&amp; octotigerII::PatchView&lt; State &gt;::block_</definition>
+        <argsstring></argsstring>
+        <name>block_</name>
+        <qualifiedname>octotigerII::PatchView::block_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="56" column="15" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="56" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1PatchView_1a900f457eddd87993c109c5983c50c866" compoundref="view_8hpp" startline="44" endline="46">octotigerII::PatchView&lt; State &gt;::atInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1PatchView_1aa8f16e39e0d875bc371a093207047968" compoundref="view_8hpp" startline="39" endline="41">octotigerII::PatchView&lt; State &gt;::cellWidth</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1PatchView_1a49422fcca7682643df4291569ee5271e" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Columns" kindref="compound">storage::Columns</ref>&lt; State &gt;</type>
+        <definition>storage::Columns&lt;State&gt; octotigerII::PatchView&lt; State &gt;::interior_</definition>
+        <argsstring></argsstring>
+        <name>interior_</name>
+        <qualifiedname>octotigerII::PatchView::interior_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="57" column="18" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="57" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1PatchView_1a900f457eddd87993c109c5983c50c866" compoundref="view_8hpp" startline="44" endline="46">octotigerII::PatchView&lt; State &gt;::atInterior</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1PatchView_1a84d7fac4b2b3f9ec25a2c5fcace2069d" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1HaloPlan" kindref="compound">HaloPlan</ref> const  &amp;</type>
+        <definition>HaloPlan const&amp; octotigerII::PatchView&lt; State &gt;::plan_</definition>
+        <argsstring></argsstring>
+        <name>plan_</name>
+        <qualifiedname>octotigerII::PatchView::plan_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="58" column="16" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="58" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" compoundref="view_8hpp" startline="49" endline="52">octotigerII::PatchView&lt; State &gt;::atStorage</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1PatchView_1ae3d133c89d4a6e5da2fde0b2b64b2614" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; State &gt; const  &amp;</type>
+        <definition>std::vector&lt;State&gt; const&amp; octotigerII::PatchView&lt; State &gt;::ghosts_</definition>
+        <argsstring></argsstring>
+        <name>ghosts_</name>
+        <qualifiedname>octotigerII::PatchView::ghosts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="59" column="19" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="59" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" compoundref="view_8hpp" startline="49" endline="52">octotigerII::PatchView&lt; State &gt;::atStorage</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1PatchView_1a3e7ddad71e5e73e69773ad3029424946" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1MeshLayout" kindref="compound">mesh::MeshLayout</ref></type>
+        <definition>mesh::MeshLayout octotigerII::PatchView&lt; State &gt;::padded_</definition>
+        <argsstring></argsstring>
+        <name>padded_</name>
+        <qualifiedname>octotigerII::PatchView::padded_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="60" column="18" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="60" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" compoundref="view_8hpp" startline="49" endline="52">octotigerII::PatchView&lt; State &gt;::atStorage</referencedby>
+        <referencedby refid="classoctotigerII_1_1PatchView_1a29b713655acbfcd034ca87073f280378" compoundref="view_8hpp" startline="34" endline="36">octotigerII::PatchView&lt; State &gt;::layout</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1PatchView_1a58b1531d4a7fa5f4c2fb1a24ba6eb76e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::PatchView&lt; State &gt;::PatchView</definition>
+        <argsstring>(Subgrid const &amp;block, storage::Columns&lt; State &gt; interior, HaloPlan const &amp;plan, std::vector&lt; State &gt; const &amp;ghosts)</argsstring>
+        <name>PatchView</name>
+        <qualifiedname>octotigerII::PatchView::PatchView</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> const &amp;</type>
+          <declname>block</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Columns" kindref="compound">storage::Columns</ref>&lt; State &gt;</type>
+          <declname>interior</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1HaloPlan" kindref="compound">HaloPlan</ref> const &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; State &gt; const &amp;</type>
+          <declname>ghosts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="26" column="1" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1PatchView_1a29b713655acbfcd034ca87073f280378" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1MeshLayout" kindref="compound">mesh::MeshLayout</ref> const &amp;</type>
+        <definition>mesh::MeshLayout const  &amp; octotigerII::PatchView&lt; State &gt;::layout</definition>
+        <argsstring>() const</argsstring>
+        <name>layout</name>
+        <qualifiedname>octotigerII::PatchView::layout</qualifiedname>
+        <briefdescription>
+<para>Return the indexing layout represented by this object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="34" column="24" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="34" bodyend="36"/>
+        <references refid="classoctotigerII_1_1PatchView_1a3e7ddad71e5e73e69773ad3029424946" compoundref="view_8hpp" startline="60">octotigerII::PatchView&lt; State &gt;::padded_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1PatchView_1aa8f16e39e0d875bc371a093207047968" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::PatchView&lt; State &gt;::cellWidth</definition>
+        <argsstring>() const</argsstring>
+        <name>cellWidth</name>
+        <qualifiedname>octotigerII::PatchView::cellWidth</qualifiedname>
+        <briefdescription>
+<para>Return the physical width of one active cell in centimeters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="39" column="15" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="39" bodyend="41"/>
+        <references refid="classoctotigerII_1_1PatchView_1ac53670035bc14a13f6d7e7c44c44eac6" compoundref="view_8hpp" startline="56">octotigerII::PatchView&lt; State &gt;::block_</references>
+        <references refid="classoctotigerII_1_1Subgrid_1ad78e1b97121711764150cb3766bf2398" compoundref="topology_8hpp" startline="27" endline="27">octotigerII::Subgrid::cellWidth</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1PatchView_1a900f457eddd87993c109c5983c50c866" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>State</type>
+        <definition>State octotigerII::PatchView&lt; State &gt;::atInterior</definition>
+        <argsstring>(mesh::Coordinates const &amp;cell) const</argsstring>
+        <name>atInterior</name>
+        <qualifiedname>octotigerII::PatchView::atInterior</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">mesh::Coordinates</ref> const &amp;</type>
+          <declname>cell</declname>
+        </param>
+        <briefdescription>
+<para>Read a cell using interior coordinates without a ghost offset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="44" column="7" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="44" bodyend="46"/>
+        <references refid="classoctotigerII_1_1PatchView_1ac53670035bc14a13f6d7e7c44c44eac6" compoundref="view_8hpp" startline="56">octotigerII::PatchView&lt; State &gt;::block_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" compoundref="mesh_8cpp" startline="69" endline="78">octotigerII::mesh::MeshLayout::index</references>
+        <references refid="classoctotigerII_1_1PatchView_1a49422fcca7682643df4291569ee5271e" compoundref="view_8hpp" startline="57">octotigerII::PatchView&lt; State &gt;::interior_</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a23e9d249bdf53c62604a3d72aa3b131d" compoundref="topology_8hpp" startline="25">octotigerII::Subgrid::layout</references>
+        <referencedby refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" compoundref="view_8hpp" startline="49" endline="52">octotigerII::PatchView&lt; State &gt;::atStorage</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>State</type>
+        <definition>State octotigerII::PatchView&lt; State &gt;::atStorage</definition>
+        <argsstring>(mesh::Coordinates const &amp;cell) const</argsstring>
+        <name>atStorage</name>
+        <qualifiedname>octotigerII::PatchView::atStorage</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">mesh::Coordinates</ref> const &amp;</type>
+          <declname>cell</declname>
+        </param>
+        <briefdescription>
+<para>Read a cell using the coordinates of the padded storage layout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="49" column="7" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="49" bodyend="52"/>
+        <references refid="classoctotigerII_1_1PatchView_1a900f457eddd87993c109c5983c50c866" compoundref="view_8hpp" startline="44" endline="46">octotigerII::PatchView&lt; State &gt;::atInterior</references>
+        <references refid="classoctotigerII_1_1HaloPlan_1a2a21fc7d0231f03884f1b0e402652b99" compoundref="topology_8hpp" startline="83">octotigerII::HaloPlan::ghostIndices</references>
+        <references refid="classoctotigerII_1_1PatchView_1ae3d133c89d4a6e5da2fde0b2b64b2614" compoundref="view_8hpp" startline="59">octotigerII::PatchView&lt; State &gt;::ghosts_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" compoundref="mesh_8cpp" startline="69" endline="78">octotigerII::mesh::MeshLayout::index</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" compoundref="mesh_8cpp" startline="91" endline="100">octotigerII::mesh::MeshLayout::interiorCoordinates</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">octotigerII::mesh::MeshLayout::isInterior</references>
+        <references refid="classoctotigerII_1_1PatchView_1a3e7ddad71e5e73e69773ad3029424946" compoundref="view_8hpp" startline="60">octotigerII::PatchView&lt; State &gt;::padded_</references>
+        <references refid="classoctotigerII_1_1PatchView_1a84d7fac4b2b3f9ec25a2c5fcace2069d" compoundref="view_8hpp" startline="58">octotigerII::PatchView&lt; State &gt;::plan_</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Execution-time patch combining direct interior columns with temporary ghosts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The block, plan, and ghost vector must outlive this view. On stolen work the interior columns are received buffers rather than local allocation views. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="6">
+        <label>octotigerII::HaloPlan</label>
+        <link refid="classoctotigerII_1_1HaloPlan"/>
+      </node>
+      <node id="1">
+        <label>octotigerII::PatchView&lt; State &gt;</label>
+        <link refid="classoctotigerII_1_1PatchView"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>block_</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>plan_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>padded_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::Subgrid</label>
+        <link refid="classoctotigerII_1_1Subgrid"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>location</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>layout</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>interior</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>octotigerII::mesh::BlockLocation</label>
+        <link refid="classoctotigerII_1_1mesh_1_1BlockLocation"/>
+      </node>
+      <node id="4">
+        <label>octotigerII::mesh::MeshLayout</label>
+        <link refid="classoctotigerII_1_1mesh_1_1MeshLayout"/>
+      </node>
+      <node id="5">
+        <label>octotigerII::storage::Range</label>
+        <link refid="classoctotigerII_1_1storage_1_1Range"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/subgrid/view.hpp" line="23" column="1" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="23" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1PatchView_1a900f457eddd87993c109c5983c50c866" prot="public" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>atInterior</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" prot="public" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>atStorage</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1ac53670035bc14a13f6d7e7c44c44eac6" prot="private" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>block_</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1aa8f16e39e0d875bc371a093207047968" prot="public" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>cellWidth</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1ae3d133c89d4a6e5da2fde0b2b64b2614" prot="private" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>ghosts_</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1a49422fcca7682643df4291569ee5271e" prot="private" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>interior_</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1a29b713655acbfcd034ca87073f280378" prot="public" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>layout</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1a3e7ddad71e5e73e69773ad3029424946" prot="private" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>padded_</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1a58b1531d4a7fa5f4c2fb1a24ba6eb76e" prot="public" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>PatchView</name></member>
+      <member refid="classoctotigerII_1_1PatchView_1a84d7fac4b2b3f9ec25a2c5fcace2069d" prot="private" virt="non-virtual"><scope>octotigerII::PatchView</scope><name>plan_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

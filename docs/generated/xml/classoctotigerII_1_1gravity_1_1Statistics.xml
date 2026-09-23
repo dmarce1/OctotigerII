@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1gravity_1_1Statistics" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::gravity::Statistics</compoundname>
+    <includes refid="solver_8hpp" local="no">solver.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1Statistics_1ad7c96743b27f3671c57849e1a2bb07c3" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::gravity::Statistics::multipolePairs</definition>
+        <argsstring></argsstring>
+        <name>multipolePairs</name>
+        <qualifiedname>octotigerII::gravity::Statistics::multipolePairs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/solver.hpp" line="21" column="15" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="21" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1Statistics_1ac05c6fac10d4a1dd7751a7c25b425f7b" compoundref="solver_8hpp" startline="29" endline="31">serialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1Statistics_1a7a35f4b6347d150915a88fdc27cb45d0" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::gravity::Statistics::directPairs</definition>
+        <argsstring></argsstring>
+        <name>directPairs</name>
+        <qualifiedname>octotigerII::gravity::Statistics::directPairs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/solver.hpp" line="22" column="15" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="22" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1Statistics_1ac05c6fac10d4a1dd7751a7c25b425f7b" compoundref="solver_8hpp" startline="29" endline="31">serialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1Statistics_1a7c697efd191c0aef166cdd9122a6aa96" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::gravity::Statistics::workerTasks</definition>
+        <argsstring></argsstring>
+        <name>workerTasks</name>
+        <qualifiedname>octotigerII::gravity::Statistics::workerTasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bounded worker tasks dispatched by the field solver, including exchanges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/solver.hpp" line="24" column="15" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="24" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a34f467268271f42be4bfab25698db82a" compoundref="fieldSolver_8cpp" startline="213" endline="251">octotigerII::gravity::FmmPartition::parallel</referencedby>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1Statistics_1ac05c6fac10d4a1dd7751a7c25b425f7b" compoundref="solver_8hpp" startline="29" endline="31">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1Statistics_1a21f221b84d6298a7b52c3cdc104d7287" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::uint64_t &gt;</type>
+        <definition>std::vector&lt;std::uint64_t&gt; octotigerII::gravity::Statistics::localityCells</definition>
+        <argsstring></argsstring>
+        <name>localityCells</name>
+        <qualifiedname>octotigerII::gravity::Statistics::localityCells</qualifiedname>
+        <briefdescription>
+<para>Leaves evaluated on each locality; empty for the standalone serial reference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/solver.hpp" line="26" column="13" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="26" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1ac376ac41e0b414cab725051f3d7afd8a" compoundref="fieldSolver_8cpp" startline="480" endline="504">octotigerII::gravity::FieldSolver::Impl::phase</referencedby>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1Statistics_1ac05c6fac10d4a1dd7751a7c25b425f7b" compoundref="solver_8hpp" startline="29" endline="31">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1Statistics_1ac05c6fac10d4a1dd7751a7c25b425f7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::gravity::Statistics::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::gravity::Statistics::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/solver.hpp" line="29" column="6" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="29" bodyend="31"/>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a7a35f4b6347d150915a88fdc27cb45d0" compoundref="solver_8hpp" startline="22">directPairs</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a21f221b84d6298a7b52c3cdc104d7287" compoundref="solver_8hpp" startline="26">localityCells</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1ad7c96743b27f3671c57849e1a2bb07c3" compoundref="solver_8hpp" startline="21">multipolePairs</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a7c697efd191c0aef166cdd9122a6aa96" compoundref="solver_8hpp" startline="24">workerTasks</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Number of accepted multipole pairs and direct cell pairs in the gravity solve. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/solver.hpp" line="18" column="1" bodyfile="include/octotigerII/gravity/solver.hpp" bodystart="18" bodyend="32"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1gravity_1_1Statistics_1a7a35f4b6347d150915a88fdc27cb45d0" prot="public" virt="non-virtual"><scope>octotigerII::gravity::Statistics</scope><name>directPairs</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1Statistics_1a21f221b84d6298a7b52c3cdc104d7287" prot="public" virt="non-virtual"><scope>octotigerII::gravity::Statistics</scope><name>localityCells</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1Statistics_1ad7c96743b27f3671c57849e1a2bb07c3" prot="public" virt="non-virtual"><scope>octotigerII::gravity::Statistics</scope><name>multipolePairs</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1Statistics_1ac05c6fac10d4a1dd7751a7c25b425f7b" prot="public" virt="non-virtual"><scope>octotigerII::gravity::Statistics</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1Statistics_1a7c697efd191c0aef166cdd9122a6aa96" prot="public" virt="non-virtual"><scope>octotigerII::gravity::Statistics</scope><name>workerTasks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

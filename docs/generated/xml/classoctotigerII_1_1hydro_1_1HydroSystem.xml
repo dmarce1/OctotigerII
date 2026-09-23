@@ -1,0 +1,559 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1hydro_1_1HydroSystem" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::hydro::HydroSystem</compoundname>
+    <includes refid="hydroSystem_8hpp" local="no">hydroSystem.hpp</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1hydro_1a1693a5b403a4abb0eb657a316be35995" kindref="member">ConservedState</ref></type>
+        <definition>using octotigerII::hydro::HydroSystem::State =  ConservedState</definition>
+        <argsstring></argsstring>
+        <name>State</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::State</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="26" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classoctotigerII_1_1hydro_1_1HydroSystem_1aa43c706b6e69db28154512ad4372ab0b" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1hydro_1a28c77eec0efa7904862c6a530dad720c" kindref="member">PrimitiveState</ref></type>
+        <definition>using octotigerII::hydro::HydroSystem::Reconstruction =  PrimitiveState</definition>
+        <argsstring></argsstring>
+        <name>Reconstruction</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::Reconstruction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="27" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1hydro_1af297704bcc6d35d6252f8f41826926d9" kindref="member">ConservedFlux</ref></type>
+        <definition>using octotigerII::hydro::HydroSystem::Flux =  ConservedFlux</definition>
+        <argsstring></argsstring>
+        <name>Flux</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::Flux</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="28" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" prot="private" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::hydro::HydroSystem::adiabaticIndex_</definition>
+        <argsstring></argsstring>
+        <name>adiabaticIndex_</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::adiabaticIndex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="73" column="6" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="73" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a69388d4b4e7ef3de14911045e5aa655e" compoundref="hydroSystem_8cpp" startline="23" endline="25">adiabaticIndex</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" compoundref="hydroSystem_8cpp" startline="40" endline="56">conservedState</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a3211faa2956a1c66568d7b148361a4fa" compoundref="hydroSystem_8cpp" startline="197" endline="214">hll</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1abe9dfff96f89d13f60573c1f2d536983" compoundref="hydroSystem_8cpp" startline="14" endline="21">HydroSystem</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a86660cad33d9b8fd5a009f08930f6761" compoundref="hydroSystem_8cpp" startline="139" endline="142">maximumSignalSpeed</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7f9d0ac7007f396b811eae173a8ba081" compoundref="hydroSystem_8cpp" startline="186" endline="195">pressure</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">riemann</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1hydro_1_1HydroSystem_1aa3ea0f4d04c82c9fc7283b55b84356f3" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">units::Density</ref></type>
+        <definition>units::Density octotigerII::hydro::HydroSystem::densityFloor_</definition>
+        <argsstring></argsstring>
+        <name>densityFloor_</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::densityFloor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="74" column="16" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="74" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" compoundref="hydroSystem_8cpp" startline="144" endline="147">admissible</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" compoundref="hydroSystem_8cpp" startline="40" endline="56">conservedState</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1abe9dfff96f89d13f60573c1f2d536983" compoundref="hydroSystem_8cpp" startline="14" endline="21">HydroSystem</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1hydro_1_1HydroSystem_1aeab67531e497be53a8f059272cafbe91" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" kindref="member">units::Pressure</ref></type>
+        <definition>units::Pressure octotigerII::hydro::HydroSystem::pressureFloor_</definition>
+        <argsstring></argsstring>
+        <name>pressureFloor_</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::pressureFloor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="75" column="17" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="75" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" compoundref="hydroSystem_8cpp" startline="144" endline="147">admissible</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" compoundref="hydroSystem_8cpp" startline="40" endline="56">conservedState</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1abe9dfff96f89d13f60573c1f2d536983" compoundref="hydroSystem_8cpp" startline="14" endline="21">HydroSystem</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1abe9dfff96f89d13f60573c1f2d536983" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::hydro::HydroSystem::HydroSystem</definition>
+        <argsstring>(Real adiabaticIndex=Real(5)/3, units::Density densityFloor=units::Density::from_value(1e-14), units::Pressure pressureFloor=units::Pressure::from_value(1e-14))</argsstring>
+        <name>HydroSystem</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::HydroSystem</qualifiedname>
+        <param>
+          <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+          <declname>adiabaticIndex</declname>
+          <defval><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref>(5)/3</defval>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">units::Density</ref></type>
+          <declname>densityFloor</declname>
+          <defval>units::Density::from_value(1e-14)</defval>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" kindref="member">units::Pressure</ref></type>
+          <declname>pressureFloor</declname>
+          <defval>units::Pressure::from_value(1e-14)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="30" column="10" bodyfile="src/hydro/hydroSystem.cpp" bodystart="14" bodyend="21"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" compoundref="hydroSystem_8hpp" startline="73">adiabaticIndex_</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa3ea0f4d04c82c9fc7283b55b84356f3" compoundref="hydroSystem_8hpp" startline="74">densityFloor_</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aeab67531e497be53a8f059272cafbe91" compoundref="hydroSystem_8hpp" startline="75">pressureFloor_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a69388d4b4e7ef3de14911045e5aa655e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::hydro::HydroSystem::adiabaticIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>adiabaticIndex</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::adiabaticIndex</qualifiedname>
+        <briefdescription>
+<para>Return the ideal-gas ratio of specific heats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="34" column="6" bodyfile="src/hydro/hydroSystem.cpp" bodystart="23" bodyend="25"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" compoundref="hydroSystem_8hpp" startline="73">adiabaticIndex_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1hydro_1a28c77eec0efa7904862c6a530dad720c" kindref="member">PrimitiveState</ref></type>
+        <definition>PrimitiveState octotigerII::hydro::HydroSystem::reconstructionVariables</definition>
+        <argsstring>(State const &amp;) const</argsstring>
+        <name>reconstructionVariables</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::reconstructionVariables</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>state</defname>
+        </param>
+        <briefdescription>
+<para>Convert (ρ, ρv, E) to (ρ, v, P); reject inadmissible input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="37" column="16" bodyfile="src/hydro/hydroSystem.cpp" bodystart="27" bodyend="38"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" compoundref="hydroSystem_8cpp" startline="144" endline="147">admissible</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7f9d0ac7007f396b811eae173a8ba081" compoundref="hydroSystem_8cpp" startline="186" endline="195">pressure</references>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a3211faa2956a1c66568d7b148361a4fa" compoundref="hydroSystem_8cpp" startline="197" endline="214">hll</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a86660cad33d9b8fd5a009f08930f6761" compoundref="hydroSystem_8cpp" startline="139" endline="142">maximumSignalSpeed</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ad3da01b545d27c6b0f0ba47cbfad1e65" compoundref="hydroSystem_8cpp" startline="58" endline="68">physicalFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">riemann</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref></type>
+        <definition>ConservedState octotigerII::hydro::HydroSystem::conservedState</definition>
+        <argsstring>(PrimitiveState const &amp;) const</argsstring>
+        <name>conservedState</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::conservedState</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1hydro_1a28c77eec0efa7904862c6a530dad720c" kindref="member">PrimitiveState</ref> const &amp;</type>
+          <defname>state</defname>
+        </param>
+        <briefdescription>
+<para>Convert primitive CGS quantities to density, momentum density, and total energy density. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="40" column="7" bodyfile="src/hydro/hydroSystem.cpp" bodystart="40" bodyend="56"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" compoundref="hydroSystem_8hpp" startline="73">adiabaticIndex_</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa3ea0f4d04c82c9fc7283b55b84356f3" compoundref="hydroSystem_8hpp" startline="74">densityFloor_</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aeab67531e497be53a8f059272cafbe91" compoundref="hydroSystem_8hpp" startline="75">pressureFloor_</references>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1ad3da01b545d27c6b0f0ba47cbfad1e65" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" kindref="member">Flux</ref></type>
+        <definition>ConservedFlux octotigerII::hydro::HydroSystem::physicalFlux</definition>
+        <argsstring>(State const &amp;, int normal) const</argsstring>
+        <name>physicalFlux</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::physicalFlux</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>state</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <briefdescription>
+<para>Return the Euler flux normal to an axis in [0, ndim). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="43" column="6" bodyfile="src/hydro/hydroSystem.cpp" bodystart="58" bodyend="68"/>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">reconstructionVariables</references>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a3211faa2956a1c66568d7b148361a4fa" compoundref="hydroSystem_8cpp" startline="197" endline="214">hll</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" compoundref="hydroSystem_8cpp" startline="154" endline="184">limitFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">riemann</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" kindref="member">Flux</ref></type>
+        <definition>ConservedFlux octotigerII::hydro::HydroSystem::riemann</definition>
+        <argsstring>(State const &amp;, State const &amp;, int normal) const</argsstring>
+        <name>riemann</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::riemann</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>left</defname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>right</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <briefdescription>
+<para>Return the HLLC face flux, falling back to HLL for degenerate or inadmissible star states. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="46" column="6" bodyfile="src/hydro/hydroSystem.cpp" bodystart="70" bodyend="132"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" compoundref="hydroSystem_8hpp" startline="73">adiabaticIndex_</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" compoundref="hydroSystem_8cpp" startline="144" endline="147">admissible</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7a24d495f25ed98774de772e499b9625" compoundref="hydroSystem_8cpp" startline="216" endline="223">advectiveFlux</references>
+        <references refid="Real_8hpp_1a08cc81e0f92efcc2206a1bea24bb07ed" compoundref="Real_8hpp" startline="11">epsilonR</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a3211faa2956a1c66568d7b148361a4fa" compoundref="hydroSystem_8cpp" startline="197" endline="214">hll</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ad3da01b545d27c6b0f0ba47cbfad1e65" compoundref="hydroSystem_8cpp" startline="58" endline="68">physicalFlux</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">reconstructionVariables</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a52248e5d278c3003441d1e1f4494b251" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref></type>
+        <definition>ConservedState octotigerII::hydro::HydroSystem::reflected</definition>
+        <argsstring>(State, int normal) const</argsstring>
+        <name>reflected</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::reflected</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref></type>
+          <defname>state</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <briefdescription>
+<para>Reverse normal momentum while preserving density, tangential momenta, and energy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="49" column="7" bodyfile="src/hydro/hydroSystem.cpp" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a86660cad33d9b8fd5a009f08930f6761" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" kindref="member">units::Velocity</ref></type>
+        <definition>units::Velocity octotigerII::hydro::HydroSystem::maximumSignalSpeed</definition>
+        <argsstring>(State const &amp;, int normal) const</argsstring>
+        <name>maximumSignalSpeed</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::maximumSignalSpeed</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>state</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <briefdescription>
+<para>Return |v_n| plus the adiabatic sound speed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="52" column="17" bodyfile="src/hydro/hydroSystem.cpp" bodystart="139" bodyend="142"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" compoundref="hydroSystem_8hpp" startline="73">adiabaticIndex_</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">reconstructionVariables</references>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" compoundref="hydroSystem_8cpp" startline="154" endline="184">limitFlux</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool octotigerII::hydro::HydroSystem::admissible</definition>
+        <argsstring>(State const &amp;) const</argsstring>
+        <name>admissible</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::admissible</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>state</defname>
+        </param>
+        <briefdescription>
+<para>Require finite state values and density/pressure at or above the configured floors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="55" column="6" bodyfile="src/hydro/hydroSystem.cpp" bodystart="144" bodyend="147"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa3ea0f4d04c82c9fc7283b55b84356f3" compoundref="hydroSystem_8hpp" startline="74">densityFloor_</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7f9d0ac7007f396b811eae173a8ba081" compoundref="hydroSystem_8cpp" startline="186" endline="195">pressure</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aeab67531e497be53a8f059272cafbe91" compoundref="hydroSystem_8hpp" startline="75">pressureFloor_</references>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">octotigerII::LocalExecutor::kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" compoundref="hydroSystem_8cpp" startline="154" endline="184">limitFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">reconstructionVariables</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">riemann</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a36dd84a7b54f8773dd697b6ea2affa59" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref></type>
+        <definition>ConservedState octotigerII::hydro::HydroSystem::correctRoundoff</definition>
+        <argsstring>(State, State const &amp;updateScale) const</argsstring>
+        <name>correctRoundoff</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::correctRoundoff</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref></type>
+          <defname>state</defname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <declname>updateScale</declname>
+        </param>
+        <briefdescription>
+<para>Return the candidate unchanged; hydro does not silently repair a failed state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="58" column="7" bodyfile="src/hydro/hydroSystem.cpp" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" kindref="member">Flux</ref></type>
+        <definition>ConservedFlux octotigerII::hydro::HydroSystem::limitFlux</definition>
+        <argsstring>(State const &amp;, State const &amp;, Flux const &amp;, int normal, units::TimePerLength stepOverCellWidth) const</argsstring>
+        <name>limitFlux</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::limitFlux</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>left</defname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>right</defname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" kindref="member">Flux</ref> const &amp;</type>
+          <defname>highOrderFlux</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1adab857fd87152dbea372a276d4c8f2aa" kindref="member">units::TimePerLength</ref></type>
+          <declname>stepOverCellWidth</declname>
+        </param>
+        <briefdescription>
+<para>Blend toward a first-order local Lax–Friedrichs flux when needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A common face coefficient preserves conservative flux sharing. Related idea: <ref refid="bibliography_1ref_hu2013" kindref="member">Hu et al. (2013)</ref>; this implementation selects it by bisection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="63" column="6" bodyfile="src/hydro/hydroSystem.cpp" bodystart="154" bodyend="184"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" compoundref="hydroSystem_8cpp" startline="144" endline="147">admissible</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7a24d495f25ed98774de772e499b9625" compoundref="hydroSystem_8cpp" startline="216" endline="223">advectiveFlux</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a2ede820a2c3001c57c1ffd279a08176c" compoundref="hydroSystem_8cpp" startline="225" endline="232">integratedFlux</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a86660cad33d9b8fd5a009f08930f6761" compoundref="hydroSystem_8cpp" startline="139" endline="142">maximumSignalSpeed</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ad3da01b545d27c6b0f0ba47cbfad1e65" compoundref="hydroSystem_8cpp" startline="58" endline="68">physicalFlux</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a2ede820a2c3001c57c1ffd279a08176c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref></type>
+        <definition>ConservedState octotigerII::hydro::HydroSystem::integratedFlux</definition>
+        <argsstring>(Flux const &amp;, units::TimePerLength)</argsstring>
+        <name>integratedFlux</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::integratedFlux</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" kindref="member">Flux</ref> const &amp;</type>
+          <defname>flux</defname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1adab857fd87152dbea372a276d4c8f2aa" kindref="member">units::TimePerLength</ref></type>
+          <defname>factor</defname>
+        </param>
+        <briefdescription>
+<para>Multiply a face-flux difference by Δt/Δx to obtain a typed state increment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="66" column="14" bodyfile="src/hydro/hydroSystem.cpp" bodystart="225" bodyend="232"/>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" compoundref="hydroSystem_8cpp" startline="154" endline="184">limitFlux</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a7a24d495f25ed98774de772e499b9625" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" kindref="member">Flux</ref></type>
+        <definition>ConservedFlux octotigerII::hydro::HydroSystem::advectiveFlux</definition>
+        <argsstring>(State const &amp;, units::Velocity)</argsstring>
+        <name>advectiveFlux</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::advectiveFlux</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>state</defname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" kindref="member">units::Velocity</ref></type>
+          <defname>speed</defname>
+        </param>
+        <briefdescription>
+<para>Multiply the typed state by velocity to obtain its advective flux. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="69" column="13" bodyfile="src/hydro/hydroSystem.cpp" bodystart="216" bodyend="223"/>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a3211faa2956a1c66568d7b148361a4fa" compoundref="hydroSystem_8cpp" startline="197" endline="214">hll</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" compoundref="hydroSystem_8cpp" startline="154" endline="184">limitFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">riemann</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a7f9d0ac7007f396b811eae173a8ba081" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" kindref="member">units::Pressure</ref></type>
+        <definition>units::Pressure octotigerII::hydro::HydroSystem::pressure</definition>
+        <argsstring>(State const &amp;) const</argsstring>
+        <name>pressure</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::pressure</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>state</defname>
+        </param>
+        <briefdescription>
+<para>Compute P=(γ−1)(E−|ρv|²/(2ρ)); invalid density returns negative infinity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="78" column="17" bodyfile="src/hydro/hydroSystem.cpp" bodystart="186" bodyend="195"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" compoundref="hydroSystem_8hpp" startline="73">adiabaticIndex_</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" compoundref="hydroSystem_8cpp" startline="144" endline="147">admissible</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">reconstructionVariables</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1hydro_1_1HydroSystem_1a3211faa2956a1c66568d7b148361a4fa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" kindref="member">Flux</ref></type>
+        <definition>ConservedFlux octotigerII::hydro::HydroSystem::hll</definition>
+        <argsstring>(State const &amp;, State const &amp;, int normal) const</argsstring>
+        <name>hll</name>
+        <qualifiedname>octotigerII::hydro::HydroSystem::hll</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>left</defname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kindref="member">State</ref> const &amp;</type>
+          <defname>right</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <briefdescription>
+<para>Two-wave hydro fallback from <ref refid="bibliography_1ref_harten1983" kindref="member">Harten et al. (1983)</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="81" column="6" bodyfile="src/hydro/hydroSystem.cpp" bodystart="197" bodyend="214"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" compoundref="hydroSystem_8hpp" startline="73">adiabaticIndex_</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7a24d495f25ed98774de772e499b9625" compoundref="hydroSystem_8cpp" startline="216" endline="223">advectiveFlux</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ad3da01b545d27c6b0f0ba47cbfad1e65" compoundref="hydroSystem_8cpp" startline="58" endline="68">physicalFlux</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">reconstructionVariables</references>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">riemann</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Ideal-gas Euler flux adapter with primitive reconstruction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>HLLC follows <ref refid="bibliography_1ref_toro1994" kindref="member">Toro et al. (1994)</ref>; inadmissible or degenerate star states fall back to the HLL flux of <ref refid="bibliography_1ref_harten1983" kindref="member">Harten et al. (1983)</ref>. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/hydro/hydroSystem.hpp" line="23" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="23" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a69388d4b4e7ef3de14911045e5aa655e" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>adiabaticIndex</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" prot="private" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>adiabaticIndex_</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>admissible</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7a24d495f25ed98774de772e499b9625" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>advectiveFlux</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>conservedState</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a36dd84a7b54f8773dd697b6ea2affa59" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>correctRoundoff</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa3ea0f4d04c82c9fc7283b55b84356f3" prot="private" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>densityFloor_</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>Flux</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a3211faa2956a1c66568d7b148361a4fa" prot="private" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>hll</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1abe9dfff96f89d13f60573c1f2d536983" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>HydroSystem</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a2ede820a2c3001c57c1ffd279a08176c" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>integratedFlux</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>limitFlux</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a86660cad33d9b8fd5a009f08930f6761" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>maximumSignalSpeed</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ad3da01b545d27c6b0f0ba47cbfad1e65" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>physicalFlux</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7f9d0ac7007f396b811eae173a8ba081" prot="private" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>pressure</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aeab67531e497be53a8f059272cafbe91" prot="private" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>pressureFloor_</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa43c706b6e69db28154512ad4372ab0b" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>Reconstruction</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>reconstructionVariables</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a52248e5d278c3003441d1e1f4494b251" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>reflected</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>riemann</name></member>
+      <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" prot="public" virt="non-virtual"><scope>octotigerII::hydro::HydroSystem</scope><name>State</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

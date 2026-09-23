@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1gravity_1_1diagonal_1_1Index" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::gravity::diagonal::Index</compoundname>
+    <includes refid="fmm_8hpp" local="no">fmm.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ab78f6040059bf8fd6a1494a3d6ec69cc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::gravity::diagonal::Index::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Index::x</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="30" column="5" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="30" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ad4381237ad64913c8311fda1605c9ccd" compoundref="fmm_8hpp" startline="32" endline="34">degree</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1abb0c5b22c4f01a1136280be1844ba4aa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::gravity::diagonal::Index::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Index::y</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="30" column="7" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="30" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ad4381237ad64913c8311fda1605c9ccd" compoundref="fmm_8hpp" startline="32" endline="34">degree</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1a647d0d74c3faaeebb847ac7706440681" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::gravity::diagonal::Index::z</definition>
+        <argsstring></argsstring>
+        <name>z</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Index::z</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="30" column="9" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="30" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ad4381237ad64913c8311fda1605c9ccd" compoundref="fmm_8hpp" startline="32" endline="34">degree</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ad4381237ad64913c8311fda1605c9ccd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int octotigerII::gravity::diagonal::Index::degree</definition>
+        <argsstring>() const</argsstring>
+        <name>degree</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Index::degree</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="32" column="5" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="32" bodyend="34"/>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ab78f6040059bf8fd6a1494a3d6ec69cc" compoundref="fmm_8hpp" startline="30">x</references>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1abb0c5b22c4f01a1136280be1844ba4aa" compoundref="fmm_8hpp" startline="30">y</references>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1a647d0d74c3faaeebb847ac7706440681" compoundref="fmm_8hpp" startline="30">z</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exponent triple in the harmonic-equivalent coefficient basis. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Only z=0,1 are stored; higher powers are reduced with kz²=−kx²−ky². </para>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="27" column="1" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="27" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ad4381237ad64913c8311fda1605c9ccd" prot="public" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Index</scope><name>degree</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ab78f6040059bf8fd6a1494a3d6ec69cc" prot="public" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Index</scope><name>x</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1abb0c5b22c4f01a1136280be1844ba4aa" prot="public" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Index</scope><name>y</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1a647d0d74c3faaeebb847ac7706440681" prot="public" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Index</scope><name>z</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

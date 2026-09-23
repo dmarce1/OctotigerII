@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1physics_1_1BoundaryConditions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::physics::BoundaryConditions</compoundname>
+    <includes refid="finiteVolume_8hpp" local="no">finiteVolume.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1physics_1_1BoundaryConditions_1a79cff193cd9e2cd495aa57807c670002" prot="public" static="no" mutable="no">
+        <type>std::array&lt; <ref refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250" kindref="member">BoundaryCondition</ref>, <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;</type>
+        <definition>std::array&lt;BoundaryCondition, ndim&gt; octotigerII::physics::BoundaryConditions::lower</definition>
+        <argsstring></argsstring>
+        <name>lower</name>
+        <qualifiedname>octotigerII::physics::BoundaryConditions::lower</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="47" column="12" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="47" bodyend="47"/>
+        <referencedby refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" compoundref="finiteVolume_8hpp" startline="88" endline="142">octotigerII::physics::fillGhostCells</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1acf732426dec3f0e37b52bb44db145c39" compoundref="finiteVolume_8hpp" startline="51" endline="58">periodic</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1physics_1_1BoundaryConditions_1a14144f7f38a9d2e353ce29f130ec287b" prot="public" static="no" mutable="no">
+        <type>std::array&lt; <ref refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250" kindref="member">BoundaryCondition</ref>, <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;</type>
+        <definition>std::array&lt;BoundaryCondition, ndim&gt; octotigerII::physics::BoundaryConditions::upper</definition>
+        <argsstring></argsstring>
+        <name>upper</name>
+        <qualifiedname>octotigerII::physics::BoundaryConditions::upper</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="48" column="12" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="48" bodyend="48"/>
+        <referencedby refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" compoundref="finiteVolume_8hpp" startline="88" endline="142">octotigerII::physics::fillGhostCells</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1acf732426dec3f0e37b52bb44db145c39" compoundref="finiteVolume_8hpp" startline="51" endline="58">periodic</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classoctotigerII_1_1physics_1_1BoundaryConditions_1acf732426dec3f0e37b52bb44db145c39" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1physics_1_1BoundaryConditions" kindref="compound">BoundaryConditions</ref></type>
+        <definition>static BoundaryConditions octotigerII::physics::BoundaryConditions::periodic</definition>
+        <argsstring>()</argsstring>
+        <name>periodic</name>
+        <qualifiedname>octotigerII::physics::BoundaryConditions::periodic</qualifiedname>
+        <briefdescription>
+<para>Construct periodic boundaries in all ndim directions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="51" column="27" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="51" bodyend="58"/>
+        <references refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1a79cff193cd9e2cd495aa57807c670002" compoundref="finiteVolume_8hpp" startline="47" endline="47">lower</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250acdcc32a064503184053bd2018d1c0e7e">octotigerII::physics::Periodic</references>
+        <references refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1a14144f7f38a9d2e353ce29f130ec287b" compoundref="finiteVolume_8hpp" startline="48" endline="48">upper</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lower/upper physical boundary rule for each coordinate direction. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/physics/finiteVolume.hpp" line="44" column="1" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="44" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1a79cff193cd9e2cd495aa57807c670002" prot="public" virt="non-virtual"><scope>octotigerII::physics::BoundaryConditions</scope><name>lower</name></member>
+      <member refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1acf732426dec3f0e37b52bb44db145c39" prot="public" virt="non-virtual"><scope>octotigerII::physics::BoundaryConditions</scope><name>periodic</name></member>
+      <member refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1a14144f7f38a9d2e353ce29f130ec287b" prot="public" virt="non-virtual"><scope>octotigerII::physics::BoundaryConditions</scope><name>upper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -3,7 +3,7 @@ project(OctotigerII VERSION 0.1.0 LANGUAGES C CXX)
 
 option(OCTOTIGERII_WITH_HPX "Use distributed HPX field storage and locality schedulers" ON)
 option(OCTOTIGERII_WITH_PROFILING "Name HPX tasks and enable APEX regions when available" ON)
-option(OCTOTIGERII_BUILD_TESTS "Build the small numerical/example test suite" ON)
+option(OCTOTIGERII_BUILD_TESTS "Build GoogleTest unit/integration suites and application checks" ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)

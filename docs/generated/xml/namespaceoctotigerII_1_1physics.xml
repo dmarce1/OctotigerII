@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1physics" kind="namespace" language="C++">
+    <compoundname>octotigerII::physics</compoundname>
+    <innerclass refid="classoctotigerII_1_1physics_1_1BoundaryConditions" prot="public">octotigerII::physics::BoundaryConditions</innerclass>
+    <innerclass refid="classoctotigerII_1_1physics_1_1MusclHancock" prot="public">octotigerII::physics::MusclHancock</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Limiter</name>
+        <qualifiedname>octotigerII::physics::Limiter</qualifiedname>
+        <enumvalue id="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65a7221ade7ceae31d6ee87650ed5e905b8" prot="public">
+          <name>Minmod</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65af9b8010cbfb0219d361f7670afcc289f" prot="public">
+          <name>VanLeer</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65acaabe74147c212e7da46a0e6610892f0" prot="public">
+          <name>MinmodTheta</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="26" column="1" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BoundaryCondition</name>
+        <qualifiedname>octotigerII::physics::BoundaryCondition</qualifiedname>
+        <enumvalue id="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250aed8d17bb6b19088af6d891a82e5b1eb2" prot="public">
+          <name>Outflow</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250acdcc32a064503184053bd2018d1c0e7e" prot="public">
+          <name>Periodic</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250a9ee62873f779acffc647988768156e29" prot="public">
+          <name>Reflecting</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="34" column="1" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1physics_1a1306746416d4c2a93531cb92e8250062" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view octotigerII::physics::finiteVolumeSchemeName</definition>
+        <argsstring>()</argsstring>
+        <name>finiteVolumeSchemeName</name>
+        <qualifiedname>octotigerII::physics::finiteVolumeSchemeName</qualifiedname>
+        <briefdescription>
+<para>Return the implemented transport scheme name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/physics/finiteVolume.cpp" line="9" column="18" bodyfile="src/physics/finiteVolume.cpp" bodystart="9" bodyend="11" declfile="include/octotigerII/physics/finiteVolume.hpp" declline="23" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1physics_1ac3c07bf58bd0da9fc80036b0e91f1877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Q</type>
+          </param>
+        </templateparamlist>
+        <type>Q</type>
+        <definition>Q octotigerII::physics::limitedSlope</definition>
+        <argsstring>(Q leftDifference, Q rightDifference, Limiter limiter, Real theta=Real(1.5))</argsstring>
+        <name>limitedSlope</name>
+        <qualifiedname>octotigerII::physics::limitedSlope</qualifiedname>
+        <param>
+          <type>Q</type>
+          <declname>leftDifference</declname>
+        </param>
+        <param>
+          <type>Q</type>
+          <declname>rightDifference</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65" kindref="member">Limiter</ref></type>
+          <declname>limiter</declname>
+        </param>
+        <param>
+          <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+          <declname>theta</declname>
+          <defval><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref>(1.5)</defval>
+        </param>
+        <briefdescription>
+<para>Limit component differences without mixing their dimensions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supports minmod, van Leer harmonic mean, and generalized minmod with theta. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="65" column="3" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="65" bodyend="83"/>
+        <references refid="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65a7221ade7ceae31d6ee87650ed5e905b8">Minmod</references>
+        <references refid="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65acaabe74147c212e7da46a0e6610892f0">MinmodTheta</references>
+        <references refid="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65af9b8010cbfb0219d361f7670afcc289f">VanLeer</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6c364c5eb6b32583fadeb59c105c1dcb" compoundref="finiteVolume_8hpp" startline="306" endline="376">octotigerII::physics::MusclHancock&lt; System &gt;::predictFaceStates</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename System</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::physics::fillGhostCells</definition>
+        <argsstring>(mesh::PatchData&lt; typename System::State &gt; &amp;patch, BoundaryConditions const &amp;boundaries, System const &amp;system)</argsstring>
+        <name>fillGhostCells</name>
+        <qualifiedname>octotigerII::physics::fillGhostCells</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; typename System::State &gt; &amp;</type>
+          <declname>patch</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1physics_1_1BoundaryConditions" kindref="compound">BoundaryConditions</ref> const &amp;</type>
+          <declname>boundaries</declname>
+        </param>
+        <param>
+          <type>System const &amp;</type>
+          <declname>system</declname>
+        </param>
+        <briefdescription>
+<para>Fill physical boundaries for an owning test patch, including corner cells. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The distributed runtime instead obtains its temporary halos from the mesh adapter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="88" column="6" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="88" bodyend="142"/>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a62f231cf1e795acae33838558418f75d" compoundref="mesh_8hpp" startline="306" endline="308">octotigerII::mesh::PatchData&lt; State &gt;::atStorage</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a03b992f37546d7987ddb2cd949bf7953" compoundref="mesh_8cpp" startline="19" endline="21">octotigerII::mesh::MeshLayout::cellsPerActiveDimension</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab64d409bc72bff5ecb2028ae7bf3f1ff" compoundref="mesh_8cpp" startline="41" endline="43">octotigerII::mesh::MeshLayout::extents</references>
+        <references refid="namespaceoctotigerII_1_1mesh_1a6e5a131e86ee503befdc4d08c9ec19b8" compoundref="mesh_8hpp" startline="47" endline="60">octotigerII::mesh::forEachCoordinate</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a230c2f0c6f052d03e537800b8d92929d" compoundref="mesh_8cpp" startline="23" endline="25">octotigerII::mesh::MeshLayout::ghostWidth</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">octotigerII::mesh::MeshLayout::isInterior</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a2211e21573bb7f2357f25d4f0ee7c124" compoundref="mesh_8hpp" startline="275" endline="277">octotigerII::mesh::PatchData&lt; State &gt;::layout</references>
+        <references refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1a79cff193cd9e2cd495aa57807c670002" compoundref="finiteVolume_8hpp" startline="47" endline="47">octotigerII::physics::BoundaryConditions::lower</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250aed8d17bb6b19088af6d891a82e5b1eb2">Outflow</references>
+        <references refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250acdcc32a064503184053bd2018d1c0e7e">Periodic</references>
+        <references refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250a9ee62873f779acffc647988768156e29">Reflecting</references>
+        <references refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1a14144f7f38a9d2e353ce29f130ec287b" compoundref="finiteVolume_8hpp" startline="48" endline="48">octotigerII::physics::BoundaryConditions::upper</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a64d1c8daea94bc5eea605da3dde7f2e7" compoundref="finiteVolume_8hpp" startline="207" endline="210">octotigerII::physics::MusclHancock&lt; System &gt;::advance</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/physics/finiteVolume.hpp" line="20" column="1"/>
+  </compounddef>
+</doxygen>

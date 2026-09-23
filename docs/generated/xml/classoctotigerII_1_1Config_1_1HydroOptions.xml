@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Config_1_1HydroOptions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Config::HydroOptions</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1HydroOptions_1a61759f92b8a82a36083c3e95943534e2" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::Config::HydroOptions::gamma</definition>
+        <argsstring></argsstring>
+        <name>gamma</name>
+        <qualifiedname>octotigerII::Config::HydroOptions::gamma</qualifiedname>
+        <initializer>= 1.4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="61" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="61" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">octotigerII::LocalExecutor::kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1HydroOptions_1a470c783d51c137651267aa51914a289d" compoundref="config_8hpp" startline="64" endline="66">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Config_1_1HydroOptions_1a470c783d51c137651267aa51914a289d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Config::HydroOptions::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Config::HydroOptions::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="64" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="64" bodyend="66"/>
+        <references refid="classoctotigerII_1_1Config_1_1HydroOptions_1a61759f92b8a82a36083c3e95943534e2" compoundref="config_8hpp" startline="61">gamma</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="59" column="1" bodyfile="include/octotigerII/config.hpp" bodystart="59" bodyend="67"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Config_1_1HydroOptions_1a61759f92b8a82a36083c3e95943534e2" prot="public" virt="non-virtual"><scope>octotigerII::Config::HydroOptions</scope><name>gamma</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1HydroOptions_1a470c783d51c137651267aa51914a289d" prot="public" virt="non-virtual"><scope>octotigerII::Config::HydroOptions</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

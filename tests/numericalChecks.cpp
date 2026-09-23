@@ -1,3 +1,4 @@
+#include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
@@ -7,25 +8,18 @@
 #include <string>
 #include "octotigerII/gravity/solver.hpp"
 #include "octotigerII/runtime.hpp"
-#include "runtimeMain.hpp"
 
 using namespace octotigerII;
 
 
 namespace {
-void require(bool ok, char const* message) {
-	if (!ok) throw std::runtime_error(message);
-}
 
 void close(Real actual, Real expected, Real relative, char const* message) {
 	using std::abs;
 	using std::isfinite;
 
-	require(isfinite(actual) && isfinite(expected), "Nonfinite comparison");
-	if (abs(actual - expected) > relative * std::max(Real(1), abs(expected))) {
-		std::cerr << message << ": " << actual << " != " << expected << '\n';
-		throw std::runtime_error(message);
-	}
+	ASSERT_TRUE(isfinite(actual) && isfinite(expected)) << message;
+	EXPECT_NEAR(actual, expected, relative * std::max(Real(1), abs(expected))) << message;
 }
 
 template <typename U>
@@ -72,7 +66,7 @@ State sum(std::vector<State> const& values) {
 
 void reportScheduling(Runtime const& runtime) {
 	auto const statistics = runtime.statistics();
-	require(statistics.localTasks + statistics.stolenTasks == 2 * runtime.size() * runtime.generation(), "Transport tasks missing or duplicated");
+	EXPECT_TRUE(statistics.localTasks + statistics.stolenTasks == 2 * runtime.size() * runtime.generation()) << "Transport tasks missing or duplicated";
 	std::cout << "  Scheduling: " << statistics.localTasks << " local, " << statistics.stolenTasks << " stolen tasks\n";
 }
 
@@ -111,7 +105,7 @@ void streamingProfile() {
 					close(state.radiativeFlux(axis), units::EnergyFlux{}, 1e-14, "Spurious transverse radiation flux");
 			});
 		}
-		require(error / norm < 0.003, "Radiation analytic streaming profile");
+		EXPECT_TRUE(error / norm < 0.003) << "Radiation analytic streaming profile";
 		std::cout << "Streaming cHat/c=" << ratio << " relative L1=" << error / norm << '\n';
 	}
 }
@@ -135,7 +129,7 @@ void compareTransport(Select select, Admissible admissible) {
 	}
 	auto final = flatten<State>(a, fine, select), reference = flatten<State>(b, single, select);
 	for (std::size_t i = 0; i < final.size(); ++i) {
-		require(admissible(final[i]), "Transport admissibility");
+		EXPECT_TRUE(admissible(final[i])) << "Transport admissibility";
 		final[i].forEach([&](auto f, auto q) { close(q, reference[i].template get<f>(), 3e-12, "Tiled transport mismatch"); });
 	}
 	if (fine.mesh.periodic) {
@@ -149,7 +143,7 @@ void compareTransport(Select select, Admissible admissible) {
 		// roundoff by their L1 norm, not by the near-zero signed total.
 		sum(final).forEach([&](auto f, auto q) {
 			auto const scale = std::max(initialNorm.template get<f>(), finalNorm.template get<f>());
-			require(units::abs(q - expected.template get<f>()) <= 3e-12 * scale, "Periodic conservation relative to component L1 norm");
+			EXPECT_TRUE(units::abs(q - expected.template get<f>()) <= 3e-12 * scale) << "Periodic conservation relative to component L1 norm";
 		});
 	}
 	if (std::string(build::problem) == "sod" || std::string(build::problem) == "kelvin-helmholtz") {
@@ -161,17 +155,32 @@ void compareTransport(Select select, Admissible admissible) {
 	reportScheduling(*a);
 }
 
-void transport() {
-	if (std::string(build::problem) == "streaming" && ndim == 1) streamingProfile();
-	if constexpr (build::radiation)
-		compareTransport<radiation::RadiationSystem::State>([](Snapshot const& s, std::size_t i) { return s.radiation.values()[i]; },
-			[](auto const& state) { return radiation::RadiationSystem(constants::c).admissible(state); });
-	if constexpr (build::hydro) {
-		auto const c = parseConfig({});
-		compareTransport<hydro::ConservedState>([](Snapshot const& s, std::size_t i) { return s.hydro.values()[i]; },
-			[&](auto const& state) { return hydro::HydroSystem(c.hydro.gamma).admissible(state); });
-	}
-	if constexpr (build::gravity && build::hydro) {
+#if OCTOTIGERII_RADIATION
+TEST(Transport, RadiationDecompositionConservationAndAdmissibility) {
+	compareTransport<radiation::RadiationSystem::State>([](Snapshot const& s, std::size_t i) { return s.radiation.values()[i]; },
+		[](auto const& state) { return radiation::RadiationSystem(constants::c).admissible(state); });
+}
+
+
+#if OCTOTIGERII_TEST_STREAMING_PROFILE
+TEST(Transport, StreamingProfileAtFullAndReducedLightSpeed) {
+	streamingProfile();
+}
+#endif
+#endif
+
+
+#if OCTOTIGERII_HYDRO
+TEST(Transport, HydroDecompositionConservationAndAdmissibility) {
+	auto const c = parseConfig({});
+	compareTransport<hydro::ConservedState>([](Snapshot const& s, std::size_t i) { return s.hydro.values()[i]; },
+		[&](auto const& state) { return hydro::HydroSystem(c.hydro.gamma).admissible(state); });
+}
+#endif
+
+
+#if OCTOTIGERII_GRAVITY && OCTOTIGERII_HYDRO
+TEST(Transport, GravityKickPreservesInternalEnergy) {
 		Config c = parseConfig({"--mesh.cells=4", "--mesh.level=0", "--output.enabled=off"});
 		Runtime gas(c);
 		gravity::State gravity{};
@@ -190,8 +199,8 @@ void transport() {
 			close(hydro::HydroSystem(c.hydro.gamma).reconstructionVariables(after.hydro.values()[i]).pressure(),
 				hydro::HydroSystem(c.hydro.gamma).reconstructionVariables(before.hydro.values()[i]).pressure(), 1e-14, "Kick internal energy");
 		});
-	}
 }
+#endif
 
 #if OCTOTIGERII_GRAVITY
 void gravityCheck() {
@@ -224,7 +233,7 @@ void gravityCheck() {
 	Real previous = std::numeric_limits<Real>::infinity();
 	for (int order = 1; order <= 10; ++order) {
 		auto const solution = gravity::solve(density, n, h, order, 0.5);
-		require(solution.statistics.multipolePairs > 0 && solution.statistics.directPairs > 0, "FMM must execute both near and far interactions");
+		EXPECT_TRUE(solution.statistics.multipolePairs > 0 && solution.statistics.directPairs > 0) << "FMM must execute both near and far interactions";
 		units::Quantity<4, 0, -4> errorPhi{}, normPhi{};
 		units::Quantity<2, 0, -4> errorG{}, normG{};
 		for (std::size_t i = 0; i < density.size(); ++i) {
@@ -237,11 +246,10 @@ void gravityCheck() {
 		}
 		Real const relative = units::sqrt(errorG / normG);
 		std::cout << "p=" << order << " relative RMS phi=" << Real(units::sqrt(errorPhi / normPhi)) << " g=" << relative << '\n';
-		require(relative < previous && relative < (order >= 3 ? 0.02 : 0.25) && units::sqrt(errorPhi / normPhi) < (order >= 3 ? 0.003 : 0.05),
-			"FMM direct-reference accuracy/order convergence");
+		EXPECT_TRUE(relative < previous && relative < (order >= 3 ? 0.02 : 0.25) && units::sqrt(errorPhi / normPhi) < (order >= 3 ? 0.003 : 0.05)) << "FMM direct-reference accuracy/order convergence";
 		previous = relative;
 		if (order == 5) {
-			require(relative < 0.002, "p=5 gravity accuracy");
+			EXPECT_TRUE(relative < 0.002) << "p=5 gravity accuracy";
 			auto const scaled = gravity::solve(density, n, 2.0 * h, order, 0.5);
 			for (std::size_t i = 0; i < density.size(); ++i) {
 				close(scaled.fields[i].potential(), 4.0 * solution.fields[i].potential(), 1e-13, "Potential length scaling");
@@ -257,24 +265,8 @@ void gravityCheck() {
 }	 // namespace
 
 
-int testMain(int argc, char** argv) {
-	try {
-		std::cout << std::scientific << std::setprecision(6);
-		if (argc != 2) throw std::invalid_argument("Expected transport or gravity");
-		if (std::string(argv[1]) == "transport") transport();
 #if OCTOTIGERII_GRAVITY
-		else if (std::string(argv[1]) == "gravity")
-			gravityCheck();
+TEST(GravityConvergence, MultipoleOrdersAgainstIndependentDirectSum) {
+	gravityCheck();
+}
 #endif
-		else
-			throw std::invalid_argument("Unknown check");
-		return 0;
-	} catch (std::exception const& error) {
-		std::cerr << error.what() << '\n';
-		return 1;
-	}
-}
-
-int main(int argc, char** argv) {
-	return runtimeMain(argc, argv, testMain);
-}

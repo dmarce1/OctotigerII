@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;</compoundname>
+    <includes refid="columns_8hpp" local="no">columns.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename...</type>
+        <declname>Q</declname>
+        <defname>Q</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ac1768da62bdb93829d59826aa4837261" prot="public" static="no" mutable="no">
+        <type>std::tuple&lt; <ref refid="namespaceoctotigerII_1_1storage_1ae535d8a88a521ee629d5b83498233868" kindref="member">Future</ref>&lt; <ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; <ref refid="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a6174549489247cb08b6f86b5531391e4" kindref="member">Q</ref> &gt; &gt;... &gt;</type>
+        <definition>std::tuple&lt;Future&lt;Buffer&lt;Q&gt; &gt;...&gt; octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;::pending</definition>
+        <argsstring></argsstring>
+        <name>pending</name>
+        <qualifiedname>octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;::pending</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="42" column="16" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a6174549489247cb08b6f86b5531391e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Columns" kindref="compound">Columns</ref>&lt; <ref refid="classoctotigerII_1_1units_1_1State" kindref="compound">units::State</ref>&lt; Q... &gt; &gt;</type>
+        <definition>Columns&lt; units::State&lt; Q... &gt; &gt; octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;::get</qualifiedname>
+        <briefdescription>
+<para>Return the component selected by its compile-time tuple index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="45" column="13" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="45" bodyend="57"/>
+        <references refid="classoctotigerII_1_1units_1_1State_1a05a34d467acff718eba16ead7f25cc6f" compoundref="state_8hpp" startline="95" endline="97">octotigerII::units::State&lt; Q &gt;::forEach</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/columns.hpp" line="40" column="1" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="40" bodyend="58"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a6174549489247cb08b6f86b5531391e4" prot="public" virt="non-virtual"><scope>octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;</scope><name>get</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ac1768da62bdb93829d59826aa4837261" prot="public" virt="non-virtual"><scope>octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;</scope><name>pending</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

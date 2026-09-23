@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1mesh_1_1BlockLocationHash" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::mesh::BlockLocationHash</compoundname>
+    <includes refid="mesh_8hpp" local="no">mesh.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1BlockLocationHash_1a45d7cab7961656e0f4db152af0377057" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::mesh::BlockLocationHash::operator()</definition>
+        <argsstring>(BlockLocation const &amp;location) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>octotigerII::mesh::BlockLocationHash::operator()</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1BlockLocation" kindref="compound">BlockLocation</ref> const &amp;</type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="189" column="13" bodyfile="src/mesh.cpp" bodystart="237" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hash of the block location for topology directories. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/mesh.hpp" line="186" column="1" bodyfile="include/octotigerII/mesh.hpp" bodystart="186" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1mesh_1_1BlockLocationHash_1a45d7cab7961656e0f4db152af0377057" prot="public" virt="non-virtual"><scope>octotigerII::mesh::BlockLocationHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

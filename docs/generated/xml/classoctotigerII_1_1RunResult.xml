@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1RunResult" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::RunResult</compoundname>
+    <includes refid="simulation_8hpp" local="no">simulation.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1RunResult_1a8c2cc3adfb4dee63a59437940889713f" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1Diagnostics" kindref="compound">Diagnostics</ref></type>
+        <definition>Diagnostics octotigerII::RunResult::initial</definition>
+        <argsstring></argsstring>
+        <name>initial</name>
+        <qualifiedname>octotigerII::RunResult::initial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="41" column="13" bodyfile="include/octotigerII/simulation.hpp" bodystart="41" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1RunResult_1af5cd8dab63bdd5d4cde3dacb5a3748f1" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1Diagnostics" kindref="compound">Diagnostics</ref></type>
+        <definition>Diagnostics octotigerII::RunResult::final</definition>
+        <argsstring></argsstring>
+        <name>final</name>
+        <qualifiedname>octotigerII::RunResult::final</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="41" column="21" bodyfile="include/octotigerII/simulation.hpp" bodystart="41" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1RunResult_1abacd8d35bc4191ebc3c14a9bf19a8241" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::RunResult::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>octotigerII::RunResult::steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="42" column="5" bodyfile="include/octotigerII/simulation.hpp" bodystart="42" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1RunResult_1acf2f8989f56fb738f549150aa21bf491" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">gravity::Statistics</ref></type>
+        <definition>gravity::Statistics octotigerII::RunResult::gravityWork</definition>
+        <argsstring></argsstring>
+        <name>gravityWork</name>
+        <qualifiedname>octotigerII::RunResult::gravityWork</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="43" column="21" bodyfile="include/octotigerII/simulation.hpp" bodystart="43" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1RunResult_1af3cffa01244355050bade4f4619cae7e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::vector&lt;Snapshot&gt; octotigerII::RunResult::snapshots</definition>
+        <argsstring></argsstring>
+        <name>snapshots</name>
+        <qualifiedname>octotigerII::RunResult::snapshots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="44" column="13" bodyfile="include/octotigerII/simulation.hpp" bodystart="44" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Initial/final diagnostics, completed-step count, gravity work, and final snapshots. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>octotigerII::Diagnostics</label>
+        <link refid="classoctotigerII_1_1Diagnostics"/>
+      </node>
+      <node id="1">
+        <label>octotigerII::RunResult</label>
+        <link refid="classoctotigerII_1_1RunResult"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>final</edgelabel>
+          <edgelabel>initial</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>gravityWork</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>octotigerII::gravity::Statistics</label>
+        <link refid="classoctotigerII_1_1gravity_1_1Statistics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/simulation.hpp" line="38" column="1" bodyfile="include/octotigerII/simulation.hpp" bodystart="38" bodyend="45"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1RunResult_1af5cd8dab63bdd5d4cde3dacb5a3748f1" prot="public" virt="non-virtual"><scope>octotigerII::RunResult</scope><name>final</name></member>
+      <member refid="classoctotigerII_1_1RunResult_1acf2f8989f56fb738f549150aa21bf491" prot="public" virt="non-virtual"><scope>octotigerII::RunResult</scope><name>gravityWork</name></member>
+      <member refid="classoctotigerII_1_1RunResult_1a8c2cc3adfb4dee63a59437940889713f" prot="public" virt="non-virtual"><scope>octotigerII::RunResult</scope><name>initial</name></member>
+      <member refid="classoctotigerII_1_1RunResult_1af3cffa01244355050bade4f4619cae7e" prot="public" virt="non-virtual"><scope>octotigerII::RunResult</scope><name>snapshots</name></member>
+      <member refid="classoctotigerII_1_1RunResult_1abacd8d35bc4191ebc3c14a9bf19a8241" prot="public" virt="non-virtual"><scope>octotigerII::RunResult</scope><name>steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

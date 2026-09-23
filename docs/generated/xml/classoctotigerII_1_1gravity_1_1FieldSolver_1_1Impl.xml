@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::gravity::FieldSolver::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1ac92804c594edc4243dfc361f22404ab2" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned octotigerII::gravity::FieldSolver::Impl::depths</definition>
+        <argsstring></argsstring>
+        <name>depths</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::Impl::depths</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="473" column="10" bodyfile="src/gravity/fieldSolver.cpp" bodystart="473" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1a23f604672cadb68e69803cdd86445461" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; hpx::id_type &gt;</type>
+        <definition>std::vector&lt;hpx::id_type&gt; octotigerII::gravity::FieldSolver::Impl::partitions</definition>
+        <argsstring></argsstring>
+        <name>partitions</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::Impl::partitions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="475" column="13" bodyfile="src/gravity/fieldSolver.cpp" bodystart="475" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1ac376ac41e0b414cab725051f3d7afd8a" compoundref="fieldSolver_8cpp" startline="480" endline="504">phase</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1ac376ac41e0b414cab725051f3d7afd8a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::FieldSolver::Impl::phase</definition>
+        <argsstring>(Stage stage, unsigned depth, unsigned bank)</argsstring>
+        <name>phase</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::Impl::phase</qualifiedname>
+        <param>
+          <type>Stage</type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="480" column="12" bodyfile="src/gravity/fieldSolver.cpp" bodystart="480" bodyend="504"/>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a21f221b84d6298a7b52c3cdc104d7287" compoundref="solver_8hpp" startline="26">octotigerII::gravity::Statistics::localityCells</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1a23f604672cadb68e69803cdd86445461" compoundref="fieldSolver_8cpp" startline="475">partitions</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/gravity/fieldSolver.cpp" line="471" column="1" bodyfile="src/gravity/fieldSolver.cpp" bodystart="471" bodyend="505"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1ac92804c594edc4243dfc361f22404ab2" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver::Impl</scope><name>depths</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1a23f604672cadb68e69803cdd86445461" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver::Impl</scope><name>partitions</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1ac376ac41e0b414cab725051f3d7afd8a" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver::Impl</scope><name>phase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

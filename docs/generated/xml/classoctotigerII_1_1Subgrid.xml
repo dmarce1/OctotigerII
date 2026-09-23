@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Subgrid" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Subgrid</compoundname>
+    <includes refid="topology_8hpp" local="no">topology.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Subgrid_1ad9ce450822e2cbf0f569975475dd7640" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::Subgrid::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>octotigerII::Subgrid::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="23" column="15" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="23" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Subgrid_1a9b121b42447139730774e7ca7071807c" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1BlockLocation" kindref="compound">mesh::BlockLocation</ref></type>
+        <definition>mesh::BlockLocation octotigerII::Subgrid::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>octotigerII::Subgrid::location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="24" column="21" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="24" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1Subgrid_1a395c046a72d801d0daf2ffe087cce28d" compoundref="topology_8hpp" startline="32" endline="36">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Subgrid_1a23e9d249bdf53c62604a3d72aa3b131d" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1MeshLayout" kindref="compound">mesh::MeshLayout</ref></type>
+        <definition>mesh::MeshLayout octotigerII::Subgrid::layout</definition>
+        <argsstring></argsstring>
+        <name>layout</name>
+        <qualifiedname>octotigerII::Subgrid::layout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="25" column="18" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="25" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1PatchView_1a900f457eddd87993c109c5983c50c866" compoundref="view_8hpp" startline="44" endline="46">octotigerII::PatchView&lt; State &gt;::atInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1Subgrid_1a395c046a72d801d0daf2ffe087cce28d" compoundref="topology_8hpp" startline="32" endline="36">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Subgrid_1a9150fc6c931a4b19ddf75a424374dee4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a75c6d3d571de04dad3c8dc3fe7b53b0e" kindref="member">mesh::PhysicalCoordinates</ref></type>
+        <definition>mesh::PhysicalCoordinates octotigerII::Subgrid::lower</definition>
+        <argsstring></argsstring>
+        <name>lower</name>
+        <qualifiedname>octotigerII::Subgrid::lower</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="26" column="27" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="26" bodyend="26"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1Subgrid_1a395c046a72d801d0daf2ffe087cce28d" compoundref="topology_8hpp" startline="32" endline="36">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Subgrid_1ad78e1b97121711764150cb3766bf2398" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::Subgrid::cellWidth</definition>
+        <argsstring></argsstring>
+        <name>cellWidth</name>
+        <qualifiedname>octotigerII::Subgrid::cellWidth</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="27" column="15" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="27" bodyend="27"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1PatchView_1aa8f16e39e0d875bc371a093207047968" compoundref="view_8hpp" startline="39" endline="41">octotigerII::PatchView&lt; State &gt;::cellWidth</referencedby>
+        <referencedby refid="classoctotigerII_1_1Subgrid_1a395c046a72d801d0daf2ffe087cce28d" compoundref="topology_8hpp" startline="32" endline="36">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Subgrid_1a80a4f5e2bec4153114bac4d6140801f9" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">storage::Range</ref></type>
+        <definition>storage::Range octotigerII::Subgrid::interior</definition>
+        <argsstring></argsstring>
+        <name>interior</name>
+        <qualifiedname>octotigerII::Subgrid::interior</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="28" column="16" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="28" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">octotigerII::LocalExecutor::kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1Subgrid_1a395c046a72d801d0daf2ffe087cce28d" compoundref="topology_8hpp" startline="32" endline="36">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Subgrid_1a395c046a72d801d0daf2ffe087cce28d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Subgrid::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Subgrid::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="32" column="6" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="32" bodyend="36"/>
+        <references refid="classoctotigerII_1_1Subgrid_1ad78e1b97121711764150cb3766bf2398" compoundref="topology_8hpp" startline="27" endline="27">cellWidth</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a80a4f5e2bec4153114bac4d6140801f9" compoundref="topology_8hpp" startline="28">interior</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a23e9d249bdf53c62604a3d72aa3b131d" compoundref="topology_8hpp" startline="25">layout</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a9b121b42447139730774e7ca7071807c" compoundref="topology_8hpp" startline="24">location</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a9150fc6c931a4b19ddf75a424374dee4" compoundref="topology_8hpp" startline="26" endline="26">lower</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent block descriptor containing geometry and an interior address only. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>octotigerII::Subgrid</label>
+        <link refid="classoctotigerII_1_1Subgrid"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>location</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>layout</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>interior</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::mesh::BlockLocation</label>
+        <link refid="classoctotigerII_1_1mesh_1_1BlockLocation"/>
+      </node>
+      <node id="3">
+        <label>octotigerII::mesh::MeshLayout</label>
+        <link refid="classoctotigerII_1_1mesh_1_1MeshLayout"/>
+      </node>
+      <node id="4">
+        <label>octotigerII::storage::Range</label>
+        <link refid="classoctotigerII_1_1storage_1_1Range"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/subgrid/topology.hpp" line="20" column="1" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="20" bodyend="37"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Subgrid_1ad78e1b97121711764150cb3766bf2398" prot="public" virt="non-virtual"><scope>octotigerII::Subgrid</scope><name>cellWidth</name></member>
+      <member refid="classoctotigerII_1_1Subgrid_1ad9ce450822e2cbf0f569975475dd7640" prot="public" virt="non-virtual"><scope>octotigerII::Subgrid</scope><name>id</name></member>
+      <member refid="classoctotigerII_1_1Subgrid_1a80a4f5e2bec4153114bac4d6140801f9" prot="public" virt="non-virtual"><scope>octotigerII::Subgrid</scope><name>interior</name></member>
+      <member refid="classoctotigerII_1_1Subgrid_1a23e9d249bdf53c62604a3d72aa3b131d" prot="public" virt="non-virtual"><scope>octotigerII::Subgrid</scope><name>layout</name></member>
+      <member refid="classoctotigerII_1_1Subgrid_1a9b121b42447139730774e7ca7071807c" prot="public" virt="non-virtual"><scope>octotigerII::Subgrid</scope><name>location</name></member>
+      <member refid="classoctotigerII_1_1Subgrid_1a9150fc6c931a4b19ddf75a424374dee4" prot="public" virt="non-virtual"><scope>octotigerII::Subgrid</scope><name>lower</name></member>
+      <member refid="classoctotigerII_1_1Subgrid_1a395c046a72d801d0daf2ffe087cce28d" prot="public" virt="non-virtual"><scope>octotigerII::Subgrid</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

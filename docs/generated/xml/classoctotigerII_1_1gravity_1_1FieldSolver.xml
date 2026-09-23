@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1gravity_1_1FieldSolver" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::gravity::FieldSolver</compoundname>
+    <includes refid="fieldSolver_8hpp" local="no">fieldSolver.hpp</includes>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl" prot="public">octotigerII::gravity::FieldSolver::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FieldSolver_1a7fad4049f75b8872fde0de9241bc3989" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; octotigerII::gravity::FieldSolver::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/fieldSolver.hpp" line="31" column="17" bodyfile="include/octotigerII/gravity/fieldSolver.hpp" bodystart="31" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FieldSolver_1ac54bd8a53c0976d6372ab12ca088b323" compoundref="fieldSolver_8cpp" startline="507" endline="534">FieldSolver</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a85a32db5f85894ac690f4f420d89e26e" compoundref="fieldSolver_8cpp" startline="538" endline="548">solve</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FieldSolver_1ac54bd8a53c0976d6372ab12ca088b323" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::gravity::FieldSolver::FieldSolver</definition>
+        <argsstring>(Config const &amp;config, std::vector&lt; Subgrid &gt; const &amp;blocks, FieldDirectory const &amp;fields, std::vector&lt; storage::Locality &gt; const &amp;localities)</argsstring>
+        <name>FieldSolver</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::FieldSolver</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> &gt; const &amp;</type>
+          <declname>blocks</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1FieldDirectory" kindref="compound">FieldDirectory</ref> const &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">storage::Locality</ref> &gt; const &amp;</type>
+          <declname>localities</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/fieldSolver.hpp" line="19" column="1" bodyfile="src/gravity/fieldSolver.cpp" bodystart="507" bodyend="534"/>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1adedfdadab840e52dc975daa61f9caca9" compoundref="config_8hpp" startline="24">octotigerII::Config::MeshOptions::cells</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a7fad4049f75b8872fde0de9241bc3989" compoundref="fieldSolver_8hpp" startline="31">impl_</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1ae41801a618bcbe2639e95c690ab8c379" compoundref="config_8hpp" startline="24">octotigerII::Config::MeshOptions::level</references>
+        <references refid="classoctotigerII_1_1Config_1ad953f6824a906c441f0f6771a3d8bf79">octotigerII::Config::mesh</references>
+        <references refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FieldSolver_1aa0d8b1cbddfef9a36f57ead6d49cb2c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::gravity::FieldSolver::~FieldSolver</definition>
+        <argsstring>()</argsstring>
+        <name>~FieldSolver</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::~FieldSolver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/fieldSolver.hpp" line="21" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FieldSolver_1a44397d5f947ec490f99b4698812fc6d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::gravity::FieldSolver::FieldSolver</definition>
+        <argsstring>(FieldSolver const &amp;)=delete</argsstring>
+        <name>FieldSolver</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::FieldSolver</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1gravity_1_1FieldSolver" kindref="compound">FieldSolver</ref> const &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/fieldSolver.hpp" line="23" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FieldSolver_1adeacdd592c9c2847227e5cb3980b258a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1FieldSolver" kindref="compound">FieldSolver</ref> &amp;</type>
+        <definition>FieldSolver &amp; octotigerII::gravity::FieldSolver::operator=</definition>
+        <argsstring>(FieldSolver const &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1gravity_1_1FieldSolver" kindref="compound">FieldSolver</ref> const &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/fieldSolver.hpp" line="25" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FieldSolver_1a85a32db5f85894ac690f4f420d89e26e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::FieldSolver::solve</definition>
+        <argsstring>(unsigned bank)</argsstring>
+        <name>solve</name>
+        <qualifiedname>octotigerII::gravity::FieldSolver::solve</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/fieldSolver.hpp" line="27" column="12" bodyfile="src/gravity/fieldSolver.cpp" bodystart="538" bodyend="548"/>
+        <references refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a7fad4049f75b8872fde0de9241bc3989" compoundref="fieldSolver_8hpp" startline="31">impl_</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent hierarchy with one partition per locality and bounded HPX workers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A solve reads the published bank and fills the other bank. The caller must hold the runtime stage lock and publish only after <ref refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a85a32db5f85894ac690f4f420d89e26e" kindref="member">solve()</ref> succeeds. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/fieldSolver.hpp" line="17" column="1" bodyfile="include/octotigerII/gravity/fieldSolver.hpp" bodystart="17" bodyend="32"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1ac54bd8a53c0976d6372ab12ca088b323" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver</scope><name>FieldSolver</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a44397d5f947ec490f99b4698812fc6d7" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver</scope><name>FieldSolver</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a7fad4049f75b8872fde0de9241bc3989" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver</scope><name>impl_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1adeacdd592c9c2847227e5cb3980b258a" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver</scope><name>operator=</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a85a32db5f85894ac690f4f420d89e26e" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver</scope><name>solve</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1aa0d8b1cbddfef9a36f57ead6d49cb2c1" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FieldSolver</scope><name>~FieldSolver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

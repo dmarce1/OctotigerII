@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1mesh_1_1TimeInterval" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::mesh::TimeInterval</compoundname>
+    <includes refid="mesh_8hpp" local="no">mesh.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1TimeInterval_1a6828c99f501964ef0ff349ff137e229b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::mesh::TimeInterval::begin</definition>
+        <argsstring></argsstring>
+        <name>begin</name>
+        <qualifiedname>octotigerII::mesh::TimeInterval::begin</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="233" column="13" bodyfile="include/octotigerII/mesh.hpp" bodystart="233" bodyend="233"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a0b9a076ef3d6e8ca73868dbfa5407ca0" compoundref="mesh_8cpp" startline="271" endline="274">contains</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeInterval_1ad88a88f3279d0101d0c2a94cfa3d3216" compoundref="mesh_8cpp" startline="264" endline="269">duration</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a1d4eee69338069873d10ec7d7fb07ae1" compoundref="mesh_8hpp" startline="242" endline="245">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1TimeInterval_1a3f121bea32fcfad416f25567e148b027" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::mesh::TimeInterval::end</definition>
+        <argsstring></argsstring>
+        <name>end</name>
+        <qualifiedname>octotigerII::mesh::TimeInterval::end</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="234" column="13" bodyfile="include/octotigerII/mesh.hpp" bodystart="234" bodyend="234"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a0b9a076ef3d6e8ca73868dbfa5407ca0" compoundref="mesh_8cpp" startline="271" endline="274">contains</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeInterval_1ad88a88f3279d0101d0c2a94cfa3d3216" compoundref="mesh_8cpp" startline="264" endline="269">duration</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a1d4eee69338069873d10ec7d7fb07ae1" compoundref="mesh_8hpp" startline="242" endline="245">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1TimeInterval_1ad88a88f3279d0101d0c2a94cfa3d3216" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::mesh::TimeInterval::duration</definition>
+        <argsstring>() const</argsstring>
+        <name>duration</name>
+        <qualifiedname>octotigerII::mesh::TimeInterval::duration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="236" column="13" bodyfile="src/mesh.cpp" bodystart="264" bodyend="269"/>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a6828c99f501964ef0ff349ff137e229b" compoundref="mesh_8hpp" startline="233" endline="233">begin</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a3f121bea32fcfad416f25567e148b027" compoundref="mesh_8hpp" startline="234" endline="234">end</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1TimeInterval_1a0b9a076ef3d6e8ca73868dbfa5407ca0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool octotigerII::mesh::TimeInterval::contains</definition>
+        <argsstring>(units::Time sampleTime, Real tolerance=64 *epsilonR) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>octotigerII::mesh::TimeInterval::contains</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>sampleTime</declname>
+        </param>
+        <param>
+          <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+          <declname>tolerance</declname>
+          <defval>64 *<ref refid="Real_8hpp_1a08cc81e0f92efcc2206a1bea24bb07ed" kindref="member">epsilonR</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="238" column="6" bodyfile="src/mesh.cpp" bodystart="271" bodyend="274"/>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a6828c99f501964ef0ff349ff137e229b" compoundref="mesh_8hpp" startline="233" endline="233">begin</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a3f121bea32fcfad416f25567e148b027" compoundref="mesh_8hpp" startline="234" endline="234">end</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1TimeInterval_1a1d4eee69338069873d10ec7d7fb07ae1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::mesh::TimeInterval::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::mesh::TimeInterval::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="242" column="6" bodyfile="include/octotigerII/mesh.hpp" bodystart="242" bodyend="245"/>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a6828c99f501964ef0ff349ff137e229b" compoundref="mesh_8hpp" startline="233" endline="233">begin</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a3f121bea32fcfad416f25567e148b027" compoundref="mesh_8hpp" startline="234" endline="234">end</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Closed physical time interval used to label fluxes and boundary data. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/mesh.hpp" line="230" column="1" bodyfile="include/octotigerII/mesh.hpp" bodystart="230" bodyend="246"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a6828c99f501964ef0ff349ff137e229b" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeInterval</scope><name>begin</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a0b9a076ef3d6e8ca73868dbfa5407ca0" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeInterval</scope><name>contains</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1ad88a88f3279d0101d0c2a94cfa3d3216" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeInterval</scope><name>duration</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a3f121bea32fcfad416f25567e148b027" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeInterval</scope><name>end</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a1d4eee69338069873d10ec7d7fb07ae1" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeInterval</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1verification_1_1ErrorNorm" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::verification::ErrorNorm</compoundname>
+    <includes refid="analytic_8hpp" local="no">analytic.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1a9720f1643b352e5a827940eb2c948a46" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::ErrorNorm::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="46" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="46" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1a8fea618c547a20465c5aca62f3ec6eb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::ErrorNorm::units</definition>
+        <argsstring></argsstring>
+        <name>units</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::units</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="46" column="18" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1aad8991f5e3b43aa4434359f7c00c2895" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::ErrorNorm::l1</definition>
+        <argsstring></argsstring>
+        <name>l1</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::l1</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Absolute CGS norms, retained for gates and for zero-reference fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="48" column="6" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1a9b1f2e3ca237d4bb042661930e5afad3" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::ErrorNorm::l2</definition>
+        <argsstring></argsstring>
+        <name>l2</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::l2</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="48" column="10" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1a4275bd0544b220fe83f6edd4a3f712dd" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::ErrorNorm::linf</definition>
+        <argsstring></argsstring>
+        <name>linf</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::linf</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="48" column="14" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1ab672de6582235a01a15c099a58cc176d" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::ErrorNorm::referenceL1</definition>
+        <argsstring></argsstring>
+        <name>referenceL1</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::referenceL1</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="49" column="6" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1a3e79d5419fe1de566d9963bb16eef071" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::ErrorNorm::referenceL2</definition>
+        <argsstring></argsstring>
+        <name>referenceL2</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::referenceL2</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="49" column="19" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1a528edf98c21f9133fc94272065bef99b" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::ErrorNorm::referenceLinf</definition>
+        <argsstring></argsstring>
+        <name>referenceLinf</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::referenceLinf</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="49" column="32" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1a944d411d0b05e38511b67f664b968b0b" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::ErrorNorm::relativeL1HalfWidth95</definition>
+        <argsstring></argsstring>
+        <name>relativeL1HalfWidth95</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::relativeL1HalfWidth95</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="50" column="6" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1aab91d228c0b34fc2862f9dcad094b0ad" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::ErrorNorm::relativeL2HalfWidth95</definition>
+        <argsstring></argsstring>
+        <name>relativeL2HalfWidth95</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::relativeL2HalfWidth95</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="50" column="29" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1afb43384426421363d8d13c3cd57022d3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::verification::ErrorNorm::samplingUncertaintyAvailable</definition>
+        <argsstring></argsstring>
+        <name>samplingUncertaintyAvailable</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::samplingUncertaintyAvailable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="51" column="6" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ErrorNorm_1ad2b08a8d5307960f492dc51d13b5ddae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::verification::ErrorNorm::samplingWarning</definition>
+        <argsstring></argsstring>
+        <name>samplingWarning</name>
+        <qualifiedname>octotigerII::verification::ErrorNorm::samplingWarning</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="51" column="36" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/verification/analytic.hpp" line="44" column="1" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="44" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1aad8991f5e3b43aa4434359f7c00c2895" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>l1</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a9b1f2e3ca237d4bb042661930e5afad3" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>l2</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a4275bd0544b220fe83f6edd4a3f712dd" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>linf</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a9720f1643b352e5a827940eb2c948a46" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>name</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1ab672de6582235a01a15c099a58cc176d" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>referenceL1</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a3e79d5419fe1de566d9963bb16eef071" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>referenceL2</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a528edf98c21f9133fc94272065bef99b" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>referenceLinf</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a944d411d0b05e38511b67f664b968b0b" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>relativeL1HalfWidth95</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1aab91d228c0b34fc2862f9dcad094b0ad" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>relativeL2HalfWidth95</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1afb43384426421363d8d13c3cd57022d3" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>samplingUncertaintyAvailable</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1ad2b08a8d5307960f492dc51d13b5ddae" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>samplingWarning</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a8fea618c547a20465c5aca62f3ec6eb8" prot="public" virt="non-virtual"><scope>octotigerII::verification::ErrorNorm</scope><name>units</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

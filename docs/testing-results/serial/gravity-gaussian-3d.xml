@@ -1,0 +1,1390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="80"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="13"
+	timestamp="2026-09-23T01:40:50"
+	>
+	<testcase name="gravity-gaussian.3d.Units.CgsConversionsAndConstants" classname="gravity-gaussian.3d.Units.CgsConversionsAndConstants" time="0.0036268" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Units.CgsConversionsAndConstants
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Units
+[ RUN      ] Units.CgsConversionsAndConstants
+[       OK ] Units.CgsConversionsAndConstants (0 ms)
+[----------] 1 test from Units (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Units.DimensionalMeshAndChildTopology" classname="gravity-gaussian.3d.Units.DimensionalMeshAndChildTopology" time="0.00363808" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Units.DimensionalMeshAndChildTopology
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Units
+[ RUN      ] Units.DimensionalMeshAndChildTopology
+[       OK ] Units.DimensionalMeshAndChildTopology (0 ms)
+[----------] 1 test from Units (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce" classname="gravity-gaussian.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce" time="0.00353366" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.FaceIndicesCoverEachFaceExactlyOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.FaceIndicesCoverEachFaceExactlyOnce
+[       OK ] Mesh.FaceIndicesCoverEachFaceExactlyOnce (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes" classname="gravity-gaussian.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes" time="0.00337652" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+[       OK ] Mesh.RejectsInvalidExtentsCoordinatesAndAxes (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Mesh.CgsGeometryAndPatchBounds" classname="gravity-gaussian.3d.Mesh.CgsGeometryAndPatchBounds" time="0.00319541" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.CgsGeometryAndPatchBounds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.CgsGeometryAndPatchBounds
+[       OK ] Mesh.CgsGeometryAndPatchBounds (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.BlockTopology.ChildBitsParentAndInvalidSlots" classname="gravity-gaussian.3d.BlockTopology.ChildBitsParentAndInvalidSlots" time="0.00315301" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = BlockTopology.ChildBitsParentAndInvalidSlots
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from BlockTopology
+[ RUN      ] BlockTopology.ChildBitsParentAndInvalidSlots
+[       OK ] BlockTopology.ChildBitsParentAndInvalidSlots (0 ms)
+[----------] 1 test from BlockTopology (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals" classname="gravity-gaussian.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals" time="0.00329312" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TimeMetadata.StepPublicationSynchronizationAndIntervals
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeMetadata
+[ RUN      ] TimeMetadata.StepPublicationSynchronizationAndIntervals
+[       OK ] TimeMetadata.StepPublicationSynchronizationAndIntervals (0 ms)
+[----------] 1 test from TimeMetadata (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact" classname="gravity-gaussian.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact" time="0.00331865" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StorageLayout
+[ RUN      ] StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+[       OK ] StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact (0 ms)
+[----------] 1 test from StorageLayout (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.StorageLayout.EmptyPartitionsOverflowAndSlices" classname="gravity-gaussian.3d.StorageLayout.EmptyPartitionsOverflowAndSlices" time="0.00325053" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = StorageLayout.EmptyPartitionsOverflowAndSlices
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StorageLayout
+[ RUN      ] StorageLayout.EmptyPartitionsOverflowAndSlices
+[       OK ] StorageLayout.EmptyPartitionsOverflowAndSlices (0 ms)
+[----------] 1 test from StorageLayout (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0" classname="gravity-gaussian.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0" time="0.00311621" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1" classname="gravity-gaussian.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1" time="0.00313717" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2" classname="gravity-gaussian.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2" time="0.00326011" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.VectorMath.InitializationArithmeticAndDotProduct" classname="gravity-gaussian.3d.VectorMath.InitializationArithmeticAndDotProduct" time="0.00387625" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.InitializationArithmeticAndDotProduct
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.InitializationArithmeticAndDotProduct
+[       OK ] VectorMath.InitializationArithmeticAndDotProduct (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision" classname="gravity-gaussian.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision" time="0.00415147" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.InPlaceScalarAliasingAndIntegerDivision
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.InPlaceScalarAliasingAndIntegerDivision
+[       OK ] VectorMath.InPlaceScalarAliasingAndIntegerDivision (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.VectorMath.SplitConcatenateAndUnitVectors" classname="gravity-gaussian.3d.VectorMath.SplitConcatenateAndUnitVectors" time="0.00408724" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.SplitConcatenateAndUnitVectors
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.SplitConcatenateAndUnitVectors
+[       OK ] VectorMath.SplitConcatenateAndUnitVectors (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Options.HierarchicalIniSections" classname="gravity-gaussian.3d.Options.HierarchicalIniSections" time="0.00391769" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.HierarchicalIniSections
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.HierarchicalIniSections
+[       OK ] Options.HierarchicalIniSections (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Options.CliOverridesIniRegardlessOfArgumentOrder" classname="gravity-gaussian.3d.Options.CliOverridesIniRegardlessOfArgumentOrder" time="0.00356289" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.CliOverridesIniRegardlessOfArgumentOrder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.CliOverridesIniRegardlessOfArgumentOrder
+[       OK ] Options.CliOverridesIniRegardlessOfArgumentOrder (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Options.LegacyAndCanonicalNamesSharePrecedence" classname="gravity-gaussian.3d.Options.LegacyAndCanonicalNamesSharePrecedence" time="0.00327629" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.LegacyAndCanonicalNamesSharePrecedence
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.LegacyAndCanonicalNamesSharePrecedence
+[       OK ] Options.LegacyAndCanonicalNamesSharePrecedence (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth" classname="gravity-gaussian.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth" time="0.00327879" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.LaterIniOverridesEarlierAndCliOverridesBoth
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.LaterIniOverridesEarlierAndCliOverridesBoth
+[       OK ] Options.LaterIniOverridesEarlierAndCliOverridesBoth (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Options.MissingAndMalformedIniAreRejected" classname="gravity-gaussian.3d.Options.MissingAndMalformedIniAreRejected" time="0.00309443" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.MissingAndMalformedIniAreRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.MissingAndMalformedIniAreRejected
+[       OK ] Options.MissingAndMalformedIniAreRejected (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp" classname="gravity-gaussian.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp" time="0.00307215" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from OptionValues
+[ RUN      ] OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+[       OK ] OptionValues.SplitArgumentsSamplingAndGeneratedHelp (0 ms)
+[----------] 1 test from OptionValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.OptionValues.DuplicateAliasIsRejected" classname="gravity-gaussian.3d.OptionValues.DuplicateAliasIsRejected" time="0.00356775" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = OptionValues.DuplicateAliasIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from OptionValues
+[ RUN      ] OptionValues.DuplicateAliasIsRejected
+[       OK ] OptionValues.DuplicateAliasIsRejected (0 ms)
+[----------] 1 test from OptionValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1" time="0.00354995" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/0
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/0 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2" time="0.00355766" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/1
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/1 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3" time="0.00375871" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/2
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/2 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4" time="0.00339968" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/3
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/3 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5" time="0.00324039" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/4
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/4
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/4 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6" time="0.00344311" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/5
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/5
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/5 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7" time="0.00334731" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/6
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/6
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/6 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8" time="0.00310533" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/7
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/7
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/7 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9" time="0.00333591" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/8
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/8
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/8 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10" classname="gravity-gaussian.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10" time="0.00315807" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/9
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/9
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/9 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--not.an.option=1&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--not.an.option=1&quot;" time="0.00305138" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/0
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/0 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--problem.name=sod&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--problem.name=sod&quot;" time="0.00318635" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/1
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/1 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.ndim=3&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.ndim=3&quot;" time="0.00299999" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/2
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/2 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.cells=3&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.cells=3&quot;" time="0.00312185" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/3
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/3 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.level=-1&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.level=-1&quot;" time="0.0033458" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/4
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/4
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/4 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=0&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=0&quot;" time="0.0034974" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/5
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/5
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/5 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=11&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=11&quot;" time="0.003721" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/6
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/6
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/6 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0&quot;" time="0.00361597" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/7
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/7
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/7 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0.6&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0.6&quot;" time="0.00344244" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/8
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/8
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/8 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=nan&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=nan&quot;" time="0.00328456" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/9
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/9
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/9 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleO=4&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleO=4&quot;" time="0.00299211" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/10
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/10
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/10 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=inf&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=inf&quot;" time="0.00302705" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/11
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/11
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/11 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=1&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=1&quot;" time="0.00297046" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/12
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/12
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/12 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.gravityReference=invalid&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.gravityReference=invalid&quot;" time="0.00314321" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/13
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/13
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/13 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directSamples=-1&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directSamples=-1&quot;" time="0.0031781" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/14
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/14
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/14 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directMaxPairs=0&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directMaxPairs=0&quot;" time="0.00320761" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/15
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/15
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/15 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--randomSeed=-1&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--randomSeed=-1&quot;" time="0.00300449" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/16
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/16
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/16 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.workStealing=yes&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.workStealing=yes&quot;" time="0.00302371" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/17
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/17
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/17 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.stopTime=-1&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.stopTime=-1&quot;" time="0.00327252" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/18
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/18
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/18 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--radiation.lightSpeedRatio=0&quot;" classname="gravity-gaussian.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--radiation.lightSpeedRatio=0&quot;" time="0.00332634" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/19
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/19
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/19 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.SlopeValues.IndependentUnequalSlopeValues" classname="gravity-gaussian.3d.SlopeValues.IndependentUnequalSlopeValues" time="0.00330715" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = SlopeValues.IndependentUnequalSlopeValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SlopeValues
+[ RUN      ] SlopeValues.IndependentUnequalSlopeValues
+[       OK ] SlopeValues.IndependentUnequalSlopeValues (0 ms)
+[----------] 1 test from SlopeValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;00-00 00-00&gt;" classname="gravity-gaussian.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;00-00 00-00&gt;" time="0.00341544" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;01-00 00-00&gt;" classname="gravity-gaussian.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;01-00 00-00&gt;" time="0.00330246" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;02-00 00-00&gt;" classname="gravity-gaussian.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;02-00 00-00&gt;" time="0.00320984" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;00-00 00-00&gt;" classname="gravity-gaussian.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;00-00 00-00&gt;" time="0.0035131" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;01-00 00-00&gt;" classname="gravity-gaussian.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;01-00 00-00&gt;" time="0.00348417" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;02-00 00-00&gt;" classname="gravity-gaussian.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;02-00 00-00&gt;" time="0.00361797" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Gravity.VacuumHasExactlyZeroPotentialAndForce" classname="gravity-gaussian.3d.Gravity.VacuumHasExactlyZeroPotentialAndForce" time="0.00385669" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Gravity.VacuumHasExactlyZeroPotentialAndForce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Gravity
+[ RUN      ] Gravity.VacuumHasExactlyZeroPotentialAndForce
+[       OK ] Gravity.VacuumHasExactlyZeroPotentialAndForce (0 ms)
+[----------] 1 test from Gravity (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce" classname="gravity-gaussian.3d.Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce" time="0.00363059" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Gravity
+[ RUN      ] Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce
+[       OK ] Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce (0 ms)
+[----------] 1 test from Gravity (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Gravity.SuperpositionAndDensityScaling" classname="gravity-gaussian.3d.Gravity.SuperpositionAndDensityScaling" time="0.00383768" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Gravity.SuperpositionAndDensityScaling
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Gravity
+[ RUN      ] Gravity.SuperpositionAndDensityScaling
+[       OK ] Gravity.SuperpositionAndDensityScaling (1 ms)
+[----------] 1 test from Gravity (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Gravity.RejectsInvalidGeometryOrderAngleAndDensity" classname="gravity-gaussian.3d.Gravity.RejectsInvalidGeometryOrderAngleAndDensity" time="0.00375886" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Gravity.RejectsInvalidGeometryOrderAngleAndDensity
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Gravity
+[ RUN      ] Gravity.RejectsInvalidGeometryOrderAngleAndDensity
+[       OK ] Gravity.RejectsInvalidGeometryOrderAngleAndDensity (0 ms)
+[----------] 1 test from Gravity (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.DirectReference.ReproducibleDistinctSampling" classname="gravity-gaussian.3d.DirectReference.ReproducibleDistinctSampling" time="0.00371395" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = DirectReference.ReproducibleDistinctSampling
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DirectReference
+[ RUN      ] DirectReference.ReproducibleDistinctSampling
+[       OK ] DirectReference.ReproducibleDistinctSampling (0 ms)
+[----------] 1 test from DirectReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.DirectReference.SamplingUncertaintyAndCensusLimits" classname="gravity-gaussian.3d.DirectReference.SamplingUncertaintyAndCensusLimits" time="0.00379925" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = DirectReference.SamplingUncertaintyAndCensusLimits
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DirectReference
+[ RUN      ] DirectReference.SamplingUncertaintyAndCensusLimits
+[       OK ] DirectReference.SamplingUncertaintyAndCensusLimits (0 ms)
+[----------] 1 test from DirectReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder" classname="gravity-gaussian.3d.DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder" time="0.00356073" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DirectReference
+[ RUN      ] DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder
+[       OK ] DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder (0 ms)
+[----------] 1 test from DirectReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible" classname="gravity-gaussian.3d.PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible" time="0.0851404" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PartitionedGravity
+[ RUN      ] PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible
+n=8 p=3 theta=0.5 workers=1 pattern=0 multipolePairs=1452 directPairs=37888 digest=4771979583816720914 cellsPerLocality= 512
+n=8 p=3 theta=0.5 workers=4 pattern=0 multipolePairs=1452 directPairs=37888 digest=4771979583816720914 cellsPerLocality= 512
+n=8 p=3 theta=0.5 workers=4 pattern=0 multipolePairs=1452 directPairs=37888 digest=4771979583816720914 cellsPerLocality= 512
+[       OK ] PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible (82 ms)
+[----------] 1 test from PartitionedGravity (82 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (82 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 1, 0.57, 0)" classname="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 1, 0.57, 0)" time="0.0131531" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Regimes/PartitionedGravityCase
+[ RUN      ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/0
+n=8 p=1 theta=0.57 workers=4 pattern=0 multipolePairs=1548 directPairs=31744 digest=13252963588950193203 cellsPerLocality= 512
+[       OK ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/0 (11 ms)
+[----------] 1 test from Regimes/PartitionedGravityCase (11 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (11 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 10, 0.4, 0)" classname="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 10, 0.4, 0)" time="0.847331" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Regimes/PartitionedGravityCase
+[ RUN      ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/1
+n=8 p=10 theta=0.4 workers=4 pattern=0 multipolePairs=948 directPairs=70144 digest=17489266560866282221 cellsPerLocality= 512
+[       OK ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/1 (833 ms)
+[----------] 1 test from Regimes/PartitionedGravityCase (833 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (833 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.1, 1)" classname="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.1, 1)" time="0.00285775" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Regimes/PartitionedGravityCase
+[ RUN      ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/2
+n=4 p=3 theta=0.1 workers=4 pattern=1 multipolePairs=0 directPairs=2016 digest=4998340203152526200 cellsPerLocality= 64
+[       OK ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/2 (0 ms)
+[----------] 1 test from Regimes/PartitionedGravityCase (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.5, 2)" classname="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.5, 2)" time="0.00297942" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Regimes/PartitionedGravityCase
+[ RUN      ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/3
+n=4 p=3 theta=0.5 workers=4 pattern=2 multipolePairs=0 directPairs=2016 digest=15567473145155401509 cellsPerLocality= 64
+[       OK ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/3 (0 ms)
+[----------] 1 test from Regimes/PartitionedGravityCase (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(2, 3, 0.5, 0)" classname="gravity-gaussian.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(2, 3, 0.5, 0)" time="0.433336" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/4
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Regimes/PartitionedGravityCase
+[ RUN      ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/4
+n=16 p=3 theta=0.5 workers=4 pattern=0 multipolePairs=33120 directPairs=412416 digest=505002038768973637 cellsPerLocality= 4096
+[       OK ] Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/4 (430 ms)
+[----------] 1 test from Regimes/PartitionedGravityCase (430 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (430 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum" classname="gravity-gaussian.3d.GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum" time="1.26821" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GravityConvergence
+[ RUN      ] GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum
+p=1 relative RMS phi=0.0023567 g=0.0580917
+p=2 relative RMS phi=0.000119024 g=0.00398514
+p=3 relative RMS phi=2.02551e-05 g=0.000741358
+p=4 relative RMS phi=3.70144e-06 g=0.000183643
+p=5 relative RMS phi=1.558e-06 g=4.48155e-05
+p=6 relative RMS phi=1.43968e-07 g=8.92728e-06
+p=7 relative RMS phi=3.81588e-08 g=1.63331e-06
+p=8 relative RMS phi=4.17028e-09 g=3.9722e-07
+p=9 relative RMS phi=2.85888e-09 g=1.06979e-07
+p=10 relative RMS phi=6.50687e-11 g=1.35641e-08
+[       OK ] GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum (1224 ms)
+[----------] 1 test from GravityConvergence (1224 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1224 ms total)
+[  PASSED...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement" classname="gravity-gaussian.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement" time="0.00325169" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Storage.IndependentFieldsBanksViewsTypesAndRetirement
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Storage
+[ RUN      ] Storage.IndependentFieldsBanksViewsTypesAndRetirement
+Shared partitions, independent layouts/fields, physical flux, views, banks, type validation and retirement passed
+[       OK ] Storage.IndependentFieldsBanksViewsTypesAndRetirement (0 ms)
+[----------] 1 test from Storage (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities" classname="gravity-gaussian.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities" time="0.00323034" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = AnalyticReference.IndependentSphereSodAndStreamingIdentities
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AnalyticReference
+[ RUN      ] AnalyticReference.IndependentSphereSodAndStreamingIdentities
+[       OK ] AnalyticReference.IndependentSphereSodAndStreamingIdentities (0 ms)
+[----------] 1 test from AnalyticReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy" classname="gravity-gaussian.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy" time="0.00269533" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = AnalyticReference.ErrorNormsAndAccuracyPolicy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AnalyticReference
+[ RUN      ] AnalyticReference.ErrorNormsAndAccuracyPolicy
+[       OK ] AnalyticReference.ErrorNormsAndAccuracyPolicy (0 ms)
+[----------] 1 test from AnalyticReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.AnalyticConvergence.MeshRefinementReducesError" classname="gravity-gaussian.3d.AnalyticConvergence.MeshRefinementReducesError" time="13.3442" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = AnalyticConvergence.MeshRefinementReducesError
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AnalyticConvergence
+[ RUN      ] AnalyticConvergence.MeshRefinementReducesError
+n=16
+Analytic comparison: available | Spherically truncated Gaussian gravity | cell centers | t=0 s | relative L1/L2/Linf
+  potential L1=0.00487616 L2=0.0120189 Linf=0.0371891
+  accelerationX L1=0.0084654 L2=0.0151056 Linf=0.0286035
+  accelerationY L1=0.0084654 L2=0.0151056 Linf=0.0286035
+  accelerationZ L1=0.0084654 L2=0.0151056 Linf=0.0286035
+n=32
+Analytic comparison: available | Spherically truncated Gaussian gravity | cell centers | t=0 s | relative L1/L2/Linf
+  potential L1=0.00122125 L2=0.00298755 Linf=0.0096305
+  accelerationX L1=0.00212363 L2=0.00379361 Linf=0.00732903
+  accelerationY L1=0.00212363 L2=0.00379361 Linf=0.00732903
+  accelerationZ L1=0.00212363 L2=0.00379361 Linf=0.00732903
+[       OK ] AnalyticConvergence.MeshRefinementRe...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="gravity-gaussian.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip" classname="gravity-gaussian.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip" time="0.0175019" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SiloOutput
+[ RUN      ] SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+gravity-gaussian 3D Silo roundtrip passed
+[       OK ] SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip (7 ms)
+[----------] 1 test from SiloOutput (7 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (7 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="example.gravity-gaussian.3d" classname="example.gravity-gaussian.3d" time="0.0459784" status="run">
+		<properties>
+			<property name="cmake_labels" value="application"/>
+		</properties>
+		<system-out>OctotigerII 0.1.0 | serial fields | gravity-gaussian | 3D
+step=0 time=0.000000e+00 mass=4.213075e+30 gasEnergy=0.000000e+00 radiationEnergy=0.000000e+00
+Analytic comparison: available | Direct summation of cell-center masses | cell centers | t=0.000000e+00 s | relative L1/L2/Linf
+  direct targets=512/512 sources=280 | all targets | mt19937_64 seed=5489
+  potential L1=1.944595e-06 L2=2.518448e-06 Linf=4.053161e-06
+  accelerationX L1=5.118546e-05 L2=5.702197e-05 Linf=5.972121e-05
+  accelerationY L1=5.118546e-05 L2=5.702197e-05 Linf=5.972121e-05
+  accelerationZ L1=5.118546e-05 L2=5.702197e-05 Linf=5.972121e-05
+gravity multipolePairs=1452 directPairs=37888 workerTasks=12 cellsPerLocality= 512
+Completed 0 steps at t=0.000000e+00 s
+</system-out>
+	</testcase>
+	<testcase name="application" classname="application" time="0.152549" status="run">
+		<properties>
+			<property name="cmake_labels" value="application"/>
+		</properties>
+		<system-out>Compiled problem/dimension, application options and Silo time series passed
+Analytic report, availability, and failing accuracy gates passed
+</system-out>
+	</testcase>
+</testsuite>

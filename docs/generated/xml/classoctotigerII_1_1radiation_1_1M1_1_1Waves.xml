@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1radiation_1_1M1_1_1Waves" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::radiation::M1::Waves</compoundname>
+    <includes refid="m1_8hpp" local="no">m1.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1af766ac1c7ce8d4961ba9beccc277f77b" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a0b9c04fc7ccd648398200c4d18cabba2" kindref="member">Flux</ref></type>
+        <definition>Flux octotigerII::radiation::M1::Waves::flux</definition>
+        <argsstring></argsstring>
+        <name>flux</name>
+        <qualifiedname>octotigerII::radiation::M1::Waves::flux</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="35" column="6" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="35" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" compoundref="m1_8hpp" startline="72" endline="102">octotigerII::radiation::M1::physicalFlux</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1aff9cfb792a084d4a222daa7410b34d8f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" kindref="member">units::Velocity</ref></type>
+        <definition>units::Velocity octotigerII::radiation::M1::Waves::minus</definition>
+        <argsstring></argsstring>
+        <name>minus</name>
+        <qualifiedname>octotigerII::radiation::M1::Waves::minus</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="36" column="17" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="36" bodyend="36"/>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" compoundref="m1_8hpp" startline="72" endline="102">octotigerII::radiation::M1::physicalFlux</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1a592fe515758f7f61af77b4df6ee728f2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" kindref="member">units::Velocity</ref></type>
+        <definition>units::Velocity octotigerII::radiation::M1::Waves::plus</definition>
+        <argsstring></argsstring>
+        <name>plus</name>
+        <qualifiedname>octotigerII::radiation::M1::Waves::plus</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="36" column="23" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="36" bodyend="36"/>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" compoundref="m1_8hpp" startline="72" endline="102">octotigerII::radiation::M1::physicalFlux</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Normal flux and minimum/maximum characteristic velocities of the <ref refid="classoctotigerII_1_1radiation_1_1M1" kindref="compound">M1</ref> system. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/radiation/m1.hpp" line="32" column="1" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1af766ac1c7ce8d4961ba9beccc277f77b" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1::Waves</scope><name>flux</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1aff9cfb792a084d4a222daa7410b34d8f" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1::Waves</scope><name>minus</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1a592fe515758f7f61af77b4df6ee728f2" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1::Waves</scope><name>plus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

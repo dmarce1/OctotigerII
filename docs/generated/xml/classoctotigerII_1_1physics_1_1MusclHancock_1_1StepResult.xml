@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::physics::MusclHancock::StepResult</compoundname>
+    <includes refid="finiteVolume_8hpp" local="no">finiteVolume.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult_1aad28b30c9c3717c8c8d61052ab0170b5" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1TimeInterval" kindref="compound">mesh::TimeInterval</ref></type>
+        <definition>mesh::TimeInterval octotigerII::physics::MusclHancock&lt; System &gt;::StepResult::timeInterval</definition>
+        <argsstring></argsstring>
+        <name>timeInterval</name>
+        <qualifiedname>octotigerII::physics::MusclHancock::StepResult::timeInterval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="168" column="20" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult_1ac5c98802b21b46841ac9af2182226b6e" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1physics_1_1MusclHancock_1a93b2b91a9179fdba17c8cd4fc361ff76" kindref="member">FaceFluxes</ref></type>
+        <definition>FaceFluxes octotigerII::physics::MusclHancock&lt; System &gt;::StepResult::faceFluxes</definition>
+        <argsstring></argsstring>
+        <name>faceFluxes</name>
+        <qualifiedname>octotigerII::physics::MusclHancock::StepResult::faceFluxes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="169" column="12" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Physical integration interval and the face fluxes produced by the step. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>octotigerII::mesh::TimeInterval</label>
+        <link refid="classoctotigerII_1_1mesh_1_1TimeInterval"/>
+      </node>
+      <node id="1">
+        <label>octotigerII::physics::MusclHancock&lt; System &gt;::StepResult</label>
+        <link refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>timeInterval</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/physics/finiteVolume.hpp" line="165" column="1" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="165" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult_1ac5c98802b21b46841ac9af2182226b6e" prot="public" virt="non-virtual"><scope>octotigerII::physics::MusclHancock::StepResult</scope><name>faceFluxes</name></member>
+      <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult_1aad28b30c9c3717c8c8d61052ab0170b5" prot="public" virt="non-virtual"><scope>octotigerII::physics::MusclHancock::StepResult</scope><name>timeInterval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -87,17 +87,24 @@ build directory. CMake writes `compile_commands.json` there, including the
 matching generated include path. Do not combine dimension-specific generated
 headers in one include search path.
 
-## Existing checks
+## Tests
 
-CTest currently launches custom assertion-based regression executables and a
-Python application check. It is a test runner, not the Google Test framework.
-Each configured build checks its own dimension and selected problem; validate
-multiple builds to cover multiple dimensions. Tests include dimensional types,
-Cartesian indexing and child topology, selected problem evolution, tiled versus
-single-block transport, periodic conservation, admissibility, storage lifetime
-and transfer checks, and Silo readback. Gravity adds the independent direct-sum
-reference; HPX adds typed serialization checks. Formal Google Test fixtures and
-individual test cases are a separately deferred step.
+Tests use GoogleTest with individual CTest discovery. An installed GoogleTest
+1.12+ is reused; otherwise CMake fetches the pinned 1.14.0 source without root.
+`GTest_ROOT` or `CMAKE_PREFIX_PATH` selects an installation. For offline builds,
+set `OCTOTIGERII_FETCH_GOOGLETEST=OFF` or provide an unpacked tree using
+`FETCHCONTENT_SOURCE_DIR_GOOGLETEST`. Tests can be omitted with
+`OCTOTIGERII_BUILD_TESTS=OFF`.
+
+After `./build.sh release --problem sod --ndim 1`, run:
+
+```bash
+ctest --test-dir release/sod/1d --output-on-failure -j 2
+ctest --test-dir release/sod/1d --output-on-failure -L unit
+```
+
+See [testing](docs/testing.md) for the full coverage list, direct GoogleTest
+filters, distributed tests, and the problem/dimension matrix runner.
 
 ## Profiling dependencies
 

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1PartitionSet" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::PartitionSet</compoundname>
+    <includes refid="field_8hpp" local="no">field.hpp</includes>
+    <innerclass refid="classoctotigerII_1_1storage_1_1PartitionSet_1_1State" prot="private">octotigerII::storage::PartitionSet::State</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classoctotigerII_1_1storage_1_1PartitionSet_1abd37c297bc52515478627cb6b7c6643a" prot="public" static="no">
+        <type>hpx::id_type</type>
+        <definition>using octotigerII::storage::PartitionSet::Partition =  hpx::id_type</definition>
+        <argsstring></argsstring>
+        <name>Partition</name>
+        <qualifiedname>octotigerII::storage::PartitionSet::Partition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="28" column="1" bodyfile="include/octotigerII/storage/field.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1PartitionSet_1a57c0a84e24d937b54717aea8315e34fd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classoctotigerII_1_1storage_1_1PartitionSet_1_1State" kindref="compound">State</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;State&gt; octotigerII::storage::PartitionSet::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>octotigerII::storage::PartitionSet::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="77" column="17" bodyfile="include/octotigerII/storage/field.hpp" bodystart="77" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1PartitionSet_1a41d48880b3c7e46515bb8ba9559a1abc" compoundref="field_8hpp" startline="58" endline="62">newField</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1PartitionSet_1acbf24d60ad425e2c1ab3e64dbc75a2b2" compoundref="field_8hpp" startline="48" endline="50">owners</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1PartitionSet_1a489d75c4a92138f7e01bf5f7d7634a76" compoundref="field_8hpp" startline="53" endline="55">partitions</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1PartitionSet_1a8cf2e094213a2bf16c24576b8e148a26" compoundref="field_8hpp" startline="33" endline="45">PartitionSet</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1PartitionSet_1a8cf2e094213a2bf16c24576b8e148a26" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::storage::PartitionSet::PartitionSet</definition>
+        <argsstring>(std::vector&lt; Locality &gt; owners)</argsstring>
+        <name>PartitionSet</name>
+        <qualifiedname>octotigerII::storage::PartitionSet::PartitionSet</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">Locality</ref> &gt;</type>
+          <declname>owners</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="33" column="10" bodyfile="include/octotigerII/storage/field.hpp" bodystart="33" bodyend="45"/>
+        <references refid="classoctotigerII_1_1storage_1_1PartitionSet_1acbf24d60ad425e2c1ab3e64dbc75a2b2" compoundref="field_8hpp" startline="48" endline="50">owners</references>
+        <references refid="classoctotigerII_1_1storage_1_1PartitionSet_1a57c0a84e24d937b54717aea8315e34fd" compoundref="field_8hpp" startline="77">state_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1PartitionSet_1acbf24d60ad425e2c1ab3e64dbc75a2b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">Locality</ref> &gt; const &amp;</type>
+        <definition>std::vector&lt; Locality &gt; const  &amp; octotigerII::storage::PartitionSet::owners</definition>
+        <argsstring>() const</argsstring>
+        <name>owners</name>
+        <qualifiedname>octotigerII::storage::PartitionSet::owners</qualifiedname>
+        <briefdescription>
+<para>Return the locality assigned to each partition; repetitions are permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="48" column="19" bodyfile="include/octotigerII/storage/field.hpp" bodystart="48" bodyend="50"/>
+        <references refid="classoctotigerII_1_1storage_1_1PartitionSet_1a57c0a84e24d937b54717aea8315e34fd" compoundref="field_8hpp" startline="77">state_</references>
+        <referencedby refid="classoctotigerII_1_1storage_1_1PartitionSet_1a8cf2e094213a2bf16c24576b8e148a26" compoundref="field_8hpp" startline="33" endline="45">PartitionSet</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1PartitionSet_1a489d75c4a92138f7e01bf5f7d7634a76" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1storage_1_1PartitionSet_1abd37c297bc52515478627cb6b7c6643a" kindref="member">Partition</ref> &gt; const &amp;</type>
+        <definition>std::vector&lt; Partition &gt; const  &amp; octotigerII::storage::PartitionSet::partitions</definition>
+        <argsstring>() const</argsstring>
+        <name>partitions</name>
+        <qualifiedname>octotigerII::storage::PartitionSet::partitions</qualifiedname>
+        <briefdescription>
+<para>Return component handles shared by the fields in this partition set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="53" column="19" bodyfile="include/octotigerII/storage/field.hpp" bodystart="53" bodyend="55"/>
+        <references refid="classoctotigerII_1_1storage_1_1PartitionSet_1a57c0a84e24d937b54717aea8315e34fd" compoundref="field_8hpp" startline="77">state_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1PartitionSet_1a41d48880b3c7e46515bb8ba9559a1abc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+        <definition>FieldId octotigerII::storage::PartitionSet::newField</definition>
+        <argsstring>() const</argsstring>
+        <name>newField</name>
+        <qualifiedname>octotigerII::storage::PartitionSet::newField</qualifiedname>
+        <briefdescription>
+<para>Reserve a fresh field identity. Retired IDs are never reused. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="58" column="9" bodyfile="include/octotigerII/storage/field.hpp" bodystart="58" bodyend="62"/>
+        <references refid="classoctotigerII_1_1storage_1_1PartitionSet_1a57c0a84e24d937b54717aea8315e34fd" compoundref="field_8hpp" startline="77">state_</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shared component directory. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Several storage partitions may occupy one locality. Fields allocated through copies of this object share a non-reusing identity counter. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/field.hpp" line="24" column="1" bodyfile="include/octotigerII/storage/field.hpp" bodystart="24" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1a41d48880b3c7e46515bb8ba9559a1abc" prot="public" virt="non-virtual"><scope>octotigerII::storage::PartitionSet</scope><name>newField</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1acbf24d60ad425e2c1ab3e64dbc75a2b2" prot="public" virt="non-virtual"><scope>octotigerII::storage::PartitionSet</scope><name>owners</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1abd37c297bc52515478627cb6b7c6643a" prot="public" virt="non-virtual"><scope>octotigerII::storage::PartitionSet</scope><name>Partition</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1a489d75c4a92138f7e01bf5f7d7634a76" prot="public" virt="non-virtual"><scope>octotigerII::storage::PartitionSet</scope><name>partitions</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1a8cf2e094213a2bf16c24576b8e148a26" prot="public" virt="non-virtual"><scope>octotigerII::storage::PartitionSet</scope><name>PartitionSet</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1a57c0a84e24d937b54717aea8315e34fd" prot="private" virt="non-virtual"><scope>octotigerII::storage::PartitionSet</scope><name>state_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

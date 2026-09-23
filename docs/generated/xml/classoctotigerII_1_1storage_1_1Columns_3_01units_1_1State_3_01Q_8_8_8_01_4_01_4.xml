@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;</compoundname>
+    <includes refid="columns_8hpp" local="no">columns.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename...</type>
+        <declname>Q</declname>
+        <defname>Q</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ad97e5690ac6132538bf8d85a63dfbe22" prot="public" static="no">
+        <type><ref refid="classoctotigerII_1_1units_1_1State" kindref="compound">units::State</ref>&lt; Q... &gt;</type>
+        <definition>using octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;::State =  units::State&lt;Q...&gt;</definition>
+        <argsstring></argsstring>
+        <name>State</name>
+        <qualifiedname>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;::State</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="27" column="5" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a72eeb64ae2affaa42eee13ee8623e38d" prot="public" static="no" mutable="no">
+        <type>std::tuple&lt; <ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; Q &gt;... &gt;</type>
+        <definition>std::tuple&lt;Buffer&lt;Q&gt;...&gt; octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;::buffers</definition>
+        <argsstring></argsstring>
+        <name>buffers</name>
+        <qualifiedname>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;::buffers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="28" column="16" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ac8bb15e41c6330964e6c5e47d8da1fc3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ad97e5690ac6132538bf8d85a63dfbe22" kindref="member">State</ref></type>
+        <definition>State octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;::at</definition>
+        <argsstring>(std::size_t i) const</argsstring>
+        <name>at</name>
+        <qualifiedname>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;::at</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="30" column="11" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ad7de025f45e72fb66a546c53a888398b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;::put</definition>
+        <argsstring>(std::size_t i, State const &amp;state)</argsstring>
+        <name>put</name>
+        <qualifiedname>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;::put</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ad97e5690ac6132538bf8d85a63dfbe22" kindref="member">State</ref> const &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="34" column="10" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="34" bodyend="36"/>
+        <references refid="classoctotigerII_1_1units_1_1State_1a05a34d467acff718eba16ead7f25cc6f" compoundref="state_8hpp" startline="95" endline="97">octotigerII::units::State&lt; Q &gt;::forEach</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/columns.hpp" line="25" column="1" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="25" bodyend="37"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ac8bb15e41c6330964e6c5e47d8da1fc3" prot="public" virt="non-virtual"><scope>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;</scope><name>at</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a72eeb64ae2affaa42eee13ee8623e38d" prot="public" virt="non-virtual"><scope>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;</scope><name>buffers</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ad7de025f45e72fb66a546c53a888398b" prot="public" virt="non-virtual"><scope>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;</scope><name>put</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ad97e5690ac6132538bf8d85a63dfbe22" prot="public" virt="non-virtual"><scope>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;</scope><name>State</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="solver_8cpp" kind="file" language="C++">
+    <compoundname>solver.cpp</compoundname>
+    <includes refid="solver_8hpp" local="yes">octotigerII/gravity/solver.hpp</includes>
+    <includes local="no">array</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes refid="fmm_8hpp" local="yes">octotigerII/gravity/diagonal/fmm.hpp</includes>
+    <incdepgraph>
+      <node id="31">
+        <label>octotigerII/gravity/diagonal/fmm.hpp</label>
+        <link refid="fmm_8hpp"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>octotigerII/gravity/gravityFields.hpp</label>
+        <link refid="gravityFields_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII/gravity/solver.hpp</label>
+        <link refid="solver_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>octotigerII/math/Real.hpp</label>
+        <link refid="Real_8hpp"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>octotigerII/mesh.hpp</label>
+        <link refid="mesh_8hpp"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>octotigerII/units/cgs.hpp</label>
+        <link refid="cgs_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>octotigerII/units/constants.hpp</label>
+        <link refid="constants_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>octotigerII/units/state.hpp</label>
+        <link refid="state_8hpp"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/gravity/solver.cpp</label>
+        <link refid="solver_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="22">
+        <label>array</label>
+      </node>
+      <node id="10">
+        <label>boost/units/base_units/cgs/centimeter.hpp</label>
+      </node>
+      <node id="11">
+        <label>boost/units/base_units/cgs/gram.hpp</label>
+      </node>
+      <node id="12">
+        <label>boost/units/base_units/si/kelvin.hpp</label>
+      </node>
+      <node id="13">
+        <label>boost/units/base_units/si/second.hpp</label>
+      </node>
+      <node id="14">
+        <label>boost/units/cmath.hpp</label>
+      </node>
+      <node id="15">
+        <label>boost/units/derived_dimension.hpp</label>
+      </node>
+      <node id="16">
+        <label>boost/units/make_system.hpp</label>
+      </node>
+      <node id="17">
+        <label>boost/units/quantity.hpp</label>
+      </node>
+      <node id="18">
+        <label>cmath</label>
+      </node>
+      <node id="32">
+        <label>complex</label>
+      </node>
+      <node id="23">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="30">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>limits</label>
+      </node>
+      <node id="33">
+        <label>memory</label>
+      </node>
+      <node id="21">
+        <label>numbers</label>
+      </node>
+      <node id="7">
+        <label>octotigerII/buildConfig.hpp</label>
+      </node>
+      <node id="24">
+        <label>stdexcept</label>
+      </node>
+      <node id="27">
+        <label>tuple</label>
+      </node>
+      <node id="28">
+        <label>type_traits</label>
+      </node>
+      <node id="25">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespaceoctotigerII">octotigerII</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1gravity">octotigerII::gravity</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="solver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/solver.cpp" line="39" column="5" bodyfile="src/gravity/solver.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="solver_8cpp_1a7676935d6912d47a8a854840f0d4e056" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/solver.cpp" line="40" column="6" bodyfile="src/gravity/solver.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="solver_8cpp_1a117d9c2c262ddfa9aee2a93b944f5946" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; Coefficients &gt;</type>
+        <definition>std::vector&lt;Coefficients&gt; moments</definition>
+        <argsstring></argsstring>
+        <name>moments</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/solver.cpp" line="41" column="13" bodyfile="src/gravity/solver.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="solver_8cpp_1ab8bcf78607bf1b205190faaac25cf5f8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; Coefficients &gt;</type>
+        <definition>std::vector&lt;Coefficients&gt; locals</definition>
+        <argsstring></argsstring>
+        <name>locals</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/solver.cpp" line="41" column="21" bodyfile="src/gravity/solver.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/gravity/solver.cpp"/>
+  </compounddef>
+</doxygen>

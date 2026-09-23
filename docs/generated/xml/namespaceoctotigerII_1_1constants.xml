@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1constants" kind="namespace" language="C++">
+    <compoundname>octotigerII::constants</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1aa2ca41cb3ebd8c4693d946d3d2f07604" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::G</definition>
+        <argsstring></argsstring>
+        <name>G</name>
+        <qualifiedname>octotigerII::constants::G</qualifiedname>
+        <initializer>= units::GravitationalConstant::from_value(6.67430e-8)</initializer>
+        <briefdescription>
+<para>Constants use the 2022 adjustment: <ref refid="bibliography_1ref_mohr2025" kindref="member">Mohr et al. (2025)</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The numerical literal for G is in cm³/(g s²). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="13" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="13" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" compoundref="solutions_8cpp" startline="83" endline="136">octotigerII::verification::sphereReference</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1a818378a5aaef2811504d5155316f9d7f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::c</definition>
+        <argsstring></argsstring>
+        <name>c</name>
+        <qualifiedname>octotigerII::constants::c</qualifiedname>
+        <initializer>= units::Velocity::from_value(2.99792458e10)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="14" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="14" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a00f6fa89160ef8a8cdfee6eb04ded119" compoundref="radiationTransport_8cpp" startline="145" endline="151">octotigerII::radiation::RadiationSystem::fromCalculationFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a7c1d0ff4355626b03fd9a28bbb161748" compoundref="radiationTransport_8cpp" startline="137" endline="143">octotigerII::radiation::RadiationSystem::fromCalculationState</referencedby>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a2e9ae4e7a511dcc613eb1a005fb38a46" compoundref="solutions_8cpp" startline="139" endline="169">octotigerII::verification::streamingReference</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a30c559a281e9e6f0bd176f4f217dfdcb" compoundref="radiationTransport_8cpp" startline="129" endline="135">octotigerII::radiation::RadiationSystem::toCalculationState</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1a5a6e4f64d0a82bd858522c300bfb77f0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::atomicMassUnit</definition>
+        <argsstring></argsstring>
+        <name>atomicMassUnit</name>
+        <qualifiedname>octotigerII::constants::atomicMassUnit</qualifiedname>
+        <initializer>= units::Mass::from_value(1.66053906892e-24)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="15" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1a5c7f51a0a90352e49d0c9adc1087c9e6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::boltzmann</definition>
+        <argsstring></argsstring>
+        <name>boltzmann</name>
+        <qualifiedname>octotigerII::constants::boltzmann</qualifiedname>
+        <initializer>= units::BoltzmannConstant::from_value(1.380649e-16)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="16" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1ac5409f7107726b8e52e551eec8aac740" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::planck</definition>
+        <argsstring></argsstring>
+        <name>planck</name>
+        <qualifiedname>octotigerII::constants::planck</qualifiedname>
+        <initializer>= units::Action::from_value(6.62607015e-27)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="17" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1ab31853085c1608bfec36d01013741f89" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::radiation</definition>
+        <argsstring></argsstring>
+        <name>radiation</name>
+        <qualifiedname>octotigerII::constants::radiation</qualifiedname>
+        <initializer>= units::RadiationConstant::from_value(7.565733250280004e-15)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="19" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1a41513bbb6857806b987fb571032ecbc4" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::m_u</definition>
+        <argsstring></argsstring>
+        <name>m_u</name>
+        <qualifiedname>octotigerII::constants::m_u</qualifiedname>
+        <initializer>= <ref refid="namespaceoctotigerII_1_1constants_1a5a6e4f64d0a82bd858522c300bfb77f0" kindref="member">atomicMassUnit</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="20" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1a424f66e8c2b71f3a51ee5bc1859cff91" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::k_B</definition>
+        <argsstring></argsstring>
+        <name>k_B</name>
+        <qualifiedname>octotigerII::constants::k_B</qualifiedname>
+        <initializer>= <ref refid="namespaceoctotigerII_1_1constants_1a5c7f51a0a90352e49d0c9adc1087c9e6" kindref="member">boltzmann</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="21" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1constants_1a44c6db8779ef147e779645aea6ece9d7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr auto</type>
+        <definition>constexpr auto octotigerII::constants::a_r</definition>
+        <argsstring></argsstring>
+        <name>a_r</name>
+        <qualifiedname>octotigerII::constants::a_r</qualifiedname>
+        <initializer>= <ref refid="namespaceoctotigerII_1_1constants_1ab31853085c1608bfec36d01013741f89" kindref="member">radiation</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/constants.hpp" line="22" column="23" bodyfile="include/octotigerII/units/constants.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/units/constants.hpp" line="9" column="1"/>
+  </compounddef>
+</doxygen>

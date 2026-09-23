@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="fmm_8hpp" kind="file" language="C++">
+    <compoundname>fmm.hpp</compoundname>
+    <includes local="no">array</includes>
+    <includes local="no">complex</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="fmm_8cpp" local="yes">src/gravity/diagonal/fmm.cpp</includedby>
+    <includedby refid="fieldSolver_8cpp" local="yes">src/gravity/fieldSolver.cpp</includedby>
+    <includedby refid="solver_8cpp" local="yes">src/gravity/solver.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/octotigerII/gravity/diagonal/fmm.hpp</label>
+        <link refid="fmm_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>complex</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/octotigerII/gravity/diagonal/fmm.hpp</label>
+        <link refid="fmm_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/gravity/diagonal/fmm.cpp</label>
+        <link refid="fmm_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/gravity/fieldSolver.cpp</label>
+        <link refid="fieldSolver_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/gravity/solver.cpp</label>
+        <link refid="solver_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index" prot="public">octotigerII::gravity::diagonal::Index</innerclass>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator" prot="public">octotigerII::gravity::diagonal::Operator</innerclass>
+    <innernamespace refid="namespaceoctotigerII">octotigerII</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1gravity">octotigerII::gravity</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1gravity_1_1diagonal">octotigerII::gravity::diagonal</innernamespace>
+    <briefdescription>
+<para>Harmonic-equivalent Cartesian expansions and diagonal M2L translations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/diagonal/fmm.hpp"/>
+  </compounddef>
+</doxygen>

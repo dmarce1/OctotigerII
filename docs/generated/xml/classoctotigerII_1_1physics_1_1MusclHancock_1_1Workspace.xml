@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::physics::MusclHancock::Workspace</compoundname>
+    <includes refid="finiteVolume_8hpp" local="no">finiteVolume.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a68feaf36a6fd71d91047a984f0415485" prot="public" static="no" mutable="no">
+        <type>std::array&lt; std::vector&lt; <ref refid="classoctotigerII_1_1physics_1_1MusclHancock_1a0f24206192137f964815351756bbbe7f" kindref="member">State</ref> &gt;, <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;</type>
+        <definition>std::array&lt;std::vector&lt;State&gt;, ndim&gt; octotigerII::physics::MusclHancock&lt; System &gt;::Workspace::minus</definition>
+        <argsstring></argsstring>
+        <name>minus</name>
+        <qualifiedname>octotigerII::physics::MusclHancock::Workspace::minus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="236" column="12" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="236" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a9041a5d5aa2b58c53214bd9139067a37" prot="public" static="no" mutable="no">
+        <type>std::array&lt; std::vector&lt; <ref refid="classoctotigerII_1_1physics_1_1MusclHancock_1a0f24206192137f964815351756bbbe7f" kindref="member">State</ref> &gt;, <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;</type>
+        <definition>std::array&lt;std::vector&lt;State&gt;, ndim&gt; octotigerII::physics::MusclHancock&lt; System &gt;::Workspace::plus</definition>
+        <argsstring></argsstring>
+        <name>plus</name>
+        <qualifiedname>octotigerII::physics::MusclHancock::Workspace::plus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="237" column="12" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="237" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a432f966347bfffe742baf5bc5d072ccf" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1physics_1_1MusclHancock_1a93b2b91a9179fdba17c8cd4fc361ff76" kindref="member">FaceFluxes</ref></type>
+        <definition>FaceFluxes octotigerII::physics::MusclHancock&lt; System &gt;::Workspace::fluxes</definition>
+        <argsstring></argsstring>
+        <name>fluxes</name>
+        <qualifiedname>octotigerII::physics::MusclHancock::Workspace::fluxes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/physics/finiteVolume.hpp" line="238" column="12" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="238" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a092470efd2fcf0bfe84f4a4a8a4a6315" compoundref="finiteVolume_8hpp" startline="218" endline="229">octotigerII::physics::MusclHancock&lt; System &gt;::advanceWithBoundaryUpdater</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reusable predictor and face-flux arrays for one concurrently executing worker. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/physics/finiteVolume.hpp" line="233" column="1" bodyfile="include/octotigerII/physics/finiteVolume.hpp" bodystart="233" bodyend="239"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a432f966347bfffe742baf5bc5d072ccf" prot="public" virt="non-virtual"><scope>octotigerII::physics::MusclHancock::Workspace</scope><name>fluxes</name></member>
+      <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a68feaf36a6fd71d91047a984f0415485" prot="public" virt="non-virtual"><scope>octotigerII::physics::MusclHancock::Workspace</scope><name>minus</name></member>
+      <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a9041a5d5aa2b58c53214bd9139067a37" prot="public" virt="non-virtual"><scope>octotigerII::physics::MusclHancock::Workspace</scope><name>plus</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

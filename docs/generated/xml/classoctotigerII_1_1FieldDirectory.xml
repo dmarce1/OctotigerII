@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1FieldDirectory" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::FieldDirectory</compoundname>
+    <includes refid="registry_8hpp" local="no">registry.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1ColumnHandle" kindref="compound">storage::ColumnHandle</ref>&lt; <ref refid="namespaceoctotigerII_1_1hydro_1a1693a5b403a4abb0eb657a316be35995" kindref="member">hydro::ConservedState</ref> &gt;</type>
+        <definition>storage::ColumnHandle&lt;hydro::ConservedState&gt; octotigerII::FieldDirectory::hydro</definition>
+        <argsstring></argsstring>
+        <name>hydro</name>
+        <qualifiedname>octotigerII::FieldDirectory::hydro</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/registry.hpp" line="18" column="27" bodyfile="include/octotigerII/storage/registry.hpp" bodystart="18" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1FieldRepository_1a6fb4f14a14881902775791a1ef71bd42" compoundref="registry_8hpp" startline="35" endline="53">octotigerII::FieldRepository::FieldRepository</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">octotigerII::gravity::FmmPartition::initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">octotigerII::LocalExecutor::kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1FieldDirectory_1a394c2f28dbdac640bd5bd0fc3e257704" compoundref="registry_8hpp" startline="25" endline="27">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1FieldDirectory_1aa7e260a93eb2f043b70c9fe578d15d1c" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1ColumnHandle" kindref="compound">storage::ColumnHandle</ref>&lt; <ref refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1acc3fb51f4279af0bd7bd4e44ec6d4bea" kindref="member">radiation::RadiationSystem::State</ref> &gt;</type>
+        <definition>storage::ColumnHandle&lt;radiation::RadiationSystem::State&gt; octotigerII::FieldDirectory::radiation</definition>
+        <argsstring></argsstring>
+        <name>radiation</name>
+        <qualifiedname>octotigerII::FieldDirectory::radiation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/registry.hpp" line="19" column="27" bodyfile="include/octotigerII/storage/registry.hpp" bodystart="19" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1FieldRepository_1a6fb4f14a14881902775791a1ef71bd42" compoundref="registry_8hpp" startline="35" endline="53">octotigerII::FieldRepository::FieldRepository</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1FieldDirectory_1a394c2f28dbdac640bd5bd0fc3e257704" compoundref="registry_8hpp" startline="25" endline="27">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1ColumnHandle" kindref="compound">storage::ColumnHandle</ref>&lt; <ref refid="namespaceoctotigerII_1_1gravity_1abace521e5efaecbfd9fdda34ec20b58e" kindref="member">gravity::State</ref> &gt;</type>
+        <definition>storage::ColumnHandle&lt;gravity::State&gt; octotigerII::FieldDirectory::gravity</definition>
+        <argsstring></argsstring>
+        <name>gravity</name>
+        <qualifiedname>octotigerII::FieldDirectory::gravity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/registry.hpp" line="20" column="27" bodyfile="include/octotigerII/storage/registry.hpp" bodystart="20" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1FieldRepository_1a6fb4f14a14881902775791a1ef71bd42" compoundref="registry_8hpp" startline="35" endline="53">octotigerII::FieldRepository::FieldRepository</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">octotigerII::LocalExecutor::kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1FieldDirectory_1a394c2f28dbdac640bd5bd0fc3e257704" compoundref="registry_8hpp" startline="25" endline="27">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1FieldDirectory_1a99efb5d9705ef24658c1f0a9b3ebdab3" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1FieldHandle" kindref="compound">storage::FieldHandle</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">units::Density</ref> &gt;</type>
+        <definition>storage::FieldHandle&lt;units::Density&gt; octotigerII::FieldDirectory::density</definition>
+        <argsstring></argsstring>
+        <name>density</name>
+        <qualifiedname>octotigerII::FieldDirectory::density</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/registry.hpp" line="21" column="26" bodyfile="include/octotigerII/storage/registry.hpp" bodystart="21" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1FieldRepository_1a6fb4f14a14881902775791a1ef71bd42" compoundref="registry_8hpp" startline="35" endline="53">octotigerII::FieldRepository::FieldRepository</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">octotigerII::gravity::FmmPartition::initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1FieldDirectory_1a394c2f28dbdac640bd5bd0fc3e257704" compoundref="registry_8hpp" startline="25" endline="27">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1FieldDirectory_1a394c2f28dbdac640bd5bd0fc3e257704" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::FieldDirectory::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::FieldDirectory::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/registry.hpp" line="25" column="10" bodyfile="include/octotigerII/storage/registry.hpp" bodystart="25" bodyend="27"/>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a99efb5d9705ef24658c1f0a9b3ebdab3" compoundref="registry_8hpp" startline="21">density</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" compoundref="registry_8hpp" startline="20">gravity</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" compoundref="registry_8hpp" startline="18">hydro</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1aa7e260a93eb2f043b70c9fe578d15d1c" compoundref="registry_8hpp" startline="19">radiation</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Serializable handles for the enabled hydro, radiation, and gravity schemas. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Radiation stores E and ndim physical EnergyFlux quantities. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>octotigerII::storage::ColumnHandle&lt; gravity::State &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="2">
+        <label>octotigerII::storage::ColumnHandle&lt; hydro::ConservedState &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="3">
+        <label>octotigerII::storage::ColumnHandle&lt; radiation::RadiationSystem::State &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="5">
+        <label>octotigerII::storage::FieldHandle&lt; units::Density &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1FieldHandle"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>layout</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>octotigerII::FieldDirectory</label>
+        <link refid="classoctotigerII_1_1FieldDirectory"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>hydro</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>radiation</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>gravity</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>density</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>octotigerII::storage::Layout</label>
+        <link refid="classoctotigerII_1_1storage_1_1Layout"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/storage/registry.hpp" line="16" column="1" bodyfile="include/octotigerII/storage/registry.hpp" bodystart="16" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1FieldDirectory_1a99efb5d9705ef24658c1f0a9b3ebdab3" prot="public" virt="non-virtual"><scope>octotigerII::FieldDirectory</scope><name>density</name></member>
+      <member refid="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" prot="public" virt="non-virtual"><scope>octotigerII::FieldDirectory</scope><name>gravity</name></member>
+      <member refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" prot="public" virt="non-virtual"><scope>octotigerII::FieldDirectory</scope><name>hydro</name></member>
+      <member refid="classoctotigerII_1_1FieldDirectory_1aa7e260a93eb2f043b70c9fe578d15d1c" prot="public" virt="non-virtual"><scope>octotigerII::FieldDirectory</scope><name>radiation</name></member>
+      <member refid="classoctotigerII_1_1FieldDirectory_1a394c2f28dbdac640bd5bd0fc3e257704" prot="public" virt="non-virtual"><scope>octotigerII::FieldDirectory</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

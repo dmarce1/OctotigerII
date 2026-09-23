@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1FieldHandle" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::FieldHandle</compoundname>
+    <includes refid="field_8hpp" local="no">field.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1FieldHandle_1a89f57c979cbfa8e0cf409faa3b377616" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Layout" kindref="compound">Layout</ref></type>
+        <definition>Layout octotigerII::storage::FieldHandle&lt; T &gt;::layout</definition>
+        <argsstring></argsstring>
+        <name>layout</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::layout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="90" column="8" bodyfile="include/octotigerII/storage/field.hpp" bodystart="90" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae1e432b615e04a7c2567d2c1923880bf" compoundref="field_8hpp" startline="142" endline="144">octotigerII::storage::FieldHandle&lt; T &gt;::serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" compoundref="field_8hpp" startline="149" endline="152">octotigerII::storage::FieldHandle&lt; T &gt;::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1FieldHandle_1a25bd174a0bfe0621e6a3b3ef4da6471a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">Locality</ref> &gt;</type>
+        <definition>std::vector&lt;Locality&gt; octotigerII::storage::FieldHandle&lt; T &gt;::owners</definition>
+        <argsstring></argsstring>
+        <name>owners</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::owners</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="91" column="13" bodyfile="include/octotigerII/storage/field.hpp" bodystart="91" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" compoundref="field_8hpp" startline="124" endline="138">octotigerII::storage::FieldHandle&lt; T &gt;::commit</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1acb7ffa1490b3a4720158dcac44dbda2f" compoundref="field_8hpp" startline="97" endline="104">octotigerII::storage::FieldHandle&lt; T &gt;::local</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae1e432b615e04a7c2567d2c1923880bf" compoundref="field_8hpp" startline="142" endline="144">octotigerII::storage::FieldHandle&lt; T &gt;::serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1FieldHandle_1a36c89df33cbdd9c1fe0399d27b5e1155" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1storage_1_1PartitionSet_1abd37c297bc52515478627cb6b7c6643a" kindref="member">PartitionSet::Partition</ref> &gt;</type>
+        <definition>std::vector&lt;PartitionSet::Partition&gt; octotigerII::storage::FieldHandle&lt; T &gt;::partitions</definition>
+        <argsstring></argsstring>
+        <name>partitions</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::partitions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="92" column="13" bodyfile="include/octotigerII/storage/field.hpp" bodystart="92" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" compoundref="field_8hpp" startline="124" endline="138">octotigerII::storage::FieldHandle&lt; T &gt;::commit</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae1e432b615e04a7c2567d2c1923880bf" compoundref="field_8hpp" startline="142" endline="144">octotigerII::storage::FieldHandle&lt; T &gt;::serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1FieldHandle_1ae078d605db36ec986e3c34a4598ef495" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+        <definition>FieldId octotigerII::storage::FieldHandle&lt; T &gt;::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="93" column="9" bodyfile="include/octotigerII/storage/field.hpp" bodystart="93" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" compoundref="field_8hpp" startline="124" endline="138">octotigerII::storage::FieldHandle&lt; T &gt;::commit</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1FieldHandle_1a513c06a7483a44d9a56d4e44aa69b8c2" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned octotigerII::storage::FieldHandle&lt; T &gt;::banks</definition>
+        <argsstring></argsstring>
+        <name>banks</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::banks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="94" column="10" bodyfile="include/octotigerII/storage/field.hpp" bodystart="94" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae1e432b615e04a7c2567d2c1923880bf" compoundref="field_8hpp" startline="142" endline="144">octotigerII::storage::FieldHandle&lt; T &gt;::serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" compoundref="field_8hpp" startline="149" endline="152">octotigerII::storage::FieldHandle&lt; T &gt;::validate</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1FieldHandle_1acb7ffa1490b3a4720158dcac44dbda2f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool octotigerII::storage::FieldHandle&lt; T &gt;::local</definition>
+        <argsstring>(Range const &amp;range) const</argsstring>
+        <name>local</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::local</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref> const &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Report whether a range belongs to the current locality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="97" column="6" bodyfile="include/octotigerII/storage/field.hpp" bodystart="97" bodyend="104"/>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a25bd174a0bfe0621e6a3b3ef4da6471a" compoundref="field_8hpp" startline="91">octotigerII::storage::FieldHandle&lt; T &gt;::owners</references>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" compoundref="field_8hpp" startline="124" endline="138">octotigerII::storage::FieldHandle&lt; T &gt;::commit</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1adcec85df2d74ba2264f9af5c03389ac7" compoundref="field_8hpp" startline="118" endline="121">octotigerII::storage::FieldHandle&lt; T &gt;::output</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1storage_1ae535d8a88a521ee629d5b83498233868" kindref="member">Future</ref>&lt; <ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; T &gt; &gt;</type>
+        <definition>Future&lt; Buffer&lt; T &gt; &gt; octotigerII::storage::FieldHandle&lt; T &gt;::read</definition>
+        <argsstring>(Range range, unsigned bank) const</argsstring>
+        <name>read</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::read</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref></type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+<para>Return a direct retained local view or asynchronously fetch a contiguous remote range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="107" column="8" bodyfile="include/octotigerII/storage/field.hpp" bodystart="107" bodyend="115"/>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae078d605db36ec986e3c34a4598ef495" compoundref="field_8hpp" startline="93">octotigerII::storage::FieldHandle&lt; T &gt;::id</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1acb7ffa1490b3a4720158dcac44dbda2f" compoundref="field_8hpp" startline="97" endline="104">octotigerII::storage::FieldHandle&lt; T &gt;::local</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a25bd174a0bfe0621e6a3b3ef4da6471a" compoundref="field_8hpp" startline="91">octotigerII::storage::FieldHandle&lt; T &gt;::owners</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a36c89df33cbdd9c1fe0399d27b5e1155" compoundref="field_8hpp" startline="92">octotigerII::storage::FieldHandle&lt; T &gt;::partitions</references>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" compoundref="field_8hpp" startline="149" endline="152">octotigerII::storage::FieldHandle&lt; T &gt;::validate</references>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" compoundref="field_8hpp" startline="124" endline="138">octotigerII::storage::FieldHandle&lt; T &gt;::commit</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">octotigerII::gravity::FmmPartition::initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1adcec85df2d74ba2264f9af5c03389ac7" compoundref="field_8hpp" startline="118" endline="121">octotigerII::storage::FieldHandle&lt; T &gt;::output</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1FieldHandle_1adcec85df2d74ba2264f9af5c03389ac7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; T &gt;</type>
+        <definition>Buffer&lt; T &gt; octotigerII::storage::FieldHandle&lt; T &gt;::output</definition>
+        <argsstring>(Range range, unsigned bank) const</argsstring>
+        <name>output</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::output</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref></type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+<para>Acquire a direct local output view or allocate a temporary remote result buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="118" column="8" bodyfile="include/octotigerII/storage/field.hpp" bodystart="118" bodyend="121"/>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1acb7ffa1490b3a4720158dcac44dbda2f" compoundref="field_8hpp" startline="97" endline="104">octotigerII::storage::FieldHandle&lt; T &gt;::local</references>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" compoundref="field_8hpp" startline="149" endline="152">octotigerII::storage::FieldHandle&lt; T &gt;::validate</references>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" compoundref="field_8hpp" startline="124" endline="138">octotigerII::storage::FieldHandle&lt; T &gt;::commit</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::storage::FieldHandle&lt; T &gt;::commit</definition>
+        <argsstring>(Range range, unsigned bank, Buffer&lt; T &gt; const &amp;output) const</argsstring>
+        <name>commit</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::commit</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref></type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; T &gt; const &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Finish writing the selected output range before returning to the stage scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="124" column="6" bodyfile="include/octotigerII/storage/field.hpp" bodystart="124" bodyend="138"/>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae078d605db36ec986e3c34a4598ef495" compoundref="field_8hpp" startline="93">octotigerII::storage::FieldHandle&lt; T &gt;::id</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1acb7ffa1490b3a4720158dcac44dbda2f" compoundref="field_8hpp" startline="97" endline="104">octotigerII::storage::FieldHandle&lt; T &gt;::local</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1adcec85df2d74ba2264f9af5c03389ac7" compoundref="field_8hpp" startline="118" endline="121">octotigerII::storage::FieldHandle&lt; T &gt;::output</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a25bd174a0bfe0621e6a3b3ef4da6471a" compoundref="field_8hpp" startline="91">octotigerII::storage::FieldHandle&lt; T &gt;::owners</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a36c89df33cbdd9c1fe0399d27b5e1155" compoundref="field_8hpp" startline="92">octotigerII::storage::FieldHandle&lt; T &gt;::partitions</references>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" compoundref="field_8hpp" startline="149" endline="152">octotigerII::storage::FieldHandle&lt; T &gt;::validate</references>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1FieldHandle_1ae1e432b615e04a7c2567d2c1923880bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::storage::FieldHandle&lt; T &gt;::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="142" column="6" bodyfile="include/octotigerII/storage/field.hpp" bodystart="142" bodyend="144"/>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a513c06a7483a44d9a56d4e44aa69b8c2" compoundref="field_8hpp" startline="94">octotigerII::storage::FieldHandle&lt; T &gt;::banks</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a89f57c979cbfa8e0cf409faa3b377616" compoundref="field_8hpp" startline="90">octotigerII::storage::FieldHandle&lt; T &gt;::layout</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a25bd174a0bfe0621e6a3b3ef4da6471a" compoundref="field_8hpp" startline="91">octotigerII::storage::FieldHandle&lt; T &gt;::owners</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a36c89df33cbdd9c1fe0399d27b5e1155" compoundref="field_8hpp" startline="92">octotigerII::storage::FieldHandle&lt; T &gt;::partitions</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::storage::FieldHandle&lt; T &gt;::validate</definition>
+        <argsstring>(Range const &amp;range, unsigned bank) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>octotigerII::storage::FieldHandle::validate</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref> const &amp;</type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+<para>Reject an out-of-bounds range, invalid identity, or nonexistent bank. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="149" column="6" bodyfile="include/octotigerII/storage/field.hpp" bodystart="149" bodyend="152"/>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a513c06a7483a44d9a56d4e44aa69b8c2" compoundref="field_8hpp" startline="94">octotigerII::storage::FieldHandle&lt; T &gt;::banks</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a89f57c979cbfa8e0cf409faa3b377616" compoundref="field_8hpp" startline="90">octotigerII::storage::FieldHandle&lt; T &gt;::layout</references>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1a9b32143e99d0ff909aca33f78a37da70" compoundref="layout_8hpp" startline="97" endline="100">octotigerII::storage::Layout::validate</references>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" compoundref="field_8hpp" startline="124" endline="138">octotigerII::storage::FieldHandle&lt; T &gt;::commit</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1adcec85df2d74ba2264f9af5c03389ac7" compoundref="field_8hpp" startline="118" endline="121">octotigerII::storage::FieldHandle&lt; T &gt;::output</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Copyable typed address directory; copying it does not copy numerical data. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Local reads retain a bank allocation, remote reads return received buffers. The caller enforces immutable inputs and non-overlapping writers. Low-level buffers are writable; this interface does not implement stage scheduling. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>octotigerII::storage::FieldHandle&lt; T &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1FieldHandle"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>layout</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::storage::Layout</label>
+        <link refid="classoctotigerII_1_1storage_1_1Layout"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/storage/field.hpp" line="87" column="1" bodyfile="include/octotigerII/storage/field.hpp" bodystart="87" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a513c06a7483a44d9a56d4e44aa69b8c2" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>banks</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>commit</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae078d605db36ec986e3c34a4598ef495" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>id</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a89f57c979cbfa8e0cf409faa3b377616" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>layout</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1acb7ffa1490b3a4720158dcac44dbda2f" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>local</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1adcec85df2d74ba2264f9af5c03389ac7" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>output</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a25bd174a0bfe0621e6a3b3ef4da6471a" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>owners</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a36c89df33cbdd9c1fe0399d27b5e1155" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>partitions</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>read</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae1e432b615e04a7c2567d2c1923880bf" prot="public" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" prot="private" virt="non-virtual"><scope>octotigerII::storage::FieldHandle</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

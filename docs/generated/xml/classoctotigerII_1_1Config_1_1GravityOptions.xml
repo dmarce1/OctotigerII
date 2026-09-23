@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Config_1_1GravityOptions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Config::GravityOptions</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1GravityOptions_1a79d7dded504a1d8a5f845f43e51ccc9d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::Config::GravityOptions::multipoleOrder</definition>
+        <argsstring></argsstring>
+        <name>multipoleOrder</name>
+        <qualifiedname>octotigerII::Config::GravityOptions::multipoleOrder</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="83" column="5" bodyfile="include/octotigerII/config.hpp" bodystart="83" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" compoundref="fieldSolver_8cpp" startline="285" endline="334">octotigerII::gravity::FmmPartition::fetch</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1GravityOptions_1ad1db24085af67d12534faba16ffe4509" compoundref="config_8hpp" startline="87" endline="89">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1GravityOptions_1ab35b3b90b3fcf45792a917b719a8d2d2" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::Config::GravityOptions::openingAngle</definition>
+        <argsstring></argsstring>
+        <name>openingAngle</name>
+        <qualifiedname>octotigerII::Config::GravityOptions::openingAngle</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="84" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="84" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4ab965f252ad27e378c028cf98fcafee" compoundref="fieldSolver_8cpp" startline="257" endline="280">octotigerII::gravity::FmmPartition::interactions</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1GravityOptions_1ad1db24085af67d12534faba16ffe4509" compoundref="config_8hpp" startline="87" endline="89">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Config_1_1GravityOptions_1ad1db24085af67d12534faba16ffe4509" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Config::GravityOptions::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Config::GravityOptions::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="87" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="87" bodyend="89"/>
+        <references refid="classoctotigerII_1_1Config_1_1GravityOptions_1a79d7dded504a1d8a5f845f43e51ccc9d" compoundref="config_8hpp" startline="83">multipoleOrder</references>
+        <references refid="classoctotigerII_1_1Config_1_1GravityOptions_1ab35b3b90b3fcf45792a917b719a8d2d2" compoundref="config_8hpp" startline="84">openingAngle</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="81" column="1" bodyfile="include/octotigerII/config.hpp" bodystart="81" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Config_1_1GravityOptions_1a79d7dded504a1d8a5f845f43e51ccc9d" prot="public" virt="non-virtual"><scope>octotigerII::Config::GravityOptions</scope><name>multipoleOrder</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1GravityOptions_1ab35b3b90b3fcf45792a917b719a8d2d2" prot="public" virt="non-virtual"><scope>octotigerII::Config::GravityOptions</scope><name>openingAngle</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1GravityOptions_1ad1db24085af67d12534faba16ffe4509" prot="public" virt="non-virtual"><scope>octotigerII::Config::GravityOptions</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

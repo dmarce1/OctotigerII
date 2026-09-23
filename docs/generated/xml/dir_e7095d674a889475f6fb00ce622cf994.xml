@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_e7095d674a889475f6fb00ce622cf994" kind="dir">
+    <compoundname>Exec/radiation_tests</compoundname>
+    <innerdir refid="dir_8c3dba1037e37c21f287ae9b3bf07942">Exec/radiation_tests/RadiationPulse</innerdir>
+    <innerdir refid="dir_857f7e5eef1d54b6e11d187731e97352">Exec/radiation_tests/Streaming</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Exec/radiation_tests/"/>
+  </compounddef>
+</doxygen>

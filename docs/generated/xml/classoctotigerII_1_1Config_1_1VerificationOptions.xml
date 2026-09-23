@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Config_1_1VerificationOptions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Config::VerificationOptions</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1VerificationOptions_1af113e969cfba0f3532480421662cfa78" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::Config::VerificationOptions::analytic</definition>
+        <argsstring></argsstring>
+        <name>analytic</name>
+        <qualifiedname>octotigerII::Config::VerificationOptions::analytic</qualifiedname>
+        <initializer>= &quot;auto&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="108" column="13" bodyfile="include/octotigerII/config.hpp" bodystart="108" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" compoundref="config_8hpp" startline="114" endline="116">serialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a37413c8160dfd3f5e8488a17369d480b" compoundref="analytic_8hpp" startline="78" endline="80">octotigerII::verification::usesDirectGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1VerificationOptions_1a351e7be8087a05228d5ebf54e87cbea9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::Config::VerificationOptions::gravityReference</definition>
+        <argsstring></argsstring>
+        <name>gravityReference</name>
+        <qualifiedname>octotigerII::Config::VerificationOptions::gravityReference</qualifiedname>
+        <initializer>= &quot;direct&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="109" column="13" bodyfile="include/octotigerII/config.hpp" bodystart="109" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" compoundref="config_8hpp" startline="114" endline="116">serialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a37413c8160dfd3f5e8488a17369d480b" compoundref="analytic_8hpp" startline="78" endline="80">octotigerII::verification::usesDirectGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1VerificationOptions_1a13f4418748ffcb8774bcb010fd288cde" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t octotigerII::Config::VerificationOptions::directMaxPairs</definition>
+        <argsstring></argsstring>
+        <name>directMaxPairs</name>
+        <qualifiedname>octotigerII::Config::VerificationOptions::directMaxPairs</qualifiedname>
+        <initializer>= 20000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="110" column="14" bodyfile="include/octotigerII/config.hpp" bodystart="110" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" compoundref="config_8hpp" startline="114" endline="116">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1VerificationOptions_1af18ff24387ab236d23b54e1b46bb7953" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t octotigerII::Config::VerificationOptions::directSamples</definition>
+        <argsstring></argsstring>
+        <name>directSamples</name>
+        <qualifiedname>octotigerII::Config::VerificationOptions::directSamples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="110" column="30" bodyfile="include/octotigerII/config.hpp" bodystart="110" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" compoundref="config_8hpp" startline="114" endline="116">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1VerificationOptions_1a6b394069a79d1036f5bfae1e6e8dcd98" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::Config::VerificationOptions::relativeL1Tolerance</definition>
+        <argsstring></argsstring>
+        <name>relativeL1Tolerance</name>
+        <qualifiedname>octotigerII::Config::VerificationOptions::relativeL1Tolerance</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="111" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="111" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" compoundref="config_8hpp" startline="114" endline="116">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1VerificationOptions_1a5734ed382f0b59c6b0b5531ee338d2cf" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::Config::VerificationOptions::absoluteTolerance</definition>
+        <argsstring></argsstring>
+        <name>absoluteTolerance</name>
+        <qualifiedname>octotigerII::Config::VerificationOptions::absoluteTolerance</qualifiedname>
+        <initializer>= 1e-12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="111" column="27" bodyfile="include/octotigerII/config.hpp" bodystart="111" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" compoundref="config_8hpp" startline="114" endline="116">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Config::VerificationOptions::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Config::VerificationOptions::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="114" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="114" bodyend="116"/>
+        <references refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a5734ed382f0b59c6b0b5531ee338d2cf" compoundref="config_8hpp" startline="111">absoluteTolerance</references>
+        <references refid="classoctotigerII_1_1Config_1_1VerificationOptions_1af113e969cfba0f3532480421662cfa78" compoundref="config_8hpp" startline="108">analytic</references>
+        <references refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a13f4418748ffcb8774bcb010fd288cde" compoundref="config_8hpp" startline="110">directMaxPairs</references>
+        <references refid="classoctotigerII_1_1Config_1_1VerificationOptions_1af18ff24387ab236d23b54e1b46bb7953" compoundref="config_8hpp" startline="110">directSamples</references>
+        <references refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a351e7be8087a05228d5ebf54e87cbea9" compoundref="config_8hpp" startline="109">gravityReference</references>
+        <references refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a6b394069a79d1036f5bfae1e6e8dcd98" compoundref="config_8hpp" startline="111">relativeL1Tolerance</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="106" column="1" bodyfile="include/octotigerII/config.hpp" bodystart="106" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a5734ed382f0b59c6b0b5531ee338d2cf" prot="public" virt="non-virtual"><scope>octotigerII::Config::VerificationOptions</scope><name>absoluteTolerance</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1af113e969cfba0f3532480421662cfa78" prot="public" virt="non-virtual"><scope>octotigerII::Config::VerificationOptions</scope><name>analytic</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a13f4418748ffcb8774bcb010fd288cde" prot="public" virt="non-virtual"><scope>octotigerII::Config::VerificationOptions</scope><name>directMaxPairs</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1af18ff24387ab236d23b54e1b46bb7953" prot="public" virt="non-virtual"><scope>octotigerII::Config::VerificationOptions</scope><name>directSamples</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a351e7be8087a05228d5ebf54e87cbea9" prot="public" virt="non-virtual"><scope>octotigerII::Config::VerificationOptions</scope><name>gravityReference</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a6b394069a79d1036f5bfae1e6e8dcd98" prot="public" virt="non-virtual"><scope>octotigerII::Config::VerificationOptions</scope><name>relativeL1Tolerance</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" prot="public" virt="non-virtual"><scope>octotigerII::Config::VerificationOptions</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

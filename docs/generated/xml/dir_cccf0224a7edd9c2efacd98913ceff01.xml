@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_cccf0224a7edd9c2efacd98913ceff01" kind="dir">
+    <compoundname>include/octotigerII/math</compoundname>
+    <innerfile refid="FpeGuard_8hpp">FpeGuard.hpp</innerfile>
+    <innerfile refid="Real_8hpp">Real.hpp</innerfile>
+    <innerfile refid="Vector_8hpp">Vector.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/math/"/>
+  </compounddef>
+</doxygen>

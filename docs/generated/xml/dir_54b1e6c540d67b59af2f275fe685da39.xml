@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_54b1e6c540d67b59af2f275fe685da39" kind="dir">
+    <compoundname>src/verification</compoundname>
+    <innerfile refid="analytic_8cpp">analytic.cpp</innerfile>
+    <innerfile refid="directGravity_8cpp">directGravity.cpp</innerfile>
+    <innerfile refid="solutions_8cpp">solutions.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/verification/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_9cbf2818b7fe6a391bbbdbe7091b4d21" kind="dir">
+    <compoundname>include/octotigerII/verification</compoundname>
+    <innerfile refid="analytic_8hpp">analytic.hpp</innerfile>
+    <innerfile refid="directGravity_8hpp">directGravity.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/verification/"/>
+  </compounddef>
+</doxygen>

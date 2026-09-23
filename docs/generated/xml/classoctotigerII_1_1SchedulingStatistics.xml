@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1SchedulingStatistics" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::SchedulingStatistics</compoundname>
+    <includes refid="runtime_8hpp" local="no">runtime.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1SchedulingStatistics_1afc333e5c2b296208780ea68587e4a615" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::SchedulingStatistics::localTasks</definition>
+        <argsstring></argsstring>
+        <name>localTasks</name>
+        <qualifiedname>octotigerII::SchedulingStatistics::localTasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="20" column="15" bodyfile="include/octotigerII/runtime.hpp" bodystart="20" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Runtime_1_1Impl_1a9279adb1f3ab614cc80ba9ca2b8f4de2" compoundref="runtime_8cpp" startline="434" endline="460">octotigerII::Runtime::Impl::phase</referencedby>
+        <referencedby refid="classoctotigerII_1_1SchedulingStatistics_1ac8e3016fabb6116800d4b593466792e6" compoundref="runtime_8hpp" startline="25" endline="27">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1SchedulingStatistics_1a188e674acc0bbd77db6115c848c195dc" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::SchedulingStatistics::stolenTasks</definition>
+        <argsstring></argsstring>
+        <name>stolenTasks</name>
+        <qualifiedname>octotigerII::SchedulingStatistics::stolenTasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="21" column="15" bodyfile="include/octotigerII/runtime.hpp" bodystart="21" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Runtime_1_1Impl_1a9279adb1f3ab614cc80ba9ca2b8f4de2" compoundref="runtime_8cpp" startline="434" endline="460">octotigerII::Runtime::Impl::phase</referencedby>
+        <referencedby refid="classoctotigerII_1_1SchedulingStatistics_1ac8e3016fabb6116800d4b593466792e6" compoundref="runtime_8hpp" startline="25" endline="27">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1SchedulingStatistics_1ac8e3016fabb6116800d4b593466792e6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::SchedulingStatistics::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::SchedulingStatistics::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="25" column="6" bodyfile="include/octotigerII/runtime.hpp" bodystart="25" bodyend="27"/>
+        <references refid="classoctotigerII_1_1SchedulingStatistics_1afc333e5c2b296208780ea68587e4a615" compoundref="runtime_8hpp" startline="20">localTasks</references>
+        <references refid="classoctotigerII_1_1SchedulingStatistics_1a188e674acc0bbd77db6115c848c195dc" compoundref="runtime_8hpp" startline="21">stolenTasks</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cumulative completed tasks on their owning locality and on a stealing locality. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Timestep calculations also count as tasks; these are not network-message counts. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/runtime.hpp" line="17" column="1" bodyfile="include/octotigerII/runtime.hpp" bodystart="17" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1SchedulingStatistics_1afc333e5c2b296208780ea68587e4a615" prot="public" virt="non-virtual"><scope>octotigerII::SchedulingStatistics</scope><name>localTasks</name></member>
+      <member refid="classoctotigerII_1_1SchedulingStatistics_1ac8e3016fabb6116800d4b593466792e6" prot="public" virt="non-virtual"><scope>octotigerII::SchedulingStatistics</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1SchedulingStatistics_1a188e674acc0bbd77db6115c848c195dc" prot="public" virt="non-virtual"><scope>octotigerII::SchedulingStatistics</scope><name>stolenTasks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

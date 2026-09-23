@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_2ea30aa2956a8db99dd22aa5e597f384" kind="dir">
+    <compoundname>bin</compoundname>
+    <innerdir refid="dir_43e4513b05fd1c122df56c9254d1f030">bin/gravity_tests</innerdir>
+    <innerdir refid="dir_4aac5ae93497fea5c63e7fe493a8ce55">bin/hydro_tests</innerdir>
+    <innerdir refid="dir_723cb54438b89ae8b8d1d218002359fd">bin/radiation_tests</innerdir>
+    <innerdir refid="dir_8f32e696ca592ad1f2c43c19d17c0094">bin/science</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="bin/"/>
+  </compounddef>
+</doxygen>

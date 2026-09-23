@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1storage" kind="namespace" language="C++">
+    <compoundname>octotigerII::storage</compoundname>
+    <innerclass refid="classoctotigerII_1_1storage_1_1ColumnFields" prot="public">octotigerII::storage::ColumnFields</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" prot="public">octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1ColumnHandle" prot="public">octotigerII::storage::ColumnHandle</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" prot="public">octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1Columns" prot="public">octotigerII::storage::Columns</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" prot="public">octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1Field" prot="public">octotigerII::storage::Field</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1FieldHandle" prot="public">octotigerII::storage::FieldHandle</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1Layout" prot="public">octotigerII::storage::Layout</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1PartitionSet" prot="public">octotigerII::storage::PartitionSet</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1PendingColumns" prot="public">octotigerII::storage::PendingColumns</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" prot="public">octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1Range" prot="public">octotigerII::storage::Range</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1StoragePartition" prot="public">octotigerII::storage::StoragePartition</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" prot="public" static="no">
+        <type>hpx::id_type</type>
+        <definition>using octotigerII::storage::Locality = typedef hpx::id_type</definition>
+        <argsstring></argsstring>
+        <name>Locality</name>
+        <qualifiedname>octotigerII::storage::Locality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/buffer.hpp" line="33" column="1" bodyfile="include/octotigerII/storage/buffer.hpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1storage_1ae535d8a88a521ee629d5b83498233868" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>hpx::future&lt; T &gt;</type>
+        <definition>using octotigerII::storage::Future = typedef hpx::future&lt;T&gt;</definition>
+        <argsstring></argsstring>
+        <name>Future</name>
+        <qualifiedname>octotigerII::storage::Future</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/buffer.hpp" line="36" column="1" bodyfile="include/octotigerII/storage/buffer.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>hpx::serialization::serialize_buffer&lt; T &gt;</type>
+        <definition>using octotigerII::storage::Buffer = typedef hpx::serialization::serialize_buffer&lt;T&gt;</definition>
+        <argsstring></argsstring>
+        <name>Buffer</name>
+        <qualifiedname>octotigerII::storage::Buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/buffer.hpp" line="39" column="1" bodyfile="include/octotigerII/storage/buffer.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" prot="public" static="no">
+        <type>std::uint64_t</type>
+        <definition>using octotigerII::storage::FieldId = typedef std::uint64_t</definition>
+        <argsstring></argsstring>
+        <name>FieldId</name>
+        <qualifiedname>octotigerII::storage::FieldId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="26" column="1" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1storage_1a1be47ab0d834e09975d2c78eeeeeb7ee" prot="public" static="no">
+        <type>hpx::actions::make_action&lt; decltype(&amp;<ref refid="namespaceoctotigerII_1_1storage_1a15a6644bce27b23dbfe1e3576c606da7" kindref="member">retireField</ref>), &amp;<ref refid="namespaceoctotigerII_1_1storage_1a15a6644bce27b23dbfe1e3576c606da7" kindref="member">retireField</ref> &gt;::type</type>
+        <definition>using octotigerII::storage::RetireAction = typedef hpx::actions::make_action&lt;decltype(&amp;retireField), &amp;retireField&gt;::type</definition>
+        <argsstring></argsstring>
+        <name>RetireAction</name>
+        <qualifiedname>octotigerII::storage::RetireAction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="154" column="1" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1storage_1a77ac6ac7b5de2121f4d409239df89e72" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>typename hpx::actions::make_action&lt; decltype(&amp;<ref refid="namespaceoctotigerII_1_1storage_1aaa42d3964aea200b1f4af65609dd19fa" kindref="member">createField</ref>&lt; T &gt;), &amp;<ref refid="namespaceoctotigerII_1_1storage_1aaa42d3964aea200b1f4af65609dd19fa" kindref="member">createField</ref>&lt; T &gt; &gt;::type</type>
+        <definition>using octotigerII::storage::CreateAction = typedef typename hpx::actions::make_action&lt;decltype(&amp;createField&lt;T&gt;), &amp;createField&lt;T&gt; &gt;::type</definition>
+        <argsstring></argsstring>
+        <name>CreateAction</name>
+        <qualifiedname>octotigerII::storage::CreateAction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="157" column="1" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1storage_1a58fa08b1bd6683a53c362820388e3ce9" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>typename hpx::actions::make_action&lt; decltype(&amp;<ref refid="namespaceoctotigerII_1_1storage_1ad006004b32f1e494420ca50db643a3ca" kindref="member">readField</ref>&lt; T &gt;), &amp;<ref refid="namespaceoctotigerII_1_1storage_1ad006004b32f1e494420ca50db643a3ca" kindref="member">readField</ref>&lt; T &gt; &gt;::type</type>
+        <definition>using octotigerII::storage::ReadAction = typedef typename hpx::actions::make_action&lt;decltype(&amp;readField&lt;T&gt;), &amp;readField&lt;T&gt; &gt;::type</definition>
+        <argsstring></argsstring>
+        <name>ReadAction</name>
+        <qualifiedname>octotigerII::storage::ReadAction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="160" column="1" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1storage_1af0cfecd9fbd3de2c17a176687eb23fb6" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>typename hpx::actions::make_action&lt; decltype(&amp;<ref refid="namespaceoctotigerII_1_1storage_1a677df56301dd70d88fe35419b578781b" kindref="member">writeField</ref>&lt; T &gt;), &amp;<ref refid="namespaceoctotigerII_1_1storage_1a677df56301dd70d88fe35419b578781b" kindref="member">writeField</ref>&lt; T &gt; &gt;::type</type>
+        <definition>using octotigerII::storage::WriteAction = typedef typename hpx::actions::make_action&lt;decltype(&amp;writeField&lt;T&gt;), &amp;writeField&lt;T&gt; &gt;::type</definition>
+        <argsstring></argsstring>
+        <name>WriteAction</name>
+        <qualifiedname>octotigerII::storage::WriteAction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="163" column="1" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1storage_1aaa42d3964aea200b1f4af65609dd19fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::storage::createField</definition>
+        <argsstring>(hpx::id_type id, FieldId field, std::size_t capacity, unsigned banks, std::string name)</argsstring>
+        <name>createField</name>
+        <qualifiedname>octotigerII::storage::createField</qualifiedname>
+        <param>
+          <type>hpx::id_type</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>banks</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="136" column="6" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="136" bodyend="138"/>
+        <references refid="output_8cpp_1a9b45b3e13bd9167aab02e17e08916231" compoundref="output_8cpp" startline="19">name</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1storage_1ad006004b32f1e494420ca50db643a3ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; T &gt;</type>
+        <definition>Buffer&lt; T &gt; octotigerII::storage::readField</definition>
+        <argsstring>(hpx::id_type id, FieldId field, unsigned bank, std::size_t begin, std::size_t count)</argsstring>
+        <name>readField</name>
+        <qualifiedname>octotigerII::storage::readField</qualifiedname>
+        <param>
+          <type>hpx::id_type</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="142" column="8" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="142" bodyend="144"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1storage_1a677df56301dd70d88fe35419b578781b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::storage::writeField</definition>
+        <argsstring>(hpx::id_type id, FieldId field, unsigned bank, std::size_t begin, Buffer&lt; T &gt; values)</argsstring>
+        <name>writeField</name>
+        <qualifiedname>octotigerII::storage::writeField</qualifiedname>
+        <param>
+          <type>hpx::id_type</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kindref="member">Buffer</ref>&lt; T &gt;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="148" column="6" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="148" bodyend="150"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="output_8cpp_1a2ad192c64ff93c02f9f41c320e7aa1bc" compoundref="output_8cpp" startline="21">values</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1storage_1a15a6644bce27b23dbfe1e3576c606da7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::storage::retireField</definition>
+        <argsstring>(hpx::id_type id, FieldId field)</argsstring>
+        <name>retireField</name>
+        <qualifiedname>octotigerII::storage::retireField</qualifiedname>
+        <param>
+          <type>hpx::id_type</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kindref="member">FieldId</ref></type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage.cpp" line="10" column="6" bodyfile="src/storage.cpp" bodystart="10" bodyend="12" declfile="include/octotigerII/storage/partition.hpp" declline="153" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/buffer.hpp" line="30" column="1"/>
+  </compounddef>
+</doxygen>

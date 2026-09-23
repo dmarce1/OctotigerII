@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1transportExchange" kind="namespace" language="C++">
+    <compoundname>octotigerII::transportExchange</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1transportExchange_1af29d6cd07be3bc1bb59a539575883005" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::transportExchange::validateDomain</definition>
+        <argsstring>(ExchangeDomain const &amp;domain)</argsstring>
+        <name>validateDomain</name>
+        <qualifiedname>octotigerII::transportExchange::validateDomain</qualifiedname>
+        <param>
+          <type><ref refid="structoctotigerII_1_1ExchangeDomain" kindref="compound">ExchangeDomain</ref> const &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="46" column="13" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="46" bodyend="52"/>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1a55f4a7527d9dbb58d7153b828b3ff94f" compoundref="exchange_8hpp" startline="36">octotigerII::ExchangeDomain::dimensionCount</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1a2ea49511a30c66863cba609fd0103cf5" compoundref="exchange_8hpp" startline="37">octotigerII::ExchangeDomain::lower</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1ae8118cc2014dd8df9eebe349d29a63d5" compoundref="exchange_8hpp" startline="38">octotigerII::ExchangeDomain::upper</references>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">fillHalo</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1transportExchange_1ae3d40f60911dc9c4df5d0c0c0fa02507" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool octotigerII::transportExchange::sameTime</definition>
+        <argsstring>(units::Time left, units::Time right)</argsstring>
+        <name>sameTime</name>
+        <qualifiedname>octotigerII::transportExchange::sameTime</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="54" column="13" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="54" bodyend="58"/>
+        <references refid="Real_8hpp_1a08cc81e0f92efcc2206a1bea24bb07ed" compoundref="Real_8hpp" startline="11">epsilonR</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">fillHalo</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class State</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::transportExchange::fillHalo</definition>
+        <argsstring>(mesh::PatchData&lt; State &gt; &amp;target, std::vector&lt; FieldSnapshot&lt; State &gt; &gt; const &amp;sources, ExchangeDomain const &amp;domain, units::Time time, bool includeInterior=false)</argsstring>
+        <name>fillHalo</name>
+        <qualifiedname>octotigerII::transportExchange::fillHalo</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; State &gt; &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structoctotigerII_1_1FieldSnapshot" kindref="compound">FieldSnapshot</ref>&lt; State &gt; &gt; const &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type><ref refid="structoctotigerII_1_1ExchangeDomain" kindref="compound">ExchangeDomain</ref> const &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>includeInterior</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="61" column="6" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="61" bodyend="141"/>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a62f231cf1e795acae33838558418f75d" compoundref="mesh_8hpp" startline="306" endline="308">octotigerII::mesh::PatchData&lt; State &gt;::atStorage</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a77145162ffb0a577000f15e9d04dfcea" compoundref="mesh_8hpp" startline="280" endline="282">octotigerII::mesh::PatchData&lt; State &gt;::cellWidth</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1a55f4a7527d9dbb58d7153b828b3ff94f" compoundref="exchange_8hpp" startline="36">octotigerII::ExchangeDomain::dimensionCount</references>
+        <references refid="Real_8hpp_1a08cc81e0f92efcc2206a1bea24bb07ed" compoundref="Real_8hpp" startline="11">epsilonR</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a2211e21573bb7f2357f25d4f0ee7c124" compoundref="mesh_8hpp" startline="275" endline="277">octotigerII::mesh::PatchData&lt; State &gt;::layout</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1af4d32cbc6eb8d41846b97917b46bc2a7" compoundref="mesh_8hpp" startline="285" endline="287">octotigerII::mesh::PatchData&lt; State &gt;::lower</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1a2ea49511a30c66863cba609fd0103cf5" compoundref="exchange_8hpp" startline="37">octotigerII::ExchangeDomain::lower</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1ae11b9e7852acd06b7faaa8662aeefbd2" compoundref="exchange_8hpp" startline="39">octotigerII::ExchangeDomain::periodic</references>
+        <references refid="namespaceoctotigerII_1_1transportExchange_1ae3d40f60911dc9c4df5d0c0c0fa02507" compoundref="exchange_8hpp" startline="54" endline="58">sameTime</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" compoundref="mesh_8hpp" startline="204" endline="204">octotigerII::mesh::TimeState::time</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a6482b9ef6d7e480fffeea63d44c1d36e" compoundref="mesh_8hpp" startline="289" endline="291">octotigerII::mesh::PatchData&lt; State &gt;::timeState</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1ae8118cc2014dd8df9eebe349d29a63d5" compoundref="exchange_8hpp" startline="38">octotigerII::ExchangeDomain::upper</references>
+        <references refid="namespaceoctotigerII_1_1transportExchange_1af29d6cd07be3bc1bb59a539575883005" compoundref="exchange_8hpp" startline="46" endline="52">validateDomain</references>
+        <references refid="fieldSolver_8cpp_1a7676935d6912d47a8a854840f0d4e056" compoundref="fieldSolver_8cpp" startline="90">width</references>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1a3e3aa7ddb1f50414a014c34dff52e51c" compoundref="exchange_8hpp" startline="145" endline="163">advance</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1transportExchange_1a3e3aa7ddb1f50414a014c34dff52e51c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>int</type>
+            <declname>dimensions</declname>
+            <defname>dimensions</defname>
+          </param>
+          <param>
+            <type>class State</type>
+          </param>
+          <param>
+            <type>class System</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structoctotigerII_1_1FieldFluxPacket" kindref="compound">FieldFluxPacket</ref>&lt; typename System::Flux &gt;</type>
+        <definition>FieldFluxPacket&lt; typename System::Flux &gt; octotigerII::transportExchange::advance</definition>
+        <argsstring>(mesh::BlockLocation const &amp;location, mesh::PatchData&lt; State &gt; &amp;fields, std::vector&lt; FieldSnapshot&lt; State &gt; &gt; const &amp;sources, ExchangeDomain const &amp;domain, System const &amp;system, units::Time stepSize)</argsstring>
+        <name>advance</name>
+        <qualifiedname>octotigerII::transportExchange::advance</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1BlockLocation" kindref="compound">mesh::BlockLocation</ref> const &amp;</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; State &gt; &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structoctotigerII_1_1FieldSnapshot" kindref="compound">FieldSnapshot</ref>&lt; State &gt; &gt; const &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type><ref refid="structoctotigerII_1_1ExchangeDomain" kindref="compound">ExchangeDomain</ref> const &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>System const &amp;</type>
+          <declname>system</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>stepSize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="145" column="1" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="145" bodyend="163"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a77145162ffb0a577000f15e9d04dfcea" compoundref="mesh_8hpp" startline="280" endline="282">octotigerII::mesh::PatchData&lt; State &gt;::cellWidth</references>
+        <references refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">fillHalo</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a2211e21573bb7f2357f25d4f0ee7c124" compoundref="mesh_8hpp" startline="275" endline="277">octotigerII::mesh::PatchData&lt; State &gt;::layout</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1af4d32cbc6eb8d41846b97917b46bc2a7" compoundref="mesh_8hpp" startline="285" endline="287">octotigerII::mesh::PatchData&lt; State &gt;::lower</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" compoundref="mesh_8hpp" startline="204" endline="204">octotigerII::mesh::TimeState::time</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a6482b9ef6d7e480fffeea63d44c1d36e" compoundref="mesh_8hpp" startline="289" endline="291">octotigerII::mesh::PatchData&lt; State &gt;::timeState</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1transportExchange_1a3672d89695cef00676bbdf1eae4325af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class State</type>
+          </param>
+          <param>
+            <type>class System</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::transportExchange::stableStep</definition>
+        <argsstring>(mesh::PatchData&lt; State &gt; const &amp;fields, System const &amp;system, Real cfl)</argsstring>
+        <name>stableStep</name>
+        <qualifiedname>octotigerII::transportExchange::stableStep</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; State &gt; const &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type>System const &amp;</type>
+          <declname>system</declname>
+        </param>
+        <param>
+          <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+          <declname>cfl</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="165" column="13" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="165" bodyend="175"/>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a2211e21573bb7f2357f25d4f0ee7c124" compoundref="mesh_8hpp" startline="275" endline="277">octotigerII::mesh::PatchData&lt; State &gt;::layout</references>
+        <references refid="classoctotigerII_1_1physics_1_1MusclHancock_1a438a824d62fc5e7175a4c87e0e9f5db9" compoundref="finiteVolume_8hpp" startline="185" endline="204">octotigerII::physics::MusclHancock&lt; System &gt;::stableTimestep</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1transportExchange_1a86244ed68f4510d0552c090f4cc62e0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class State</type>
+          </param>
+          <param>
+            <type>class System</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structoctotigerII_1_1FieldFluxPacket" kindref="compound">FieldFluxPacket</ref>&lt; typename System::Flux &gt;</type>
+        <definition>FieldFluxPacket&lt; typename System::Flux &gt; octotigerII::transportExchange::advancePatch</definition>
+        <argsstring>(mesh::BlockLocation const &amp;location, mesh::PatchData&lt; State &gt; &amp;fields, std::vector&lt; FieldSnapshot&lt; State &gt; &gt; const &amp;sources, ExchangeDomain const &amp;domain, System const &amp;system, units::Time stepSize)</argsstring>
+        <name>advancePatch</name>
+        <qualifiedname>octotigerII::transportExchange::advancePatch</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1BlockLocation" kindref="compound">mesh::BlockLocation</ref> const &amp;</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; State &gt; &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structoctotigerII_1_1FieldSnapshot" kindref="compound">FieldSnapshot</ref>&lt; State &gt; &gt; const &amp;</type>
+          <declname>sources</declname>
+        </param>
+        <param>
+          <type><ref refid="structoctotigerII_1_1ExchangeDomain" kindref="compound">ExchangeDomain</ref> const &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>System const &amp;</type>
+          <declname>system</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>stepSize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="179" column="1" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="179" bodyend="191"/>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a2211e21573bb7f2357f25d4f0ee7c124" compoundref="mesh_8hpp" startline="275" endline="277">octotigerII::mesh::PatchData&lt; State &gt;::layout</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/subgrid/exchange.hpp" line="45" column="1"/>
+  </compounddef>
+</doxygen>

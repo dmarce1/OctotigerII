@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="group__units" kind="group">
+    <compoundname>units</compoundname>
+    <title>CGS quantities and constants</title>
+    <innerfile refid="cgs_8hpp">cgs.hpp</innerfile>
+    <innerfile refid="constants_8hpp">constants.hpp</innerfile>
+    <innerfile refid="state_8hpp">state.hpp</innerfile>
+    <innerclass refid="classoctotigerII_1_1units_1_1State" prot="public">octotigerII::units::State</innerclass>
+    <briefdescription>
+<para>Boost.Units quantities remain typed in storage, calculation, and transport. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

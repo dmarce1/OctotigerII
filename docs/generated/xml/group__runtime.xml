@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="group__runtime" kind="group">
+    <compoundname>runtime</compoundname>
+    <title>Execution and application</title>
+    <innerfile refid="config_8hpp">config.hpp</innerfile>
+    <innerfile refid="fieldSolver_8hpp">fieldSolver.hpp</innerfile>
+    <innerfile refid="output_8hpp">output.hpp</innerfile>
+    <innerfile refid="problems_8hpp">problems.hpp</innerfile>
+    <innerfile refid="runtime_8hpp">runtime.hpp</innerfile>
+    <innerfile refid="simulation_8hpp">simulation.hpp</innerfile>
+    <innerfile refid="gravity__tests_2Gaussian_2problem_8cpp">problem.cpp</innerfile>
+    <innerfile refid="gravity__tests_2Sphere_2problem_8cpp">problem.cpp</innerfile>
+    <innerfile refid="hydro__tests_2KelvinHelmholtz_2problem_8cpp">problem.cpp</innerfile>
+    <innerfile refid="hydro__tests_2Sod_2problem_8cpp">problem.cpp</innerfile>
+    <innerfile refid="radiation__tests_2RadiationPulse_2problem_8cpp">problem.cpp</innerfile>
+    <innerfile refid="radiation__tests_2Streaming_2problem_8cpp">problem.cpp</innerfile>
+    <innerfile refid="science_2Collapse_2problem_8cpp">problem.cpp</innerfile>
+    <innerfile refid="buildConfig_8hpp_8in">buildConfig.hpp.in</innerfile>
+    <innerclass refid="classoctotigerII_1_1Config" prot="public">octotigerII::Config</innerclass>
+    <innerclass refid="classoctotigerII_1_1Output" prot="public">octotigerII::Output</innerclass>
+    <innerclass refid="classoctotigerII_1_1SchedulingStatistics" prot="public">octotigerII::SchedulingStatistics</innerclass>
+    <innerclass refid="classoctotigerII_1_1Runtime" prot="public">octotigerII::Runtime</innerclass>
+    <innerclass refid="classoctotigerII_1_1Diagnostics" prot="public">octotigerII::Diagnostics</innerclass>
+    <innerclass refid="classoctotigerII_1_1RunResult" prot="public">octotigerII::RunResult</innerclass>
+    <innerclass refid="classoctotigerII_1_1LocalExecutor" prot="public">octotigerII::LocalExecutor</innerclass>
+    <briefdescription>
+<para>Configuration, locality work queues, stage publication, diagnostics, output. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

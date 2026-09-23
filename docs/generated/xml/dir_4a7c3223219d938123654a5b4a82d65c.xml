@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_4a7c3223219d938123654a5b4a82d65c" kind="dir">
+    <compoundname>include/octotigerII/gravity</compoundname>
+    <innerdir refid="dir_6bcd818ea168b45e4779b96abffaf263">include/octotigerII/gravity/diagonal</innerdir>
+    <innerfile refid="fieldSolver_8hpp">fieldSolver.hpp</innerfile>
+    <innerfile refid="gravityFields_8hpp">gravityFields.hpp</innerfile>
+    <innerfile refid="solver_8hpp">solver.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/"/>
+  </compounddef>
+</doxygen>

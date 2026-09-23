@@ -1,0 +1,708 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classVector" kind="class" language="C++" prot="public">
+    <compoundname>Vector</compoundname>
+    <includes refid="Vector_8hpp" local="no">Vector.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>int</type>
+        <declname>N</declname>
+        <defname>N</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" prot="private" static="no" mutable="no">
+        <type>std::array&lt; T, N &gt;</type>
+        <definition>std::array&lt;T, N&gt; Vector&lt; T, N &gt;::components_</definition>
+        <argsstring></argsstring>
+        <name>components_</name>
+        <qualifiedname>Vector::components_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="220" column="12" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="220" bodyend="220"/>
+        <referencedby refid="classVector_1a40c79671f93998ce785547f1608c5ffb" compoundref="Vector_8hpp" startline="188" endline="190">Vector&lt; T, N &gt;::operator std::array&lt; T, N &gt;</referencedby>
+        <referencedby refid="classVector_1a1ec8c7f8f76beef0a880d5cba51227c0" compoundref="Vector_8hpp" startline="68" endline="73">Vector&lt; T, N &gt;::operator*=</referencedby>
+        <referencedby refid="classVector_1ad250d594ea80d20ad8c959ba9382c048" compoundref="Vector_8hpp" startline="58" endline="61">Vector&lt; T, N &gt;::operator+=</referencedby>
+        <referencedby refid="classVector_1acbbc558eec10d82322b07988eff3cca1" compoundref="Vector_8hpp" startline="63" endline="66">Vector&lt; T, N &gt;::operator-=</referencedby>
+        <referencedby refid="classVector_1a10e0a72ebc46e8a3e85740d3d32c5316" compoundref="Vector_8hpp" startline="75" endline="83">Vector&lt; T, N &gt;::operator/=</referencedby>
+        <referencedby refid="classVector_1ae792e0b73c3a962c843fc2978422ea77" compoundref="Vector_8hpp" startline="50" endline="52">Vector&lt; T, N &gt;::operator[]</referencedby>
+        <referencedby refid="classVector_1a54979618194768f650ff6de65c8b3461" compoundref="Vector_8hpp" startline="46" endline="48">Vector&lt; T, N &gt;::operator[]</referencedby>
+        <referencedby refid="classVector_1aa671e1f64e2b3d395945f596b6dc7d8e" compoundref="Vector_8hpp" startline="194" endline="196">Vector&lt; T, N &gt;::serialize</referencedby>
+        <referencedby refid="classVector_1a431637ce608c3179a6da971491272847" compoundref="Vector_8hpp" startline="86" endline="97">Vector&lt; T, N &gt;::split</referencedby>
+        <referencedby refid="classVector_1a1c869ae2edb8a57283a68fa6532e0ea1" compoundref="Vector_8hpp" startline="28" endline="37">Vector&lt; T, N &gt;::Vector</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classVector_1ab2e526ff61b85e2a632d92f76b354f74" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr Vector&lt; T, N &gt;::Vector</definition>
+        <argsstring>()=default</argsstring>
+        <name>Vector</name>
+        <qualifiedname>Vector::Vector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="26" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a1c869ae2edb8a57283a68fa6532e0ea1" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr Vector&lt; T, N &gt;::Vector</definition>
+        <argsstring>(std::initializer_list&lt; T &gt; const &amp;list)</argsstring>
+        <name>Vector</name>
+        <qualifiedname>Vector::Vector</qualifiedname>
+        <param>
+          <type>std::initializer_list&lt; T &gt; const &amp;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="28" column="11" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="28" bodyend="37"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1ad02018e4357c208b288d90113d77962e" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr Vector&lt; T, N &gt;::Vector</definition>
+        <argsstring>(std::array&lt; T, N &gt; const &amp;array)</argsstring>
+        <name>Vector</name>
+        <qualifiedname>Vector::Vector</qualifiedname>
+        <param>
+          <type>std::array&lt; T, N &gt; const &amp;</type>
+          <declname>array</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="39" column="11" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="39" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a94acded2aa64d7542494921886ab59fa" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr Vector&lt; T, N &gt;::Vector</definition>
+        <argsstring>(Vector const &amp;)=default</argsstring>
+        <name>Vector</name>
+        <qualifiedname>Vector::Vector</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="42" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1ac6daf0720363d731593574c10922b87f" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr Vector&lt; T, N &gt;::Vector</definition>
+        <argsstring>(Vector &amp;&amp;)=default</argsstring>
+        <name>Vector</name>
+        <qualifiedname>Vector::Vector</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="44" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a54979618194768f650ff6de65c8b3461" prot="public" static="no" constexpr="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr T</type>
+        <definition>constexpr T Vector&lt; T, N &gt;::operator[]</definition>
+        <argsstring>(int i) const</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>Vector::operator[]</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="46" column="13" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="46" bodyend="48"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1ae792e0b73c3a962c843fc2978422ea77" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr T &amp;</type>
+        <definition>constexpr T &amp; Vector&lt; T, N &gt;::operator[]</definition>
+        <argsstring>(int i)</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>Vector::operator[]</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="50" column="13" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="50" bodyend="52"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1ad2df89f4e8eafe98cca2aa20a6e22b80" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref> &amp;</type>
+        <definition>constexpr Vector &amp; Vector&lt; T, N &gt;::operator=</definition>
+        <argsstring>(Vector const &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>Vector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="54" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a52eca6d6ee3a475303902726b5a248ea" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref> &amp;</type>
+        <definition>constexpr Vector &amp; Vector&lt; T, N &gt;::operator=</definition>
+        <argsstring>(Vector &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>Vector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="56" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1ad250d594ea80d20ad8c959ba9382c048" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref> &amp;</type>
+        <definition>constexpr Vector &amp; Vector&lt; T, N &gt;::operator+=</definition>
+        <argsstring>(Vector const &amp;B)</argsstring>
+        <name>operator+=</name>
+        <qualifiedname>Vector::operator+=</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="58" column="18" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="58" bodyend="61"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+        <references refid="classVector_1aa62e4aae47ebcd065da68fe25c8eed3b" compoundref="Vector_8hpp" startline="204" endline="219">Vector&lt; T, N &gt;::forEachComponent</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1acbbc558eec10d82322b07988eff3cca1" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref> &amp;</type>
+        <definition>constexpr Vector &amp; Vector&lt; T, N &gt;::operator-=</definition>
+        <argsstring>(Vector const &amp;B)</argsstring>
+        <name>operator-=</name>
+        <qualifiedname>Vector::operator-=</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="63" column="18" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="63" bodyend="66"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+        <references refid="classVector_1aa62e4aae47ebcd065da68fe25c8eed3b" compoundref="Vector_8hpp" startline="204" endline="219">Vector&lt; T, N &gt;::forEachComponent</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a1ec8c7f8f76beef0a880d5cba51227c0" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref> &amp;</type>
+        <definition>constexpr Vector &amp; Vector&lt; T, N &gt;::operator*=</definition>
+        <argsstring>(T const &amp;B)</argsstring>
+        <name>operator*=</name>
+        <qualifiedname>Vector::operator*=</qualifiedname>
+        <param>
+          <type>T const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="68" column="18" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="68" bodyend="73"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+        <references refid="classVector_1aa62e4aae47ebcd065da68fe25c8eed3b" compoundref="Vector_8hpp" startline="204" endline="219">Vector&lt; T, N &gt;::forEachComponent</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a10e0a72ebc46e8a3e85740d3d32c5316" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref> &amp;</type>
+        <definition>constexpr Vector &amp; Vector&lt; T, N &gt;::operator/=</definition>
+        <argsstring>(T const &amp;B)</argsstring>
+        <name>operator/=</name>
+        <qualifiedname>Vector::operator/=</qualifiedname>
+        <param>
+          <type>T const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="75" column="18" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="75" bodyend="83"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+        <references refid="classVector_1aa62e4aae47ebcd065da68fe25c8eed3b" compoundref="Vector_8hpp" startline="204" endline="219">Vector&lt; T, N &gt;::forEachComponent</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a431637ce608c3179a6da971491272847" prot="public" static="no" constexpr="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>int</type>
+            <declname>K</declname>
+            <defname>K</defname>
+          </param>
+        </templateparamlist>
+        <type>constexpr std::pair&lt; <ref refid="classVector" kindref="compound">Vector</ref>&lt; T, K &gt;, <ref refid="classVector" kindref="compound">Vector</ref>&lt; T, N - K &gt; &gt;</type>
+        <definition>constexpr std::pair&lt; Vector&lt; T, K &gt;, Vector&lt; T, N - K &gt; &gt; Vector&lt; T, N &gt;::split</definition>
+        <argsstring>() const</argsstring>
+        <name>split</name>
+        <qualifiedname>Vector::split</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="86" column="21" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="86" bodyend="97"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a9cf72bb0707d4704beab6c43847990a2" prot="public" static="no" constexpr="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr T</type>
+        <definition>constexpr T Vector&lt; T, N &gt;::dot</definition>
+        <argsstring>(Vector const &amp;A) const</argsstring>
+        <name>dot</name>
+        <qualifiedname>Vector::dot</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="99" column="13" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="99" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a9fed8f78e7ee3aff9efc8e41230ab1d1" prot="public" static="no" constexpr="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr T</type>
+        <definition>constexpr T Vector&lt; T, N &gt;::max</definition>
+        <argsstring>() const</argsstring>
+        <name>max</name>
+        <qualifiedname>Vector::max</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="108" column="13" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="108" bodyend="117"/>
+        <references refid="classVector_1a9fed8f78e7ee3aff9efc8e41230ab1d1" compoundref="Vector_8hpp" startline="108" endline="117">Vector&lt; T, N &gt;::max</references>
+        <referencedby refid="classVector_1a9fed8f78e7ee3aff9efc8e41230ab1d1" compoundref="Vector_8hpp" startline="108" endline="117">Vector&lt; T, N &gt;::max</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a3894162bedc077a4388b2145e7b0e887" prot="public" static="no" constexpr="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr T</type>
+        <definition>constexpr T Vector&lt; T, N &gt;::min</definition>
+        <argsstring>() const</argsstring>
+        <name>min</name>
+        <qualifiedname>Vector::min</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="119" column="13" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="119" bodyend="128"/>
+        <references refid="classVector_1a3894162bedc077a4388b2145e7b0e887" compoundref="Vector_8hpp" startline="119" endline="128">Vector&lt; T, N &gt;::min</references>
+        <referencedby refid="classVector_1a3894162bedc077a4388b2145e7b0e887" compoundref="Vector_8hpp" startline="119" endline="128">Vector&lt; T, N &gt;::min</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a40c79671f93998ce785547f1608c5ffb" prot="public" static="no" constexpr="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr Vector&lt; T, N &gt;::operator std::array&lt; T, N &gt;</definition>
+        <argsstring>() const</argsstring>
+        <name>operator std::array&lt; T, N &gt;</name>
+        <qualifiedname>Vector::array&lt; T, N &gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="188" column="11" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="188" bodyend="190"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1aa671e1f64e2b3d395945f596b6dc7d8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void Vector&lt; T, N &gt;::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>Vector::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="194" column="6" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="194" bodyend="196"/>
+        <references refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" compoundref="Vector_8hpp" startline="220" endline="220">Vector&lt; T, N &gt;::components_</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classVector_1a0caa8ae2434324190fb3efd4f76c9ec4" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr int</type>
+        <definition>static constexpr int Vector&lt; T, N &gt;::size</definition>
+        <argsstring>()</argsstring>
+        <name>size</name>
+        <qualifiedname>Vector::size</qualifiedname>
+        <briefdescription>
+<para>Return the number of represented elements or blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="131" column="22" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classVector_1a747f65aae98ca6136bdc792485c79a54" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>static constexpr Vector Vector&lt; T, N &gt;::unit</definition>
+        <argsstring>(int j)</argsstring>
+        <name>unit</name>
+        <qualifiedname>Vector::unit</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="135" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="135" bodyend="139"/>
+        <references refid="classVector_1aa62e4aae47ebcd065da68fe25c8eed3b" compoundref="Vector_8hpp" startline="204" endline="219">Vector&lt; T, N &gt;::forEachComponent</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classVector_1a0a6dff805d32af961edc9830b8dec1be" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr T</type>
+        <definition>constexpr T sqr</definition>
+        <argsstring>(Vector const &amp;A)</argsstring>
+        <name>sqr</name>
+        <qualifiedname>Vector::sqr</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="141" column="20" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1a9d2a9949a3725726f5f77944e6b72566" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr T</type>
+        <definition>constexpr T abs</definition>
+        <argsstring>(Vector const &amp;A)</argsstring>
+        <name>abs</name>
+        <qualifiedname>Vector::abs</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="145" column="20" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="145" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1a012603c81f436842e39edaeb05d0162e" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>constexpr Vector norm</definition>
+        <argsstring>(Vector A)</argsstring>
+        <name>norm</name>
+        <qualifiedname>Vector::norm</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref></type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="151" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="151" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1a8f71e29d47a0f0d0fb9af2e9bf08d5d8" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>constexpr Vector operator+</definition>
+        <argsstring>(Vector const &amp;A)</argsstring>
+        <name>operator+</name>
+        <qualifiedname>Vector::operator+</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="156" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="156" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1ab74002446990c4ed1b2576d7417d5ad0" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>constexpr Vector operator-</definition>
+        <argsstring>(Vector A)</argsstring>
+        <name>operator-</name>
+        <qualifiedname>Vector::operator-</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref></type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="160" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="160" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1acf436a007d9d35d1d8c123f2b8167bfe" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>constexpr Vector operator+</definition>
+        <argsstring>(Vector A, Vector const &amp;B)</argsstring>
+        <name>operator+</name>
+        <qualifiedname>Vector::operator+</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref></type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="165" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="165" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1ac2041cc3e2f9bc0968d263b61a3f17d5" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>constexpr Vector operator-</definition>
+        <argsstring>(Vector A, Vector const &amp;B)</argsstring>
+        <name>operator-</name>
+        <qualifiedname>Vector::operator-</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref></type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref> const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="170" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="170" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1aca372e4ee2c2237a541ab4a21f2b3ae7" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>constexpr Vector operator*</definition>
+        <argsstring>(Vector A, T const &amp;B)</argsstring>
+        <name>operator*</name>
+        <qualifiedname>Vector::operator*</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref></type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>T const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="175" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="175" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1a48b5fa115015d47147d8a878e61309a4" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>constexpr Vector operator*</definition>
+        <argsstring>(T const &amp;A, Vector B)</argsstring>
+        <name>operator*</name>
+        <qualifiedname>Vector::operator*</qualifiedname>
+        <param>
+          <type>T const &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref></type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="180" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="180" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="friend" id="classVector_1ac90730501b6bff86c985ba3edbcde6d8" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref></type>
+        <definition>constexpr Vector operator/</definition>
+        <argsstring>(Vector A, T const &amp;B)</argsstring>
+        <name>operator/</name>
+        <qualifiedname>Vector::operator/</qualifiedname>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref></type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>T const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="184" column="25" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="184" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classVector_1aa62e4aae47ebcd065da68fe25c8eed3b" prot="private" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Function</type>
+          </param>
+        </templateparamlist>
+        <type>constexpr void</type>
+        <definition>static constexpr void Vector&lt; T, N &gt;::forEachComponent</definition>
+        <argsstring>(Function const &amp;function)</argsstring>
+        <name>forEachComponent</name>
+        <qualifiedname>Vector::forEachComponent</qualifiedname>
+        <param>
+          <type>Function const &amp;</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="204" column="23" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="204" bodyend="219"/>
+        <referencedby refid="classVector_1a1ec8c7f8f76beef0a880d5cba51227c0" compoundref="Vector_8hpp" startline="68" endline="73">Vector&lt; T, N &gt;::operator*=</referencedby>
+        <referencedby refid="classVector_1ad250d594ea80d20ad8c959ba9382c048" compoundref="Vector_8hpp" startline="58" endline="61">Vector&lt; T, N &gt;::operator+=</referencedby>
+        <referencedby refid="classVector_1acbbc558eec10d82322b07988eff3cca1" compoundref="Vector_8hpp" startline="63" endline="66">Vector&lt; T, N &gt;::operator-=</referencedby>
+        <referencedby refid="classVector_1a10e0a72ebc46e8a3e85740d3d32c5316" compoundref="Vector_8hpp" startline="75" endline="83">Vector&lt; T, N &gt;::operator/=</referencedby>
+        <referencedby refid="classVector_1a747f65aae98ca6136bdc792485c79a54" compoundref="Vector_8hpp" startline="135" endline="139">Vector&lt; T, N &gt;::unit</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixed-size arithmetic vector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Math calls use argument-dependent lookup so element types may supply their own overloads. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/math/Vector.hpp" line="21" column="1" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="21" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classVector_1a9d2a9949a3725726f5f77944e6b72566" prot="public" virt="non-virtual"><scope>Vector</scope><name>abs</name></member>
+      <member refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" prot="private" virt="non-virtual"><scope>Vector</scope><name>components_</name></member>
+      <member refid="classVector_1a9cf72bb0707d4704beab6c43847990a2" prot="public" virt="non-virtual"><scope>Vector</scope><name>dot</name></member>
+      <member refid="classVector_1aa62e4aae47ebcd065da68fe25c8eed3b" prot="private" virt="non-virtual"><scope>Vector</scope><name>forEachComponent</name></member>
+      <member refid="classVector_1a9fed8f78e7ee3aff9efc8e41230ab1d1" prot="public" virt="non-virtual"><scope>Vector</scope><name>max</name></member>
+      <member refid="classVector_1a3894162bedc077a4388b2145e7b0e887" prot="public" virt="non-virtual"><scope>Vector</scope><name>min</name></member>
+      <member refid="classVector_1a012603c81f436842e39edaeb05d0162e" prot="public" virt="non-virtual"><scope>Vector</scope><name>norm</name></member>
+      <member refid="classVector_1a40c79671f93998ce785547f1608c5ffb" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator std::array&lt; T, N &gt;</name></member>
+      <member refid="classVector_1aca372e4ee2c2237a541ab4a21f2b3ae7" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator*</name></member>
+      <member refid="classVector_1a48b5fa115015d47147d8a878e61309a4" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator*</name></member>
+      <member refid="classVector_1a1ec8c7f8f76beef0a880d5cba51227c0" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator*=</name></member>
+      <member refid="classVector_1a8f71e29d47a0f0d0fb9af2e9bf08d5d8" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator+</name></member>
+      <member refid="classVector_1acf436a007d9d35d1d8c123f2b8167bfe" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator+</name></member>
+      <member refid="classVector_1ad250d594ea80d20ad8c959ba9382c048" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator+=</name></member>
+      <member refid="classVector_1ab74002446990c4ed1b2576d7417d5ad0" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator-</name></member>
+      <member refid="classVector_1ac2041cc3e2f9bc0968d263b61a3f17d5" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator-</name></member>
+      <member refid="classVector_1acbbc558eec10d82322b07988eff3cca1" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator-=</name></member>
+      <member refid="classVector_1ac90730501b6bff86c985ba3edbcde6d8" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator/</name></member>
+      <member refid="classVector_1a10e0a72ebc46e8a3e85740d3d32c5316" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator/=</name></member>
+      <member refid="classVector_1ad2df89f4e8eafe98cca2aa20a6e22b80" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator=</name></member>
+      <member refid="classVector_1a52eca6d6ee3a475303902726b5a248ea" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator=</name></member>
+      <member refid="classVector_1a54979618194768f650ff6de65c8b3461" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator[]</name></member>
+      <member refid="classVector_1ae792e0b73c3a962c843fc2978422ea77" prot="public" virt="non-virtual"><scope>Vector</scope><name>operator[]</name></member>
+      <member refid="classVector_1aa671e1f64e2b3d395945f596b6dc7d8e" prot="public" virt="non-virtual"><scope>Vector</scope><name>serialize</name></member>
+      <member refid="classVector_1a0caa8ae2434324190fb3efd4f76c9ec4" prot="public" virt="non-virtual"><scope>Vector</scope><name>size</name></member>
+      <member refid="classVector_1a431637ce608c3179a6da971491272847" prot="public" virt="non-virtual"><scope>Vector</scope><name>split</name></member>
+      <member refid="classVector_1a0a6dff805d32af961edc9830b8dec1be" prot="public" virt="non-virtual"><scope>Vector</scope><name>sqr</name></member>
+      <member refid="classVector_1a747f65aae98ca6136bdc792485c79a54" prot="public" virt="non-virtual"><scope>Vector</scope><name>unit</name></member>
+      <member refid="classVector_1ab2e526ff61b85e2a632d92f76b354f74" prot="public" virt="non-virtual"><scope>Vector</scope><name>Vector</name></member>
+      <member refid="classVector_1a1c869ae2edb8a57283a68fa6532e0ea1" prot="public" virt="non-virtual"><scope>Vector</scope><name>Vector</name></member>
+      <member refid="classVector_1ad02018e4357c208b288d90113d77962e" prot="public" virt="non-virtual"><scope>Vector</scope><name>Vector</name></member>
+      <member refid="classVector_1a94acded2aa64d7542494921886ab59fa" prot="public" virt="non-virtual"><scope>Vector</scope><name>Vector</name></member>
+      <member refid="classVector_1ac6daf0720363d731593574c10922b87f" prot="public" virt="non-virtual"><scope>Vector</scope><name>Vector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

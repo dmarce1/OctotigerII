@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Snapshot" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Snapshot</compoundname>
+    <includes refid="subgrid_8hpp" local="no">subgrid.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1af67d64db71174c845073c16c215d1a47" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1BlockLocation" kindref="compound">mesh::BlockLocation</ref></type>
+        <definition>mesh::BlockLocation octotigerII::Snapshot::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>octotigerII::Snapshot::location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="25" column="21" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="25" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1ae7afcfe262a676095526b633c918ca81" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1MeshLayout" kindref="compound">mesh::MeshLayout</ref></type>
+        <definition>mesh::MeshLayout octotigerII::Snapshot::layout</definition>
+        <argsstring></argsstring>
+        <name>layout</name>
+        <qualifiedname>octotigerII::Snapshot::layout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="26" column="18" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="26" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1a571359395d5fc10fbb565c2e84f9ea46" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a75c6d3d571de04dad3c8dc3fe7b53b0e" kindref="member">mesh::PhysicalCoordinates</ref></type>
+        <definition>mesh::PhysicalCoordinates octotigerII::Snapshot::lower</definition>
+        <argsstring></argsstring>
+        <name>lower</name>
+        <qualifiedname>octotigerII::Snapshot::lower</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="27" column="27" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="27" bodyend="27"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1acc0009efba1f7723faaf9a3267fadb1a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::Snapshot::cellWidth</definition>
+        <argsstring></argsstring>
+        <name>cellWidth</name>
+        <qualifiedname>octotigerII::Snapshot::cellWidth</qualifiedname>
+        <initializer>= units::Length::from_value(1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="28" column="15" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="28" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1a42348fb70bc15406f78fb904ae92cbe2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::Snapshot::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <qualifiedname>octotigerII::Snapshot::time</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="29" column="13" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="29" bodyend="29"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1ae678641a91816426ebace0c5b832a61b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::Snapshot::hydroEnabled</definition>
+        <argsstring></argsstring>
+        <name>hydroEnabled</name>
+        <qualifiedname>octotigerII::Snapshot::hydroEnabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="30" column="6" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="30" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1ae1937e11cbc5cfd0c9d4928bdaa0cb61" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::Snapshot::radiationEnabled</definition>
+        <argsstring></argsstring>
+        <name>radiationEnabled</name>
+        <qualifiedname>octotigerII::Snapshot::radiationEnabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="30" column="20" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="30" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1aebb654624db4d4b90ef7df5339d4f2ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::Snapshot::gravityEnabled</definition>
+        <argsstring></argsstring>
+        <name>gravityEnabled</name>
+        <qualifiedname>octotigerII::Snapshot::gravityEnabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="30" column="38" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="30" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1a297b51fa084fe51816181e1e09a1219e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1hydro_1a6488b62becf706e4006fc39d1eb15df6" kindref="member">hydro::Fields</ref></type>
+        <definition>hydro::Fields octotigerII::Snapshot::hydro</definition>
+        <argsstring></argsstring>
+        <name>hydro</name>
+        <qualifiedname>octotigerII::Snapshot::hydro</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="31" column="15" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="31" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1a46648a2cc4a7bb406f77ca88f5abba3f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1radiation_1a117da2107968295862277a3a90082369" kindref="member">radiation::Fields</ref></type>
+        <definition>radiation::Fields octotigerII::Snapshot::radiation</definition>
+        <argsstring></argsstring>
+        <name>radiation</name>
+        <qualifiedname>octotigerII::Snapshot::radiation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="32" column="19" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="32" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1ae4ee69893cc739158ec25ac0bc07fc30" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1gravity_1a30671cb5e9dc866f8e39a4d51435c252" kindref="member">gravity::Fields</ref></type>
+        <definition>gravity::Fields octotigerII::Snapshot::gravity</definition>
+        <argsstring></argsstring>
+        <name>gravity</name>
+        <qualifiedname>octotigerII::Snapshot::gravity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="33" column="17" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="33" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Snapshot_1a898cba6e3e7d46c9165b7a2c3764cf9d" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">units::Density</ref> &gt;</type>
+        <definition>mesh::PatchData&lt;units::Density&gt; octotigerII::Snapshot::density</definition>
+        <argsstring></argsstring>
+        <name>density</name>
+        <qualifiedname>octotigerII::Snapshot::density</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="35" column="17" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="35" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" compoundref="subgrid_8hpp" startline="38" endline="43">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Snapshot::serialize</definition>
+        <argsstring>(Archive &amp;a, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Snapshot::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/subgrid.hpp" line="38" column="6" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="38" bodyend="43"/>
+        <references refid="classoctotigerII_1_1Snapshot_1acc0009efba1f7723faaf9a3267fadb1a" compoundref="subgrid_8hpp" startline="28">cellWidth</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a898cba6e3e7d46c9165b7a2c3764cf9d" compoundref="subgrid_8hpp" startline="35">density</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae4ee69893cc739158ec25ac0bc07fc30" compoundref="subgrid_8hpp" startline="33">gravity</references>
+        <references refid="classoctotigerII_1_1Snapshot_1aebb654624db4d4b90ef7df5339d4f2ea" compoundref="subgrid_8hpp" startline="30">gravityEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a297b51fa084fe51816181e1e09a1219e" compoundref="subgrid_8hpp" startline="31">hydro</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae678641a91816426ebace0c5b832a61b" compoundref="subgrid_8hpp" startline="30">hydroEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae7afcfe262a676095526b633c918ca81" compoundref="subgrid_8hpp" startline="26">layout</references>
+        <references refid="classoctotigerII_1_1Snapshot_1af67d64db71174c845073c16c215d1a47" compoundref="subgrid_8hpp" startline="25">location</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a571359395d5fc10fbb565c2e84f9ea46" compoundref="subgrid_8hpp" startline="27" endline="27">lower</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a46648a2cc4a7bb406f77ca88f5abba3f" compoundref="subgrid_8hpp" startline="32">radiation</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae1937e11cbc5cfd0c9d4928bdaa0cb61" compoundref="subgrid_8hpp" startline="30">radiationEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a42348fb70bc15406f78fb904ae92cbe2" compoundref="subgrid_8hpp" startline="29" endline="29">time</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Owning, interior-only export at one physical time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used for initialization, diagnostics, and Silo output; it is not persistent subgrid storage or a restart checkpoint format. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>octotigerII::mesh::PatchData&lt; ConservedState &gt;</label>
+        <link refid="classoctotigerII_1_1mesh_1_1PatchData"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>layout_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>timeState_</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>octotigerII::mesh::PatchData&lt; RadiationSystem::State &gt;</label>
+        <link refid="classoctotigerII_1_1mesh_1_1PatchData"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>layout_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>timeState_</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>octotigerII::mesh::PatchData&lt; units::Density &gt;</label>
+        <link refid="classoctotigerII_1_1mesh_1_1PatchData"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>layout_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>timeState_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>octotigerII::Snapshot</label>
+        <link refid="classoctotigerII_1_1Snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>location</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>layout</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>hydro</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>radiation</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>density</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::mesh::BlockLocation</label>
+        <link refid="classoctotigerII_1_1mesh_1_1BlockLocation"/>
+      </node>
+      <node id="3">
+        <label>octotigerII::mesh::MeshLayout</label>
+        <link refid="classoctotigerII_1_1mesh_1_1MeshLayout"/>
+      </node>
+      <node id="5">
+        <label>octotigerII::mesh::TimeState</label>
+        <link refid="classoctotigerII_1_1mesh_1_1TimeState"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/subgrid/subgrid.hpp" line="22" column="1" bodyfile="include/octotigerII/subgrid/subgrid.hpp" bodystart="22" bodyend="44"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Snapshot_1acc0009efba1f7723faaf9a3267fadb1a" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>cellWidth</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1a898cba6e3e7d46c9165b7a2c3764cf9d" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>density</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1ae4ee69893cc739158ec25ac0bc07fc30" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>gravity</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1aebb654624db4d4b90ef7df5339d4f2ea" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>gravityEnabled</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1a297b51fa084fe51816181e1e09a1219e" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>hydro</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1ae678641a91816426ebace0c5b832a61b" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>hydroEnabled</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1ae7afcfe262a676095526b633c918ca81" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>layout</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1af67d64db71174c845073c16c215d1a47" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>location</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1a571359395d5fc10fbb565c2e84f9ea46" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>lower</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1a46648a2cc4a7bb406f77ca88f5abba3f" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>radiation</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1ae1937e11cbc5cfd0c9d4928bdaa0cb61" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>radiationEnabled</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1Snapshot_1a42348fb70bc15406f78fb904ae92cbe2" prot="public" virt="non-virtual"><scope>octotigerII::Snapshot</scope><name>time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

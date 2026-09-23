@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1build" kind="namespace" language="C++">
+    <compoundname>octotigerII::build</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1build_1aef3cf0018084925fa08f4b0c166bdac6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr char</type>
+        <definition>constexpr char octotigerII::build::problem[]</definition>
+        <argsstring>[]</argsstring>
+        <name>problem</name>
+        <qualifiedname>octotigerII::build::problem</qualifiedname>
+        <initializer>= &quot;@OCTOTIGERII_PROBLEM@&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake/buildConfig.hpp.in" line="15" column="23" bodyfile="cmake/buildConfig.hpp.in" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1build_1acdc48af7f174c82a02323483e99b091f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr char</type>
+        <definition>constexpr char octotigerII::build::executable[]</definition>
+        <argsstring>[]</argsstring>
+        <name>executable</name>
+        <qualifiedname>octotigerII::build::executable</qualifiedname>
+        <initializer>= &quot;@OCTOTIGERII_EXECUTABLE@&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake/buildConfig.hpp.in" line="16" column="23" bodyfile="cmake/buildConfig.hpp.in" bodystart="16" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1ac8331b525bdfe42b0b13d10a80fa49ec" compoundref="config_8cpp" startline="208" endline="220">octotigerII::helpText</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr bool</type>
+        <definition>constexpr bool octotigerII::build::hydro</definition>
+        <argsstring></argsstring>
+        <name>hydro</name>
+        <qualifiedname>octotigerII::build::hydro</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake/buildConfig.hpp.in" line="17" column="23" bodyfile="cmake/buildConfig.hpp.in" bodystart="17" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1FieldRepository_1a6fb4f14a14881902775791a1ef71bd42" compoundref="registry_8hpp" startline="35" endline="53">octotigerII::FieldRepository::FieldRepository</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1aacfb1858f256c77a3761803dcebe132d" compoundref="config_8hpp" startline="122" endline="124">octotigerII::Config::hydroEnabled</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">octotigerII::gravity::FmmPartition::initialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr bool</type>
+        <definition>constexpr bool octotigerII::build::radiation</definition>
+        <argsstring></argsstring>
+        <name>radiation</name>
+        <qualifiedname>octotigerII::build::radiation</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake/buildConfig.hpp.in" line="18" column="23" bodyfile="cmake/buildConfig.hpp.in" bodystart="18" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1FieldRepository_1a6fb4f14a14881902775791a1ef71bd42" compoundref="registry_8hpp" startline="35" endline="53">octotigerII::FieldRepository::FieldRepository</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a899ce381b476d6397443aaf428b90f63" compoundref="config_8hpp" startline="126" endline="128">octotigerII::Config::radiationEnabled</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr bool</type>
+        <definition>constexpr bool octotigerII::build::gravity</definition>
+        <argsstring></argsstring>
+        <name>gravity</name>
+        <qualifiedname>octotigerII::build::gravity</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake/buildConfig.hpp.in" line="19" column="23" bodyfile="cmake/buildConfig.hpp.in" bodystart="19" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1FieldRepository_1a6fb4f14a14881902775791a1ef71bd42" compoundref="registry_8hpp" startline="35" endline="53">octotigerII::FieldRepository::FieldRepository</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a4eafbd232745271498cd9d771eac1f74" compoundref="config_8hpp" startline="130" endline="132">octotigerII::Config::gravityEnabled</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a37413c8160dfd3f5e8488a17369d480b" compoundref="analytic_8hpp" startline="78" endline="80">octotigerII::verification::usesDirectGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="cmake/buildConfig.hpp.in" line="14" column="1"/>
+  </compounddef>
+</doxygen>

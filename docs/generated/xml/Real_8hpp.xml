@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="Real_8hpp" kind="file" language="C++">
+    <compoundname>Real.hpp</compoundname>
+    <includes local="no">limits</includes>
+    <includes local="no">numbers</includes>
+    <includedby refid="cgs_8hpp" local="yes">include/octotigerII/units/cgs.hpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/octotigerII/math/Real.hpp</label>
+        <link refid="Real_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>limits</label>
+      </node>
+      <node id="3">
+        <label>numbers</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>bin/gravity_tests/Gaussian/problem.cpp</label>
+        <link refid="gravity__tests_2Gaussian_2problem_8cpp"/>
+      </node>
+      <node id="6">
+        <label>bin/gravity_tests/Sphere/problem.cpp</label>
+        <link refid="gravity__tests_2Sphere_2problem_8cpp"/>
+      </node>
+      <node id="7">
+        <label>bin/hydro_tests/KelvinHelmholtz/problem.cpp</label>
+        <link refid="hydro__tests_2KelvinHelmholtz_2problem_8cpp"/>
+      </node>
+      <node id="8">
+        <label>bin/hydro_tests/Sod/problem.cpp</label>
+        <link refid="hydro__tests_2Sod_2problem_8cpp"/>
+      </node>
+      <node id="9">
+        <label>bin/radiation_tests/RadiationPulse/problem.cpp</label>
+        <link refid="radiation__tests_2RadiationPulse_2problem_8cpp"/>
+      </node>
+      <node id="10">
+        <label>bin/radiation_tests/Streaming/problem.cpp</label>
+        <link refid="radiation__tests_2Streaming_2problem_8cpp"/>
+      </node>
+      <node id="11">
+        <label>bin/science/Collapse/problem.cpp</label>
+        <link refid="science_2Collapse_2problem_8cpp"/>
+      </node>
+      <node id="56">
+        <label>include/octotigerII/config.hpp</label>
+        <link refid="config_8hpp"/>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/octotigerII/gravity/fieldSolver.hpp</label>
+        <link refid="fieldSolver_8hpp"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/octotigerII/gravity/gravityFields.hpp</label>
+        <link refid="gravityFields_8hpp"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/octotigerII/gravity/solver.hpp</label>
+        <link refid="solver_8hpp"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/octotigerII/hydro/hydroSystem.hpp</label>
+        <link refid="hydroSystem_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/octotigerII/math/Real.hpp</label>
+        <link refid="Real_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/octotigerII/mesh.hpp</label>
+        <link refid="mesh_8hpp"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/octotigerII/output.hpp</label>
+        <link refid="output_8hpp"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>include/octotigerII/physics/finiteVolume.hpp</label>
+        <link refid="finiteVolume_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>include/octotigerII/problems.hpp</label>
+        <link refid="problems_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>include/octotigerII/radiation/m1.hpp</label>
+        <link refid="m1_8hpp"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>include/octotigerII/radiation/radiationTransport.hpp</label>
+        <link refid="radiationTransport_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/octotigerII/runtime.hpp</label>
+        <link refid="runtime_8hpp"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/octotigerII/simulation.hpp</label>
+        <link refid="simulation_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/octotigerII/storage/buffer.hpp</label>
+        <link refid="buffer_8hpp"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>include/octotigerII/storage/columns.hpp</label>
+        <link refid="columns_8hpp"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>include/octotigerII/storage/field.hpp</label>
+        <link refid="field_8hpp"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>include/octotigerII/storage/partition.hpp</label>
+        <link refid="partition_8hpp"/>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/octotigerII/storage/registry.hpp</label>
+        <link refid="registry_8hpp"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>include/octotigerII/subgrid/exchange.hpp</label>
+        <link refid="exchange_8hpp"/>
+      </node>
+      <node id="40">
+        <label>include/octotigerII/subgrid/fluxPacket.hpp</label>
+        <link refid="fluxPacket_8hpp"/>
+      </node>
+      <node id="4">
+        <label>include/octotigerII/subgrid/subgrid.hpp</label>
+        <link refid="subgrid_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>include/octotigerII/subgrid/topology.hpp</label>
+        <link refid="topology_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>include/octotigerII/subgrid/view.hpp</label>
+        <link refid="view_8hpp"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/octotigerII/units/cgs.hpp</label>
+        <link refid="cgs_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>include/octotigerII/units/constants.hpp</label>
+        <link refid="constants_8hpp"/>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>include/octotigerII/units/state.hpp</label>
+        <link refid="state_8hpp"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/octotigerII/verification/analytic.hpp</label>
+        <link refid="analytic_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/octotigerII/verification/directGravity.hpp</label>
+        <link refid="directGravity_8hpp"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>src/config.cpp</label>
+        <link refid="config_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/gravity/fieldSolver.cpp</label>
+        <link refid="fieldSolver_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/gravity/gravityFields.cpp</label>
+        <link refid="gravityFields_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/gravity/solver.cpp</label>
+        <link refid="solver_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/hydro/hydroSystem.cpp</label>
+        <link refid="hydroSystem_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/main.cpp</label>
+        <link refid="main_8cpp"/>
+      </node>
+      <node id="44">
+        <label>src/mesh.cpp</label>
+        <link refid="mesh_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/output.cpp</label>
+        <link refid="output_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/physics/finiteVolume.cpp</label>
+        <link refid="finiteVolume_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/problems.cpp</label>
+        <link refid="problems_8cpp"/>
+      </node>
+      <node id="37">
+        <label>src/radiation/radiationTransport.cpp</label>
+        <link refid="radiationTransport_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/runtime.cpp</label>
+        <link refid="runtime_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/simulation.cpp</label>
+        <link refid="simulation_8cpp"/>
+      </node>
+      <node id="54">
+        <label>src/storage.cpp</label>
+        <link refid="storage_8cpp"/>
+      </node>
+      <node id="49">
+        <label>src/storage_acceleration.cpp</label>
+        <link refid="storage__acceleration_8cpp"/>
+      </node>
+      <node id="50">
+        <label>src/storage_density.cpp</label>
+        <link refid="storage__density_8cpp"/>
+      </node>
+      <node id="51">
+        <label>src/storage_energy.cpp</label>
+        <link refid="storage__energy_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/storage_momentum.cpp</label>
+        <link refid="storage__momentum_8cpp"/>
+      </node>
+      <node id="53">
+        <label>src/storage_potential.cpp</label>
+        <link refid="storage__potential_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/subgrid.cpp</label>
+        <link refid="subgrid_8cpp"/>
+      </node>
+      <node id="43">
+        <label>src/topology.cpp</label>
+        <link refid="topology_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/verification/analytic.cpp</label>
+        <link refid="analytic_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/verification/directGravity.cpp</label>
+        <link refid="directGravity_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/verification/solutions.cpp</label>
+        <link refid="solutions_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" prot="public" static="no">
+        <type>double</type>
+        <definition>using Real =  double</definition>
+        <argsstring></argsstring>
+        <name>Real</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Real.hpp" line="10" column="1" bodyfile="include/octotigerII/math/Real.hpp" bodystart="10" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="Real_8hpp_1a08cc81e0f92efcc2206a1bea24bb07ed" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>constexpr Real epsilonR</definition>
+        <argsstring></argsstring>
+        <name>epsilonR</name>
+        <initializer>= std::numeric_limits&lt;<ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref>&gt;::epsilon()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Real.hpp" line="11" column="23" bodyfile="include/octotigerII/math/Real.hpp" bodystart="11" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">octotigerII::transportExchange::fillHalo</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">octotigerII::hydro::HydroSystem::riemann</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1ae3d40f60911dc9c4df5d0c0c0fa02507" compoundref="exchange_8hpp" startline="54" endline="58">octotigerII::transportExchange::sameTime</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="Real_8hpp_1a5839fda3fbc07e70b2950475761f6176" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>constexpr Real piR</definition>
+        <argsstring></argsstring>
+        <name>piR</name>
+        <initializer>= std::numbers::pi_v&lt;<ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref>&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Real.hpp" line="12" column="23" bodyfile="include/octotigerII/math/Real.hpp" bodystart="12" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Scalar arithmetic type and mathematical constants. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/math/Real.hpp"/>
+  </compounddef>
+</doxygen>

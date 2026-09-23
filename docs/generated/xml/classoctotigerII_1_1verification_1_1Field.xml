@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1verification_1_1Field" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::verification::Field</compoundname>
+    <includes refid="analytic_8hpp" local="no">analytic.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Field_1a92b2f58284f7ef93be334217009daa62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Field::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>octotigerII::verification::Field::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="39" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="39" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a40c14d3a2471b6a0f74d3ee5ef9b54a4" compoundref="directGravity_8cpp" startline="42" endline="88">octotigerII::verification::directErrorNorm</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Field_1aa1efbfe0332eba8667d675612e8cdca7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Field::units</definition>
+        <argsstring></argsstring>
+        <name>units</name>
+        <qualifiedname>octotigerII::verification::Field::units</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="39" column="18" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="39" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a40c14d3a2471b6a0f74d3ee5ef9b54a4" compoundref="directGravity_8cpp" startline="42" endline="88">octotigerII::verification::directErrorNorm</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Field_1a2f26d846032808d4522425b46bf36d14" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref> &gt;</type>
+        <definition>std::vector&lt;Real&gt; octotigerII::verification::Field::numerical</definition>
+        <argsstring></argsstring>
+        <name>numerical</name>
+        <qualifiedname>octotigerII::verification::Field::numerical</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="40" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="40" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a40c14d3a2471b6a0f74d3ee5ef9b54a4" compoundref="directGravity_8cpp" startline="42" endline="88">octotigerII::verification::directErrorNorm</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Field_1aa36df9a464c9f6056bd249d1c185b433" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref> &gt;</type>
+        <definition>std::vector&lt;Real&gt; octotigerII::verification::Field::exact</definition>
+        <argsstring></argsstring>
+        <name>exact</name>
+        <qualifiedname>octotigerII::verification::Field::exact</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="40" column="23" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="40" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a40c14d3a2471b6a0f74d3ee5ef9b54a4" compoundref="directGravity_8cpp" startline="42" endline="88">octotigerII::verification::directErrorNorm</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CGS scalar arrays at the reporting/Silo boundary; physical solvers stay typed. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/verification/analytic.hpp" line="37" column="1" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="37" bodyend="41"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1verification_1_1Field_1aa36df9a464c9f6056bd249d1c185b433" prot="public" virt="non-virtual"><scope>octotigerII::verification::Field</scope><name>exact</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Field_1a92b2f58284f7ef93be334217009daa62" prot="public" virt="non-virtual"><scope>octotigerII::verification::Field</scope><name>name</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Field_1a2f26d846032808d4522425b46bf36d14" prot="public" virt="non-virtual"><scope>octotigerII::verification::Field</scope><name>numerical</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Field_1aa1efbfe0332eba8667d675612e8cdca7" prot="public" virt="non-virtual"><scope>octotigerII::verification::Field</scope><name>units</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,704 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1gravity_1_1FmmPartition" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::gravity::FmmPartition</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">hpx::components::component_base&lt; FmmPartition &gt;</basecompoundref>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1FmmPartition_1_1Sources" prot="private">octotigerII::gravity::FmmPartition::Sources</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1ad6d8af5bceb1fcc172302b2725c78b14" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref></type>
+        <definition>Config octotigerII::gravity::FmmPartition::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="204" column="8" bodyfile="src/gravity/fieldSolver.cpp" bodystart="204" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" compoundref="fieldSolver_8cpp" startline="285" endline="334">fetch</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4ab965f252ad27e378c028cf98fcafee" compoundref="fieldSolver_8cpp" startline="257" endline="280">interactions</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a89cee0009db39e34b11ea645e3f3a4ae" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1FieldDirectory" kindref="compound">FieldDirectory</ref></type>
+        <definition>FieldDirectory octotigerII::gravity::FmmPartition::fields_</definition>
+        <argsstring></argsstring>
+        <name>fields_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::fields_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="205" column="16" bodyfile="src/gravity/fieldSolver.cpp" bodystart="205" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">initialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a14051d6f390985774e0a1b28e8ce435e" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::gravity::FmmPartition::owner_</definition>
+        <argsstring></argsstring>
+        <name>owner_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::owner_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="206" column="13" bodyfile="src/gravity/fieldSolver.cpp" bodystart="206" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">FmmPartition</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a4eddf2a306893b4361342b9278d0d4d6" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::gravity::FmmPartition::partitions_</definition>
+        <argsstring></argsstring>
+        <name>partitions_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::partitions_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="206" column="21" bodyfile="src/gravity/fieldSolver.cpp" bodystart="206" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" compoundref="fieldSolver_8cpp" startline="285" endline="334">fetch</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">FmmPartition</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1ac6cdd2aa412187b4dad561da0fd517a2" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::gravity::FmmPartition::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::workers_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="206" column="34" bodyfile="src/gravity/fieldSolver.cpp" bodystart="206" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" compoundref="fieldSolver_8cpp" startline="285" endline="334">fetch</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a34f467268271f42be4bfab25698db82a" compoundref="fieldSolver_8cpp" startline="213" endline="251">parallel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1afb093e2bcf63af7812b6525ee818b5bb" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::gravity::FmmPartition::n_</definition>
+        <argsstring></argsstring>
+        <name>n_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::n_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="207" column="5" bodyfile="src/gravity/fieldSolver.cpp" bodystart="207" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">FmmPartition</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a71407e507a5f2a3e57da9179cd8286b6" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::gravity::FmmPartition::cellWidth_</definition>
+        <argsstring></argsstring>
+        <name>cellWidth_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::cellWidth_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="208" column="15" bodyfile="src/gravity/fieldSolver.cpp" bodystart="208" bodyend="208"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">initialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1afd8e51d794bd1c78cf174dd36447c160" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Level &gt;</type>
+        <definition>std::vector&lt;Level&gt; octotigerII::gravity::FmmPartition::levels_</definition>
+        <argsstring></argsstring>
+        <name>levels_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::levels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="209" column="13" bodyfile="src/gravity/fieldSolver.cpp" bodystart="209" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" compoundref="fieldSolver_8cpp" startline="285" endline="334">fetch</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4ab965f252ad27e378c028cf98fcafee" compoundref="fieldSolver_8cpp" startline="257" endline="280">interactions</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a83dc11b123de8d6682d6104989a3eb08" compoundref="fieldSolver_8cpp" startline="174" endline="184">read</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a957b23c044c42f2879d89ff9d63ced05" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; FieldRange &gt;</type>
+        <definition>std::vector&lt;FieldRange&gt; octotigerII::gravity::FmmPartition::ranges_</definition>
+        <argsstring></argsstring>
+        <name>ranges_</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::ranges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="210" column="13" bodyfile="src/gravity/fieldSolver.cpp" bodystart="210" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">initialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a7cc812b242bb10fce4a5abc7913a0377" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::gravity::FmmPartition::FmmPartition</definition>
+        <argsstring>()=default</argsstring>
+        <name>FmmPartition</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::FmmPartition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="121" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::gravity::FmmPartition::FmmPartition</definition>
+        <argsstring>(Config const &amp;config, std::vector&lt; Subgrid &gt; const &amp;blocks, FieldDirectory fields, std::size_t owner, std::size_t partitions)</argsstring>
+        <name>FmmPartition</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::FmmPartition</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> &gt; const &amp;</type>
+          <declname>blocks</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1FieldDirectory" kindref="compound">FieldDirectory</ref></type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>owner</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>partitions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="123" column="1" bodyfile="src/gravity/fieldSolver.cpp" bodystart="123" bodyend="158"/>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1adedfdadab840e52dc975daa61f9caca9" compoundref="config_8hpp" startline="24">octotigerII::Config::MeshOptions::cells</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a71407e507a5f2a3e57da9179cd8286b6" compoundref="fieldSolver_8cpp" startline="208" endline="208">cellWidth_</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a02054386dab8b2a39dfe2d467c2dfb15" compoundref="fmm_8cpp" startline="99" endline="102">octotigerII::gravity::diagonal::coefficientCount</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ad6d8af5bceb1fcc172302b2725c78b14" compoundref="fieldSolver_8cpp" startline="204">config_</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <references refid="classoctotigerII_1_1Config_1ae30f5a3116df7c8e6efc5af6c4aa72ad">octotigerII::Config::gravity</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1ae41801a618bcbe2639e95c690ab8c379" compoundref="config_8hpp" startline="24">octotigerII::Config::MeshOptions::level</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afd8e51d794bd1c78cf174dd36447c160" compoundref="fieldSolver_8cpp" startline="209">levels_</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1a8028ed8a5c237558003bff69fb2b2cc9" compoundref="config_8hpp" startline="25" endline="25">octotigerII::Config::MeshOptions::lower</references>
+        <references refid="classoctotigerII_1_1Config_1ad953f6824a906c441f0f6771a3d8bf79">octotigerII::Config::mesh</references>
+        <references refid="classoctotigerII_1_1Config_1_1GravityOptions_1a79d7dded504a1d8a5f845f43e51ccc9d" compoundref="config_8hpp" startline="83">octotigerII::Config::GravityOptions::multipoleOrder</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afb093e2bcf63af7812b6525ee818b5bb" compoundref="fieldSolver_8cpp" startline="207">n_</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a14051d6f390985774e0a1b28e8ce435e" compoundref="fieldSolver_8cpp" startline="206">owner_</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4eddf2a306893b4361342b9278d0d4d6" compoundref="fieldSolver_8cpp" startline="206">partitions_</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a957b23c044c42f2879d89ff9d63ced05" compoundref="fieldSolver_8cpp" startline="210">ranges_</references>
+        <references refid="classoctotigerII_1_1Config_1a2b28688d0bf080ffe689b5ba7fee3dd5">octotigerII::Config::runtime</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1a9e7d691c142e8a49cb0ebad7918b41c7" compoundref="config_8hpp" startline="25">octotigerII::Config::MeshOptions::upper</references>
+        <references refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</references>
+        <references refid="namespaceoctotigerII_1_1units_1a53c5c6245a4a7ece95e76a686a6bd662" compoundref="cgs_8hpp" startline="61" endline="63">octotigerII::units::value</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ac6cdd2aa412187b4dad561da0fd517a2" compoundref="fieldSolver_8cpp" startline="206">workers_</references>
+        <references refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1abfb9409ec3df8abd0d16791d6113d822" compoundref="config_8hpp" startline="38">octotigerII::Config::RuntimeOptions::workerTasks</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a223379f3108f99aef47ae1b72273909b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::FmmPartition::execute</definition>
+        <argsstring>(Stage stage, unsigned depth, unsigned bank, std::vector&lt; storage::Locality &gt; const &amp;peers)</argsstring>
+        <name>execute</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::execute</qualifiedname>
+        <param>
+          <type>Stage</type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">storage::Locality</ref> &gt; const &amp;</type>
+          <declname>peers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="160" column="12" bodyfile="src/gravity/fieldSolver.cpp" bodystart="160" bodyend="172"/>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a0eedda78faceaa07717871106bce04d8" compoundref="fieldSolver_8cpp" startline="387" endline="413">downward</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">initialize</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a9a37490ef88f87a6c4b6121fd07f511d" compoundref="fieldSolver_8cpp" startline="424" endline="454">publish</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1abd7a62c7444e771b69a8dcf1ec2c6195" compoundref="fieldSolver_8cpp" startline="366" endline="385">upward</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a83dc11b123de8d6682d6104989a3eb08" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; Coefficients &gt;</type>
+        <definition>std::vector&lt; Coefficients &gt; octotigerII::gravity::FmmPartition::read</definition>
+        <argsstring>(unsigned depth, bool local, std::vector&lt; std::size_t &gt; const &amp;ids) const</argsstring>
+        <name>read</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::read</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::size_t &gt; const &amp;</type>
+          <declname>ids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="174" column="13" bodyfile="src/gravity/fieldSolver.cpp" bodystart="174" bodyend="184"/>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afd8e51d794bd1c78cf174dd36447c160" compoundref="fieldSolver_8cpp" startline="209">levels_</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a34f467268271f42be4bfab25698db82a" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Function</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::FmmPartition::parallel</definition>
+        <argsstring>(std::size_t count, Function const &amp;function) const</argsstring>
+        <name>parallel</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::parallel</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>Function const &amp;</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="213" column="12" bodyfile="src/gravity/fieldSolver.cpp" bodystart="213" bodyend="251"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <references refid="runtime_8cpp_1a197f48de4a87d5a94d1ecf7f9aeab75b" compoundref="runtime_8cpp" startline="90">work</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ac6cdd2aa412187b4dad561da0fd517a2" compoundref="fieldSolver_8cpp" startline="206">workers_</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a7c697efd191c0aef166cdd9122a6aa96" compoundref="solver_8hpp" startline="24">octotigerII::gravity::Statistics::workerTasks</references>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" compoundref="fieldSolver_8cpp" startline="285" endline="334">fetch</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" compoundref="fieldSolver_8cpp" startline="336" endline="364">initialize</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a4ab965f252ad27e378c028cf98fcafee" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Function</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::gravity::FmmPartition::interactions</definition>
+        <argsstring>(unsigned depth, std::size_t target, Function const &amp;function) const</argsstring>
+        <name>interactions</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::interactions</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>Function const &amp;</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="257" column="6" bodyfile="src/gravity/fieldSolver.cpp" bodystart="257" bodyend="280"/>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ad6d8af5bceb1fcc172302b2725c78b14" compoundref="fieldSolver_8cpp" startline="204">config_</references>
+        <references refid="classoctotigerII_1_1Config_1ae30f5a3116df7c8e6efc5af6c4aa72ad">octotigerII::Config::gravity</references>
+        <references refid="fieldSolver_8cpp_1a074c6c5e9e12dcb0423e8898f601ea1c" compoundref="fieldSolver_8cpp" startline="98">leaf</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afd8e51d794bd1c78cf174dd36447c160" compoundref="fieldSolver_8cpp" startline="209">levels_</references>
+        <references refid="classoctotigerII_1_1Config_1_1GravityOptions_1ab35b3b90b3fcf45792a917b719a8d2d2" compoundref="config_8hpp" startline="84">octotigerII::Config::GravityOptions::openingAngle</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Needs</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classoctotigerII_1_1gravity_1_1FmmPartition_1_1Sources" kindref="compound">Sources</ref></type>
+        <definition>Sources octotigerII::gravity::FmmPartition::fetch</definition>
+        <argsstring>(unsigned depth, bool local, std::size_t targets, Needs const &amp;needs, std::vector&lt; storage::Locality &gt; const &amp;peers, Statistics &amp;statistics) const</argsstring>
+        <name>fetch</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::fetch</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>targets</declname>
+        </param>
+        <param>
+          <type>Needs const &amp;</type>
+          <declname>needs</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">storage::Locality</ref> &gt; const &amp;</type>
+          <declname>peers</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref> &amp;</type>
+          <declname>statistics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="285" column="9" bodyfile="src/gravity/fieldSolver.cpp" bodystart="285" bodyend="334"/>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1_1Sources_1a50c3287bbd7a1070311e75bc8f084269" compoundref="fieldSolver_8cpp" startline="198" endline="201">octotigerII::gravity::FmmPartition::Sources::at</references>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a02054386dab8b2a39dfe2d467c2dfb15" compoundref="fmm_8cpp" startline="99" endline="102">octotigerII::gravity::diagonal::coefficientCount</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ad6d8af5bceb1fcc172302b2725c78b14" compoundref="fieldSolver_8cpp" startline="204">config_</references>
+        <references refid="fieldSolver_8cpp_1a30276f76b04bde2d30e88017646a8e03" compoundref="fieldSolver_8cpp" startline="91">end</references>
+        <references refid="classoctotigerII_1_1Config_1ae30f5a3116df7c8e6efc5af6c4aa72ad">octotigerII::Config::gravity</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afd8e51d794bd1c78cf174dd36447c160" compoundref="fieldSolver_8cpp" startline="209">levels_</references>
+        <references refid="classoctotigerII_1_1Config_1_1GravityOptions_1a79d7dded504a1d8a5f845f43e51ccc9d" compoundref="config_8hpp" startline="83">octotigerII::Config::GravityOptions::multipoleOrder</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a34f467268271f42be4bfab25698db82a" compoundref="fieldSolver_8cpp" startline="213" endline="251">parallel</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4eddf2a306893b4361342b9278d0d4d6" compoundref="fieldSolver_8cpp" startline="206">partitions_</references>
+        <references refid="output_8cpp_1a2ad192c64ff93c02f9f41c320e7aa1bc" compoundref="output_8cpp" startline="21">values</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ac6cdd2aa412187b4dad561da0fd517a2" compoundref="fieldSolver_8cpp" startline="206">workers_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::FmmPartition::initialize</definition>
+        <argsstring>(unsigned bank)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::initialize</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="336" column="12" bodyfile="src/gravity/fieldSolver.cpp" bodystart="336" bodyend="364"/>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a71407e507a5f2a3e57da9179cd8286b6" compoundref="fieldSolver_8cpp" startline="208" endline="208">cellWidth_</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a99efb5d9705ef24658c1f0a9b3ebdab3" compoundref="registry_8hpp" startline="21">octotigerII::FieldDirectory::density</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a89cee0009db39e34b11ea645e3f3a4ae" compoundref="fieldSolver_8cpp" startline="205">fields_</references>
+        <references refid="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" compoundref="buildConfig_8hpp_8in" startline="17">octotigerII::build::hydro</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" compoundref="registry_8hpp" startline="18">octotigerII::FieldDirectory::hydro</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afd8e51d794bd1c78cf174dd36447c160" compoundref="fieldSolver_8cpp" startline="209">levels_</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a34f467268271f42be4bfab25698db82a" compoundref="fieldSolver_8cpp" startline="213" endline="251">parallel</references>
+        <references refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a957b23c044c42f2879d89ff9d63ced05" compoundref="fieldSolver_8cpp" startline="210">ranges_</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</references>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a223379f3108f99aef47ae1b72273909b" compoundref="fieldSolver_8cpp" startline="160" endline="172">execute</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1abd7a62c7444e771b69a8dcf1ec2c6195" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::FmmPartition::upward</definition>
+        <argsstring>(unsigned depth, std::vector&lt; storage::Locality &gt; const &amp;peers)</argsstring>
+        <name>upward</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::upward</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">storage::Locality</ref> &gt; const &amp;</type>
+          <declname>peers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="366" column="12" bodyfile="src/gravity/fieldSolver.cpp" bodystart="366" bodyend="385"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a223379f3108f99aef47ae1b72273909b" compoundref="fieldSolver_8cpp" startline="160" endline="172">execute</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a0eedda78faceaa07717871106bce04d8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::FmmPartition::downward</definition>
+        <argsstring>(unsigned depth, std::vector&lt; storage::Locality &gt; const &amp;peers)</argsstring>
+        <name>downward</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::downward</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">storage::Locality</ref> &gt; const &amp;</type>
+          <declname>peers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="387" column="12" bodyfile="src/gravity/fieldSolver.cpp" bodystart="387" bodyend="413"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a223379f3108f99aef47ae1b72273909b" compoundref="fieldSolver_8cpp" startline="160" endline="172">execute</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a4bb4a4056c63d6658957b9053143b477" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename StateType</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::gravity::FmmPartition::copy</definition>
+        <argsstring>(storage::ColumnHandle&lt; StateType &gt; const &amp;field, storage::Range range, unsigned bank) const</argsstring>
+        <name>copy</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::copy</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1ColumnHandle" kindref="compound">storage::ColumnHandle</ref>&lt; StateType &gt; const &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">storage::Range</ref></type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="416" column="6" bodyfile="src/gravity/fieldSolver.cpp" bodystart="416" bodyend="422"/>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1FmmPartition_1a9a37490ef88f87a6c4b6121fd07f511d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics octotigerII::gravity::FmmPartition::publish</definition>
+        <argsstring>(unsigned bank)</argsstring>
+        <name>publish</name>
+        <qualifiedname>octotigerII::gravity::FmmPartition::publish</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="424" column="12" bodyfile="src/gravity/fieldSolver.cpp" bodystart="424" bodyend="454"/>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a223379f3108f99aef47ae1b72273909b" compoundref="fieldSolver_8cpp" startline="160" endline="172">execute</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Owns disjoint cells at every level. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Read actions only see completed source levels; numerical tasks exclusively own their target expansion. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>hpx::components::component_base&lt; FmmPartition &gt;</label>
+      </node>
+      <node id="1">
+        <label>octotigerII::gravity::FmmPartition</label>
+        <link refid="classoctotigerII_1_1gravity_1_1FmmPartition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="15">
+        <label>octotigerII::storage::ColumnHandle&lt; gravity::State &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="13">
+        <label>octotigerII::storage::ColumnHandle&lt; hydro::ConservedState &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="14">
+        <label>octotigerII::storage::ColumnHandle&lt; radiation::RadiationSystem::State &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="16">
+        <label>octotigerII::storage::FieldHandle&lt; units::Density &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1FieldHandle"/>
+        <childnode refid="17" relation="usage">
+          <edgelabel>layout</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>hpx::components::component_base&lt; FmmPartition &gt;</label>
+      </node>
+      <node id="3">
+        <label>octotigerII::Config</label>
+        <link refid="classoctotigerII_1_1Config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>mesh</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>runtime</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>timestep</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>hydro</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>radiation</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>gravity</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>output</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>verification</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>octotigerII::Config::GravityOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1GravityOptions"/>
+      </node>
+      <node id="7">
+        <label>octotigerII::Config::HydroOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1HydroOptions"/>
+      </node>
+      <node id="4">
+        <label>octotigerII::Config::MeshOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1MeshOptions"/>
+      </node>
+      <node id="10">
+        <label>octotigerII::Config::OutputOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1OutputOptions"/>
+      </node>
+      <node id="8">
+        <label>octotigerII::Config::RadiationOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1RadiationOptions"/>
+      </node>
+      <node id="5">
+        <label>octotigerII::Config::RuntimeOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1RuntimeOptions"/>
+      </node>
+      <node id="6">
+        <label>octotigerII::Config::TimestepOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1TimestepOptions"/>
+      </node>
+      <node id="11">
+        <label>octotigerII::Config::VerificationOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1VerificationOptions"/>
+      </node>
+      <node id="12">
+        <label>octotigerII::FieldDirectory</label>
+        <link refid="classoctotigerII_1_1FieldDirectory"/>
+        <childnode refid="13" relation="usage">
+          <edgelabel>hydro</edgelabel>
+        </childnode>
+        <childnode refid="14" relation="usage">
+          <edgelabel>radiation</edgelabel>
+        </childnode>
+        <childnode refid="15" relation="usage">
+          <edgelabel>gravity</edgelabel>
+        </childnode>
+        <childnode refid="16" relation="usage">
+          <edgelabel>density</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>octotigerII::gravity::FmmPartition</label>
+        <link refid="classoctotigerII_1_1gravity_1_1FmmPartition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>fields_</edgelabel>
+        </childnode>
+      </node>
+      <node id="17">
+        <label>octotigerII::storage::Layout</label>
+        <link refid="classoctotigerII_1_1storage_1_1Layout"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/gravity/fieldSolver.cpp" line="115" column="1" bodyfile="src/gravity/fieldSolver.cpp" bodystart="119" bodyend="455"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a71407e507a5f2a3e57da9179cd8286b6" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>cellWidth_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ad6d8af5bceb1fcc172302b2725c78b14" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>config_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4bb4a4056c63d6658957b9053143b477" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>copy</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a0eedda78faceaa07717871106bce04d8" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>downward</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a223379f3108f99aef47ae1b72273909b" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>execute</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>fetch</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a89cee0009db39e34b11ea645e3f3a4ae" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>fields_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7cc812b242bb10fce4a5abc7913a0377" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>FmmPartition</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>FmmPartition</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>initialize</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4ab965f252ad27e378c028cf98fcafee" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>interactions</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afd8e51d794bd1c78cf174dd36447c160" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>levels_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afb093e2bcf63af7812b6525ee818b5bb" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>n_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a14051d6f390985774e0a1b28e8ce435e" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>owner_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a34f467268271f42be4bfab25698db82a" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>parallel</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4eddf2a306893b4361342b9278d0d4d6" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>partitions_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a9a37490ef88f87a6c4b6121fd07f511d" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>publish</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a957b23c044c42f2879d89ff9d63ced05" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>ranges_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a83dc11b123de8d6682d6104989a3eb08" prot="public" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>read</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1abd7a62c7444e771b69a8dcf1ec2c6195" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>upward</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ac6cdd2aa412187b4dad561da0fd517a2" prot="private" virt="non-virtual"><scope>octotigerII::gravity::FmmPartition</scope><name>workers_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

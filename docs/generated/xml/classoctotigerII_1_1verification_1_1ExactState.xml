@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1verification_1_1ExactState" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::verification::ExactState</compoundname>
+    <includes refid="analytic_8hpp" local="no">analytic.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ExactState_1a4693936965bb7dc1d2a019aaae212a59" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1hydro_1a28c77eec0efa7904862c6a530dad720c" kindref="member">hydro::PrimitiveState</ref></type>
+        <definition>hydro::PrimitiveState octotigerII::verification::ExactState::hydro</definition>
+        <argsstring></argsstring>
+        <name>hydro</name>
+        <qualifiedname>octotigerII::verification::ExactState::hydro</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="19" column="23" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="19" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a66c6ee6dcf8a951e88e1257ef9fd6a0d" compoundref="solutions_8cpp" startline="10" endline="80">octotigerII::verification::sodReference</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ExactState_1a9fc945a1757b2dfe9e2737fc2bb5c640" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1gravity_1abace521e5efaecbfd9fdda34ec20b58e" kindref="member">gravity::State</ref></type>
+        <definition>gravity::State octotigerII::verification::ExactState::gravity</definition>
+        <argsstring></argsstring>
+        <name>gravity</name>
+        <qualifiedname>octotigerII::verification::ExactState::gravity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="20" column="16" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="20" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" compoundref="solutions_8cpp" startline="83" endline="136">octotigerII::verification::sphereReference</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1ExactState_1a1268bbed314bb315ac83692463480c69" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1acc3fb51f4279af0bd7bd4e44ec6d4bea" kindref="member">radiation::RadiationSystem::State</ref></type>
+        <definition>radiation::RadiationSystem::State octotigerII::verification::ExactState::radiation</definition>
+        <argsstring></argsstring>
+        <name>radiation</name>
+        <qualifiedname>octotigerII::verification::ExactState::radiation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="21" column="35" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="21" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a2e9ae4e7a511dcc613eb1a005fb38a46" compoundref="solutions_8cpp" startline="139" endline="169">octotigerII::verification::streamingReference</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Physical CGS values returned by a problem&apos;s independent reference solution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/verification/analytic.hpp" line="17" column="1" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="17" bodyend="22"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1verification_1_1ExactState_1a9fc945a1757b2dfe9e2737fc2bb5c640" prot="public" virt="non-virtual"><scope>octotigerII::verification::ExactState</scope><name>gravity</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ExactState_1a4693936965bb7dc1d2a019aaae212a59" prot="public" virt="non-virtual"><scope>octotigerII::verification::ExactState</scope><name>hydro</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1ExactState_1a1268bbed314bb315ac83692463480c69" prot="public" virt="non-virtual"><scope>octotigerII::verification::ExactState</scope><name>radiation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

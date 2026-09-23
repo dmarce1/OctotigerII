@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="group__mesh" kind="group">
+    <compoundname>mesh</compoundname>
+    <title>Mesh and halo adapters</title>
+    <innerfile refid="mesh_8hpp">mesh.hpp</innerfile>
+    <innerfile refid="fluxPacket_8hpp">fluxPacket.hpp</innerfile>
+    <innerfile refid="subgrid_8hpp">subgrid.hpp</innerfile>
+    <innerfile refid="topology_8hpp">topology.hpp</innerfile>
+    <innerfile refid="view_8hpp">view.hpp</innerfile>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1MeshLayout" prot="public">octotigerII::mesh::MeshLayout</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1BlockLocation" prot="public">octotigerII::mesh::BlockLocation</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1BlockLocationHash" prot="public">octotigerII::mesh::BlockLocationHash</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1TimeState" prot="public">octotigerII::mesh::TimeState</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1TimeInterval" prot="public">octotigerII::mesh::TimeInterval</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1PatchData" prot="public">octotigerII::mesh::PatchData</innerclass>
+    <innerclass refid="structoctotigerII_1_1FieldFluxPacket" prot="public">octotigerII::FieldFluxPacket</innerclass>
+    <innerclass refid="classoctotigerII_1_1Snapshot" prot="public">octotigerII::Snapshot</innerclass>
+    <innerclass refid="classoctotigerII_1_1Subgrid" prot="public">octotigerII::Subgrid</innerclass>
+    <innerclass refid="classoctotigerII_1_1HaloCopy" prot="public">octotigerII::HaloCopy</innerclass>
+    <innerclass refid="classoctotigerII_1_1HaloRead" prot="public">octotigerII::HaloRead</innerclass>
+    <innerclass refid="classoctotigerII_1_1HaloPlan" prot="public">octotigerII::HaloPlan</innerclass>
+    <innerclass refid="classoctotigerII_1_1CartesianTopology" prot="public">octotigerII::CartesianTopology</innerclass>
+    <innerclass refid="classoctotigerII_1_1PatchView" prot="public">octotigerII::PatchView</innerclass>
+    <briefdescription>
+<para>Geometry and indexing metadata, snapshots, temporary execution views. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="bibliography" kind="page">
+    <compoundname>bibliography</compoundname>
+    <title>Bibliography</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Code comments use author–year citations linked to the records below. One author: Levermore (1984); two: Skinner and Ostriker (2013); three or more: Harten et al. (1983). Use the publication year, not the download date. If the same displayed citation identifies more than one paper, assign a/b/c in title order and use the suffix in both the displayed year and its stable anchor everywhere. No current entries require that disambiguation.</para>
+<para>This follows the author–year convention familiar from AASTeX. It does not require a LaTeX or BibTeX installation. Each record gives the full author list, title, publication, volume and pages or article number, and a DOI or primary-source URL. The scope notes distinguish implemented methods from related design ideas.</para>
+<sect1 id="bibliography_1ref_biddiscombe2017">
+<title>Biddiscombe et al. (2017)</title>
+<para>Biddiscombe, J., Bikineev, A., Heller, T., &amp; Kaiser, H. 2017, “Zero Copy Serialization Using RMA in the HPX Distributed Task-Based Runtime,” in <emphasis>Proceedings of the 14th International Conference on Applied Computing</emphasis>, ed. P. Isaías &amp; H. Weghorn (IADIS), 151–158. ISBN 978-989-8533-69-2. <ulink url="https://www.iadisportal.org/digital-library/zero-copy-serialization-using-rma-in-the-hpx-distributed-task-based-runtime">Publisher record</ulink>.</para>
+<para>Scope: HPX reference-backed serialization and buffer lifetimes. Our TCP tests verify eligible pointer chunks and transferred values, not hardware RMA or a copy-free network stack. Author order follows the publisher&apos;s record.</para>
+</sect1>
+<sect1 id="bibliography_1ref_greengard1997">
+<title>Greengard and Rokhlin (1997)</title>
+<para>Greengard, L., &amp; Rokhlin, V. 1997, “A new version of the Fast Multipole Method for the Laplace equation in three dimensions,” <emphasis>Acta Numerica</emphasis>, <bold>6</bold>, 229–269. <ulink url="https://doi.org/10.1017/S0962492900002725">doi:10.1017/S0962492900002725</ulink>.</para>
+<para>Scope: the diagonal plane-wave translation factorization, especially Section 7. OctotigerII uses its own harmonic-equivalent Cartesian coefficient representation, rotated quadrature, and finite-order implementation; it does not reproduce every algorithmic choice in the paper.</para>
+</sect1>
+<sect1 id="bibliography_1ref_harten1983">
+<title>Harten et al. (1983)</title>
+<para>Harten, A., Lax, P. D., &amp; van Leer, B. 1983, “On Upstream Differencing and Godunov-Type Schemes for Hyperbolic Conservation Laws,” <emphasis>SIAM Review</emphasis>, <bold>25</bold>, 35–61. <ulink url="https://doi.org/10.1137/1025002">doi:10.1137/1025002</ulink>.</para>
+<para>Scope: the two-wave HLL numerical flux used for M1 transport and as a hydro fallback.</para>
+</sect1>
+<sect1 id="bibliography_1ref_hu2013">
+<title>Hu et al. (2013)</title>
+<para>Hu, X. Y., Adams, N. A., &amp; Shu, C.-W. 2013, “Positivity-preserving method for high-order conservative schemes solving compressible Euler equations,” <emphasis>Journal of Computational Physics</emphasis>, <bold>242</bold>, 169–180. <ulink url="https://doi.org/10.1016/j.jcp.2013.01.024">doi:10.1016/j.jcp.2013.01.024</ulink>.</para>
+<para>Scope: the high-order/low-order flux blending idea. The implementation uses bisection of a common face coefficient against its own admissibility tests; the radiation extension tests the M1 cone. Those details are application choices, not a claim to implement the paper&apos;s Euler limiter verbatim.</para>
+</sect1>
+<sect1 id="bibliography_1ref_kaiser2014">
+<title>Kaiser et al. (2014)</title>
+<para>Kaiser, H., Heller, T., Adelstein-Lelbach, B., Serio, A., &amp; Fey, D. 2014, “HPX: A Task Based Programming Model in a Global Address Space,” in <emphasis>Proceedings of the 8th International Conference on Partitioned Global Address Spaces</emphasis> (PGAS &apos;14; New York: ACM), article 6, 1–11. <ulink url="https://doi.org/10.1145/2676870.2676883">doi:10.1145/2676870.2676883</ulink>. <ulink url="https://stellar-group.org/pubs/pgas14.pdf">Author manuscript</ulink>.</para>
+<para>Scope: HPX components, actions, futures, and distributed execution. OctotigerII&apos;s field partition component, two-bank publication policy, and locality work queues are application designs. Author order follows the paper&apos;s title page.</para>
+</sect1>
+<sect1 id="bibliography_1ref_levermore1984">
+<title>Levermore (1984)</title>
+<para>Levermore, C. D. 1984, “Relating Eddington factors to flux limiters,” <emphasis>Journal of Quantitative Spectroscopy and Radiative Transfer</emphasis>, <bold>31</bold>, 149–160. <ulink url="https://doi.org/10.1016/0022-4073(84)90112-2">doi:10.1016/0022-4073(84)90112-2</ulink>.</para>
+<para>Scope: the M1 Eddington closure for a Lorentz-boosted isotropic distribution.</para>
+</sect1>
+<sect1 id="bibliography_1ref_mohr2025">
+<title>Mohr et al. (2025)</title>
+<para>Mohr, P. J., Newell, D. B., Taylor, B. N., &amp; Tiesinga, E. 2025, “CODATA recommended values of the fundamental physical constants: 2022,” <emphasis>Reviews of Modern Physics</emphasis>, <bold>97</bold>, 025002. <ulink url="https://doi.org/10.1103/RevModPhys.97.025002">doi:10.1103/RevModPhys.97.025002</ulink>. <ulink url="https://physics.nist.gov/cuu/Constants/Table/allascii.txt">NIST constants table</ulink>.</para>
+<para>Scope: G, c, atomic mass unit, Boltzmann constant, and Planck constant, converted to CGS. The radiation constant is derived as 8π⁵k_B⁴/(15h³c³). The reference year is 2025; “2022” identifies the adjustment.</para>
+</sect1>
+<sect1 id="bibliography_1ref_skinner2013">
+<title>Skinner and Ostriker (2013)</title>
+<para>Skinner, M. A., &amp; Ostriker, E. C. 2013, “A Two-moment Radiation Hydrodynamics Module in Athena Using a Time-explicit Godunov Method,” <emphasis>The Astrophysical Journal Supplement Series</emphasis>, <bold>206</bold>, 21 (29 pp.). <ulink url="https://doi.org/10.1088/0067-0049/206/2/21">doi:10.1088/0067-0049/206/2/21</ulink>. <ulink url="https://arxiv.org/abs/1306.0010">arXiv:1306.0010</ulink>.</para>
+<para>Scope: M1 closure, characteristic speeds, explicit transport, and the reduced speed of light convention. Persistent radiation fields here are (E, F); the calculation adapter converts to (E, F/c) using physical c. This project currently implements uncoupled transport, not the paper&apos;s full implicit coupling or radiation subcycling machinery.</para>
+</sect1>
+<sect1 id="bibliography_1ref_sod1978">
+<title>Sod (1978)</title>
+<para>Sod, G. A. 1978, “A survey of several finite difference methods for systems of nonlinear hyperbolic conservation laws,” <emphasis>Journal of Computational Physics</emphasis>, <bold>27</bold>, 1–31. <ulink url="https://doi.org/10.1016/0021-9991(78)90023-2">doi:10.1016/0021-9991(78)90023-2</ulink>.</para>
+<para>Scope: the standard shock-tube initial discontinuity. OctotigerII&apos;s fixture uses CGS values with the same density and pressure ratios.</para>
+</sect1>
+<sect1 id="bibliography_1ref_strang1968">
+<title>Strang (1968)</title>
+<para>Strang, G. 1968, “On the Construction and Comparison of Difference Schemes,” <emphasis>SIAM Journal on Numerical Analysis</emphasis>, <bold>5</bold>, 506–517. <ulink url="https://doi.org/10.1137/0705041">doi:10.1137/0705041</ulink>.</para>
+<para>Scope: symmetric source/transport/source composition in the gravity-coupled run loop. This citation does not assert discrete gravitational energy conservation.</para>
+</sect1>
+<sect1 id="bibliography_1ref_toro1994">
+<title>Toro et al. (1994)</title>
+<para>Toro, E. F., Spruce, M., &amp; Speares, W. 1994, “Restoration of the contact surface in the HLL-Riemann solver,” <emphasis>Shock Waves</emphasis>, <bold>4</bold>, 25–34. <ulink url="https://doi.org/10.1007/BF01414629">doi:10.1007/BF01414629</ulink>.</para>
+<para>Scope: the contact-resolving HLLC hydro flux. Degenerate or inadmissible star states fall back to HLL in this implementation.</para>
+</sect1>
+<sect1 id="bibliography_1ref_vanleer1979">
+<title>van Leer (1979)</title>
+<para>van Leer, B. 1979, “Towards the ultimate conservative difference scheme. V. A second-order sequel to Godunov&apos;s method,” <emphasis>Journal of Computational Physics</emphasis>, <bold>32</bold>, 101–136. <ulink url="https://doi.org/10.1016/0021-9991(79)90145-1">doi:10.1016/0021-9991(79)90145-1</ulink>.</para>
+<para>Scope: piecewise-linear conservative reconstruction and limiting. The present unsplit MUSCL–Hancock predictor combines all active directional divergences; it is not the directionally split Lagrangian/remap algorithm of this paper. </para>
+</sect1>
+    </detaileddescription>
+    <location file="BIBLIOGRAPHY.md"/>
+  </compounddef>
+</doxygen>

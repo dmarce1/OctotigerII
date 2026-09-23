@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classFpeGuard" kind="class" language="C++" prot="public">
+    <compoundname>FpeGuard</compoundname>
+    <includes refid="FpeGuard_8hpp" local="no">FpeGuard.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classFpeGuard_1a025eba0bc17bd085dfb0a74287e8d1ee" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int FpeGuard::previousEnabled</definition>
+        <argsstring></argsstring>
+        <name>previousEnabled</name>
+        <qualifiedname>FpeGuard::previousEnabled</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="80" column="5" bodyfile="include/octotigerII/math/FpeGuard.hpp" bodystart="80" bodyend="-1"/>
+        <referencedby refid="classFpeGuard_1a1629ddea32710b1e48f71888a975c231" compoundref="FpeGuard_8hpp" startline="28" endline="45">FpeGuard</referencedby>
+        <referencedby refid="classFpeGuard_1a6684be862b1a3a8d63094c51ce1acf0a" compoundref="FpeGuard_8hpp" startline="51" endline="72">~FpeGuard</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classFpeGuard_1a8361aca97919a8a3dc0d58de1d04b974" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int FpeGuard::enabledHere</definition>
+        <argsstring></argsstring>
+        <name>enabledHere</name>
+        <qualifiedname>FpeGuard::enabledHere</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="81" column="5" bodyfile="include/octotigerII/math/FpeGuard.hpp" bodystart="81" bodyend="-1"/>
+        <referencedby refid="classFpeGuard_1a1629ddea32710b1e48f71888a975c231" compoundref="FpeGuard_8hpp" startline="28" endline="45">FpeGuard</referencedby>
+        <referencedby refid="classFpeGuard_1a6684be862b1a3a8d63094c51ce1acf0a" compoundref="FpeGuard_8hpp" startline="51" endline="72">~FpeGuard</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classFpeGuard_1aab40c916addc3876a947d54cdfed6e67" prot="private" static="no" mutable="no">
+        <type>std::fexcept_t</type>
+        <definition>std::fexcept_t FpeGuard::previousFlags</definition>
+        <argsstring></argsstring>
+        <name>previousFlags</name>
+        <qualifiedname>FpeGuard::previousFlags</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="82" column="16" bodyfile="include/octotigerII/math/FpeGuard.hpp" bodystart="82" bodyend="82"/>
+        <referencedby refid="classFpeGuard_1a1629ddea32710b1e48f71888a975c231" compoundref="FpeGuard_8hpp" startline="28" endline="45">FpeGuard</referencedby>
+        <referencedby refid="classFpeGuard_1a6684be862b1a3a8d63094c51ce1acf0a" compoundref="FpeGuard_8hpp" startline="51" endline="72">~FpeGuard</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classFpeGuard_1a1629ddea32710b1e48f71888a975c231" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>FpeGuard::FpeGuard</definition>
+        <argsstring>(int mask=(FE_DIVBYZERO|FE_OVERFLOW|FE_INVALID)) noexcept</argsstring>
+        <name>FpeGuard</name>
+        <qualifiedname>FpeGuard::FpeGuard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>mask</declname>
+          <defval>(FE_DIVBYZERO|FE_OVERFLOW|FE_INVALID)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="28" column="10" bodyfile="include/octotigerII/math/FpeGuard.hpp" bodystart="28" bodyend="45"/>
+        <references refid="classFpeGuard_1a8361aca97919a8a3dc0d58de1d04b974" compoundref="FpeGuard_8hpp" startline="81">enabledHere</references>
+        <references refid="classFpeGuard_1a025eba0bc17bd085dfb0a74287e8d1ee" compoundref="FpeGuard_8hpp" startline="80">previousEnabled</references>
+        <references refid="classFpeGuard_1aab40c916addc3876a947d54cdfed6e67" compoundref="FpeGuard_8hpp" startline="82" endline="82">previousFlags</references>
+      </memberdef>
+      <memberdef kind="function" id="classFpeGuard_1ad7483e467a5cc372f1053b8c6e949bfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>FpeGuard::FpeGuard</definition>
+        <argsstring>(FpeGuard const &amp;)=delete</argsstring>
+        <name>FpeGuard</name>
+        <qualifiedname>FpeGuard::FpeGuard</qualifiedname>
+        <param>
+          <type><ref refid="classFpeGuard" kindref="compound">FpeGuard</ref> const &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="47" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classFpeGuard_1af1422357c9f993414a7dad4e18eccd6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>FpeGuard::FpeGuard</definition>
+        <argsstring>(FpeGuard &amp;&amp;)=delete</argsstring>
+        <name>FpeGuard</name>
+        <qualifiedname>FpeGuard::FpeGuard</qualifiedname>
+        <param>
+          <type><ref refid="classFpeGuard" kindref="compound">FpeGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="49" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classFpeGuard_1a6684be862b1a3a8d63094c51ce1acf0a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>FpeGuard::~FpeGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~FpeGuard</name>
+        <qualifiedname>FpeGuard::~FpeGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="51" column="1" bodyfile="include/octotigerII/math/FpeGuard.hpp" bodystart="51" bodyend="72"/>
+        <references refid="classFpeGuard_1a8361aca97919a8a3dc0d58de1d04b974" compoundref="FpeGuard_8hpp" startline="81">enabledHere</references>
+        <references refid="classFpeGuard_1a025eba0bc17bd085dfb0a74287e8d1ee" compoundref="FpeGuard_8hpp" startline="80">previousEnabled</references>
+        <references refid="classFpeGuard_1aab40c916addc3876a947d54cdfed6e67" compoundref="FpeGuard_8hpp" startline="82" endline="82">previousFlags</references>
+      </memberdef>
+      <memberdef kind="function" id="classFpeGuard_1a8115403bc0711765060ce763477df102" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classFpeGuard" kindref="compound">FpeGuard</ref> &amp;</type>
+        <definition>FpeGuard &amp; FpeGuard::operator=</definition>
+        <argsstring>(FpeGuard const &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>FpeGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classFpeGuard" kindref="compound">FpeGuard</ref> const &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="74" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classFpeGuard_1a1bef152f46c0a678f5a4dddec8732b2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classFpeGuard" kindref="compound">FpeGuard</ref> &amp;</type>
+        <definition>FpeGuard &amp; FpeGuard::operator=</definition>
+        <argsstring>(FpeGuard &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>FpeGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classFpeGuard" kindref="compound">FpeGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/FpeGuard.hpp" line="76" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Preserves the floating-point environment while checking sensitive calculations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The guard is scoped to the executing thread; it does not validate remote work. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/math/FpeGuard.hpp" line="25" column="1" bodyfile="include/octotigerII/math/FpeGuard.hpp" bodystart="25" bodyend="83"/>
+    <listofallmembers>
+      <member refid="classFpeGuard_1a8361aca97919a8a3dc0d58de1d04b974" prot="private" virt="non-virtual"><scope>FpeGuard</scope><name>enabledHere</name></member>
+      <member refid="classFpeGuard_1a1629ddea32710b1e48f71888a975c231" prot="public" virt="non-virtual"><scope>FpeGuard</scope><name>FpeGuard</name></member>
+      <member refid="classFpeGuard_1ad7483e467a5cc372f1053b8c6e949bfe" prot="public" virt="non-virtual"><scope>FpeGuard</scope><name>FpeGuard</name></member>
+      <member refid="classFpeGuard_1af1422357c9f993414a7dad4e18eccd6f" prot="public" virt="non-virtual"><scope>FpeGuard</scope><name>FpeGuard</name></member>
+      <member refid="classFpeGuard_1a8115403bc0711765060ce763477df102" prot="public" virt="non-virtual"><scope>FpeGuard</scope><name>operator=</name></member>
+      <member refid="classFpeGuard_1a1bef152f46c0a678f5a4dddec8732b2a" prot="public" virt="non-virtual"><scope>FpeGuard</scope><name>operator=</name></member>
+      <member refid="classFpeGuard_1a025eba0bc17bd085dfb0a74287e8d1ee" prot="private" virt="non-virtual"><scope>FpeGuard</scope><name>previousEnabled</name></member>
+      <member refid="classFpeGuard_1aab40c916addc3876a947d54cdfed6e67" prot="private" virt="non-virtual"><scope>FpeGuard</scope><name>previousFlags</name></member>
+      <member refid="classFpeGuard_1a6684be862b1a3a8d63094c51ce1acf0a" prot="public" virt="non-virtual"><scope>FpeGuard</scope><name>~FpeGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

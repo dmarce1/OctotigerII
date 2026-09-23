@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1CartesianTopology" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::CartesianTopology</compoundname>
+    <includes refid="topology_8hpp" local="no">topology.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1CartesianTopology_1a67d6b4cd8dc932c40720314402ebb938" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref></type>
+        <definition>Config octotigerII::CartesianTopology::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>octotigerII::CartesianTopology::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="125" column="8" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1CartesianTopology_1abae117c1319635179aba2b979eab014e" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Layout" kindref="compound">storage::Layout</ref></type>
+        <definition>storage::Layout octotigerII::CartesianTopology::layout_</definition>
+        <argsstring></argsstring>
+        <name>layout_</name>
+        <qualifiedname>octotigerII::CartesianTopology::layout_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="126" column="17" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="126" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1a522e0d6cb2a7b9318c062c2c9d4702de" compoundref="topology_8hpp" startline="116" endline="118">storageLayout</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1CartesianTopology_1a570f99b9887b2624241ddbb2e6a2225b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> &gt;</type>
+        <definition>std::vector&lt;Subgrid&gt; octotigerII::CartesianTopology::blocks_</definition>
+        <argsstring></argsstring>
+        <name>blocks_</name>
+        <qualifiedname>octotigerII::CartesianTopology::blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="127" column="13" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="127" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1a2ec716ed001a17c829aa920cc842dc8d" compoundref="topology_8hpp" startline="111" endline="113">blocks</referencedby>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">CartesianTopology</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::CartesianTopology::CartesianTopology</definition>
+        <argsstring>(Config const &amp;config, std::size_t partitions)</argsstring>
+        <name>CartesianTopology</name>
+        <qualifiedname>octotigerII::CartesianTopology::CartesianTopology</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>partitions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="108" column="1" bodyfile="src/topology.cpp" bodystart="10" bodyend="28"/>
+        <references refid="classoctotigerII_1_1CartesianTopology_1a570f99b9887b2624241ddbb2e6a2225b" compoundref="topology_8hpp" startline="127">blocks_</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1adedfdadab840e52dc975daa61f9caca9" compoundref="config_8hpp" startline="24">octotigerII::Config::MeshOptions::cells</references>
+        <references refid="classoctotigerII_1_1Subgrid_1ad78e1b97121711764150cb3766bf2398" compoundref="topology_8hpp" startline="27" endline="27">octotigerII::Subgrid::cellWidth</references>
+        <references refid="namespaceoctotigerII_1_1mesh_1a727008e4d9883a2d3ff531702b07b226" compoundref="mesh_8hpp" startline="27" endline="31">octotigerII::mesh::filledCoordinates</references>
+        <references refid="namespaceoctotigerII_1_1mesh_1a6e5a131e86ee503befdc4d08c9ec19b8" compoundref="mesh_8hpp" startline="47" endline="60">octotigerII::mesh::forEachCoordinate</references>
+        <references refid="classoctotigerII_1_1Subgrid_1ad9ce450822e2cbf0f569975475dd7640" compoundref="topology_8hpp" startline="23">octotigerII::Subgrid::id</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab2846127caf35985fea7e72df3af16a1" compoundref="mesh_8cpp" startline="45" endline="47">octotigerII::mesh::MeshLayout::interiorCellCount</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a23e9d249bdf53c62604a3d72aa3b131d" compoundref="topology_8hpp" startline="25">octotigerII::Subgrid::layout</references>
+        <references refid="classoctotigerII_1_1CartesianTopology_1abae117c1319635179aba2b979eab014e" compoundref="topology_8hpp" startline="126">layout_</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1ae41801a618bcbe2639e95c690ab8c379" compoundref="config_8hpp" startline="24">octotigerII::Config::MeshOptions::level</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a9b121b42447139730774e7ca7071807c" compoundref="topology_8hpp" startline="24">octotigerII::Subgrid::location</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1a8028ed8a5c237558003bff69fb2b2cc9" compoundref="config_8hpp" startline="25" endline="25">octotigerII::Config::MeshOptions::lower</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a9150fc6c931a4b19ddf75a424374dee4" compoundref="topology_8hpp" startline="26" endline="26">octotigerII::Subgrid::lower</references>
+        <references refid="classoctotigerII_1_1Config_1ad953f6824a906c441f0f6771a3d8bf79">octotigerII::Config::mesh</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1a33d704bdfed025e5a2f3b7d4f5c172a2" compoundref="layout_8hpp" startline="70" endline="72">octotigerII::storage::Layout::ranges</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1a9e7d691c142e8a49cb0ebad7918b41c7" compoundref="config_8hpp" startline="25">octotigerII::Config::MeshOptions::upper</references>
+        <references refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1CartesianTopology_1a2ec716ed001a17c829aa920cc842dc8d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> &gt; const &amp;</type>
+        <definition>std::vector&lt; Subgrid &gt; const  &amp; octotigerII::CartesianTopology::blocks</definition>
+        <argsstring>() const</argsstring>
+        <name>blocks</name>
+        <qualifiedname>octotigerII::CartesianTopology::blocks</qualifiedname>
+        <briefdescription>
+<para>Return the current ordered block descriptors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="111" column="19" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="111" bodyend="113"/>
+        <references refid="classoctotigerII_1_1CartesianTopology_1a570f99b9887b2624241ddbb2e6a2225b" compoundref="topology_8hpp" startline="127">blocks_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1CartesianTopology_1a522e0d6cb2a7b9318c062c2c9d4702de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Layout" kindref="compound">storage::Layout</ref> const &amp;</type>
+        <definition>storage::Layout const  &amp; octotigerII::CartesianTopology::storageLayout</definition>
+        <argsstring>() const</argsstring>
+        <name>storageLayout</name>
+        <qualifiedname>octotigerII::CartesianTopology::storageLayout</qualifiedname>
+        <briefdescription>
+<para>Return the record placement corresponding to the block directory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="116" column="23" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="116" bodyend="118"/>
+        <references refid="classoctotigerII_1_1CartesianTopology_1abae117c1319635179aba2b979eab014e" compoundref="topology_8hpp" startline="126">layout_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1CartesianTopology_1afc2403e247e49041a4ae82933c25766c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1HaloPlan" kindref="compound">HaloPlan</ref></type>
+        <definition>HaloPlan octotigerII::CartesianTopology::halo</definition>
+        <argsstring>(std::size_t block) const</argsstring>
+        <name>halo</name>
+        <qualifiedname>octotigerII::CartesianTopology::halo</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+<para>Build the required source ranges and destination mappings for one block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="121" column="10" bodyfile="src/topology.cpp" bodystart="73" bodyend="75"/>
+        <references refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Current fixed-level Cartesian mesh adapter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Supplies descriptors and halo dependencies to an otherwise topology-independent store. Mixed-level AMR and refinement operations are not implemented here. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>octotigerII::CartesianTopology</label>
+        <link refid="classoctotigerII_1_1CartesianTopology"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>layout_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::Config</label>
+        <link refid="classoctotigerII_1_1Config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mesh</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>runtime</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>timestep</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>hydro</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>radiation</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>gravity</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>output</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>verification</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>octotigerII::Config::GravityOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1GravityOptions"/>
+      </node>
+      <node id="6">
+        <label>octotigerII::Config::HydroOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1HydroOptions"/>
+      </node>
+      <node id="3">
+        <label>octotigerII::Config::MeshOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1MeshOptions"/>
+      </node>
+      <node id="9">
+        <label>octotigerII::Config::OutputOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1OutputOptions"/>
+      </node>
+      <node id="7">
+        <label>octotigerII::Config::RadiationOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1RadiationOptions"/>
+      </node>
+      <node id="4">
+        <label>octotigerII::Config::RuntimeOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1RuntimeOptions"/>
+      </node>
+      <node id="5">
+        <label>octotigerII::Config::TimestepOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1TimestepOptions"/>
+      </node>
+      <node id="10">
+        <label>octotigerII::Config::VerificationOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1VerificationOptions"/>
+      </node>
+      <node id="11">
+        <label>octotigerII::storage::Layout</label>
+        <link refid="classoctotigerII_1_1storage_1_1Layout"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/subgrid/topology.hpp" line="105" column="1" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="105" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1CartesianTopology_1a2ec716ed001a17c829aa920cc842dc8d" prot="public" virt="non-virtual"><scope>octotigerII::CartesianTopology</scope><name>blocks</name></member>
+      <member refid="classoctotigerII_1_1CartesianTopology_1a570f99b9887b2624241ddbb2e6a2225b" prot="private" virt="non-virtual"><scope>octotigerII::CartesianTopology</scope><name>blocks_</name></member>
+      <member refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" prot="public" virt="non-virtual"><scope>octotigerII::CartesianTopology</scope><name>CartesianTopology</name></member>
+      <member refid="classoctotigerII_1_1CartesianTopology_1a67d6b4cd8dc932c40720314402ebb938" prot="private" virt="non-virtual"><scope>octotigerII::CartesianTopology</scope><name>config_</name></member>
+      <member refid="classoctotigerII_1_1CartesianTopology_1afc2403e247e49041a4ae82933c25766c" prot="public" virt="non-virtual"><scope>octotigerII::CartesianTopology</scope><name>halo</name></member>
+      <member refid="classoctotigerII_1_1CartesianTopology_1abae117c1319635179aba2b979eab014e" prot="private" virt="non-virtual"><scope>octotigerII::CartesianTopology</scope><name>layout_</name></member>
+      <member refid="classoctotigerII_1_1CartesianTopology_1a522e0d6cb2a7b9318c062c2c9d4702de" prot="public" virt="non-virtual"><scope>octotigerII::CartesianTopology</scope><name>storageLayout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

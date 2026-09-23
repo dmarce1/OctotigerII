@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="group__numerics" kind="group">
+    <compoundname>numerics</compoundname>
+    <title>Numerical methods</title>
+    <innerfile refid="fmm_8hpp">fmm.hpp</innerfile>
+    <innerfile refid="gravityFields_8hpp">gravityFields.hpp</innerfile>
+    <innerfile refid="solver_8hpp">solver.hpp</innerfile>
+    <innerfile refid="hydroSystem_8hpp">hydroSystem.hpp</innerfile>
+    <innerfile refid="finiteVolume_8hpp">finiteVolume.hpp</innerfile>
+    <innerfile refid="m1_8hpp">m1.hpp</innerfile>
+    <innerfile refid="radiationTransport_8hpp">radiationTransport.hpp</innerfile>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index" prot="public">octotigerII::gravity::diagonal::Index</innerclass>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator" prot="public">octotigerII::gravity::diagonal::Operator</innerclass>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1Statistics" prot="public">octotigerII::gravity::Statistics</innerclass>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1Solution" prot="public">octotigerII::gravity::Solution</innerclass>
+    <innerclass refid="classoctotigerII_1_1hydro_1_1HydroSystem" prot="public">octotigerII::hydro::HydroSystem</innerclass>
+    <innerclass refid="classoctotigerII_1_1physics_1_1BoundaryConditions" prot="public">octotigerII::physics::BoundaryConditions</innerclass>
+    <innerclass refid="classoctotigerII_1_1physics_1_1MusclHancock" prot="public">octotigerII::physics::MusclHancock</innerclass>
+    <innerclass refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult" prot="public">octotigerII::physics::MusclHancock::StepResult</innerclass>
+    <innerclass refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace" prot="public">octotigerII::physics::MusclHancock::Workspace</innerclass>
+    <innerclass refid="classoctotigerII_1_1radiation_1_1M1" prot="public">octotigerII::radiation::M1</innerclass>
+    <innerclass refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves" prot="public">octotigerII::radiation::M1::Waves</innerclass>
+    <innerclass refid="classoctotigerII_1_1radiation_1_1RadiationSystem" prot="public">octotigerII::radiation::RadiationSystem</innerclass>
+    <briefdescription>
+<para>Conservative transport and isolated Newtonian gravity. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

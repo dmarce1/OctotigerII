@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Runtime" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Runtime</compoundname>
+    <includes refid="runtime_8hpp" local="no">runtime.hpp</includes>
+    <innerclass refid="classoctotigerII_1_1Runtime_1_1Impl" prot="private">octotigerII::Runtime::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classoctotigerII_1_1Runtime_1_1Impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; octotigerII::Runtime::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>octotigerII::Runtime::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="86" column="17" bodyfile="include/octotigerII/runtime.hpp" bodystart="86" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Runtime_1a9e24447ce07671b67fa12dbf83244150" compoundref="runtime_8cpp" startline="537" endline="545">advance</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1a35a71e680e9a5d8995b4f18bef4ac080" compoundref="runtime_8cpp" startline="496" endline="499">generation</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1a721d1964a1ed955f928960db98c0d214" compoundref="runtime_8cpp" startline="547" endline="555">kickGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1a3e35597112bf34e429fc41b3ae87b0a3" compoundref="runtime_8cpp" startline="464" endline="488">Runtime</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1aa0ab374e652fcd5de193910b82dabbfd" compoundref="runtime_8cpp" startline="575" endline="605">setGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1a509fae1a4d27dbd79d481962699368d4" compoundref="runtime_8cpp" startline="492" endline="494">size</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1aff65bfd10ec282acc7b6ed718240f5ed" compoundref="runtime_8cpp" startline="514" endline="530">snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1a9c8679deb91adbeefcd5df6d894dbac9" compoundref="runtime_8cpp" startline="557" endline="572">solveGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1ab9ed8935395551518a5dbeaa219cd040" compoundref="runtime_8cpp" startline="532" endline="535">stableTimestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1ada1eaec95570c66c1f99d1cd36f87d7c" compoundref="runtime_8cpp" startline="501" endline="504">statistics</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1a3e35597112bf34e429fc41b3ae87b0a3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::Runtime::Runtime</definition>
+        <argsstring>(Config const &amp;config)</argsstring>
+        <name>Runtime</name>
+        <qualifiedname>octotigerII::Runtime::Runtime</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="42" column="10" bodyfile="src/runtime.cpp" bodystart="464" bodyend="488"/>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+        <references refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1ade312e5eecb1f5b5b5696fb863f7d1ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::Runtime::~Runtime</definition>
+        <argsstring>()</argsstring>
+        <name>~Runtime</name>
+        <qualifiedname>octotigerII::Runtime::~Runtime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="44" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1abf46c7321aafa8ec725fe9feeff17f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::Runtime::Runtime</definition>
+        <argsstring>(Runtime const &amp;)=delete</argsstring>
+        <name>Runtime</name>
+        <qualifiedname>octotigerII::Runtime::Runtime</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Runtime" kindref="compound">Runtime</ref> const &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="46" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1a59086182dc3706e262549bdc66d4a2f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1Runtime" kindref="compound">Runtime</ref> &amp;</type>
+        <definition>Runtime &amp; octotigerII::Runtime::operator=</definition>
+        <argsstring>(Runtime const &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>octotigerII::Runtime::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Runtime" kindref="compound">Runtime</ref> const &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="48" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1aff65bfd10ec282acc7b6ed718240f5ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::vector&lt; Snapshot &gt; octotigerII::Runtime::snapshots</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshots</name>
+        <qualifiedname>octotigerII::Runtime::snapshots</qualifiedname>
+        <briefdescription>
+<para>Gather interior-only exports of the published bank under the stage lock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="51" column="13" bodyfile="src/runtime.cpp" bodystart="514" bodyend="530"/>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+        <references refid="classoctotigerII_1_1Runtime_1a509fae1a4d27dbd79d481962699368d4" compoundref="runtime_8cpp" startline="492" endline="494">size</references>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1ab9ed8935395551518a5dbeaa219cd040" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::Runtime::stableTimestep</definition>
+        <argsstring>() const</argsstring>
+        <name>stableTimestep</name>
+        <qualifiedname>octotigerII::Runtime::stableTimestep</qualifiedname>
+        <briefdescription>
+<para>Reduce the per-block Courant limits after every locality finishes its tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="54" column="13" bodyfile="src/runtime.cpp" bodystart="532" bodyend="535"/>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+        <references refid="runtime_8cpp_1ae62248cc5d9714e2832e0ed24d0457d7" compoundref="runtime_8cpp" startline="115">timestep</references>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1a9e24447ce07671b67fa12dbf83244150" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::Runtime::advance</definition>
+        <argsstring>(units::Time dt)</argsstring>
+        <name>advance</name>
+        <qualifiedname>octotigerII::Runtime::advance</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+<para>Publish one transport update only after all blocks and remote writebacks succeed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On failure, drain work and preserve the previously published state and time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="58" column="6" bodyfile="src/runtime.cpp" bodystart="537" bodyend="545"/>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1a9c8679deb91adbeefcd5df6d894dbac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Statistics" kindref="compound">gravity::Statistics</ref></type>
+        <definition>gravity::Statistics octotigerII::Runtime::solveGravity</definition>
+        <argsstring>()</argsstring>
+        <name>solveGravity</name>
+        <qualifiedname>octotigerII::Runtime::solveGravity</qualifiedname>
+        <briefdescription>
+<para>Solve gravity on the partitioned hierarchy and publish its distributed fields. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The input bank and physical time survive a failed solve unchanged. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="62" column="21" bodyfile="src/runtime.cpp" bodystart="557" bodyend="572"/>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1aa0ab374e652fcd5de193910b82dabbfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::Runtime::setGravity</definition>
+        <argsstring>(std::vector&lt; std::vector&lt; gravity::State &gt; &gt; const &amp;fields)</argsstring>
+        <name>setGravity</name>
+        <qualifiedname>octotigerII::Runtime::setGravity</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::vector&lt; <ref refid="namespaceoctotigerII_1_1gravity_1abace521e5efaecbfd9fdda34ec20b58e" kindref="member">gravity::State</ref> &gt; &gt; const &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+<para>Validate a complete gravity field directory, fill the next bank, then publish it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="65" column="6" bodyfile="src/runtime.cpp" bodystart="575" bodyend="605"/>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+        <references refid="classoctotigerII_1_1Runtime_1a509fae1a4d27dbd79d481962699368d4" compoundref="runtime_8cpp" startline="492" endline="494">size</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1a721d1964a1ed955f928960db98c0d214" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::Runtime::kickGravity</definition>
+        <argsstring>(units::Time dt)</argsstring>
+        <name>kickGravity</name>
+        <qualifiedname>octotigerII::Runtime::kickGravity</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+<para>Apply a synchronized gravity impulse and adjust total energy by the kinetic change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Internal energy is preserved; physical time is unchanged by this substep. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="69" column="6" bodyfile="src/runtime.cpp" bodystart="547" bodyend="555"/>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1a509fae1a4d27dbd79d481962699368d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::Runtime::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>octotigerII::Runtime::size</qualifiedname>
+        <briefdescription>
+<para>Return the number of represented elements or blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="72" column="13" bodyfile="src/runtime.cpp" bodystart="492" bodyend="494"/>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+        <referencedby refid="classoctotigerII_1_1Runtime_1aa0ab374e652fcd5de193910b82dabbfd" compoundref="runtime_8cpp" startline="575" endline="605">setGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1aff65bfd10ec282acc7b6ed718240f5ed" compoundref="runtime_8cpp" startline="514" endline="530">snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1a35a71e680e9a5d8995b4f18bef4ac080" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::Runtime::generation</definition>
+        <argsstring>() const</argsstring>
+        <name>generation</name>
+        <qualifiedname>octotigerII::Runtime::generation</qualifiedname>
+        <briefdescription>
+<para>Return the number of completed publications, including gravity assignments and kicks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="75" column="15" bodyfile="src/runtime.cpp" bodystart="496" bodyend="499"/>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1ada1eaec95570c66c1f99d1cd36f87d7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1SchedulingStatistics" kindref="compound">SchedulingStatistics</ref></type>
+        <definition>SchedulingStatistics octotigerII::Runtime::statistics</definition>
+        <argsstring>() const</argsstring>
+        <name>statistics</name>
+        <qualifiedname>octotigerII::Runtime::statistics</qualifiedname>
+        <briefdescription>
+<para>Return cumulative completed local and stolen tasks from successful phases. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="78" column="22" bodyfile="src/runtime.cpp" bodystart="501" bodyend="504"/>
+        <references refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" compoundref="runtime_8hpp" startline="86">impl_</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Runtime_1ad7efaf2a2cea3a3f113abfe1bb6b3f35" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>char const *</type>
+        <definition>char const  * octotigerII::Runtime::backend</definition>
+        <argsstring>()</argsstring>
+        <name>backend</name>
+        <qualifiedname>octotigerII::Runtime::backend</qualifiedname>
+        <briefdescription>
+<para>Return a human-readable description of the compiled execution backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/runtime.hpp" line="81" column="19" bodyfile="src/runtime.cpp" bodystart="506" bodyend="512"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Coordinates field storage and one executor per locality. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Public stage operations are serialized by an API mutex. Each update reads an immutable bank and writes the other; publication follows completion of all work and writebacks. Exceptions leave the published bank and time unchanged. See <ref refid="bibliography_1ref_kaiser2014" kindref="member">Kaiser et al. (2014)</ref> for the HPX execution model. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/runtime.hpp" line="39" column="1" bodyfile="include/octotigerII/runtime.hpp" bodystart="39" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Runtime_1a9e24447ce07671b67fa12dbf83244150" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>advance</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1ad7efaf2a2cea3a3f113abfe1bb6b3f35" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>backend</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1a35a71e680e9a5d8995b4f18bef4ac080" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>generation</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" prot="private" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>impl_</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1a721d1964a1ed955f928960db98c0d214" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>kickGravity</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1a59086182dc3706e262549bdc66d4a2f9" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>operator=</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1a3e35597112bf34e429fc41b3ae87b0a3" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>Runtime</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1abf46c7321aafa8ec725fe9feeff17f42" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>Runtime</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1aa0ab374e652fcd5de193910b82dabbfd" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>setGravity</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1a509fae1a4d27dbd79d481962699368d4" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>size</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1aff65bfd10ec282acc7b6ed718240f5ed" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>snapshots</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1a9c8679deb91adbeefcd5df6d894dbac9" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>solveGravity</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1ab9ed8935395551518a5dbeaa219cd040" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>stableTimestep</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1ada1eaec95570c66c1f99d1cd36f87d7c" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>statistics</name></member>
+      <member refid="classoctotigerII_1_1Runtime_1ade312e5eecb1f5b5b5696fb863f7d1ee" prot="public" virt="non-virtual"><scope>octotigerII::Runtime</scope><name>~Runtime</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

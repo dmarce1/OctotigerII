@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;</compoundname>
+    <includes refid="columns_8hpp" local="no">columns.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename...</type>
+        <declname>Q</declname>
+        <defname>Q</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a92c578369e77778718c2604a27664b55" prot="private" static="no" mutable="no">
+        <type>std::tuple&lt; std::unique_ptr&lt; <ref refid="classoctotigerII_1_1storage_1_1Field" kindref="compound">Field</ref>&lt; Q &gt; &gt;... &gt;</type>
+        <definition>std::tuple&lt;std::unique_ptr&lt;Field&lt;Q&gt; &gt;...&gt; octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;::fields_</definition>
+        <argsstring></argsstring>
+        <name>fields_</name>
+        <qualifiedname>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;::fields_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="104" column="16" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1aa145eee9a0863e1fa75174a4d02b9ff8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;::ColumnFields</definition>
+        <argsstring>(Layout const &amp;layout, PartitionSet const &amp;store, std::string const &amp;name)</argsstring>
+        <name>ColumnFields</name>
+        <qualifiedname>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;::ColumnFields</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Layout" kindref="compound">Layout</ref> const &amp;</type>
+          <declname>layout</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1PartitionSet" kindref="compound">PartitionSet</ref> const &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>std::string const &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="90" column="5" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="90" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a5b8ca0ce40d0d591b5414a3ba574b0c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1ColumnHandle" kindref="compound">ColumnHandle</ref>&lt; <ref refid="classoctotigerII_1_1units_1_1State" kindref="compound">units::State</ref>&lt; Q... &gt; &gt;</type>
+        <definition>ColumnHandle&lt; units::State&lt; Q... &gt; &gt; octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;::handle</definition>
+        <argsstring>() const</argsstring>
+        <name>handle</name>
+        <qualifiedname>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;::handle</qualifiedname>
+        <briefdescription>
+<para>Return lightweight field identities and placement without copying values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="94" column="18" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a0fc4bab21e780d9c7ada2fd054bf4937" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>std::size_t...</type>
+            <declname>I</declname>
+            <defname>I</defname>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>static auto octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;::makeFields</definition>
+        <argsstring>(Layout const &amp;layout, PartitionSet const &amp;store, std::string const &amp;name, std::index_sequence&lt; I... &gt;)</argsstring>
+        <name>makeFields</name>
+        <qualifiedname>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;::makeFields</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Layout" kindref="compound">Layout</ref> const &amp;</type>
+          <declname>layout</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1PartitionSet" kindref="compound">PartitionSet</ref> const &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>std::string const &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::index_sequence&lt; I... &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="100" column="17" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="100" bodyend="102"/>
+        <references refid="output_8cpp_1a9b45b3e13bd9167aab02e17e08916231" compoundref="output_8cpp" startline="19">name</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/columns.hpp" line="88" column="1" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="88" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1aa145eee9a0863e1fa75174a4d02b9ff8" prot="public" virt="non-virtual"><scope>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;</scope><name>ColumnFields</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a92c578369e77778718c2604a27664b55" prot="private" virt="non-virtual"><scope>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;</scope><name>fields_</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a5b8ca0ce40d0d591b5414a3ba574b0c0" prot="public" virt="non-virtual"><scope>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;</scope><name>handle</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a0fc4bab21e780d9c7ada2fd054bf4937" prot="private" virt="non-virtual"><scope>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;</scope><name>makeFields</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

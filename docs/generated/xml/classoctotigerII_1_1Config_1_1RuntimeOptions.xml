@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Config_1_1RuntimeOptions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Config::RuntimeOptions</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1RuntimeOptions_1a9de6cae399217c4faf5a96ae92e8a0cc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::Config::RuntimeOptions::stopTime</definition>
+        <argsstring></argsstring>
+        <name>stopTime</name>
+        <qualifiedname>octotigerII::Config::RuntimeOptions::stopTime</qualifiedname>
+        <initializer>= units::Time::from_value(0.2)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="37" column="13" bodyfile="include/octotigerII/config.hpp" bodystart="37" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">octotigerII::Output::operator()</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a0fc99f734f7fbd74984566e7ed00c98c" compoundref="config_8hpp" startline="42" endline="44">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1RuntimeOptions_1a3d889ae1449243906eecc4d8298cce6e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::Config::RuntimeOptions::maxSteps</definition>
+        <argsstring></argsstring>
+        <name>maxSteps</name>
+        <qualifiedname>octotigerII::Config::RuntimeOptions::maxSteps</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="38" column="5" bodyfile="include/octotigerII/config.hpp" bodystart="38" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a0fc99f734f7fbd74984566e7ed00c98c" compoundref="config_8hpp" startline="42" endline="44">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1RuntimeOptions_1abfb9409ec3df8abd0d16791d6113d822" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::Config::RuntimeOptions::workerTasks</definition>
+        <argsstring></argsstring>
+        <name>workerTasks</name>
+        <qualifiedname>octotigerII::Config::RuntimeOptions::workerTasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="38" column="15" bodyfile="include/octotigerII/config.hpp" bodystart="38" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" compoundref="runtime_8cpp" startline="153" endline="169">octotigerII::LocalExecutor::LocalExecutor</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a0fc99f734f7fbd74984566e7ed00c98c" compoundref="config_8hpp" startline="42" endline="44">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1RuntimeOptions_1a4ddb849df8e1e5e2e117ab2091db77ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::Config::RuntimeOptions::workStealing</definition>
+        <argsstring></argsstring>
+        <name>workStealing</name>
+        <qualifiedname>octotigerII::Config::RuntimeOptions::workStealing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="39" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="39" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a0fc99f734f7fbd74984566e7ed00c98c" compoundref="config_8hpp" startline="42" endline="44">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Config_1_1RuntimeOptions_1a0fc99f734f7fbd74984566e7ed00c98c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Config::RuntimeOptions::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Config::RuntimeOptions::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="42" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="42" bodyend="44"/>
+        <references refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a3d889ae1449243906eecc4d8298cce6e" compoundref="config_8hpp" startline="38">maxSteps</references>
+        <references refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a9de6cae399217c4faf5a96ae92e8a0cc" compoundref="config_8hpp" startline="37">stopTime</references>
+        <references refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1abfb9409ec3df8abd0d16791d6113d822" compoundref="config_8hpp" startline="38">workerTasks</references>
+        <references refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a4ddb849df8e1e5e2e117ab2091db77ee" compoundref="config_8hpp" startline="39">workStealing</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="35" column="1" bodyfile="include/octotigerII/config.hpp" bodystart="35" bodyend="45"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a3d889ae1449243906eecc4d8298cce6e" prot="public" virt="non-virtual"><scope>octotigerII::Config::RuntimeOptions</scope><name>maxSteps</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a0fc99f734f7fbd74984566e7ed00c98c" prot="public" virt="non-virtual"><scope>octotigerII::Config::RuntimeOptions</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a9de6cae399217c4faf5a96ae92e8a0cc" prot="public" virt="non-virtual"><scope>octotigerII::Config::RuntimeOptions</scope><name>stopTime</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1abfb9409ec3df8abd0d16791d6113d822" prot="public" virt="non-virtual"><scope>octotigerII::Config::RuntimeOptions</scope><name>workerTasks</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a4ddb849df8e1e5e2e117ab2091db77ee" prot="public" virt="non-virtual"><scope>octotigerII::Config::RuntimeOptions</scope><name>workStealing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

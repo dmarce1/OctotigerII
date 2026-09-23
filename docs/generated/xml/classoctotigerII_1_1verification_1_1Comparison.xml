@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1verification_1_1Comparison" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::verification::Comparison</compoundname>
+    <includes refid="analytic_8hpp" local="no">analytic.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a54a62344fa98b4fa9ee22cd33ed269fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Comparison::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>octotigerII::verification::Comparison::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="57" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="57" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a59a7e99ffb72cf7aa7a228a05c258c04" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Comparison::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>octotigerII::verification::Comparison::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="57" column="18" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="57" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a0d4be7e1015f58afa2539bc33ee89d1c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Comparison::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>octotigerII::verification::Comparison::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="57" column="25" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="57" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1afaecd37f91376654be154ddd8ce57532" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::verification::Comparison::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <qualifiedname>octotigerII::verification::Comparison::time</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="58" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="58" bodyend="58"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1adf115e96fda61901dc4efd86bc1bc9c4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::verification::Comparison::cells</definition>
+        <argsstring></argsstring>
+        <name>cells</name>
+        <qualifiedname>octotigerII::verification::Comparison::cells</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="59" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="59" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a1c915763445811f51fbc8e728aab481c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::verification::Comparison::totalCells</definition>
+        <argsstring></argsstring>
+        <name>totalCells</name>
+        <qualifiedname>octotigerII::verification::Comparison::totalCells</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="59" column="20" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="59" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1aa8ba3ce5d349468a1236c57d69fd8124" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::verification::Comparison::sourceCells</definition>
+        <argsstring></argsstring>
+        <name>sourceCells</name>
+        <qualifiedname>octotigerII::verification::Comparison::sourceCells</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="59" column="32" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="59" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a6c7d1ef3afe0eee73a2e0348a0382a3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Comparison::referenceKind</definition>
+        <argsstring></argsstring>
+        <name>referenceKind</name>
+        <qualifiedname>octotigerII::verification::Comparison::referenceKind</qualifiedname>
+        <initializer>= &quot;continuum&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="60" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="60" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a1f3533a5aa1e0606d9650ba7040be387" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string octotigerII::verification::Comparison::sampling</definition>
+        <argsstring></argsstring>
+        <name>sampling</name>
+        <qualifiedname>octotigerII::verification::Comparison::sampling</qualifiedname>
+        <initializer>= &quot;cell-center&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="60" column="28" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="60" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a38260df227a0f647f9ac40325af413cf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; octotigerII::verification::Comparison::targetIndices</definition>
+        <argsstring></argsstring>
+        <name>targetIndices</name>
+        <qualifiedname>octotigerII::verification::Comparison::targetIndices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="61" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="61" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a6f771c7d9b54dbc276af4c39635969aa" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t octotigerII::verification::Comparison::randomSeed</definition>
+        <argsstring></argsstring>
+        <name>randomSeed</name>
+        <qualifiedname>octotigerII::verification::Comparison::randomSeed</qualifiedname>
+        <initializer>= 5489</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="62" column="14" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="62" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a1ce5966965dd4d5d746a938cbf332a67" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::verification::Comparison::cellsPerAxis</definition>
+        <argsstring></argsstring>
+        <name>cellsPerAxis</name>
+        <qualifiedname>octotigerII::verification::Comparison::cellsPerAxis</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="63" column="5" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="63" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a300fa362d12d798097b4e510d1a10f20" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::verification::Comparison::multipoleOrder</definition>
+        <argsstring></argsstring>
+        <name>multipoleOrder</name>
+        <qualifiedname>octotigerII::verification::Comparison::multipoleOrder</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="63" column="19" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="63" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1a66aff41d1f1c85a64f1f350c7b88a8a9" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::verification::Comparison::openingAngle</definition>
+        <argsstring></argsstring>
+        <name>openingAngle</name>
+        <qualifiedname>octotigerII::verification::Comparison::openingAngle</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="64" column="6" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="64" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1verification_1_1Comparison_1acae37f266007720b082516e0b110bc16" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1verification_1_1ErrorNorm" kindref="compound">ErrorNorm</ref> &gt;</type>
+        <definition>std::vector&lt;ErrorNorm&gt; octotigerII::verification::Comparison::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>octotigerII::verification::Comparison::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="65" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="65" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1verification_1_1Comparison_1a59dd8aca1a5f44eb459f9759543b1ecc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::verification::Comparison::enforce</definition>
+        <argsstring>(Config const &amp;config) const</argsstring>
+        <name>enforce</name>
+        <qualifiedname>octotigerII::verification::Comparison::enforce</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Fail an explicitly requested accuracy gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Zero-reference fields use absoluteTolerance in that field&apos;s CGS units; relative norms are undefined. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="69" column="6" bodyfile="src/verification/analytic.cpp" bodystart="177" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1verification_1_1Comparison_1af2a5fc1abe896deb5573036596bbdc85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::verification::Comparison::print</definition>
+        <argsstring>(std::ostream &amp;out) const</argsstring>
+        <name>print</name>
+        <qualifiedname>octotigerII::verification::Comparison::print</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="71" column="6" bodyfile="src/verification/analytic.cpp" bodystart="187" bodyend="225"/>
+        <references refid="output_8cpp_1a9b45b3e13bd9167aab02e17e08916231" compoundref="output_8cpp" startline="19">name</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1verification_1_1Comparison_1a4865d127d1f1d2e054d819f5a5a0815d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::verification::Comparison::writeJson</definition>
+        <argsstring>(std::ostream &amp;out) const</argsstring>
+        <name>writeJson</name>
+        <qualifiedname>octotigerII::verification::Comparison::writeJson</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="73" column="6" bodyfile="src/verification/analytic.cpp" bodystart="228" bodyend="265"/>
+        <references refid="output_8cpp_1a9b45b3e13bd9167aab02e17e08916231" compoundref="output_8cpp" startline="19">name</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/verification/analytic.hpp" line="55" column="1" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="55" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1adf115e96fda61901dc4efd86bc1bc9c4" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>cells</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a1ce5966965dd4d5d746a938cbf332a67" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>cellsPerAxis</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a59dd8aca1a5f44eb459f9759543b1ecc" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>enforce</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1acae37f266007720b082516e0b110bc16" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>fields</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a300fa362d12d798097b4e510d1a10f20" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>multipoleOrder</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a54a62344fa98b4fa9ee22cd33ed269fc" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>name</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a66aff41d1f1c85a64f1f350c7b88a8a9" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>openingAngle</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1af2a5fc1abe896deb5573036596bbdc85" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>print</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a6f771c7d9b54dbc276af4c39635969aa" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>randomSeed</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a0d4be7e1015f58afa2539bc33ee89d1c" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>reason</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a6c7d1ef3afe0eee73a2e0348a0382a3a" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>referenceKind</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a1f3533a5aa1e0606d9650ba7040be387" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>sampling</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1aa8ba3ce5d349468a1236c57d69fd8124" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>sourceCells</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a59a7e99ffb72cf7aa7a228a05c258c04" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>status</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a38260df227a0f647f9ac40325af413cf" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>targetIndices</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1afaecd37f91376654be154ddd8ce57532" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>time</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a1c915763445811f51fbc8e728aab481c" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>totalCells</name></member>
+      <member refid="classoctotigerII_1_1verification_1_1Comparison_1a4865d127d1f1d2e054d819f5a5a0815d" prot="public" virt="non-virtual"><scope>octotigerII::verification::Comparison</scope><name>writeJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

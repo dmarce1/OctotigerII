@@ -64,4 +64,5 @@ reads density from distributed field ranges, and publishes gravity through the
 same field store. Diagnostics and output still gather on the coordinator.
 
 See [validation](../VALIDATION.md) for reproducible tests and their limits.
+See [GoogleTest testing](testing.md) for unit/integration suites and the matrix runner.
 See [documenting code](documenting.md) for the citation and formatting conventions.

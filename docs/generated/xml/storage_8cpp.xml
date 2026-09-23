@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="storage_8cpp" kind="file" language="C++">
+    <compoundname>storage.cpp</compoundname>
+    <includes refid="partition_8hpp" local="yes">octotigerII/storage/partition.hpp</includes>
+    <includes local="yes">octotigerII/storage/types.def</includes>
+    <incdepgraph>
+      <node id="24">
+        <label>octotigerII/math/Real.hpp</label>
+        <link refid="Real_8hpp"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>octotigerII/storage/buffer.hpp</label>
+        <link refid="buffer_8hpp"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII/storage/partition.hpp</label>
+        <link refid="partition_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>octotigerII/units/cgs.hpp</label>
+        <link refid="cgs_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/storage.cpp</label>
+        <link refid="storage_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="15">
+        <label>boost/units/base_units/cgs/centimeter.hpp</label>
+      </node>
+      <node id="16">
+        <label>boost/units/base_units/cgs/gram.hpp</label>
+      </node>
+      <node id="17">
+        <label>boost/units/base_units/si/kelvin.hpp</label>
+      </node>
+      <node id="18">
+        <label>boost/units/base_units/si/second.hpp</label>
+      </node>
+      <node id="19">
+        <label>boost/units/cmath.hpp</label>
+      </node>
+      <node id="20">
+        <label>boost/units/derived_dimension.hpp</label>
+      </node>
+      <node id="21">
+        <label>boost/units/make_system.hpp</label>
+      </node>
+      <node id="22">
+        <label>boost/units/quantity.hpp</label>
+      </node>
+      <node id="23">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="31">
+        <label>hpx/include/actions.hpp</label>
+      </node>
+      <node id="27">
+        <label>hpx/include/async.hpp</label>
+      </node>
+      <node id="32">
+        <label>hpx/include/components.hpp</label>
+      </node>
+      <node id="28">
+        <label>hpx/include/serialization.hpp</label>
+      </node>
+      <node id="33">
+        <label>hpx/parcelset/coalescing_message_handler_registration.hpp</label>
+      </node>
+      <node id="29">
+        <label>hpx/serialization/serialize_buffer.hpp</label>
+      </node>
+      <node id="25">
+        <label>limits</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="26">
+        <label>numbers</label>
+      </node>
+      <node id="30">
+        <label>octotigerII/storage/types.def</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>type_traits</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespaceoctotigerII">octotigerII</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1storage">octotigerII::storage</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="storage_8cpp_1aadd2a86a08d34168c5bf512b8666f490" prot="public" static="no">
+        <name>OCTO_STORAGE_TYPE</name>
+        <param><defname>Type</defname></param>
+        <param><defname>Name</defname></param>
+        <initializer>	HPX_REGISTER_ACTION(<ref refid="namespaceoctotigerII_1_1storage_1a77ac6ac7b5de2121f4d409239df89e72" kindref="member">octotigerII::storage::CreateAction</ref>&lt;Type&gt;, Name##Create)                                                                   \
+	HPX_REGISTER_ACTION(<ref refid="namespaceoctotigerII_1_1storage_1a58fa08b1bd6683a53c362820388e3ce9" kindref="member">octotigerII::storage::ReadAction</ref>&lt;Type&gt;, Name##Read)                                                                       \
+	HPX_REGISTER_ACTION(<ref refid="namespaceoctotigerII_1_1storage_1af0cfecd9fbd3de2c17a176687eb23fb6" kindref="member">octotigerII::storage::WriteAction</ref>&lt;Type&gt;, Name##Write)                                                                     \
+	HPX_ACTION_USES_MESSAGE_COALESCING_NOTHROW_DEFINITION(<ref refid="namespaceoctotigerII_1_1storage_1a58fa08b1bd6683a53c362820388e3ce9" kindref="member">octotigerII::storage::ReadAction</ref>&lt;Type&gt;, #Name &quot;Read&quot;, std::size_t(-1), std::size_t(-1)) \
+	HPX_ACTION_USES_MESSAGE_COALESCING_NOTHROW_DEFINITION(<ref refid="namespaceoctotigerII_1_1storage_1af0cfecd9fbd3de2c17a176687eb23fb6" kindref="member">octotigerII::storage::WriteAction</ref>&lt;Type&gt;, #Name &quot;Write&quot;, std::size_t(-1), std::size_t(-1))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage.cpp" line="20" column="9" bodyfile="src/storage.cpp" bodystart="20" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="storage_8cpp_1a33beb354d9275ea0bc305e3d625fcf3a" prot="public" static="no">
+        <type>hpx::components::component&lt; <ref refid="classoctotigerII_1_1storage_1_1StoragePartition" kindref="compound">octotigerII::storage::StoragePartition</ref> &gt;</type>
+        <definition>using StorageComponent =  hpx::components::component&lt;octotigerII::storage::StoragePartition&gt;</definition>
+        <argsstring></argsstring>
+        <name>StorageComponent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage.cpp" line="17" column="1" bodyfile="src/storage.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage.cpp"/>
+  </compounddef>
+</doxygen>

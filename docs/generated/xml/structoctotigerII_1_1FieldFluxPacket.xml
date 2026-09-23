@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structoctotigerII_1_1FieldFluxPacket" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::FieldFluxPacket</compoundname>
+    <includes refid="exchange_8hpp" local="no">exchange.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>class State</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structoctotigerII_1_1FieldFluxPacket_1afea884bd5e0c3316e8a5070d06406491" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1BlockLocation" kindref="compound">mesh::BlockLocation</ref></type>
+        <definition>mesh::BlockLocation octotigerII::FieldFluxPacket&lt; State &gt;::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <qualifiedname>octotigerII::FieldFluxPacket::location</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="24" column="21" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="24" bodyend="-1"/>
+        <referencedby refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" compoundref="exchange_8hpp" startline="30" endline="32">octotigerII::FieldFluxPacket&lt; State &gt;::serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1FieldFluxPacket_1a5667523a5871f3719acd18f1e9c9f880" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1MeshLayout" kindref="compound">mesh::MeshLayout</ref></type>
+        <definition>mesh::MeshLayout octotigerII::FieldFluxPacket&lt; State &gt;::layout</definition>
+        <argsstring></argsstring>
+        <name>layout</name>
+        <qualifiedname>octotigerII::FieldFluxPacket::layout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="25" column="18" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="25" bodyend="-1"/>
+        <referencedby refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" compoundref="exchange_8hpp" startline="30" endline="32">octotigerII::FieldFluxPacket&lt; State &gt;::serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1FieldFluxPacket_1a3425b064b818a7112e3c4ad646f4dd7e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a75c6d3d571de04dad3c8dc3fe7b53b0e" kindref="member">mesh::PhysicalCoordinates</ref></type>
+        <definition>mesh::PhysicalCoordinates octotigerII::FieldFluxPacket&lt; State &gt;::lower</definition>
+        <argsstring></argsstring>
+        <name>lower</name>
+        <qualifiedname>octotigerII::FieldFluxPacket::lower</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="26" column="27" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="26" bodyend="26"/>
+        <referencedby refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" compoundref="exchange_8hpp" startline="30" endline="32">octotigerII::FieldFluxPacket&lt; State &gt;::serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1FieldFluxPacket_1a89b05a198fc84d327a84a281f822728a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::FieldFluxPacket&lt; State &gt;::cellWidth</definition>
+        <argsstring></argsstring>
+        <name>cellWidth</name>
+        <qualifiedname>octotigerII::FieldFluxPacket::cellWidth</qualifiedname>
+        <initializer>= units::Length::from_value(1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="27" column="15" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="27" bodyend="-1"/>
+        <referencedby refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" compoundref="exchange_8hpp" startline="30" endline="32">octotigerII::FieldFluxPacket&lt; State &gt;::serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1FieldFluxPacket_1a13d02c314d8ef4edb962d362c782ca5b" prot="public" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1TimeInterval" kindref="compound">mesh::TimeInterval</ref></type>
+        <definition>mesh::TimeInterval octotigerII::FieldFluxPacket&lt; State &gt;::interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <qualifiedname>octotigerII::FieldFluxPacket::interval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="28" column="20" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="28" bodyend="-1"/>
+        <referencedby refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" compoundref="exchange_8hpp" startline="30" endline="32">octotigerII::FieldFluxPacket&lt; State &gt;::serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1FieldFluxPacket_1ae56f062bb391d91e672f5872c74f86cc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; State &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; State &gt; &gt; octotigerII::FieldFluxPacket&lt; State &gt;::fluxes</definition>
+        <argsstring></argsstring>
+        <name>fluxes</name>
+        <qualifiedname>octotigerII::FieldFluxPacket::fluxes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="29" column="13" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="29" bodyend="-1"/>
+        <referencedby refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" compoundref="exchange_8hpp" startline="30" endline="32">octotigerII::FieldFluxPacket&lt; State &gt;::serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::FieldFluxPacket&lt; State &gt;::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::FieldFluxPacket::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="30" column="18" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="30" bodyend="32"/>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1a89b05a198fc84d327a84a281f822728a" compoundref="exchange_8hpp" startline="27">octotigerII::FieldFluxPacket&lt; State &gt;::cellWidth</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1ae56f062bb391d91e672f5872c74f86cc" compoundref="exchange_8hpp" startline="29">octotigerII::FieldFluxPacket&lt; State &gt;::fluxes</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1a13d02c314d8ef4edb962d362c782ca5b" compoundref="exchange_8hpp" startline="28">octotigerII::FieldFluxPacket&lt; State &gt;::interval</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1a5667523a5871f3719acd18f1e9c9f880" compoundref="exchange_8hpp" startline="25">octotigerII::FieldFluxPacket&lt; State &gt;::layout</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1afea884bd5e0c3316e8a5070d06406491" compoundref="exchange_8hpp" startline="24">octotigerII::FieldFluxPacket&lt; State &gt;::location</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1a3425b064b818a7112e3c4ad646f4dd7e" compoundref="exchange_8hpp" startline="26" endline="26">octotigerII::FieldFluxPacket&lt; State &gt;::lower</references>
+      </memberdef>
+      <memberdef kind="function" id="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::FieldFluxPacket&lt; State &gt;::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::FieldFluxPacket::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/fluxPacket.hpp" line="33" column="6" bodyfile="include/octotigerII/subgrid/fluxPacket.hpp" bodystart="33" bodyend="37"/>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1a89b05a198fc84d327a84a281f822728a" compoundref="exchange_8hpp" startline="27">octotigerII::FieldFluxPacket&lt; State &gt;::cellWidth</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1ae56f062bb391d91e672f5872c74f86cc" compoundref="exchange_8hpp" startline="29">octotigerII::FieldFluxPacket&lt; State &gt;::fluxes</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1a13d02c314d8ef4edb962d362c782ca5b" compoundref="exchange_8hpp" startline="28">octotigerII::FieldFluxPacket&lt; State &gt;::interval</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1a5667523a5871f3719acd18f1e9c9f880" compoundref="exchange_8hpp" startline="25">octotigerII::FieldFluxPacket&lt; State &gt;::layout</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1afea884bd5e0c3316e8a5070d06406491" compoundref="exchange_8hpp" startline="24">octotigerII::FieldFluxPacket&lt; State &gt;::location</references>
+        <references refid="structoctotigerII_1_1FieldFluxPacket_1a3425b064b818a7112e3c4ad646f4dd7e" compoundref="exchange_8hpp" startline="26" endline="26">octotigerII::FieldFluxPacket&lt; State &gt;::lower</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Flux values with geometry and a physical time interval. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These are fluxes, not time-integrated corrections. A future AMR driver would need to integrate and reconcile them; this type alone does not perform refluxing. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>octotigerII::FieldFluxPacket&lt; State &gt;</label>
+        <link refid="structoctotigerII_1_1FieldFluxPacket"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>location</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>layout</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>interval</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::mesh::BlockLocation</label>
+        <link refid="classoctotigerII_1_1mesh_1_1BlockLocation"/>
+      </node>
+      <node id="3">
+        <label>octotigerII::mesh::MeshLayout</label>
+        <link refid="classoctotigerII_1_1mesh_1_1MeshLayout"/>
+      </node>
+      <node id="4">
+        <label>octotigerII::mesh::TimeInterval</label>
+        <link refid="classoctotigerII_1_1mesh_1_1TimeInterval"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/subgrid/exchange.hpp" line="23" column="12" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="23" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structoctotigerII_1_1FieldFluxPacket_1a89b05a198fc84d327a84a281f822728a" prot="public" virt="non-virtual"><scope>octotigerII::FieldFluxPacket</scope><name>cellWidth</name></member>
+      <member refid="structoctotigerII_1_1FieldFluxPacket_1ae56f062bb391d91e672f5872c74f86cc" prot="public" virt="non-virtual"><scope>octotigerII::FieldFluxPacket</scope><name>fluxes</name></member>
+      <member refid="structoctotigerII_1_1FieldFluxPacket_1a13d02c314d8ef4edb962d362c782ca5b" prot="public" virt="non-virtual"><scope>octotigerII::FieldFluxPacket</scope><name>interval</name></member>
+      <member refid="structoctotigerII_1_1FieldFluxPacket_1a5667523a5871f3719acd18f1e9c9f880" prot="public" virt="non-virtual"><scope>octotigerII::FieldFluxPacket</scope><name>layout</name></member>
+      <member refid="structoctotigerII_1_1FieldFluxPacket_1afea884bd5e0c3316e8a5070d06406491" prot="public" virt="non-virtual"><scope>octotigerII::FieldFluxPacket</scope><name>location</name></member>
+      <member refid="structoctotigerII_1_1FieldFluxPacket_1a3425b064b818a7112e3c4ad646f4dd7e" prot="public" virt="non-virtual"><scope>octotigerII::FieldFluxPacket</scope><name>lower</name></member>
+      <member refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" prot="public" virt="non-virtual"><scope>octotigerII::FieldFluxPacket</scope><name>serialize</name></member>
+      <member refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" prot="public" virt="non-virtual"><scope>octotigerII::FieldFluxPacket</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

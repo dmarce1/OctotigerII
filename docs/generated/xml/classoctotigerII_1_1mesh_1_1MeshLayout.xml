@@ -1,0 +1,773 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1mesh_1_1MeshLayout" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::mesh::MeshLayout</compoundname>
+    <includes refid="mesh_8hpp" local="no">mesh.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1MeshLayout_1ad2fcd5c952930809317ecfb9eb201743" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::mesh::MeshLayout::cellsPerActiveDimension_</definition>
+        <argsstring></argsstring>
+        <name>cellsPerActiveDimension_</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::cellsPerActiveDimension_</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="140" column="5" bodyfile="include/octotigerII/mesh.hpp" bodystart="140" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a03b992f37546d7987ddb2cd949bf7953" compoundref="mesh_8cpp" startline="19" endline="21">cellsPerActiveDimension</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">isInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" compoundref="mesh_8cpp" startline="161" endline="176">rebuild</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acee717bdcef55703263b5cfc1aaf5f52" compoundref="mesh_8hpp" startline="132" endline="136">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::mesh::MeshLayout::ghostWidth_</definition>
+        <argsstring></argsstring>
+        <name>ghostWidth_</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::ghostWidth_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="141" column="5" bodyfile="include/octotigerII/mesh.hpp" bodystart="141" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a230c2f0c6f052d03e537800b8d92929d" compoundref="mesh_8cpp" startline="23" endline="25">ghostWidth</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" compoundref="mesh_8cpp" startline="91" endline="100">interiorCoordinates</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">isInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" compoundref="mesh_8cpp" startline="161" endline="176">rebuild</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acee717bdcef55703263b5cfc1aaf5f52" compoundref="mesh_8hpp" startline="132" endline="136">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" compoundref="mesh_8cpp" startline="80" endline="89">storageCoordinates</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::MeshLayout::interiorExtents_</definition>
+        <argsstring></argsstring>
+        <name>interiorExtents_</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::interiorExtents_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="142" column="13" bodyfile="include/octotigerII/mesh.hpp" bodystart="142" bodyend="142"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1afaa04a837767705f1d129159b56a4a3b" compoundref="mesh_8cpp" startline="150" endline="159">cellCenter</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ac63a9277b676e92dcff233115ec10188" compoundref="mesh_8cpp" startline="114" endline="119">faceExtents</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" compoundref="mesh_8hpp" startline="126" endline="128">forEachInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab2846127caf35985fea7e72df3af16a1" compoundref="mesh_8cpp" startline="45" endline="47">interiorCellCount</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aafb6ca9739fdbf2189d4c01012b38d33" compoundref="mesh_8cpp" startline="27" endline="30">interiorExtent</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a12d1ae2608da4f6d8b0dfe8091ba7397" compoundref="mesh_8cpp" startline="37" endline="39">interiorExtents</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" compoundref="mesh_8cpp" startline="161" endline="176">rebuild</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" compoundref="mesh_8cpp" startline="80" endline="89">storageCoordinates</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::MeshLayout::extents_</definition>
+        <argsstring></argsstring>
+        <name>extents_</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::extents_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="143" column="13" bodyfile="include/octotigerII/mesh.hpp" bodystart="143" bodyend="143"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a07538a4a6c7fbcc68a4ce4cbf67d640b" compoundref="mesh_8cpp" startline="49" endline="51">cellCount</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a58be569386e2b9fdc7f40affd33e3b68" compoundref="mesh_8cpp" startline="32" endline="35">extent</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab64d409bc72bff5ecb2028ae7bf3f1ff" compoundref="mesh_8cpp" startline="41" endline="43">extents</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" compoundref="mesh_8cpp" startline="69" endline="78">index</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">isInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" compoundref="mesh_8cpp" startline="161" endline="176">rebuild</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a7a1a2d66bb5abb80436290073b2ee5d1" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::MeshLayout::strides_</definition>
+        <argsstring></argsstring>
+        <name>strides_</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::strides_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="144" column="13" bodyfile="include/octotigerII/mesh.hpp" bodystart="144" bodyend="144"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" compoundref="mesh_8cpp" startline="69" endline="78">index</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" compoundref="mesh_8cpp" startline="161" endline="176">rebuild</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a7b2803c48c9daa7d1b0bc2120e799091" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::mesh::MeshLayout::MeshLayout</definition>
+        <argsstring>()</argsstring>
+        <name>MeshLayout</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::MeshLayout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="75" column="1" bodyfile="include/octotigerII/mesh.hpp" bodystart="75" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a2923cbb2a975678df1c03834d452c09f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::mesh::MeshLayout::MeshLayout</definition>
+        <argsstring>(int cellsPerActiveDimension, int ghostWidth=0)</argsstring>
+        <name>MeshLayout</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::MeshLayout</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>cellsPerActiveDimension</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ghostWidth</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="78" column="10" bodyfile="src/mesh.cpp" bodystart="13" bodyend="17"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" compoundref="mesh_8cpp" startline="161" endline="176">rebuild</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a03b992f37546d7987ddb2cd949bf7953" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int octotigerII::mesh::MeshLayout::cellsPerActiveDimension</definition>
+        <argsstring>() const</argsstring>
+        <name>cellsPerActiveDimension</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::cellsPerActiveDimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="81" column="5" bodyfile="src/mesh.cpp" bodystart="19" bodyend="21"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ad2fcd5c952930809317ecfb9eb201743" compoundref="mesh_8hpp" startline="140">cellsPerActiveDimension_</references>
+        <referencedby refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" compoundref="finiteVolume_8hpp" startline="88" endline="142">octotigerII::physics::fillGhostCells</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6c364c5eb6b32583fadeb59c105c1dcb" compoundref="finiteVolume_8hpp" startline="306" endline="376">octotigerII::physics::MusclHancock&lt; System &gt;::predictFaceStates</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a230c2f0c6f052d03e537800b8d92929d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int octotigerII::mesh::MeshLayout::ghostWidth</definition>
+        <argsstring>() const</argsstring>
+        <name>ghostWidth</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::ghostWidth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="83" column="5" bodyfile="src/mesh.cpp" bodystart="23" bodyend="25"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" compoundref="mesh_8hpp" startline="141">ghostWidth_</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" compoundref="finiteVolume_8hpp" startline="88" endline="142">octotigerII::physics::fillGhostCells</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6c364c5eb6b32583fadeb59c105c1dcb" compoundref="finiteVolume_8hpp" startline="306" endline="376">octotigerII::physics::MusclHancock&lt; System &gt;::predictFaceStates</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1aafb6ca9739fdbf2189d4c01012b38d33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int octotigerII::mesh::MeshLayout::interiorExtent</definition>
+        <argsstring>(int axis) const</argsstring>
+        <name>interiorExtent</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::interiorExtent</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>axis</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="86" column="5" bodyfile="src/mesh.cpp" bodystart="27" bodyend="30"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" compoundref="mesh_8hpp" startline="142" endline="142">interiorExtents_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abc85a4a713f78426bfc281c3c0a6811b" compoundref="mesh_8cpp" startline="178" endline="182">validateAxis</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a58be569386e2b9fdc7f40affd33e3b68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int octotigerII::mesh::MeshLayout::extent</definition>
+        <argsstring>(int axis) const</argsstring>
+        <name>extent</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::extent</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>axis</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="88" column="5" bodyfile="src/mesh.cpp" bodystart="32" bodyend="35"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" compoundref="mesh_8hpp" startline="143" endline="143">extents_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abc85a4a713f78426bfc281c3c0a6811b" compoundref="mesh_8cpp" startline="178" endline="182">validateAxis</references>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a5f832fb8b72f726c80aaa72582942e5a" compoundref="mesh_8cpp" startline="184" endline="190">product</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a12d1ae2608da4f6d8b0dfe8091ba7397" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::MeshLayout::interiorExtents</definition>
+        <argsstring>() const</argsstring>
+        <name>interiorExtents</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::interiorExtents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="90" column="13" bodyfile="src/mesh.cpp" bodystart="37" bodyend="39"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" compoundref="mesh_8hpp" startline="142" endline="142">interiorExtents_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1ab64d409bc72bff5ecb2028ae7bf3f1ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::MeshLayout::extents</definition>
+        <argsstring>() const</argsstring>
+        <name>extents</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::extents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="92" column="13" bodyfile="src/mesh.cpp" bodystart="41" bodyend="43"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" compoundref="mesh_8hpp" startline="143" endline="143">extents_</references>
+        <referencedby refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" compoundref="finiteVolume_8hpp" startline="88" endline="142">octotigerII::physics::fillGhostCells</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a5f832fb8b72f726c80aaa72582942e5a" compoundref="mesh_8cpp" startline="184" endline="190">product</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1ab2846127caf35985fea7e72df3af16a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::mesh::MeshLayout::interiorCellCount</definition>
+        <argsstring>() const</argsstring>
+        <name>interiorCellCount</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::interiorCellCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="94" column="13" bodyfile="src/mesh.cpp" bodystart="45" bodyend="47"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" compoundref="mesh_8hpp" startline="142" endline="142">interiorExtents_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a5f832fb8b72f726c80aaa72582942e5a" compoundref="mesh_8cpp" startline="184" endline="190">product</references>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a07538a4a6c7fbcc68a4ce4cbf67d640b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::mesh::MeshLayout::cellCount</definition>
+        <argsstring>() const</argsstring>
+        <name>cellCount</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::cellCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="96" column="13" bodyfile="src/mesh.cpp" bodystart="49" bodyend="51"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" compoundref="mesh_8hpp" startline="143" endline="143">extents_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a5f832fb8b72f726c80aaa72582942e5a" compoundref="mesh_8cpp" startline="184" endline="190">product</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a1f8233705e3e67439c10ede4074d87a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int octotigerII::mesh::MeshLayout::childCount</definition>
+        <argsstring>() const</argsstring>
+        <name>childCount</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::childCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="98" column="5" bodyfile="src/mesh.cpp" bodystart="53" bodyend="55"/>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a19372d8bcc8f4497a09a46c67511bd73" compoundref="mesh_8cpp" startline="61" endline="67">activeChildSlots</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a040942501616863ad54a6cbf7a9bb113" compoundref="mesh_8cpp" startline="57" endline="59">isActiveChild</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a040942501616863ad54a6cbf7a9bb113" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool octotigerII::mesh::MeshLayout::isActiveChild</definition>
+        <argsstring>(int childSlot) const</argsstring>
+        <name>isActiveChild</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::isActiveChild</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>childSlot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="100" column="6" bodyfile="src/mesh.cpp" bodystart="57" bodyend="59"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a1f8233705e3e67439c10ede4074d87a6" compoundref="mesh_8cpp" startline="53" endline="55">childCount</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a19372d8bcc8f4497a09a46c67511bd73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; octotigerII::mesh::MeshLayout::activeChildSlots</definition>
+        <argsstring>() const</argsstring>
+        <name>activeChildSlots</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::activeChildSlots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="102" column="13" bodyfile="src/mesh.cpp" bodystart="61" bodyend="67"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a1f8233705e3e67439c10ede4074d87a6" compoundref="mesh_8cpp" startline="53" endline="55">childCount</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::mesh::MeshLayout::index</definition>
+        <argsstring>(Coordinates const &amp;storageCoordinates) const</argsstring>
+        <name>index</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::index</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>storageCoordinates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="104" column="13" bodyfile="src/mesh.cpp" bodystart="69" bodyend="78"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" compoundref="mesh_8hpp" startline="143" endline="143">extents_</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" compoundref="mesh_8cpp" startline="80" endline="89">storageCoordinates</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7a1a2d66bb5abb80436290073b2ee5d1" compoundref="mesh_8hpp" startline="144" endline="144">strides_</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="classoctotigerII_1_1PatchView_1a900f457eddd87993c109c5983c50c866" compoundref="view_8hpp" startline="44" endline="46">octotigerII::PatchView&lt; State &gt;::atInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1PatchData_1a71a63123a81958de3f7a2e942f0d38ff" compoundref="mesh_8hpp" startline="311" endline="313">octotigerII::mesh::PatchData&lt; State &gt;::atStorage</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1PatchData_1a62f231cf1e795acae33838558418f75d" compoundref="mesh_8hpp" startline="306" endline="308">octotigerII::mesh::PatchData&lt; State &gt;::atStorage</referencedby>
+        <referencedby refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" compoundref="view_8hpp" startline="49" endline="52">octotigerII::PatchView&lt; State &gt;::atStorage</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" compoundref="mesh_8hpp" startline="126" endline="128">forEachInterior</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6c364c5eb6b32583fadeb59c105c1dcb" compoundref="finiteVolume_8hpp" startline="306" endline="376">octotigerII::physics::MusclHancock&lt; System &gt;::predictFaceStates</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::MeshLayout::storageCoordinates</definition>
+        <argsstring>(Coordinates const &amp;interiorCoordinates) const</argsstring>
+        <name>storageCoordinates</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::storageCoordinates</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>interiorCoordinates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="107" column="13" bodyfile="src/mesh.cpp" bodystart="80" bodyend="89"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" compoundref="mesh_8hpp" startline="141">ghostWidth_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" compoundref="mesh_8cpp" startline="91" endline="100">interiorCoordinates</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" compoundref="mesh_8hpp" startline="142" endline="142">interiorExtents_</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a092470efd2fcf0bfe84f4a4a8a4a6315" compoundref="finiteVolume_8hpp" startline="218" endline="229">octotigerII::physics::MusclHancock&lt; System &gt;::advanceWithBoundaryUpdater</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1PatchData_1a20727b0d5fab10f657388f166cd27a79" compoundref="mesh_8hpp" startline="321" endline="323">octotigerII::mesh::PatchData&lt; State &gt;::atInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1PatchData_1a88859a96cf8c4481ad91c0a929ccc512" compoundref="mesh_8hpp" startline="316" endline="318">octotigerII::mesh::PatchData&lt; State &gt;::atInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" compoundref="mesh_8hpp" startline="126" endline="128">forEachInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" compoundref="mesh_8cpp" startline="69" endline="78">index</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" compoundref="mesh_8cpp" startline="91" endline="100">interiorCoordinates</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">isInterior</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::MeshLayout::interiorCoordinates</definition>
+        <argsstring>(Coordinates const &amp;storageCoordinates) const</argsstring>
+        <name>interiorCoordinates</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::interiorCoordinates</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>storageCoordinates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="109" column="13" bodyfile="src/mesh.cpp" bodystart="91" bodyend="100"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" compoundref="mesh_8hpp" startline="141">ghostWidth_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">isInterior</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" compoundref="mesh_8cpp" startline="80" endline="89">storageCoordinates</references>
+        <referencedby refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" compoundref="view_8hpp" startline="49" endline="52">octotigerII::PatchView&lt; State &gt;::atStorage</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1afaa04a837767705f1d129159b56a4a3b" compoundref="mesh_8cpp" startline="150" endline="159">cellCenter</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" compoundref="mesh_8cpp" startline="80" endline="89">storageCoordinates</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool octotigerII::mesh::MeshLayout::isInterior</definition>
+        <argsstring>(Coordinates const &amp;storageCoordinates) const</argsstring>
+        <name>isInterior</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::isInterior</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>storageCoordinates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="111" column="6" bodyfile="src/mesh.cpp" bodystart="102" bodyend="112"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ad2fcd5c952930809317ecfb9eb201743" compoundref="mesh_8hpp" startline="140">cellsPerActiveDimension_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" compoundref="mesh_8hpp" startline="143" endline="143">extents_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" compoundref="mesh_8hpp" startline="141">ghostWidth_</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" compoundref="mesh_8cpp" startline="80" endline="89">storageCoordinates</references>
+        <referencedby refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" compoundref="view_8hpp" startline="49" endline="52">octotigerII::PatchView&lt; State &gt;::atStorage</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" compoundref="finiteVolume_8hpp" startline="88" endline="142">octotigerII::physics::fillGhostCells</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" compoundref="mesh_8cpp" startline="91" endline="100">interiorCoordinates</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1ac63a9277b676e92dcff233115ec10188" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::MeshLayout::faceExtents</definition>
+        <argsstring>(int normal) const</argsstring>
+        <name>faceExtents</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::faceExtents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="113" column="13" bodyfile="src/mesh.cpp" bodystart="114" bodyend="119"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" compoundref="mesh_8hpp" startline="142" endline="142">interiorExtents_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abc85a4a713f78426bfc281c3c0a6811b" compoundref="mesh_8cpp" startline="178" endline="182">validateAxis</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a137e20904272d598895291a3eb348e4f" compoundref="mesh_8cpp" startline="121" endline="123">faceCount</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a647ac0996d4fff4cc081f050e601f214" compoundref="mesh_8cpp" startline="125" endline="137">faceIndex</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a137e20904272d598895291a3eb348e4f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::mesh::MeshLayout::faceCount</definition>
+        <argsstring>(int normal) const</argsstring>
+        <name>faceCount</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::faceCount</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="115" column="13" bodyfile="src/mesh.cpp" bodystart="121" bodyend="123"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ac63a9277b676e92dcff233115ec10188" compoundref="mesh_8cpp" startline="114" endline="119">faceExtents</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a5f832fb8b72f726c80aaa72582942e5a" compoundref="mesh_8cpp" startline="184" endline="190">product</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a647ac0996d4fff4cc081f050e601f214" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::mesh::MeshLayout::faceIndex</definition>
+        <argsstring>(int normal, Coordinates const &amp;faceCoordinates) const</argsstring>
+        <name>faceIndex</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::faceIndex</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>faceCoordinates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="117" column="13" bodyfile="src/mesh.cpp" bodystart="125" bodyend="137"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ac63a9277b676e92dcff233115ec10188" compoundref="mesh_8cpp" startline="114" endline="119">faceExtents</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a39ec08f5c51aad143dfbeb111b011e3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1adc1407dfaa21d427597d46c2448ca7c4" kindref="member">units::Volume</ref></type>
+        <definition>units::Volume octotigerII::mesh::MeshLayout::cellMeasure</definition>
+        <argsstring>(units::Length cellWidth) const</argsstring>
+        <name>cellMeasure</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::cellMeasure</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+          <declname>cellWidth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="119" column="15" bodyfile="src/mesh.cpp" bodystart="139" bodyend="144"/>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="fieldSolver_8cpp_1a7676935d6912d47a8a854840f0d4e056" compoundref="fieldSolver_8cpp" startline="90">width</references>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abe1597dfed6152bb296fe41999094bd2" compoundref="mesh_8cpp" startline="146" endline="148">faceMeasure</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1abe1597dfed6152bb296fe41999094bd2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">units::Quantity</ref>&lt; 2, 0, 0 &gt;</type>
+        <definition>units::Quantity&lt; 2, 0, 0 &gt; octotigerII::mesh::MeshLayout::faceMeasure</definition>
+        <argsstring>(units::Length cellWidth) const</argsstring>
+        <name>faceMeasure</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::faceMeasure</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+          <declname>cellWidth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="121" column="17" bodyfile="src/mesh.cpp" bodystart="146" bodyend="148"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a39ec08f5c51aad143dfbeb111b011e3c" compoundref="mesh_8cpp" startline="139" endline="144">cellMeasure</references>
+        <references refid="fieldSolver_8cpp_1a7676935d6912d47a8a854840f0d4e056" compoundref="fieldSolver_8cpp" startline="90">width</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1afaa04a837767705f1d129159b56a4a3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a75c6d3d571de04dad3c8dc3fe7b53b0e" kindref="member">PhysicalCoordinates</ref></type>
+        <definition>PhysicalCoordinates octotigerII::mesh::MeshLayout::cellCenter</definition>
+        <argsstring>(PhysicalCoordinates const &amp;lower, units::Length cellWidth, Coordinates const &amp;interiorCoordinates) const</argsstring>
+        <name>cellCenter</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::cellCenter</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a75c6d3d571de04dad3c8dc3fe7b53b0e" kindref="member">PhysicalCoordinates</ref> const &amp;</type>
+          <declname>lower</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+          <declname>cellWidth</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>interiorCoordinates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="123" column="21" bodyfile="src/mesh.cpp" bodystart="150" bodyend="159"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" compoundref="mesh_8cpp" startline="91" endline="100">interiorCoordinates</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" compoundref="mesh_8hpp" startline="142" endline="142">interiorExtents_</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Function</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::mesh::MeshLayout::forEachInterior</definition>
+        <argsstring>(Function &amp;&amp;function) const</argsstring>
+        <name>forEachInterior</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::forEachInterior</qualifiedname>
+        <param>
+          <type>Function &amp;&amp;</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="126" column="6" bodyfile="include/octotigerII/mesh.hpp" bodystart="126" bodyend="128"/>
+        <references refid="namespaceoctotigerII_1_1mesh_1a6e5a131e86ee503befdc4d08c9ec19b8" compoundref="mesh_8hpp" startline="47" endline="60">octotigerII::mesh::forEachCoordinate</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" compoundref="mesh_8cpp" startline="69" endline="78">index</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" compoundref="mesh_8hpp" startline="142" endline="142">interiorExtents_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" compoundref="mesh_8cpp" startline="80" endline="89">storageCoordinates</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">octotigerII::initializeProblem</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1acee717bdcef55703263b5cfc1aaf5f52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::mesh::MeshLayout::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="132" column="6" bodyfile="include/octotigerII/mesh.hpp" bodystart="132" bodyend="136"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ad2fcd5c952930809317ecfb9eb201743" compoundref="mesh_8hpp" startline="140">cellsPerActiveDimension_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" compoundref="mesh_8hpp" startline="141">ghostWidth_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" compoundref="mesh_8cpp" startline="161" endline="176">rebuild</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::mesh::MeshLayout::rebuild</definition>
+        <argsstring>()</argsstring>
+        <name>rebuild</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::rebuild</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="146" column="6" bodyfile="src/mesh.cpp" bodystart="161" bodyend="176"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ad2fcd5c952930809317ecfb9eb201743" compoundref="mesh_8hpp" startline="140">cellsPerActiveDimension_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" compoundref="mesh_8hpp" startline="143" endline="143">extents_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" compoundref="mesh_8hpp" startline="141">ghostWidth_</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" compoundref="mesh_8hpp" startline="142" endline="142">interiorExtents_</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7a1a2d66bb5abb80436290073b2ee5d1" compoundref="mesh_8hpp" startline="144" endline="144">strides_</references>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a2923cbb2a975678df1c03834d452c09f" compoundref="mesh_8cpp" startline="13" endline="17">MeshLayout</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acee717bdcef55703263b5cfc1aaf5f52" compoundref="mesh_8hpp" startline="132" endline="136">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1abc85a4a713f78426bfc281c3c0a6811b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::mesh::MeshLayout::validateAxis</definition>
+        <argsstring>(int axis) const</argsstring>
+        <name>validateAxis</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::validateAxis</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>axis</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="148" column="6" bodyfile="src/mesh.cpp" bodystart="178" bodyend="182"/>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a58be569386e2b9fdc7f40affd33e3b68" compoundref="mesh_8cpp" startline="32" endline="35">extent</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ac63a9277b676e92dcff233115ec10188" compoundref="mesh_8cpp" startline="114" endline="119">faceExtents</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aafb6ca9739fdbf2189d4c01012b38d33" compoundref="mesh_8cpp" startline="27" endline="30">interiorExtent</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1MeshLayout_1a5f832fb8b72f726c80aaa72582942e5a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::mesh::MeshLayout::product</definition>
+        <argsstring>(Coordinates const &amp;extents)</argsstring>
+        <name>product</name>
+        <qualifiedname>octotigerII::mesh::MeshLayout::product</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>extents</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="150" column="20" bodyfile="src/mesh.cpp" bodystart="184" bodyend="190"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a58be569386e2b9fdc7f40affd33e3b68" compoundref="mesh_8cpp" startline="32" endline="35">extent</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab64d409bc72bff5ecb2028ae7bf3f1ff" compoundref="mesh_8cpp" startline="41" endline="43">extents</references>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a07538a4a6c7fbcc68a4ce4cbf67d640b" compoundref="mesh_8cpp" startline="49" endline="51">cellCount</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a137e20904272d598895291a3eb348e4f" compoundref="mesh_8cpp" startline="121" endline="123">faceCount</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab2846127caf35985fea7e72df3af16a1" compoundref="mesh_8cpp" startline="45" endline="47">interiorCellCount</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Indexing for an ndim-dimensional Cartesian patch with x contiguous. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>CGS integrated totals use unit transverse measure in reduced dimensions; that convention does not add coordinate axes, cells, or vector components. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/mesh.hpp" line="72" column="1" bodyfile="include/octotigerII/mesh.hpp" bodystart="72" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a19372d8bcc8f4497a09a46c67511bd73" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>activeChildSlots</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1afaa04a837767705f1d129159b56a4a3b" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>cellCenter</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a07538a4a6c7fbcc68a4ce4cbf67d640b" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>cellCount</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a39ec08f5c51aad143dfbeb111b011e3c" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>cellMeasure</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a03b992f37546d7987ddb2cd949bf7953" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>cellsPerActiveDimension</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ad2fcd5c952930809317ecfb9eb201743" prot="private" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>cellsPerActiveDimension_</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a1f8233705e3e67439c10ede4074d87a6" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>childCount</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a58be569386e2b9fdc7f40affd33e3b68" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>extent</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab64d409bc72bff5ecb2028ae7bf3f1ff" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>extents</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" prot="private" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>extents_</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a137e20904272d598895291a3eb348e4f" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>faceCount</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ac63a9277b676e92dcff233115ec10188" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>faceExtents</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a647ac0996d4fff4cc081f050e601f214" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>faceIndex</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abe1597dfed6152bb296fe41999094bd2" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>faceMeasure</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>forEachInterior</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a230c2f0c6f052d03e537800b8d92929d" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>ghostWidth</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" prot="private" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>ghostWidth_</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>index</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab2846127caf35985fea7e72df3af16a1" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>interiorCellCount</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>interiorCoordinates</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aafb6ca9739fdbf2189d4c01012b38d33" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>interiorExtent</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a12d1ae2608da4f6d8b0dfe8091ba7397" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>interiorExtents</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" prot="private" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>interiorExtents_</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a040942501616863ad54a6cbf7a9bb113" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>isActiveChild</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>isInterior</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7b2803c48c9daa7d1b0bc2120e799091" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>MeshLayout</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a2923cbb2a975678df1c03834d452c09f" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>MeshLayout</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a5f832fb8b72f726c80aaa72582942e5a" prot="private" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>product</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" prot="private" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>rebuild</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acee717bdcef55703263b5cfc1aaf5f52" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" prot="public" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>storageCoordinates</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7a1a2d66bb5abb80436290073b2ee5d1" prot="private" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>strides_</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abc85a4a713f78426bfc281c3c0a6811b" prot="private" virt="non-virtual"><scope>octotigerII::mesh::MeshLayout</scope><name>validateAxis</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

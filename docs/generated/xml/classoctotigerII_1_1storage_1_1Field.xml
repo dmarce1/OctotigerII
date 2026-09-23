@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1Field" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::Field</compoundname>
+    <includes refid="field_8hpp" local="no">field.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1Field_1a9f5f7fe8d6f88fa2d43bc9341ad843c3" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1storage_1_1FieldHandle" kindref="compound">FieldHandle</ref>&lt; T &gt;</type>
+        <definition>FieldHandle&lt;T&gt; octotigerII::storage::Field&lt; T &gt;::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>octotigerII::storage::Field::handle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="219" column="13" bodyfile="include/octotigerII/storage/field.hpp" bodystart="219" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Field_1ac0dce40d4d4e40acac6a0fb0bb6b34ff" compoundref="field_8hpp" startline="195" endline="197">octotigerII::storage::Field&lt; T &gt;::handle</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Field_1ada880c3f2d71f6cada6108bfb2a68d10" compoundref="field_8hpp" startline="201" endline="215">octotigerII::storage::Field&lt; T &gt;::retire</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Field_1a0d1b19125df2e9dd65a429e4c359a7d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::storage::Field&lt; T &gt;::Field</definition>
+        <argsstring>(Layout const &amp;layout, std::vector&lt; Locality &gt; const &amp;owners, unsigned banks=2, std::string name={})</argsstring>
+        <name>Field</name>
+        <qualifiedname>octotigerII::storage::Field::Field</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Layout" kindref="compound">Layout</ref> const &amp;</type>
+          <declname>layout</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">Locality</ref> &gt; const &amp;</type>
+          <declname>owners</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>banks</declname>
+          <defval>2</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="166" column="1" bodyfile="include/octotigerII/storage/field.hpp" bodystart="166" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Field_1a837135f795970702a9ca6f4eb572dade" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::storage::Field&lt; T &gt;::Field</definition>
+        <argsstring>(Layout const &amp;layout, PartitionSet const &amp;store, unsigned banks=2, std::string name={})</argsstring>
+        <name>Field</name>
+        <qualifiedname>octotigerII::storage::Field::Field</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Layout" kindref="compound">Layout</ref> const &amp;</type>
+          <declname>layout</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1PartitionSet" kindref="compound">PartitionSet</ref> const &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>banks</declname>
+          <defval>2</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="169" column="1" bodyfile="include/octotigerII/storage/field.hpp" bodystart="169" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Field_1ac0dce40d4d4e40acac6a0fb0bb6b34ff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1FieldHandle" kindref="compound">FieldHandle</ref>&lt; T &gt; const &amp;</type>
+        <definition>FieldHandle&lt; T &gt; const  &amp; octotigerII::storage::Field&lt; T &gt;::handle</definition>
+        <argsstring>() const</argsstring>
+        <name>handle</name>
+        <qualifiedname>octotigerII::storage::Field::handle</qualifiedname>
+        <briefdescription>
+<para>Return lightweight field identities and placement without copying values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="195" column="19" bodyfile="include/octotigerII/storage/field.hpp" bodystart="195" bodyend="197"/>
+        <references refid="classoctotigerII_1_1storage_1_1Field_1a9f5f7fe8d6f88fa2d43bc9341ad843c3" compoundref="field_8hpp" startline="219">octotigerII::storage::Field&lt; T &gt;::handle_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Field_1ada880c3f2d71f6cada6108bfb2a68d10" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::storage::Field&lt; T &gt;::retire</definition>
+        <argsstring>()</argsstring>
+        <name>retire</name>
+        <qualifiedname>octotigerII::storage::Field::retire</qualifiedname>
+        <briefdescription>
+<para>Remove the field from subsequent lookup after writers/transfers drain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Already acquired views retain their allocation; stale handle lookups fail. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/field.hpp" line="201" column="6" bodyfile="include/octotigerII/storage/field.hpp" bodystart="201" bodyend="215"/>
+        <references refid="classoctotigerII_1_1storage_1_1Field_1a9f5f7fe8d6f88fa2d43bc9341ad843c3" compoundref="field_8hpp" startline="219">octotigerII::storage::Field&lt; T &gt;::handle_</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Named scalar column distributed over a shared <ref refid="classoctotigerII_1_1storage_1_1PartitionSet" kindref="compound">PartitionSet</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Capacity is independent per partition and bank count is configurable. A replacement allocation receives a fresh field ID. Old fields survive until <ref refid="classoctotigerII_1_1storage_1_1Field_1ada880c3f2d71f6cada6108bfb2a68d10" kindref="member">retire()</ref> or destruction of the last partition handle; this is not an in-place resize API. Application stage publication remains a <ref refid="classoctotigerII_1_1Runtime" kindref="compound">Runtime</ref> responsibility. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/field.hpp" line="163" column="1" bodyfile="include/octotigerII/storage/field.hpp" bodystart="163" bodyend="220"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1Field_1a0d1b19125df2e9dd65a429e4c359a7d3" prot="public" virt="non-virtual"><scope>octotigerII::storage::Field</scope><name>Field</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Field_1a837135f795970702a9ca6f4eb572dade" prot="public" virt="non-virtual"><scope>octotigerII::storage::Field</scope><name>Field</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Field_1ac0dce40d4d4e40acac6a0fb0bb6b34ff" prot="public" virt="non-virtual"><scope>octotigerII::storage::Field</scope><name>handle</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Field_1a9f5f7fe8d6f88fa2d43bc9341ad843c3" prot="private" virt="non-virtual"><scope>octotigerII::storage::Field</scope><name>handle_</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Field_1ada880c3f2d71f6cada6108bfb2a68d10" prot="public" virt="non-virtual"><scope>octotigerII::storage::Field</scope><name>retire</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

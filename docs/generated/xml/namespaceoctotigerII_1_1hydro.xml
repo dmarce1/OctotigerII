@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1hydro" kind="namespace" language="C++">
+    <compoundname>octotigerII::hydro</compoundname>
+    <innerclass refid="classoctotigerII_1_1hydro_1_1HydroSystem" prot="public">octotigerII::hydro::HydroSystem</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1hydro_1a1693a5b403a4abb0eb657a316be35995" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a772fc7c4e1766c362bbdae1e8937c7f7" kindref="member">units::FluidState</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">units::Density</ref>, <ref refid="namespaceoctotigerII_1_1units_1aee152cd28bc3fe78aa169eb2bb62aa32" kindref="member">units::MomentumDensity</ref>, <ref refid="namespaceoctotigerII_1_1units_1ad1443df8e3f217aa1a3ec9c439258873" kindref="member">units::EnergyDensity</ref> &gt;</type>
+        <definition>using octotigerII::hydro::ConservedState = typedef units::FluidState&lt;units::Density, units::MomentumDensity, units::EnergyDensity&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConservedState</name>
+        <qualifiedname>octotigerII::hydro::ConservedState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="14" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1hydro_1a28c77eec0efa7904862c6a530dad720c" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a772fc7c4e1766c362bbdae1e8937c7f7" kindref="member">units::FluidState</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">units::Density</ref>, <ref refid="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" kindref="member">units::Velocity</ref>, <ref refid="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" kindref="member">units::Pressure</ref> &gt;</type>
+        <definition>using octotigerII::hydro::PrimitiveState = typedef units::FluidState&lt;units::Density, units::Velocity, units::Pressure&gt;</definition>
+        <argsstring></argsstring>
+        <name>PrimitiveState</name>
+        <qualifiedname>octotigerII::hydro::PrimitiveState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="15" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1hydro_1af297704bcc6d35d6252f8f41826926d9" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a772fc7c4e1766c362bbdae1e8937c7f7" kindref="member">units::FluidState</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1ad590e64f136a84b9fe8a81a4b8b5743a" kindref="member">units::MassFlux</ref>, <ref refid="namespaceoctotigerII_1_1units_1ac66fca8cbb946d893982903d65ad18dd" kindref="member">units::MomentumFlux</ref>, <ref refid="namespaceoctotigerII_1_1units_1ab626b934f6bc74cdcd8c81bb5cb5b290" kindref="member">units::EnergyFlux</ref> &gt;</type>
+        <definition>using octotigerII::hydro::ConservedFlux = typedef units::FluidState&lt;units::MassFlux, units::MomentumFlux, units::EnergyFlux&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConservedFlux</name>
+        <qualifiedname>octotigerII::hydro::ConservedFlux</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="16" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1hydro_1ad3ef5020a00bd1d36c73fcec0be5d805" prot="public" static="no">
+        <type><ref refid="classoctotigerII_1_1physics_1_1MusclHancock" kindref="compound">physics::MusclHancock</ref>&lt; <ref refid="classoctotigerII_1_1hydro_1_1HydroSystem" kindref="compound">HydroSystem</ref> &gt;</type>
+        <definition>using octotigerII::hydro::Solver = typedef physics::MusclHancock&lt;HydroSystem&gt;</definition>
+        <argsstring></argsstring>
+        <name>Solver</name>
+        <qualifiedname>octotigerII::hydro::Solver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="85" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1hydro_1a6488b62becf706e4006fc39d1eb15df6" prot="public" static="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; <ref refid="namespaceoctotigerII_1_1hydro_1a1693a5b403a4abb0eb657a316be35995" kindref="member">ConservedState</ref> &gt;</type>
+        <definition>using octotigerII::hydro::Fields = typedef mesh::PatchData&lt;ConservedState&gt;</definition>
+        <argsstring></argsstring>
+        <name>Fields</name>
+        <qualifiedname>octotigerII::hydro::Fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/hydro/hydroSystem.hpp" line="86" column="1" bodyfile="include/octotigerII/hydro/hydroSystem.hpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/hydro/hydroSystem.hpp" line="13" column="1"/>
+  </compounddef>
+</doxygen>

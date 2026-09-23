@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1radiation_1_1M1" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::radiation::M1</compoundname>
+    <includes refid="m1_8hpp" local="no">m1.hpp</includes>
+    <innerclass refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves" prot="public">octotigerII::radiation::M1::Waves</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a914592aac383cda9ddaa97135df716cf" kindref="member">units::ScalarVectorState</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1ad1443df8e3f217aa1a3ec9c439258873" kindref="member">units::EnergyDensity</ref>, <ref refid="namespaceoctotigerII_1_1units_1ad1443df8e3f217aa1a3ec9c439258873" kindref="member">units::EnergyDensity</ref> &gt;</type>
+        <definition>using octotigerII::radiation::M1::State =  units::ScalarVectorState&lt;units::EnergyDensity, units::EnergyDensity&gt;</definition>
+        <argsstring></argsstring>
+        <name>State</name>
+        <qualifiedname>octotigerII::radiation::M1::State</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="27" column="1" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classoctotigerII_1_1radiation_1_1M1_1a0b9c04fc7ccd648398200c4d18cabba2" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a914592aac383cda9ddaa97135df716cf" kindref="member">units::ScalarVectorState</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1ab626b934f6bc74cdcd8c81bb5cb5b290" kindref="member">units::EnergyFlux</ref>, <ref refid="namespaceoctotigerII_1_1units_1ab626b934f6bc74cdcd8c81bb5cb5b290" kindref="member">units::EnergyFlux</ref> &gt;</type>
+        <definition>using octotigerII::radiation::M1::Flux =  units::ScalarVectorState&lt;units::EnergyFlux, units::EnergyFlux&gt;</definition>
+        <argsstring></argsstring>
+        <name>Flux</name>
+        <qualifiedname>octotigerII::radiation::M1::Flux</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="28" column="1" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1radiation_1_1M1_1a6a0ad9e6f75285219af8cbe378aefe69" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>constexpr <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>constexpr Real octotigerII::radiation::M1::roundoff</definition>
+        <argsstring></argsstring>
+        <name>roundoff</name>
+        <qualifiedname>octotigerII::radiation::M1::roundoff</qualifiedname>
+        <initializer>= 4096 * <ref refid="Real_8hpp_1a08cc81e0f92efcc2206a1bea24bb07ed" kindref="member">epsilonR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="29" column="23" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="29" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a9ace549ba6eae4e96f6372c917fbee2c" compoundref="m1_8hpp" startline="49" endline="53">admissible</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a4e40d4bdd33a7bed85c3d719b3042089" compoundref="radiationTransport_8cpp" startline="60" endline="110">octotigerII::radiation::RadiationSystem::limitFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1adc24be8f7176b940790818401b4c7bcf" compoundref="m1_8hpp" startline="118" endline="129">roundoffState</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classoctotigerII_1_1radiation_1_1M1_1a950943fecda92216d523cd42540f4152" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1ad1443df8e3f217aa1a3ec9c439258873" kindref="member">units::EnergyDensity</ref></type>
+        <definition>static units::EnergyDensity octotigerII::radiation::M1::magnitude</definition>
+        <argsstring>(State const &amp;u)</argsstring>
+        <name>magnitude</name>
+        <qualifiedname>octotigerII::radiation::M1::magnitude</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref> const &amp;</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+<para>Return |F|/c from the temporary homogeneous energy-density state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="41" column="29" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="41" bodyend="46"/>
+        <references refid="namespaceoctotigerII_1_1units_1a8f528746f11757a6574b8aa3b6d0ac74" compoundref="cgs_8hpp" startline="73" endline="80">octotigerII::units::hypot</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a9ace549ba6eae4e96f6372c917fbee2c" compoundref="m1_8hpp" startline="49" endline="53">admissible</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a5a8ce3f9667a16494276435824f82347" compoundref="m1_8hpp" startline="61" endline="68">canonical</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1adc24be8f7176b940790818401b4c7bcf" compoundref="m1_8hpp" startline="118" endline="129">roundoffState</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1radiation_1_1M1_1a9ace549ba6eae4e96f6372c917fbee2c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool octotigerII::radiation::M1::admissible</definition>
+        <argsstring>(State const &amp;u)</argsstring>
+        <name>admissible</name>
+        <qualifiedname>octotigerII::radiation::M1::admissible</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref> const &amp;</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+<para>Check the closed realizable cone E≥0, |F|/c≤E, allowing scaled roundoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="49" column="13" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="49" bodyend="53"/>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a950943fecda92216d523cd42540f4152" compoundref="m1_8hpp" startline="41" endline="46">magnitude</references>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a6a0ad9e6f75285219af8cbe378aefe69" compoundref="m1_8hpp" startline="29">roundoff</references>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a1a3e03ccf7b00e3a462d7395c87381bb" compoundref="radiationTransport_8cpp" startline="52" endline="54">octotigerII::radiation::RadiationSystem::admissible</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a361d2fb7b402c3c51743e8a029e6d70e" compoundref="m1_8hpp" startline="56" endline="58">checkState</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a4e40d4bdd33a7bed85c3d719b3042089" compoundref="radiationTransport_8cpp" startline="60" endline="110">octotigerII::radiation::RadiationSystem::limitFlux</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1radiation_1_1M1_1a361d2fb7b402c3c51743e8a029e6d70e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void octotigerII::radiation::M1::checkState</definition>
+        <argsstring>(State const &amp;u)</argsstring>
+        <name>checkState</name>
+        <qualifiedname>octotigerII::radiation::M1::checkState</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref> const &amp;</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+<para>Throw if the calculation state violates finiteness or the realizable cone. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="56" column="13" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="56" bodyend="58"/>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a9ace549ba6eae4e96f6372c917fbee2c" compoundref="m1_8hpp" startline="49" endline="53">admissible</references>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a5a8ce3f9667a16494276435824f82347" compoundref="m1_8hpp" startline="61" endline="68">canonical</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a31ee18444108e1aadb307184b5e94701" compoundref="radiationTransport_8cpp" startline="112" endline="119">octotigerII::radiation::RadiationSystem::fromPhysical</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" compoundref="m1_8hpp" startline="72" endline="102">physicalFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a2dbf39c16d5899e8785278a14328ca8c" compoundref="radiationTransport_8cpp" startline="24" endline="28">octotigerII::radiation::RadiationSystem::reconstructionVariables</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1adc24be8f7176b940790818401b4c7bcf" compoundref="m1_8hpp" startline="118" endline="129">roundoffState</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a197d3cefee0ee55895f6e9d2759fea23" compoundref="radiationTransport_8cpp" startline="121" endline="127">octotigerII::radiation::RadiationSystem::toPhysicalFlux</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1radiation_1_1M1_1a5a8ce3f9667a16494276435824f82347" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref></type>
+        <definition>static State octotigerII::radiation::M1::canonical</definition>
+        <argsstring>(State u)</argsstring>
+        <name>canonical</name>
+        <qualifiedname>octotigerII::radiation::M1::canonical</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref></type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+<para>Validate and project only tolerated cone overshoot back to its boundary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="61" column="14" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="61" bodyend="68"/>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a361d2fb7b402c3c51743e8a029e6d70e" compoundref="m1_8hpp" startline="56" endline="58">checkState</references>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a950943fecda92216d523cd42540f4152" compoundref="m1_8hpp" startline="41" endline="46">magnitude</references>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a849444592f9526131d48728d3d0f8151" compoundref="m1_8hpp" startline="106" endline="115">hll</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves" kindref="compound">Waves</ref></type>
+        <definition>static Waves octotigerII::radiation::M1::physicalFlux</definition>
+        <argsstring>(State const &amp;u, int normal, units::Velocity chat)</argsstring>
+        <name>physicalFlux</name>
+        <qualifiedname>octotigerII::radiation::M1::physicalFlux</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref> const &amp;</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" kindref="member">units::Velocity</ref></type>
+          <declname>chat</declname>
+        </param>
+        <briefdescription>
+<para>Return the closure flux and normal wave speeds for (E, F/c). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The configured transport speed scales all characteristic velocities. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="72" column="14" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="72" bodyend="102"/>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a361d2fb7b402c3c51743e8a029e6d70e" compoundref="m1_8hpp" startline="56" endline="58">checkState</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1af766ac1c7ce8d4961ba9beccc277f77b" compoundref="m1_8hpp" startline="35">octotigerII::radiation::M1::Waves::flux</references>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1aff9cfb792a084d4a222daa7410b34d8f" compoundref="m1_8hpp" startline="36" endline="36">octotigerII::radiation::M1::Waves::minus</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1a592fe515758f7f61af77b4df6ee728f2" compoundref="m1_8hpp" startline="36" endline="36">octotigerII::radiation::M1::Waves::plus</references>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a849444592f9526131d48728d3d0f8151" compoundref="m1_8hpp" startline="106" endline="115">hll</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a092c4f1b3481a9f9e9b7faa4dae48058" compoundref="radiationTransport_8cpp" startline="47" endline="50">octotigerII::radiation::RadiationSystem::maximumSignalSpeed</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a457dbe49496c3e8d5503949e38bc1d5a" compoundref="radiationTransport_8cpp" startline="34" endline="36">octotigerII::radiation::RadiationSystem::physicalFlux</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1radiation_1_1M1_1a849444592f9526131d48728d3d0f8151" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a0b9c04fc7ccd648398200c4d18cabba2" kindref="member">Flux</ref></type>
+        <definition>static Flux octotigerII::radiation::M1::hll</definition>
+        <argsstring>(State const &amp;left, State const &amp;right, int normal, units::Velocity chat)</argsstring>
+        <name>hll</name>
+        <qualifiedname>octotigerII::radiation::M1::hll</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref> const &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref> const &amp;</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>normal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" kindref="member">units::Velocity</ref></type>
+          <declname>chat</declname>
+        </param>
+        <briefdescription>
+<para>Two-wave HLL flux in homogeneous calculation variables; see <ref refid="bibliography_1ref_harten1983" kindref="member">Harten et al. (1983)</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="106" column="13" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="106" bodyend="115"/>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a5a8ce3f9667a16494276435824f82347" compoundref="m1_8hpp" startline="61" endline="68">canonical</references>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" compoundref="m1_8hpp" startline="72" endline="102">physicalFlux</references>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a8760b65dcaa52cb3ecf9bdd348e8bdf0" compoundref="radiationTransport_8cpp" startline="38" endline="40">octotigerII::radiation::RadiationSystem::riemann</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1radiation_1_1M1_1adc24be8f7176b940790818401b4c7bcf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref></type>
+        <definition>static State octotigerII::radiation::M1::roundoffState</definition>
+        <argsstring>(State u, State const &amp;updateScale)</argsstring>
+        <name>roundoffState</name>
+        <qualifiedname>octotigerII::radiation::M1::roundoffState</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref></type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kindref="member">State</ref> const &amp;</type>
+          <declname>updateScale</declname>
+        </param>
+        <briefdescription>
+<para>Use the component update scale to repair tiny negative energy or cone overshoot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/m1.hpp" line="118" column="14" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="118" bodyend="129"/>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a361d2fb7b402c3c51743e8a029e6d70e" compoundref="m1_8hpp" startline="56" endline="58">checkState</references>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a950943fecda92216d523cd42540f4152" compoundref="m1_8hpp" startline="41" endline="46">magnitude</references>
+        <references refid="classoctotigerII_1_1radiation_1_1M1_1a6a0ad9e6f75285219af8cbe378aefe69" compoundref="m1_8hpp" startline="29">roundoff</references>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a16fb0b03bbaf76a7c3d25b0e1b4fec50" compoundref="radiationTransport_8cpp" startline="56" endline="58">octotigerII::radiation::RadiationSystem::correctRoundoff</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classoctotigerII_1_1radiation_1_1M1" kindref="compound">M1</ref> calculation kernel using energy-density variables (E, F/c). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These temporary quantities are distinct from the physical stored radiation state. Closure: <ref refid="bibliography_1ref_levermore1984" kindref="member">Levermore (1984)</ref>; wave speeds and transport: <ref refid="bibliography_1ref_skinner2013" kindref="member">Skinner and Ostriker (2013)</ref>. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/radiation/m1.hpp" line="24" column="1" bodyfile="include/octotigerII/radiation/m1.hpp" bodystart="24" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1a9ace549ba6eae4e96f6372c917fbee2c" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>admissible</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1a5a8ce3f9667a16494276435824f82347" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>canonical</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1a361d2fb7b402c3c51743e8a029e6d70e" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>checkState</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1a0b9c04fc7ccd648398200c4d18cabba2" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>Flux</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1a849444592f9526131d48728d3d0f8151" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>hll</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1a950943fecda92216d523cd42540f4152" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>magnitude</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>physicalFlux</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1a6a0ad9e6f75285219af8cbe378aefe69" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>roundoff</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1adc24be8f7176b940790818401b4c7bcf" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>roundoffState</name></member>
+      <member refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" prot="public" virt="non-virtual"><scope>octotigerII::radiation::M1</scope><name>State</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

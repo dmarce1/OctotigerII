@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1units_1_1detail" kind="namespace" language="C++">
+    <compoundname>octotigerII::units::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1units_1_1detail_1a578e4e77d089328da52050d14a01ace4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Scalar</type>
+          </param>
+          <param>
+            <type>typename <ref refid="classVector" kindref="compound">Vector</ref></type>
+          </param>
+          <param>
+            <type>std::size_t...</type>
+            <declname>I</declname>
+            <defname>I</defname>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto octotigerII::units::detail::scalarVector</definition>
+        <argsstring>(std::index_sequence&lt; I... &gt;) -&gt; State&lt; Scalar, decltype((void) I, Vector{})... &gt;</argsstring>
+        <name>scalarVector</name>
+        <qualifiedname>octotigerII::units::detail::scalarVector</qualifiedname>
+        <param>
+          <type>std::index_sequence&lt; I... &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/state.hpp" line="319" column="6" declfile="include/octotigerII/units/state.hpp" declline="319" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1units_1_1detail_1a4aa24b8677716521d46b740e25a5e9bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Density</type>
+          </param>
+          <param>
+            <type>typename <ref refid="classVector" kindref="compound">Vector</ref></type>
+          </param>
+          <param>
+            <type>typename Energy</type>
+          </param>
+          <param>
+            <type>std::size_t...</type>
+            <declname>I</declname>
+            <defname>I</defname>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto octotigerII::units::detail::fluid</definition>
+        <argsstring>(std::index_sequence&lt; I... &gt;) -&gt; State&lt; Density, decltype((void) I, Vector{})..., Energy &gt;</argsstring>
+        <name>fluid</name>
+        <qualifiedname>octotigerII::units::detail::fluid</qualifiedname>
+        <param>
+          <type>std::index_sequence&lt; I... &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/state.hpp" line="322" column="6" declfile="include/octotigerII/units/state.hpp" declline="322" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/units/state.hpp" line="317" column="1"/>
+  </compounddef>
+</doxygen>

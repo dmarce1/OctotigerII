@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1gravity_1_1_0d36" kind="namespace" language="C++">
+    <compoundname>octotigerII::gravity</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Stage</name>
+        <qualifiedname>octotigerII::gravity::Stage</qualifiedname>
+        <enumvalue id="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0a223e06f5cb15fc701ea1e686f7934f4f" prot="public">
+          <name>Initialize</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0a2fad4fd9e0a2737fdcac5ff87ffe403c" prot="public">
+          <name>Upward</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0a021f1340f5979a4f4f9642940221ad53" prot="public">
+          <name>Downward</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0a110a4b01beabd53b661a47d4b44bd7a8" prot="public">
+          <name>Publish</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/fieldSolver.cpp" line="102" column="1" bodyfile="src/gravity/fieldSolver.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/gravity/fieldSolver.cpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

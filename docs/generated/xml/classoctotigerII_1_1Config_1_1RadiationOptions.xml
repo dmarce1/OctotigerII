@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Config_1_1RadiationOptions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Config::RadiationOptions</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1RadiationOptions_1ae6f4a8c8a5fee4f306b09f07201be309" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::Config::RadiationOptions::lightSpeedRatio</definition>
+        <argsstring></argsstring>
+        <name>lightSpeedRatio</name>
+        <qualifiedname>octotigerII::Config::RadiationOptions::lightSpeedRatio</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="72" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="72" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1RadiationOptions_1a97013329dd67cf46337954ad60d8f2bc" compoundref="config_8hpp" startline="75" endline="77">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Config_1_1RadiationOptions_1a97013329dd67cf46337954ad60d8f2bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Config::RadiationOptions::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Config::RadiationOptions::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="75" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="75" bodyend="77"/>
+        <references refid="classoctotigerII_1_1Config_1_1RadiationOptions_1ae6f4a8c8a5fee4f306b09f07201be309" compoundref="config_8hpp" startline="72">lightSpeedRatio</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="70" column="1" bodyfile="include/octotigerII/config.hpp" bodystart="70" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Config_1_1RadiationOptions_1ae6f4a8c8a5fee4f306b09f07201be309" prot="public" virt="non-virtual"><scope>octotigerII::Config::RadiationOptions</scope><name>lightSpeedRatio</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1RadiationOptions_1a97013329dd67cf46337954ad60d8f2bc" prot="public" virt="non-virtual"><scope>octotigerII::Config::RadiationOptions</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

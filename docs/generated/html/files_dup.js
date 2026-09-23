@@ -1,0 +1,8 @@
+var files_dup =
+[
+    [ "bin", "dir_2ea30aa2956a8db99dd22aa5e597f384.html", "dir_2ea30aa2956a8db99dd22aa5e597f384" ],
+    [ "cmake", "dir_a5bdbfbbaa7895161d62825676df7980.html", "dir_a5bdbfbbaa7895161d62825676df7980" ],
+    [ "docs", "dir_49e56c817e5e54854c35e136979f97ca.html", null ],
+    [ "include", "dir_d44c64559bbebec7f509842c48db8b23.html", "dir_d44c64559bbebec7f509842c48db8b23" ],
+    [ "src", "dir_68267d1309a1af8e8297ef4c3efbcdba.html", "dir_68267d1309a1af8e8297ef4c3efbcdba" ]
+];

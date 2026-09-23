@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1HaloCopy" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::HaloCopy</compoundname>
+    <includes refid="topology_8hpp" local="no">topology.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1HaloCopy_1a09e8350707699ed6f9cc8454df8e1112" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::HaloCopy::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>octotigerII::HaloCopy::source</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="45" column="13" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="45" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1HaloCopy_1ad73dbae54f2d26486a92a50271d5f3fa" compoundref="topology_8hpp" startline="50" endline="52">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1HaloCopy_1a08df39385888d61170802e759a71277c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::HaloCopy::destination</definition>
+        <argsstring></argsstring>
+        <name>destination</name>
+        <qualifiedname>octotigerII::HaloCopy::destination</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="46" column="13" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="46" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1HaloCopy_1ad73dbae54f2d26486a92a50271d5f3fa" compoundref="topology_8hpp" startline="50" endline="52">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1HaloCopy_1ad73dbae54f2d26486a92a50271d5f3fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::HaloCopy::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::HaloCopy::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="50" column="6" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="50" bodyend="52"/>
+        <references refid="classoctotigerII_1_1HaloCopy_1a08df39385888d61170802e759a71277c" compoundref="topology_8hpp" startline="46">destination</references>
+        <references refid="classoctotigerII_1_1HaloCopy_1a09e8350707699ed6f9cc8454df8e1112" compoundref="topology_8hpp" startline="45">source</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One element mapping from a fetched contiguous range to a compact ghost buffer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/subgrid/topology.hpp" line="42" column="1" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="42" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1HaloCopy_1a08df39385888d61170802e759a71277c" prot="public" virt="non-virtual"><scope>octotigerII::HaloCopy</scope><name>destination</name></member>
+      <member refid="classoctotigerII_1_1HaloCopy_1ad73dbae54f2d26486a92a50271d5f3fa" prot="public" virt="non-virtual"><scope>octotigerII::HaloCopy</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1HaloCopy_1a09e8350707699ed6f9cc8454df8e1112" prot="public" virt="non-virtual"><scope>octotigerII::HaloCopy</scope><name>source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

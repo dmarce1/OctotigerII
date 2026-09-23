@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1verification" kind="namespace" language="C++">
+    <compoundname>octotigerII::verification</compoundname>
+    <innerclass refid="classoctotigerII_1_1verification_1_1Comparison" prot="public">octotigerII::verification::Comparison</innerclass>
+    <innerclass refid="classoctotigerII_1_1verification_1_1ErrorNorm" prot="public">octotigerII::verification::ErrorNorm</innerclass>
+    <innerclass refid="classoctotigerII_1_1verification_1_1ExactState" prot="public">octotigerII::verification::ExactState</innerclass>
+    <innerclass refid="classoctotigerII_1_1verification_1_1Field" prot="public">octotigerII::verification::Field</innerclass>
+    <innerclass refid="classoctotigerII_1_1verification_1_1Reference" prot="public">octotigerII::verification::Reference</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1a37413c8160dfd3f5e8488a17369d480b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool octotigerII::verification::usesDirectGravity</definition>
+        <argsstring>(Config const &amp;config)</argsstring>
+        <name>usesDirectGravity</name>
+        <qualifiedname>octotigerII::verification::usesDirectGravity</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Whether gravity uses the discrete snapshot reference (gravity fields only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/verification/analytic.hpp" line="78" column="13" bodyfile="include/octotigerII/verification/analytic.hpp" bodystart="78" bodyend="80"/>
+        <references refid="classoctotigerII_1_1Config_1_1VerificationOptions_1af113e969cfba0f3532480421662cfa78" compoundref="config_8hpp" startline="108">octotigerII::Config::VerificationOptions::analytic</references>
+        <references refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" compoundref="buildConfig_8hpp_8in" startline="19">octotigerII::build::gravity</references>
+        <references refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a351e7be8087a05228d5ebf54e87cbea9" compoundref="config_8hpp" startline="109">octotigerII::Config::VerificationOptions::gravityReference</references>
+        <references refid="classoctotigerII_1_1Config_1ac5efc91fb34cddb4a0366667dfeb7330">octotigerII::Config::verification</references>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" compoundref="analytic_8cpp" startline="45" endline="61">reference</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1verification_1_1Reference" kindref="compound">Reference</ref></type>
+        <definition>Reference octotigerII::verification::reference</definition>
+        <argsstring>(Config const &amp;config, units::Time time)</argsstring>
+        <name>reference</name>
+        <qualifiedname>octotigerII::verification::reference</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+<para>Apply auto/on/off policy and the reference&apos;s time-validity restriction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/analytic.cpp" line="45" column="11" bodyfile="src/verification/analytic.cpp" bodystart="45" bodyend="61" declfile="include/octotigerII/verification/analytic.hpp" declline="83" declcolumn="11"/>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1aa602058966b85c1d8b50fe9878ade6eb" compoundref="analytic_8hpp" startline="32">octotigerII::verification::Reference::evaluate</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1a8c76e364485f717f55f22c51b40c7efa" compoundref="analytic_8hpp" startline="29">octotigerII::verification::Reference::name</references>
+        <references refid="namespaceoctotigerII_1a2df2e99deb5c68b7b55c306ef5099150" compoundref="gravity__tests_2Gaussian_2problem_8cpp" startline="12" endline="14">octotigerII::problemReference</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1ae7f9e59faf823af778b62f70010b7764" compoundref="analytic_8hpp" startline="30">octotigerII::verification::Reference::reason</references>
+        <references refid="namespaceoctotigerII_1_1verification_1a37413c8160dfd3f5e8488a17369d480b" compoundref="analytic_8hpp" startline="78" endline="80">usesDirectGravity</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1a852e4230e387f2a939f63808e8b0a726" compoundref="analytic_8hpp" startline="31">octotigerII::verification::Reference::validUntil</references>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">compare</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1verification_1_1Field" kindref="compound">Field</ref> &gt;</type>
+        <definition>std::vector&lt; Field &gt; octotigerII::verification::sample</definition>
+        <argsstring>(Snapshot const &amp;snapshot, Config const &amp;config, Reference const &amp;reference)</argsstring>
+        <name>sample</name>
+        <qualifiedname>octotigerII::verification::sample</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> const &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1verification_1_1Reference" kindref="compound">Reference</ref> const &amp;</type>
+          <declname>reference</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/analytic.cpp" line="64" column="13" bodyfile="src/verification/analytic.cpp" bodystart="64" bodyend="119" declfile="include/octotigerII/verification/analytic.hpp" declline="85" declcolumn="13"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1afaa04a837767705f1d129159b56a4a3b" compoundref="mesh_8cpp" startline="150" endline="159">octotigerII::mesh::MeshLayout::cellCenter</references>
+        <references refid="classoctotigerII_1_1Snapshot_1acc0009efba1f7723faaf9a3267fadb1a" compoundref="subgrid_8hpp" startline="28">octotigerII::Snapshot::cellWidth</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" compoundref="hydroSystem_8cpp" startline="40" endline="56">octotigerII::hydro::HydroSystem::conservedState</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1aa602058966b85c1d8b50fe9878ade6eb" compoundref="analytic_8hpp" startline="32">octotigerII::verification::Reference::evaluate</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" compoundref="mesh_8hpp" startline="126" endline="128">octotigerII::mesh::MeshLayout::forEachInterior</references>
+        <references refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" compoundref="buildConfig_8hpp_8in" startline="19">octotigerII::build::gravity</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae4ee69893cc739158ec25ac0bc07fc30" compoundref="subgrid_8hpp" startline="33">octotigerII::Snapshot::gravity</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a297b51fa084fe51816181e1e09a1219e" compoundref="subgrid_8hpp" startline="31">octotigerII::Snapshot::hydro</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae7afcfe262a676095526b633c918ca81" compoundref="subgrid_8hpp" startline="26">octotigerII::Snapshot::layout</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a571359395d5fc10fbb565c2e84f9ea46" compoundref="subgrid_8hpp" startline="27" endline="27">octotigerII::Snapshot::lower</references>
+        <references refid="output_8cpp_1a9b45b3e13bd9167aab02e17e08916231" compoundref="output_8cpp" startline="19">name</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" compoundref="buildConfig_8hpp_8in" startline="18">octotigerII::build::radiation</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a46648a2cc4a7bb406f77ca88f5abba3f" compoundref="subgrid_8hpp" startline="32">octotigerII::Snapshot::radiation</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">octotigerII::hydro::HydroSystem::reconstructionVariables</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a42348fb70bc15406f78fb904ae92cbe2" compoundref="subgrid_8hpp" startline="29" endline="29">octotigerII::Snapshot::time</references>
+        <references refid="output_8cpp_1a9d8a43adf9fd3fd5efa57e1f9140ca72" compoundref="output_8cpp" startline="20">units</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1a852e4230e387f2a939f63808e8b0a726" compoundref="analytic_8hpp" startline="31">octotigerII::verification::Reference::validUntil</references>
+        <references refid="namespaceoctotigerII_1_1units_1a53c5c6245a4a7ece95e76a686a6bd662" compoundref="cgs_8hpp" startline="61" endline="63">octotigerII::units::value</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a9b9d2373c91486bab4c9c91797c16bc6" compoundref="mesh_8hpp" startline="297" endline="299">octotigerII::mesh::PatchData&lt; State &gt;::values</references>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">compare</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1verification_1_1Comparison" kindref="compound">Comparison</ref></type>
+        <definition>Comparison octotigerII::verification::compare</definition>
+        <argsstring>(std::vector&lt; Snapshot &gt; const &amp;snapshots, Config const &amp;config)</argsstring>
+        <name>compare</name>
+        <qualifiedname>octotigerII::verification::compare</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &gt; const &amp;</type>
+          <declname>snapshots</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/analytic.cpp" line="122" column="12" bodyfile="src/verification/analytic.cpp" bodystart="122" bodyend="174" declfile="include/octotigerII/verification/analytic.hpp" declline="87" declcolumn="12"/>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1adf115e96fda61901dc4efd86bc1bc9c4" compoundref="analytic_8hpp" startline="59">octotigerII::verification::Comparison::cells</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a1ce5966965dd4d5d746a938cbf332a67" compoundref="analytic_8hpp" startline="63">octotigerII::verification::Comparison::cellsPerAxis</references>
+        <references refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">compareDirectGravity</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1acae37f266007720b082516e0b110bc16" compoundref="analytic_8hpp" startline="65">octotigerII::verification::Comparison::fields</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a300fa362d12d798097b4e510d1a10f20" compoundref="analytic_8hpp" startline="63">octotigerII::verification::Comparison::multipoleOrder</references>
+        <references refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a9720f1643b352e5a827940eb2c948a46" compoundref="analytic_8hpp" startline="46">octotigerII::verification::ErrorNorm::name</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a54a62344fa98b4fa9ee22cd33ed269fc" compoundref="analytic_8hpp" startline="57">octotigerII::verification::Comparison::name</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a66aff41d1f1c85a64f1f350c7b88a8a9" compoundref="analytic_8hpp" startline="64">octotigerII::verification::Comparison::openingAngle</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a0d4be7e1015f58afa2539bc33ee89d1c" compoundref="analytic_8hpp" startline="57">octotigerII::verification::Comparison::reason</references>
+        <references refid="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" compoundref="analytic_8cpp" startline="45" endline="61">reference</references>
+        <references refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">sample</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a59a7e99ffb72cf7aa7a228a05c258c04" compoundref="analytic_8hpp" startline="57">octotigerII::verification::Comparison::status</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1afaecd37f91376654be154ddd8ce57532" compoundref="analytic_8hpp" startline="58" endline="58">octotigerII::verification::Comparison::time</references>
+        <references refid="namespaceoctotigerII_1_1verification_1a37413c8160dfd3f5e8488a17369d480b" compoundref="analytic_8hpp" startline="78" endline="80">usesDirectGravity</references>
+        <references refid="namespaceoctotigerII_1_1units_1a53c5c6245a4a7ece95e76a686a6bd662" compoundref="cgs_8hpp" startline="61" endline="63">octotigerII::units::value</references>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">octotigerII::Output::operator()</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1a66c6ee6dcf8a951e88e1257ef9fd6a0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1verification_1_1Reference" kindref="compound">Reference</ref></type>
+        <definition>Reference octotigerII::verification::sodReference</definition>
+        <argsstring>(Config const &amp;config)</argsstring>
+        <name>sodReference</name>
+        <qualifiedname>octotigerII::verification::sodReference</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Independent exact solutions used by the corresponding problem hooks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/solutions.cpp" line="10" column="11" bodyfile="src/verification/solutions.cpp" bodystart="10" bodyend="80" declfile="include/octotigerII/verification/analytic.hpp" declline="90" declcolumn="11"/>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1aa602058966b85c1d8b50fe9878ade6eb" compoundref="analytic_8hpp" startline="32">octotigerII::verification::Reference::evaluate</references>
+        <references refid="classoctotigerII_1_1verification_1_1ExactState_1a4693936965bb7dc1d2a019aaae212a59" compoundref="analytic_8hpp" startline="19">octotigerII::verification::ExactState::hydro</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1a8c76e364485f717f55f22c51b40c7efa" compoundref="analytic_8hpp" startline="29">octotigerII::verification::Reference::name</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1ae7f9e59faf823af778b62f70010b7764" compoundref="analytic_8hpp" startline="30">octotigerII::verification::Reference::reason</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1a852e4230e387f2a939f63808e8b0a726" compoundref="analytic_8hpp" startline="31">octotigerII::verification::Reference::validUntil</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1verification_1_1Reference" kindref="compound">Reference</ref></type>
+        <definition>Reference octotigerII::verification::sphereReference</definition>
+        <argsstring>(Config const &amp;config, bool gaussian)</argsstring>
+        <name>sphereReference</name>
+        <qualifiedname>octotigerII::verification::sphereReference</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>gaussian</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/solutions.cpp" line="83" column="11" bodyfile="src/verification/solutions.cpp" bodystart="83" bodyend="136" declfile="include/octotigerII/verification/analytic.hpp" declline="92" declcolumn="11"/>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1aa602058966b85c1d8b50fe9878ade6eb" compoundref="analytic_8hpp" startline="32">octotigerII::verification::Reference::evaluate</references>
+        <references refid="namespaceoctotigerII_1_1constants_1aa2ca41cb3ebd8c4693d946d3d2f07604" compoundref="constants_8hpp" startline="13">octotigerII::constants::G</references>
+        <references refid="classoctotigerII_1_1verification_1_1ExactState_1a9fc945a1757b2dfe9e2737fc2bb5c640" compoundref="analytic_8hpp" startline="20">octotigerII::verification::ExactState::gravity</references>
+        <references refid="namespaceoctotigerII_1_1units_1a8f528746f11757a6574b8aa3b6d0ac74" compoundref="cgs_8hpp" startline="73" endline="80">octotigerII::units::hypot</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1a8c76e364485f717f55f22c51b40c7efa" compoundref="analytic_8hpp" startline="29">octotigerII::verification::Reference::name</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="namespaceoctotigerII_1a2df2e99deb5c68b7b55c306ef5099150" compoundref="gravity__tests_2Gaussian_2problem_8cpp" startline="12" endline="14">octotigerII::problemReference</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1a2e9ae4e7a511dcc613eb1a005fb38a46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1verification_1_1Reference" kindref="compound">Reference</ref></type>
+        <definition>Reference octotigerII::verification::streamingReference</definition>
+        <argsstring>(Config const &amp;config)</argsstring>
+        <name>streamingReference</name>
+        <qualifiedname>octotigerII::verification::streamingReference</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/solutions.cpp" line="139" column="11" bodyfile="src/verification/solutions.cpp" bodystart="139" bodyend="169" declfile="include/octotigerII/verification/analytic.hpp" declline="94" declcolumn="11"/>
+        <references refid="namespaceoctotigerII_1_1constants_1a818378a5aaef2811504d5155316f9d7f" compoundref="constants_8hpp" startline="14">octotigerII::constants::c</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1aa602058966b85c1d8b50fe9878ade6eb" compoundref="analytic_8hpp" startline="32">octotigerII::verification::Reference::evaluate</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1a8c76e364485f717f55f22c51b40c7efa" compoundref="analytic_8hpp" startline="29">octotigerII::verification::Reference::name</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1verification_1_1ExactState_1a1268bbed314bb315ac83692463480c69" compoundref="analytic_8hpp" startline="21">octotigerII::verification::ExactState::radiation</references>
+        <references refid="classoctotigerII_1_1verification_1_1Reference_1ae7f9e59faf823af778b62f70010b7764" compoundref="analytic_8hpp" startline="30">octotigerII::verification::Reference::reason</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1ab448f62dd419234e0a22f0b37a106a7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt; std::size_t &gt; octotigerII::verification::directTargets</definition>
+        <argsstring>(std::size_t population, std::size_t count, std::uint64_t seed)</argsstring>
+        <name>directTargets</name>
+        <qualifiedname>octotigerII::verification::directTargets</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>population</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+<para>Sorted, unbiased sample without replacement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a specified bounded-integer mapping so results do not depend on the standard library&apos;s distributions. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/directGravity.cpp" line="14" column="13" bodyfile="src/verification/directGravity.cpp" bodystart="14" bodyend="39" declfile="include/octotigerII/verification/directGravity.hpp" declline="13" declcolumn="13"/>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1a40c14d3a2471b6a0f74d3ee5ef9b54a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1verification_1_1ErrorNorm" kindref="compound">ErrorNorm</ref></type>
+        <definition>ErrorNorm octotigerII::verification::directErrorNorm</definition>
+        <argsstring>(Field const &amp;field, std::size_t population)</argsstring>
+        <name>directErrorNorm</name>
+        <qualifiedname>octotigerII::verification::directErrorNorm</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1verification_1_1Field" kindref="compound">Field</ref> const &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>population</declname>
+        </param>
+        <briefdescription>
+<para>Relative norms and approximate 95% sampling half-widths (delta method with finite-population correction). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Linf is only the observed sample maximum. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/directGravity.cpp" line="42" column="11" bodyfile="src/verification/directGravity.cpp" bodystart="42" bodyend="88" declfile="include/octotigerII/verification/directGravity.hpp" declline="17" declcolumn="11"/>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <references refid="classoctotigerII_1_1verification_1_1Field_1aa36df9a464c9f6056bd249d1c185b433" compoundref="analytic_8hpp" startline="40">octotigerII::verification::Field::exact</references>
+        <references refid="classoctotigerII_1_1verification_1_1Field_1a92b2f58284f7ef93be334217009daa62" compoundref="analytic_8hpp" startline="39">octotigerII::verification::Field::name</references>
+        <references refid="classoctotigerII_1_1verification_1_1Field_1a2f26d846032808d4522425b46bf36d14" compoundref="analytic_8hpp" startline="40">octotigerII::verification::Field::numerical</references>
+        <references refid="classoctotigerII_1_1verification_1_1Field_1aa1efbfe0332eba8667d675612e8cdca7" compoundref="analytic_8hpp" startline="39">octotigerII::verification::Field::units</references>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">compareDirectGravity</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1verification_1_1Comparison" kindref="compound">Comparison</ref></type>
+        <definition>Comparison octotigerII::verification::compareDirectGravity</definition>
+        <argsstring>(std::vector&lt; Snapshot &gt; const &amp;snapshots, Config const &amp;config)</argsstring>
+        <name>compareDirectGravity</name>
+        <qualifiedname>octotigerII::verification::compareDirectGravity</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &gt; const &amp;</type>
+          <declname>snapshots</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/verification/directGravity.cpp" line="91" column="12" bodyfile="src/verification/directGravity.cpp" bodystart="91" bodyend="166" declfile="include/octotigerII/verification/directGravity.hpp" declline="19" declcolumn="12"/>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1adf115e96fda61901dc4efd86bc1bc9c4" compoundref="analytic_8hpp" startline="59">octotigerII::verification::Comparison::cells</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a1ce5966965dd4d5d746a938cbf332a67" compoundref="analytic_8hpp" startline="63">octotigerII::verification::Comparison::cellsPerAxis</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <references refid="namespaceoctotigerII_1_1verification_1a40c14d3a2471b6a0f74d3ee5ef9b54a4" compoundref="directGravity_8cpp" startline="42" endline="88">directErrorNorm</references>
+        <references refid="namespaceoctotigerII_1_1verification_1ab448f62dd419234e0a22f0b37a106a7d" compoundref="directGravity_8cpp" startline="14" endline="39">directTargets</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1acae37f266007720b082516e0b110bc16" compoundref="analytic_8hpp" startline="65">octotigerII::verification::Comparison::fields</references>
+        <references refid="namespaceoctotigerII_1_1mesh_1a727008e4d9883a2d3ff531702b07b226" compoundref="mesh_8hpp" startline="27" endline="31">octotigerII::mesh::filledCoordinates</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="namespaceoctotigerII_1_1constants_1aa2ca41cb3ebd8c4693d946d3d2f07604" compoundref="constants_8hpp" startline="13">octotigerII::constants::G</references>
+        <references refid="namespaceoctotigerII_1_1mesh_1af49d44d0c46f82303d56f1536393844a" compoundref="mesh_8hpp" startline="34" endline="42">octotigerII::mesh::linearIndex</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a300fa362d12d798097b4e510d1a10f20" compoundref="analytic_8hpp" startline="63">octotigerII::verification::Comparison::multipoleOrder</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a54a62344fa98b4fa9ee22cd33ed269fc" compoundref="analytic_8hpp" startline="57">octotigerII::verification::Comparison::name</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a66aff41d1f1c85a64f1f350c7b88a8a9" compoundref="analytic_8hpp" startline="64">octotigerII::verification::Comparison::openingAngle</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a6f771c7d9b54dbc276af4c39635969aa" compoundref="analytic_8hpp" startline="62">octotigerII::verification::Comparison::randomSeed</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a6c7d1ef3afe0eee73a2e0348a0382a3a" compoundref="analytic_8hpp" startline="60">octotigerII::verification::Comparison::referenceKind</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a1f3533a5aa1e0606d9650ba7040be387" compoundref="analytic_8hpp" startline="60">octotigerII::verification::Comparison::sampling</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1aa8ba3ce5d349468a1236c57d69fd8124" compoundref="analytic_8hpp" startline="59">octotigerII::verification::Comparison::sourceCells</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a59a7e99ffb72cf7aa7a228a05c258c04" compoundref="analytic_8hpp" startline="57">octotigerII::verification::Comparison::status</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a38260df227a0f647f9ac40325af413cf" compoundref="analytic_8hpp" startline="61">octotigerII::verification::Comparison::targetIndices</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1afaecd37f91376654be154ddd8ce57532" compoundref="analytic_8hpp" startline="58" endline="58">octotigerII::verification::Comparison::time</references>
+        <references refid="classoctotigerII_1_1verification_1_1Comparison_1a1c915763445811f51fbc8e728aab481c" compoundref="analytic_8hpp" startline="59">octotigerII::verification::Comparison::totalCells</references>
+        <references refid="namespaceoctotigerII_1_1units_1a53c5c6245a4a7ece95e76a686a6bd662" compoundref="cgs_8hpp" startline="61" endline="63">octotigerII::units::value</references>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">compare</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/problems.hpp" line="10" column="1"/>
+  </compounddef>
+</doxygen>

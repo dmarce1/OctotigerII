@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Output" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Output</compoundname>
+    <includes refid="output_8hpp" local="no">output.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Output_1ac363557d39e4b9757f1931b925483a38" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref></type>
+        <definition>Config octotigerII::Output::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>octotigerII::Output::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/output.hpp" line="25" column="8" bodyfile="include/octotigerII/output.hpp" bodystart="25" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">operator()</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Output_1aa7969a4ffca99d1e093553f4c8e1a98d" prot="private" static="no" mutable="no">
+        <type>std::ofstream</type>
+        <definition>std::ofstream octotigerII::Output::series_</definition>
+        <argsstring></argsstring>
+        <name>series_</name>
+        <qualifiedname>octotigerII::Output::series_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/output.hpp" line="26" column="15" bodyfile="include/octotigerII/output.hpp" bodystart="26" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">operator()</referencedby>
+        <referencedby refid="classoctotigerII_1_1Output_1aea11ef638abeebe3d5998759764521c3" compoundref="output_8cpp" startline="132" endline="138">Output</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Output_1af515eacae1b422c676496a4c6e2a3b07" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::Output::frame_</definition>
+        <argsstring></argsstring>
+        <name>frame_</name>
+        <qualifiedname>octotigerII::Output::frame_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/output.hpp" line="27" column="5" bodyfile="include/octotigerII/output.hpp" bodystart="27" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">operator()</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Output_1aea11ef638abeebe3d5998759764521c3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::Output::Output</definition>
+        <argsstring>(Config const &amp;config)</argsstring>
+        <name>Output</name>
+        <qualifiedname>octotigerII::Output::Output</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/output.hpp" line="19" column="10" bodyfile="src/output.cpp" bodystart="132" bodyend="138"/>
+        <references refid="classoctotigerII_1_1Output_1aa7969a4ffca99d1e093553f4c8e1a98d" compoundref="output_8hpp" startline="26">series_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::Output::operator()</definition>
+        <argsstring>(std::vector&lt; Snapshot &gt; const &amp;snapshots, int step, Diagnostics const &amp;diagnostics)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>octotigerII::Output::operator()</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &gt; const &amp;</type>
+          <declname>snapshots</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Diagnostics" kindref="compound">Diagnostics</ref> const &amp;</type>
+          <declname>diagnostics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/output.hpp" line="21" column="6" bodyfile="src/output.cpp" bodystart="140" bodyend="154"/>
+        <references refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</references>
+        <references refid="classoctotigerII_1_1Output_1ac363557d39e4b9757f1931b925483a38" compoundref="output_8hpp" startline="25">config_</references>
+        <references refid="classoctotigerII_1_1Config_1_1OutputOptions_1a4fb28530038e9b7e76ad3c01deb99e4b" compoundref="config_8hpp" startline="97">octotigerII::Config::OutputOptions::directory</references>
+        <references refid="classoctotigerII_1_1Config_1_1OutputOptions_1a6d9d80b440b8e2c72499373090e88f32" compoundref="config_8hpp" startline="96">octotigerII::Config::OutputOptions::enabled</references>
+        <references refid="classoctotigerII_1_1Config_1_1OutputOptions_1a6d87b68e0ff80d3d2a282cf37c880d90" compoundref="config_8hpp" startline="95">octotigerII::Config::OutputOptions::every</references>
+        <references refid="classoctotigerII_1_1Output_1af515eacae1b422c676496a4c6e2a3b07" compoundref="output_8hpp" startline="27">frame_</references>
+        <references refid="classoctotigerII_1_1Config_1a9d8f33ba94a8d65a755b09003d0d2123">octotigerII::Config::output</references>
+        <references refid="classoctotigerII_1_1Config_1a2b28688d0bf080ffe689b5ba7fee3dd5">octotigerII::Config::runtime</references>
+        <references refid="classoctotigerII_1_1Output_1aa7969a4ffca99d1e093553f4c8e1a98d" compoundref="output_8hpp" startline="26">series_</references>
+        <references refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a9de6cae399217c4faf5a96ae92e8a0cc" compoundref="config_8hpp" startline="37">octotigerII::Config::RuntimeOptions::stopTime</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1afefc0244f02431938240ca530c938883" compoundref="simulation_8hpp" startline="21" endline="21">octotigerII::Diagnostics::time</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Writes zone-centered CGS fields and a VisIt series file. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Snapshots must share a physical time. Existing frame files use DB_CLOBBER. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>octotigerII::Config</label>
+        <link refid="classoctotigerII_1_1Config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>mesh</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>runtime</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>timestep</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>hydro</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>radiation</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>gravity</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>output</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>verification</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>octotigerII::Config::GravityOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1GravityOptions"/>
+      </node>
+      <node id="6">
+        <label>octotigerII::Config::HydroOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1HydroOptions"/>
+      </node>
+      <node id="3">
+        <label>octotigerII::Config::MeshOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1MeshOptions"/>
+      </node>
+      <node id="9">
+        <label>octotigerII::Config::OutputOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1OutputOptions"/>
+      </node>
+      <node id="7">
+        <label>octotigerII::Config::RadiationOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1RadiationOptions"/>
+      </node>
+      <node id="4">
+        <label>octotigerII::Config::RuntimeOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1RuntimeOptions"/>
+      </node>
+      <node id="5">
+        <label>octotigerII::Config::TimestepOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1TimestepOptions"/>
+      </node>
+      <node id="10">
+        <label>octotigerII::Config::VerificationOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1VerificationOptions"/>
+      </node>
+      <node id="1">
+        <label>octotigerII::Output</label>
+        <link refid="classoctotigerII_1_1Output"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/output.hpp" line="16" column="1" bodyfile="include/octotigerII/output.hpp" bodystart="16" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Output_1ac363557d39e4b9757f1931b925483a38" prot="private" virt="non-virtual"><scope>octotigerII::Output</scope><name>config_</name></member>
+      <member refid="classoctotigerII_1_1Output_1af515eacae1b422c676496a4c6e2a3b07" prot="private" virt="non-virtual"><scope>octotigerII::Output</scope><name>frame_</name></member>
+      <member refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" prot="public" virt="non-virtual"><scope>octotigerII::Output</scope><name>operator()</name></member>
+      <member refid="classoctotigerII_1_1Output_1aea11ef638abeebe3d5998759764521c3" prot="public" virt="non-virtual"><scope>octotigerII::Output</scope><name>Output</name></member>
+      <member refid="classoctotigerII_1_1Output_1aa7969a4ffca99d1e093553f4c8e1a98d" prot="private" virt="non-virtual"><scope>octotigerII::Output</scope><name>series_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structoctotigerII_1_1ExchangeDomain" kind="struct" language="C++" prot="public">
+    <compoundname>octotigerII::ExchangeDomain</compoundname>
+    <includes refid="exchange_8hpp" local="no">exchange.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structoctotigerII_1_1ExchangeDomain_1a55f4a7527d9dbb58d7153b828b3ff94f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::ExchangeDomain::dimensionCount</definition>
+        <argsstring></argsstring>
+        <name>dimensionCount</name>
+        <qualifiedname>octotigerII::ExchangeDomain::dimensionCount</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="36" column="5" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="36" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">octotigerII::transportExchange::fillHalo</referencedby>
+        <referencedby refid="structoctotigerII_1_1ExchangeDomain_1aa2f7ed14b553e7f8345f74a392417dd2" compoundref="exchange_8hpp" startline="40" endline="42">serialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1af29d6cd07be3bc1bb59a539575883005" compoundref="exchange_8hpp" startline="46" endline="52">octotigerII::transportExchange::validateDomain</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1ExchangeDomain_1a2ea49511a30c66863cba609fd0103cf5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::ExchangeDomain::lower</definition>
+        <argsstring></argsstring>
+        <name>lower</name>
+        <qualifiedname>octotigerII::ExchangeDomain::lower</qualifiedname>
+        <initializer>= units::Length::from_value(-1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="37" column="15" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="37" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">octotigerII::transportExchange::fillHalo</referencedby>
+        <referencedby refid="structoctotigerII_1_1ExchangeDomain_1aa2f7ed14b553e7f8345f74a392417dd2" compoundref="exchange_8hpp" startline="40" endline="42">serialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1af29d6cd07be3bc1bb59a539575883005" compoundref="exchange_8hpp" startline="46" endline="52">octotigerII::transportExchange::validateDomain</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1ExchangeDomain_1ae8118cc2014dd8df9eebe349d29a63d5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::ExchangeDomain::upper</definition>
+        <argsstring></argsstring>
+        <name>upper</name>
+        <qualifiedname>octotigerII::ExchangeDomain::upper</qualifiedname>
+        <initializer>= units::Length::from_value(1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="38" column="15" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="38" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">octotigerII::transportExchange::fillHalo</referencedby>
+        <referencedby refid="structoctotigerII_1_1ExchangeDomain_1aa2f7ed14b553e7f8345f74a392417dd2" compoundref="exchange_8hpp" startline="40" endline="42">serialize</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1af29d6cd07be3bc1bb59a539575883005" compoundref="exchange_8hpp" startline="46" endline="52">octotigerII::transportExchange::validateDomain</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="structoctotigerII_1_1ExchangeDomain_1ae11b9e7852acd06b7faaa8662aeefbd2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::ExchangeDomain::periodic</definition>
+        <argsstring></argsstring>
+        <name>periodic</name>
+        <qualifiedname>octotigerII::ExchangeDomain::periodic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="39" column="6" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="39" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">octotigerII::transportExchange::fillHalo</referencedby>
+        <referencedby refid="structoctotigerII_1_1ExchangeDomain_1aa2f7ed14b553e7f8345f74a392417dd2" compoundref="exchange_8hpp" startline="40" endline="42">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structoctotigerII_1_1ExchangeDomain_1aa2f7ed14b553e7f8345f74a392417dd2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::ExchangeDomain::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::ExchangeDomain::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/exchange.hpp" line="40" column="18" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="40" bodyend="42"/>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1a55f4a7527d9dbb58d7153b828b3ff94f" compoundref="exchange_8hpp" startline="36">dimensionCount</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1a2ea49511a30c66863cba609fd0103cf5" compoundref="exchange_8hpp" startline="37">lower</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1ae11b9e7852acd06b7faaa8662aeefbd2" compoundref="exchange_8hpp" startline="39">periodic</references>
+        <references refid="structoctotigerII_1_1ExchangeDomain_1ae8118cc2014dd8df9eebe349d29a63d5" compoundref="exchange_8hpp" startline="38">upper</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/subgrid/exchange.hpp" line="35" column="1" bodyfile="include/octotigerII/subgrid/exchange.hpp" bodystart="35" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structoctotigerII_1_1ExchangeDomain_1a55f4a7527d9dbb58d7153b828b3ff94f" prot="public" virt="non-virtual"><scope>octotigerII::ExchangeDomain</scope><name>dimensionCount</name></member>
+      <member refid="structoctotigerII_1_1ExchangeDomain_1a2ea49511a30c66863cba609fd0103cf5" prot="public" virt="non-virtual"><scope>octotigerII::ExchangeDomain</scope><name>lower</name></member>
+      <member refid="structoctotigerII_1_1ExchangeDomain_1ae11b9e7852acd06b7faaa8662aeefbd2" prot="public" virt="non-virtual"><scope>octotigerII::ExchangeDomain</scope><name>periodic</name></member>
+      <member refid="structoctotigerII_1_1ExchangeDomain_1aa2f7ed14b553e7f8345f74a392417dd2" prot="public" virt="non-virtual"><scope>octotigerII::ExchangeDomain</scope><name>serialize</name></member>
+      <member refid="structoctotigerII_1_1ExchangeDomain_1ae8118cc2014dd8df9eebe349d29a63d5" prot="public" virt="non-virtual"><scope>octotigerII::ExchangeDomain</scope><name>upper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

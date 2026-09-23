@@ -1,3 +1,4 @@
+#include "googleTestMain.hpp"
 #include <algorithm>
 #include <bit>
 #include <chrono>
@@ -8,7 +9,6 @@
 #include <stdexcept>
 #include "octotigerII/gravity/fieldSolver.hpp"
 #include "octotigerII/runtime.hpp"
-#include "runtimeMain.hpp"
 #ifdef OCTOTIGERII_WITH_HPX
 #include <hpx/runtime_distributed/find_all_localities.hpp>
 #endif
@@ -17,9 +17,6 @@ using namespace octotigerII;
 
 namespace {
 
-void require(bool value, char const* message) {
-	if (!value) throw std::runtime_error(message);
-}
 
 std::size_t globalIndex(Subgrid const& block, mesh::Coordinates c, int cells, int n) {
 	for (int d = 0; d < ndim; ++d)
@@ -92,12 +89,12 @@ public:
 				auto a = fields.hydro.read(block.interior, 0).get();
 				auto b = fields.hydro.read(block.interior, 1).get();
 				for (std::size_t i = 0; i < block.interior.count; ++i)
-					a.at(i).forEach([&](auto f, auto q) { require(q == b.at(i).template get<f>(), "Gravity publication changed gas state"); });
+					a.at(i).forEach([&](auto f, auto q) { EXPECT_TRUE(q == b.at(i).template get<f>()) << "Gravity publication changed gas state"; });
 			} else {
 				auto a = fields.density.read(block.interior, 0).get();
 				auto b = fields.density.read(block.interior, 1).get();
 				for (std::size_t i = 0; i < block.interior.count; ++i)
-					require(a.data()[i] == b.data()[i], "Gravity publication changed density");
+					EXPECT_TRUE(a.data()[i] == b.data()[i]) << "Gravity publication changed density";
 			}
 		}
 	}
@@ -130,6 +127,8 @@ public:
 };
 
 void compare(std::vector<gravity::State> const& actual, std::vector<gravity::State> const& expected, Real tolerance) {
+	ASSERT_EQ(actual.size(), expected.size());
+	ASSERT_FALSE(expected.empty());
 	expected.front().forEach([&](auto f, auto q) {
 		using std::abs;
 		using std::isfinite;
@@ -140,7 +139,7 @@ void compare(std::vector<gravity::State> const& actual, std::vector<gravity::Sta
 		for (std::size_t i = 0; i < actual.size(); ++i) {
 			auto const a = units::value(actual[i].template get<f>());
 			auto const b = units::value(expected[i].template get<f>());
-			require(isfinite(a) && isfinite(b) && abs(a - b) <= tolerance * scale, "Partitioned FMM field mismatch");
+			EXPECT_TRUE(isfinite(a) && isfinite(b) && abs(a - b) <= tolerance * scale) << "Partitioned FMM field mismatch";
 		}
 	});
 }
@@ -149,13 +148,12 @@ std::vector<gravity::State> check(int cells, int level, int order, Real theta, i
 	Fixture fixture(cells, level, order, theta, workers, pattern);
 	auto const expected = gravity::solve(fixture.density, fixture.n, fixture.h, order, theta);
 	auto const work = fixture.solver->solve(0);
-	require(work.multipolePairs == expected.statistics.multipolePairs && work.directPairs == expected.statistics.directPairs,
-		"Partitioned FMM lost or duplicated interactions");
-	require(work.localityCells.size() == fixture.owners.size(), "Missing FMM locality reports");
-	require(std::accumulate(work.localityCells.begin(), work.localityCells.end(), std::uint64_t(0)) == fixture.density.size(), "Missing FMM leaf targets");
+	EXPECT_TRUE(work.multipolePairs == expected.statistics.multipolePairs && work.directPairs == expected.statistics.directPairs) << "Partitioned FMM lost or duplicated interactions";
+	EXPECT_TRUE(work.localityCells.size() == fixture.owners.size()) << "Missing FMM locality reports";
+	EXPECT_TRUE(std::accumulate(work.localityCells.begin(), work.localityCells.end(), std::uint64_t(0)) == fixture.density.size()) << "Missing FMM leaf targets";
 	if (fixture.density.size() >= fixture.owners.size())
 		for (auto count : work.localityCells)
-			require(count > 0, "A locality did not evaluate its leaves");
+			EXPECT_TRUE(count > 0) << "A locality did not evaluate its leaves";
 	auto const actual = fixture.read(1);
 	compare(actual, expected.fields, 3e-12);
 	fixture.checkCopiedState();
@@ -171,7 +169,7 @@ std::vector<gravity::State> check(int cells, int level, int order, Real theta, i
 	} catch (std::exception const&) {
 		failed = true;
 	}
-	require(failed, "Negative density was accepted");
+	EXPECT_TRUE(failed) << "Negative density was accepted";
 	compare(fixture.read(0), actual, 0);
 	fixture.firstDensity(fixture.density.front());
 	fixture.solver->solve(0);
@@ -207,16 +205,7 @@ int runChecks(int argc, char** argv) {
 			}
 			return 0;
 		}
-		auto const single = check(4, 1, 3, 0.5, 1, 0);
-		compare(check(4, 1, 3, 0.5, 4, 0), single, 0);
-		// Same physical cells, one field block, and potentially several localities.
-		compare(check(8, 0, 3, 0.5, 4, 0), single, 0);
-		check(4, 1, 1, 0.57, 4, 0);
-		check(4, 1, 10, 0.4, 4, 0);
-		check(4, 0, 3, 0.1, 4, 1);
-		check(4, 0, 3, 0.5, 4, 2);
-		check(4, 2, 3, 0.5, 4, 0);
-		std::cout << "Partitioned FMM checks passed\n";
+
 		return 0;
 	} catch (std::exception const& error) {
 		std::cerr << error.what() << '\n';
@@ -227,5 +216,27 @@ int runChecks(int argc, char** argv) {
 }	 // namespace
 
 int main(int argc, char** argv) {
-	return runtimeMain(argc, argv, runChecks);
+	if (argc > 1 && std::string(argv[1]) == "benchmark") return runtimeMain(argc, argv, runChecks);
+	return googleTestMain(argc, argv);
 }
+
+
+TEST(PartitionedGravity, WorkerAndBlockDecompositionAreBitwiseReproducible) {
+	auto const single = check(4, 1, 3, 0.5, 1, 0);
+	compare(check(4, 1, 3, 0.5, 4, 0), single, 0);
+	compare(check(8, 0, 3, 0.5, 4, 0), single, 0);
+}
+
+
+class PartitionedGravityCase : public ::testing::TestWithParam<std::tuple<int, int, Real, int>> {};
+
+
+TEST_P(PartitionedGravityCase, FieldsInteractionsPublicationAndFailureRecovery) {
+	auto const [level, order, theta, pattern] = GetParam();
+	(void) check(4, level, order, theta, 4, pattern);
+}
+
+
+INSTANTIATE_TEST_SUITE_P(Regimes, PartitionedGravityCase,
+	::testing::Values(std::tuple{1, 1, Real(0.57), 0}, std::tuple{1, 10, Real(0.4), 0},
+		std::tuple{0, 3, Real(0.1), 1}, std::tuple{0, 3, Real(0.5), 2}, std::tuple{2, 3, Real(0.5), 0}));

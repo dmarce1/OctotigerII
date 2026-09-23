@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="Vector_8hpp" kind="file" language="C++">
+    <compoundname>Vector.hpp</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">array</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">initializer_list</includes>
+    <includes local="no">ostream</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">utility</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/octotigerII/math/Vector.hpp</label>
+        <link refid="Vector_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>array</label>
+      </node>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>initializer_list</label>
+      </node>
+      <node id="6">
+        <label>ostream</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>type_traits</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classVector" prot="public">Vector</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="Vector_8hpp_1a6a8b9eda516148bcaefc0c06c6c9fcc4" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>int</type>
+            <declname>N</declname>
+            <defname>N</defname>
+          </param>
+          <param>
+            <type>int</type>
+            <declname>M</declname>
+            <defname>M</defname>
+          </param>
+        </templateparamlist>
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref>&lt; T, N+M &gt;</type>
+        <definition>constexpr Vector&lt; T, N+M &gt; concatenate</definition>
+        <argsstring>(Vector&lt; T, N &gt; const &amp;A, Vector&lt; T, M &gt; const &amp;B)</argsstring>
+        <name>concatenate</name>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref>&lt; T, N &gt; const &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref>&lt; T, M &gt; const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="225" column="18" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="225" bodyend="234"/>
+        <referencedby refid="Vector_8hpp_1a3a753051c43ef9d515945b9eaa1cf4d3" compoundref="Vector_8hpp" startline="237" endline="239">concatenate</referencedby>
+        <referencedby refid="Vector_8hpp_1a59bfcac8172e830f12aaa341b018349a" compoundref="Vector_8hpp" startline="242" endline="244">concatenate</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="Vector_8hpp_1a3a753051c43ef9d515945b9eaa1cf4d3" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>int</type>
+            <declname>N</declname>
+            <defname>N</defname>
+          </param>
+        </templateparamlist>
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref>&lt; T, N+1 &gt;</type>
+        <definition>constexpr Vector&lt; T, N+1 &gt; concatenate</definition>
+        <argsstring>(T const &amp;A, Vector&lt; T, N &gt; const &amp;B)</argsstring>
+        <name>concatenate</name>
+        <param>
+          <type>T const &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref>&lt; T, N &gt; const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="237" column="18" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="237" bodyend="239"/>
+        <references refid="Vector_8hpp_1a6a8b9eda516148bcaefc0c06c6c9fcc4" compoundref="Vector_8hpp" startline="225" endline="234">concatenate</references>
+      </memberdef>
+      <memberdef kind="function" id="Vector_8hpp_1a59bfcac8172e830f12aaa341b018349a" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>int</type>
+            <declname>N</declname>
+            <defname>N</defname>
+          </param>
+        </templateparamlist>
+        <type>constexpr <ref refid="classVector" kindref="compound">Vector</ref>&lt; T, N+1 &gt;</type>
+        <definition>constexpr Vector&lt; T, N+1 &gt; concatenate</definition>
+        <argsstring>(Vector&lt; T, N &gt; const &amp;A, T const &amp;B)</argsstring>
+        <name>concatenate</name>
+        <param>
+          <type><ref refid="classVector" kindref="compound">Vector</ref>&lt; T, N &gt; const &amp;</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>T const &amp;</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/math/Vector.hpp" line="242" column="18" bodyfile="include/octotigerII/math/Vector.hpp" bodystart="242" bodyend="244"/>
+        <references refid="Vector_8hpp_1a6a8b9eda516148bcaefc0c06c6c9fcc4" compoundref="Vector_8hpp" startline="225" endline="234">concatenate</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixed-size vector arithmetic with argument-dependent math lookup. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/math/Vector.hpp"/>
+  </compounddef>
+</doxygen>

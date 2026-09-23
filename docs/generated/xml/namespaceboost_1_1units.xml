@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceboost_1_1units" kind="namespace" language="C++">
+    <compoundname>boost::units</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceboost_1_1units_1a88964de433f9200830b44bcc4f7ff6ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+          <param>
+            <type>typename Unit</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void boost::units::serialize</definition>
+        <argsstring>(Archive &amp;archive, quantity&lt; Unit, double &gt; &amp;q, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>boost::units::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>quantity&lt; Unit, double &gt; &amp;</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="93" column="6" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="93" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/units/cgs.hpp" line="90" column="1"/>
+  </compounddef>
+</doxygen>

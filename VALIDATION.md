@@ -137,9 +137,11 @@ this revision did not repeat a clean HPX dependency bootstrap.
 
 ## What the current checks establish
 
-CTest launches the existing assertion-based regression programs and the Python
-application check. Google Test conversion is **deferred**, as is the interactive
-builder; see [ROADMAP.md](ROADMAP.md).
+The regression programs below have now been migrated to individually named
+GoogleTest cases, alongside new unit and integration coverage. The Python
+application check is retained. See [testing](docs/testing.md) for current commands
+and [the GoogleTest validation report](docs/testing-validation.md) for this
+revision's results. The interactive builder remains deferred.
 
 - Coordinates contain exactly `ndim` elements; hydro and radiation states occupy
   `ndim+2` and `ndim+1` scalar quantities respectively. There are no inactive axes.
@@ -197,9 +199,9 @@ ctest --test-dir ~/workspace/OctotigerII/release/streaming/1d --output-on-failur
 python3 ~/workspace/OctotigerII/tests/distributed.py \
   ~/workspace/OctotigerII/release/streaming/1d/tests/storageChecks
 python3 ~/workspace/OctotigerII/tests/distributed.py \
-  ~/workspace/OctotigerII/release/streaming/1d/tests/numericalChecks transport
+  ~/workspace/OctotigerII/release/streaming/1d/tests/numericalChecks --gtest_filter='Transport.*'
 OCTOTIGERII_TEST_LOCALITIES=3 python3 ~/workspace/OctotigerII/tests/distributed.py \
-  ~/workspace/OctotigerII/release/streaming/1d/tests/numericalChecks transport
+  ~/workspace/OctotigerII/release/streaming/1d/tests/numericalChecks --gtest_filter='Transport.*'
 ```
 
 The Doxygen manual generates with 1.9.8 and warnings treated as errors. All 12

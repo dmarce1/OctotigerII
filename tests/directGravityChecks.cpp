@@ -1,3 +1,4 @@
+#include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -5,25 +6,20 @@
 #include <stdexcept>
 #include "octotigerII/runtime.hpp"
 #include "octotigerII/verification/directGravity.hpp"
-#include "runtimeMain.hpp"
 
 using namespace octotigerII;
 
 
 namespace {
 
-void require(bool value, char const* message) {
-	if (!value) throw std::runtime_error(message);
-}
 
 void sampling() {
 	auto const a = verification::directTargets(1000, 23, 5489);
-	require(a == verification::directTargets(1000, 23, 5489), "Repeated seed must reproduce targets");
-	require(a != verification::directTargets(1000, 23, 5490), "Different seeds must change targets");
-	require(a.size() == 23 && std::is_sorted(a.begin(), a.end()) && std::adjacent_find(a.begin(), a.end()) == a.end() && a.back() < 1000,
-		"Target sample must be sorted, distinct and in bounds");
-	require(verification::directTargets(4, 99, 0) == std::vector<std::size_t>({0, 1, 2, 3}), "Full target census");
-	require(verification::directTargets(0, 0, 0).empty(), "Empty population");
+	EXPECT_TRUE(a == verification::directTargets(1000, 23, 5489)) << "Repeated seed must reproduce targets";
+	EXPECT_TRUE(a != verification::directTargets(1000, 23, 5490)) << "Different seeds must change targets";
+	EXPECT_TRUE(a.size() == 23 && std::is_sorted(a.begin(), a.end()) && std::adjacent_find(a.begin(), a.end()) == a.end() && a.back() < 1000) << "Target sample must be sorted, distinct and in bounds";
+	EXPECT_TRUE(verification::directTargets(4, 99, 0) == std::vector<std::size_t>({0, 1, 2, 3})) << "Full target census";
+	EXPECT_TRUE(verification::directTargets(0, 0, 0).empty()) << "Empty population";
 }
 
 void uncertainty() {
@@ -32,18 +28,18 @@ void uncertainty() {
 
 	verification::Field field{"test", "1", {1, 1, 1, 2}, {1, 1, 1, 1}};
 	auto f = verification::directErrorNorm(field, 100);
-	require(f.samplingWarning && f.samplingUncertaintyAvailable, "Uncertain sparse errors must warn");
-	require(abs(f.relativeL1HalfWidth95 - 1.96 * sqrt(0.96 * 0.25 / 4)) < 1e-14, "L1 ratio uncertainty with finite-population correction");
+	EXPECT_TRUE(f.samplingWarning && f.samplingUncertaintyAvailable) << "Uncertain sparse errors must warn";
+	EXPECT_TRUE(abs(f.relativeL1HalfWidth95 - 1.96 * sqrt(0.96 * 0.25 / 4)) < 1e-14) << "L1 ratio uncertainty with finite-population correction";
 	f = verification::directErrorNorm(field, 4);
-	require(!f.samplingWarning && f.relativeL1HalfWidth95 == 0 && f.relativeL2HalfWidth95 == 0, "Census has no sampling uncertainty");
+	EXPECT_TRUE(!f.samplingWarning && f.relativeL1HalfWidth95 == 0 && f.relativeL2HalfWidth95 == 0) << "Census has no sampling uncertainty";
 	field.numerical = {1.1, 2.2, 3.3, 4.4};
 	field.exact = {1, 2, 3, 4};
 	f = verification::directErrorNorm(field, 100);
-	require(!f.samplingWarning && f.relativeL1HalfWidth95 < 1e-14 && f.relativeL2HalfWidth95 < 1e-14, "Ratio covariance must cancel proportional error");
+	EXPECT_TRUE(!f.samplingWarning && f.relativeL1HalfWidth95 < 1e-14 && f.relativeL2HalfWidth95 < 1e-14) << "Ratio covariance must cancel proportional error";
 	field.numerical = {2};
 	field.exact = {1};
 	f = verification::directErrorNorm(field, 100);
-	require(f.samplingWarning && !f.samplingUncertaintyAvailable, "One target cannot estimate sample variance");
+	EXPECT_TRUE(f.samplingWarning && !f.samplingUncertaintyAvailable) << "One target cannot estimate sample variance";
 }
 
 void directReference() {
@@ -71,19 +67,19 @@ void directReference() {
 		}
 	});
 	auto full = verification::compare({patch}, c);
-	require(full.cells == 64 && full.totalCells == 64 && full.sourceCells == 1 && full.referenceKind == "direct", "Default full discrete reference");
+	EXPECT_TRUE(full.cells == 64 && full.totalCells == 64 && full.sourceCells == 1 && full.referenceKind == "direct") << "Default full discrete reference";
 	for (auto const& f : full.fields)
-		require(f.linf / f.referenceLinf < 1e-14, "Independent single mass solution and self exclusion");
+		EXPECT_TRUE(f.linf / f.referenceLinf < 1e-14) << "Independent single mass solution and self exclusion";
 	c.verification.directSamples = 7;
 	c.verification.directMaxPairs = 1;
 	auto sampled = verification::compare({patch}, c);
-	require(sampled.cells == 7, "Explicit sample count overrides automatic pair budget");
+	EXPECT_TRUE(sampled.cells == 7) << "Explicit sample count overrides automatic pair budget";
 	c.verification.directSamples = 1000;
-	require(verification::compare({patch}, c).cells == 64, "Explicit count clamps to population");
+	EXPECT_TRUE(verification::compare({patch}, c).cells == 64) << "Explicit count clamps to population";
 	c.verification.directSamples = 0;
-	require(verification::compare({patch}, c).cells == 1, "Automatic pair budget must sample");
+	EXPECT_TRUE(verification::compare({patch}, c).cells == 1) << "Automatic pair budget must sample";
 	c.verification.analytic = "off";
-	require(verification::compare({patch}, c).status == "disabled", "Disabled policy");
+	EXPECT_TRUE(verification::compare({patch}, c).status == "disabled") << "Disabled policy";
 	c.verification.analytic = "on";
 	c.verification.directSamples = 7;
 	patch.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) {
@@ -94,9 +90,9 @@ void directReference() {
 		patch.gravity.values()[i] = {};
 	});
 	auto const vacuum = verification::compare({patch}, c);
-	require(vacuum.sourceCells == 0, "Vacuum skips all sources");
+	EXPECT_TRUE(vacuum.sourceCells == 0) << "Vacuum skips all sources";
 	for (auto const& f : vacuum.fields)
-		require(f.linf == 0 && f.referenceL1 == 0 && f.samplingWarning, "Zero-reference sample uncertainty is unavailable");
+		EXPECT_TRUE(f.linf == 0 && f.referenceL1 == 0 && f.samplingWarning) << "Zero-reference sample uncertainty is unavailable";
 	// Sample selection and accumulation must not depend on snapshot order.
 	c.mesh.level = 1;
 	Runtime runtime(c);
@@ -107,24 +103,22 @@ void directReference() {
 	std::ostringstream ja, jb;
 	a.writeJson(ja);
 	b.writeJson(jb);
-	require(ja.str() == jb.str(), "Block order must not change direct reference or sampling");
+	EXPECT_TRUE(ja.str() == jb.str()) << "Block order must not change direct reference or sampling";
 }
 
 }	 // namespace
 
 
-int testMain(int, char**) {
-	try {
-		sampling();
-		uncertainty();
-		directReference();
-		return 0;
-	} catch (std::exception const& error) {
-		std::cerr << error.what() << '\n';
-		return 1;
-	}
+TEST(DirectReference, ReproducibleDistinctSampling) {
+	sampling();
 }
 
-int main(int argc, char** argv) {
-	return runtimeMain(argc, argv, testMain);
+
+TEST(DirectReference, SamplingUncertaintyAndCensusLimits) {
+	uncertainty();
+}
+
+
+TEST(DirectReference, SingleMassSelfExclusionSamplingPolicyAndBlockOrder) {
+	directReference();
 }

@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</compoundname>
+    <includes refid="columns_8hpp" local="no">columns.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename...</type>
+        <declname>Q</declname>
+        <defname>Q</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a23cfc5e1bc19eb0d58299dbb84524ca2" prot="public" static="no">
+        <type><ref refid="classoctotigerII_1_1units_1_1State" kindref="compound">units::State</ref>&lt; Q... &gt;</type>
+        <definition>using octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::State =  units::State&lt;Q...&gt;</definition>
+        <argsstring></argsstring>
+        <name>State</name>
+        <qualifiedname>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::State</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="63" column="5" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1abc7f3bd77d7fbfead39a7e94cce46cfc" prot="public" static="no" mutable="no">
+        <type>std::tuple&lt; <ref refid="classoctotigerII_1_1storage_1_1FieldHandle" kindref="compound">FieldHandle</ref>&lt; Q &gt;... &gt;</type>
+        <definition>std::tuple&lt;FieldHandle&lt;Q&gt;...&gt; octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="64" column="16" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a95d642cdc1b2c2a17ece978922ade4ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1PendingColumns" kindref="compound">PendingColumns</ref>&lt; <ref refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a23cfc5e1bc19eb0d58299dbb84524ca2" kindref="member">State</ref> &gt;</type>
+        <definition>PendingColumns&lt; State &gt; octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::read</definition>
+        <argsstring>(Range range, unsigned bank) const</argsstring>
+        <name>read</name>
+        <qualifiedname>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::read</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref></type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="66" column="20" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="66" bodyend="68"/>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1af4c220e87e5ed68155607a7f51bf8288" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Columns" kindref="compound">Columns</ref>&lt; <ref refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a23cfc5e1bc19eb0d58299dbb84524ca2" kindref="member">State</ref> &gt;</type>
+        <definition>Columns&lt; State &gt; octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::output</definition>
+        <argsstring>(Range range, unsigned bank) const</argsstring>
+        <name>output</name>
+        <qualifiedname>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::output</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref></type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <briefdescription>
+<para>Acquire a direct local output view or allocate a temporary remote result buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="71" column="13" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="71" bodyend="73"/>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a5cf179b762d1e2984e485e4a0495c1ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::commit</definition>
+        <argsstring>(Range range, unsigned bank, Columns&lt; State &gt; const &amp;columns) const</argsstring>
+        <name>commit</name>
+        <qualifiedname>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::commit</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref></type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Columns" kindref="compound">Columns</ref>&lt; <ref refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a23cfc5e1bc19eb0d58299dbb84524ca2" kindref="member">State</ref> &gt; const &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <briefdescription>
+<para>Finish writing the selected output range before returning to the stage scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="76" column="10" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="76" bodyend="78"/>
+        <references refid="classoctotigerII_1_1units_1_1State_1a05a34d467acff718eba16ead7f25cc6f" compoundref="state_8hpp" startline="95" endline="97">octotigerII::units::State&lt; Q &gt;::forEach</references>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a97c4bae980c344876e5eaca3e100a4d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/columns.hpp" line="82" column="10" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="82" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/columns.hpp" line="61" column="1" bodyfile="include/octotigerII/storage/columns.hpp" bodystart="61" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a5cf179b762d1e2984e485e4a0495c1ee" prot="public" virt="non-virtual"><scope>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</scope><name>commit</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1abc7f3bd77d7fbfead39a7e94cce46cfc" prot="public" virt="non-virtual"><scope>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</scope><name>fields</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1af4c220e87e5ed68155607a7f51bf8288" prot="public" virt="non-virtual"><scope>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</scope><name>output</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a95d642cdc1b2c2a17ece978922ade4ca" prot="public" virt="non-virtual"><scope>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</scope><name>read</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a97c4bae980c344876e5eaca3e100a4d2" prot="public" virt="non-virtual"><scope>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a23cfc5e1bc19eb0d58299dbb84524ca2" prot="public" virt="non-virtual"><scope>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</scope><name>State</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

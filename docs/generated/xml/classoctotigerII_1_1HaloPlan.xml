@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1HaloPlan" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::HaloPlan</compoundname>
+    <includes refid="topology_8hpp" local="no">topology.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1HaloPlan_1a35601b21d3135a3fffcde7edff3b77ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1HaloRead" kindref="compound">HaloRead</ref> &gt;</type>
+        <definition>std::vector&lt;HaloRead&gt; octotigerII::HaloPlan::reads</definition>
+        <argsstring></argsstring>
+        <name>reads</name>
+        <qualifiedname>octotigerII::HaloPlan::reads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="81" column="13" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="81" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="namespaceoctotigerII_1a6b6a606567354b683caa7784f44abd73" compoundref="view_8hpp" startline="67" endline="85">octotigerII::readHalo</referencedby>
+        <referencedby refid="classoctotigerII_1_1HaloPlan_1ab80e8dd8d4bd582b5ab1aa5df18f2917" compoundref="topology_8hpp" startline="88" endline="90">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1HaloPlan_1a2a21fc7d0231f03884f1b0e402652b99" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; octotigerII::HaloPlan::ghostIndices</definition>
+        <argsstring></argsstring>
+        <name>ghostIndices</name>
+        <qualifiedname>octotigerII::HaloPlan::ghostIndices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="83" column="13" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="83" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" compoundref="view_8hpp" startline="49" endline="52">octotigerII::PatchView&lt; State &gt;::atStorage</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1HaloPlan_1ab80e8dd8d4bd582b5ab1aa5df18f2917" compoundref="topology_8hpp" startline="88" endline="90">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1HaloPlan_1aa26f8ecb46cd5ac17082b4fd1167e6f3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::HaloPlan::ghostCount</definition>
+        <argsstring></argsstring>
+        <name>ghostCount</name>
+        <qualifiedname>octotigerII::HaloPlan::ghostCount</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="84" column="13" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="84" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="namespaceoctotigerII_1a6b6a606567354b683caa7784f44abd73" compoundref="view_8hpp" startline="67" endline="85">octotigerII::readHalo</referencedby>
+        <referencedby refid="classoctotigerII_1_1HaloPlan_1ab80e8dd8d4bd582b5ab1aa5df18f2917" compoundref="topology_8hpp" startline="88" endline="90">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1HaloPlan_1ab80e8dd8d4bd582b5ab1aa5df18f2917" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::HaloPlan::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::HaloPlan::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/topology.hpp" line="88" column="6" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="88" bodyend="90"/>
+        <references refid="classoctotigerII_1_1HaloPlan_1aa26f8ecb46cd5ac17082b4fd1167e6f3" compoundref="topology_8hpp" startline="84">ghostCount</references>
+        <references refid="classoctotigerII_1_1HaloPlan_1a2a21fc7d0231f03884f1b0e402652b99" compoundref="topology_8hpp" startline="83">ghostIndices</references>
+        <references refid="classoctotigerII_1_1HaloPlan_1a35601b21d3135a3fffcde7edff3b77ca" compoundref="topology_8hpp" startline="81">reads</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reusable geometry plan for a block&apos;s halo. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>ghostIndices maps padded indices to compact halo slots; interior indices use a sentinel. The plan contains no stage values and may be reused between updates. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/subgrid/topology.hpp" line="78" column="1" bodyfile="include/octotigerII/subgrid/topology.hpp" bodystart="78" bodyend="91"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1HaloPlan_1aa26f8ecb46cd5ac17082b4fd1167e6f3" prot="public" virt="non-virtual"><scope>octotigerII::HaloPlan</scope><name>ghostCount</name></member>
+      <member refid="classoctotigerII_1_1HaloPlan_1a2a21fc7d0231f03884f1b0e402652b99" prot="public" virt="non-virtual"><scope>octotigerII::HaloPlan</scope><name>ghostIndices</name></member>
+      <member refid="classoctotigerII_1_1HaloPlan_1a35601b21d3135a3fffcde7edff3b77ca" prot="public" virt="non-virtual"><scope>octotigerII::HaloPlan</scope><name>reads</name></member>
+      <member refid="classoctotigerII_1_1HaloPlan_1ab80e8dd8d4bd582b5ab1aa5df18f2917" prot="public" virt="non-virtual"><scope>octotigerII::HaloPlan</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

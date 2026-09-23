@@ -1,0 +1,735 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1LocalExecutor" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::LocalExecutor</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">hpx::components::component_base&lt; LocalExecutor &gt;</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref></type>
+        <definition>Config octotigerII::LocalExecutor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>octotigerII::LocalExecutor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="267" column="8" bodyfile="src/runtime.cpp" bodystart="267" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" compoundref="runtime_8cpp" startline="153" endline="169">LocalExecutor</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1ad7a88b96838d2479b197e2520420ebba" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> &gt;</type>
+        <definition>std::vector&lt;Subgrid&gt; octotigerII::LocalExecutor::blocks_</definition>
+        <argsstring></argsstring>
+        <name>blocks_</name>
+        <qualifiedname>octotigerII::LocalExecutor::blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="268" column="13" bodyfile="src/runtime.cpp" bodystart="268" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" compoundref="runtime_8cpp" startline="153" endline="169">LocalExecutor</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1a03f5eba33df7f5303cfd05c6202e3baf" prot="private" static="no" mutable="no">
+        <type><ref refid="classoctotigerII_1_1FieldDirectory" kindref="compound">FieldDirectory</ref></type>
+        <definition>FieldDirectory octotigerII::LocalExecutor::fields_</definition>
+        <argsstring></argsstring>
+        <name>fields_</name>
+        <qualifiedname>octotigerII::LocalExecutor::fields_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="269" column="16" bodyfile="src/runtime.cpp" bodystart="269" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1a72adb576bfe84ad46c87f77866d46782" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::LocalExecutor::owner_</definition>
+        <argsstring></argsstring>
+        <name>owner_</name>
+        <qualifiedname>octotigerII::LocalExecutor::owner_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="270" column="13" bodyfile="src/runtime.cpp" bodystart="270" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" compoundref="runtime_8cpp" startline="153" endline="169">LocalExecutor</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1ad18095c721895efb2ac74ff470125648" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::uint64_t &gt;</type>
+        <definition>std::vector&lt;std::uint64_t&gt; octotigerII::LocalExecutor::owned_</definition>
+        <argsstring></argsstring>
+        <name>owned_</name>
+        <qualifiedname>octotigerII::LocalExecutor::owned_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="271" column="13" bodyfile="src/runtime.cpp" bodystart="271" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ab730f0bc913596e2deddfad92e87c2d4" compoundref="runtime_8cpp" startline="196" endline="201">claim</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">initialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" compoundref="runtime_8cpp" startline="153" endline="169">LocalExecutor</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">snapshots</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1a559f6566bdee4870ffdfd5fbe805a64d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::uint64_t, <ref refid="classoctotigerII_1_1HaloPlan" kindref="compound">HaloPlan</ref> &gt;</type>
+        <definition>std::map&lt;std::uint64_t, HaloPlan&gt; octotigerII::LocalExecutor::plans_</definition>
+        <argsstring></argsstring>
+        <name>plans_</name>
+        <qualifiedname>octotigerII::LocalExecutor::plans_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="272" column="10" bodyfile="src/runtime.cpp" bodystart="272" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" compoundref="runtime_8cpp" startline="153" endline="169">LocalExecutor</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1a64d653d31d8c11dc96c9115376d2f330" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Workspace &gt;</type>
+        <definition>std::vector&lt;Workspace&gt; octotigerII::LocalExecutor::workspaces_</definition>
+        <argsstring></argsstring>
+        <name>workspaces_</name>
+        <qualifiedname>octotigerII::LocalExecutor::workspaces_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="273" column="13" bodyfile="src/runtime.cpp" bodystart="273" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" compoundref="runtime_8cpp" startline="153" endline="169">LocalExecutor</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a77d2ffb5153d3956956cca1829fef6a9" compoundref="runtime_8cpp" startline="203" endline="220">run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1afa16934fa4608c1414b32508b75a1701" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex octotigerII::LocalExecutor::queueMutex_</definition>
+        <argsstring></argsstring>
+        <name>queueMutex_</name>
+        <qualifiedname>octotigerII::LocalExecutor::queueMutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="274" column="12" bodyfile="src/runtime.cpp" bodystart="274" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a6fb2070ef1bb1159c82bdcbf135d7ce8" compoundref="runtime_8cpp" startline="188" endline="194">begin</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ab730f0bc913596e2deddfad92e87c2d4" compoundref="runtime_8cpp" startline="196" endline="201">claim</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1ab75c8ab776d4cfbc6d468f2b2d56bbee" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::LocalExecutor::next_</definition>
+        <argsstring></argsstring>
+        <name>next_</name>
+        <qualifiedname>octotigerII::LocalExecutor::next_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="275" column="13" bodyfile="src/runtime.cpp" bodystart="275" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a6fb2070ef1bb1159c82bdcbf135d7ce8" compoundref="runtime_8cpp" startline="188" endline="194">begin</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ab730f0bc913596e2deddfad92e87c2d4" compoundref="runtime_8cpp" startline="196" endline="201">claim</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1ac48a2c4c91bdac39620e7d708f62fd9d" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::LocalExecutor::generation_</definition>
+        <argsstring></argsstring>
+        <name>generation_</name>
+        <qualifiedname>octotigerII::LocalExecutor::generation_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="276" column="15" bodyfile="src/runtime.cpp" bodystart="276" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a6fb2070ef1bb1159c82bdcbf135d7ce8" compoundref="runtime_8cpp" startline="188" endline="194">begin</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ab730f0bc913596e2deddfad92e87c2d4" compoundref="runtime_8cpp" startline="196" endline="201">claim</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a77d2ffb5153d3956956cca1829fef6a9" compoundref="runtime_8cpp" startline="203" endline="220">run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1a89754519a373d483a5280793bfd46518" prot="private" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned octotigerII::LocalExecutor::bank_</definition>
+        <argsstring></argsstring>
+        <name>bank_</name>
+        <qualifiedname>octotigerII::LocalExecutor::bank_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="277" column="10" bodyfile="src/runtime.cpp" bodystart="277" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a6fb2070ef1bb1159c82bdcbf135d7ce8" compoundref="runtime_8cpp" startline="188" endline="194">begin</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1LocalExecutor_1a9cb366e46e89385ab8415992373ad4a2" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::LocalExecutor::time_</definition>
+        <argsstring></argsstring>
+        <name>time_</name>
+        <qualifiedname>octotigerII::LocalExecutor::time_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="278" column="13" bodyfile="src/runtime.cpp" bodystart="278" bodyend="278"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a6fb2070ef1bb1159c82bdcbf135d7ce8" compoundref="runtime_8cpp" startline="188" endline="194">begin</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1aab7d5c458ed4d0517fd12e9210131c0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::LocalExecutor::LocalExecutor</definition>
+        <argsstring>()=default</argsstring>
+        <name>LocalExecutor</name>
+        <qualifiedname>octotigerII::LocalExecutor::LocalExecutor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="151" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::LocalExecutor::LocalExecutor</definition>
+        <argsstring>(Config config, std::vector&lt; Subgrid &gt; blocks, FieldDirectory fields, std::size_t owner)</argsstring>
+        <name>LocalExecutor</name>
+        <qualifiedname>octotigerII::LocalExecutor::LocalExecutor</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> &gt;</type>
+          <declname>blocks</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1FieldDirectory" kindref="compound">FieldDirectory</ref></type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>owner</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="153" column="1" bodyfile="src/runtime.cpp" bodystart="153" bodyend="169"/>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ad7a88b96838d2479b197e2520420ebba" compoundref="runtime_8cpp" startline="268">blocks_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" compoundref="runtime_8cpp" startline="267">config_</references>
+        <references refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ad18095c721895efb2ac74ff470125648" compoundref="runtime_8cpp" startline="271">owned_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a72adb576bfe84ad46c87f77866d46782" compoundref="runtime_8cpp" startline="270">owner_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a559f6566bdee4870ffdfd5fbe805a64d" compoundref="runtime_8cpp" startline="272">plans_</references>
+        <references refid="classoctotigerII_1_1Config_1a2b28688d0bf080ffe689b5ba7fee3dd5">octotigerII::Config::runtime</references>
+        <references refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1abfb9409ec3df8abd0d16791d6113d822" compoundref="config_8hpp" startline="38">octotigerII::Config::RuntimeOptions::workerTasks</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a64d653d31d8c11dc96c9115376d2f330" compoundref="runtime_8cpp" startline="273">workspaces_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::LocalExecutor::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>octotigerII::LocalExecutor::initialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="171" column="6" bodyfile="src/runtime.cpp" bodystart="171" bodyend="186"/>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ad7a88b96838d2479b197e2520420ebba" compoundref="runtime_8cpp" startline="268">blocks_</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" compoundref="field_8hpp" startline="124" endline="138">octotigerII::storage::FieldHandle&lt; T &gt;::commit</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" compoundref="runtime_8cpp" startline="267">config_</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a99efb5d9705ef24658c1f0a9b3ebdab3" compoundref="registry_8hpp" startline="21">octotigerII::FieldDirectory::density</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a03f5eba33df7f5303cfd05c6202e3baf" compoundref="runtime_8cpp" startline="269">fields_</references>
+        <references refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" compoundref="buildConfig_8hpp_8in" startline="19">octotigerII::build::gravity</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" compoundref="registry_8hpp" startline="20">octotigerII::FieldDirectory::gravity</references>
+        <references refid="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" compoundref="buildConfig_8hpp_8in" startline="17">octotigerII::build::hydro</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" compoundref="registry_8hpp" startline="18">octotigerII::FieldDirectory::hydro</references>
+        <references refid="classoctotigerII_1_1Config_1aacfb1858f256c77a3761803dcebe132d" compoundref="config_8hpp" startline="122" endline="124">octotigerII::Config::hydroEnabled</references>
+        <references refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">octotigerII::initialSnapshot</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1adcec85df2d74ba2264f9af5c03389ac7" compoundref="field_8hpp" startline="118" endline="121">octotigerII::storage::FieldHandle&lt; T &gt;::output</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ad18095c721895efb2ac74ff470125648" compoundref="runtime_8cpp" startline="271">owned_</references>
+        <references refid="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" compoundref="buildConfig_8hpp_8in" startline="18">octotigerII::build::radiation</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1aa7e260a93eb2f043b70c9fe578d15d1c" compoundref="registry_8hpp" startline="19">octotigerII::FieldDirectory::radiation</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1a6fb2070ef1bb1159c82bdcbf135d7ce8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::LocalExecutor::begin</definition>
+        <argsstring>(std::uint64_t generation, unsigned bank, units::Time time)</argsstring>
+        <name>begin</name>
+        <qualifiedname>octotigerII::LocalExecutor::begin</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>generation</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="188" column="6" bodyfile="src/runtime.cpp" bodystart="188" bodyend="194"/>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a89754519a373d483a5280793bfd46518" compoundref="runtime_8cpp" startline="277">bank_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ac48a2c4c91bdac39620e7d708f62fd9d" compoundref="runtime_8cpp" startline="276">generation_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ab75c8ab776d4cfbc6d468f2b2d56bbee" compoundref="runtime_8cpp" startline="275">next_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1afa16934fa4608c1414b32508b75a1701" compoundref="runtime_8cpp" startline="274">queueMutex_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a9cb366e46e89385ab8415992373ad4a2" compoundref="runtime_8cpp" startline="278" endline="278">time_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1ab730f0bc913596e2deddfad92e87c2d4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::uint64_t &gt;</type>
+        <definition>std::vector&lt; std::uint64_t &gt; octotigerII::LocalExecutor::claim</definition>
+        <argsstring>(std::uint64_t generation)</argsstring>
+        <name>claim</name>
+        <qualifiedname>octotigerII::LocalExecutor::claim</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>generation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="196" column="13" bodyfile="src/runtime.cpp" bodystart="196" bodyend="201"/>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ac48a2c4c91bdac39620e7d708f62fd9d" compoundref="runtime_8cpp" startline="276">generation_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ab75c8ab776d4cfbc6d468f2b2d56bbee" compoundref="runtime_8cpp" startline="275">next_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ad18095c721895efb2ac74ff470125648" compoundref="runtime_8cpp" startline="271">owned_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1afa16934fa4608c1414b32508b75a1701" compoundref="runtime_8cpp" startline="274">queueMutex_</references>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1a77d2ffb5153d3956956cca1829fef6a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>PhaseResult</type>
+        <definition>PhaseResult octotigerII::LocalExecutor::run</definition>
+        <argsstring>(Operation operation, units::Time dt, std::uint64_t generation, std::vector&lt; storage::Locality &gt; const &amp;executors)</argsstring>
+        <name>run</name>
+        <qualifiedname>octotigerII::LocalExecutor::run</qualifiedname>
+        <param>
+          <type>Operation</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>dt</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>generation</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">storage::Locality</ref> &gt; const &amp;</type>
+          <declname>executors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="203" column="13" bodyfile="src/runtime.cpp" bodystart="203" bodyend="220"/>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ac48a2c4c91bdac39620e7d708f62fd9d" compoundref="runtime_8cpp" startline="276">generation_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a64d653d31d8c11dc96c9115376d2f330" compoundref="runtime_8cpp" startline="273">workspaces_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &gt;</type>
+        <definition>std::vector&lt; Snapshot &gt; octotigerII::LocalExecutor::snapshots</definition>
+        <argsstring>(unsigned bank, mesh::TimeState time) const</argsstring>
+        <name>snapshots</name>
+        <qualifiedname>octotigerII::LocalExecutor::snapshots</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1TimeState" kindref="compound">mesh::TimeState</ref></type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="222" column="13" bodyfile="src/runtime.cpp" bodystart="222" bodyend="255"/>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ad7a88b96838d2479b197e2520420ebba" compoundref="runtime_8cpp" startline="268">blocks_</references>
+        <references refid="classoctotigerII_1_1Snapshot_1acc0009efba1f7723faaf9a3267fadb1a" compoundref="subgrid_8hpp" startline="28">octotigerII::Snapshot::cellWidth</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" compoundref="runtime_8cpp" startline="267">config_</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a99efb5d9705ef24658c1f0a9b3ebdab3" compoundref="registry_8hpp" startline="21">octotigerII::FieldDirectory::density</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a898cba6e3e7d46c9165b7a2c3764cf9d" compoundref="subgrid_8hpp" startline="35">octotigerII::Snapshot::density</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a03f5eba33df7f5303cfd05c6202e3baf" compoundref="runtime_8cpp" startline="269">fields_</references>
+        <references refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" compoundref="buildConfig_8hpp_8in" startline="19">octotigerII::build::gravity</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" compoundref="registry_8hpp" startline="20">octotigerII::FieldDirectory::gravity</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae4ee69893cc739158ec25ac0bc07fc30" compoundref="subgrid_8hpp" startline="33">octotigerII::Snapshot::gravity</references>
+        <references refid="classoctotigerII_1_1Config_1a4eafbd232745271498cd9d771eac1f74" compoundref="config_8hpp" startline="130" endline="132">octotigerII::Config::gravityEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1aebb654624db4d4b90ef7df5339d4f2ea" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::gravityEnabled</references>
+        <references refid="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" compoundref="buildConfig_8hpp_8in" startline="17">octotigerII::build::hydro</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" compoundref="registry_8hpp" startline="18">octotigerII::FieldDirectory::hydro</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a297b51fa084fe51816181e1e09a1219e" compoundref="subgrid_8hpp" startline="31">octotigerII::Snapshot::hydro</references>
+        <references refid="classoctotigerII_1_1Config_1aacfb1858f256c77a3761803dcebe132d" compoundref="config_8hpp" startline="122" endline="124">octotigerII::Config::hydroEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae678641a91816426ebace0c5b832a61b" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::hydroEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae7afcfe262a676095526b633c918ca81" compoundref="subgrid_8hpp" startline="26">octotigerII::Snapshot::layout</references>
+        <references refid="classoctotigerII_1_1Snapshot_1af67d64db71174c845073c16c215d1a47" compoundref="subgrid_8hpp" startline="25">octotigerII::Snapshot::location</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a571359395d5fc10fbb565c2e84f9ea46" compoundref="subgrid_8hpp" startline="27" endline="27">octotigerII::Snapshot::lower</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ad18095c721895efb2ac74ff470125648" compoundref="runtime_8cpp" startline="271">owned_</references>
+        <references refid="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" compoundref="buildConfig_8hpp_8in" startline="18">octotigerII::build::radiation</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1aa7e260a93eb2f043b70c9fe578d15d1c" compoundref="registry_8hpp" startline="19">octotigerII::FieldDirectory::radiation</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a46648a2cc4a7bb406f77ca88f5abba3f" compoundref="subgrid_8hpp" startline="32">octotigerII::Snapshot::radiation</references>
+        <references refid="classoctotigerII_1_1Config_1a899ce381b476d6397443aaf428b90f63" compoundref="config_8hpp" startline="126" endline="128">octotigerII::Config::radiationEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae1937e11cbc5cfd0c9d4928bdaa0cb61" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::radiationEnabled</references>
+        <references refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" compoundref="field_8hpp" startline="107" endline="115">octotigerII::storage::FieldHandle&lt; T &gt;::read</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" compoundref="mesh_8hpp" startline="204" endline="204">octotigerII::mesh::TimeState::time</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a42348fb70bc15406f78fb904ae92cbe2" compoundref="subgrid_8hpp" startline="29" endline="29">octotigerII::Snapshot::time</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a6482b9ef6d7e480fffeea63d44c1d36e" compoundref="mesh_8hpp" startline="289" endline="291">octotigerII::mesh::PatchData&lt; State &gt;::timeState</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a9b9d2373c91486bab4c9c91797c16bc6" compoundref="mesh_8hpp" startline="297" endline="299">octotigerII::mesh::PatchData&lt; State &gt;::values</references>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>PhaseResult</type>
+        <definition>PhaseResult octotigerII::LocalExecutor::worker</definition>
+        <argsstring>(Operation operation, units::Time dt, std::uint64_t generation, std::vector&lt; storage::Locality &gt; const &amp;executors, Workspace &amp;workspace)</argsstring>
+        <name>worker</name>
+        <qualifiedname>octotigerII::LocalExecutor::worker</qualifiedname>
+        <param>
+          <type>Operation</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>dt</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>generation</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kindref="member">storage::Locality</ref> &gt; const &amp;</type>
+          <declname>executors</declname>
+        </param>
+        <param>
+          <type>Workspace &amp;</type>
+          <declname>workspace</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="280" column="13" bodyfile="src/runtime.cpp" bodystart="280" bodyend="326"/>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a89754519a373d483a5280793bfd46518" compoundref="runtime_8cpp" startline="277">bank_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ad7a88b96838d2479b197e2520420ebba" compoundref="runtime_8cpp" startline="268">blocks_</references>
+        <references refid="namespaceoctotigerII_1_1constants_1a818378a5aaef2811504d5155316f9d7f" compoundref="constants_8hpp" startline="14">octotigerII::constants::c</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1ab730f0bc913596e2deddfad92e87c2d4" compoundref="runtime_8cpp" startline="196" endline="201">claim</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" compoundref="runtime_8cpp" startline="267">config_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a03f5eba33df7f5303cfd05c6202e3baf" compoundref="runtime_8cpp" startline="269">fields_</references>
+        <references refid="classoctotigerII_1_1Config_1_1HydroOptions_1a61759f92b8a82a36083c3e95943534e2" compoundref="config_8hpp" startline="61">octotigerII::Config::HydroOptions::gamma</references>
+        <references refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" compoundref="buildConfig_8hpp_8in" startline="19">octotigerII::build::gravity</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" compoundref="registry_8hpp" startline="20">octotigerII::FieldDirectory::gravity</references>
+        <references refid="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" compoundref="buildConfig_8hpp_8in" startline="17">octotigerII::build::hydro</references>
+        <references refid="classoctotigerII_1_1Config_1aa1b52fed5e75df76ec765c8b0955f1a5">octotigerII::Config::hydro</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" compoundref="registry_8hpp" startline="18">octotigerII::FieldDirectory::hydro</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">kick</references>
+        <references refid="classoctotigerII_1_1Config_1_1RadiationOptions_1ae6f4a8c8a5fee4f306b09f07201be309" compoundref="config_8hpp" startline="72">octotigerII::Config::RadiationOptions::lightSpeedRatio</references>
+        <references refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a72adb576bfe84ad46c87f77866d46782" compoundref="runtime_8cpp" startline="270">owner_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a559f6566bdee4870ffdfd5fbe805a64d" compoundref="runtime_8cpp" startline="272">plans_</references>
+        <references refid="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" compoundref="buildConfig_8hpp_8in" startline="18">octotigerII::build::radiation</references>
+        <references refid="classoctotigerII_1_1Config_1a05133b4d72e4c6aee7c4bc85339f7816">octotigerII::Config::radiation</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1aa7e260a93eb2f043b70c9fe578d15d1c" compoundref="registry_8hpp" startline="19">octotigerII::FieldDirectory::radiation</references>
+        <references refid="classoctotigerII_1_1Config_1a2b28688d0bf080ffe689b5ba7fee3dd5">octotigerII::Config::runtime</references>
+        <references refid="runtime_8cpp_1ae62248cc5d9714e2832e0ed24d0457d7" compoundref="runtime_8cpp" startline="115">timestep</references>
+        <references refid="runtime_8cpp_1a197f48de4a87d5a94d1ecf7f9aeab75b" compoundref="runtime_8cpp" startline="90">work</references>
+        <references refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a4ddb849df8e1e5e2e117ab2091db77ee" compoundref="config_8hpp" startline="39">octotigerII::Config::RuntimeOptions::workStealing</references>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a77d2ffb5153d3956956cca1829fef6a9" compoundref="runtime_8cpp" startline="203" endline="220">run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::LocalExecutor::timestep</definition>
+        <argsstring>(Subgrid const &amp;block) const</argsstring>
+        <name>timestep</name>
+        <qualifiedname>octotigerII::LocalExecutor::timestep</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> const &amp;</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="328" column="13" bodyfile="src/runtime.cpp" bodystart="328" bodyend="364"/>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a89754519a373d483a5280793bfd46518" compoundref="runtime_8cpp" startline="277">bank_</references>
+        <references refid="namespaceoctotigerII_1_1constants_1a818378a5aaef2811504d5155316f9d7f" compoundref="constants_8hpp" startline="14">octotigerII::constants::c</references>
+        <references refid="classoctotigerII_1_1Subgrid_1ad78e1b97121711764150cb3766bf2398" compoundref="topology_8hpp" startline="27" endline="27">octotigerII::Subgrid::cellWidth</references>
+        <references refid="classoctotigerII_1_1Config_1_1TimestepOptions_1a28b8e8bdd25de1c00ff5635b39cbcaf5" compoundref="config_8hpp" startline="50">octotigerII::Config::TimestepOptions::cfl</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" compoundref="runtime_8cpp" startline="267">config_</references>
+        <references refid="classoctotigerII_1_1storage_1_1Range_1a068b8e65535fd7663530b6b7e2c6950d" compoundref="layout_8hpp" startline="29">octotigerII::storage::Range::count</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a03f5eba33df7f5303cfd05c6202e3baf" compoundref="runtime_8cpp" startline="269">fields_</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1Config_1_1HydroOptions_1a61759f92b8a82a36083c3e95943534e2" compoundref="config_8hpp" startline="61">octotigerII::Config::HydroOptions::gamma</references>
+        <references refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" compoundref="buildConfig_8hpp_8in" startline="19">octotigerII::build::gravity</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" compoundref="registry_8hpp" startline="20">octotigerII::FieldDirectory::gravity</references>
+        <references refid="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" compoundref="buildConfig_8hpp_8in" startline="17">octotigerII::build::hydro</references>
+        <references refid="classoctotigerII_1_1Config_1aa1b52fed5e75df76ec765c8b0955f1a5">octotigerII::Config::hydro</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" compoundref="registry_8hpp" startline="18">octotigerII::FieldDirectory::hydro</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a80a4f5e2bec4153114bac4d6140801f9" compoundref="topology_8hpp" startline="28">octotigerII::Subgrid::interior</references>
+        <references refid="classoctotigerII_1_1Config_1_1RadiationOptions_1ae6f4a8c8a5fee4f306b09f07201be309" compoundref="config_8hpp" startline="72">octotigerII::Config::RadiationOptions::lightSpeedRatio</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" compoundref="buildConfig_8hpp_8in" startline="18">octotigerII::build::radiation</references>
+        <references refid="classoctotigerII_1_1Config_1a05133b4d72e4c6aee7c4bc85339f7816">octotigerII::Config::radiation</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1aa7e260a93eb2f043b70c9fe578d15d1c" compoundref="registry_8hpp" startline="19">octotigerII::FieldDirectory::radiation</references>
+        <references refid="classoctotigerII_1_1Config_1a78e9d83bcec2ba45d92a200ef504053d">octotigerII::Config::timestep</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::LocalExecutor::kick</definition>
+        <argsstring>(Subgrid const &amp;block, units::Time dt)</argsstring>
+        <name>kick</name>
+        <qualifiedname>octotigerII::LocalExecutor::kick</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> const &amp;</type>
+          <declname>block</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/runtime.cpp" line="366" column="6" bodyfile="src/runtime.cpp" bodystart="366" bodyend="384"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" compoundref="hydroSystem_8cpp" startline="144" endline="147">octotigerII::hydro::HydroSystem::admissible</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a89754519a373d483a5280793bfd46518" compoundref="runtime_8cpp" startline="277">bank_</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" compoundref="runtime_8cpp" startline="267">config_</references>
+        <references refid="classoctotigerII_1_1storage_1_1Range_1a068b8e65535fd7663530b6b7e2c6950d" compoundref="layout_8hpp" startline="29">octotigerII::storage::Range::count</references>
+        <references refid="classoctotigerII_1_1LocalExecutor_1a03f5eba33df7f5303cfd05c6202e3baf" compoundref="runtime_8cpp" startline="269">fields_</references>
+        <references refid="classoctotigerII_1_1Config_1_1HydroOptions_1a61759f92b8a82a36083c3e95943534e2" compoundref="config_8hpp" startline="61">octotigerII::Config::HydroOptions::gamma</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" compoundref="registry_8hpp" startline="20">octotigerII::FieldDirectory::gravity</references>
+        <references refid="classoctotigerII_1_1Config_1aa1b52fed5e75df76ec765c8b0955f1a5">octotigerII::Config::hydro</references>
+        <references refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" compoundref="registry_8hpp" startline="18">octotigerII::FieldDirectory::hydro</references>
+        <references refid="classoctotigerII_1_1Subgrid_1a80a4f5e2bec4153114bac4d6140801f9" compoundref="topology_8hpp" startline="28">octotigerII::Subgrid::interior</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <references refid="runtime_8cpp_1a197f48de4a87d5a94d1ecf7f9aeab75b" compoundref="runtime_8cpp" startline="90">work</references>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">worker</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-locality work queue with bounded reusable worker storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fields are handles into independent storage components. Queue claims hold a short lock; no queue lock spans communication or numerical work. A dispatch token rejects stale claims. Remote stealing transfers results to the owner. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>hpx::components::component_base&lt; LocalExecutor &gt;</label>
+      </node>
+      <node id="1">
+        <label>octotigerII::LocalExecutor</label>
+        <link refid="classoctotigerII_1_1LocalExecutor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="15">
+        <label>octotigerII::storage::ColumnHandle&lt; gravity::State &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="13">
+        <label>octotigerII::storage::ColumnHandle&lt; hydro::ConservedState &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="14">
+        <label>octotigerII::storage::ColumnHandle&lt; radiation::RadiationSystem::State &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1ColumnHandle"/>
+      </node>
+      <node id="16">
+        <label>octotigerII::storage::FieldHandle&lt; units::Density &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1FieldHandle"/>
+        <childnode refid="17" relation="usage">
+          <edgelabel>layout</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>hpx::components::component_base&lt; LocalExecutor &gt;</label>
+      </node>
+      <node id="3">
+        <label>octotigerII::Config</label>
+        <link refid="classoctotigerII_1_1Config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>mesh</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>runtime</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>timestep</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>hydro</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>radiation</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>gravity</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>output</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>verification</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>octotigerII::Config::GravityOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1GravityOptions"/>
+      </node>
+      <node id="7">
+        <label>octotigerII::Config::HydroOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1HydroOptions"/>
+      </node>
+      <node id="4">
+        <label>octotigerII::Config::MeshOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1MeshOptions"/>
+      </node>
+      <node id="10">
+        <label>octotigerII::Config::OutputOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1OutputOptions"/>
+      </node>
+      <node id="8">
+        <label>octotigerII::Config::RadiationOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1RadiationOptions"/>
+      </node>
+      <node id="5">
+        <label>octotigerII::Config::RuntimeOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1RuntimeOptions"/>
+      </node>
+      <node id="6">
+        <label>octotigerII::Config::TimestepOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1TimestepOptions"/>
+      </node>
+      <node id="11">
+        <label>octotigerII::Config::VerificationOptions</label>
+        <link refid="classoctotigerII_1_1Config_1_1VerificationOptions"/>
+      </node>
+      <node id="12">
+        <label>octotigerII::FieldDirectory</label>
+        <link refid="classoctotigerII_1_1FieldDirectory"/>
+        <childnode refid="13" relation="usage">
+          <edgelabel>hydro</edgelabel>
+        </childnode>
+        <childnode refid="14" relation="usage">
+          <edgelabel>radiation</edgelabel>
+        </childnode>
+        <childnode refid="15" relation="usage">
+          <edgelabel>gravity</edgelabel>
+        </childnode>
+        <childnode refid="16" relation="usage">
+          <edgelabel>density</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>octotigerII::LocalExecutor</label>
+        <link refid="classoctotigerII_1_1LocalExecutor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>fields_</edgelabel>
+        </childnode>
+      </node>
+      <node id="17">
+        <label>octotigerII::storage::Layout</label>
+        <link refid="classoctotigerII_1_1storage_1_1Layout"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/runtime.cpp" line="143" column="1" bodyfile="src/runtime.cpp" bodystart="147" bodyend="385"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a89754519a373d483a5280793bfd46518" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>bank_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a6fb2070ef1bb1159c82bdcbf135d7ce8" prot="public" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>begin</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1ad7a88b96838d2479b197e2520420ebba" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>blocks_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1ab730f0bc913596e2deddfad92e87c2d4" prot="public" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>claim</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>config_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a03f5eba33df7f5303cfd05c6202e3baf" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>fields_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1ac48a2c4c91bdac39620e7d708f62fd9d" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>generation_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" prot="public" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>initialize</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>kick</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1aab7d5c458ed4d0517fd12e9210131c0b" prot="public" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>LocalExecutor</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" prot="public" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>LocalExecutor</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1ab75c8ab776d4cfbc6d468f2b2d56bbee" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>next_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1ad18095c721895efb2ac74ff470125648" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>owned_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a72adb576bfe84ad46c87f77866d46782" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>owner_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a559f6566bdee4870ffdfd5fbe805a64d" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>plans_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1afa16934fa4608c1414b32508b75a1701" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>queueMutex_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a77d2ffb5153d3956956cca1829fef6a9" prot="public" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>run</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" prot="public" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>snapshots</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a9cb366e46e89385ab8415992373ad4a2" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>time_</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>timestep</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>worker</name></member>
+      <member refid="classoctotigerII_1_1LocalExecutor_1a64d653d31d8c11dc96c9115376d2f330" prot="private" virt="non-virtual"><scope>octotigerII::LocalExecutor</scope><name>workspaces_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

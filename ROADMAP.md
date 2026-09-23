@@ -13,9 +13,10 @@ Requested sequence:
    Physical coefficients and the intrinsically 3D gravity algorithm retain their
    mathematical constants. Lower-dimensional CGS totals retain the documented
    unit transverse measure; it does not create inactive mesh axes or cells.
-3. **Deferred by request:** formal Google Test unit tests, fixtures and individually
-   named assertions, integrated with CTest. Retain and adapt existing regression
-   executables while implementing steps 1–2; do not migrate the test framework yet.
+3. **Implemented:** GoogleTest unit tests, fixtures, parameterized cases and
+   typed finite-volume tests, individually discovered by CTest. Existing numerical,
+   storage, serialization, Silo and distributed regressions are retained as named
+   tests. See [testing](docs/testing.md) for coverage and matrix commands.
 4. **Deferred by request:** plain-text interactive builder. Prompt for problem,
    supported dimension, build mode/backend, block cells, refinement level and run
    controls. Use the same problem manifests and CMake options as command-line

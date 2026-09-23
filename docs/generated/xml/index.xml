@@ -1,0 +1,1250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.8" xml:lang="en-US">
+  <compound refid="classoctotigerII_1_1mesh_1_1BlockLocation" kind="class"><name>octotigerII::mesh::BlockLocation</name>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocation_1a85c8ffba90ae97515580c35ef84d51cf" kind="variable"><name>level</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocation_1aae28a031664c222e73d5b81756695123" kind="variable"><name>coordinates</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocation_1adf383406a6070b933f16ea24140f420d" kind="function"><name>isRoot</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocation_1acdb92e656f156b31986ffc1a7bfae37e" kind="function"><name>parent</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocation_1a3d2cdddf863395b32d5a0adbb38b0dc5" kind="function"><name>childSlot</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocation_1a33d3a1bbb58ec3a0222b3f314fc982ad" kind="function"><name>child</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocation_1ab0a4911b2433e3700026716d818397ba" kind="function"><name>serialize</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocation_1a8b65fa1300fc9440388824b87d376acc" kind="friend"><name>operator==</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1mesh_1_1BlockLocationHash" kind="class"><name>octotigerII::mesh::BlockLocationHash</name>
+    <member refid="classoctotigerII_1_1mesh_1_1BlockLocationHash_1a45d7cab7961656e0f4db152af0377057" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1physics_1_1BoundaryConditions" kind="class"><name>octotigerII::physics::BoundaryConditions</name>
+    <member refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1a79cff193cd9e2cd495aa57807c670002" kind="variable"><name>lower</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1a14144f7f38a9d2e353ce29f130ec287b" kind="variable"><name>upper</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1acf732426dec3f0e37b52bb44db145c39" kind="function"><name>periodic</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1CartesianTopology" kind="class"><name>octotigerII::CartesianTopology</name>
+    <member refid="classoctotigerII_1_1CartesianTopology_1a67d6b4cd8dc932c40720314402ebb938" kind="variable"><name>config_</name></member>
+    <member refid="classoctotigerII_1_1CartesianTopology_1abae117c1319635179aba2b979eab014e" kind="variable"><name>layout_</name></member>
+    <member refid="classoctotigerII_1_1CartesianTopology_1a570f99b9887b2624241ddbb2e6a2225b" kind="variable"><name>blocks_</name></member>
+    <member refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" kind="function"><name>CartesianTopology</name></member>
+    <member refid="classoctotigerII_1_1CartesianTopology_1a2ec716ed001a17c829aa920cc842dc8d" kind="function"><name>blocks</name></member>
+    <member refid="classoctotigerII_1_1CartesianTopology_1a522e0d6cb2a7b9318c062c2c9d4702de" kind="function"><name>storageLayout</name></member>
+    <member refid="classoctotigerII_1_1CartesianTopology_1afc2403e247e49041a4ae82933c25766c" kind="function"><name>halo</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column" kind="class"><name>octotigerII::storage::StoragePartition::Column</name>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column_1aa4322a7940d923b59cbfd5a29c4721bb" kind="variable"><name>banks</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column_1aee3606941e3abdb28fc18553654356d8" kind="function"><name>Column</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase" kind="class"><name>octotigerII::storage::StoragePartition::ColumnBase</name>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase_1a7c35f46bfcf7c5a43d228483ee407514" kind="variable"><name>name</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase_1a9444ee8e1c5a86cb2107508ea94e67a5" kind="function"><name>ColumnBase</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase_1a7a973fab311b415b01735c8f93ce720b" kind="function"><name>~ColumnBase</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1ColumnFields" kind="class"><name>octotigerII::storage::ColumnFields</name>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" kind="class"><name>octotigerII::storage::ColumnFields&lt; units::State&lt; Q... &gt; &gt;</name>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a92c578369e77778718c2604a27664b55" kind="variable"><name>fields_</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1aa145eee9a0863e1fa75174a4d02b9ff8" kind="function"><name>ColumnFields</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a5b8ca0ce40d0d591b5414a3ba574b0c0" kind="function"><name>handle</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnFields_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a0fc4bab21e780d9c7ada2fd054bf4937" kind="function"><name>makeFields</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1ColumnHandle" kind="class"><name>octotigerII::storage::ColumnHandle</name>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" kind="class"><name>octotigerII::storage::ColumnHandle&lt; units::State&lt; Q... &gt; &gt;</name>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a23cfc5e1bc19eb0d58299dbb84524ca2" kind="typedef"><name>State</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1abc7f3bd77d7fbfead39a7e94cce46cfc" kind="variable"><name>fields</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a95d642cdc1b2c2a17ece978922ade4ca" kind="function"><name>read</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1af4c220e87e5ed68155607a7f51bf8288" kind="function"><name>output</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a5cf179b762d1e2984e485e4a0495c1ee" kind="function"><name>commit</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1ColumnHandle_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a97c4bae980c344876e5eaca3e100a4d2" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1Columns" kind="class"><name>octotigerII::storage::Columns</name>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" kind="class"><name>octotigerII::storage::Columns&lt; units::State&lt; Q... &gt; &gt;</name>
+    <member refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ad97e5690ac6132538bf8d85a63dfbe22" kind="typedef"><name>State</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a72eeb64ae2affaa42eee13ee8623e38d" kind="variable"><name>buffers</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ac8bb15e41c6330964e6c5e47d8da1fc3" kind="function"><name>at</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Columns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ad7de025f45e72fb66a546c53a888398b" kind="function"><name>put</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1verification_1_1Comparison" kind="class"><name>octotigerII::verification::Comparison</name>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a54a62344fa98b4fa9ee22cd33ed269fc" kind="variable"><name>name</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a59a7e99ffb72cf7aa7a228a05c258c04" kind="variable"><name>status</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a0d4be7e1015f58afa2539bc33ee89d1c" kind="variable"><name>reason</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1afaecd37f91376654be154ddd8ce57532" kind="variable"><name>time</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1adf115e96fda61901dc4efd86bc1bc9c4" kind="variable"><name>cells</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a1c915763445811f51fbc8e728aab481c" kind="variable"><name>totalCells</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1aa8ba3ce5d349468a1236c57d69fd8124" kind="variable"><name>sourceCells</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a6c7d1ef3afe0eee73a2e0348a0382a3a" kind="variable"><name>referenceKind</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a1f3533a5aa1e0606d9650ba7040be387" kind="variable"><name>sampling</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a38260df227a0f647f9ac40325af413cf" kind="variable"><name>targetIndices</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a6f771c7d9b54dbc276af4c39635969aa" kind="variable"><name>randomSeed</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a1ce5966965dd4d5d746a938cbf332a67" kind="variable"><name>cellsPerAxis</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a300fa362d12d798097b4e510d1a10f20" kind="variable"><name>multipoleOrder</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a66aff41d1f1c85a64f1f350c7b88a8a9" kind="variable"><name>openingAngle</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1acae37f266007720b082516e0b110bc16" kind="variable"><name>fields</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a59dd8aca1a5f44eb459f9759543b1ecc" kind="function"><name>enforce</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1af2a5fc1abe896deb5573036596bbdc85" kind="function"><name>print</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Comparison_1a4865d127d1f1d2e054d819f5a5a0815d" kind="function"><name>writeJson</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config" kind="class"><name>octotigerII::Config</name>
+    <member refid="classoctotigerII_1_1Config_1a05b7caa3313707e823fdd79d1c36b10e" kind="variable"><name>problem</name></member>
+    <member refid="classoctotigerII_1_1Config_1a27fda52a97f8b40c77b663da7fcd4319" kind="variable"><name>randomSeed</name></member>
+    <member refid="classoctotigerII_1_1Config_1ad953f6824a906c441f0f6771a3d8bf79" kind="variable"><name>mesh</name></member>
+    <member refid="classoctotigerII_1_1Config_1a2b28688d0bf080ffe689b5ba7fee3dd5" kind="variable"><name>runtime</name></member>
+    <member refid="classoctotigerII_1_1Config_1a78e9d83bcec2ba45d92a200ef504053d" kind="variable"><name>timestep</name></member>
+    <member refid="classoctotigerII_1_1Config_1aa1b52fed5e75df76ec765c8b0955f1a5" kind="variable"><name>hydro</name></member>
+    <member refid="classoctotigerII_1_1Config_1a05133b4d72e4c6aee7c4bc85339f7816" kind="variable"><name>radiation</name></member>
+    <member refid="classoctotigerII_1_1Config_1ae30f5a3116df7c8e6efc5af6c4aa72ad" kind="variable"><name>gravity</name></member>
+    <member refid="classoctotigerII_1_1Config_1a9d8f33ba94a8d65a755b09003d0d2123" kind="variable"><name>output</name></member>
+    <member refid="classoctotigerII_1_1Config_1ac5efc91fb34cddb4a0366667dfeb7330" kind="variable"><name>verification</name></member>
+    <member refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" kind="function"><name>validate</name></member>
+    <member refid="classoctotigerII_1_1Config_1a4d9d6517c653bc3a7a9bfc1404a22d4b" kind="function"><name>serialize</name></member>
+    <member refid="classoctotigerII_1_1Config_1aacfb1858f256c77a3761803dcebe132d" kind="function"><name>hydroEnabled</name></member>
+    <member refid="classoctotigerII_1_1Config_1a899ce381b476d6397443aaf428b90f63" kind="function"><name>radiationEnabled</name></member>
+    <member refid="classoctotigerII_1_1Config_1a4eafbd232745271498cd9d771eac1f74" kind="function"><name>gravityEnabled</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Diagnostics" kind="class"><name>octotigerII::Diagnostics</name>
+    <member refid="classoctotigerII_1_1Diagnostics_1afefc0244f02431938240ca530c938883" kind="variable"><name>time</name></member>
+    <member refid="classoctotigerII_1_1Diagnostics_1a0d494d3d7c928f142536016bbb51f4eb" kind="variable"><name>mass</name></member>
+    <member refid="classoctotigerII_1_1Diagnostics_1a65521677bc1621e2d2fb154d9ed85561" kind="variable"><name>gasEnergy</name></member>
+    <member refid="classoctotigerII_1_1Diagnostics_1a8aa6b6642fbbca94b439c8fa8710ca13" kind="variable"><name>radiationEnergy</name></member>
+    <member refid="classoctotigerII_1_1Diagnostics_1ac37995ce895496297c0d962bd8a16ea2" kind="variable"><name>minimumDensity</name></member>
+    <member refid="classoctotigerII_1_1Diagnostics_1af4a9965072dbee99879f3155acc5106c" kind="variable"><name>minimumPressure</name></member>
+    <member refid="classoctotigerII_1_1Diagnostics_1a73a0ef25aa6d685c8079a69f9b8587a0" kind="variable"><name>minimumRadiationEnergy</name></member>
+    <member refid="classoctotigerII_1_1Diagnostics_1a18f43b18bf75bc74b9014d8f898fe5a3" kind="variable"><name>maximumReducedFlux</name></member>
+    <member refid="classoctotigerII_1_1Diagnostics_1aa6c87d05b2bf670692c09d947a97646a" kind="variable"><name>momentum</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1verification_1_1ErrorNorm" kind="class"><name>octotigerII::verification::ErrorNorm</name>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a9720f1643b352e5a827940eb2c948a46" kind="variable"><name>name</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a8fea618c547a20465c5aca62f3ec6eb8" kind="variable"><name>units</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1aad8991f5e3b43aa4434359f7c00c2895" kind="variable"><name>l1</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a9b1f2e3ca237d4bb042661930e5afad3" kind="variable"><name>l2</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a4275bd0544b220fe83f6edd4a3f712dd" kind="variable"><name>linf</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1ab672de6582235a01a15c099a58cc176d" kind="variable"><name>referenceL1</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a3e79d5419fe1de566d9963bb16eef071" kind="variable"><name>referenceL2</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a528edf98c21f9133fc94272065bef99b" kind="variable"><name>referenceLinf</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1a944d411d0b05e38511b67f664b968b0b" kind="variable"><name>relativeL1HalfWidth95</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1aab91d228c0b34fc2862f9dcad094b0ad" kind="variable"><name>relativeL2HalfWidth95</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1afb43384426421363d8d13c3cd57022d3" kind="variable"><name>samplingUncertaintyAvailable</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ErrorNorm_1ad2b08a8d5307960f492dc51d13b5ddae" kind="variable"><name>samplingWarning</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1verification_1_1ExactState" kind="class"><name>octotigerII::verification::ExactState</name>
+    <member refid="classoctotigerII_1_1verification_1_1ExactState_1a4693936965bb7dc1d2a019aaae212a59" kind="variable"><name>hydro</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ExactState_1a9fc945a1757b2dfe9e2737fc2bb5c640" kind="variable"><name>gravity</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1ExactState_1a1268bbed314bb315ac83692463480c69" kind="variable"><name>radiation</name></member>
+  </compound>
+  <compound refid="structoctotigerII_1_1ExchangeDomain" kind="struct"><name>octotigerII::ExchangeDomain</name>
+    <member refid="structoctotigerII_1_1ExchangeDomain_1a55f4a7527d9dbb58d7153b828b3ff94f" kind="variable"><name>dimensionCount</name></member>
+    <member refid="structoctotigerII_1_1ExchangeDomain_1a2ea49511a30c66863cba609fd0103cf5" kind="variable"><name>lower</name></member>
+    <member refid="structoctotigerII_1_1ExchangeDomain_1ae8118cc2014dd8df9eebe349d29a63d5" kind="variable"><name>upper</name></member>
+    <member refid="structoctotigerII_1_1ExchangeDomain_1ae11b9e7852acd06b7faaa8662aeefbd2" kind="variable"><name>periodic</name></member>
+    <member refid="structoctotigerII_1_1ExchangeDomain_1aa2f7ed14b553e7f8345f74a392417dd2" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1Field" kind="class"><name>octotigerII::storage::Field</name>
+    <member refid="classoctotigerII_1_1storage_1_1Field_1a9f5f7fe8d6f88fa2d43bc9341ad843c3" kind="variable"><name>handle_</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Field_1a0d1b19125df2e9dd65a429e4c359a7d3" kind="function"><name>Field</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Field_1a837135f795970702a9ca6f4eb572dade" kind="function"><name>Field</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Field_1ac0dce40d4d4e40acac6a0fb0bb6b34ff" kind="function"><name>handle</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Field_1ada880c3f2d71f6cada6108bfb2a68d10" kind="function"><name>retire</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1verification_1_1Field" kind="class"><name>octotigerII::verification::Field</name>
+    <member refid="classoctotigerII_1_1verification_1_1Field_1a92b2f58284f7ef93be334217009daa62" kind="variable"><name>name</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Field_1aa1efbfe0332eba8667d675612e8cdca7" kind="variable"><name>units</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Field_1a2f26d846032808d4522425b46bf36d14" kind="variable"><name>numerical</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Field_1aa36df9a464c9f6056bd249d1c185b433" kind="variable"><name>exact</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1FieldDirectory" kind="class"><name>octotigerII::FieldDirectory</name>
+    <member refid="classoctotigerII_1_1FieldDirectory_1addcb367ce5b663cf79608c221d9e2d0d" kind="variable"><name>hydro</name></member>
+    <member refid="classoctotigerII_1_1FieldDirectory_1aa7e260a93eb2f043b70c9fe578d15d1c" kind="variable"><name>radiation</name></member>
+    <member refid="classoctotigerII_1_1FieldDirectory_1a34552b970e6654b61d56033029a28826" kind="variable"><name>gravity</name></member>
+    <member refid="classoctotigerII_1_1FieldDirectory_1a99efb5d9705ef24658c1f0a9b3ebdab3" kind="variable"><name>density</name></member>
+    <member refid="classoctotigerII_1_1FieldDirectory_1a394c2f28dbdac640bd5bd0fc3e257704" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="structoctotigerII_1_1FieldFluxPacket" kind="class"><name>octotigerII::FieldFluxPacket</name>
+    <member refid="structoctotigerII_1_1FieldFluxPacket_1afea884bd5e0c3316e8a5070d06406491" kind="variable"><name>location</name></member>
+    <member refid="structoctotigerII_1_1FieldFluxPacket_1a5667523a5871f3719acd18f1e9c9f880" kind="variable"><name>layout</name></member>
+    <member refid="structoctotigerII_1_1FieldFluxPacket_1a3425b064b818a7112e3c4ad646f4dd7e" kind="variable"><name>lower</name></member>
+    <member refid="structoctotigerII_1_1FieldFluxPacket_1a89b05a198fc84d327a84a281f822728a" kind="variable"><name>cellWidth</name></member>
+    <member refid="structoctotigerII_1_1FieldFluxPacket_1a13d02c314d8ef4edb962d362c782ca5b" kind="variable"><name>interval</name></member>
+    <member refid="structoctotigerII_1_1FieldFluxPacket_1ae56f062bb391d91e672f5872c74f86cc" kind="variable"><name>fluxes</name></member>
+    <member refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" kind="function"><name>serialize</name></member>
+    <member refid="structoctotigerII_1_1FieldFluxPacket_1a736c35f311e350425d19e431a23237b7" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1FieldHandle" kind="class"><name>octotigerII::storage::FieldHandle</name>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a89f57c979cbfa8e0cf409faa3b377616" kind="variable"><name>layout</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a25bd174a0bfe0621e6a3b3ef4da6471a" kind="variable"><name>owners</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a36c89df33cbdd9c1fe0399d27b5e1155" kind="variable"><name>partitions</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae078d605db36ec986e3c34a4598ef495" kind="variable"><name>id</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a513c06a7483a44d9a56d4e44aa69b8c2" kind="variable"><name>banks</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1acb7ffa1490b3a4720158dcac44dbda2f" kind="function"><name>local</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a8352a804bd30e2f0f8633ba066a7a648" kind="function"><name>read</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1adcec85df2d74ba2264f9af5c03389ac7" kind="function"><name>output</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a06f1c58a739ee7b72075f1256b676f49" kind="function"><name>commit</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1ae1e432b615e04a7c2567d2c1923880bf" kind="function"><name>serialize</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" kind="function"><name>validate</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1FieldRepository" kind="class"><name>octotigerII::FieldRepository</name>
+    <member refid="classoctotigerII_1_1FieldRepository_1a209d2db97ca9bd7c46a629c23595b4a9" kind="variable"><name>store_</name></member>
+    <member refid="classoctotigerII_1_1FieldRepository_1a783d3300d012134f0d465e851f931d98" kind="variable"><name>directory_</name></member>
+    <member refid="classoctotigerII_1_1FieldRepository_1a4445735af6e718efd612f3d9537078c2" kind="variable"><name>hydro_</name></member>
+    <member refid="classoctotigerII_1_1FieldRepository_1a2253de91eae6cd9b0bf6f65ebba95107" kind="variable"><name>radiation_</name></member>
+    <member refid="classoctotigerII_1_1FieldRepository_1aeacdcb89ecb2360ffb46c1fd69fc3828" kind="variable"><name>gravity_</name></member>
+    <member refid="classoctotigerII_1_1FieldRepository_1ad1d77003f8bc8392912e2158639b5210" kind="variable"><name>density_</name></member>
+    <member refid="classoctotigerII_1_1FieldRepository_1a6fb4f14a14881902775791a1ef71bd42" kind="function"><name>FieldRepository</name></member>
+    <member refid="classoctotigerII_1_1FieldRepository_1a4b59457d8cb506430af699a4bd9eb5a6" kind="function"><name>directory</name></member>
+  </compound>
+  <compound refid="structoctotigerII_1_1FieldSnapshot" kind="struct"><name>octotigerII::FieldSnapshot</name>
+    <member refid="structoctotigerII_1_1FieldSnapshot_1a8b56c854e468c125d5232630290eb098" kind="variable"><name>location</name></member>
+    <member refid="structoctotigerII_1_1FieldSnapshot_1a3a4a1d7cd75bce5d50e712f5702228e6" kind="variable"><name>fields</name></member>
+    <member refid="structoctotigerII_1_1FieldSnapshot_1a261088a95087d94e42e956a3b7a6e0a2" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1gravity_1_1FieldSolver" kind="class"><name>octotigerII::gravity::FieldSolver</name>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a7fad4049f75b8872fde0de9241bc3989" kind="variable"><name>impl_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1ac54bd8a53c0976d6372ab12ca088b323" kind="function"><name>FieldSolver</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1aa0d8b1cbddfef9a36f57ead6d49cb2c1" kind="function"><name>~FieldSolver</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a44397d5f947ec490f99b4698812fc6d7" kind="function"><name>FieldSolver</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1adeacdd592c9c2847227e5cb3980b258a" kind="function"><name>operator=</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1a85a32db5f85894ac690f4f420d89e26e" kind="function"><name>solve</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1gravity_1_1FmmPartition" kind="class"><name>octotigerII::gravity::FmmPartition</name>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ad6d8af5bceb1fcc172302b2725c78b14" kind="variable"><name>config_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a89cee0009db39e34b11ea645e3f3a4ae" kind="variable"><name>fields_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a14051d6f390985774e0a1b28e8ce435e" kind="variable"><name>owner_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4eddf2a306893b4361342b9278d0d4d6" kind="variable"><name>partitions_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ac6cdd2aa412187b4dad561da0fd517a2" kind="variable"><name>workers_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afb093e2bcf63af7812b6525ee818b5bb" kind="variable"><name>n_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a71407e507a5f2a3e57da9179cd8286b6" kind="variable"><name>cellWidth_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1afd8e51d794bd1c78cf174dd36447c160" kind="variable"><name>levels_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a957b23c044c42f2879d89ff9d63ced05" kind="variable"><name>ranges_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7cc812b242bb10fce4a5abc7913a0377" kind="function"><name>FmmPartition</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" kind="function"><name>FmmPartition</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a223379f3108f99aef47ae1b72273909b" kind="function"><name>execute</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a83dc11b123de8d6682d6104989a3eb08" kind="function"><name>read</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a34f467268271f42be4bfab25698db82a" kind="function"><name>parallel</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4ab965f252ad27e378c028cf98fcafee" kind="function"><name>interactions</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a7e4fec76fc07111cbc25da4ff417efff" kind="function"><name>fetch</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a679dedb224d15a75fa6c7669f17e3b2e" kind="function"><name>initialize</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1abd7a62c7444e771b69a8dcf1ec2c6195" kind="function"><name>upward</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a0eedda78faceaa07717871106bce04d8" kind="function"><name>downward</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a4bb4a4056c63d6658957b9053143b477" kind="function"><name>copy</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1a9a37490ef88f87a6c4b6121fd07f511d" kind="function"><name>publish</name></member>
+  </compound>
+  <compound refid="classFpeGuard" kind="class"><name>FpeGuard</name>
+    <member refid="classFpeGuard_1a025eba0bc17bd085dfb0a74287e8d1ee" kind="variable"><name>previousEnabled</name></member>
+    <member refid="classFpeGuard_1a8361aca97919a8a3dc0d58de1d04b974" kind="variable"><name>enabledHere</name></member>
+    <member refid="classFpeGuard_1aab40c916addc3876a947d54cdfed6e67" kind="variable"><name>previousFlags</name></member>
+    <member refid="classFpeGuard_1a1629ddea32710b1e48f71888a975c231" kind="function"><name>FpeGuard</name></member>
+    <member refid="classFpeGuard_1ad7483e467a5cc372f1053b8c6e949bfe" kind="function"><name>FpeGuard</name></member>
+    <member refid="classFpeGuard_1af1422357c9f993414a7dad4e18eccd6f" kind="function"><name>FpeGuard</name></member>
+    <member refid="classFpeGuard_1a6684be862b1a3a8d63094c51ce1acf0a" kind="function"><name>~FpeGuard</name></member>
+    <member refid="classFpeGuard_1a8115403bc0711765060ce763477df102" kind="function"><name>operator=</name></member>
+    <member refid="classFpeGuard_1a1bef152f46c0a678f5a4dddec8732b2a" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config_1_1GravityOptions" kind="class"><name>octotigerII::Config::GravityOptions</name>
+    <member refid="classoctotigerII_1_1Config_1_1GravityOptions_1a79d7dded504a1d8a5f845f43e51ccc9d" kind="variable"><name>multipoleOrder</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1GravityOptions_1ab35b3b90b3fcf45792a917b719a8d2d2" kind="variable"><name>openingAngle</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1GravityOptions_1ad1db24085af67d12534faba16ffe4509" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1HaloCopy" kind="class"><name>octotigerII::HaloCopy</name>
+    <member refid="classoctotigerII_1_1HaloCopy_1a09e8350707699ed6f9cc8454df8e1112" kind="variable"><name>source</name></member>
+    <member refid="classoctotigerII_1_1HaloCopy_1a08df39385888d61170802e759a71277c" kind="variable"><name>destination</name></member>
+    <member refid="classoctotigerII_1_1HaloCopy_1ad73dbae54f2d26486a92a50271d5f3fa" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1HaloPlan" kind="class"><name>octotigerII::HaloPlan</name>
+    <member refid="classoctotigerII_1_1HaloPlan_1a35601b21d3135a3fffcde7edff3b77ca" kind="variable"><name>reads</name></member>
+    <member refid="classoctotigerII_1_1HaloPlan_1a2a21fc7d0231f03884f1b0e402652b99" kind="variable"><name>ghostIndices</name></member>
+    <member refid="classoctotigerII_1_1HaloPlan_1aa26f8ecb46cd5ac17082b4fd1167e6f3" kind="variable"><name>ghostCount</name></member>
+    <member refid="classoctotigerII_1_1HaloPlan_1ab80e8dd8d4bd582b5ab1aa5df18f2917" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1HaloRead" kind="class"><name>octotigerII::HaloRead</name>
+    <member refid="classoctotigerII_1_1HaloRead_1aa815448aa38eb0caaf83d76ae8f9f508" kind="variable"><name>range</name></member>
+    <member refid="classoctotigerII_1_1HaloRead_1ad6d3064402c3b1aef938276047c5f175" kind="variable"><name>copies</name></member>
+    <member refid="classoctotigerII_1_1HaloRead_1a1aa3d4fe7b76628239a42eed4ee17358" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config_1_1HydroOptions" kind="class"><name>octotigerII::Config::HydroOptions</name>
+    <member refid="classoctotigerII_1_1Config_1_1HydroOptions_1a61759f92b8a82a36083c3e95943534e2" kind="variable"><name>gamma</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1HydroOptions_1a470c783d51c137651267aa51914a289d" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1hydro_1_1HydroSystem" kind="class"><name>octotigerII::hydro::HydroSystem</name>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ae550845296212c8df64eb8ff7eac7225" kind="typedef"><name>State</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa43c706b6e69db28154512ad4372ab0b" kind="typedef"><name>Reconstruction</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa6eedea05c3b894edc1fffb4e2ef1f99" kind="typedef"><name>Flux</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a07182ca42dd2412275856891c306b9ff" kind="variable"><name>adiabaticIndex_</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aa3ea0f4d04c82c9fc7283b55b84356f3" kind="variable"><name>densityFloor_</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1aeab67531e497be53a8f059272cafbe91" kind="variable"><name>pressureFloor_</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1abe9dfff96f89d13f60573c1f2d536983" kind="function"><name>HydroSystem</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a69388d4b4e7ef3de14911045e5aa655e" kind="function"><name>adiabaticIndex</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" kind="function"><name>reconstructionVariables</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" kind="function"><name>conservedState</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ad3da01b545d27c6b0f0ba47cbfad1e65" kind="function"><name>physicalFlux</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" kind="function"><name>riemann</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a52248e5d278c3003441d1e1f4494b251" kind="function"><name>reflected</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a86660cad33d9b8fd5a009f08930f6761" kind="function"><name>maximumSignalSpeed</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" kind="function"><name>admissible</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a36dd84a7b54f8773dd697b6ea2affa59" kind="function"><name>correctRoundoff</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" kind="function"><name>limitFlux</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a2ede820a2c3001c57c1ffd279a08176c" kind="function"><name>integratedFlux</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7a24d495f25ed98774de772e499b9625" kind="function"><name>advectiveFlux</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7f9d0ac7007f396b811eae173a8ba081" kind="function"><name>pressure</name></member>
+    <member refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a3211faa2956a1c66568d7b148361a4fa" kind="function"><name>hll</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl" kind="class"><name>octotigerII::gravity::FieldSolver::Impl</name>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1ac92804c594edc4243dfc361f22404ab2" kind="variable"><name>depths</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1a23f604672cadb68e69803cdd86445461" kind="variable"><name>partitions</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FieldSolver_1_1Impl_1ac376ac41e0b414cab725051f3d7afd8a" kind="function"><name>phase</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Runtime_1_1Impl" kind="class"><name>octotigerII::Runtime::Impl</name>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a86a0a81c08402fc00d10cc755ae9da27" kind="variable"><name>config</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1ac0153bd47e445a38b54c00475c7d2c5f" kind="variable"><name>localities</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a2def5cc23e9a5a52555d6bbef73695ab" kind="variable"><name>topology</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1ae6d5a277593efd04099be94fc384c1c0" kind="variable"><name>fields</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a94a837bd07437d0b1d8ae7b93aae60a4" kind="variable"><name>gravitySolver</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a97e2ac9e91d7e7de39d0d8027d278e2a" kind="variable"><name>executors</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1ac3b20d0c3ca9ec1d04a9d4b1878319a5" kind="variable"><name>apiMutex</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a3d0c36dc5f9cccb598bea32f8c904587" kind="variable"><name>bank</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a93bafe0bf6b4a76f9d26c4b72eb04cd9" kind="variable"><name>generation</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a223b74627b5e8343b03071fe2813911f" kind="variable"><name>dispatch</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1aab68bbb6d025dab537a971e94dc6e8a3" kind="variable"><name>time</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a86e6a298aec763a66073441bb41e83b5" kind="variable"><name>gravityTime</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a47b6beb43a13fb4befa0d72d9cb00d53" kind="variable"><name>gravityReady</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a6d37cf074dd43dee365da69389fd16d1" kind="variable"><name>statistics</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1_1Impl_1a9279adb1f3ab614cc80ba9ca2b8f4de2" kind="function"><name>phase</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index" kind="class"><name>octotigerII::gravity::diagonal::Index</name>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ab78f6040059bf8fd6a1494a3d6ec69cc" kind="variable"><name>x</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1abb0c5b22c4f01a1136280be1844ba4aa" kind="variable"><name>y</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1a647d0d74c3faaeebb847ac7706440681" kind="variable"><name>z</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Index_1ad4381237ad64913c8311fda1605c9ccd" kind="function"><name>degree</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1Layout" kind="class"><name>octotigerII::storage::Layout</name>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" kind="variable"><name>capacities_</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1ac4d8d399c96a7fe609a34d888f4f2166" kind="variable"><name>ranges_</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1a692b169bff6b8232f37c0fa352f4ee9d" kind="function"><name>Layout</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1af830527e68ddaf385a0350005af65eab" kind="function"><name>Layout</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1a33d704bdfed025e5a2f3b7d4f5c172a2" kind="function"><name>ranges</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1a1b8fbf722c7a49a109cede296faa5a8f" kind="function"><name>partitionCount</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1aa4299033f1e5e38e21af6a498835c883" kind="function"><name>capacity</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1a272c4c03aa358e141f35f31bd06d5ffe" kind="function"><name>capacity</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1a6f0a362a34081a5f83b2a46baf811c80" kind="function"><name>addressSpace</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1a9b32143e99d0ff909aca33f78a37da70" kind="function"><name>validate</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Layout_1ad42af32764c67f483c953c09ef3d0f36" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1LocalExecutor" kind="class"><name>octotigerII::LocalExecutor</name>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a95902881f727f6e42b28d3eea1f391c8" kind="variable"><name>config_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1ad7a88b96838d2479b197e2520420ebba" kind="variable"><name>blocks_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a03f5eba33df7f5303cfd05c6202e3baf" kind="variable"><name>fields_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a72adb576bfe84ad46c87f77866d46782" kind="variable"><name>owner_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1ad18095c721895efb2ac74ff470125648" kind="variable"><name>owned_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a559f6566bdee4870ffdfd5fbe805a64d" kind="variable"><name>plans_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a64d653d31d8c11dc96c9115376d2f330" kind="variable"><name>workspaces_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1afa16934fa4608c1414b32508b75a1701" kind="variable"><name>queueMutex_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1ab75c8ab776d4cfbc6d468f2b2d56bbee" kind="variable"><name>next_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1ac48a2c4c91bdac39620e7d708f62fd9d" kind="variable"><name>generation_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a89754519a373d483a5280793bfd46518" kind="variable"><name>bank_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a9cb366e46e89385ab8415992373ad4a2" kind="variable"><name>time_</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1aab7d5c458ed4d0517fd12e9210131c0b" kind="function"><name>LocalExecutor</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" kind="function"><name>LocalExecutor</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" kind="function"><name>initialize</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a6fb2070ef1bb1159c82bdcbf135d7ce8" kind="function"><name>begin</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1ab730f0bc913596e2deddfad92e87c2d4" kind="function"><name>claim</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a77d2ffb5153d3956956cca1829fef6a9" kind="function"><name>run</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" kind="function"><name>snapshots</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" kind="function"><name>worker</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" kind="function"><name>timestep</name></member>
+    <member refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" kind="function"><name>kick</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1radiation_1_1M1" kind="class"><name>octotigerII::radiation::M1</name>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1a8c06f14bd10da49a0cbf434d586d893b" kind="typedef"><name>State</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1a0b9c04fc7ccd648398200c4d18cabba2" kind="typedef"><name>Flux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1a6a0ad9e6f75285219af8cbe378aefe69" kind="variable"><name>roundoff</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1a950943fecda92216d523cd42540f4152" kind="function"><name>magnitude</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1a9ace549ba6eae4e96f6372c917fbee2c" kind="function"><name>admissible</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1a361d2fb7b402c3c51743e8a029e6d70e" kind="function"><name>checkState</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1a5a8ce3f9667a16494276435824f82347" kind="function"><name>canonical</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" kind="function"><name>physicalFlux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1a849444592f9526131d48728d3d0f8151" kind="function"><name>hll</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1adc24be8f7176b940790818401b4c7bcf" kind="function"><name>roundoffState</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1mesh_1_1MeshLayout" kind="class"><name>octotigerII::mesh::MeshLayout</name>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ad2fcd5c952930809317ecfb9eb201743" kind="variable"><name>cellsPerActiveDimension_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9bf16616c52e39c5a0e62239943cec0f" kind="variable"><name>ghostWidth_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a6ce33584ec980fc629d98b87ca8d1278" kind="variable"><name>interiorExtents_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a185971bfd9acd624684a84563c4fb21a" kind="variable"><name>extents_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7a1a2d66bb5abb80436290073b2ee5d1" kind="variable"><name>strides_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7b2803c48c9daa7d1b0bc2120e799091" kind="function"><name>MeshLayout</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a2923cbb2a975678df1c03834d452c09f" kind="function"><name>MeshLayout</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a03b992f37546d7987ddb2cd949bf7953" kind="function"><name>cellsPerActiveDimension</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a230c2f0c6f052d03e537800b8d92929d" kind="function"><name>ghostWidth</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aafb6ca9739fdbf2189d4c01012b38d33" kind="function"><name>interiorExtent</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a58be569386e2b9fdc7f40affd33e3b68" kind="function"><name>extent</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a12d1ae2608da4f6d8b0dfe8091ba7397" kind="function"><name>interiorExtents</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab64d409bc72bff5ecb2028ae7bf3f1ff" kind="function"><name>extents</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab2846127caf35985fea7e72df3af16a1" kind="function"><name>interiorCellCount</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a07538a4a6c7fbcc68a4ce4cbf67d640b" kind="function"><name>cellCount</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a1f8233705e3e67439c10ede4074d87a6" kind="function"><name>childCount</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a040942501616863ad54a6cbf7a9bb113" kind="function"><name>isActiveChild</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a19372d8bcc8f4497a09a46c67511bd73" kind="function"><name>activeChildSlots</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" kind="function"><name>index</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" kind="function"><name>storageCoordinates</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" kind="function"><name>interiorCoordinates</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" kind="function"><name>isInterior</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ac63a9277b676e92dcff233115ec10188" kind="function"><name>faceExtents</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a137e20904272d598895291a3eb348e4f" kind="function"><name>faceCount</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a647ac0996d4fff4cc081f050e601f214" kind="function"><name>faceIndex</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a39ec08f5c51aad143dfbeb111b011e3c" kind="function"><name>cellMeasure</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abe1597dfed6152bb296fe41999094bd2" kind="function"><name>faceMeasure</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1afaa04a837767705f1d129159b56a4a3b" kind="function"><name>cellCenter</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" kind="function"><name>forEachInterior</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acee717bdcef55703263b5cfc1aaf5f52" kind="function"><name>serialize</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" kind="function"><name>rebuild</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abc85a4a713f78426bfc281c3c0a6811b" kind="function"><name>validateAxis</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a5f832fb8b72f726c80aaa72582942e5a" kind="function"><name>product</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config_1_1MeshOptions" kind="class"><name>octotigerII::Config::MeshOptions</name>
+    <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1adedfdadab840e52dc975daa61f9caca9" kind="variable"><name>cells</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1ae41801a618bcbe2639e95c690ab8c379" kind="variable"><name>level</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1a8028ed8a5c237558003bff69fb2b2cc9" kind="variable"><name>lower</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1a9e7d691c142e8a49cb0ebad7918b41c7" kind="variable"><name>upper</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1a746b3dd135ce075806a9c76079c520ca" kind="variable"><name>periodic</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1a1eeb0364a310111aea1bc810a9efce6d" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1physics_1_1MusclHancock" kind="class"><name>octotigerII::physics::MusclHancock</name>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a0f24206192137f964815351756bbbe7f" kind="typedef"><name>State</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6ca74ea9d3b98ca0381ffd8505d1557d" kind="typedef"><name>Reconstruction</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a84d3d2a9bf91b57077321e1bd478018f" kind="typedef"><name>Flux</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a93b2b91a9179fdba17c8cd4fc361ff76" kind="typedef"><name>FaceFluxes</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a649d5d665926c8b51c46ac913594c864" kind="variable"><name>system_</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1aafa5a80adcb4d44c4c06d3e8bd4f222e" kind="variable"><name>limiter_</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a9a038f226ebdc3248c04b77cfc755a38" kind="variable"><name>theta_</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1af2cb3b259d9a21892aaf38301ff0b860" kind="function"><name>MusclHancock</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a438a824d62fc5e7175a4c87e0e9f5db9" kind="function"><name>stableTimestep</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a64d1c8daea94bc5eea605da3dde7f2e7" kind="function"><name>advance</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a092470efd2fcf0bfe84f4a4a8a4a6315" kind="function"><name>advanceWithBoundaryUpdater</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" kind="function"><name>advanceInto</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6c364c5eb6b32583fadeb59c105c1dcb" kind="function"><name>predictFaceStates</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator" kind="class"><name>octotigerII::gravity::diagonal::Operator</name>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a2711a7844de5da06b0d4aa1004afa6a8" kind="variable"><name>count_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a9ada01c3cdbd60b85d4ec948bf33503b" kind="variable"><name>toWave_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1ac7f06e7748f17f018b1774dbed4ee2c3" kind="variable"><name>fromWave_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a35dd45ef49ef2e2ca1fc488f73b443e3" kind="variable"><name>diagonal_</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a6ee6375940538f846f98c3decc4e6b12" kind="function"><name>Operator</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1af47a4d8a382e73aacaddff71e7d1befc" kind="function"><name>add</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a357affde7cec105c081e4a4bcd054a07" kind="function"><name>sampleCount</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Output" kind="class"><name>octotigerII::Output</name>
+    <member refid="classoctotigerII_1_1Output_1ac363557d39e4b9757f1931b925483a38" kind="variable"><name>config_</name></member>
+    <member refid="classoctotigerII_1_1Output_1aa7969a4ffca99d1e093553f4c8e1a98d" kind="variable"><name>series_</name></member>
+    <member refid="classoctotigerII_1_1Output_1af515eacae1b422c676496a4c6e2a3b07" kind="variable"><name>frame_</name></member>
+    <member refid="classoctotigerII_1_1Output_1aea11ef638abeebe3d5998759764521c3" kind="function"><name>Output</name></member>
+    <member refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" kind="function"><name>operator()</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config_1_1OutputOptions" kind="class"><name>octotigerII::Config::OutputOptions</name>
+    <member refid="classoctotigerII_1_1Config_1_1OutputOptions_1a6d87b68e0ff80d3d2a282cf37c880d90" kind="variable"><name>every</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1OutputOptions_1a6d9d80b440b8e2c72499373090e88f32" kind="variable"><name>enabled</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1OutputOptions_1a4fb28530038e9b7e76ad3c01deb99e4b" kind="variable"><name>directory</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1OutputOptions_1ab3647078c37104a06bbe8c5a3fe20df5" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1PartitionSet" kind="class"><name>octotigerII::storage::PartitionSet</name>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1abd37c297bc52515478627cb6b7c6643a" kind="typedef"><name>Partition</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1a57c0a84e24d937b54717aea8315e34fd" kind="variable"><name>state_</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1a8cf2e094213a2bf16c24576b8e148a26" kind="function"><name>PartitionSet</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1acbf24d60ad425e2c1ab3e64dbc75a2b2" kind="function"><name>owners</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1a489d75c4a92138f7e01bf5f7d7634a76" kind="function"><name>partitions</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1a41d48880b3c7e46515bb8ba9559a1abc" kind="function"><name>newField</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1mesh_1_1PatchData" kind="class"><name>octotigerII::mesh::PatchData</name>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a720414efdbd4cd715588a834d66aca97" kind="variable"><name>layout_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a57185c3c73f73ba0b485e169ec237ab0" kind="variable"><name>cellWidth_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a6e753b3c793c83c13ce5c559b306e284" kind="variable"><name>lower_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a8217418d8a169aa0c77d94eca48403b3" kind="variable"><name>timeState_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a39a8ab36926f1d4d0b1a340f4ffe0740" kind="variable"><name>values_</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a1345ac9415cbb84b73df399f7fa72f43" kind="function"><name>PatchData</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1adddc4d40807c6f1e148c981ee71f9257" kind="function"><name>PatchData</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a2211e21573bb7f2357f25d4f0ee7c124" kind="function"><name>layout</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a77145162ffb0a577000f15e9d04dfcea" kind="function"><name>cellWidth</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1af4d32cbc6eb8d41846b97917b46bc2a7" kind="function"><name>lower</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a6482b9ef6d7e480fffeea63d44c1d36e" kind="function"><name>timeState</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a222cbe783dbd1b4a43dbeea3e8dc2e97" kind="function"><name>timeState</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a9b9d2373c91486bab4c9c91797c16bc6" kind="function"><name>values</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a963a779b95491e27dc71334e9811a9f1" kind="function"><name>values</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a62f231cf1e795acae33838558418f75d" kind="function"><name>atStorage</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a71a63123a81958de3f7a2e942f0d38ff" kind="function"><name>atStorage</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a88859a96cf8c4481ad91c0a929ccc512" kind="function"><name>atInterior</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a20727b0d5fab10f657388f166cd27a79" kind="function"><name>atInterior</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1PatchData_1a564315a1f369f7ec07934b59f0d4f8d8" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1PatchView" kind="class"><name>octotigerII::PatchView</name>
+    <member refid="classoctotigerII_1_1PatchView_1ac53670035bc14a13f6d7e7c44c44eac6" kind="variable"><name>block_</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1a49422fcca7682643df4291569ee5271e" kind="variable"><name>interior_</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1a84d7fac4b2b3f9ec25a2c5fcace2069d" kind="variable"><name>plan_</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1ae3d133c89d4a6e5da2fde0b2b64b2614" kind="variable"><name>ghosts_</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1a3e7ddad71e5e73e69773ad3029424946" kind="variable"><name>padded_</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1a58b1531d4a7fa5f4c2fb1a24ba6eb76e" kind="function"><name>PatchView</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1a29b713655acbfcd034ca87073f280378" kind="function"><name>layout</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1aa8f16e39e0d875bc371a093207047968" kind="function"><name>cellWidth</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1a900f457eddd87993c109c5983c50c866" kind="function"><name>atInterior</name></member>
+    <member refid="classoctotigerII_1_1PatchView_1afc9d4bbcca2b8da4ee11e14824092741" kind="function"><name>atStorage</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1PendingColumns" kind="class"><name>octotigerII::storage::PendingColumns</name>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4" kind="class"><name>octotigerII::storage::PendingColumns&lt; units::State&lt; Q... &gt; &gt;</name>
+    <member refid="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1ac1768da62bdb93829d59826aa4837261" kind="variable"><name>pending</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PendingColumns_3_01units_1_1State_3_01Q_8_8_8_01_4_01_4_1a6174549489247cb08b6f86b5531391e4" kind="function"><name>get</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config_1_1RadiationOptions" kind="class"><name>octotigerII::Config::RadiationOptions</name>
+    <member refid="classoctotigerII_1_1Config_1_1RadiationOptions_1ae6f4a8c8a5fee4f306b09f07201be309" kind="variable"><name>lightSpeedRatio</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1RadiationOptions_1a97013329dd67cf46337954ad60d8f2bc" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1radiation_1_1RadiationSystem" kind="class"><name>octotigerII::radiation::RadiationSystem</name>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1ae52a807bf2a0a52a366aaf4525978abc" kind="typedef"><name>Method</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1acc3fb51f4279af0bd7bd4e44ec6d4bea" kind="typedef"><name>State</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1ac6da1e90c8c1d79256afc3d7b5d1cf92" kind="typedef"><name>Reconstruction</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a5200123cf4e597e6111dcb29f66e4802" kind="typedef"><name>Flux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a17fae49f2b4aa63567a2667e2048195f" kind="variable"><name>reducedLightSpeed_</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1adc71802da1e3e2e9bc7cf402f3f89687" kind="function"><name>RadiationSystem</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a5e0d6a9f03be72c2fd9d3483e3f10e5e" kind="function"><name>reducedLightSpeed</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a2dbf39c16d5899e8785278a14328ca8c" kind="function"><name>reconstructionVariables</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1ac0427214077336f71663078ca3da544a" kind="function"><name>conservedState</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a457dbe49496c3e8d5503949e38bc1d5a" kind="function"><name>physicalFlux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a8760b65dcaa52cb3ecf9bdd348e8bdf0" kind="function"><name>riemann</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1af60d65e4bb1031991ca5ca7a50c4a5a9" kind="function"><name>reflected</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a092c4f1b3481a9f9e9b7faa4dae48058" kind="function"><name>maximumSignalSpeed</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a1a3e03ccf7b00e3a462d7395c87381bb" kind="function"><name>admissible</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a16fb0b03bbaf76a7c3d25b0e1b4fec50" kind="function"><name>correctRoundoff</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a4e40d4bdd33a7bed85c3d719b3042089" kind="function"><name>limitFlux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a30c559a281e9e6f0bd176f4f217dfdcb" kind="function"><name>toCalculationState</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a7c1d0ff4355626b03fd9a28bbb161748" kind="function"><name>fromCalculationState</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a00f6fa89160ef8a8cdfee6eb04ded119" kind="function"><name>fromCalculationFlux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a0c9d16ed63b55e12b1628bd4ff2f1783" kind="function"><name>advectiveFlux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1ae24d7af231a2348a21a8d56a20ee4377" kind="function"><name>integratedFlux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a31ee18444108e1aadb307184b5e94701" kind="function"><name>fromPhysical</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a197d3cefee0ee55895f6e9d2759fea23" kind="function"><name>toPhysicalFlux</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1Range" kind="class"><name>octotigerII::storage::Range</name>
+    <member refid="classoctotigerII_1_1storage_1_1Range_1aee66cd58d2051b6609ef7c3998a11a1c" kind="variable"><name>partition</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Range_1aef25881949adde719e927e339fcf0ca3" kind="variable"><name>offset</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Range_1a068b8e65535fd7663530b6b7e2c6950d" kind="variable"><name>count</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Range_1af537ddaad921c2c983e58efa97ba16aa" kind="function"><name>slice</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1Range_1a23d978353cb322f851ccf83225430439" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1verification_1_1Reference" kind="class"><name>octotigerII::verification::Reference</name>
+    <member refid="classoctotigerII_1_1verification_1_1Reference_1a8c76e364485f717f55f22c51b40c7efa" kind="variable"><name>name</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Reference_1ae7f9e59faf823af778b62f70010b7764" kind="variable"><name>reason</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Reference_1a852e4230e387f2a939f63808e8b0a726" kind="variable"><name>validUntil</name></member>
+    <member refid="classoctotigerII_1_1verification_1_1Reference_1aa602058966b85c1d8b50fe9878ade6eb" kind="variable"><name>evaluate</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1RunResult" kind="class"><name>octotigerII::RunResult</name>
+    <member refid="classoctotigerII_1_1RunResult_1a8c2cc3adfb4dee63a59437940889713f" kind="variable"><name>initial</name></member>
+    <member refid="classoctotigerII_1_1RunResult_1af5cd8dab63bdd5d4cde3dacb5a3748f1" kind="variable"><name>final</name></member>
+    <member refid="classoctotigerII_1_1RunResult_1abacd8d35bc4191ebc3c14a9bf19a8241" kind="variable"><name>steps</name></member>
+    <member refid="classoctotigerII_1_1RunResult_1acf2f8989f56fb738f549150aa21bf491" kind="variable"><name>gravityWork</name></member>
+    <member refid="classoctotigerII_1_1RunResult_1af3cffa01244355050bade4f4619cae7e" kind="variable"><name>snapshots</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Runtime" kind="class"><name>octotigerII::Runtime</name>
+    <member refid="classoctotigerII_1_1Runtime_1ab71c664dd5e0c522fd68903249992b5f" kind="variable"><name>impl_</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1a3e35597112bf34e429fc41b3ae87b0a3" kind="function"><name>Runtime</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1ade312e5eecb1f5b5b5696fb863f7d1ee" kind="function"><name>~Runtime</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1abf46c7321aafa8ec725fe9feeff17f42" kind="function"><name>Runtime</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1a59086182dc3706e262549bdc66d4a2f9" kind="function"><name>operator=</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1aff65bfd10ec282acc7b6ed718240f5ed" kind="function"><name>snapshots</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1ab9ed8935395551518a5dbeaa219cd040" kind="function"><name>stableTimestep</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1a9e24447ce07671b67fa12dbf83244150" kind="function"><name>advance</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1a9c8679deb91adbeefcd5df6d894dbac9" kind="function"><name>solveGravity</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1aa0ab374e652fcd5de193910b82dabbfd" kind="function"><name>setGravity</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1a721d1964a1ed955f928960db98c0d214" kind="function"><name>kickGravity</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1a509fae1a4d27dbd79d481962699368d4" kind="function"><name>size</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1a35a71e680e9a5d8995b4f18bef4ac080" kind="function"><name>generation</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1ada1eaec95570c66c1f99d1cd36f87d7c" kind="function"><name>statistics</name></member>
+    <member refid="classoctotigerII_1_1Runtime_1ad7efaf2a2cea3a3f113abfe1bb6b3f35" kind="function"><name>backend</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config_1_1RuntimeOptions" kind="class"><name>octotigerII::Config::RuntimeOptions</name>
+    <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a9de6cae399217c4faf5a96ae92e8a0cc" kind="variable"><name>stopTime</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a3d889ae1449243906eecc4d8298cce6e" kind="variable"><name>maxSteps</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1abfb9409ec3df8abd0d16791d6113d822" kind="variable"><name>workerTasks</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a4ddb849df8e1e5e2e117ab2091db77ee" kind="variable"><name>workStealing</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1RuntimeOptions_1a0fc99f734f7fbd74984566e7ed00c98c" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1SchedulingStatistics" kind="class"><name>octotigerII::SchedulingStatistics</name>
+    <member refid="classoctotigerII_1_1SchedulingStatistics_1afc333e5c2b296208780ea68587e4a615" kind="variable"><name>localTasks</name></member>
+    <member refid="classoctotigerII_1_1SchedulingStatistics_1a188e674acc0bbd77db6115c848c195dc" kind="variable"><name>stolenTasks</name></member>
+    <member refid="classoctotigerII_1_1SchedulingStatistics_1ac8e3016fabb6116800d4b593466792e6" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Snapshot" kind="class"><name>octotigerII::Snapshot</name>
+    <member refid="classoctotigerII_1_1Snapshot_1af67d64db71174c845073c16c215d1a47" kind="variable"><name>location</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1ae7afcfe262a676095526b633c918ca81" kind="variable"><name>layout</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1a571359395d5fc10fbb565c2e84f9ea46" kind="variable"><name>lower</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1acc0009efba1f7723faaf9a3267fadb1a" kind="variable"><name>cellWidth</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1a42348fb70bc15406f78fb904ae92cbe2" kind="variable"><name>time</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1ae678641a91816426ebace0c5b832a61b" kind="variable"><name>hydroEnabled</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1ae1937e11cbc5cfd0c9d4928bdaa0cb61" kind="variable"><name>radiationEnabled</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1aebb654624db4d4b90ef7df5339d4f2ea" kind="variable"><name>gravityEnabled</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1a297b51fa084fe51816181e1e09a1219e" kind="variable"><name>hydro</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1a46648a2cc4a7bb406f77ca88f5abba3f" kind="variable"><name>radiation</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1ae4ee69893cc739158ec25ac0bc07fc30" kind="variable"><name>gravity</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1a898cba6e3e7d46c9165b7a2c3764cf9d" kind="variable"><name>density</name></member>
+    <member refid="classoctotigerII_1_1Snapshot_1ae23b87b2ebf6be5802a72816a474478f" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1gravity_1_1Solution" kind="class"><name>octotigerII::gravity::Solution</name>
+    <member refid="classoctotigerII_1_1gravity_1_1Solution_1aba73da2bcfcd1b543267b9cfb695c6c4" kind="variable"><name>fields</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1Solution_1a00d9bcced5c9d50b24f243548a37aa02" kind="variable"><name>statistics</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1gravity_1_1FmmPartition_1_1Sources" kind="class"><name>octotigerII::gravity::FmmPartition::Sources</name>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1_1Sources_1adf9564b9eb6417239950dd5b988ccaa1" kind="variable"><name>level</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1_1Sources_1af2339fae335f311acec1b921c430d667" kind="variable"><name>local</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1_1Sources_1a0922e550c11846ece43ac2226afcf38b" kind="variable"><name>remote</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1FmmPartition_1_1Sources_1a50c3287bbd7a1070311e75bc8f084269" kind="function"><name>at</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1PartitionSet_1_1State" kind="class"><name>octotigerII::storage::PartitionSet::State</name>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1_1State_1a51d6ea853609f9e4cecb3afc73678086" kind="variable"><name>owners</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1_1State_1a4091f39174a303faf48657404244254b" kind="variable"><name>partitions</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1_1State_1a1226d83b4091037f33c624968b494dc8" kind="variable"><name>mutex</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1PartitionSet_1_1State_1a7043765da763060737b93dfab5c26a6c" kind="variable"><name>next</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1units_1_1State" kind="class"><name>octotigerII::units::State</name>
+    <member refid="classoctotigerII_1_1units_1_1State_1ab4f547dac5fefcbfcbf972d6ed494757" kind="typedef"><name>First</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a6317204ddcae8ea2a32c7a9cc52c3a06" kind="variable"><name>data_</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a331291f3c1f9a4cec57c578019a698f0" kind="function"><name>each</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a2fa0851cbb08929ab0bf57950e6f10f2" kind="function"><name>each</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1af017fba6fbcd7ea9f878f7369623520c" kind="function"><name>State</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a64cdbfdc5c6e51c067f7e0f73b0cc895" kind="function"><name>State</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a00818954cef18adbf74d72c1895cb423" kind="function"><name>operator[]</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1af6faa31d695b892602275981590dd556" kind="function"><name>operator[]</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a4e35176464d7b628bd455a9da3e8fcd7" kind="function"><name>operator+=</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a975f5240894ac21119593d055996ba6b" kind="function"><name>operator-=</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a7ee9b4ae53b0e1aaea6a344f47f9f5ea" kind="function"><name>operator*=</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a1747e81a1d918da16bc2c7a97b56ed5c" kind="function"><name>operator/=</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1ab7aadd9d006e23fd283bb70a9da8873b" kind="function"><name>get</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a014a9a23365989251d99b11ac5c40f6e" kind="function"><name>get</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a05a34d467acff718eba16ead7f25cc6f" kind="function"><name>forEach</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a076278a958f91ad271a8c34afd5184b1" kind="function"><name>forEach</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1ad0a76a1b9bf16e8fa350ccbc29296e0b" kind="function"><name>potential</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a01fd304baddf1ffa4f347b1083d509ce" kind="function"><name>potential</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a778dac0d3d1e6f6b48dfb19e33b60825" kind="function"><name>acceleration</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a35f2541e517986fd2700acd2297ea795" kind="function"><name>acceleration</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a0213b69fcf2251ea0ec87a15ed628c24" kind="function"><name>density</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a6096e7d7b9078b3b0b87abea2bdb2882" kind="function"><name>density</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a4ab7d99574ba76a1151e8800548bfbcb" kind="function"><name>mass</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a0dbd8ed68830ebe012848ee5da9ef2c9" kind="function"><name>mass</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1aeecba3d66ae028832322ec453d354162" kind="function"><name>momentum</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a7fdf3b4a064fe94862c2f70fa1aa7a1d" kind="function"><name>momentum</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1ac3585cbd0f2b08cb60bbd34281f86b0c" kind="function"><name>velocity</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a33350aee7c5b1b8185567af6e43ee11e" kind="function"><name>velocity</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a0fab1846513de4ff55bc7d336d912ebc" kind="function"><name>totalEnergy</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a99e10b301cec32c46671ef47f0f84d22" kind="function"><name>totalEnergy</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a57bb9a2add8c84a5d1d514525cae1812" kind="function"><name>pressure</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1aeba8b6a436cc027632bc18dc5a1b94d2" kind="function"><name>pressure</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1aa72f879d91098f21f7ed7407e46a69ec" kind="function"><name>energy</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a800ffbb55dad7cd98dea20e174579429" kind="function"><name>energy</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1afe5d5c276584f616631334ed1f648553" kind="function"><name>radiativeFlux</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1adbfc456e2847739f5ce01d849c5e7066" kind="function"><name>radiativeFlux</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1aa1923105e00da7f4034f46d0dc97ca80" kind="function"><name>setDensity</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a08ac50bcb46a91a12a9be1f68a2d36ac" kind="function"><name>setMass</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1aba44bdea3a63a7c19e2ce0d8039dcc6f" kind="function"><name>setMomentum</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a67323e0b229e6154218bd69ff9080667" kind="function"><name>setVelocity</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1af03d9f032da61a5c005abcd465cba785" kind="function"><name>setRadiativeFlux</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a915373a5364b98f6e4da89ed196a774c" kind="function"><name>setTotalEnergy</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1ab319247b892045a0da72642f7a6dfe39" kind="function"><name>setPressure</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a55b76ba2e61d45569f9a34eb0fd5d4da" kind="function"><name>setEnergy</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a4229e8b3cdb2f110b59c63cdecfee0db" kind="function"><name>serialize</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a7f7d90a4d342c073eaf4dc9c077158b7" kind="function"><name>size</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a9d364e1501b46f65a94e40ae29a54171" kind="friend"><name>componentAbs</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1acc07e00fa309aeec413fb7a046546002" kind="friend"><name>finite</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a4b8be9b7f79fac361feab2443d305e53" kind="friend"><name>operator*</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1af13788505661fc40d45811d75122a958" kind="friend"><name>operator*</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a2470af039840d83dbc2c5c07ce0ebbbb" kind="friend"><name>operator/</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a16b65fd47d477c9bd41c077e8a7deb29" kind="friend"><name>operator+</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a2db3bd07ae3a794f764c7895de2b88ef" kind="friend"><name>operator-</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a61a3957783557e330350ea668d61fe85" kind="friend"><name>operator-</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1ae1b8ba89db5db8a31ec4ab4b7b27fd03" kind="friend"><name>operator*</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1a67c2c57b34ca218f7713ce0829eb91f0" kind="friend"><name>operator*</name></member>
+    <member refid="classoctotigerII_1_1units_1_1State_1aa22bc716af84e22678a6a2a318e96e7d" kind="friend"><name>operator/</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1gravity_1_1Statistics" kind="class"><name>octotigerII::gravity::Statistics</name>
+    <member refid="classoctotigerII_1_1gravity_1_1Statistics_1ad7c96743b27f3671c57849e1a2bb07c3" kind="variable"><name>multipolePairs</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1Statistics_1a7a35f4b6347d150915a88fdc27cb45d0" kind="variable"><name>directPairs</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1Statistics_1a7c697efd191c0aef166cdd9122a6aa96" kind="variable"><name>workerTasks</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1Statistics_1a21f221b84d6298a7b52c3cdc104d7287" kind="variable"><name>localityCells</name></member>
+    <member refid="classoctotigerII_1_1gravity_1_1Statistics_1ac05c6fac10d4a1dd7751a7c25b425f7b" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult" kind="class"><name>octotigerII::physics::MusclHancock::StepResult</name>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult_1aad28b30c9c3717c8c8d61052ab0170b5" kind="variable"><name>timeInterval</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1StepResult_1ac5c98802b21b46841ac9af2182226b6e" kind="variable"><name>faceFluxes</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1storage_1_1StoragePartition" kind="class"><name>octotigerII::storage::StoragePartition</name>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1aa922ff892c8434caece054aeba2229a7" kind="variable"><name>mutex_</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1af838bf22b3f6f3b1a0df93fd5cd0a6f5" kind="variable"><name>columns_</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a6548ee2533fa69bef5be66982afa13fb" kind="function"><name>StoragePartition</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a6f45467c3bb2b8a857a5cb222ef5fa29" kind="function"><name>create</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a65ffbfbe4fba08432638b4150785506d" kind="function"><name>retire</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a0d9db3673737e49fdaba7fac2f2852bb" kind="function"><name>read</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a0727e128e0f151b5c027cac3c0b21e9b" kind="function"><name>write</name></member>
+    <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1a3a88a9e7100a8d5ba2f8f88959785fbe" kind="function"><name>allocation</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Subgrid" kind="class"><name>octotigerII::Subgrid</name>
+    <member refid="classoctotigerII_1_1Subgrid_1ad9ce450822e2cbf0f569975475dd7640" kind="variable"><name>id</name></member>
+    <member refid="classoctotigerII_1_1Subgrid_1a9b121b42447139730774e7ca7071807c" kind="variable"><name>location</name></member>
+    <member refid="classoctotigerII_1_1Subgrid_1a23e9d249bdf53c62604a3d72aa3b131d" kind="variable"><name>layout</name></member>
+    <member refid="classoctotigerII_1_1Subgrid_1a9150fc6c931a4b19ddf75a424374dee4" kind="variable"><name>lower</name></member>
+    <member refid="classoctotigerII_1_1Subgrid_1ad78e1b97121711764150cb3766bf2398" kind="variable"><name>cellWidth</name></member>
+    <member refid="classoctotigerII_1_1Subgrid_1a80a4f5e2bec4153114bac4d6140801f9" kind="variable"><name>interior</name></member>
+    <member refid="classoctotigerII_1_1Subgrid_1a395c046a72d801d0daf2ffe087cce28d" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1mesh_1_1TimeInterval" kind="class"><name>octotigerII::mesh::TimeInterval</name>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a6828c99f501964ef0ff349ff137e229b" kind="variable"><name>begin</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a3f121bea32fcfad416f25567e148b027" kind="variable"><name>end</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1ad88a88f3279d0101d0c2a94cfa3d3216" kind="function"><name>duration</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a0b9a076ef3d6e8ca73868dbfa5407ca0" kind="function"><name>contains</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeInterval_1a1d4eee69338069873d10ec7d7fb07ae1" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1mesh_1_1TimeState" kind="class"><name>octotigerII::mesh::TimeState</name>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" kind="variable"><name>time</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a84894582bfa257d5e0dcff8280722158" kind="variable"><name>stepSize</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a94e52817f7cecaccd74a780c2c1a3a55" kind="variable"><name>step</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a7ab0e56960fcce92042b4fbf7376327e" kind="variable"><name>temporalLevel</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1aabeb54f5ba0f535c1cf084ee9acf4519" kind="variable"><name>substep</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a55e34488b1e37a377dc4ae32058839cd" kind="function"><name>nextTime</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1abf492b30064177a753197998c56cf9d9" kind="function"><name>synchronizedWith</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1" kind="function"><name>completeStep</name></member>
+    <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a9a02ec4a2b2a9e74e78695e3870c8556" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config_1_1TimestepOptions" kind="class"><name>octotigerII::Config::TimestepOptions</name>
+    <member refid="classoctotigerII_1_1Config_1_1TimestepOptions_1a28b8e8bdd25de1c00ff5635b39cbcaf5" kind="variable"><name>cfl</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1TimestepOptions_1ab97c348942a07b8be23404281132eafc" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classVector" kind="class"><name>Vector</name>
+    <member refid="classVector_1a5b14fd46d5a269fbb6bffb5d90528fb5" kind="variable"><name>components_</name></member>
+    <member refid="classVector_1ab2e526ff61b85e2a632d92f76b354f74" kind="function"><name>Vector</name></member>
+    <member refid="classVector_1a1c869ae2edb8a57283a68fa6532e0ea1" kind="function"><name>Vector</name></member>
+    <member refid="classVector_1ad02018e4357c208b288d90113d77962e" kind="function"><name>Vector</name></member>
+    <member refid="classVector_1a94acded2aa64d7542494921886ab59fa" kind="function"><name>Vector</name></member>
+    <member refid="classVector_1ac6daf0720363d731593574c10922b87f" kind="function"><name>Vector</name></member>
+    <member refid="classVector_1a54979618194768f650ff6de65c8b3461" kind="function"><name>operator[]</name></member>
+    <member refid="classVector_1ae792e0b73c3a962c843fc2978422ea77" kind="function"><name>operator[]</name></member>
+    <member refid="classVector_1ad2df89f4e8eafe98cca2aa20a6e22b80" kind="function"><name>operator=</name></member>
+    <member refid="classVector_1a52eca6d6ee3a475303902726b5a248ea" kind="function"><name>operator=</name></member>
+    <member refid="classVector_1ad250d594ea80d20ad8c959ba9382c048" kind="function"><name>operator+=</name></member>
+    <member refid="classVector_1acbbc558eec10d82322b07988eff3cca1" kind="function"><name>operator-=</name></member>
+    <member refid="classVector_1a1ec8c7f8f76beef0a880d5cba51227c0" kind="function"><name>operator*=</name></member>
+    <member refid="classVector_1a10e0a72ebc46e8a3e85740d3d32c5316" kind="function"><name>operator/=</name></member>
+    <member refid="classVector_1a431637ce608c3179a6da971491272847" kind="function"><name>split</name></member>
+    <member refid="classVector_1a9cf72bb0707d4704beab6c43847990a2" kind="function"><name>dot</name></member>
+    <member refid="classVector_1a9fed8f78e7ee3aff9efc8e41230ab1d1" kind="function"><name>max</name></member>
+    <member refid="classVector_1a3894162bedc077a4388b2145e7b0e887" kind="function"><name>min</name></member>
+    <member refid="classVector_1a40c79671f93998ce785547f1608c5ffb" kind="function"><name>operator std::array&lt; T, N &gt;</name></member>
+    <member refid="classVector_1aa671e1f64e2b3d395945f596b6dc7d8e" kind="function"><name>serialize</name></member>
+    <member refid="classVector_1a0caa8ae2434324190fb3efd4f76c9ec4" kind="function"><name>size</name></member>
+    <member refid="classVector_1a747f65aae98ca6136bdc792485c79a54" kind="function"><name>unit</name></member>
+    <member refid="classVector_1a0a6dff805d32af961edc9830b8dec1be" kind="friend"><name>sqr</name></member>
+    <member refid="classVector_1a9d2a9949a3725726f5f77944e6b72566" kind="friend"><name>abs</name></member>
+    <member refid="classVector_1a012603c81f436842e39edaeb05d0162e" kind="friend"><name>norm</name></member>
+    <member refid="classVector_1a8f71e29d47a0f0d0fb9af2e9bf08d5d8" kind="friend"><name>operator+</name></member>
+    <member refid="classVector_1ab74002446990c4ed1b2576d7417d5ad0" kind="friend"><name>operator-</name></member>
+    <member refid="classVector_1acf436a007d9d35d1d8c123f2b8167bfe" kind="friend"><name>operator+</name></member>
+    <member refid="classVector_1ac2041cc3e2f9bc0968d263b61a3f17d5" kind="friend"><name>operator-</name></member>
+    <member refid="classVector_1aca372e4ee2c2237a541ab4a21f2b3ae7" kind="friend"><name>operator*</name></member>
+    <member refid="classVector_1a48b5fa115015d47147d8a878e61309a4" kind="friend"><name>operator*</name></member>
+    <member refid="classVector_1ac90730501b6bff86c985ba3edbcde6d8" kind="friend"><name>operator/</name></member>
+    <member refid="classVector_1aa62e4aae47ebcd065da68fe25c8eed3b" kind="function"><name>forEachComponent</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1Config_1_1VerificationOptions" kind="class"><name>octotigerII::Config::VerificationOptions</name>
+    <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1af113e969cfba0f3532480421662cfa78" kind="variable"><name>analytic</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a351e7be8087a05228d5ebf54e87cbea9" kind="variable"><name>gravityReference</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a13f4418748ffcb8774bcb010fd288cde" kind="variable"><name>directMaxPairs</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1af18ff24387ab236d23b54e1b46bb7953" kind="variable"><name>directSamples</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a6b394069a79d1036f5bfae1e6e8dcd98" kind="variable"><name>relativeL1Tolerance</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a5734ed382f0b59c6b0b5531ee338d2cf" kind="variable"><name>absoluteTolerance</name></member>
+    <member refid="classoctotigerII_1_1Config_1_1VerificationOptions_1a0231c2ee6682cb197c9b7bfc8b75be7d" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves" kind="class"><name>octotigerII::radiation::M1::Waves</name>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1af766ac1c7ce8d4961ba9beccc277f77b" kind="variable"><name>flux</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1aff9cfb792a084d4a222daa7410b34d8f" kind="variable"><name>minus</name></member>
+    <member refid="classoctotigerII_1_1radiation_1_1M1_1_1Waves_1a592fe515758f7f61af77b4df6ee728f2" kind="variable"><name>plus</name></member>
+  </compound>
+  <compound refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace" kind="class"><name>octotigerII::physics::MusclHancock::Workspace</name>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a68feaf36a6fd71d91047a984f0415485" kind="variable"><name>minus</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a9041a5d5aa2b58c53214bd9139067a37" kind="variable"><name>plus</name></member>
+    <member refid="classoctotigerII_1_1physics_1_1MusclHancock_1_1Workspace_1a432f966347bfffe742baf5bc5d072ccf" kind="variable"><name>fluxes</name></member>
+  </compound>
+  <compound refid="namespace_0d40" kind="namespace"><name>@40</name>
+  </compound>
+  <compound refid="namespaceboost" kind="namespace"><name>boost</name>
+  </compound>
+  <compound refid="namespaceboost_1_1units" kind="namespace"><name>boost::units</name>
+    <member refid="namespaceboost_1_1units_1a88964de433f9200830b44bcc4f7ff6ff" kind="function"><name>serialize</name></member>
+  </compound>
+  <compound refid="namespacehpx" kind="namespace"><name>hpx</name>
+  </compound>
+  <compound refid="namespacehpx_1_1components" kind="namespace"><name>hpx::components</name>
+  </compound>
+  <compound refid="namespaceoctotigerII" kind="namespace"><name>octotigerII</name>
+    <member refid="namespaceoctotigerII_1a7c6d3d8955981ab6967558bc2937c566" kind="typedef"><name>Observer</name></member>
+    <member refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kind="variable"><name>ndim</name></member>
+    <member refid="namespaceoctotigerII_1a36e16cbc75f27d1a3368f8211b518012" kind="function"><name>parseConfig</name></member>
+    <member refid="namespaceoctotigerII_1ac8331b525bdfe42b0b13d10a80fa49ec" kind="function"><name>helpText</name></member>
+    <member refid="namespaceoctotigerII_1a2df2e99deb5c68b7b55c306ef5099150" kind="function"><name>problemReference</name></member>
+    <member refid="namespaceoctotigerII_1a374ae7a555bf632b742d3cf276fd06c1" kind="function"><name>problemDefaults</name></member>
+    <member refid="namespaceoctotigerII_1a3f9db90f04993280ebca09a681aec503" kind="function"><name>validateProblem</name></member>
+    <member refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" kind="function"><name>initializeProblem</name></member>
+    <member refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" kind="function"><name>diagnose</name></member>
+    <member refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" kind="function"><name>run</name></member>
+    <member refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" kind="function"><name>initialSnapshot</name></member>
+    <member refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" kind="function"><name>makeHaloPlan</name></member>
+    <member refid="namespaceoctotigerII_1a6b6a606567354b683caa7784f44abd73" kind="function"><name>readHalo</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1_0d34" kind="namespace"><name>octotigerII::@34</name>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1_0d42" kind="namespace"><name>octotigerII::@42</name>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1_0d46" kind="namespace"><name>octotigerII::@46</name>
+    <member refid="namespaceoctotigerII_1_1_0d46_1a8b1484dfe79d0f7ccf3dda3a9b821057" kind="enum"><name>Operation</name></member>
+    <member refid="namespaceoctotigerII_1_1_0d46_1a8b1484dfe79d0f7ccf3dda3a9b821057a2163174f7d9e4d664ad78062c435ddd1" kind="enumvalue"><name>Timestep</name></member>
+    <member refid="namespaceoctotigerII_1_1_0d46_1a8b1484dfe79d0f7ccf3dda3a9b821057a0a86dddc699c7e6fe7f1e43153a5cbee" kind="enumvalue"><name>Advance</name></member>
+    <member refid="namespaceoctotigerII_1_1_0d46_1a8b1484dfe79d0f7ccf3dda3a9b821057a3e07960fcc45408894cf1402257bd9fd" kind="enumvalue"><name>Kick</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1build" kind="namespace"><name>octotigerII::build</name>
+    <member refid="namespaceoctotigerII_1_1build_1aef3cf0018084925fa08f4b0c166bdac6" kind="variable"><name>problem</name></member>
+    <member refid="namespaceoctotigerII_1_1build_1acdc48af7f174c82a02323483e99b091f" kind="variable"><name>executable</name></member>
+    <member refid="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" kind="variable"><name>hydro</name></member>
+    <member refid="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" kind="variable"><name>radiation</name></member>
+    <member refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" kind="variable"><name>gravity</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1constants" kind="namespace"><name>octotigerII::constants</name>
+    <member refid="namespaceoctotigerII_1_1constants_1aa2ca41cb3ebd8c4693d946d3d2f07604" kind="variable"><name>G</name></member>
+    <member refid="namespaceoctotigerII_1_1constants_1a818378a5aaef2811504d5155316f9d7f" kind="variable"><name>c</name></member>
+    <member refid="namespaceoctotigerII_1_1constants_1a5a6e4f64d0a82bd858522c300bfb77f0" kind="variable"><name>atomicMassUnit</name></member>
+    <member refid="namespaceoctotigerII_1_1constants_1a5c7f51a0a90352e49d0c9adc1087c9e6" kind="variable"><name>boltzmann</name></member>
+    <member refid="namespaceoctotigerII_1_1constants_1ac5409f7107726b8e52e551eec8aac740" kind="variable"><name>planck</name></member>
+    <member refid="namespaceoctotigerII_1_1constants_1ab31853085c1608bfec36d01013741f89" kind="variable"><name>radiation</name></member>
+    <member refid="namespaceoctotigerII_1_1constants_1a41513bbb6857806b987fb571032ecbc4" kind="variable"><name>m_u</name></member>
+    <member refid="namespaceoctotigerII_1_1constants_1a424f66e8c2b71f3a51ee5bc1859cff91" kind="variable"><name>k_B</name></member>
+    <member refid="namespaceoctotigerII_1_1constants_1a44c6db8779ef147e779645aea6ece9d7" kind="variable"><name>a_r</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1gravity" kind="namespace"><name>octotigerII::gravity</name>
+    <member refid="namespaceoctotigerII_1_1gravity_1abace521e5efaecbfd9fdda34ec20b58e" kind="typedef"><name>State</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1a30671cb5e9dc866f8e39a4d51435c252" kind="typedef"><name>Fields</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" kind="function"><name>solve</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1gravity_1_1_0d36" kind="namespace"><name>octotigerII::gravity::@36</name>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0" kind="enum"><name>Stage</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0a223e06f5cb15fc701ea1e686f7934f4f" kind="enumvalue"><name>Initialize</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0a2fad4fd9e0a2737fdcac5ff87ffe403c" kind="enumvalue"><name>Upward</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0a021f1340f5979a4f4f9642940221ad53" kind="enumvalue"><name>Downward</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1_0d36_1a3752011189027dc78be80bfac3db06a0a110a4b01beabd53b661a47d4b44bd7a8" kind="enumvalue"><name>Publish</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1gravity_1_1_0d38" kind="namespace"><name>octotigerII::gravity::@38</name>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1gravity_1_1diagonal" kind="namespace"><name>octotigerII::gravity::diagonal</name>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1ac7d5630269921b2bafbc53c0c2bdc75b" kind="typedef"><name>Vector</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6a84296cfc13edbc19b8070c982e2d34" kind="typedef"><name>Offset</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kind="typedef"><name>Coefficients</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a81a9eb30df8edf02f749d8856b6c3109" kind="typedef"><name>Field</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a02054386dab8b2a39dfe2d467c2dfb15" kind="function"><name>coefficientCount</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a46f4b28cc69a966ddb592c8ba66830ea" kind="function"><name>indices</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a1ae2418720aa3f562a7298f1ae6d89d0" kind="function"><name>point</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a3184157d9ffd1b68e3960c03ba32c593" kind="function"><name>shiftMultipole</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1aef4d9e75b8216ba034de0b5507cb83a5" kind="function"><name>shiftLocal</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6109366ed08bbd4c7944c0e12eaa580d" kind="function"><name>derivative</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a8fa5d19e8ec9e38f977cf054f617db1f" kind="function"><name>evaluate</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a9818f3547f2de0fa274dd6343c286b15" kind="function"><name>getOperator</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1ab0a41e06b06a56619ffc78aa03e9d09f" kind="function"><name>cachedOperatorCount</name></member>
+    <member refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1af226d57a955c7b03d2d9593636ad03a5" kind="function"><name>addDirect</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1_1_0d35" kind="namespace"><name>octotigerII::gravity::diagonal::@35</name>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1hydro" kind="namespace"><name>octotigerII::hydro</name>
+    <member refid="namespaceoctotigerII_1_1hydro_1a1693a5b403a4abb0eb657a316be35995" kind="typedef"><name>ConservedState</name></member>
+    <member refid="namespaceoctotigerII_1_1hydro_1a28c77eec0efa7904862c6a530dad720c" kind="typedef"><name>PrimitiveState</name></member>
+    <member refid="namespaceoctotigerII_1_1hydro_1af297704bcc6d35d6252f8f41826926d9" kind="typedef"><name>ConservedFlux</name></member>
+    <member refid="namespaceoctotigerII_1_1hydro_1ad3ef5020a00bd1d36c73fcec0be5d805" kind="typedef"><name>Solver</name></member>
+    <member refid="namespaceoctotigerII_1_1hydro_1a6488b62becf706e4006fc39d1eb15df6" kind="typedef"><name>Fields</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1mesh" kind="namespace"><name>octotigerII::mesh</name>
+    <member refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kind="typedef"><name>Coordinates</name></member>
+    <member refid="namespaceoctotigerII_1_1mesh_1a75c6d3d571de04dad3c8dc3fe7b53b0e" kind="typedef"><name>PhysicalCoordinates</name></member>
+    <member refid="namespaceoctotigerII_1_1mesh_1a727008e4d9883a2d3ff531702b07b226" kind="function"><name>filledCoordinates</name></member>
+    <member refid="namespaceoctotigerII_1_1mesh_1af49d44d0c46f82303d56f1536393844a" kind="function"><name>linearIndex</name></member>
+    <member refid="namespaceoctotigerII_1_1mesh_1a6e5a131e86ee503befdc4d08c9ec19b8" kind="function"><name>forEachCoordinate</name></member>
+    <member refid="namespaceoctotigerII_1_1mesh_1a78871be2a118e98b8932770a54c4746f" kind="function"><name>forEachCoordinate</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1physics" kind="namespace"><name>octotigerII::physics</name>
+    <member refid="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65" kind="enum"><name>Limiter</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65a7221ade7ceae31d6ee87650ed5e905b8" kind="enumvalue"><name>Minmod</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65af9b8010cbfb0219d361f7670afcc289f" kind="enumvalue"><name>VanLeer</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a59bf033c4fea04085487a24ea22bfe65acaabe74147c212e7da46a0e6610892f0" kind="enumvalue"><name>MinmodTheta</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250" kind="enum"><name>BoundaryCondition</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250aed8d17bb6b19088af6d891a82e5b1eb2" kind="enumvalue"><name>Outflow</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250acdcc32a064503184053bd2018d1c0e7e" kind="enumvalue"><name>Periodic</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a48b3e3dd23932a79839bdc62c8682250a9ee62873f779acffc647988768156e29" kind="enumvalue"><name>Reflecting</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a1306746416d4c2a93531cb92e8250062" kind="function"><name>finiteVolumeSchemeName</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1ac3c07bf58bd0da9fc80036b0e91f1877" kind="function"><name>limitedSlope</name></member>
+    <member refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" kind="function"><name>fillGhostCells</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1radiation" kind="namespace"><name>octotigerII::radiation</name>
+    <member refid="namespaceoctotigerII_1_1radiation_1a505d4b60d7fb646cd2ccf4aefe61aa72" kind="typedef"><name>Solver</name></member>
+    <member refid="namespaceoctotigerII_1_1radiation_1a117da2107968295862277a3a90082369" kind="typedef"><name>Fields</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1storage" kind="namespace"><name>octotigerII::storage</name>
+    <member refid="namespaceoctotigerII_1_1storage_1a76814c4687c03ea691e0fa640798cd72" kind="typedef"><name>Locality</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1ae535d8a88a521ee629d5b83498233868" kind="typedef"><name>Future</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1a2092aeb1b30437f9fc9d17f3689fa572" kind="typedef"><name>Buffer</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1ae0cb7d4c66f011cf8529359b7f35459c" kind="typedef"><name>FieldId</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1a1be47ab0d834e09975d2c78eeeeeb7ee" kind="typedef"><name>RetireAction</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1a77ac6ac7b5de2121f4d409239df89e72" kind="typedef"><name>CreateAction</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1a58fa08b1bd6683a53c362820388e3ce9" kind="typedef"><name>ReadAction</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1af0cfecd9fbd3de2c17a176687eb23fb6" kind="typedef"><name>WriteAction</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1aaa42d3964aea200b1f4af65609dd19fa" kind="function"><name>createField</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1ad006004b32f1e494420ca50db643a3ca" kind="function"><name>readField</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1a677df56301dd70d88fe35419b578781b" kind="function"><name>writeField</name></member>
+    <member refid="namespaceoctotigerII_1_1storage_1a15a6644bce27b23dbfe1e3576c606da7" kind="function"><name>retireField</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1transportExchange" kind="namespace"><name>octotigerII::transportExchange</name>
+    <member refid="namespaceoctotigerII_1_1transportExchange_1af29d6cd07be3bc1bb59a539575883005" kind="function"><name>validateDomain</name></member>
+    <member refid="namespaceoctotigerII_1_1transportExchange_1ae3d40f60911dc9c4df5d0c0c0fa02507" kind="function"><name>sameTime</name></member>
+    <member refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" kind="function"><name>fillHalo</name></member>
+    <member refid="namespaceoctotigerII_1_1transportExchange_1a3e3aa7ddb1f50414a014c34dff52e51c" kind="function"><name>advance</name></member>
+    <member refid="namespaceoctotigerII_1_1transportExchange_1a3672d89695cef00676bbdf1eae4325af" kind="function"><name>stableStep</name></member>
+    <member refid="namespaceoctotigerII_1_1transportExchange_1a86244ed68f4510d0552c090f4cc62e0e" kind="function"><name>advancePatch</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1units" kind="namespace"><name>octotigerII::units</name>
+    <member refid="namespaceoctotigerII_1_1units_1ad2910b9675fcb0505162958125d2aadb" kind="typedef"><name>System</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a5145af0cf7dcfe3459d861acf8b07ee7" kind="typedef"><name>DimensionTerm</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kind="typedef"><name>Quantity</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kind="typedef"><name>Length</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1aa2e4760a841ba0ba59603e3a19bf22b3" kind="typedef"><name>Mass</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kind="typedef"><name>Time</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a2ccb7f7d57bea0a437485f5d41ac2764" kind="typedef"><name>Temperature</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" kind="typedef"><name>Velocity</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a2970630ccfc5a5acf003c42ca5b534d8" kind="typedef"><name>VelocitySquared</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1ad0e169cba9fb804d9278cfbca518e053" kind="typedef"><name>Acceleration</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kind="typedef"><name>Density</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1aee152cd28bc3fe78aa169eb2bb62aa32" kind="typedef"><name>MomentumDensity</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" kind="typedef"><name>Pressure</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1ad1443df8e3f217aa1a3ec9c439258873" kind="typedef"><name>EnergyDensity</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a6ee26a6b80b498c21db2aac825409131" kind="typedef"><name>Energy</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1ab626b934f6bc74cdcd8c81bb5cb5b290" kind="typedef"><name>EnergyFlux</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1abcb9b3deb2ec9dd5c706fbed417ec105" kind="typedef"><name>EnergyFluxTransport</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1ad590e64f136a84b9fe8a81a4b8b5743a" kind="typedef"><name>MassFlux</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1ac66fca8cbb946d893982903d65ad18dd" kind="typedef"><name>MomentumFlux</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1adc1407dfaa21d427597d46c2448ca7c4" kind="typedef"><name>Volume</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1ad249fb91bbd57dea7586d85842b9ad8d" kind="typedef"><name>Momentum</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a8dadb9f990007369ccb55e665061c4d4" kind="typedef"><name>InverseTime</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a1b0eeaa4df1aa91075ac820e1fa78e7f" kind="typedef"><name>MassPerLength</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1adab857fd87152dbea372a276d4c8f2aa" kind="typedef"><name>TimePerLength</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a619e6b27553895749d71f85cbc7b7c73" kind="typedef"><name>GravitationalConstant</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a8e93ce7237ef04ad7552ab03e3e94341" kind="typedef"><name>BoltzmannConstant</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1ad1e473dca615a2c23392afe7f1111d18" kind="typedef"><name>RadiationConstant</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a3cf3dcd2e0240cf14fc69e3ae45b7564" kind="typedef"><name>Action</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a914592aac383cda9ddaa97135df716cf" kind="typedef"><name>ScalarVectorState</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a772fc7c4e1766c362bbdae1e8937c7f7" kind="typedef"><name>FluidState</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a53c5c6245a4a7ece95e76a686a6bd662" kind="function"><name>value</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" kind="function"><name>finite</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1a8f528746f11757a6574b8aa3b6d0ac74" kind="function"><name>hypot</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1units_1_1detail" kind="namespace"><name>octotigerII::units::detail</name>
+    <member refid="namespaceoctotigerII_1_1units_1_1detail_1a578e4e77d089328da52050d14a01ace4" kind="function"><name>scalarVector</name></member>
+    <member refid="namespaceoctotigerII_1_1units_1_1detail_1a4aa24b8677716521d46b740e25a5e9bb" kind="function"><name>fluid</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1verification" kind="namespace"><name>octotigerII::verification</name>
+    <member refid="namespaceoctotigerII_1_1verification_1a37413c8160dfd3f5e8488a17369d480b" kind="function"><name>usesDirectGravity</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" kind="function"><name>reference</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" kind="function"><name>sample</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" kind="function"><name>compare</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1a66c6ee6dcf8a951e88e1257ef9fd6a0d" kind="function"><name>sodReference</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" kind="function"><name>sphereReference</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1a2e9ae4e7a511dcc613eb1a005fb38a46" kind="function"><name>streamingReference</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1ab448f62dd419234e0a22f0b37a106a7d" kind="function"><name>directTargets</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1a40c14d3a2471b6a0f74d3ee5ef9b54a4" kind="function"><name>directErrorNorm</name></member>
+    <member refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" kind="function"><name>compareDirectGravity</name></member>
+  </compound>
+  <compound refid="namespaceoctotigerII_1_1verification_1_1_0d56" kind="namespace"><name>octotigerII::verification::@56</name>
+  </compound>
+  <compound refid="BIBLIOGRAPHY_8md" kind="file"><name>BIBLIOGRAPHY.md</name>
+  </compound>
+  <compound refid="gravity__tests_2Gaussian_2problem_8cpp" kind="file"><name>problem.cpp</name>
+  </compound>
+  <compound refid="gravity__tests_2Sphere_2problem_8cpp" kind="file"><name>problem.cpp</name>
+  </compound>
+  <compound refid="hydro__tests_2KelvinHelmholtz_2problem_8cpp" kind="file"><name>problem.cpp</name>
+  </compound>
+  <compound refid="hydro__tests_2Sod_2problem_8cpp" kind="file"><name>problem.cpp</name>
+  </compound>
+  <compound refid="radiation__tests_2RadiationPulse_2problem_8cpp" kind="file"><name>problem.cpp</name>
+  </compound>
+  <compound refid="radiation__tests_2Streaming_2problem_8cpp" kind="file"><name>problem.cpp</name>
+  </compound>
+  <compound refid="science_2Collapse_2problem_8cpp" kind="file"><name>problem.cpp</name>
+  </compound>
+  <compound refid="BUILDING_8md" kind="file"><name>BUILDING.md</name>
+  </compound>
+  <compound refid="buildConfig_8hpp_8in" kind="file"><name>buildConfig.hpp.in</name>
+    <member refid="buildConfig_8hpp_8in_1a6cea36c3eafa381108e4c0160a185a2d" kind="define"><name>OCTOTIGERII_NDIM</name></member>
+    <member refid="buildConfig_8hpp_8in_1a8a377f9d4e15eab1acb5c13c96bfb748" kind="define"><name>OCTOTIGERII_GRAVITY</name></member>
+    <member refid="buildConfig_8hpp_8in_1abe44c648dd5ae675ca0527374870844a" kind="define"><name>OCTOTIGERII_HYDRO</name></member>
+    <member refid="buildConfig_8hpp_8in_1a145d3a6fbee7df083ef625db89b7bcc4" kind="define"><name>OCTOTIGERII_RADIATION</name></member>
+  </compound>
+  <compound refid="analytic-verification_8md" kind="file"><name>analytic-verification.md</name>
+  </compound>
+  <compound refid="documenting_8md" kind="file"><name>documenting.md</name>
+  </compound>
+  <compound refid="groups_8dox" kind="file"><name>groups.dox</name>
+  </compound>
+  <compound refid="index_8md" kind="file"><name>index.md</name>
+  </compound>
+  <compound refid="numerics_8md" kind="file"><name>numerics.md</name>
+  </compound>
+  <compound refid="parallel-fmm_8md" kind="file"><name>parallel-fmm.md</name>
+  </compound>
+  <compound refid="config_8hpp" kind="file"><name>config.hpp</name>
+  </compound>
+  <compound refid="fmm_8hpp" kind="file"><name>fmm.hpp</name>
+  </compound>
+  <compound refid="fieldSolver_8hpp" kind="file"><name>fieldSolver.hpp</name>
+  </compound>
+  <compound refid="gravityFields_8hpp" kind="file"><name>gravityFields.hpp</name>
+  </compound>
+  <compound refid="solver_8hpp" kind="file"><name>solver.hpp</name>
+  </compound>
+  <compound refid="hydroSystem_8hpp" kind="file"><name>hydroSystem.hpp</name>
+  </compound>
+  <compound refid="FpeGuard_8hpp" kind="file"><name>FpeGuard.hpp</name>
+    <member refid="FpeGuard_8hpp_1ad7d59fceca1fae01ea065fc42ad7f67c" kind="define"><name>hasFpeEnableExcept</name></member>
+  </compound>
+  <compound refid="Real_8hpp" kind="file"><name>Real.hpp</name>
+    <member refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kind="typedef"><name>Real</name></member>
+    <member refid="Real_8hpp_1a08cc81e0f92efcc2206a1bea24bb07ed" kind="variable"><name>epsilonR</name></member>
+    <member refid="Real_8hpp_1a5839fda3fbc07e70b2950475761f6176" kind="variable"><name>piR</name></member>
+  </compound>
+  <compound refid="Vector_8hpp" kind="file"><name>Vector.hpp</name>
+    <member refid="Vector_8hpp_1a6a8b9eda516148bcaefc0c06c6c9fcc4" kind="function"><name>concatenate</name></member>
+    <member refid="Vector_8hpp_1a3a753051c43ef9d515945b9eaa1cf4d3" kind="function"><name>concatenate</name></member>
+    <member refid="Vector_8hpp_1a59bfcac8172e830f12aaa341b018349a" kind="function"><name>concatenate</name></member>
+  </compound>
+  <compound refid="mesh_8hpp" kind="file"><name>mesh.hpp</name>
+  </compound>
+  <compound refid="output_8hpp" kind="file"><name>output.hpp</name>
+  </compound>
+  <compound refid="finiteVolume_8hpp" kind="file"><name>finiteVolume.hpp</name>
+  </compound>
+  <compound refid="problems_8hpp" kind="file"><name>problems.hpp</name>
+  </compound>
+  <compound refid="m1_8hpp" kind="file"><name>m1.hpp</name>
+  </compound>
+  <compound refid="radiationTransport_8hpp" kind="file"><name>radiationTransport.hpp</name>
+  </compound>
+  <compound refid="runtime_8hpp" kind="file"><name>runtime.hpp</name>
+  </compound>
+  <compound refid="simulation_8hpp" kind="file"><name>simulation.hpp</name>
+  </compound>
+  <compound refid="buffer_8hpp" kind="file"><name>buffer.hpp</name>
+    <member refid="buffer_8hpp_1aadd2a86a08d34168c5bf512b8666f490" kind="define"><name>OCTO_STORAGE_TYPE</name></member>
+  </compound>
+  <compound refid="columns_8hpp" kind="file"><name>columns.hpp</name>
+  </compound>
+  <compound refid="field_8hpp" kind="file"><name>field.hpp</name>
+  </compound>
+  <compound refid="layout_8hpp" kind="file"><name>layout.hpp</name>
+  </compound>
+  <compound refid="partition_8hpp" kind="file"><name>partition.hpp</name>
+    <member refid="partition_8hpp_1aadd2a86a08d34168c5bf512b8666f490" kind="define"><name>OCTO_STORAGE_TYPE</name></member>
+  </compound>
+  <compound refid="registry_8hpp" kind="file"><name>registry.hpp</name>
+  </compound>
+  <compound refid="exchange_8hpp" kind="file"><name>exchange.hpp</name>
+  </compound>
+  <compound refid="fluxPacket_8hpp" kind="file"><name>fluxPacket.hpp</name>
+  </compound>
+  <compound refid="subgrid_8hpp" kind="file"><name>subgrid.hpp</name>
+  </compound>
+  <compound refid="topology_8hpp" kind="file"><name>topology.hpp</name>
+  </compound>
+  <compound refid="view_8hpp" kind="file"><name>view.hpp</name>
+  </compound>
+  <compound refid="cgs_8hpp" kind="file"><name>cgs.hpp</name>
+  </compound>
+  <compound refid="constants_8hpp" kind="file"><name>constants.hpp</name>
+  </compound>
+  <compound refid="state_8hpp" kind="file"><name>state.hpp</name>
+  </compound>
+  <compound refid="analytic_8hpp" kind="file"><name>analytic.hpp</name>
+  </compound>
+  <compound refid="directGravity_8hpp" kind="file"><name>directGravity.hpp</name>
+  </compound>
+  <compound refid="ROADMAP_8md" kind="file"><name>ROADMAP.md</name>
+  </compound>
+  <compound refid="config_8cpp" kind="file"><name>config.cpp</name>
+  </compound>
+  <compound refid="fmm_8cpp" kind="file"><name>fmm.cpp</name>
+  </compound>
+  <compound refid="fieldSolver_8cpp" kind="file"><name>fieldSolver.cpp</name>
+    <member refid="fieldSolver_8cpp_1aedf7b37b39c384cc8182510559c90ae7" kind="typedef"><name>FmmComponent</name></member>
+    <member refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" kind="variable"><name>count</name></member>
+    <member refid="fieldSolver_8cpp_1a7676935d6912d47a8a854840f0d4e056" kind="variable"><name>width</name></member>
+    <member refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" kind="variable"><name>begin</name></member>
+    <member refid="fieldSolver_8cpp_1a30276f76b04bde2d30e88017646a8e03" kind="variable"><name>end</name></member>
+    <member refid="fieldSolver_8cpp_1a117d9c2c262ddfa9aee2a93b944f5946" kind="variable"><name>moments</name></member>
+    <member refid="fieldSolver_8cpp_1ab8bcf78607bf1b205190faaac25cf5f8" kind="variable"><name>locals</name></member>
+    <member refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" kind="variable"><name>range</name></member>
+    <member refid="fieldSolver_8cpp_1a074c6c5e9e12dcb0423e8898f601ea1c" kind="variable"><name>leaf</name></member>
+  </compound>
+  <compound refid="gravityFields_8cpp" kind="file"><name>gravityFields.cpp</name>
+  </compound>
+  <compound refid="solver_8cpp" kind="file"><name>solver.cpp</name>
+    <member refid="solver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" kind="variable"><name>count</name></member>
+    <member refid="solver_8cpp_1a7676935d6912d47a8a854840f0d4e056" kind="variable"><name>width</name></member>
+    <member refid="solver_8cpp_1a117d9c2c262ddfa9aee2a93b944f5946" kind="variable"><name>moments</name></member>
+    <member refid="solver_8cpp_1ab8bcf78607bf1b205190faaac25cf5f8" kind="variable"><name>locals</name></member>
+  </compound>
+  <compound refid="hydroSystem_8cpp" kind="file"><name>hydroSystem.cpp</name>
+  </compound>
+  <compound refid="main_8cpp" kind="file"><name>main.cpp</name>
+    <member refid="main_8cpp_1a8ccc4cf9de8d8cc7be602eb878816891" kind="function"><name>hpx_main</name></member>
+    <member refid="main_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="mesh_8cpp" kind="file"><name>mesh.cpp</name>
+  </compound>
+  <compound refid="output_8cpp" kind="file"><name>output.cpp</name>
+    <member refid="output_8cpp_1a9b45b3e13bd9167aab02e17e08916231" kind="variable"><name>name</name></member>
+    <member refid="output_8cpp_1a9d8a43adf9fd3fd5efa57e1f9140ca72" kind="variable"><name>units</name></member>
+    <member refid="output_8cpp_1a2ad192c64ff93c02f9f41c320e7aa1bc" kind="variable"><name>values</name></member>
+  </compound>
+  <compound refid="finiteVolume_8cpp" kind="file"><name>finiteVolume.cpp</name>
+  </compound>
+  <compound refid="problems_8cpp" kind="file"><name>problems.cpp</name>
+  </compound>
+  <compound refid="radiationTransport_8cpp" kind="file"><name>radiationTransport.cpp</name>
+  </compound>
+  <compound refid="runtime_8cpp" kind="file"><name>runtime.cpp</name>
+    <member refid="runtime_8cpp_1aa7a6d43997831ea67211eac8e059f772" kind="typedef"><name>LocalExecutorComponent</name></member>
+    <member refid="runtime_8cpp_1aca5fd1b55203c5431b825bda092f1a43" kind="variable"><name>ghosts</name></member>
+    <member refid="runtime_8cpp_1a197f48de4a87d5a94d1ecf7f9aeab75b" kind="variable"><name>work</name></member>
+    <member refid="runtime_8cpp_1ac271c19080155ac5ea64995fc238eeae" kind="variable"><name>hydro</name></member>
+    <member refid="runtime_8cpp_1af121285de54118d36b753951ebdf44c9" kind="variable"><name>radiation</name></member>
+    <member refid="runtime_8cpp_1a73980f05f85987758ec3303fc2e629dc" kind="variable"><name>tasks</name></member>
+    <member refid="runtime_8cpp_1ae62248cc5d9714e2832e0ed24d0457d7" kind="variable"><name>timestep</name></member>
+  </compound>
+  <compound refid="simulation_8cpp" kind="file"><name>simulation.cpp</name>
+  </compound>
+  <compound refid="storage_8cpp" kind="file"><name>storage.cpp</name>
+    <member refid="storage_8cpp_1aadd2a86a08d34168c5bf512b8666f490" kind="define"><name>OCTO_STORAGE_TYPE</name></member>
+    <member refid="storage_8cpp_1a33beb354d9275ea0bc305e3d625fcf3a" kind="typedef"><name>StorageComponent</name></member>
+  </compound>
+  <compound refid="storage__acceleration_8cpp" kind="file"><name>storage_acceleration.cpp</name>
+  </compound>
+  <compound refid="storage__density_8cpp" kind="file"><name>storage_density.cpp</name>
+  </compound>
+  <compound refid="storage__energy_8cpp" kind="file"><name>storage_energy.cpp</name>
+  </compound>
+  <compound refid="storage__momentum_8cpp" kind="file"><name>storage_momentum.cpp</name>
+  </compound>
+  <compound refid="storage__potential_8cpp" kind="file"><name>storage_potential.cpp</name>
+  </compound>
+  <compound refid="subgrid_8cpp" kind="file"><name>subgrid.cpp</name>
+  </compound>
+  <compound refid="topology_8cpp" kind="file"><name>topology.cpp</name>
+  </compound>
+  <compound refid="analytic_8cpp" kind="file"><name>analytic.cpp</name>
+  </compound>
+  <compound refid="directGravity_8cpp" kind="file"><name>directGravity.cpp</name>
+  </compound>
+  <compound refid="solutions_8cpp" kind="file"><name>solutions.cpp</name>
+  </compound>
+  <compound refid="STORAGE_8md" kind="file"><name>STORAGE.md</name>
+  </compound>
+  <compound refid="VALIDATION_8md" kind="file"><name>VALIDATION.md</name>
+  </compound>
+  <compound refid="group__storage" kind="group"><name>storage</name>
+  </compound>
+  <compound refid="group__mesh" kind="group"><name>mesh</name>
+  </compound>
+  <compound refid="group__numerics" kind="group"><name>numerics</name>
+  </compound>
+  <compound refid="group__units" kind="group"><name>units</name>
+  </compound>
+  <compound refid="group__runtime" kind="group"><name>runtime</name>
+  </compound>
+  <compound refid="group__math" kind="group"><name>math</name>
+  </compound>
+  <compound refid="md_docs_2parallel-fmm" kind="page"><name>md_docs_2parallel-fmm</name>
+  </compound>
+  <compound refid="md_docs_2analytic-verification" kind="page"><name>md_docs_2analytic-verification</name>
+  </compound>
+  <compound refid="numerical_conventions" kind="page"><name>numerical_conventions</name>
+  </compound>
+  <compound refid="documenting_code" kind="page"><name>documenting_code</name>
+  </compound>
+  <compound refid="bibliography" kind="page"><name>bibliography</name>
+  </compound>
+  <compound refid="storage_design" kind="page"><name>storage_design</name>
+  </compound>
+  <compound refid="md_VALIDATION" kind="page"><name>md_VALIDATION</name>
+  </compound>
+  <compound refid="problem_builds" kind="page"><name>problem_builds</name>
+  </compound>
+  <compound refid="md_ROADMAP" kind="page"><name>md_ROADMAP</name>
+  </compound>
+  <compound refid="dir_2ea30aa2956a8db99dd22aa5e597f384" kind="dir"><name>bin</name>
+  </compound>
+  <compound refid="dir_a5bdbfbbaa7895161d62825676df7980" kind="dir"><name>cmake</name>
+  </compound>
+  <compound refid="dir_929aa4e64b094c9ce92ee0e358cee105" kind="dir"><name>bin/science/Collapse</name>
+  </compound>
+  <compound refid="dir_6bcd818ea168b45e4779b96abffaf263" kind="dir"><name>include/octotigerII/gravity/diagonal</name>
+  </compound>
+  <compound refid="dir_841a3707964297bfd7fc4f1088b34b67" kind="dir"><name>src/gravity/diagonal</name>
+  </compound>
+  <compound refid="dir_49e56c817e5e54854c35e136979f97ca" kind="dir"><name>docs</name>
+  </compound>
+  <compound refid="dir_66da10215f437b5fec2f6772eef93a74" kind="dir"><name>bin/gravity_tests/Gaussian</name>
+  </compound>
+  <compound refid="dir_4a7c3223219d938123654a5b4a82d65c" kind="dir"><name>include/octotigerII/gravity</name>
+  </compound>
+  <compound refid="dir_487e35dd24e4df5c2584ebd5d3dfced5" kind="dir"><name>src/gravity</name>
+  </compound>
+  <compound refid="dir_43e4513b05fd1c122df56c9254d1f030" kind="dir"><name>bin/gravity_tests</name>
+  </compound>
+  <compound refid="dir_82da6b391611ae502924bbc0ad719afc" kind="dir"><name>include/octotigerII/hydro</name>
+  </compound>
+  <compound refid="dir_229277d14843a3bd8ccf301855811045" kind="dir"><name>src/hydro</name>
+  </compound>
+  <compound refid="dir_4aac5ae93497fea5c63e7fe493a8ce55" kind="dir"><name>bin/hydro_tests</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_8bb7572bd9e19effbd35559114412c87" kind="dir"><name>bin/hydro_tests/KelvinHelmholtz</name>
+  </compound>
+  <compound refid="dir_cccf0224a7edd9c2efacd98913ceff01" kind="dir"><name>include/octotigerII/math</name>
+  </compound>
+  <compound refid="dir_e31a5e666eb2f4abfc7536f0b57d1031" kind="dir"><name>include/octotigerII</name>
+  </compound>
+  <compound refid="dir_5fb2994aaf8cfc68dcd3d706f230a560" kind="dir"><name>include/octotigerII/physics</name>
+  </compound>
+  <compound refid="dir_8250e12e5a19acb8ece30f1703b6dc16" kind="dir"><name>src/physics</name>
+  </compound>
+  <compound refid="dir_f369fcd3b14b2af7da83bcd925872f3b" kind="dir"><name>include/octotigerII/radiation</name>
+  </compound>
+  <compound refid="dir_4ecbb2552d02e976219f567964484fc4" kind="dir"><name>src/radiation</name>
+  </compound>
+  <compound refid="dir_723cb54438b89ae8b8d1d218002359fd" kind="dir"><name>bin/radiation_tests</name>
+  </compound>
+  <compound refid="dir_8d1ea21951932ab99367dac244cbf4c5" kind="dir"><name>bin/radiation_tests/RadiationPulse</name>
+  </compound>
+  <compound refid="dir_8f32e696ca592ad1f2c43c19d17c0094" kind="dir"><name>bin/science</name>
+  </compound>
+  <compound refid="dir_cd1cd8d7f8b3b9297fe12ebbdda047db" kind="dir"><name>bin/hydro_tests/Sod</name>
+  </compound>
+  <compound refid="dir_933713b7c8c015e5a471561cf6323212" kind="dir"><name>bin/gravity_tests/Sphere</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_51e9439e60683a6431bd5ee8cf4b121c" kind="dir"><name>include/octotigerII/storage</name>
+  </compound>
+  <compound refid="dir_fa7437e924cd52947b7d466c97ec9183" kind="dir"><name>bin/radiation_tests/Streaming</name>
+  </compound>
+  <compound refid="dir_0e55fde338cf087c4455c97e0b7bd8c3" kind="dir"><name>include/octotigerII/subgrid</name>
+  </compound>
+  <compound refid="dir_663e8f89b0ecd947dce9fe71f4d8cf14" kind="dir"><name>include/octotigerII/units</name>
+  </compound>
+  <compound refid="dir_9cbf2818b7fe6a391bbbdbe7091b4d21" kind="dir"><name>include/octotigerII/verification</name>
+  </compound>
+  <compound refid="dir_54b1e6c540d67b59af2f275fe685da39" kind="dir"><name>src/verification</name>
+  </compound>
+  <compound refid="indexpage" kind="page"><name>index</name>
+  </compound>
+</doxygenindex>

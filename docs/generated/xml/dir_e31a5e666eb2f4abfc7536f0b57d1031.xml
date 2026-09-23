@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_e31a5e666eb2f4abfc7536f0b57d1031" kind="dir">
+    <compoundname>include/octotigerII</compoundname>
+    <innerdir refid="dir_4a7c3223219d938123654a5b4a82d65c">include/octotigerII/gravity</innerdir>
+    <innerdir refid="dir_82da6b391611ae502924bbc0ad719afc">include/octotigerII/hydro</innerdir>
+    <innerdir refid="dir_cccf0224a7edd9c2efacd98913ceff01">include/octotigerII/math</innerdir>
+    <innerdir refid="dir_5fb2994aaf8cfc68dcd3d706f230a560">include/octotigerII/physics</innerdir>
+    <innerdir refid="dir_f369fcd3b14b2af7da83bcd925872f3b">include/octotigerII/radiation</innerdir>
+    <innerdir refid="dir_51e9439e60683a6431bd5ee8cf4b121c">include/octotigerII/storage</innerdir>
+    <innerdir refid="dir_0e55fde338cf087c4455c97e0b7bd8c3">include/octotigerII/subgrid</innerdir>
+    <innerdir refid="dir_663e8f89b0ecd947dce9fe71f4d8cf14">include/octotigerII/units</innerdir>
+    <innerdir refid="dir_9cbf2818b7fe6a391bbbdbe7091b4d21">include/octotigerII/verification</innerdir>
+    <innerfile refid="config_8hpp">config.hpp</innerfile>
+    <innerfile refid="mesh_8hpp">mesh.hpp</innerfile>
+    <innerfile refid="output_8hpp">output.hpp</innerfile>
+    <innerfile refid="problems_8hpp">problems.hpp</innerfile>
+    <innerfile refid="runtime_8hpp">runtime.hpp</innerfile>
+    <innerfile refid="simulation_8hpp">simulation.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/"/>
+  </compounddef>
+</doxygen>

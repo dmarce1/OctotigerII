@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_ROADMAP" kind="page">
+    <compoundname>md_ROADMAP</compoundname>
+    <title>Problem-build roadmap</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_ROADMAP_1autotoc_md41"/> Requested sequence:</para>
+<para><orderedlist>
+<listitem><para><bold>Implemented:</bold> Castro-style problem directories. Each executable contains one problem implementation and is identified by problem and dimension. Sod: 1D/2D/3D; Kelvin–Helmholtz: 2D/3D; streaming and radiation pulse: 1D/2D/3D; gravity sphere, gravity Gaussian and collapse: 3D only. Keep resolution, refinement level, stopping time and other run settings in inputs.</para>
+</listitem><listitem><para><bold>Implemented with step 1:</bold> CMake selects compile-time <computeroutput>ndim</computeroutput>. Coordinates, vectors, state tuples, traversal, halos and workspaces use exactly that dimension. Remove runtime dimension dispatch and padded inactive axes. Physical coefficients and the intrinsically 3D gravity algorithm retain their mathematical constants. Lower-dimensional CGS totals retain the documented unit transverse measure; it does not create inactive mesh axes or cells.</para>
+</listitem><listitem><para><bold>Deferred by request:</bold> formal Google Test unit tests, fixtures and individually named assertions, integrated with CTest. Retain and adapt existing regression executables while implementing steps 1–2; do not migrate the test framework yet.</para>
+</listitem><listitem><para><bold>Deferred by request:</bold> plain-text interactive builder. Prompt for problem, supported dimension, build mode/backend, block cells, refinement level and run controls. Use the same problem manifests and CMake options as command-line builds; save runtime choices to an inputs file. Changing level must not rebuild the executable. No prompt-driven builder is implemented in this step. </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="ROADMAP.md"/>
+  </compounddef>
+</doxygen>

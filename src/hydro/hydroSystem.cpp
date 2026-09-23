@@ -15,8 +15,9 @@ HydroSystem::HydroSystem(Real adiabaticIndex, units::Density densityFloor, units
   : adiabaticIndex_(adiabaticIndex)
   , densityFloor_(densityFloor)
   , pressureFloor_(pressureFloor) {
-	if (!(adiabaticIndex_ > 1) || !(densityFloor_ > units::Density{}) || !(pressureFloor_ > units::Pressure{})) {
-		throw std::invalid_argument("Hydro EOS and positivity floors must be positive");
+	if (!(adiabaticIndex_ > 1) || !std::isfinite(adiabaticIndex_) || !(densityFloor_ > units::Density{}) || !units::finite(densityFloor_) ||
+		!(pressureFloor_ > units::Pressure{}) || !units::finite(pressureFloor_)) {
+		throw std::invalid_argument("Hydro EOS must have finite gamma > 1 and finite positive floors");
 	}
 }
 

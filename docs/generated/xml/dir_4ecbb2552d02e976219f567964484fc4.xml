@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_4ecbb2552d02e976219f567964484fc4" kind="dir">
+    <compoundname>src/radiation</compoundname>
+    <innerfile refid="radiationTransport_8cpp">radiationTransport.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/radiation/"/>
+  </compounddef>
+</doxygen>

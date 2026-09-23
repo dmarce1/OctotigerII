@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="indexpage" kind="page">
+    <compoundname>index</compoundname>
+    <title>OctotigerII developer reference</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="index_1mainpage"/> OctotigerII separates numerical fields, mesh geometry, and distributed execution. The current application supports fixed-level Cartesian meshes, Euler hydro, uncoupled M1 radiation transport, and isolated Newtonian gravity.</para>
+<para>Start with <ref refid="BUILDING_8md" kindref="compound">problem builds</ref>, <ref refid="STORAGE_8md" kindref="compound">storage and execution</ref>, <ref refid="numerics_8md" kindref="compound">the numerical conventions</ref>, <ref refid="md_docs_2parallel-fmm" kindref="compound">parallel gravity</ref>, or the <ref refid="BIBLIOGRAPHY_8md" kindref="compound">bibliography</ref>. The Modules, Classes, and Files pages provide API documentation and links to the source. Search accepts names such as <computeroutput>StoragePartition</computeroutput>, <computeroutput>RadiationSystem</computeroutput>, or <computeroutput>Runtime</computeroutput>.</para>
+<sect1 id="index_1autotoc_md13">
+<title>Build and view</title>
+<para>From HOME, assuming the project is at <computeroutput>~/workspace/OctotigerII</computeroutput>:</para>
+<para><programlisting filename=".bash"><codeline><highlight class="normal">sudo<sp/>apt<sp/>install<sp/>doxygen</highlight></codeline>
+<codeline><highlight class="normal">~/workspace/OctotigerII/docs.sh<sp/>--open</highlight></codeline>
+</programlisting></para>
+<para>Doxygen 1.9.8 or newer and Python 3 are required. Graphviz and LaTeX are optional and are not required by this configuration. No application build, HPX installation, or network service is needed to generate or read the HTML. Open <computeroutput>~/workspace/OctotigerII/docs/generated/html/index.html</computeroutput> in a browser later. The generated site includes its search assets and works from local files.</para>
+<para>For an existing CMake build:</para>
+<para><programlisting filename=".bash"><codeline><highlight class="normal">cmake<sp/>--build<sp/>~/workspace/OctotigerII/release/sod/1d<sp/>--target<sp/>docs</highlight></codeline>
+</programlisting></para>
+<para>That target writes <computeroutput>release/sod/1d/docs/html/index.html</computeroutput>. In Eclipse, create an External Tools entry for <computeroutput>${workspace_loc:/OctotigerII/docs.sh}</computeroutput> with argument <computeroutput>--open</computeroutput>, or open the generated <computeroutput>index.html</computeroutput> directly in a browser.</para>
+</sect1>
+<sect1 id="index_1autotoc_md14">
+<title>Architecture</title>
+<para><table rows="6" cols="3"><row>
+<entry thead="yes"><para>Layer   </para>
+</entry><entry thead="yes"><para>Owns   </para>
+</entry><entry thead="yes"><para>Does not interpret    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>StoragePartition</computeroutput>   </para>
+</entry><entry thead="no"><para>Named typed columns, banks, allocation lifetimes   </para>
+</entry><entry thead="no"><para>Mesh cells, tree relationships, particles    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>FieldHandle&lt;T&gt;</computeroutput>   </para>
+</entry><entry thead="no"><para>Field identity and partition/range directory   </para>
+</entry><entry thead="no"><para>Halo geometry or update order    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>CartesianTopology</computeroutput>   </para>
+</entry><entry thead="no"><para>Blocks, coordinates, field ranges, halo plans   </para>
+</entry><entry thead="no"><para>Numerical field values    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>LocalExecutor</computeroutput>   </para>
+</entry><entry thead="no"><para>Ready-work queue and bounded reusable workspaces   </para>
+</entry><entry thead="no"><para>Field allocation policy    </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>Runtime</computeroutput>   </para>
+</entry><entry thead="no"><para>Stage synchronization and publication   </para>
+</entry><entry thead="no"><para>Physics-specific flux formulas   </para>
+</entry></row>
+</table>
+</para>
+<para>A local checkout references the stored interior. A remote checkout receives a typed buffer. The temporary <computeroutput>PatchView</computeroutput> joins those values to compact halos. All persistent fields, including radiation flux, contain physical CGS quantities.</para>
+<para>A transport stage reads bank A, writes bank B, waits for all workers and writebacks, then publishes B. A failed stage drains work and preserves A. See <ref refid="group__storage" kindref="compound">Distributed field storage</ref> and <ref refid="group__runtime" kindref="compound">Execution and application</ref> for the contracts that make this safe.</para>
+</sect1>
+<sect1 id="index_1autotoc_md15">
+<title>Scope and validation</title>
+<para>The storage component accepts arbitrary range lengths and several layouts in the same partitions; the current mesh adapter remains fixed-level Cartesian. Dynamic AMR, refluxing, ownership migration, particle integration, and restart checkpoints remain future work. The FMM partitions its hierarchy across localities, reads density from distributed field ranges, and publishes gravity through the same field store. Diagnostics and output still gather on the coordinator.</para>
+<para>See <ref refid="md_VALIDATION" kindref="compound">validation</ref> for reproducible tests and their limits. See <ref refid="documenting_8md" kindref="compound">documenting code</ref> for the citation and formatting conventions. </para>
+</sect1>
+    </detaileddescription>
+    <location file="docs/index.md"/>
+  </compounddef>
+</doxygen>

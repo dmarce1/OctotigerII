@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1Layout" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::Layout</compoundname>
+    <includes refid="layout_8hpp" local="no">layout.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; octotigerII::storage::Layout::capacities_</definition>
+        <argsstring></argsstring>
+        <name>capacities_</name>
+        <qualifiedname>octotigerII::storage::Layout::capacities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="110" column="13" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="110" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1a6f0a362a34081a5f83b2a46baf811c80" compoundref="layout_8hpp" startline="90" endline="94">addressSpace</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1aa4299033f1e5e38e21af6a498835c883" compoundref="layout_8hpp" startline="80" endline="82">capacity</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1a272c4c03aa358e141f35f31bd06d5ffe" compoundref="layout_8hpp" startline="85" endline="87">capacity</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1af830527e68ddaf385a0350005af65eab" compoundref="layout_8hpp" startline="56" endline="68">Layout</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1a1b8fbf722c7a49a109cede296faa5a8f" compoundref="layout_8hpp" startline="75" endline="77">partitionCount</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1ad42af32764c67f483c953c09ef3d0f36" compoundref="layout_8hpp" startline="104" endline="106">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1Layout_1ac4d8d399c96a7fe609a34d888f4f2166" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref> &gt;</type>
+        <definition>std::vector&lt;Range&gt; octotigerII::storage::Layout::ranges_</definition>
+        <argsstring></argsstring>
+        <name>ranges_</name>
+        <qualifiedname>octotigerII::storage::Layout::ranges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="111" column="13" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="111" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1af830527e68ddaf385a0350005af65eab" compoundref="layout_8hpp" startline="56" endline="68">Layout</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1a33d704bdfed025e5a2f3b7d4f5c172a2" compoundref="layout_8hpp" startline="70" endline="72">ranges</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1ad42af32764c67f483c953c09ef3d0f36" compoundref="layout_8hpp" startline="104" endline="106">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1a692b169bff6b8232f37c0fa352f4ee9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::storage::Layout::Layout</definition>
+        <argsstring>()=default</argsstring>
+        <name>Layout</name>
+        <qualifiedname>octotigerII::storage::Layout::Layout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="54" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1af830527e68ddaf385a0350005af65eab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::storage::Layout::Layout</definition>
+        <argsstring>(std::vector&lt; std::size_t &gt; const &amp;counts, std::size_t partitions)</argsstring>
+        <name>Layout</name>
+        <qualifiedname>octotigerII::storage::Layout::Layout</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::size_t &gt; const &amp;</type>
+          <declname>counts</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>partitions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="56" column="1" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="56" bodyend="68"/>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" compoundref="layout_8hpp" startline="110">capacities_</references>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1ac4d8d399c96a7fe609a34d888f4f2166" compoundref="layout_8hpp" startline="111">ranges_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1a33d704bdfed025e5a2f3b7d4f5c172a2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref> &gt; const &amp;</type>
+        <definition>std::vector&lt; Range &gt; const  &amp; octotigerII::storage::Layout::ranges</definition>
+        <argsstring>() const</argsstring>
+        <name>ranges</name>
+        <qualifiedname>octotigerII::storage::Layout::ranges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="70" column="19" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="70" bodyend="72"/>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1ac4d8d399c96a7fe609a34d888f4f2166" compoundref="layout_8hpp" startline="111">ranges_</references>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1a1b8fbf722c7a49a109cede296faa5a8f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::storage::Layout::partitionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>partitionCount</name>
+        <qualifiedname>octotigerII::storage::Layout::partitionCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of storage partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="75" column="13" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="75" bodyend="77"/>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" compoundref="layout_8hpp" startline="110">capacities_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1aa4299033f1e5e38e21af6a498835c883" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::storage::Layout::capacity</definition>
+        <argsstring>() const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>octotigerII::storage::Layout::capacity</qualifiedname>
+        <briefdescription>
+<para>Return a partition capacity in elements; the no-argument overload returns the maximum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="80" column="13" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="80" bodyend="82"/>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" compoundref="layout_8hpp" startline="110">capacities_</references>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Layout_1a9b32143e99d0ff909aca33f78a37da70" compoundref="layout_8hpp" startline="97" endline="100">validate</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1a272c4c03aa358e141f35f31bd06d5ffe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::storage::Layout::capacity</definition>
+        <argsstring>(std::size_t partition) const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>octotigerII::storage::Layout::capacity</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>partition</declname>
+        </param>
+        <briefdescription>
+<para>Return a partition capacity in elements; the no-argument overload returns the maximum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="85" column="13" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="85" bodyend="87"/>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" compoundref="layout_8hpp" startline="110">capacities_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1a6f0a362a34081a5f83b2a46baf811c80" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Layout" kindref="compound">Layout</ref></type>
+        <definition>Layout octotigerII::storage::Layout::addressSpace</definition>
+        <argsstring>() const</argsstring>
+        <name>addressSpace</name>
+        <qualifiedname>octotigerII::storage::Layout::addressSpace</qualifiedname>
+        <briefdescription>
+<para>Copy partition capacities without copying the record directory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="90" column="8" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="90" bodyend="94"/>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" compoundref="layout_8hpp" startline="110">capacities_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1a9b32143e99d0ff909aca33f78a37da70" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::storage::Layout::validate</definition>
+        <argsstring>(Range const &amp;range) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>octotigerII::storage::Layout::validate</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref> const &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Reject invalid dimensions, capacities, or physical configuration values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="97" column="6" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="97" bodyend="100"/>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1aa4299033f1e5e38e21af6a498835c883" compoundref="layout_8hpp" startline="80" endline="82">capacity</references>
+        <references refid="fieldSolver_8cpp_1a687da4509e4f39d3930fe8fadfea2766" compoundref="fieldSolver_8cpp" startline="97">range</references>
+        <referencedby refid="classoctotigerII_1_1storage_1_1FieldHandle_1a971ab3cd2a9328b501556c17c9b95ba5" compoundref="field_8hpp" startline="149" endline="152">octotigerII::storage::FieldHandle&lt; T &gt;::validate</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Layout_1ad42af32764c67f483c953c09ef3d0f36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::storage::Layout::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::storage::Layout::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="104" column="6" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="104" bodyend="106"/>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" compoundref="layout_8hpp" startline="110">capacities_</references>
+        <references refid="classoctotigerII_1_1storage_1_1Layout_1ac4d8d399c96a7fe609a34d888f4f2166" compoundref="layout_8hpp" startline="111">ranges_</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable record placement independent of any mesh or particle representation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records are indivisible, assigned in contiguous groups, and need not have equal lengths. Partition capacities are their actual element totals, without equal-size padding. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/layout.hpp" line="51" column="1" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="51" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1a6f0a362a34081a5f83b2a46baf811c80" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>addressSpace</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1a1f2c82dad04d7226e4b002168d44519f" prot="private" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>capacities_</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1aa4299033f1e5e38e21af6a498835c883" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>capacity</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1a272c4c03aa358e141f35f31bd06d5ffe" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>capacity</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1a692b169bff6b8232f37c0fa352f4ee9d" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>Layout</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1af830527e68ddaf385a0350005af65eab" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>Layout</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1a1b8fbf722c7a49a109cede296faa5a8f" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>partitionCount</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1a33d704bdfed025e5a2f3b7d4f5c172a2" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>ranges</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1ac4d8d399c96a7fe609a34d888f4f2166" prot="private" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>ranges_</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1ad42af32764c67f483c953c09ef3d0f36" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Layout_1a9b32143e99d0ff909aca33f78a37da70" prot="public" virt="non-virtual"><scope>octotigerII::storage::Layout</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,69 +1,108 @@
-# Existing regression programs. Formal Google Test migration is deferred (ROADMAP.md).
-add_executable(unitsChecks unitsChecks.cpp)
-target_link_libraries(unitsChecks PRIVATE OctotigerII::Subgrid)
-if(PROBLEM_HYDRO)
-  target_link_libraries(unitsChecks PRIVATE OctotigerII::Hydro)
+# Use an installed GoogleTest first (including module/package-manager prefixes).
+# The pinned fallback requires no root access. Offline users can disable fetching
+# or supply FETCHCONTENT_SOURCE_DIR_GOOGLETEST to an unpacked source tree.
+option(OCTOTIGERII_FETCH_GOOGLETEST "Fetch GoogleTest if no installation is found" ON)
+find_package(GTest 1.12 QUIET)
+if(NOT GTest_FOUND)
+  if(NOT OCTOTIGERII_FETCH_GOOGLETEST)
+    message(FATAL_ERROR "GoogleTest 1.12+ is required for tests. Set GTest_ROOT/CMAKE_PREFIX_PATH, enable OCTOTIGERII_FETCH_GOOGLETEST, or disable OCTOTIGERII_BUILD_TESTS.")
+  endif()
+  include(FetchContent)
+  if(POLICY CMP0135)
+    cmake_policy(SET CMP0135 NEW)
+  endif()
+  set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+  set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+  FetchContent_Declare(googletest
+    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
+    URL_HASH SHA256=8ad598c73ad796e0d8280b082cebd82a630d73e73cd3c70057938a6501bba5d7)
+  FetchContent_MakeAvailable(googletest)
 endif()
-if(PROBLEM_RADIATION)
-  target_link_libraries(unitsChecks PRIVATE OctotigerII::Radiation)
-endif()
-add_test(NAME units COMMAND unitsChecks)
-
-add_executable(numericalChecks numericalChecks.cpp)
-target_link_libraries(numericalChecks PRIVATE OctotigerII::Application)
-add_executable(optionsChecks optionsChecks.cpp)
-target_link_libraries(optionsChecks PRIVATE OctotigerII::Subgrid)
-add_test(NAME options COMMAND optionsChecks ${CMAKE_CURRENT_BINARY_DIR}/options-output)
-add_executable(siloChecks siloChecks.cpp)
-target_link_libraries(siloChecks PRIVATE OctotigerII::Application ${Silo_LIBRARY})
-target_include_directories(siloChecks PRIVATE ${Silo_INCLUDE_DIR})
-add_test(NAME silo COMMAND siloChecks ${CMAKE_CURRENT_BINARY_DIR}/silo-output)
+include(GoogleTest)
 
 set(testRuntimeArgs)
 if(OCTOTIGERII_WITH_HPX)
-  add_executable(serializationChecks serializationChecks.cpp)
-  target_link_libraries(serializationChecks PRIVATE OctotigerII::Subgrid HPX::hpx)
-  add_test(NAME serialization COMMAND serializationChecks)
   set(testRuntimeArgs --hpx:threads=2 --hpx:bind=none)
 endif()
+
+function(octo_test target library labels)
+  add_executable(${target} ${target}.cpp googleTestMain.cpp)
+  target_link_libraries(${target} PRIVATE ${library} GTest::gtest)
+  # Runtime flags and compile definitions come from Application only for tests
+  # that need distributed storage. List-tests always runs without HPX.
+  gtest_discover_tests(${target}
+    TEST_PREFIX "${OCTOTIGERII_PROBLEM}.${OCTOTIGERII_NDIM}d."
+    EXTRA_ARGS ${testRuntimeArgs}
+    DISCOVERY_MODE PRE_TEST
+    PROPERTIES TIMEOUT 300 LABELS "${labels}")
+endfunction()
+
+octo_test(unitsChecks OctotigerII::Subgrid "unit")
+octo_test(meshChecks OctotigerII::Mesh "unit")
+octo_test(mathChecks OctotigerII::Mesh "unit")
+octo_test(optionsChecks OctotigerII::Subgrid "unit")
+octo_test(limiterChecks OctotigerII::Physics "unit")
+if(PROBLEM_HYDRO)
+  octo_test(hydroChecks OctotigerII::Hydro "unit")
+endif()
+if(PROBLEM_RADIATION)
+  octo_test(radiationChecks OctotigerII::Radiation "unit")
+endif()
+if(PROBLEM_HYDRO OR PROBLEM_RADIATION)
+  octo_test(finiteVolumeChecks OctotigerII::Application "integration")
+endif()
+if(PROBLEM_GRAVITY)
+  octo_test(gravityChecks OctotigerII::Gravity "unit")
+  octo_test(directGravityChecks OctotigerII::Application "integration")
+  # Has a custom main to preserve the existing 'benchmark [level] [order]' CLI.
+  add_executable(gravityParallelChecks gravityParallelChecks.cpp)
+  target_link_libraries(gravityParallelChecks PRIVATE OctotigerII::Application GTest::gtest)
+  gtest_discover_tests(gravityParallelChecks
+    TEST_PREFIX "${OCTOTIGERII_PROBLEM}.${OCTOTIGERII_NDIM}d."
+    EXTRA_ARGS ${testRuntimeArgs} DISCOVERY_MODE PRE_TEST
+    PROPERTIES TIMEOUT 300 LABELS "integration")
+endif()
+octo_test(numericalChecks OctotigerII::Application "integration")
+if(OCTOTIGERII_PROBLEM STREQUAL "streaming" AND OCTOTIGERII_NDIM STREQUAL "1")
+  target_compile_definitions(numericalChecks PRIVATE OCTOTIGERII_TEST_STREAMING_PROFILE=1)
+endif()
+octo_test(storageChecks OctotigerII::Application "integration")
+octo_test(analyticChecks OctotigerII::Application "integration")
+if(OCTOTIGERII_PROBLEM MATCHES "^(sod|gravity-sphere|gravity-gaussian|streaming)$")
+  target_compile_definitions(analyticChecks PRIVATE OCTOTIGERII_TEST_CONVERGENCE=1)
+endif()
+octo_test(siloChecks OctotigerII::Application "integration")
+target_link_libraries(siloChecks PRIVATE ${Silo_LIBRARY})
+target_include_directories(siloChecks PRIVATE ${Silo_INCLUDE_DIR})
+if(OCTOTIGERII_WITH_HPX)
+  octo_test(serializationChecks OctotigerII::Application "unit")
+endif()
+
+# Whole-process CLI, report, and selected-problem smoke checks complement the
+# GoogleTest suites and remain Python/CTest tests.
 add_test(NAME example.${OCTOTIGERII_PROBLEM}.${OCTOTIGERII_NDIM}d COMMAND octotigerII
   --config=${PROBLEM_DIRECTORY}/inputs --mesh.cells=4 --mesh.level=1 --output.enabled=off ${testRuntimeArgs})
-set_tests_properties(example.${OCTOTIGERII_PROBLEM}.${OCTOTIGERII_NDIM}d PROPERTIES TIMEOUT 120)
+set_tests_properties(example.${OCTOTIGERII_PROBLEM}.${OCTOTIGERII_NDIM}d PROPERTIES TIMEOUT 120 LABELS "application")
 find_package(Python3 QUIET COMPONENTS Interpreter)
 if(Python3_Interpreter_FOUND)
   add_test(NAME application COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/application.py
     $<TARGET_FILE:octotigerII> ${PROBLEM_DIRECTORY}/inputs ${CMAKE_CURRENT_BINARY_DIR}/application-output
     ${OCTOTIGERII_PROBLEM} ${OCTOTIGERII_NDIM} ${testRuntimeArgs})
-endif()
-if(PROBLEM_HYDRO OR PROBLEM_RADIATION)
-  add_test(NAME transport COMMAND numericalChecks transport ${testRuntimeArgs})
-endif()
-if(PROBLEM_GRAVITY)
-  add_test(NAME gravity COMMAND numericalChecks gravity ${testRuntimeArgs})
-  add_executable(gravityParallelChecks gravityParallelChecks.cpp)
-  target_link_libraries(gravityParallelChecks PRIVATE OctotigerII::Application)
-  add_test(NAME gravity.partitioned COMMAND gravityParallelChecks ${testRuntimeArgs})
-  set_tests_properties(gravity.partitioned PROPERTIES TIMEOUT 300)
-  if(OCTOTIGERII_WITH_HPX AND Python3_Interpreter_FOUND)
+  set_tests_properties(application PROPERTIES TIMEOUT 180 LABELS "application")
+  if(OCTOTIGERII_WITH_HPX)
     foreach(count 2 3)
-      add_test(NAME gravity.distributed.${count} COMMAND ${Python3_EXECUTABLE}
-        ${CMAKE_CURRENT_SOURCE_DIR}/distributed.py $<TARGET_FILE:gravityParallelChecks>)
-      set_tests_properties(gravity.distributed.${count} PROPERTIES
-        ENVIRONMENT "OCTOTIGERII_TEST_LOCALITIES=${count}" TIMEOUT 360 LABELS "distributed;gravity" RUN_SERIAL TRUE)
+      foreach(target storageChecks numericalChecks)
+        add_test(NAME distributed.${target}.${count} COMMAND ${Python3_EXECUTABLE}
+          ${CMAKE_CURRENT_SOURCE_DIR}/distributed.py $<TARGET_FILE:${target}>)
+        set_tests_properties(distributed.${target}.${count} PROPERTIES
+          ENVIRONMENT "OCTOTIGERII_TEST_LOCALITIES=${count}" TIMEOUT 360 LABELS "distributed" RUN_SERIAL TRUE)
+      endforeach()
+      if(PROBLEM_GRAVITY)
+        add_test(NAME gravity.distributed.${count} COMMAND ${Python3_EXECUTABLE}
+          ${CMAKE_CURRENT_SOURCE_DIR}/distributed.py $<TARGET_FILE:gravityParallelChecks>)
+        set_tests_properties(gravity.distributed.${count} PROPERTIES
+          ENVIRONMENT "OCTOTIGERII_TEST_LOCALITIES=${count}" TIMEOUT 360 LABELS "distributed;gravity" RUN_SERIAL TRUE)
+      endif()
     endforeach()
   endif()
-  add_executable(directGravityChecks directGravityChecks.cpp)
-  target_link_libraries(directGravityChecks PRIVATE OctotigerII::Application)
-  add_test(NAME gravity.directReference COMMAND directGravityChecks ${testRuntimeArgs})
-endif()
-add_executable(storageChecks storageChecks.cpp)
-target_link_libraries(storageChecks PRIVATE OctotigerII::Application)
-add_test(NAME storage COMMAND storageChecks ${testRuntimeArgs})
-
-add_executable(analyticChecks analyticChecks.cpp)
-target_link_libraries(analyticChecks PRIVATE OctotigerII::Application)
-add_test(NAME analytic.references COMMAND analyticChecks references ${testRuntimeArgs})
-if(OCTOTIGERII_PROBLEM MATCHES "^(sod|gravity-sphere|gravity-gaussian|streaming)$")
-  add_test(NAME analytic.convergence COMMAND analyticChecks convergence ${testRuntimeArgs})
-  set_tests_properties(analytic.convergence PROPERTIES TIMEOUT 240 LABELS "analytic;convergence")
 endif()

@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="84"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-09-23T01:42:38"
+	>
+	<testcase name="radiation-pulse.3d.Units.CgsConversionsAndConstants" classname="radiation-pulse.3d.Units.CgsConversionsAndConstants" time="0.00297342" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Units.CgsConversionsAndConstants
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Units
+[ RUN      ] Units.CgsConversionsAndConstants
+[       OK ] Units.CgsConversionsAndConstants (0 ms)
+[----------] 1 test from Units (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Units.PhysicalRadiationFluxAndReducedSpeed" classname="radiation-pulse.3d.Units.PhysicalRadiationFluxAndReducedSpeed" time="0.00291801" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Units.PhysicalRadiationFluxAndReducedSpeed
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Units
+[ RUN      ] Units.PhysicalRadiationFluxAndReducedSpeed
+[       OK ] Units.PhysicalRadiationFluxAndReducedSpeed (0 ms)
+[----------] 1 test from Units (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Units.DimensionalMeshAndChildTopology" classname="radiation-pulse.3d.Units.DimensionalMeshAndChildTopology" time="0.00316196" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Units.DimensionalMeshAndChildTopology
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Units
+[ RUN      ] Units.DimensionalMeshAndChildTopology
+[       OK ] Units.DimensionalMeshAndChildTopology (0 ms)
+[----------] 1 test from Units (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce" classname="radiation-pulse.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce" time="0.00308952" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.FaceIndicesCoverEachFaceExactlyOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.FaceIndicesCoverEachFaceExactlyOnce
+[       OK ] Mesh.FaceIndicesCoverEachFaceExactlyOnce (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes" classname="radiation-pulse.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes" time="0.00293314" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+[       OK ] Mesh.RejectsInvalidExtentsCoordinatesAndAxes (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Mesh.CgsGeometryAndPatchBounds" classname="radiation-pulse.3d.Mesh.CgsGeometryAndPatchBounds" time="0.00287763" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Mesh.CgsGeometryAndPatchBounds
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Mesh
+[ RUN      ] Mesh.CgsGeometryAndPatchBounds
+[       OK ] Mesh.CgsGeometryAndPatchBounds (0 ms)
+[----------] 1 test from Mesh (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.BlockTopology.ChildBitsParentAndInvalidSlots" classname="radiation-pulse.3d.BlockTopology.ChildBitsParentAndInvalidSlots" time="0.00285714" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = BlockTopology.ChildBitsParentAndInvalidSlots
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from BlockTopology
+[ RUN      ] BlockTopology.ChildBitsParentAndInvalidSlots
+[       OK ] BlockTopology.ChildBitsParentAndInvalidSlots (0 ms)
+[----------] 1 test from BlockTopology (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals" classname="radiation-pulse.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals" time="0.00280688" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TimeMetadata.StepPublicationSynchronizationAndIntervals
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TimeMetadata
+[ RUN      ] TimeMetadata.StepPublicationSynchronizationAndIntervals
+[       OK ] TimeMetadata.StepPublicationSynchronizationAndIntervals (0 ms)
+[----------] 1 test from TimeMetadata (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact" classname="radiation-pulse.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact" time="0.00278947" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StorageLayout
+[ RUN      ] StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+[       OK ] StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact (0 ms)
+[----------] 1 test from StorageLayout (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.StorageLayout.EmptyPartitionsOverflowAndSlices" classname="radiation-pulse.3d.StorageLayout.EmptyPartitionsOverflowAndSlices" time="0.00300576" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = StorageLayout.EmptyPartitionsOverflowAndSlices
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StorageLayout
+[ RUN      ] StorageLayout.EmptyPartitionsOverflowAndSlices
+[       OK ] StorageLayout.EmptyPartitionsOverflowAndSlices (0 ms)
+[----------] 1 test from StorageLayout (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0" classname="radiation-pulse.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0" time="0.00290237" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1" classname="radiation-pulse.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1" time="0.00284282" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2" classname="radiation-pulse.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2" time="0.00313075" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Halos/MeshGhostWidth
+[ RUN      ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+[       OK ] Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 (0 ms)
+[----------] 1 test from Halos/MeshGhostWidth (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.VectorMath.InitializationArithmeticAndDotProduct" classname="radiation-pulse.3d.VectorMath.InitializationArithmeticAndDotProduct" time="0.00325817" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.InitializationArithmeticAndDotProduct
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.InitializationArithmeticAndDotProduct
+[       OK ] VectorMath.InitializationArithmeticAndDotProduct (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision" classname="radiation-pulse.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision" time="0.00340693" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.InPlaceScalarAliasingAndIntegerDivision
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.InPlaceScalarAliasingAndIntegerDivision
+[       OK ] VectorMath.InPlaceScalarAliasingAndIntegerDivision (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.VectorMath.SplitConcatenateAndUnitVectors" classname="radiation-pulse.3d.VectorMath.SplitConcatenateAndUnitVectors" time="0.00370669" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = VectorMath.SplitConcatenateAndUnitVectors
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VectorMath
+[ RUN      ] VectorMath.SplitConcatenateAndUnitVectors
+[       OK ] VectorMath.SplitConcatenateAndUnitVectors (0 ms)
+[----------] 1 test from VectorMath (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Options.HierarchicalIniSections" classname="radiation-pulse.3d.Options.HierarchicalIniSections" time="0.0036874" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.HierarchicalIniSections
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.HierarchicalIniSections
+[       OK ] Options.HierarchicalIniSections (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Options.CliOverridesIniRegardlessOfArgumentOrder" classname="radiation-pulse.3d.Options.CliOverridesIniRegardlessOfArgumentOrder" time="0.00349774" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.CliOverridesIniRegardlessOfArgumentOrder
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.CliOverridesIniRegardlessOfArgumentOrder
+[       OK ] Options.CliOverridesIniRegardlessOfArgumentOrder (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Options.LegacyAndCanonicalNamesSharePrecedence" classname="radiation-pulse.3d.Options.LegacyAndCanonicalNamesSharePrecedence" time="0.00364593" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.LegacyAndCanonicalNamesSharePrecedence
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.LegacyAndCanonicalNamesSharePrecedence
+[       OK ] Options.LegacyAndCanonicalNamesSharePrecedence (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth" classname="radiation-pulse.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth" time="0.00364225" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.LaterIniOverridesEarlierAndCliOverridesBoth
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.LaterIniOverridesEarlierAndCliOverridesBoth
+[       OK ] Options.LaterIniOverridesEarlierAndCliOverridesBoth (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Options.MissingAndMalformedIniAreRejected" classname="radiation-pulse.3d.Options.MissingAndMalformedIniAreRejected" time="0.00369105" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Options.MissingAndMalformedIniAreRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Options
+[ RUN      ] Options.MissingAndMalformedIniAreRejected
+[       OK ] Options.MissingAndMalformedIniAreRejected (0 ms)
+[----------] 1 test from Options (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp" classname="radiation-pulse.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp" time="0.00361695" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from OptionValues
+[ RUN      ] OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+[       OK ] OptionValues.SplitArgumentsSamplingAndGeneratedHelp (0 ms)
+[----------] 1 test from OptionValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.OptionValues.DuplicateAliasIsRejected" classname="radiation-pulse.3d.OptionValues.DuplicateAliasIsRejected" time="0.00371329" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = OptionValues.DuplicateAliasIsRejected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from OptionValues
+[ RUN      ] OptionValues.DuplicateAliasIsRejected
+[       OK ] OptionValues.DuplicateAliasIsRejected (0 ms)
+[----------] 1 test from OptionValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1" time="0.00372201" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/0
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/0 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2" time="0.00379416" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/1
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/1 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3" time="0.00419922" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/2
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/2 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4" time="0.00412969" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/3
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/3 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5" time="0.00393523" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/4
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/4
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/4 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6" time="0.00356827" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/5
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/5
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/5 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7" time="0.00348539" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/6
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/6
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/6 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8" time="0.00348408" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/7
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/7
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/7 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9" time="0.00350709" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/8
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/8
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/8 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10" classname="radiation-pulse.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10" time="0.00399516" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Orders/MultipoleOption.SupportedOrderIsAccepted/9
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/9
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/9 (0 ms)
+[----------] 1 test from Orders/MultipoleOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--not.an.option=1&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--not.an.option=1&quot;" time="0.00404429" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/0
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/0 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--problem.name=sod&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--problem.name=sod&quot;" time="0.00403153" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/1
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/1 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.ndim=3&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.ndim=3&quot;" time="0.00408522" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/2
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/2 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.cells=3&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.cells=3&quot;" time="0.00439203" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/3
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/3 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.level=-1&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--mesh.level=-1&quot;" time="0.00411608" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/4
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/4
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/4 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=0&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=0&quot;" time="0.00411721" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/5
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/5
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/5 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=11&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleOrder=11&quot;" time="0.00443382" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/6
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/6
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/6 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0&quot;" time="0.00398628" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/7
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/7
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/7 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0.6&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=0.6&quot;" time="0.00394008" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/8
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/8
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/8 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=nan&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.openingAngle=nan&quot;" time="0.00420289" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/9
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/9
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/9 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleO=4&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--gravity.multipoleO=4&quot;" time="0.00403951" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/10
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/10
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/10 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=inf&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=inf&quot;" time="0.0039552" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/11
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/11
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/11 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=1&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--hydro.gamma=1&quot;" time="0.00388232" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/12
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/12
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/12 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.gravityReference=invalid&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.gravityReference=invalid&quot;" time="0.00381397" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/13
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/13
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/13 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directSamples=-1&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directSamples=-1&quot;" time="0.00381263" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/14
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/14
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/14 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directMaxPairs=0&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--verification.directMaxPairs=0&quot;" time="0.00387427" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/15
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/15
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/15 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--randomSeed=-1&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--randomSeed=-1&quot;" time="0.00407602" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/16
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/16
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/16 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.workStealing=yes&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.workStealing=yes&quot;" time="0.00400589" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/17
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/17
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/17 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.stopTime=-1&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--runtime.stopTime=-1&quot;" time="0.00384742" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/18
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/18
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/18 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--radiation.lightSpeedRatio=0&quot;" classname="radiation-pulse.3d.Validation/InvalidOption.RejectsInvalidValue/&quot;--radiation.lightSpeedRatio=0&quot;" time="0.00408445" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Validation/InvalidOption.RejectsInvalidValue/19
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/19
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/19 (0 ms)
+[----------] 1 test from Validation/InvalidOption (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.SlopeValues.IndependentUnequalSlopeValues" classname="radiation-pulse.3d.SlopeValues.IndependentUnequalSlopeValues" time="0.00374916" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = SlopeValues.IndependentUnequalSlopeValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SlopeValues
+[ RUN      ] SlopeValues.IndependentUnequalSlopeValues
+[       OK ] SlopeValues.IndependentUnequalSlopeValues (0 ms)
+[----------] 1 test from SlopeValues (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;00-00 00-00&gt;" classname="radiation-pulse.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;00-00 00-00&gt;" time="0.0035181" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/0 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;01-00 00-00&gt;" classname="radiation-pulse.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;01-00 00-00&gt;" time="0.00369145" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/1 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;02-00 00-00&gt;" classname="radiation-pulse.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object &lt;02-00 00-00&gt;" time="0.00318958" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2
+[       OK ] Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/2 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;00-00 00-00&gt;" classname="radiation-pulse.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;00-00 00-00&gt;" time="0.00318748" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/0 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;01-00 00-00&gt;" classname="radiation-pulse.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;01-00 00-00&gt;" time="0.00337989" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/1 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;02-00 00-00&gt;" classname="radiation-pulse.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object &lt;02-00 00-00&gt;" time="0.00325083" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Methods/SlopeLimiter
+[ RUN      ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2
+[       OK ] Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/2 (0 ms)
+[----------] 1 test from Methods/SlopeLimiter (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Radiation.VacuumFluxAndPhysicalFluxRoundTrip" classname="radiation-pulse.3d.Radiation.VacuumFluxAndPhysicalFluxRoundTrip" time="0.00317704" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Radiation.VacuumFluxAndPhysicalFluxRoundTrip
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Radiation
+[ RUN      ] Radiation.VacuumFluxAndPhysicalFluxRoundTrip
+[       OK ] Radiation.VacuumFluxAndPhysicalFluxRoundTrip (0 ms)
+[----------] 1 test from Radiation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux" classname="radiation-pulse.3d.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux" time="0.00344519" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Radiation
+[ RUN      ] Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux
+[       OK ] Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux (0 ms)
+[----------] 1 test from Radiation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Radiation.RoundoffRepairDoesNotHidePhysicalViolations" classname="radiation-pulse.3d.Radiation.RoundoffRepairDoesNotHidePhysicalViolations" time="0.0031579" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Radiation.RoundoffRepairDoesNotHidePhysicalViolations
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Radiation
+[ RUN      ] Radiation.RoundoffRepairDoesNotHidePhysicalViolations
+[       OK ] Radiation.RoundoffRepairDoesNotHidePhysicalViolations (0 ms)
+[----------] 1 test from Radiation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Radiation.RejectsInvalidSpeedAndAxis" classname="radiation-pulse.3d.Radiation.RejectsInvalidSpeedAndAxis" time="0.00308427" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Radiation.RejectsInvalidSpeedAndAxis
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Radiation
+[ RUN      ] Radiation.RejectsInvalidSpeedAndAxis
+[       OK ] Radiation.RejectsInvalidSpeedAndAxis (0 ms)
+[----------] 1 test from Radiation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation" classname="radiation-pulse.3d.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation" time="0.00343663" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = Radiation.FluxLimiterPreservesRealizabilityAndPairConservation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Radiation
+[ RUN      ] Radiation.FluxLimiterPreservesRealizabilityAndPairConservation
+[       OK ] Radiation.FluxLimiterPreservesRealizabilityAndPairConservation (0 ms)
+[----------] 1 test from Radiation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1" classname="radiation-pulse.3d.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1" time="0.00343748" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TransportSpeeds/LightSpeed
+[ RUN      ] TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0
+[       OK ] TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0 (0 ms)
+[----------] 1 test from TransportSpeeds/LightSpeed (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25" classname="radiation-pulse.3d.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25" time="0.00363255" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TransportSpeeds/LightSpeed
+[ RUN      ] TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1
+[       OK ] TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1 (0 ms)
+[----------] 1 test from TransportSpeeds/LightSpeed (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1" classname="radiation-pulse.3d.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1" time="0.00435352" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TransportSpeeds/LightSpeed
+[ RUN      ] TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0
+[       OK ] TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0 (0 ms)
+[----------] 1 test from TransportSpeeds/LightSpeed (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25" classname="radiation-pulse.3d.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25" time="0.0042358" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TransportSpeeds/LightSpeed
+[ RUN      ] TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1
+[       OK ] TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1 (0 ms)
+[----------] 1 test from TransportSpeeds/LightSpeed (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1" classname="radiation-pulse.3d.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1" time="0.00444381" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TransportSpeeds/LightSpeed
+[ RUN      ] TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0
+[       OK ] TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0 (0 ms)
+[----------] 1 test from TransportSpeeds/LightSpeed (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25" classname="radiation-pulse.3d.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25" time="0.00457649" status="run">
+		<properties>
+			<property name="cmake_labels" value="unit"/>
+		</properties>
+		<system-out>Note: Google Test filter = TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TransportSpeeds/LightSpeed
+[ RUN      ] TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1
+[       OK ] TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1 (0 ms)
+[----------] 1 test from TransportSpeeds/LightSpeed (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter&lt;octotigerII::radiation::RadiationSystem&gt;" classname="radiation-pulse.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter&lt;octotigerII::radiation::RadiationSystem&gt;" time="0.0756636" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.UniformStateIsPreservedForEveryLimiter
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::radiation::RadiationSystem
+[ RUN      ] FiniteVolume/0.UniformStateIsPreservedForEveryLimiter
+[       OK ] FiniteVolume/0.UniformStateIsPreservedForEveryLimiter (73 ms)
+[----------] 1 test from FiniteVolume/0 (73 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (73 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent&lt;octotigerII::radiation::RadiationSystem&gt;" classname="radiation-pulse.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent&lt;octotigerII::radiation::RadiationSystem&gt;" time="0.0796557" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.NonuniformPeriodicEvolutionConservesEveryComponent
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::radiation::RadiationSystem
+[ RUN      ] FiniteVolume/0.NonuniformPeriodicEvolutionConservesEveryComponent
+[       OK ] FiniteVolume/0.NonuniformPeriodicEvolutionConservesEveryComponent (76 ms)
+[----------] 1 test from FiniteVolume/0 (76 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (76 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners&lt;octotigerII::radiation::RadiationSystem&gt;" classname="radiation-pulse.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners&lt;octotigerII::radiation::RadiationSystem&gt;" time="0.00247217" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.GhostRulesCoverFacesEdgesAndCorners
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::radiation::RadiationSystem
+[ RUN      ] FiniteVolume/0.GhostRulesCoverFacesEdgesAndCorners
+[       OK ] FiniteVolume/0.GhostRulesCoverFacesEdgesAndCorners (0 ms)
+[----------] 1 test from FiniteVolume/0 (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs&lt;octotigerII::radiation::RadiationSystem&gt;" classname="radiation-pulse.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs&lt;octotigerII::radiation::RadiationSystem&gt;" time="0.00468965" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.CflScalesWithCellWidthAndRejectsInvalidInputs
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::radiation::RadiationSystem
+[ RUN      ] FiniteVolume/0.CflScalesWithCellWidthAndRejectsInvalidInputs
+[       OK ] FiniteVolume/0.CflScalesWithCellWidthAndRejectsInvalidInputs (2 ms)
+[----------] 1 test from FiniteVolume/0 (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes&lt;octotigerII::radiation::RadiationSystem&gt;" classname="radiation-pulse.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes&lt;octotigerII::radiation::RadiationSystem&gt;" time="0.008527" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = FiniteVolume/0.BoundaryUpdaterReceivesBeginningAndEndTimes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FiniteVolume/0, where TypeParam = octotigerII::radiation::RadiationSystem
+[ RUN      ] FiniteVolume/0.BoundaryUpdaterReceivesBeginningAndEndTimes
+[       OK ] FiniteVolume/0.BoundaryUpdaterReceivesBeginningAndEndTimes (6 ms)
+[----------] 1 test from FiniteVolume/0 (6 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (6 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Transport.RadiationDecompositionConservationAndAdmissibility" classname="radiation-pulse.3d.Transport.RadiationDecompositionConservationAndAdmissibility" time="0.0582178" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Transport.RadiationDecompositionConservationAndAdmissibility
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Transport
+[ RUN      ] Transport.RadiationDecompositionConservationAndAdmissibility
+radiation-pulse 3D decomposition and admissibility passed
+  Scheduling: 48 local, 0 stolen tasks
+[       OK ] Transport.RadiationDecompositionConservationAndAdmissibility (55 ms)
+[----------] 1 test from Transport (55 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (55 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement" classname="radiation-pulse.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement" time="0.00233276" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Storage.IndependentFieldsBanksViewsTypesAndRetirement
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Storage
+[ RUN      ] Storage.IndependentFieldsBanksViewsTypesAndRetirement
+Shared partitions, independent layouts/fields, physical flux, views, banks, type validation and retirement passed
+[       OK ] Storage.IndependentFieldsBanksViewsTypesAndRetirement (0 ms)
+[----------] 1 test from Storage (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.Runtime.FailedStageRollsBackAndRetryPublishesOnce" classname="radiation-pulse.3d.Runtime.FailedStageRollsBackAndRetryPublishesOnce" time="0.0202007" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = Runtime.FailedStageRollsBackAndRetryPublishesOnce
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from Runtime
+[ RUN      ] Runtime.FailedStageRollsBackAndRetryPublishesOnce
+Failed stage rollback, retry, publication and task accounting passed (16 local, 0 stolen tasks)
+[       OK ] Runtime.FailedStageRollsBackAndRetryPublishesOnce (18 ms)
+[----------] 1 test from Runtime (18 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (18 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities" classname="radiation-pulse.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities" time="0.002644" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = AnalyticReference.IndependentSphereSodAndStreamingIdentities
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AnalyticReference
+[ RUN      ] AnalyticReference.IndependentSphereSodAndStreamingIdentities
+[       OK ] AnalyticReference.IndependentSphereSodAndStreamingIdentities (0 ms)
+[----------] 1 test from AnalyticReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy" classname="radiation-pulse.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy" time="0.00189617" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = AnalyticReference.ErrorNormsAndAccuracyPolicy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AnalyticReference
+[ RUN      ] AnalyticReference.ErrorNormsAndAccuracyPolicy
+[       OK ] AnalyticReference.ErrorNormsAndAccuracyPolicy (0 ms)
+[----------] 1 test from AnalyticReference (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="radiation-pulse.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip" classname="radiation-pulse.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip" time="0.0117144" status="run">
+		<properties>
+			<property name="cmake_labels" value="integration"/>
+		</properties>
+		<system-out>Note: Google Test filter = SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SiloOutput
+[ RUN      ] SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+radiation-pulse 3D Silo roundtrip passed
+[       OK ] SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip (4 ms)
+[----------] 1 test from SiloOutput (4 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (4 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="example.radiation-pulse.3d" classname="example.radiation-pulse.3d" time="0.0725058" status="run">
+		<properties>
+			<property name="cmake_labels" value="application"/>
+		</properties>
+		<system-out>OctotigerII 0.1.0 | serial fields | radiation-pulse | 3D
+step=0 time=0.000000e+00 mass=0.000000e+00 gasEnergy=0.000000e+00 radiationEnergy=1.738779e+30
+step=5 time=2.000000e-01 mass=0.000000e+00 gasEnergy=0.000000e+00 radiationEnergy=1.738779e+30
+Analytic comparison: unavailable (This problem has no implemented analytic solution)
+Completed 5 steps at t=2.000000e-01 s
+</system-out>
+	</testcase>
+	<testcase name="application" classname="application" time="0.108946" status="run">
+		<properties>
+			<property name="cmake_labels" value="application"/>
+		</properties>
+		<system-out>Compiled problem/dimension, application options and Silo time series passed
+Analytic report, availability, and failing accuracy gates passed
+</system-out>
+	</testcase>
+</testsuite>

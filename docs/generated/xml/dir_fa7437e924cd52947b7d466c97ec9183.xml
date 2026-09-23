@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_fa7437e924cd52947b7d466c97ec9183" kind="dir">
+    <compoundname>bin/radiation_tests/Streaming</compoundname>
+    <innerfile refid="radiation__tests_2Streaming_2problem_8cpp">problem.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="bin/radiation_tests/Streaming/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::gravity::diagonal::Operator</compoundname>
+    <includes refid="fmm_8hpp" local="no">fmm.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a2711a7844de5da06b0d4aa1004afa6a8" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::gravity::diagonal::Operator::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Operator::count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="89" column="5" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="89" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1af47a4d8a382e73aacaddff71e7d1befc" compoundref="fmm_8cpp" startline="221" endline="235">add</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a9ada01c3cdbd60b85d4ec948bf33503b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::complex&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::complex&lt;double&gt; &gt; octotigerII::gravity::diagonal::Operator::toWave_</definition>
+        <argsstring></argsstring>
+        <name>toWave_</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Operator::toWave_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="90" column="13" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="90" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1af47a4d8a382e73aacaddff71e7d1befc" compoundref="fmm_8cpp" startline="221" endline="235">add</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a6ee6375940538f846f98c3decc4e6b12" compoundref="fmm_8cpp" startline="172" endline="219">Operator</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1ac7f06e7748f17f018b1774dbed4ee2c3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::complex&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::complex&lt;double&gt; &gt; octotigerII::gravity::diagonal::Operator::fromWave_</definition>
+        <argsstring></argsstring>
+        <name>fromWave_</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Operator::fromWave_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="90" column="21" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="90" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1af47a4d8a382e73aacaddff71e7d1befc" compoundref="fmm_8cpp" startline="221" endline="235">add</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a6ee6375940538f846f98c3decc4e6b12" compoundref="fmm_8cpp" startline="172" endline="219">Operator</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a35dd45ef49ef2e2ca1fc488f73b443e3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; octotigerII::gravity::diagonal::Operator::diagonal_</definition>
+        <argsstring></argsstring>
+        <name>diagonal_</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Operator::diagonal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="91" column="13" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="91" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1af47a4d8a382e73aacaddff71e7d1befc" compoundref="fmm_8cpp" startline="221" endline="235">add</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a6ee6375940538f846f98c3decc4e6b12" compoundref="fmm_8cpp" startline="172" endline="219">Operator</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a357affde7cec105c081e4a4bcd054a07" compoundref="fmm_8hpp" startline="83" endline="85">sampleCount</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a6ee6375940538f846f98c3decc4e6b12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::gravity::diagonal::Operator::Operator</definition>
+        <argsstring>(int p, Offset separation)</argsstring>
+        <name>Operator</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Operator::Operator</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6a84296cfc13edbc19b8070c982e2d34" kindref="member">Offset</ref></type>
+          <declname>separation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="74" column="1" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="172" bodyend="219"/>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a35dd45ef49ef2e2ca1fc488f73b443e3" compoundref="fmm_8hpp" startline="91">diagonal_</references>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1ac7f06e7748f17f018b1774dbed4ee2c3" compoundref="fmm_8hpp" startline="90">fromWave_</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a46f4b28cc69a966ddb592c8ba66830ea" compoundref="fmm_8cpp" startline="104" endline="118">octotigerII::gravity::diagonal::indices</references>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a9ada01c3cdbd60b85d4ec948bf33503b" compoundref="fmm_8hpp" startline="90">toWave_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1af47a4d8a382e73aacaddff71e7d1befc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::gravity::diagonal::Operator::add</definition>
+        <argsstring>(Coefficients &amp;local, const Coefficients &amp;moment, double cellWidth) const</argsstring>
+        <name>add</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Operator::add</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a0e8b39f4db0cdb0bfc956b6d1bae1f3b" kindref="member">Coefficients</ref> &amp;</type>
+          <declname>moment</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cellWidth</declname>
+        </param>
+        <briefdescription>
+<para>Accumulate one source expansion into a target local expansion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>separation=(target center−source center)/cellWidth; locals are normalized derivatives. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="80" column="6" bodyfile="src/gravity/diagonal/fmm.cpp" bodystart="221" bodyend="235"/>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a2711a7844de5da06b0d4aa1004afa6a8" compoundref="fmm_8hpp" startline="89">count_</references>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a35dd45ef49ef2e2ca1fc488f73b443e3" compoundref="fmm_8hpp" startline="91">diagonal_</references>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1ac7f06e7748f17f018b1774dbed4ee2c3" compoundref="fmm_8hpp" startline="90">fromWave_</references>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a9ada01c3cdbd60b85d4ec948bf33503b" compoundref="fmm_8hpp" startline="90">toWave_</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a357affde7cec105c081e4a4bcd054a07" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::gravity::diagonal::Operator::sampleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>sampleCount</name>
+        <qualifiedname>octotigerII::gravity::diagonal::Operator::sampleCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of plane-wave quadrature samples in this operator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="83" column="13" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="83" bodyend="85"/>
+        <references refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a35dd45ef49ef2e2ca1fc488f73b443e3" compoundref="fmm_8hpp" startline="91">diagonal_</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cached diagonal plane-wave multipole-to-local translation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses C_XL D C_MX from <ref refid="bibliography_1ref_greengard1997" kindref="member">Greengard and Rokhlin (1997)</ref>. The quadrature axis follows the separation; coefficient storage is Cartesian. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="71" column="1" bodyfile="include/octotigerII/gravity/diagonal/fmm.hpp" bodystart="71" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1af47a4d8a382e73aacaddff71e7d1befc" prot="public" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Operator</scope><name>add</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a2711a7844de5da06b0d4aa1004afa6a8" prot="private" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Operator</scope><name>count_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a35dd45ef49ef2e2ca1fc488f73b443e3" prot="private" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Operator</scope><name>diagonal_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1ac7f06e7748f17f018b1774dbed4ee2c3" prot="private" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Operator</scope><name>fromWave_</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a6ee6375940538f846f98c3decc4e6b12" prot="public" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Operator</scope><name>Operator</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a357affde7cec105c081e4a4bcd054a07" prot="public" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Operator</scope><name>sampleCount</name></member>
+      <member refid="classoctotigerII_1_1gravity_1_1diagonal_1_1Operator_1a9ada01c3cdbd60b85d4ec948bf33503b" prot="private" virt="non-virtual"><scope>octotigerII::gravity::diagonal::Operator</scope><name>toWave_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

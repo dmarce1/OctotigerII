@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="group__storage" kind="group">
+    <compoundname>storage</compoundname>
+    <title>Distributed field storage</title>
+    <innerfile refid="buffer_8hpp">buffer.hpp</innerfile>
+    <innerfile refid="columns_8hpp">columns.hpp</innerfile>
+    <innerfile refid="field_8hpp">field.hpp</innerfile>
+    <innerfile refid="layout_8hpp">layout.hpp</innerfile>
+    <innerfile refid="partition_8hpp">partition.hpp</innerfile>
+    <innerfile refid="registry_8hpp">registry.hpp</innerfile>
+    <innerclass refid="classoctotigerII_1_1storage_1_1PartitionSet" prot="public">octotigerII::storage::PartitionSet</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1FieldHandle" prot="public">octotigerII::storage::FieldHandle</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1Field" prot="public">octotigerII::storage::Field</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1Range" prot="public">octotigerII::storage::Range</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1Layout" prot="public">octotigerII::storage::Layout</innerclass>
+    <innerclass refid="classoctotigerII_1_1storage_1_1StoragePartition" prot="public">octotigerII::storage::StoragePartition</innerclass>
+    <innerclass refid="classoctotigerII_1_1FieldDirectory" prot="public">octotigerII::FieldDirectory</innerclass>
+    <innerclass refid="classoctotigerII_1_1FieldRepository" prot="public">octotigerII::FieldRepository</innerclass>
+    <briefdescription>
+<para>Typed columns, independent indexing layouts, buffers, and HPX components. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

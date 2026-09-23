@@ -1,0 +1,490 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII" kind="namespace" language="C++">
+    <compoundname>octotigerII</compoundname>
+    <innerclass refid="classoctotigerII_1_1CartesianTopology" prot="public">octotigerII::CartesianTopology</innerclass>
+    <innerclass refid="classoctotigerII_1_1Config" prot="public">octotigerII::Config</innerclass>
+    <innerclass refid="classoctotigerII_1_1Diagnostics" prot="public">octotigerII::Diagnostics</innerclass>
+    <innerclass refid="structoctotigerII_1_1ExchangeDomain" prot="public">octotigerII::ExchangeDomain</innerclass>
+    <innerclass refid="classoctotigerII_1_1FieldDirectory" prot="public">octotigerII::FieldDirectory</innerclass>
+    <innerclass refid="structoctotigerII_1_1FieldFluxPacket" prot="public">octotigerII::FieldFluxPacket</innerclass>
+    <innerclass refid="classoctotigerII_1_1FieldRepository" prot="public">octotigerII::FieldRepository</innerclass>
+    <innerclass refid="structoctotigerII_1_1FieldSnapshot" prot="public">octotigerII::FieldSnapshot</innerclass>
+    <innerclass refid="classoctotigerII_1_1HaloCopy" prot="public">octotigerII::HaloCopy</innerclass>
+    <innerclass refid="classoctotigerII_1_1HaloPlan" prot="public">octotigerII::HaloPlan</innerclass>
+    <innerclass refid="classoctotigerII_1_1HaloRead" prot="public">octotigerII::HaloRead</innerclass>
+    <innerclass refid="classoctotigerII_1_1LocalExecutor" prot="public">octotigerII::LocalExecutor</innerclass>
+    <innerclass refid="classoctotigerII_1_1Output" prot="public">octotigerII::Output</innerclass>
+    <innerclass refid="classoctotigerII_1_1PatchView" prot="public">octotigerII::PatchView</innerclass>
+    <innerclass refid="classoctotigerII_1_1RunResult" prot="public">octotigerII::RunResult</innerclass>
+    <innerclass refid="classoctotigerII_1_1Runtime" prot="public">octotigerII::Runtime</innerclass>
+    <innerclass refid="classoctotigerII_1_1SchedulingStatistics" prot="public">octotigerII::SchedulingStatistics</innerclass>
+    <innerclass refid="classoctotigerII_1_1Snapshot" prot="public">octotigerII::Snapshot</innerclass>
+    <innerclass refid="classoctotigerII_1_1Subgrid" prot="public">octotigerII::Subgrid</innerclass>
+    <innernamespace refid="namespaceoctotigerII_1_1build">octotigerII::build</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1constants">octotigerII::constants</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1gravity">octotigerII::gravity</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1hydro">octotigerII::hydro</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1mesh">octotigerII::mesh</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1physics">octotigerII::physics</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1radiation">octotigerII::radiation</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1storage">octotigerII::storage</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1transportExchange">octotigerII::transportExchange</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1units">octotigerII::units</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1verification">octotigerII::verification</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceoctotigerII_1a7c6d3d8955981ab6967558bc2937c566" prot="public" static="no">
+        <type>std::function&lt; void(std::vector&lt; <ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &gt; const  &amp;, int, <ref refid="classoctotigerII_1_1Diagnostics" kindref="compound">Diagnostics</ref> const  &amp;)&gt;</type>
+        <definition>using octotigerII::Observer = typedef std::function&lt;void(std::vector&lt;Snapshot&gt; const&amp;, int, Diagnostics const&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Observer</name>
+        <qualifiedname>octotigerII::Observer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="48" column="1" bodyfile="include/octotigerII/simulation.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr int</type>
+        <definition>constexpr int octotigerII::ndim</definition>
+        <argsstring></argsstring>
+        <name>ndim</name>
+        <qualifiedname>octotigerII::ndim</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="cmake/buildConfig.hpp.in" line="12" column="22" bodyfile="cmake/buildConfig.hpp.in" bodystart="12" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7a24d495f25ed98774de772e499b9625" compoundref="hydroSystem_8cpp" startline="216" endline="223">octotigerII::hydro::HydroSystem::advectiveFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1afaa04a837767705f1d129159b56a4a3b" compoundref="mesh_8cpp" startline="150" endline="159">octotigerII::mesh::MeshLayout::cellCenter</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a39ec08f5c51aad143dfbeb111b011e3c" compoundref="mesh_8cpp" startline="139" endline="144">octotigerII::mesh::MeshLayout::cellMeasure</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1BlockLocation_1a33d3a1bbb58ec3a0222b3f314fc982ad" compoundref="mesh_8cpp" startline="225" endline="235">octotigerII::mesh::BlockLocation::child</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a1f8233705e3e67439c10ede4074d87a6" compoundref="mesh_8cpp" startline="53" endline="55">octotigerII::mesh::MeshLayout::childCount</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1BlockLocation_1a3d2cdddf863395b32d5a0adbb38b0dc5" compoundref="mesh_8cpp" startline="211" endline="223">octotigerII::mesh::BlockLocation::childSlot</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" compoundref="hydroSystem_8cpp" startline="40" endline="56">octotigerII::hydro::HydroSystem::conservedState</referencedby>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1units_1_1State_1aa72f879d91098f21f7ed7407e46a69ec" compoundref="state_8hpp" startline="194" endline="199">octotigerII::units::State&lt; Q &gt;::energy</referencedby>
+        <referencedby refid="classoctotigerII_1_1units_1_1State_1a800ffbb55dad7cd98dea20e174579429" compoundref="state_8hpp" startline="202" endline="207">octotigerII::units::State&lt; Q &gt;::energy</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a647ac0996d4fff4cc081f050e601f214" compoundref="mesh_8cpp" startline="125" endline="137">octotigerII::mesh::MeshLayout::faceIndex</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" compoundref="finiteVolume_8hpp" startline="88" endline="142">octotigerII::physics::fillGhostCells</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1mesh_1a6e5a131e86ee503befdc4d08c9ec19b8" compoundref="mesh_8hpp" startline="47" endline="60">octotigerII::mesh::forEachCoordinate</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a00f6fa89160ef8a8cdfee6eb04ded119" compoundref="radiationTransport_8cpp" startline="145" endline="151">octotigerII::radiation::RadiationSystem::fromCalculationFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a7c1d0ff4355626b03fd9a28bbb161748" compoundref="radiationTransport_8cpp" startline="137" endline="143">octotigerII::radiation::RadiationSystem::fromCalculationState</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a31ee18444108e1aadb307184b5e94701" compoundref="radiationTransport_8cpp" startline="112" endline="119">octotigerII::radiation::RadiationSystem::fromPhysical</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac8331b525bdfe42b0b13d10a80fa49ec" compoundref="config_8cpp" startline="208" endline="220">helpText</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" compoundref="mesh_8cpp" startline="69" endline="78">octotigerII::mesh::MeshLayout::index</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">initialSnapshot</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a2ede820a2c3001c57c1ffd279a08176c" compoundref="hydroSystem_8cpp" startline="225" endline="232">octotigerII::hydro::HydroSystem::integratedFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a73e36593605365d73a7b4cde65d9d7da" compoundref="mesh_8cpp" startline="91" endline="100">octotigerII::mesh::MeshLayout::interiorCoordinates</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">octotigerII::mesh::MeshLayout::isInterior</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">octotigerII::LocalExecutor::kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9929b3d874f1209b2d3f8f252429e042" compoundref="hydroSystem_8cpp" startline="154" endline="184">octotigerII::hydro::HydroSystem::limitFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a4e40d4bdd33a7bed85c3d719b3042089" compoundref="radiationTransport_8cpp" startline="60" endline="110">octotigerII::radiation::RadiationSystem::limitFlux</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1mesh_1af49d44d0c46f82303d56f1536393844a" compoundref="mesh_8hpp" startline="34" endline="42">octotigerII::mesh::linearIndex</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a950943fecda92216d523cd42540f4152" compoundref="m1_8hpp" startline="41" endline="46">octotigerII::radiation::M1::magnitude</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1units_1_1State_1aeecba3d66ae028832322ec453d354162" compoundref="state_8hpp" startline="148" endline="154">octotigerII::units::State&lt; Q &gt;::momentum</referencedby>
+        <referencedby refid="classoctotigerII_1_1units_1_1State_1a7fdf3b4a064fe94862c2f70fa1aa7a1d" compoundref="state_8hpp" startline="157" endline="163">octotigerII::units::State&lt; Q &gt;::momentum</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1BlockLocation_1acdb92e656f156b31986ffc1a7bfae37e" compoundref="mesh_8cpp" startline="196" endline="209">octotigerII::mesh::BlockLocation::parent</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1BoundaryConditions_1acf732426dec3f0e37b52bb44db145c39" compoundref="finiteVolume_8hpp" startline="51" endline="58">octotigerII::physics::BoundaryConditions::periodic</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ad3da01b545d27c6b0f0ba47cbfad1e65" compoundref="hydroSystem_8cpp" startline="58" endline="68">octotigerII::hydro::HydroSystem::physicalFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" compoundref="m1_8hpp" startline="72" endline="102">octotigerII::radiation::M1::physicalFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6c364c5eb6b32583fadeb59c105c1dcb" compoundref="finiteVolume_8hpp" startline="306" endline="376">octotigerII::physics::MusclHancock&lt; System &gt;::predictFaceStates</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7f9d0ac7007f396b811eae173a8ba081" compoundref="hydroSystem_8cpp" startline="186" endline="195">octotigerII::hydro::HydroSystem::pressure</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a9fe864a8e8fedd475a957b42a1ad6e87" compoundref="mesh_8cpp" startline="161" endline="176">octotigerII::mesh::MeshLayout::rebuild</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">octotigerII::hydro::HydroSystem::reconstructionVariables</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">octotigerII::hydro::HydroSystem::riemann</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" compoundref="solutions_8cpp" startline="83" endline="136">octotigerII::verification::sphereReference</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a438a824d62fc5e7175a4c87e0e9f5db9" compoundref="finiteVolume_8hpp" startline="185" endline="204">octotigerII::physics::MusclHancock&lt; System &gt;::stableTimestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1aa2a3dd2fd51fa129ec68f014e40a66de" compoundref="mesh_8cpp" startline="80" endline="89">octotigerII::mesh::MeshLayout::storageCoordinates</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a2e9ae4e7a511dcc613eb1a005fb38a46" compoundref="solutions_8cpp" startline="139" endline="169">octotigerII::verification::streamingReference</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a30c559a281e9e6f0bd176f4f217dfdcb" compoundref="radiationTransport_8cpp" startline="129" endline="135">octotigerII::radiation::RadiationSystem::toCalculationState</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a197d3cefee0ee55895f6e9d2759fea23" compoundref="radiationTransport_8cpp" startline="121" endline="127">octotigerII::radiation::RadiationSystem::toPhysicalFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1abc85a4a713f78426bfc281c3c0a6811b" compoundref="mesh_8cpp" startline="178" endline="182">octotigerII::mesh::MeshLayout::validateAxis</referencedby>
+        <referencedby refid="classoctotigerII_1_1verification_1_1Comparison_1a4865d127d1f1d2e054d819f5a5a0815d" compoundref="analytic_8cpp" startline="228" endline="265">octotigerII::verification::Comparison::writeJson</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1a36e16cbc75f27d1a3368f8211b518012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref></type>
+        <definition>Config octotigerII::parseConfig</definition>
+        <argsstring>(std::vector&lt; std::string &gt; const &amp;arguments)</argsstring>
+        <name>parseConfig</name>
+        <qualifiedname>octotigerII::parseConfig</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt; const &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+<para>Parse command-line/INI options into typed CGS values and validate the result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config.cpp" line="169" column="8" bodyfile="src/config.cpp" bodystart="169" bodyend="206" declfile="include/octotigerII/config.hpp" declline="142" declcolumn="8"/>
+        <references refid="namespaceoctotigerII_1a374ae7a555bf632b742d3cf276fd06c1" compoundref="gravity__tests_2Gaussian_2problem_8cpp" startline="16" endline="21">problemDefaults</references>
+        <references refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">run</references>
+        <references refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1ac8331b525bdfe42b0b13d10a80fa49ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string octotigerII::helpText</definition>
+        <argsstring>()</argsstring>
+        <name>helpText</name>
+        <qualifiedname>octotigerII::helpText</qualifiedname>
+        <briefdescription>
+<para>Return the command-line option summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/config.cpp" line="208" column="13" bodyfile="src/config.cpp" bodystart="208" bodyend="220" declfile="include/octotigerII/config.hpp" declline="145" declcolumn="13"/>
+        <references refid="namespaceoctotigerII_1_1build_1acdc48af7f174c82a02323483e99b091f" compoundref="buildConfig_8hpp_8in" startline="16">octotigerII::build::executable</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">ndim</references>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1a2df2e99deb5c68b7b55c306ef5099150" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1verification_1_1Reference" kindref="compound">verification::Reference</ref></type>
+        <definition>verification::Reference octotigerII::problemReference</definition>
+        <argsstring>(Config const &amp;config)</argsstring>
+        <name>problemReference</name>
+        <qualifiedname>octotigerII::problemReference</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Every problem declares its exact solution or explicitly returns unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="bin/gravity_tests/Gaussian/problem.cpp" line="12" column="25" bodyfile="bin/gravity_tests/Gaussian/problem.cpp" bodystart="12" bodyend="14" declfile="include/octotigerII/problems.hpp" declline="15" declcolumn="25"/>
+        <references refid="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" compoundref="solutions_8cpp" startline="83" endline="136">octotigerII::verification::sphereReference</references>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a6a7a4c141bdc95358019b6061e0dd88a" compoundref="analytic_8cpp" startline="45" endline="61">octotigerII::verification::reference</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1a374ae7a555bf632b742d3cf276fd06c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::problemDefaults</definition>
+        <argsstring>(Config &amp;config)</argsstring>
+        <name>problemDefaults</name>
+        <qualifiedname>octotigerII::problemDefaults</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set problem-local defaults before reading runtime inputs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="bin/gravity_tests/Gaussian/problem.cpp" line="16" column="6" bodyfile="bin/gravity_tests/Gaussian/problem.cpp" bodystart="16" bodyend="21" declfile="include/octotigerII/problems.hpp" declline="19" declcolumn="6"/>
+        <referencedby refid="namespaceoctotigerII_1a36e16cbc75f27d1a3368f8211b518012" compoundref="config_8cpp" startline="169" endline="206">parseConfig</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1a3f9db90f04993280ebca09a681aec503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::validateProblem</definition>
+        <argsstring>(Config const &amp;config)</argsstring>
+        <name>validateProblem</name>
+        <qualifiedname>octotigerII::validateProblem</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Validate restrictions particular to the selected problem. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="bin/gravity_tests/Gaussian/problem.cpp" line="23" column="6" bodyfile="bin/gravity_tests/Gaussian/problem.cpp" bodystart="23" bodyend="25" declfile="include/octotigerII/problems.hpp" declline="22" declcolumn="6"/>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::initializeProblem</definition>
+        <argsstring>(Snapshot &amp;snapshot, Config const &amp;config)</argsstring>
+        <name>initializeProblem</name>
+        <qualifiedname>octotigerII::initializeProblem</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+          <defname>data</defname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+          <defname>c</defname>
+        </param>
+        <briefdescription>
+<para>Fill physical initial conditions on one interior snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize this problem in the executable&apos;s compile-time dimension.</para>
+<para>Fill physical CGS initial states on one temporary interior patch.</para>
+<para>The shock-tube ratios follow <ref refid="bibliography_1ref_sod1978" kindref="member">Sod (1978)</ref>. Other fixtures are project regression configurations.</para>
+<para>Shock-tube states follow <ref refid="bibliography_1ref_sod1978" kindref="member">Sod (1978)</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/problems.cpp" line="12" column="6" bodyfile="src/problems.cpp" bodystart="12" bodyend="66" declfile="include/octotigerII/problems.hpp" declline="25" declcolumn="6"/>
+        <references refid="namespaceoctotigerII_1_1constants_1a818378a5aaef2811504d5155316f9d7f" compoundref="constants_8hpp" startline="14">octotigerII::constants::c</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1afaa04a837767705f1d129159b56a4a3b" compoundref="mesh_8cpp" startline="150" endline="159">octotigerII::mesh::MeshLayout::cellCenter</references>
+        <references refid="classoctotigerII_1_1Snapshot_1acc0009efba1f7723faaf9a3267fadb1a" compoundref="subgrid_8hpp" startline="28">octotigerII::Snapshot::cellWidth</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" compoundref="hydroSystem_8cpp" startline="40" endline="56">octotigerII::hydro::HydroSystem::conservedState</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a898cba6e3e7d46c9165b7a2c3764cf9d" compoundref="subgrid_8hpp" startline="35">octotigerII::Snapshot::density</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" compoundref="mesh_8hpp" startline="126" endline="128">octotigerII::mesh::MeshLayout::forEachInterior</references>
+        <references refid="classoctotigerII_1_1Snapshot_1aebb654624db4d4b90ef7df5339d4f2ea" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::gravityEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a297b51fa084fe51816181e1e09a1219e" compoundref="subgrid_8hpp" startline="31">octotigerII::Snapshot::hydro</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae678641a91816426ebace0c5b832a61b" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::hydroEnabled</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae7afcfe262a676095526b633c918ca81" compoundref="subgrid_8hpp" startline="26">octotigerII::Snapshot::layout</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a571359395d5fc10fbb565c2e84f9ea46" compoundref="subgrid_8hpp" startline="27" endline="27">octotigerII::Snapshot::lower</references>
+        <references refid="Real_8hpp_1a5839fda3fbc07e70b2950475761f6176" compoundref="Real_8hpp" startline="12">piR</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a46648a2cc4a7bb406f77ca88f5abba3f" compoundref="subgrid_8hpp" startline="32">octotigerII::Snapshot::radiation</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae1937e11cbc5cfd0c9d4928bdaa0cb61" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::radiationEnabled</references>
+        <references refid="classoctotigerII_1_1mesh_1_1PatchData_1a9b9d2373c91486bab4c9c91797c16bc6" compoundref="mesh_8hpp" startline="297" endline="299">octotigerII::mesh::PatchData&lt; State &gt;::values</references>
+        <referencedby refid="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" compoundref="subgrid_8cpp" startline="10" endline="35">initialSnapshot</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1Diagnostics" kindref="compound">Diagnostics</ref></type>
+        <definition>Diagnostics octotigerII::diagnose</definition>
+        <argsstring>(std::vector&lt; Snapshot &gt; const &amp;snapshots, Config const &amp;config)</argsstring>
+        <name>diagnose</name>
+        <qualifiedname>octotigerII::diagnose</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref> &gt; const &amp;</type>
+          <declname>snapshots</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Integrate synchronized interior fields and check positivity and radiation realizability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulation.cpp" line="12" column="13" bodyfile="src/simulation.cpp" bodystart="12" bodyend="57" declfile="include/octotigerII/simulation.hpp" declline="33" declcolumn="13"/>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a94adca3c69a46bc2feb970904c364f01" compoundref="hydroSystem_8cpp" startline="144" endline="147">octotigerII::hydro::HydroSystem::admissible</references>
+        <references refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a1a3e03ccf7b00e3a462d7395c87381bb" compoundref="radiationTransport_8cpp" startline="52" endline="54">octotigerII::radiation::RadiationSystem::admissible</references>
+        <references refid="namespaceoctotigerII_1_1constants_1a818378a5aaef2811504d5155316f9d7f" compoundref="constants_8hpp" startline="14">octotigerII::constants::c</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1a65521677bc1621e2d2fb154d9ed85561" compoundref="simulation_8hpp" startline="23" endline="23">octotigerII::Diagnostics::gasEnergy</references>
+        <references refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" compoundref="buildConfig_8hpp_8in" startline="19">octotigerII::build::gravity</references>
+        <references refid="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" compoundref="buildConfig_8hpp_8in" startline="17">octotigerII::build::hydro</references>
+        <references refid="namespaceoctotigerII_1_1units_1a8f528746f11757a6574b8aa3b6d0ac74" compoundref="cgs_8hpp" startline="73" endline="80">octotigerII::units::hypot</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1a0d494d3d7c928f142536016bbb51f4eb" compoundref="simulation_8hpp" startline="22" endline="22">octotigerII::Diagnostics::mass</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1a18f43b18bf75bc74b9014d8f898fe5a3" compoundref="simulation_8hpp" startline="27">octotigerII::Diagnostics::maximumReducedFlux</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1ac37995ce895496297c0d962bd8a16ea2" compoundref="simulation_8hpp" startline="24" endline="24">octotigerII::Diagnostics::minimumDensity</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1af4a9965072dbee99879f3155acc5106c" compoundref="simulation_8hpp" startline="25" endline="25">octotigerII::Diagnostics::minimumPressure</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1a73a0ef25aa6d685c8079a69f9b8587a0" compoundref="simulation_8hpp" startline="26" endline="26">octotigerII::Diagnostics::minimumRadiationEnergy</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1aa6c87d05b2bf670692c09d947a97646a" compoundref="simulation_8hpp" startline="28" endline="28">octotigerII::Diagnostics::momentum</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">ndim</references>
+        <references refid="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" compoundref="buildConfig_8hpp_8in" startline="18">octotigerII::build::radiation</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1a8aa6b6642fbbca94b439c8fa8710ca13" compoundref="simulation_8hpp" startline="23" endline="23">octotigerII::Diagnostics::radiationEnergy</references>
+        <references refid="classoctotigerII_1_1hydro_1_1HydroSystem_1ac5e4ce955454af88779f086e9c4aaaba" compoundref="hydroSystem_8cpp" startline="27" endline="38">octotigerII::hydro::HydroSystem::reconstructionVariables</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1afefc0244f02431938240ca530c938883" compoundref="simulation_8hpp" startline="21" endline="21">octotigerII::Diagnostics::time</references>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1RunResult" kindref="compound">RunResult</ref></type>
+        <definition>RunResult octotigerII::run</definition>
+        <argsstring>(Config const &amp;config, Observer const &amp;observer={})</argsstring>
+        <name>run</name>
+        <qualifiedname>octotigerII::run</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1a7c6d3d8955981ab6967558bc2937c566" kindref="member">Observer</ref> const &amp;</type>
+          <declname>observer</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Advance the configured problem and call the observer with synchronized snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gravity uses symmetric source/transport/source composition; see <ref refid="bibliography_1ref_strang1968" kindref="member">Strang (1968)</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulation.cpp" line="59" column="11" bodyfile="src/simulation.cpp" bodystart="59" bodyend="91" declfile="include/octotigerII/simulation.hpp" declline="53" declcolumn="11"/>
+        <references refid="classoctotigerII_1_1Runtime_1a9e24447ce07671b67fa12dbf83244150" compoundref="runtime_8cpp" startline="537" endline="545">octotigerII::Runtime::advance</references>
+        <references refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">diagnose</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a7a35f4b6347d150915a88fdc27cb45d0" compoundref="solver_8hpp" startline="22">octotigerII::gravity::Statistics::directPairs</references>
+        <references refid="classoctotigerII_1_1RunResult_1af5cd8dab63bdd5d4cde3dacb5a3748f1" compoundref="simulation_8hpp" startline="41">octotigerII::RunResult::final</references>
+        <references refid="classoctotigerII_1_1RunResult_1acf2f8989f56fb738f549150aa21bf491" compoundref="simulation_8hpp" startline="43">octotigerII::RunResult::gravityWork</references>
+        <references refid="classoctotigerII_1_1RunResult_1a8c2cc3adfb4dee63a59437940889713f" compoundref="simulation_8hpp" startline="41">octotigerII::RunResult::initial</references>
+        <references refid="classoctotigerII_1_1Runtime_1a721d1964a1ed955f928960db98c0d214" compoundref="runtime_8cpp" startline="547" endline="555">octotigerII::Runtime::kickGravity</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a21f221b84d6298a7b52c3cdc104d7287" compoundref="solver_8hpp" startline="26">octotigerII::gravity::Statistics::localityCells</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1ad7c96743b27f3671c57849e1a2bb07c3" compoundref="solver_8hpp" startline="21">octotigerII::gravity::Statistics::multipolePairs</references>
+        <references refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">run</references>
+        <references refid="classoctotigerII_1_1Runtime_1aff65bfd10ec282acc7b6ed718240f5ed" compoundref="runtime_8cpp" startline="514" endline="530">octotigerII::Runtime::snapshots</references>
+        <references refid="classoctotigerII_1_1RunResult_1af3cffa01244355050bade4f4619cae7e" compoundref="simulation_8hpp" startline="44">octotigerII::RunResult::snapshots</references>
+        <references refid="classoctotigerII_1_1Runtime_1a9c8679deb91adbeefcd5df6d894dbac9" compoundref="runtime_8cpp" startline="557" endline="572">octotigerII::Runtime::solveGravity</references>
+        <references refid="classoctotigerII_1_1Runtime_1ab9ed8935395551518a5dbeaa219cd040" compoundref="runtime_8cpp" startline="532" endline="535">octotigerII::Runtime::stableTimestep</references>
+        <references refid="classoctotigerII_1_1RunResult_1abacd8d35bc4191ebc3c14a9bf19a8241" compoundref="simulation_8hpp" startline="42">octotigerII::RunResult::steps</references>
+        <references refid="classoctotigerII_1_1Diagnostics_1afefc0244f02431938240ca530c938883" compoundref="simulation_8hpp" startline="21" endline="21">octotigerII::Diagnostics::time</references>
+        <references refid="runtime_8cpp_1a197f48de4a87d5a94d1ecf7f9aeab75b" compoundref="runtime_8cpp" startline="90">work</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a7c697efd191c0aef166cdd9122a6aa96" compoundref="solver_8hpp" startline="24">octotigerII::gravity::Statistics::workerTasks</references>
+        <referencedby refid="namespaceoctotigerII_1a36e16cbc75f27d1a3368f8211b518012" compoundref="config_8cpp" startline="169" endline="206">parseConfig</referencedby>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1ad69e3f7b256cd7e4e10e640850be4b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1Snapshot" kindref="compound">Snapshot</ref></type>
+        <definition>Snapshot octotigerII::initialSnapshot</definition>
+        <argsstring>(Config const &amp;config, mesh::BlockLocation location)</argsstring>
+        <name>initialSnapshot</name>
+        <qualifiedname>octotigerII::initialSnapshot</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1BlockLocation" kindref="compound">mesh::BlockLocation</ref></type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+<para>Construct a temporary interior-only CGS value for problem initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subgrid.cpp" line="10" column="10" bodyfile="src/subgrid.cpp" bodystart="10" bodyend="35" declfile="include/octotigerII/subgrid/subgrid.hpp" declline="49" declcolumn="10"/>
+        <references refid="classoctotigerII_1_1Snapshot_1acc0009efba1f7723faaf9a3267fadb1a" compoundref="subgrid_8hpp" startline="28">octotigerII::Snapshot::cellWidth</references>
+        <references refid="classoctotigerII_1_1mesh_1_1BlockLocation_1aae28a031664c222e73d5b81756695123" compoundref="mesh_8hpp" startline="161" endline="161">octotigerII::mesh::BlockLocation::coordinates</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a898cba6e3e7d46c9165b7a2c3764cf9d" compoundref="subgrid_8hpp" startline="35">octotigerII::Snapshot::density</references>
+        <references refid="namespaceoctotigerII_1_1build_1abe4dba0986e7de67a4da774e366493f6" compoundref="buildConfig_8hpp_8in" startline="19">octotigerII::build::gravity</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae4ee69893cc739158ec25ac0bc07fc30" compoundref="subgrid_8hpp" startline="33">octotigerII::Snapshot::gravity</references>
+        <references refid="classoctotigerII_1_1Snapshot_1aebb654624db4d4b90ef7df5339d4f2ea" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::gravityEnabled</references>
+        <references refid="namespaceoctotigerII_1_1build_1aa6339d33fc8a53f2bfd664eafe89c7b7" compoundref="buildConfig_8hpp_8in" startline="17">octotigerII::build::hydro</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a297b51fa084fe51816181e1e09a1219e" compoundref="subgrid_8hpp" startline="31">octotigerII::Snapshot::hydro</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae678641a91816426ebace0c5b832a61b" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::hydroEnabled</references>
+        <references refid="namespaceoctotigerII_1a614bcb9ee558685a6e776b8a0b4fff57" compoundref="problems_8cpp" startline="12" endline="66">initializeProblem</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae7afcfe262a676095526b633c918ca81" compoundref="subgrid_8hpp" startline="26">octotigerII::Snapshot::layout</references>
+        <references refid="classoctotigerII_1_1mesh_1_1BlockLocation_1a85c8ffba90ae97515580c35ef84d51cf" compoundref="mesh_8hpp" startline="160">octotigerII::mesh::BlockLocation::level</references>
+        <references refid="classoctotigerII_1_1Snapshot_1af67d64db71174c845073c16c215d1a47" compoundref="subgrid_8hpp" startline="25">octotigerII::Snapshot::location</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a571359395d5fc10fbb565c2e84f9ea46" compoundref="subgrid_8hpp" startline="27" endline="27">octotigerII::Snapshot::lower</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">ndim</references>
+        <references refid="namespaceoctotigerII_1_1build_1a6d98a559021539f9929af32686fdb837" compoundref="buildConfig_8hpp_8in" startline="18">octotigerII::build::radiation</references>
+        <references refid="classoctotigerII_1_1Snapshot_1a46648a2cc4a7bb406f77ca88f5abba3f" compoundref="subgrid_8hpp" startline="32">octotigerII::Snapshot::radiation</references>
+        <references refid="classoctotigerII_1_1Snapshot_1ae1937e11cbc5cfd0c9d4928bdaa0cb61" compoundref="subgrid_8hpp" startline="30">octotigerII::Snapshot::radiationEnabled</references>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a81d340ccee41e2402cac13c89975668d" compoundref="runtime_8cpp" startline="171" endline="186">octotigerII::LocalExecutor::initialize</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1HaloPlan" kindref="compound">HaloPlan</ref></type>
+        <definition>HaloPlan octotigerII::makeHaloPlan</definition>
+        <argsstring>(Config const &amp;config, std::vector&lt; Subgrid &gt; const &amp;blocks, std::size_t index)</argsstring>
+        <name>makeHaloPlan</name>
+        <qualifiedname>octotigerII::makeHaloPlan</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1Config" kindref="compound">Config</ref> const &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classoctotigerII_1_1Subgrid" kindref="compound">Subgrid</ref> &gt; const &amp;</type>
+          <declname>blocks</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Map the fixed-level Cartesian halo to contiguous source runs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This adapter currently handles periodic wrapping or outflow clamping. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/topology.cpp" line="30" column="10" bodyfile="src/topology.cpp" bodystart="30" bodyend="71" declfile="include/octotigerII/subgrid/topology.hpp" declline="96" declcolumn="10"/>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a07538a4a6c7fbcc68a4ce4cbf67d640b" compoundref="mesh_8cpp" startline="49" endline="51">octotigerII::mesh::MeshLayout::cellCount</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1adedfdadab840e52dc975daa61f9caca9" compoundref="config_8hpp" startline="24">octotigerII::Config::MeshOptions::cells</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1ab64d409bc72bff5ecb2028ae7bf3f1ff" compoundref="mesh_8cpp" startline="41" endline="43">octotigerII::mesh::MeshLayout::extents</references>
+        <references refid="namespaceoctotigerII_1_1mesh_1a727008e4d9883a2d3ff531702b07b226" compoundref="mesh_8hpp" startline="27" endline="31">octotigerII::mesh::filledCoordinates</references>
+        <references refid="namespaceoctotigerII_1_1mesh_1a6e5a131e86ee503befdc4d08c9ec19b8" compoundref="mesh_8hpp" startline="47" endline="60">octotigerII::mesh::forEachCoordinate</references>
+        <references refid="classoctotigerII_1_1HaloPlan_1aa26f8ecb46cd5ac17082b4fd1167e6f3" compoundref="topology_8hpp" startline="84">octotigerII::HaloPlan::ghostCount</references>
+        <references refid="classoctotigerII_1_1HaloPlan_1a2a21fc7d0231f03884f1b0e402652b99" compoundref="topology_8hpp" startline="83">octotigerII::HaloPlan::ghostIndices</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a963f0fbbdd8826b893db08ba8b4143b2" compoundref="mesh_8cpp" startline="69" endline="78">octotigerII::mesh::MeshLayout::index</references>
+        <references refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a7542062903f8fd03fa7797a75b9a7ed4" compoundref="mesh_8cpp" startline="102" endline="112">octotigerII::mesh::MeshLayout::isInterior</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1ae41801a618bcbe2639e95c690ab8c379" compoundref="config_8hpp" startline="24">octotigerII::Config::MeshOptions::level</references>
+        <references refid="namespaceoctotigerII_1_1mesh_1af49d44d0c46f82303d56f1536393844a" compoundref="mesh_8hpp" startline="34" endline="42">octotigerII::mesh::linearIndex</references>
+        <references refid="classoctotigerII_1_1Config_1ad953f6824a906c441f0f6771a3d8bf79">octotigerII::Config::mesh</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">ndim</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1a746b3dd135ce075806a9c76079c520ca" compoundref="config_8hpp" startline="26">octotigerII::Config::MeshOptions::periodic</references>
+        <references refid="classoctotigerII_1_1HaloPlan_1a35601b21d3135a3fffcde7edff3b77ca" compoundref="topology_8hpp" startline="81">octotigerII::HaloPlan::reads</references>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1afc2403e247e49041a4ae82933c25766c" compoundref="topology_8cpp" startline="73" endline="75">octotigerII::CartesianTopology::halo</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1ada395969a454c67921e11d9052f36953" compoundref="runtime_8cpp" startline="153" endline="169">octotigerII::LocalExecutor::LocalExecutor</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a62faa327eacd1ef47f533dc5b885d45c" compoundref="runtime_8cpp" startline="280" endline="326">octotigerII::LocalExecutor::worker</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1a6b6a606567354b683caa7784f44abd73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename State</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::readHalo</definition>
+        <argsstring>(storage::ColumnHandle&lt; State &gt; const &amp;fields, HaloPlan const &amp;plan, unsigned bank, std::vector&lt; State &gt; &amp;ghosts)</argsstring>
+        <name>readHalo</name>
+        <qualifiedname>octotigerII::readHalo</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1storage_1_1ColumnHandle" kindref="compound">storage::ColumnHandle</ref>&lt; State &gt; const &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type><ref refid="classoctotigerII_1_1HaloPlan" kindref="compound">HaloPlan</ref> const &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>bank</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; State &gt; &amp;</type>
+          <declname>ghosts</declname>
+        </param>
+        <briefdescription>
+<para>Launch independent column reads, scatter them to compact ghost storage, and drain all transfers before returning or propagating an exception. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/subgrid/view.hpp" line="67" column="6" bodyfile="include/octotigerII/subgrid/view.hpp" bodystart="67" bodyend="85"/>
+        <references refid="classoctotigerII_1_1HaloPlan_1aa26f8ecb46cd5ac17082b4fd1167e6f3" compoundref="topology_8hpp" startline="84">octotigerII::HaloPlan::ghostCount</references>
+        <references refid="runtime_8cpp_1aca5fd1b55203c5431b825bda092f1a43" compoundref="runtime_8cpp" startline="88">ghosts</references>
+        <references refid="classoctotigerII_1_1HaloPlan_1a35601b21d3135a3fffcde7edff3b77ca" compoundref="topology_8hpp" startline="81">octotigerII::HaloPlan::reads</references>
+        <references refid="output_8cpp_1a2ad192c64ff93c02f9f41c320e7aa1bc" compoundref="output_8cpp" startline="21">values</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="12" column="1"/>
+  </compounddef>
+</doxygen>

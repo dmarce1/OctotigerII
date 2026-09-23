@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1radiation" kind="namespace" language="C++">
+    <compoundname>octotigerII::radiation</compoundname>
+    <innerclass refid="classoctotigerII_1_1radiation_1_1M1" prot="public">octotigerII::radiation::M1</innerclass>
+    <innerclass refid="classoctotigerII_1_1radiation_1_1RadiationSystem" prot="public">octotigerII::radiation::RadiationSystem</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1radiation_1a505d4b60d7fb646cd2ccf4aefe61aa72" prot="public" static="no">
+        <type><ref refid="classoctotigerII_1_1physics_1_1MusclHancock" kindref="compound">physics::MusclHancock</ref>&lt; <ref refid="classoctotigerII_1_1radiation_1_1RadiationSystem" kindref="compound">RadiationSystem</ref> &gt;</type>
+        <definition>using octotigerII::radiation::Solver = typedef physics::MusclHancock&lt;RadiationSystem&gt;</definition>
+        <argsstring></argsstring>
+        <name>Solver</name>
+        <qualifiedname>octotigerII::radiation::Solver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/radiationTransport.hpp" line="92" column="1" bodyfile="include/octotigerII/radiation/radiationTransport.hpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1radiation_1a117da2107968295862277a3a90082369" prot="public" static="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; <ref refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1acc3fb51f4279af0bd7bd4e44ec6d4bea" kindref="member">RadiationSystem::State</ref> &gt;</type>
+        <definition>using octotigerII::radiation::Fields = typedef mesh::PatchData&lt;RadiationSystem::State&gt;</definition>
+        <argsstring></argsstring>
+        <name>Fields</name>
+        <qualifiedname>octotigerII::radiation::Fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/radiation/radiationTransport.hpp" line="93" column="1" bodyfile="include/octotigerII/radiation/radiationTransport.hpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/radiation/m1.hpp" line="16" column="1"/>
+  </compounddef>
+</doxygen>

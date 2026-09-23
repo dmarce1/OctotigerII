@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_0e55fde338cf087c4455c97e0b7bd8c3" kind="dir">
+    <compoundname>include/octotigerII/subgrid</compoundname>
+    <innerfile refid="exchange_8hpp">exchange.hpp</innerfile>
+    <innerfile refid="fluxPacket_8hpp">fluxPacket.hpp</innerfile>
+    <innerfile refid="subgrid_8hpp">subgrid.hpp</innerfile>
+    <innerfile refid="topology_8hpp">topology.hpp</innerfile>
+    <innerfile refid="view_8hpp">view.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/subgrid/"/>
+  </compounddef>
+</doxygen>

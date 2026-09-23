@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1Range" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::storage::Range</compoundname>
+    <includes refid="layout_8hpp" local="no">layout.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1Range_1aee66cd58d2051b6609ef7c3998a11a1c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::storage::Range::partition</definition>
+        <argsstring></argsstring>
+        <name>partition</name>
+        <qualifiedname>octotigerII::storage::Range::partition</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="27" column="13" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="27" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Range_1a23d978353cb322f851ccf83225430439" compoundref="layout_8hpp" startline="39" endline="41">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Range_1af537ddaad921c2c983e58efa97ba16aa" compoundref="layout_8hpp" startline="32" endline="35">slice</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1Range_1aef25881949adde719e927e339fcf0ca3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::storage::Range::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>octotigerII::storage::Range::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="28" column="13" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="28" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Range_1a23d978353cb322f851ccf83225430439" compoundref="layout_8hpp" startline="39" endline="41">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Range_1af537ddaad921c2c983e58efa97ba16aa" compoundref="layout_8hpp" startline="32" endline="35">slice</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1Range_1a068b8e65535fd7663530b6b7e2c6950d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::storage::Range::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>octotigerII::storage::Range::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="29" column="13" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="29" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af63f021009b7d8fc611e593344e9ca69" compoundref="runtime_8cpp" startline="366" endline="384">octotigerII::LocalExecutor::kick</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Range_1a23d978353cb322f851ccf83225430439" compoundref="layout_8hpp" startline="39" endline="41">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1storage_1_1Range_1af537ddaad921c2c983e58efa97ba16aa" compoundref="layout_8hpp" startline="32" endline="35">slice</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Range_1af537ddaad921c2c983e58efa97ba16aa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1storage_1_1Range" kindref="compound">Range</ref></type>
+        <definition>Range octotigerII::storage::Range::slice</definition>
+        <argsstring>(std::size_t begin, std::size_t size) const</argsstring>
+        <name>slice</name>
+        <qualifiedname>octotigerII::storage::Range::slice</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Return a bounds-checked subrange relative to this range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="32" column="7" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="32" bodyend="35"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="classoctotigerII_1_1storage_1_1Range_1a068b8e65535fd7663530b6b7e2c6950d" compoundref="layout_8hpp" startline="29">count</references>
+        <references refid="classoctotigerII_1_1storage_1_1Range_1aef25881949adde719e927e339fcf0ca3" compoundref="layout_8hpp" startline="28">offset</references>
+        <references refid="classoctotigerII_1_1storage_1_1Range_1aee66cd58d2051b6609ef7c3998a11a1c" compoundref="layout_8hpp" startline="27">partition</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1Range_1a23d978353cb322f851ccf83225430439" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::storage::Range::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::storage::Range::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/layout.hpp" line="39" column="6" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="39" bodyend="41"/>
+        <references refid="classoctotigerII_1_1storage_1_1Range_1a068b8e65535fd7663530b6b7e2c6950d" compoundref="layout_8hpp" startline="29">count</references>
+        <references refid="classoctotigerII_1_1storage_1_1Range_1aef25881949adde719e927e339fcf0ca3" compoundref="layout_8hpp" startline="28">offset</references>
+        <references refid="classoctotigerII_1_1storage_1_1Range_1aee66cd58d2051b6609ef7c3998a11a1c" compoundref="layout_8hpp" startline="27">partition</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Half-open [offset, offset+count) range within one storage partition. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Offsets count typed elements, not bytes. The owning <ref refid="classoctotigerII_1_1storage_1_1FieldHandle" kindref="compound">FieldHandle</ref> supplies identity. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/storage/layout.hpp" line="24" column="1" bodyfile="include/octotigerII/storage/layout.hpp" bodystart="24" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1Range_1a068b8e65535fd7663530b6b7e2c6950d" prot="public" virt="non-virtual"><scope>octotigerII::storage::Range</scope><name>count</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Range_1aef25881949adde719e927e339fcf0ca3" prot="public" virt="non-virtual"><scope>octotigerII::storage::Range</scope><name>offset</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Range_1aee66cd58d2051b6609ef7c3998a11a1c" prot="public" virt="non-virtual"><scope>octotigerII::storage::Range</scope><name>partition</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Range_1a23d978353cb322f851ccf83225430439" prot="public" virt="non-virtual"><scope>octotigerII::storage::Range</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1Range_1af537ddaad921c2c983e58efa97ba16aa" prot="public" virt="non-virtual"><scope>octotigerII::storage::Range</scope><name>slice</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1mesh" kind="namespace" language="C++">
+    <compoundname>octotigerII::mesh</compoundname>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1BlockLocation" prot="public">octotigerII::mesh::BlockLocation</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1BlockLocationHash" prot="public">octotigerII::mesh::BlockLocationHash</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1MeshLayout" prot="public">octotigerII::mesh::MeshLayout</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1PatchData" prot="public">octotigerII::mesh::PatchData</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1TimeInterval" prot="public">octotigerII::mesh::TimeInterval</innerclass>
+    <innerclass refid="classoctotigerII_1_1mesh_1_1TimeState" prot="public">octotigerII::mesh::TimeState</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" prot="public" static="no">
+        <type>std::array&lt; int, <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;</type>
+        <definition>using octotigerII::mesh::Coordinates = typedef std::array&lt;int, ndim&gt;</definition>
+        <argsstring></argsstring>
+        <name>Coordinates</name>
+        <qualifiedname>octotigerII::mesh::Coordinates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="23" column="1" bodyfile="include/octotigerII/mesh.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1mesh_1a75c6d3d571de04dad3c8dc3fe7b53b0e" prot="public" static="no">
+        <type>std::array&lt; <ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref>, <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;</type>
+        <definition>using octotigerII::mesh::PhysicalCoordinates = typedef std::array&lt;units::Length, ndim&gt;</definition>
+        <argsstring></argsstring>
+        <name>PhysicalCoordinates</name>
+        <qualifiedname>octotigerII::mesh::PhysicalCoordinates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="24" column="1" bodyfile="include/octotigerII/mesh.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1mesh_1a727008e4d9883a2d3ff531702b07b226" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref></type>
+        <definition>Coordinates octotigerII::mesh::filledCoordinates</definition>
+        <argsstring>(int value)</argsstring>
+        <name>filledCoordinates</name>
+        <qualifiedname>octotigerII::mesh::filledCoordinates</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Construct equal extents in exactly ndim directions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="27" column="20" bodyfile="include/octotigerII/mesh.hpp" bodystart="27" bodyend="31"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6c364c5eb6b32583fadeb59c105c1dcb" compoundref="finiteVolume_8hpp" startline="306" endline="376">octotigerII::physics::MusclHancock&lt; System &gt;::predictFaceStates</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1mesh_1af49d44d0c46f82303d56f1536393844a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t octotigerII::mesh::linearIndex</definition>
+        <argsstring>(Coordinates const &amp;cell, Coordinates const &amp;extents)</argsstring>
+        <name>linearIndex</name>
+        <qualifiedname>octotigerII::mesh::linearIndex</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>cell</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>extents</declname>
+        </param>
+        <briefdescription>
+<para>Flatten coordinates with x contiguous, without inactive axes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="34" column="20" bodyfile="include/octotigerII/mesh.hpp" bodystart="34" bodyend="42"/>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1mesh_1a6e5a131e86ee503befdc4d08c9ec19b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Function</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::mesh::forEachCoordinate</definition>
+        <argsstring>(Coordinates const &amp;begin, Coordinates const &amp;end, Function &amp;&amp;function)</argsstring>
+        <name>forEachCoordinate</name>
+        <qualifiedname>octotigerII::mesh::forEachCoordinate</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>Function &amp;&amp;</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+<para>Visit the half-open coordinate box in x-contiguous order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No singleton inactive dimensions are represented. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="47" column="6" bodyfile="include/octotigerII/mesh.hpp" bodystart="47" bodyend="60"/>
+        <references refid="fieldSolver_8cpp_1adb707a4939bd863894ff8696b9e54ced" compoundref="fieldSolver_8cpp" startline="91">begin</references>
+        <references refid="fieldSolver_8cpp_1a30276f76b04bde2d30e88017646a8e03" compoundref="fieldSolver_8cpp" startline="91">end</references>
+        <references refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" compoundref="buildConfig_8hpp_8in" startline="12">octotigerII::ndim</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1physics_1a91d747b31ce01c514b0575f6f400d961" compoundref="finiteVolume_8hpp" startline="88" endline="142">octotigerII::physics::fillGhostCells</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1mesh_1a78871be2a118e98b8932770a54c4746f" compoundref="mesh_8hpp" startline="63" endline="65">forEachCoordinate</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1acf63adb7ed9fc3ff9043508e337924d0" compoundref="mesh_8hpp" startline="126" endline="128">octotigerII::mesh::MeshLayout::forEachInterior</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a6c364c5eb6b32583fadeb59c105c1dcb" compoundref="finiteVolume_8hpp" startline="306" endline="376">octotigerII::physics::MusclHancock&lt; System &gt;::predictFaceStates</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1mesh_1a78871be2a118e98b8932770a54c4746f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Function</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::mesh::forEachCoordinate</definition>
+        <argsstring>(Coordinates const &amp;extents, Function &amp;&amp;function)</argsstring>
+        <name>forEachCoordinate</name>
+        <qualifiedname>octotigerII::mesh::forEachCoordinate</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1mesh_1a16d8d086024eeab05a62e5a19d8bc6ed" kindref="member">Coordinates</ref> const &amp;</type>
+          <declname>extents</declname>
+        </param>
+        <param>
+          <type>Function &amp;&amp;</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="63" column="6" bodyfile="include/octotigerII/mesh.hpp" bodystart="63" bodyend="65"/>
+        <references refid="namespaceoctotigerII_1_1mesh_1a6e5a131e86ee503befdc4d08c9ec19b8" compoundref="mesh_8hpp" startline="47" endline="60">forEachCoordinate</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/mesh.hpp" line="21" column="1"/>
+  </compounddef>
+</doxygen>

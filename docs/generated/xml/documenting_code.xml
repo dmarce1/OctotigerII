@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="documenting_code" kind="page">
+    <compoundname>documenting_code</compoundname>
+    <title>Documenting and formatting code</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Use <computeroutput>///</computeroutput> for a short API description and <computeroutput>/** ... */</computeroutput> for equations, invariants, parameters, or a longer explanation. Document what a caller must know: units, array order, ownership, preconditions, failure behavior, and which synchronization operation makes the data available. Describe a numerical method where it is implemented, including deviations from its cited reference.</para>
+<para>A linked author–year citation is ordinary Doxygen syntax:</para>
+<para><programlisting filename=".cpp"><codeline></codeline>
+</programlisting></para>
+<para>Add the complete record to <computeroutput><ref refid="BIBLIOGRAPHY_8md" kindref="compound">BIBLIOGRAPHY.md</ref></computeroutput> using a heading anchor such as <computeroutput>{#ref_harten1983}</computeroutput>. Follow the author–year and a/b/c rules at the top of that file. <computeroutput>docs.sh</computeroutput> checks citation keys before running Doxygen. Doxygen warnings fail the documentation build; inspect <computeroutput>warnings.log</computeroutput> in the chosen output folder.</para>
+<para>Doxygen extracts the full API, including private implementation details, so a reader can navigate all symbols. Detailed comments concentrate on contracts and methods rather than restating each trivial operator. Extraction does not certify that every symbol has prose documentation.</para>
+<para>Keep one empty line between methods, functions, and class sections, and two empty lines between larger declarations such as classes. <computeroutput>.clang-format</computeroutput> preserves up to two empty lines but does not insert every required separator. Use clang-format 21.1.8 with four-column tabs and K&amp;R braces.</para>
+<para>Use <computeroutput>class</computeroutput>, <computeroutput>typename</computeroutput> for template type parameters, and <computeroutput>using</computeroutput> aliases. Within an access section, place constructors/destructors, member operators, member functions, static functions, friend functions, and friend operators in that order where declaration dependencies permit. Put <computeroutput>using std::sqrt;</computeroutput> and other needed math declarations at the start of the function, then call the function unqualified so argument-dependent lookup can find overloads.</para>
+<para>Use <computeroutput>[[nodiscard]]</computeroutput> only when ignoring the result causes a specific correctness hazard. An ignored calculation or getter that merely does nothing is not enough. </para>
+    </detaileddescription>
+    <location file="docs/documenting.md"/>
+  </compounddef>
+</doxygen>

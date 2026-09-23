@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column" kind="class" language="C++" prot="private">
+    <compoundname>octotigerII::storage::StoragePartition::Column</compoundname>
+    <basecompoundref refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase" prot="public" virt="non-virtual">octotigerII::storage::StoragePartition::ColumnBase</basecompoundref>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column_1aa4322a7940d923b59cbfd5a29c4721bb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; std::vector&lt; T &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;std::vector&lt;T&gt; &gt; &gt; octotigerII::storage::StoragePartition::Column&lt; T &gt;::banks</definition>
+        <argsstring></argsstring>
+        <name>banks</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::Column::banks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="111" column="13" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="111" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column_1aee3606941e3abdb28fc18553654356d8" compoundref="partition_8hpp" startline="105" endline="109">octotigerII::storage::StoragePartition::Column&lt; T &gt;::Column</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column_1aee3606941e3abdb28fc18553654356d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>octotigerII::storage::StoragePartition::Column&lt; T &gt;::Column</definition>
+        <argsstring>(std::size_t capacity, unsigned count, std::string name)</argsstring>
+        <name>Column</name>
+        <qualifiedname>octotigerII::storage::StoragePartition::Column::Column</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/storage/partition.hpp" line="105" column="1" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="105" bodyend="109"/>
+        <references refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column_1aa4322a7940d923b59cbfd5a29c4721bb" compoundref="partition_8hpp" startline="111">octotigerII::storage::StoragePartition::Column&lt; T &gt;::banks</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>octotigerII::storage::StoragePartition::Column&lt; T &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::storage::StoragePartition::ColumnBase</label>
+        <link refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>octotigerII::storage::StoragePartition::Column&lt; T &gt;</label>
+        <link refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>octotigerII::storage::StoragePartition::ColumnBase</label>
+        <link refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/octotigerII/storage/partition.hpp" line="102" column="1" bodyfile="include/octotigerII/storage/partition.hpp" bodystart="102" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column_1aa4322a7940d923b59cbfd5a29c4721bb" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition::Column</scope><name>banks</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1Column_1aee3606941e3abdb28fc18553654356d8" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition::Column</scope><name>Column</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase_1a9444ee8e1c5a86cb2107508ea94e67a5" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition::Column</scope><name>ColumnBase</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase_1a7c35f46bfcf7c5a43d228483ee407514" prot="public" virt="non-virtual"><scope>octotigerII::storage::StoragePartition::Column</scope><name>name</name></member>
+      <member refid="classoctotigerII_1_1storage_1_1StoragePartition_1_1ColumnBase_1a7a973fab311b415b01735c8f93ce720b" prot="public" virt="virtual"><scope>octotigerII::storage::StoragePartition::Column</scope><name>~ColumnBase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

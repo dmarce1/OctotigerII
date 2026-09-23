@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_929aa4e64b094c9ce92ee0e358cee105" kind="dir">
+    <compoundname>bin/science/Collapse</compoundname>
+    <innerfile refid="science_2Collapse_2problem_8cpp">problem.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="bin/science/Collapse/"/>
+  </compounddef>
+</doxygen>

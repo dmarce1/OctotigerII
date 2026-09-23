@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Diagnostics" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Diagnostics</compoundname>
+    <includes refid="simulation_8hpp" local="no">simulation.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1afefc0244f02431938240ca530c938883" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::Diagnostics::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <qualifiedname>octotigerII::Diagnostics::time</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="21" column="13" bodyfile="include/octotigerII/simulation.hpp" bodystart="21" bodyend="21"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1Output_1a825c089bb3366f33ba16c6851c0eba5f" compoundref="output_8cpp" startline="140" endline="154">octotigerII::Output::operator()</referencedby>
+        <referencedby refid="namespaceoctotigerII_1aa7991a2ee92eceb6cfd32c54ab55a167" compoundref="simulation_8cpp" startline="59" endline="91">octotigerII::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1a0d494d3d7c928f142536016bbb51f4eb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1aa2e4760a841ba0ba59603e3a19bf22b3" kindref="member">units::Mass</ref></type>
+        <definition>units::Mass octotigerII::Diagnostics::mass</definition>
+        <argsstring></argsstring>
+        <name>mass</name>
+        <qualifiedname>octotigerII::Diagnostics::mass</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="22" column="13" bodyfile="include/octotigerII/simulation.hpp" bodystart="22" bodyend="22"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1a65521677bc1621e2d2fb154d9ed85561" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a6ee26a6b80b498c21db2aac825409131" kindref="member">units::Energy</ref></type>
+        <definition>units::Energy octotigerII::Diagnostics::gasEnergy</definition>
+        <argsstring></argsstring>
+        <name>gasEnergy</name>
+        <qualifiedname>octotigerII::Diagnostics::gasEnergy</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="23" column="15" bodyfile="include/octotigerII/simulation.hpp" bodystart="23" bodyend="23"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1a8aa6b6642fbbca94b439c8fa8710ca13" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a6ee26a6b80b498c21db2aac825409131" kindref="member">units::Energy</ref></type>
+        <definition>units::Energy octotigerII::Diagnostics::radiationEnergy</definition>
+        <argsstring></argsstring>
+        <name>radiationEnergy</name>
+        <qualifiedname>octotigerII::Diagnostics::radiationEnergy</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="23" column="25" bodyfile="include/octotigerII/simulation.hpp" bodystart="23" bodyend="23"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1ac37995ce895496297c0d962bd8a16ea2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">units::Density</ref></type>
+        <definition>units::Density octotigerII::Diagnostics::minimumDensity</definition>
+        <argsstring></argsstring>
+        <name>minimumDensity</name>
+        <qualifiedname>octotigerII::Diagnostics::minimumDensity</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="24" column="16" bodyfile="include/octotigerII/simulation.hpp" bodystart="24" bodyend="24"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1af4a9965072dbee99879f3155acc5106c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" kindref="member">units::Pressure</ref></type>
+        <definition>units::Pressure octotigerII::Diagnostics::minimumPressure</definition>
+        <argsstring></argsstring>
+        <name>minimumPressure</name>
+        <qualifiedname>octotigerII::Diagnostics::minimumPressure</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="25" column="17" bodyfile="include/octotigerII/simulation.hpp" bodystart="25" bodyend="25"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1a73a0ef25aa6d685c8079a69f9b8587a0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1ad1443df8e3f217aa1a3ec9c439258873" kindref="member">units::EnergyDensity</ref></type>
+        <definition>units::EnergyDensity octotigerII::Diagnostics::minimumRadiationEnergy</definition>
+        <argsstring></argsstring>
+        <name>minimumRadiationEnergy</name>
+        <qualifiedname>octotigerII::Diagnostics::minimumRadiationEnergy</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="26" column="22" bodyfile="include/octotigerII/simulation.hpp" bodystart="26" bodyend="26"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1a18f43b18bf75bc74b9014d8f898fe5a3" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::Diagnostics::maximumReducedFlux</definition>
+        <argsstring></argsstring>
+        <name>maximumReducedFlux</name>
+        <qualifiedname>octotigerII::Diagnostics::maximumReducedFlux</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="27" column="6" bodyfile="include/octotigerII/simulation.hpp" bodystart="27" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Diagnostics_1aa6c87d05b2bf670692c09d947a97646a" prot="public" static="no" mutable="no">
+        <type>std::array&lt; <ref refid="namespaceoctotigerII_1_1units_1ad249fb91bbd57dea7586d85842b9ad8d" kindref="member">units::Momentum</ref>, <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;</type>
+        <definition>std::array&lt;units::Momentum, ndim&gt; octotigerII::Diagnostics::momentum</definition>
+        <argsstring></argsstring>
+        <name>momentum</name>
+        <qualifiedname>octotigerII::Diagnostics::momentum</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/simulation.hpp" line="28" column="12" bodyfile="include/octotigerII/simulation.hpp" bodystart="28" bodyend="28"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>CGS volume integrals and extrema of synchronized interior fields. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>maximumReducedFlux is the dimensionless magnitude |F|/(cE). </para>
+    </detaileddescription>
+    <location file="include/octotigerII/simulation.hpp" line="18" column="1" bodyfile="include/octotigerII/simulation.hpp" bodystart="18" bodyend="29"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Diagnostics_1a65521677bc1621e2d2fb154d9ed85561" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>gasEnergy</name></member>
+      <member refid="classoctotigerII_1_1Diagnostics_1a0d494d3d7c928f142536016bbb51f4eb" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>mass</name></member>
+      <member refid="classoctotigerII_1_1Diagnostics_1a18f43b18bf75bc74b9014d8f898fe5a3" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>maximumReducedFlux</name></member>
+      <member refid="classoctotigerII_1_1Diagnostics_1ac37995ce895496297c0d962bd8a16ea2" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>minimumDensity</name></member>
+      <member refid="classoctotigerII_1_1Diagnostics_1af4a9965072dbee99879f3155acc5106c" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>minimumPressure</name></member>
+      <member refid="classoctotigerII_1_1Diagnostics_1a73a0ef25aa6d685c8079a69f9b8587a0" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>minimumRadiationEnergy</name></member>
+      <member refid="classoctotigerII_1_1Diagnostics_1aa6c87d05b2bf670692c09d947a97646a" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>momentum</name></member>
+      <member refid="classoctotigerII_1_1Diagnostics_1a8aa6b6642fbbca94b439c8fa8710ca13" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>radiationEnergy</name></member>
+      <member refid="classoctotigerII_1_1Diagnostics_1afefc0244f02431938240ca530c938883" prot="public" virt="non-virtual"><scope>octotigerII::Diagnostics</scope><name>time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

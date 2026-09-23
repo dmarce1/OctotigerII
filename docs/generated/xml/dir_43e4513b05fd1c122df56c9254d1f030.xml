@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_43e4513b05fd1c122df56c9254d1f030" kind="dir">
+    <compoundname>bin/gravity_tests</compoundname>
+    <innerdir refid="dir_66da10215f437b5fec2f6772eef93a74">bin/gravity_tests/Gaussian</innerdir>
+    <innerdir refid="dir_933713b7c8c015e5a471561cf6323212">bin/gravity_tests/Sphere</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="bin/gravity_tests/"/>
+  </compounddef>
+</doxygen>

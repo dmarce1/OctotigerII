@@ -1,0 +1,596 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1units" kind="namespace" language="C++">
+    <compoundname>octotigerII::units</compoundname>
+    <innerclass refid="classoctotigerII_1_1units_1_1State" prot="public">octotigerII::units::State</innerclass>
+    <innernamespace refid="namespaceoctotigerII_1_1units_1_1detail">octotigerII::units::detail</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ad2910b9675fcb0505162958125d2aadb" prot="public" static="no">
+        <type>boost::units::make_system&lt; boost::units::cgs::centimeter_base_unit, boost::units::cgs::gram_base_unit, boost::units::si::second_base_unit, boost::units::si::kelvin_base_unit &gt;::type</type>
+        <definition>using octotigerII::units::System = typedef boost::units::make_system&lt;boost::units::cgs::centimeter_base_unit, boost::units::cgs::gram_base_unit, boost::units::si::second_base_unit, boost::units::si::kelvin_base_unit&gt;::type</definition>
+        <argsstring></argsstring>
+        <name>System</name>
+        <qualifiedname>octotigerII::units::System</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="22" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a5145af0cf7dcfe3459d861acf8b07ee7" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename Dimension</type>
+          </param>
+          <param>
+            <type>int</type>
+            <declname>Exponent</declname>
+            <defname>Exponent</defname>
+          </param>
+          <param>
+            <type>typename Tail</type>
+          </param>
+        </templateparamlist>
+        <type>std::conditional_t&lt; Exponent==0, Tail, boost::units::list&lt; boost::units::dim&lt; Dimension, boost::units::static_rational&lt; Exponent &gt; &gt;, Tail &gt; &gt;</type>
+        <definition>using octotigerII::units::DimensionTerm = typedef std::conditional_t&lt;Exponent == 0, Tail, boost::units::list&lt;boost::units::dim&lt;Dimension, boost::units::static_rational&lt;Exponent&gt; &gt;, Tail&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>DimensionTerm</name>
+        <qualifiedname>octotigerII::units::DimensionTerm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="25" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>int</type>
+            <declname>L</declname>
+            <defname>L</defname>
+          </param>
+          <param>
+            <type>int</type>
+            <declname>M</declname>
+            <defname>M</defname>
+          </param>
+          <param>
+            <type>int</type>
+            <declname>T</declname>
+            <defname>T</defname>
+          </param>
+          <param>
+            <type>int</type>
+            <declname>K</declname>
+            <defname>K</defname>
+            <defval>0</defval>
+          </param>
+        </templateparamlist>
+        <type>boost::units::quantity&lt; boost::units::unit&lt; typename boost::units::make_dimension_list&lt; <ref refid="namespaceoctotigerII_1_1units_1a5145af0cf7dcfe3459d861acf8b07ee7" kindref="member">DimensionTerm</ref>&lt; boost::units::length_base_dimension, L, <ref refid="namespaceoctotigerII_1_1units_1a5145af0cf7dcfe3459d861acf8b07ee7" kindref="member">DimensionTerm</ref>&lt; boost::units::mass_base_dimension, M, <ref refid="namespaceoctotigerII_1_1units_1a5145af0cf7dcfe3459d861acf8b07ee7" kindref="member">DimensionTerm</ref>&lt; boost::units::time_base_dimension, T, <ref refid="namespaceoctotigerII_1_1units_1a5145af0cf7dcfe3459d861acf8b07ee7" kindref="member">DimensionTerm</ref>&lt; boost::units::temperature_base_dimension, K, boost::units::dimensionless_type &gt; &gt; &gt; &gt; &gt;::type, <ref refid="namespaceoctotigerII_1_1units_1ad2910b9675fcb0505162958125d2aadb" kindref="member">System</ref> &gt;, <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref> &gt;</type>
+        <definition>using octotigerII::units::Quantity = typedef boost::units::quantity&lt; boost::units::unit&lt;typename boost::units::make_dimension_list&lt;DimensionTerm&lt;boost::units::length_base_dimension, L, DimensionTerm&lt;boost::units::mass_base_dimension, M, DimensionTerm&lt;boost::units::time_base_dimension, T, DimensionTerm&lt;boost::units::temperature_base_dimension, K, boost::units::dimensionless_type&gt; &gt;&gt; &gt;&gt;::type, System&gt;, Real&gt;</definition>
+        <argsstring></argsstring>
+        <name>Quantity</name>
+        <qualifiedname>octotigerII::units::Quantity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="27" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 1, 0, 0 &gt;</type>
+        <definition>using octotigerII::units::Length = typedef Quantity&lt;1, 0, 0&gt;</definition>
+        <argsstring></argsstring>
+        <name>Length</name>
+        <qualifiedname>octotigerII::units::Length</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="34" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1aa2e4760a841ba0ba59603e3a19bf22b3" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 0, 1, 0 &gt;</type>
+        <definition>using octotigerII::units::Mass = typedef Quantity&lt;0, 1, 0&gt;</definition>
+        <argsstring></argsstring>
+        <name>Mass</name>
+        <qualifiedname>octotigerII::units::Mass</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="35" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 0, 0, 1 &gt;</type>
+        <definition>using octotigerII::units::Time = typedef Quantity&lt;0, 0, 1&gt;</definition>
+        <argsstring></argsstring>
+        <name>Time</name>
+        <qualifiedname>octotigerII::units::Time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="36" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a2ccb7f7d57bea0a437485f5d41ac2764" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 0, 0, 0, 1 &gt;</type>
+        <definition>using octotigerII::units::Temperature = typedef Quantity&lt;0, 0, 0, 1&gt;</definition>
+        <argsstring></argsstring>
+        <name>Temperature</name>
+        <qualifiedname>octotigerII::units::Temperature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="37" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a74c4aa53ef719c5092ae16e4fd0ebf1a" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 1, 0, -1 &gt;</type>
+        <definition>using octotigerII::units::Velocity = typedef Quantity&lt;1, 0, -1&gt;</definition>
+        <argsstring></argsstring>
+        <name>Velocity</name>
+        <qualifiedname>octotigerII::units::Velocity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="38" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a2970630ccfc5a5acf003c42ca5b534d8" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 2, 0, -2 &gt;</type>
+        <definition>using octotigerII::units::VelocitySquared = typedef Quantity&lt;2, 0, -2&gt;</definition>
+        <argsstring></argsstring>
+        <name>VelocitySquared</name>
+        <qualifiedname>octotigerII::units::VelocitySquared</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="39" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ad0e169cba9fb804d9278cfbca518e053" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 1, 0, -2 &gt;</type>
+        <definition>using octotigerII::units::Acceleration = typedef Quantity&lt;1, 0, -2&gt;</definition>
+        <argsstring></argsstring>
+        <name>Acceleration</name>
+        <qualifiedname>octotigerII::units::Acceleration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="40" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt;-3, 1, 0 &gt;</type>
+        <definition>using octotigerII::units::Density = typedef Quantity&lt;-3, 1, 0&gt;</definition>
+        <argsstring></argsstring>
+        <name>Density</name>
+        <qualifiedname>octotigerII::units::Density</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="41" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1aee152cd28bc3fe78aa169eb2bb62aa32" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt;-2, 1, -1 &gt;</type>
+        <definition>using octotigerII::units::MomentumDensity = typedef Quantity&lt;-2, 1, -1&gt;</definition>
+        <argsstring></argsstring>
+        <name>MomentumDensity</name>
+        <qualifiedname>octotigerII::units::MomentumDensity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="42" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt;-1, 1, -2 &gt;</type>
+        <definition>using octotigerII::units::Pressure = typedef Quantity&lt;-1, 1, -2&gt;</definition>
+        <argsstring></argsstring>
+        <name>Pressure</name>
+        <qualifiedname>octotigerII::units::Pressure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="43" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ad1443df8e3f217aa1a3ec9c439258873" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" kindref="member">Pressure</ref></type>
+        <definition>using octotigerII::units::EnergyDensity = typedef Pressure</definition>
+        <argsstring></argsstring>
+        <name>EnergyDensity</name>
+        <qualifiedname>octotigerII::units::EnergyDensity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="44" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a6ee26a6b80b498c21db2aac825409131" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 2, 1, -2 &gt;</type>
+        <definition>using octotigerII::units::Energy = typedef Quantity&lt;2, 1, -2&gt;</definition>
+        <argsstring></argsstring>
+        <name>Energy</name>
+        <qualifiedname>octotigerII::units::Energy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="45" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ab626b934f6bc74cdcd8c81bb5cb5b290" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 0, 1, -3 &gt;</type>
+        <definition>using octotigerII::units::EnergyFlux = typedef Quantity&lt;0, 1, -3&gt;</definition>
+        <argsstring></argsstring>
+        <name>EnergyFlux</name>
+        <qualifiedname>octotigerII::units::EnergyFlux</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="46" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1abcb9b3deb2ec9dd5c706fbed417ec105" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 1, 1, -4 &gt;</type>
+        <definition>using octotigerII::units::EnergyFluxTransport = typedef Quantity&lt;1, 1, -4&gt;</definition>
+        <argsstring></argsstring>
+        <name>EnergyFluxTransport</name>
+        <qualifiedname>octotigerII::units::EnergyFluxTransport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="47" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ad590e64f136a84b9fe8a81a4b8b5743a" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1aee152cd28bc3fe78aa169eb2bb62aa32" kindref="member">MomentumDensity</ref></type>
+        <definition>using octotigerII::units::MassFlux = typedef MomentumDensity</definition>
+        <argsstring></argsstring>
+        <name>MassFlux</name>
+        <qualifiedname>octotigerII::units::MassFlux</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="48" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ac66fca8cbb946d893982903d65ad18dd" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1ae6e81f5893f4db05740d6c4288300301" kindref="member">Pressure</ref></type>
+        <definition>using octotigerII::units::MomentumFlux = typedef Pressure</definition>
+        <argsstring></argsstring>
+        <name>MomentumFlux</name>
+        <qualifiedname>octotigerII::units::MomentumFlux</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="49" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1adc1407dfaa21d427597d46c2448ca7c4" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 3, 0, 0 &gt;</type>
+        <definition>using octotigerII::units::Volume = typedef Quantity&lt;3, 0, 0&gt;</definition>
+        <argsstring></argsstring>
+        <name>Volume</name>
+        <qualifiedname>octotigerII::units::Volume</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="50" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ad249fb91bbd57dea7586d85842b9ad8d" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 1, 1, -1 &gt;</type>
+        <definition>using octotigerII::units::Momentum = typedef Quantity&lt;1, 1, -1&gt;</definition>
+        <argsstring></argsstring>
+        <name>Momentum</name>
+        <qualifiedname>octotigerII::units::Momentum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="51" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a8dadb9f990007369ccb55e665061c4d4" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 0, 0, -1 &gt;</type>
+        <definition>using octotigerII::units::InverseTime = typedef Quantity&lt;0, 0, -1&gt;</definition>
+        <argsstring></argsstring>
+        <name>InverseTime</name>
+        <qualifiedname>octotigerII::units::InverseTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="52" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a1b0eeaa4df1aa91075ac820e1fa78e7f" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt;-1, 1, 0 &gt;</type>
+        <definition>using octotigerII::units::MassPerLength = typedef Quantity&lt;-1, 1, 0&gt;</definition>
+        <argsstring></argsstring>
+        <name>MassPerLength</name>
+        <qualifiedname>octotigerII::units::MassPerLength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="53" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1adab857fd87152dbea372a276d4c8f2aa" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt;-1, 0, 1 &gt;</type>
+        <definition>using octotigerII::units::TimePerLength = typedef Quantity&lt;-1, 0, 1&gt;</definition>
+        <argsstring></argsstring>
+        <name>TimePerLength</name>
+        <qualifiedname>octotigerII::units::TimePerLength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="54" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a619e6b27553895749d71f85cbc7b7c73" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 3, -1, -2 &gt;</type>
+        <definition>using octotigerII::units::GravitationalConstant = typedef Quantity&lt;3, -1, -2&gt;</definition>
+        <argsstring></argsstring>
+        <name>GravitationalConstant</name>
+        <qualifiedname>octotigerII::units::GravitationalConstant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="55" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a8e93ce7237ef04ad7552ab03e3e94341" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 2, 1, -2, -1 &gt;</type>
+        <definition>using octotigerII::units::BoltzmannConstant = typedef Quantity&lt;2, 1, -2, -1&gt;</definition>
+        <argsstring></argsstring>
+        <name>BoltzmannConstant</name>
+        <qualifiedname>octotigerII::units::BoltzmannConstant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="56" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1ad1e473dca615a2c23392afe7f1111d18" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt;-1, 1, -2, -4 &gt;</type>
+        <definition>using octotigerII::units::RadiationConstant = typedef Quantity&lt;-1, 1, -2, -4&gt;</definition>
+        <argsstring></argsstring>
+        <name>RadiationConstant</name>
+        <qualifiedname>octotigerII::units::RadiationConstant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="57" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a3cf3dcd2e0240cf14fc69e3ae45b7564" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a91085b78abe318c85b5dc66b7273d478" kindref="member">Quantity</ref>&lt; 2, 1, -1 &gt;</type>
+        <definition>using octotigerII::units::Action = typedef Quantity&lt;2, 1, -1&gt;</definition>
+        <argsstring></argsstring>
+        <name>Action</name>
+        <qualifiedname>octotigerII::units::Action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="58" column="1" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a914592aac383cda9ddaa97135df716cf" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename Scalar</type>
+          </param>
+          <param>
+            <type>typename <ref refid="classVector" kindref="compound">Vector</ref></type>
+          </param>
+        </templateparamlist>
+        <type>decltype(<ref refid="namespaceoctotigerII_1_1units_1_1detail_1a578e4e77d089328da52050d14a01ace4" kindref="member">detail::scalarVector</ref>&lt; Scalar, <ref refid="classVector" kindref="compound">Vector</ref> &gt;(std::make_index_sequence&lt; <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;{}))</type>
+        <definition>using octotigerII::units::ScalarVectorState = typedef decltype(detail::scalarVector&lt;Scalar, Vector&gt;(std::make_index_sequence&lt;ndim&gt;{}))</definition>
+        <argsstring></argsstring>
+        <name>ScalarVectorState</name>
+        <qualifiedname>octotigerII::units::ScalarVectorState</qualifiedname>
+        <briefdescription>
+<para>One scalar followed by exactly ndim vector components. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/state.hpp" line="327" column="1" bodyfile="include/octotigerII/units/state.hpp" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1units_1a772fc7c4e1766c362bbdae1e8937c7f7" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename Density</type>
+          </param>
+          <param>
+            <type>typename <ref refid="classVector" kindref="compound">Vector</ref></type>
+          </param>
+          <param>
+            <type>typename Energy</type>
+          </param>
+        </templateparamlist>
+        <type>decltype(<ref refid="namespaceoctotigerII_1_1units_1_1detail_1a4aa24b8677716521d46b740e25a5e9bb" kindref="member">detail::fluid</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">Density</ref>, <ref refid="classVector" kindref="compound">Vector</ref>, <ref refid="namespaceoctotigerII_1_1units_1a6ee26a6b80b498c21db2aac825409131" kindref="member">Energy</ref> &gt;(std::make_index_sequence&lt; <ref refid="namespaceoctotigerII_1a7d975496f3f837006e1170b7c0cec98b" kindref="member">ndim</ref> &gt;{}))</type>
+        <definition>using octotigerII::units::FluidState = typedef decltype(detail::fluid&lt;Density, Vector, Energy&gt;(std::make_index_sequence&lt;ndim&gt;{}))</definition>
+        <argsstring></argsstring>
+        <name>FluidState</name>
+        <qualifiedname>octotigerII::units::FluidState</qualifiedname>
+        <briefdescription>
+<para>Density, exactly ndim momentum/velocity components, and energy/pressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/state.hpp" line="331" column="1" bodyfile="include/octotigerII/units/state.hpp" bodystart="331" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1units_1a53c5c6245a4a7ece95e76a686a6bd662" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename U</type>
+          </param>
+        </templateparamlist>
+        <type>constexpr <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>constexpr Real octotigerII::units::value</definition>
+        <argsstring>(boost::units::quantity&lt; U, Real &gt; const &amp;q)</argsstring>
+        <name>value</name>
+        <qualifiedname>octotigerII::units::value</qualifiedname>
+        <param>
+          <type>boost::units::quantity&lt; U, <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref> &gt; const &amp;</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="61" column="16" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="61" bodyend="63"/>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename U</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool octotigerII::units::finite</definition>
+        <argsstring>(boost::units::quantity&lt; U, Real &gt; const &amp;q)</argsstring>
+        <name>finite</name>
+        <qualifiedname>octotigerII::units::finite</qualifiedname>
+        <param>
+          <type>boost::units::quantity&lt; U, <ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref> &gt; const &amp;</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="66" column="6" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="66" bodyend="70"/>
+        <referencedby refid="classoctotigerII_1_1Runtime_1a9e24447ce07671b67fa12dbf83244150" compoundref="runtime_8cpp" startline="537" endline="545">octotigerII::Runtime::advance</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a4578fac8d7d21c4a1a432647aa7ed13f" compoundref="finiteVolume_8hpp" startline="248" endline="295">octotigerII::physics::MusclHancock&lt; System &gt;::advanceInto</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1MeshLayout_1a39ec08f5c51aad143dfbeb111b011e3c" compoundref="mesh_8cpp" startline="139" endline="144">octotigerII::mesh::MeshLayout::cellMeasure</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afa81daf298cbf8fb857882397e4a3691" compoundref="analytic_8cpp" startline="122" endline="174">octotigerII::verification::compare</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1adb137e6ec5aab5a1cdaa0ee871a2301c" compoundref="directGravity_8cpp" startline="91" endline="166">octotigerII::verification::compareDirectGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1" compoundref="mesh_8cpp" startline="254" endline="262">octotigerII::mesh::TimeState::completeStep</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a9f2e9659aa5b70cb719faf1f5c29c4b5" compoundref="hydroSystem_8cpp" startline="40" endline="56">octotigerII::hydro::HydroSystem::conservedState</referencedby>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1a721d1964a1ed955f928960db98c0d214" compoundref="runtime_8cpp" startline="547" endline="555">octotigerII::Runtime::kickGravity</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a4e40d4bdd33a7bed85c3d719b3042089" compoundref="radiationTransport_8cpp" startline="60" endline="110">octotigerII::radiation::RadiationSystem::limitFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1ae44ed97fd76490a87a7bb9c075a6c92e" compoundref="m1_8hpp" startline="72" endline="102">octotigerII::radiation::M1::physicalFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a7f9d0ac7007f396b811eae173a8ba081" compoundref="hydroSystem_8cpp" startline="186" endline="195">octotigerII::hydro::HydroSystem::pressure</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1adc71802da1e3e2e9bc7cf402f3f89687" compoundref="radiationTransport_8cpp" startline="13" endline="18">octotigerII::radiation::RadiationSystem::RadiationSystem</referencedby>
+        <referencedby refid="classoctotigerII_1_1hydro_1_1HydroSystem_1a25f7c80420b8ec24bff9305a20aa1ca1" compoundref="hydroSystem_8cpp" startline="70" endline="132">octotigerII::hydro::HydroSystem::riemann</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1ae3d40f60911dc9c4df5d0c0c0fa02507" compoundref="exchange_8hpp" startline="54" endline="58">octotigerII::transportExchange::sameTime</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1afbed498bdca999dcd373f16acd9482b0" compoundref="analytic_8cpp" startline="64" endline="119">octotigerII::verification::sample</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" compoundref="solver_8cpp" startline="54" endline="146">octotigerII::gravity::solve</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a438a824d62fc5e7175a4c87e0e9f5db9" compoundref="finiteVolume_8hpp" startline="185" endline="204">octotigerII::physics::MusclHancock&lt; System &gt;::stableTimestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1af29d6cd07be3bc1bb59a539575883005" compoundref="exchange_8hpp" startline="46" endline="52">octotigerII::transportExchange::validateDomain</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoctotigerII_1_1units_1a8f528746f11757a6574b8aa3b6d0ac74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Q</type>
+          </param>
+        </templateparamlist>
+        <type>Q</type>
+        <definition>Q octotigerII::units::hypot</definition>
+        <argsstring>(Q a, Q b)</argsstring>
+        <name>hypot</name>
+        <qualifiedname>octotigerII::units::hypot</qualifiedname>
+        <param>
+          <type>Q</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>Q</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/units/cgs.hpp" line="73" column="3" bodyfile="include/octotigerII/units/cgs.hpp" bodystart="73" bodyend="80"/>
+        <referencedby refid="namespaceoctotigerII_1a5ca24580980b105d7ec07ffcfd5b1fb8" compoundref="simulation_8cpp" startline="12" endline="57">octotigerII::diagnose</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1RadiationSystem_1a4e40d4bdd33a7bed85c3d719b3042089" compoundref="radiationTransport_8cpp" startline="60" endline="110">octotigerII::radiation::RadiationSystem::limitFlux</referencedby>
+        <referencedby refid="classoctotigerII_1_1radiation_1_1M1_1a950943fecda92216d523cd42540f4152" compoundref="m1_8hpp" startline="41" endline="46">octotigerII::radiation::M1::magnitude</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1verification_1a9cb767b3489045f6a9ea7f60a3dc7d16" compoundref="solutions_8cpp" startline="83" endline="136">octotigerII::verification::sphereReference</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/units/cgs.hpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

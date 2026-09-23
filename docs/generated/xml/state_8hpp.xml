@@ -1,0 +1,397 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="state_8hpp" kind="file" language="C++">
+    <compoundname>state.hpp</compoundname>
+    <includes local="no">array</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">tuple</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">utility</includes>
+    <includes local="yes">octotigerII/buildConfig.hpp</includes>
+    <includes refid="cgs_8hpp" local="yes">octotigerII/units/cgs.hpp</includes>
+    <includedby refid="gravityFields_8hpp" local="yes">include/octotigerII/gravity/gravityFields.hpp</includedby>
+    <includedby refid="hydroSystem_8hpp" local="yes">include/octotigerII/hydro/hydroSystem.hpp</includedby>
+    <includedby refid="m1_8hpp" local="yes">include/octotigerII/radiation/m1.hpp</includedby>
+    <includedby refid="columns_8hpp" local="yes">include/octotigerII/storage/columns.hpp</includedby>
+    <incdepgraph>
+      <node id="19">
+        <label>octotigerII/math/Real.hpp</label>
+        <link refid="Real_8hpp"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>octotigerII/units/cgs.hpp</label>
+        <link refid="cgs_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/octotigerII/units/state.hpp</label>
+        <link refid="state_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>array</label>
+      </node>
+      <node id="10">
+        <label>boost/units/base_units/cgs/centimeter.hpp</label>
+      </node>
+      <node id="11">
+        <label>boost/units/base_units/cgs/gram.hpp</label>
+      </node>
+      <node id="12">
+        <label>boost/units/base_units/si/kelvin.hpp</label>
+      </node>
+      <node id="13">
+        <label>boost/units/base_units/si/second.hpp</label>
+      </node>
+      <node id="14">
+        <label>boost/units/cmath.hpp</label>
+      </node>
+      <node id="15">
+        <label>boost/units/derived_dimension.hpp</label>
+      </node>
+      <node id="16">
+        <label>boost/units/make_system.hpp</label>
+      </node>
+      <node id="17">
+        <label>boost/units/quantity.hpp</label>
+      </node>
+      <node id="18">
+        <label>cmath</label>
+      </node>
+      <node id="20">
+        <label>limits</label>
+      </node>
+      <node id="21">
+        <label>numbers</label>
+      </node>
+      <node id="7">
+        <label>octotigerII/buildConfig.hpp</label>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+      <node id="5">
+        <label>type_traits</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="15">
+        <label>bin/gravity_tests/Gaussian/problem.cpp</label>
+        <link refid="gravity__tests_2Gaussian_2problem_8cpp"/>
+      </node>
+      <node id="16">
+        <label>bin/gravity_tests/Sphere/problem.cpp</label>
+        <link refid="gravity__tests_2Sphere_2problem_8cpp"/>
+      </node>
+      <node id="17">
+        <label>bin/hydro_tests/KelvinHelmholtz/problem.cpp</label>
+        <link refid="hydro__tests_2KelvinHelmholtz_2problem_8cpp"/>
+      </node>
+      <node id="18">
+        <label>bin/hydro_tests/Sod/problem.cpp</label>
+        <link refid="hydro__tests_2Sod_2problem_8cpp"/>
+      </node>
+      <node id="19">
+        <label>bin/radiation_tests/RadiationPulse/problem.cpp</label>
+        <link refid="radiation__tests_2RadiationPulse_2problem_8cpp"/>
+      </node>
+      <node id="20">
+        <label>bin/radiation_tests/Streaming/problem.cpp</label>
+        <link refid="radiation__tests_2Streaming_2problem_8cpp"/>
+      </node>
+      <node id="21">
+        <label>bin/science/Collapse/problem.cpp</label>
+        <link refid="science_2Collapse_2problem_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/octotigerII/gravity/fieldSolver.hpp</label>
+        <link refid="fieldSolver_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/octotigerII/gravity/gravityFields.hpp</label>
+        <link refid="gravityFields_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/octotigerII/gravity/solver.hpp</label>
+        <link refid="solver_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/octotigerII/hydro/hydroSystem.hpp</label>
+        <link refid="hydroSystem_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/octotigerII/output.hpp</label>
+        <link refid="output_8hpp"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/octotigerII/radiation/m1.hpp</label>
+        <link refid="m1_8hpp"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/octotigerII/radiation/radiationTransport.hpp</label>
+        <link refid="radiationTransport_8hpp"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/octotigerII/runtime.hpp</label>
+        <link refid="runtime_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/octotigerII/simulation.hpp</label>
+        <link refid="simulation_8hpp"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>include/octotigerII/storage/columns.hpp</label>
+        <link refid="columns_8hpp"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/octotigerII/storage/registry.hpp</label>
+        <link refid="registry_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/octotigerII/subgrid/subgrid.hpp</label>
+        <link refid="subgrid_8hpp"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>include/octotigerII/subgrid/view.hpp</label>
+        <link refid="view_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/octotigerII/units/state.hpp</label>
+        <link refid="state_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/octotigerII/verification/analytic.hpp</label>
+        <link refid="analytic_8hpp"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/octotigerII/verification/directGravity.hpp</label>
+        <link refid="directGravity_8hpp"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/gravity/fieldSolver.cpp</label>
+        <link refid="fieldSolver_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/gravity/gravityFields.cpp</label>
+        <link refid="gravityFields_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/gravity/solver.cpp</label>
+        <link refid="solver_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/hydro/hydroSystem.cpp</label>
+        <link refid="hydroSystem_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/main.cpp</label>
+        <link refid="main_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/output.cpp</label>
+        <link refid="output_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/problems.cpp</label>
+        <link refid="problems_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/radiation/radiationTransport.cpp</label>
+        <link refid="radiationTransport_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/runtime.cpp</label>
+        <link refid="runtime_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/simulation.cpp</label>
+        <link refid="simulation_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/subgrid.cpp</label>
+        <link refid="subgrid_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/verification/analytic.cpp</label>
+        <link refid="analytic_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/verification/directGravity.cpp</label>
+        <link refid="directGravity_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/verification/solutions.cpp</label>
+        <link refid="solutions_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classoctotigerII_1_1units_1_1State" prot="public">octotigerII::units::State</innerclass>
+    <innernamespace refid="namespaceoctotigerII">octotigerII</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1units">octotigerII::units</innernamespace>
+    <innernamespace refid="namespaceoctotigerII_1_1units_1_1detail">octotigerII::units::detail</innernamespace>
+    <briefdescription>
+<para>Heterogeneous quantity tuples and componentwise state operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/units/state.hpp"/>
+  </compounddef>
+</doxygen>

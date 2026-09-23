@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Config_1_1TimestepOptions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Config::TimestepOptions</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1TimestepOptions_1a28b8e8bdd25de1c00ff5635b39cbcaf5" prot="public" static="no" mutable="no">
+        <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+        <definition>Real octotigerII::Config::TimestepOptions::cfl</definition>
+        <argsstring></argsstring>
+        <name>cfl</name>
+        <qualifiedname>octotigerII::Config::TimestepOptions::cfl</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="50" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="50" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1Config_1_1TimestepOptions_1ab97c348942a07b8be23404281132eafc" compoundref="config_8hpp" startline="53" endline="55">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1a257648cc7f8fd3d1696e110a8e8770ee" compoundref="runtime_8cpp" startline="328" endline="364">octotigerII::LocalExecutor::timestep</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Config_1_1TimestepOptions_1ab97c348942a07b8be23404281132eafc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Config::TimestepOptions::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Config::TimestepOptions::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="53" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="53" bodyend="55"/>
+        <references refid="classoctotigerII_1_1Config_1_1TimestepOptions_1a28b8e8bdd25de1c00ff5635b39cbcaf5" compoundref="config_8hpp" startline="50">cfl</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="48" column="1" bodyfile="include/octotigerII/config.hpp" bodystart="48" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Config_1_1TimestepOptions_1a28b8e8bdd25de1c00ff5635b39cbcaf5" prot="public" virt="non-virtual"><scope>octotigerII::Config::TimestepOptions</scope><name>cfl</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1TimestepOptions_1ab97c348942a07b8be23404281132eafc" prot="public" virt="non-virtual"><scope>octotigerII::Config::TimestepOptions</scope><name>serialize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

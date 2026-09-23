@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceoctotigerII_1_1gravity" kind="namespace" language="C++">
+    <compoundname>octotigerII::gravity</compoundname>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1FieldSolver" prot="public">octotigerII::gravity::FieldSolver</innerclass>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1FmmPartition" prot="public">octotigerII::gravity::FmmPartition</innerclass>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1Solution" prot="public">octotigerII::gravity::Solution</innerclass>
+    <innerclass refid="classoctotigerII_1_1gravity_1_1Statistics" prot="public">octotigerII::gravity::Statistics</innerclass>
+    <innernamespace refid="namespaceoctotigerII_1_1gravity_1_1diagonal">octotigerII::gravity::diagonal</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1gravity_1abace521e5efaecbfd9fdda34ec20b58e" prot="public" static="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a914592aac383cda9ddaa97135df716cf" kindref="member">units::ScalarVectorState</ref>&lt; <ref refid="namespaceoctotigerII_1_1units_1a2970630ccfc5a5acf003c42ca5b534d8" kindref="member">units::VelocitySquared</ref>, <ref refid="namespaceoctotigerII_1_1units_1ad0e169cba9fb804d9278cfbca518e053" kindref="member">units::Acceleration</ref> &gt;</type>
+        <definition>using octotigerII::gravity::State = typedef units::ScalarVectorState&lt;units::VelocitySquared, units::Acceleration&gt;</definition>
+        <argsstring></argsstring>
+        <name>State</name>
+        <qualifiedname>octotigerII::gravity::State</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/gravityFields.hpp" line="15" column="1" bodyfile="include/octotigerII/gravity/gravityFields.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespaceoctotigerII_1_1gravity_1a30671cb5e9dc866f8e39a4d51435c252" prot="public" static="no">
+        <type><ref refid="classoctotigerII_1_1mesh_1_1PatchData" kindref="compound">mesh::PatchData</ref>&lt; <ref refid="namespaceoctotigerII_1_1gravity_1abace521e5efaecbfd9fdda34ec20b58e" kindref="member">State</ref> &gt;</type>
+        <definition>using octotigerII::gravity::Fields = typedef mesh::PatchData&lt;State&gt;</definition>
+        <argsstring></argsstring>
+        <name>Fields</name>
+        <qualifiedname>octotigerII::gravity::Fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/gravity/gravityFields.hpp" line="17" column="1" bodyfile="include/octotigerII/gravity/gravityFields.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoctotigerII_1_1gravity_1a6c4f077e7bd9ca2a690514ee2c177b0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classoctotigerII_1_1gravity_1_1Solution" kindref="compound">Solution</ref></type>
+        <definition>Solution octotigerII::gravity::solve</definition>
+        <argsstring>(std::vector&lt; units::Density &gt; const &amp;density, int cellsPerAxis, units::Length cellWidth, int order=5, Real openingAngle=0.5)</argsstring>
+        <name>solve</name>
+        <qualifiedname>octotigerII::gravity::solve</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="namespaceoctotigerII_1_1units_1a0044dc0a0fad4b9f1cf1bbd423246155" kindref="member">units::Density</ref> &gt; const &amp;</type>
+          <declname>density</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cellsPerAxis</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+          <declname>cellWidth</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>order</declname>
+          <defval>5</defval>
+        </param>
+        <param>
+          <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+          <declname>openingAngle</declname>
+          <defval>0.5</defval>
+        </param>
+        <briefdescription>
+<para>Solve isolated gravity for cell-centered point masses, excluding self terms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Input and output are x-contiguous; cellsPerAxis must be a power of two. Far interactions use <ref refid="bibliography_1ref_greengard1997" kindref="member">Greengard and Rokhlin (1997)</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gravity/solver.cpp" line="54" column="10" bodyfile="src/gravity/solver.cpp" bodystart="54" bodyend="146" declfile="include/octotigerII/gravity/solver.hpp" declline="51" declcolumn="10"/>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1af226d57a955c7b03d2d9593636ad03a5" compoundref="fmm_8cpp" startline="258" endline="268">octotigerII::gravity::diagonal::addDirect</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a02054386dab8b2a39dfe2d467c2dfb15" compoundref="fmm_8cpp" startline="99" endline="102">octotigerII::gravity::diagonal::coefficientCount</references>
+        <references refid="fieldSolver_8cpp_1ad43c3812e6d13e0518d9f8b8f463ffcf" compoundref="fieldSolver_8cpp" startline="89">count</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a6109366ed08bbd4c7944c0e12eaa580d" compoundref="fmm_8cpp" startline="144" endline="147">octotigerII::gravity::diagonal::derivative</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1a7a35f4b6347d150915a88fdc27cb45d0" compoundref="solver_8hpp" startline="22">octotigerII::gravity::Statistics::directPairs</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Solution_1aba73da2bcfcd1b543267b9cfb695c6c4" compoundref="solver_8hpp" startline="40">octotigerII::gravity::Solution::fields</references>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="namespaceoctotigerII_1_1constants_1aa2ca41cb3ebd8c4693d946d3d2f07604" compoundref="constants_8hpp" startline="13">octotigerII::constants::G</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a9818f3547f2de0fa274dd6343c286b15" compoundref="fmm_8cpp" startline="237" endline="251">octotigerII::gravity::diagonal::getOperator</references>
+        <references refid="fieldSolver_8cpp_1a074c6c5e9e12dcb0423e8898f601ea1c" compoundref="fieldSolver_8cpp" startline="98">leaf</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Statistics_1ad7c96743b27f3671c57849e1a2bb07c3" compoundref="solver_8hpp" startline="21">octotigerII::gravity::Statistics::multipolePairs</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1aef4d9e75b8216ba034de0b5507cb83a5" compoundref="fmm_8cpp" startline="149" endline="165">octotigerII::gravity::diagonal::shiftLocal</references>
+        <references refid="namespaceoctotigerII_1_1gravity_1_1diagonal_1a3184157d9ffd1b68e3960c03ba32c593" compoundref="fmm_8cpp" startline="131" endline="142">octotigerII::gravity::diagonal::shiftMultipole</references>
+        <references refid="classoctotigerII_1_1gravity_1_1Solution_1a00d9bcced5c9d50b24f243548a37aa02" compoundref="solver_8hpp" startline="41">octotigerII::gravity::Solution::statistics</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/gravity/diagonal/fmm.hpp" line="15" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1Config_1_1MeshOptions" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::Config::MeshOptions</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1MeshOptions_1adedfdadab840e52dc975daa61f9caca9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::Config::MeshOptions::cells</definition>
+        <argsstring></argsstring>
+        <name>cells</name>
+        <qualifiedname>octotigerII::Config::MeshOptions::cells</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="24" column="5" bodyfile="include/octotigerII/config.hpp" bodystart="24" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FieldSolver_1ac54bd8a53c0976d6372ab12ca088b323" compoundref="fieldSolver_8cpp" startline="507" endline="534">octotigerII::gravity::FieldSolver::FieldSolver</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1MeshOptions_1a1eeb0364a310111aea1bc810a9efce6d" compoundref="config_8hpp" startline="29" endline="31">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1MeshOptions_1ae41801a618bcbe2639e95c690ab8c379" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::Config::MeshOptions::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>octotigerII::Config::MeshOptions::level</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="24" column="12" bodyfile="include/octotigerII/config.hpp" bodystart="24" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FieldSolver_1ac54bd8a53c0976d6372ab12ca088b323" compoundref="fieldSolver_8cpp" startline="507" endline="534">octotigerII::gravity::FieldSolver::FieldSolver</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1MeshOptions_1a1eeb0364a310111aea1bc810a9efce6d" compoundref="config_8hpp" startline="29" endline="31">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1MeshOptions_1a8028ed8a5c237558003bff69fb2b2cc9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::Config::MeshOptions::lower</definition>
+        <argsstring></argsstring>
+        <name>lower</name>
+        <qualifiedname>octotigerII::Config::MeshOptions::lower</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="25" column="15" bodyfile="include/octotigerII/config.hpp" bodystart="25" bodyend="25"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1MeshOptions_1a1eeb0364a310111aea1bc810a9efce6d" compoundref="config_8hpp" startline="29" endline="31">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1MeshOptions_1a9e7d691c142e8a49cb0ebad7918b41c7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a8dc1eb091cc3ef4a96d818ccb497e057" kindref="member">units::Length</ref></type>
+        <definition>units::Length octotigerII::Config::MeshOptions::upper</definition>
+        <argsstring></argsstring>
+        <name>upper</name>
+        <qualifiedname>octotigerII::Config::MeshOptions::upper</qualifiedname>
+        <initializer>= units::Length::from_value(1)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="25" column="21" bodyfile="include/octotigerII/config.hpp" bodystart="25" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1CartesianTopology_1ae2f84422ca930c73dc752a83586cbdf3" compoundref="topology_8cpp" startline="10" endline="28">octotigerII::CartesianTopology::CartesianTopology</referencedby>
+        <referencedby refid="classoctotigerII_1_1gravity_1_1FmmPartition_1ab95450c6b5dec024f20c7244ddc6f91f" compoundref="fieldSolver_8cpp" startline="123" endline="158">octotigerII::gravity::FmmPartition::FmmPartition</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1MeshOptions_1a1eeb0364a310111aea1bc810a9efce6d" compoundref="config_8hpp" startline="29" endline="31">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1Config_1_1MeshOptions_1a746b3dd135ce075806a9c76079c520ca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool octotigerII::Config::MeshOptions::periodic</definition>
+        <argsstring></argsstring>
+        <name>periodic</name>
+        <qualifiedname>octotigerII::Config::MeshOptions::periodic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="26" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="26" bodyend="-1"/>
+        <referencedby refid="namespaceoctotigerII_1ac1b5758dce9afdef106ed57f45544b2e" compoundref="topology_8cpp" startline="30" endline="71">octotigerII::makeHaloPlan</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1_1MeshOptions_1a1eeb0364a310111aea1bc810a9efce6d" compoundref="config_8hpp" startline="29" endline="31">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1Config_1a244add7e50b317e510e991bdd2caecd8" compoundref="config_8cpp" startline="141" endline="167">octotigerII::Config::validate</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1Config_1_1MeshOptions_1a1eeb0364a310111aea1bc810a9efce6d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::Config::MeshOptions::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::Config::MeshOptions::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/config.hpp" line="29" column="6" bodyfile="include/octotigerII/config.hpp" bodystart="29" bodyend="31"/>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1adedfdadab840e52dc975daa61f9caca9" compoundref="config_8hpp" startline="24">cells</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1ae41801a618bcbe2639e95c690ab8c379" compoundref="config_8hpp" startline="24">level</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1a8028ed8a5c237558003bff69fb2b2cc9" compoundref="config_8hpp" startline="25" endline="25">lower</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1a746b3dd135ce075806a9c76079c520ca" compoundref="config_8hpp" startline="26">periodic</references>
+        <references refid="classoctotigerII_1_1Config_1_1MeshOptions_1a9e7d691c142e8a49cb0ebad7918b41c7" compoundref="config_8hpp" startline="25">upper</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/config.hpp" line="22" column="1" bodyfile="include/octotigerII/config.hpp" bodystart="22" bodyend="32"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1adedfdadab840e52dc975daa61f9caca9" prot="public" virt="non-virtual"><scope>octotigerII::Config::MeshOptions</scope><name>cells</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1ae41801a618bcbe2639e95c690ab8c379" prot="public" virt="non-virtual"><scope>octotigerII::Config::MeshOptions</scope><name>level</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1a8028ed8a5c237558003bff69fb2b2cc9" prot="public" virt="non-virtual"><scope>octotigerII::Config::MeshOptions</scope><name>lower</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1a746b3dd135ce075806a9c76079c520ca" prot="public" virt="non-virtual"><scope>octotigerII::Config::MeshOptions</scope><name>periodic</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1a1eeb0364a310111aea1bc810a9efce6d" prot="public" virt="non-virtual"><scope>octotigerII::Config::MeshOptions</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1Config_1_1MeshOptions_1a9e7d691c142e8a49cb0ebad7918b41c7" prot="public" virt="non-virtual"><scope>octotigerII::Config::MeshOptions</scope><name>upper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

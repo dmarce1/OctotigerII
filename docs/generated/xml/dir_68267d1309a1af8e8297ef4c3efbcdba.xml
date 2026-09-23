@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir">
+    <compoundname>src</compoundname>
+    <innerdir refid="dir_487e35dd24e4df5c2584ebd5d3dfced5">src/gravity</innerdir>
+    <innerdir refid="dir_229277d14843a3bd8ccf301855811045">src/hydro</innerdir>
+    <innerdir refid="dir_8250e12e5a19acb8ece30f1703b6dc16">src/physics</innerdir>
+    <innerdir refid="dir_4ecbb2552d02e976219f567964484fc4">src/radiation</innerdir>
+    <innerdir refid="dir_54b1e6c540d67b59af2f275fe685da39">src/verification</innerdir>
+    <innerfile refid="config_8cpp">config.cpp</innerfile>
+    <innerfile refid="main_8cpp">main.cpp</innerfile>
+    <innerfile refid="mesh_8cpp">mesh.cpp</innerfile>
+    <innerfile refid="output_8cpp">output.cpp</innerfile>
+    <innerfile refid="problems_8cpp">problems.cpp</innerfile>
+    <innerfile refid="runtime_8cpp">runtime.cpp</innerfile>
+    <innerfile refid="simulation_8cpp">simulation.cpp</innerfile>
+    <innerfile refid="storage_8cpp">storage.cpp</innerfile>
+    <innerfile refid="storage__acceleration_8cpp">storage_acceleration.cpp</innerfile>
+    <innerfile refid="storage__density_8cpp">storage_density.cpp</innerfile>
+    <innerfile refid="storage__energy_8cpp">storage_energy.cpp</innerfile>
+    <innerfile refid="storage__momentum_8cpp">storage_momentum.cpp</innerfile>
+    <innerfile refid="storage__potential_8cpp">storage_potential.cpp</innerfile>
+    <innerfile refid="subgrid_8cpp">subgrid.cpp</innerfile>
+    <innerfile refid="topology_8cpp">topology.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/"/>
+  </compounddef>
+</doxygen>

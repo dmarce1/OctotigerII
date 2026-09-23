@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classoctotigerII_1_1mesh_1_1TimeState" kind="class" language="C++" prot="public">
+    <compoundname>octotigerII::mesh::TimeState</compoundname>
+    <includes refid="mesh_8hpp" local="no">mesh.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::mesh::TimeState::time</definition>
+        <argsstring></argsstring>
+        <name>time</name>
+        <qualifiedname>octotigerII::mesh::TimeState::time</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="204" column="13" bodyfile="include/octotigerII/mesh.hpp" bodystart="204" bodyend="204"/>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1a3e3aa7ddb1f50414a014c34dff52e51c" compoundref="exchange_8hpp" startline="145" endline="163">octotigerII::transportExchange::advance</referencedby>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a092470efd2fcf0bfe84f4a4a8a4a6315" compoundref="finiteVolume_8hpp" startline="218" endline="229">octotigerII::physics::MusclHancock&lt; System &gt;::advanceWithBoundaryUpdater</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1" compoundref="mesh_8cpp" startline="254" endline="262">completeStep</referencedby>
+        <referencedby refid="namespaceoctotigerII_1_1transportExchange_1acbb92ac8a0ca80ec77e15799782e0873" compoundref="exchange_8hpp" startline="61" endline="141">octotigerII::transportExchange::fillHalo</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1a55e34488b1e37a377dc4ae32058839cd" compoundref="mesh_8cpp" startline="245" endline="247">nextTime</referencedby>
+        <referencedby refid="classoctotigerII_1_1Runtime_1_1Impl_1a9279adb1f3ab614cc80ba9ca2b8f4de2" compoundref="runtime_8cpp" startline="434" endline="460">octotigerII::Runtime::Impl::phase</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1a9a02ec4a2b2a9e74e78695e3870c8556" compoundref="mesh_8hpp" startline="218" endline="224">serialize</referencedby>
+        <referencedby refid="classoctotigerII_1_1LocalExecutor_1af4efd5699331af61489535a43483fc0b" compoundref="runtime_8cpp" startline="222" endline="255">octotigerII::LocalExecutor::snapshots</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1abf492b30064177a753197998c56cf9d9" compoundref="mesh_8cpp" startline="249" endline="252">synchronizedWith</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1TimeState_1a84894582bfa257d5e0dcff8280722158" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::mesh::TimeState::stepSize</definition>
+        <argsstring></argsstring>
+        <name>stepSize</name>
+        <qualifiedname>octotigerII::mesh::TimeState::stepSize</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="205" column="13" bodyfile="include/octotigerII/mesh.hpp" bodystart="205" bodyend="205"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1" compoundref="mesh_8cpp" startline="254" endline="262">completeStep</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1a55e34488b1e37a377dc4ae32058839cd" compoundref="mesh_8cpp" startline="245" endline="247">nextTime</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1a9a02ec4a2b2a9e74e78695e3870c8556" compoundref="mesh_8hpp" startline="218" endline="224">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1TimeState_1a94e52817f7cecaccd74a780c2c1a3a55" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t octotigerII::mesh::TimeState::step</definition>
+        <argsstring></argsstring>
+        <name>step</name>
+        <qualifiedname>octotigerII::mesh::TimeState::step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="206" column="15" bodyfile="include/octotigerII/mesh.hpp" bodystart="206" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1" compoundref="mesh_8cpp" startline="254" endline="262">completeStep</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1a9a02ec4a2b2a9e74e78695e3870c8556" compoundref="mesh_8hpp" startline="218" endline="224">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1TimeState_1a7ab0e56960fcce92042b4fbf7376327e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::mesh::TimeState::temporalLevel</definition>
+        <argsstring></argsstring>
+        <name>temporalLevel</name>
+        <qualifiedname>octotigerII::mesh::TimeState::temporalLevel</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="207" column="5" bodyfile="include/octotigerII/mesh.hpp" bodystart="207" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1a9a02ec4a2b2a9e74e78695e3870c8556" compoundref="mesh_8hpp" startline="218" endline="224">serialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classoctotigerII_1_1mesh_1_1TimeState_1aabeb54f5ba0f535c1cf084ee9acf4519" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int octotigerII::mesh::TimeState::substep</definition>
+        <argsstring></argsstring>
+        <name>substep</name>
+        <qualifiedname>octotigerII::mesh::TimeState::substep</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="208" column="5" bodyfile="include/octotigerII/mesh.hpp" bodystart="208" bodyend="-1"/>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1" compoundref="mesh_8cpp" startline="254" endline="262">completeStep</referencedby>
+        <referencedby refid="classoctotigerII_1_1mesh_1_1TimeState_1a9a02ec4a2b2a9e74e78695e3870c8556" compoundref="mesh_8hpp" startline="218" endline="224">serialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1TimeState_1a55e34488b1e37a377dc4ae32058839cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+        <definition>units::Time octotigerII::mesh::TimeState::nextTime</definition>
+        <argsstring>() const</argsstring>
+        <name>nextTime</name>
+        <qualifiedname>octotigerII::mesh::TimeState::nextTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="210" column="13" bodyfile="src/mesh.cpp" bodystart="245" bodyend="247"/>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1a84894582bfa257d5e0dcff8280722158" compoundref="mesh_8hpp" startline="205" endline="205">stepSize</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" compoundref="mesh_8hpp" startline="204" endline="204">time</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1TimeState_1abf492b30064177a753197998c56cf9d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool octotigerII::mesh::TimeState::synchronizedWith</definition>
+        <argsstring>(TimeState const &amp;other, Real tolerance=64 *epsilonR) const</argsstring>
+        <name>synchronizedWith</name>
+        <qualifiedname>octotigerII::mesh::TimeState::synchronizedWith</qualifiedname>
+        <param>
+          <type><ref refid="classoctotigerII_1_1mesh_1_1TimeState" kindref="compound">TimeState</ref> const &amp;</type>
+          <declname>other</declname>
+        </param>
+        <param>
+          <type><ref refid="Real_8hpp_1a4b04262b81aa7d31eb5d2f607e2a35de" kindref="member">Real</ref></type>
+          <declname>tolerance</declname>
+          <defval>64 *<ref refid="Real_8hpp_1a08cc81e0f92efcc2206a1bea24bb07ed" kindref="member">epsilonR</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="212" column="6" bodyfile="src/mesh.cpp" bodystart="249" bodyend="252"/>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" compoundref="mesh_8hpp" startline="204" endline="204">time</references>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1TimeState_1ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void octotigerII::mesh::TimeState::completeStep</definition>
+        <argsstring>(units::Time completedStepSize)</argsstring>
+        <name>completeStep</name>
+        <qualifiedname>octotigerII::mesh::TimeState::completeStep</qualifiedname>
+        <param>
+          <type><ref refid="namespaceoctotigerII_1_1units_1a9e54d25e09330ef0347dc9fbb0dc65cc" kindref="member">units::Time</ref></type>
+          <declname>completedStepSize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="214" column="6" bodyfile="src/mesh.cpp" bodystart="254" bodyend="262"/>
+        <references refid="namespaceoctotigerII_1_1units_1a16ffe7ec40aeaca8a779ba4ea4d42295" compoundref="cgs_8hpp" startline="66" endline="70">octotigerII::units::finite</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1a94e52817f7cecaccd74a780c2c1a3a55" compoundref="mesh_8hpp" startline="206">step</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1a84894582bfa257d5e0dcff8280722158" compoundref="mesh_8hpp" startline="205" endline="205">stepSize</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1aabeb54f5ba0f535c1cf084ee9acf4519" compoundref="mesh_8hpp" startline="208">substep</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" compoundref="mesh_8hpp" startline="204" endline="204">time</references>
+        <referencedby refid="classoctotigerII_1_1physics_1_1MusclHancock_1a092470efd2fcf0bfe84f4a4a8a4a6315" compoundref="finiteVolume_8hpp" startline="218" endline="229">octotigerII::physics::MusclHancock&lt; System &gt;::advanceWithBoundaryUpdater</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classoctotigerII_1_1mesh_1_1TimeState_1a9a02ec4a2b2a9e74e78695e3870c8556" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Archive</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void octotigerII::mesh::TimeState::serialize</definition>
+        <argsstring>(Archive &amp;archive, unsigned)</argsstring>
+        <name>serialize</name>
+        <qualifiedname>octotigerII::mesh::TimeState::serialize</qualifiedname>
+        <param>
+          <type>Archive &amp;</type>
+          <declname>archive</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+<para>Serialize this value with its compile-time quantity types preserved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/octotigerII/mesh.hpp" line="218" column="6" bodyfile="include/octotigerII/mesh.hpp" bodystart="218" bodyend="224"/>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1a94e52817f7cecaccd74a780c2c1a3a55" compoundref="mesh_8hpp" startline="206">step</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1a84894582bfa257d5e0dcff8280722158" compoundref="mesh_8hpp" startline="205" endline="205">stepSize</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1aabeb54f5ba0f535c1cf084ee9acf4519" compoundref="mesh_8hpp" startline="208">substep</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1a7ab0e56960fcce92042b4fbf7376327e" compoundref="mesh_8hpp" startline="207">temporalLevel</references>
+        <references refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" compoundref="mesh_8hpp" startline="204" endline="204">time</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Physical time and integration metadata for a patch. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The current runtime advances all blocks synchronously; temporalLevel/substep are metadata for future temporal refinement, not an implemented subcycling driver. </para>
+    </detaileddescription>
+    <location file="include/octotigerII/mesh.hpp" line="201" column="1" bodyfile="include/octotigerII/mesh.hpp" bodystart="201" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1ac53b7dd8ff8e3bbbabc8eea2fb0bc8b1" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>completeStep</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a55e34488b1e37a377dc4ae32058839cd" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>nextTime</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a9a02ec4a2b2a9e74e78695e3870c8556" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>serialize</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a94e52817f7cecaccd74a780c2c1a3a55" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>step</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a84894582bfa257d5e0dcff8280722158" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>stepSize</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1aabeb54f5ba0f535c1cf084ee9acf4519" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>substep</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1abf492b30064177a753197998c56cf9d9" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>synchronizedWith</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1a7ab0e56960fcce92042b4fbf7376327e" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>temporalLevel</name></member>
+      <member refid="classoctotigerII_1_1mesh_1_1TimeState_1ac136e67baee38ef8c070855f2784966c" prot="public" virt="non-virtual"><scope>octotigerII::mesh::TimeState</scope><name>time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

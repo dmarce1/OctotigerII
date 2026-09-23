@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_5fb2994aaf8cfc68dcd3d706f230a560" kind="dir">
+    <compoundname>include/octotigerII/physics</compoundname>
+    <innerfile refid="finiteVolume_8hpp">finiteVolume.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/octotigerII/physics/"/>
+  </compounddef>
+</doxygen>

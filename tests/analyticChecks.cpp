@@ -1,3 +1,4 @@
+#include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
@@ -7,22 +8,18 @@
 #include "octotigerII/problems.hpp"
 #include "octotigerII/simulation.hpp"
 #include "octotigerII/verification/analytic.hpp"
-#include "runtimeMain.hpp"
 
 using namespace octotigerII;
 
 
 namespace {
 
-void require(bool condition, char const* message) {
-	if (!condition) throw std::runtime_error(message);
-}
 
 void close(Real actual, Real expected, Real tolerance, char const* message) {
 	using std::abs;
 	using std::isfinite;
 
-	require(isfinite(actual) && abs(actual - expected) <= tolerance * std::max(Real(1), abs(expected)), message);
+	EXPECT_TRUE(isfinite(actual) && abs(actual - expected) <= tolerance * std::max(Real(1), abs(expected))) << message;
 }
 
 void referenceIdentities() {
@@ -98,7 +95,7 @@ void normsAndPolicy() {
 	c.verification.gravityReference = "continuum";
 	auto ref = problemReference(c);
 	if (!ref.evaluate) {
-		require(verification::compare({initialSnapshot(c, {})}, c).status == "unavailable", "Unsupported problem must report unavailable");
+		EXPECT_TRUE(verification::compare({initialSnapshot(c, {})}, c).status == "unavailable") << "Unsupported problem must report unavailable";
 		c.verification.analytic = "on";
 		bool rejected = false;
 		try {
@@ -106,7 +103,7 @@ void normsAndPolicy() {
 		} catch (std::invalid_argument const&) {
 			rejected = true;
 		}
-		require(rejected, "Required unavailable reference must be rejected");
+		EXPECT_TRUE(rejected) << "Required unavailable reference must be rejected";
 		return;
 	}
 	auto patch = initialSnapshot(c, {});
@@ -126,6 +123,7 @@ void normsAndPolicy() {
 		if constexpr (build::radiation) patch.radiation.values()[i].energy() *= 1.1;
 	});
 	auto const comparison = verification::compare({patch}, c);
+	ASSERT_FALSE(comparison.fields.empty());
 	auto const& first = comparison.fields.front();
 	close(first.l1 / first.referenceL1, 0.1, 2e-12, "Injected 10 percent L1 error");
 	close(first.l2 / first.referenceL2, 0.1, 2e-12, "Injected 10 percent L2 error");
@@ -137,13 +135,13 @@ void normsAndPolicy() {
 	} catch (std::runtime_error const&) {
 		rejected = true;
 	}
-	require(rejected, "Accuracy gate must reject injected errors");
+	EXPECT_TRUE(rejected) << "Accuracy gate must reject injected errors";
 	c.verification.relativeL1Tolerance = -1;
 	c.verification.analytic = "off";
-	require(verification::compare({patch}, c).status == "disabled", "Disabled comparison");
+	EXPECT_TRUE(verification::compare({patch}, c).status == "disabled") << "Disabled comparison";
 	if (std::string(build::problem) == "sod") {
 		c.verification.analytic = "auto";
-		require(!verification::reference(c, 2.0 * ref.validUntil).evaluate, "Late Sod reference must be unavailable");
+		EXPECT_TRUE(!verification::reference(c, 2.0 * ref.validUntil).evaluate) << "Late Sod reference must be unavailable";
 		c.verification.analytic = "on";
 		rejected = false;
 		try {
@@ -151,7 +149,7 @@ void normsAndPolicy() {
 		} catch (std::invalid_argument const&) {
 			rejected = true;
 		}
-		require(rejected, "Required late Sod reference must fail");
+		EXPECT_TRUE(rejected) << "Required late Sod reference must fail";
 	}
 }
 
@@ -173,40 +171,36 @@ void convergence() {
 		std::cout << "n=" << n << '\n';
 		results.back().print(std::cout);
 	}
+	ASSERT_FALSE(results.front().fields.empty());
+	ASSERT_EQ(results.front().fields.size(), results.back().fields.size());
 	for (std::size_t f = 0; f < results.front().fields.size(); ++f) {
 		auto const& a = results.front().fields[f];
 		auto const& b = results.back().fields[f];
 		if (b.referenceL1 == 0) {
-			require(b.linf < 1e-12, "Zero-reference component drift");
+			EXPECT_TRUE(b.linf < 1e-12) << "Zero-reference component drift";
 			continue;
 		}
 		Real const coarseError = a.l1 / a.referenceL1, fineError = b.l1 / b.referenceL1;
-		require(fineError < 0.9 * coarseError, "Analytic L1 error must decrease under mesh refinement");
-		require(fineError < (gravity ? 0.05 : ndim == 3 ? 0.2 : 0.12), "Analytic reference accuracy");
+		EXPECT_TRUE(fineError < 0.9 * coarseError) << "Analytic L1 error must decrease under mesh refinement";
+		EXPECT_TRUE(fineError < (gravity ? 0.05 : ndim == 3 ? 0.2 : 0.12)) << "Analytic reference accuracy";
 	}
 }
 
 }	 // namespace
 
 
-int testMain(int argc, char** argv) {
-	try {
-		std::cout << std::scientific << std::setprecision(6);
-		if (argc != 2) throw std::invalid_argument("Expected references or convergence");
-		if (std::string(argv[1]) == "references") {
-			referenceIdentities();
-			normsAndPolicy();
-		} else if (std::string(argv[1]) == "convergence")
-			convergence();
-		else
-			throw std::invalid_argument("Unknown analytic check");
-		return 0;
-	} catch (std::exception const& error) {
-		std::cerr << error.what() << '\n';
-		return 1;
-	}
+TEST(AnalyticReference, IndependentSphereSodAndStreamingIdentities) {
+	referenceIdentities();
 }
 
-int main(int argc, char** argv) {
-	return runtimeMain(argc, argv, testMain);
+
+TEST(AnalyticReference, ErrorNormsAndAccuracyPolicy) {
+	normsAndPolicy();
 }
+
+
+#if OCTOTIGERII_TEST_CONVERGENCE
+TEST(AnalyticConvergence, MeshRefinementReducesError) {
+	convergence();
+}
+#endif
