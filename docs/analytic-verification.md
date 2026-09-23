@@ -11,7 +11,7 @@ reports `unavailable`, with a reason. An unavailable reference is never reported
 
 | Problem | Dimensions | Exact solution and restrictions |
 | --- | --- | --- |
-| `sod` | 1, 2, 3 | Ideal-gas Riemann solution for the configured `hydro.gamma`; valid until the first wave reaches an outflow boundary. |
+| `sod` | 1, 2, 3 | Ideal-gas Riemann solution for the configured `hydro.gamma`; valid until the first wave reaches an outflow/reflecting x boundary; analytic data on both x faces removes that limit. Periodic x faces disable this reference. |
 | `gravity-sphere` | 3 | Direct discrete reference by default; optional continuum isolated uniform sphere, including interior and exterior potential and acceleration; potential vanishes at infinity. |
 | `gravity-gaussian` | 3 | Direct discrete reference by default; optional continuum isolated spherical Gaussian truncated at radius half the domain width, including the contribution of exterior shells to the interior potential. |
 | `streaming` | 1, 2, 3 | Periodic translation along the diagonal of the active dimensions, with transport speed `lightSpeedRatio*c` and physical flux magnitude `c*E`. |
@@ -195,3 +195,5 @@ the evolution code's approximate HLLC solver. For the derivation, see
 [Ketcheson, LeVeque, and del Razo, Euler equations](https://www.clawpack.org/riemann_book/html/Euler.html).
 Spherical gravity follows the Newtonian shell theorem, including outer shells
 in the potential and enclosed mass in the force.
+
+Streaming also supports paired analytic faces per axis; see [boundary conditions](boundaries.md).

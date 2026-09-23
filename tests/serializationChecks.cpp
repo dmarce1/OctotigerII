@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include "octotigerII/subgrid/fluxPacket.hpp"
 #include "octotigerII/subgrid/subgrid.hpp"
+#include "octotigerII/subgrid/topology.hpp"
 using namespace octotigerII;
 
 
@@ -96,4 +97,49 @@ void check() {
 
 TEST(Serialization, TypedConfigSnapshotsAndFluxPacketsRoundTrip) {
 	check();
+}
+
+
+TEST(Serialization, PerFaceBoundariesAndHaloPlansRoundTrip) {
+	auto c = parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1"});
+	CartesianTopology topology(c, 2);
+	// Serialize all boundary kinds even in builds whose gravity policy disallows them.
+	c.mesh.boundary.lower[0] = physics::BoundaryCondition::Analytic;
+	c.mesh.boundary.upper[0] = physics::BoundaryCondition::Reflecting;
+	if (ndim > 1) c.mesh.boundary.lower[1] = c.mesh.boundary.upper[1] = physics::BoundaryCondition::Periodic;
+	auto plan = makeHaloPlan(c, topology.blocks(), 0);
+	std::vector<char> buffer;
+	{
+		hpx::serialization::output_archive archive(buffer);
+		archive & c & plan;
+	}
+	Config restored;
+	HaloPlan restoredPlan;
+	{
+		hpx::serialization::input_archive archive(buffer);
+		archive & restored & restoredPlan;
+	}
+	EXPECT_EQ(restored.mesh.boundary.lower, c.mesh.boundary.lower);
+	EXPECT_EQ(restored.mesh.boundary.upper, c.mesh.boundary.upper);
+	EXPECT_EQ(restoredPlan.ghostCount, plan.ghostCount);
+	EXPECT_EQ(restoredPlan.ghostIndices, plan.ghostIndices);
+	EXPECT_EQ(restoredPlan.reflectionMasks, plan.reflectionMasks);
+	ASSERT_EQ(restoredPlan.analyticGhosts.size(), plan.analyticGhosts.size());
+	for (std::size_t i = 0; i < plan.analyticGhosts.size(); ++i) {
+		EXPECT_EQ(restoredPlan.analyticGhosts[i].destination, plan.analyticGhosts[i].destination);
+		EXPECT_EQ(restoredPlan.analyticGhosts[i].position, plan.analyticGhosts[i].position);
+	}
+	ASSERT_EQ(restoredPlan.reads.size(), plan.reads.size());
+	for (std::size_t i = 0; i < plan.reads.size(); ++i) {
+		auto const& actual = restoredPlan.reads[i];
+		auto const& expected = plan.reads[i];
+		EXPECT_EQ(actual.range.partition, expected.range.partition);
+		EXPECT_EQ(actual.range.offset, expected.range.offset);
+		EXPECT_EQ(actual.range.count, expected.range.count);
+		ASSERT_EQ(actual.copies.size(), expected.copies.size());
+		for (std::size_t j = 0; j < expected.copies.size(); ++j) {
+			EXPECT_EQ(actual.copies[j].source, expected.copies[j].source);
+			EXPECT_EQ(actual.copies[j].destination, expected.copies[j].destination);
+		}
+	}
 }

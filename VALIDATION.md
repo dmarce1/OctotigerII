@@ -249,3 +249,37 @@ Representative relative L1 results from `analytic.convergence`:
 | Sphere gravity 3D | potential | 16 | 3.850622e-02 | 32 | 1.304695e-02 |
 | Streaming 1D | radiationEnergy | 32 | 2.377071e-02 | 64 | 6.118829e-03 |
 | Streaming 3D | radiationEnergy | 16 | 1.318741e-01 | 32 | 3.710528e-02 |
+
+
+## Per-face boundary treatment (2026-09-23)
+
+Validated with GCC, Release builds, installed GoogleTest, and
+`OCTOTIGERII_WITH_HPX=OFF` in this environment:
+
+| Build | Full CTest result |
+| --- | --- |
+| Sod, 3D | 93/93 passed |
+| Streaming, 1D | 97/97 passed |
+| Streaming, 3D | 94/94 passed before two additional policy tests; final boundary/policy checks 12/12 passed |
+| Kelvin–Helmholtz, 2D | 90/90 passed before two additional policy tests; final boundary/policy checks 12/12 passed |
+| Gravity sphere, 3D | 85 tests, zero failures; one inapplicable mixed-face configuration test skipped; final boundary/policy checks also passed |
+
+The new checks cover all active faces, invalid periodic pairs in both directions,
+inactive axes, INI/CLI precedence, reflected layers and normal components,
+mixed edges/corners, analytic positions and stage times, wall conservation,
+one-block versus multiple-block evolution, and rejection of unsupported gravity
+and analytic configurations. An invalid-state fixture was corrected to return
+an invalid conserved state directly, so the boundary validator itself is tested.
+
+Additional application checks:
+
+* Sod with analytic x boundaries ran to 0.6 s, beyond the first boundary
+  crossing, with the exact Riemann reference available. At 8 cells per axis,
+  density relative L1 was 4.447618e-02.
+* 1D streaming with both faces analytic ran to 1.8 s, after the beam peak left
+  the domain. Relative L1 decreased from 5.758695e-02 at 64 cells to
+  1.058126e-02 at 128 cells; the latter passed a 5% accuracy gate.
+
+HPX was unavailable here. The new per-face configuration/halo serialization
+regression and the two-/three-locality boundary tests are registered, but their
+HPX execution was not verified in this environment.

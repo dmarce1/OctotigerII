@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include "octotigerII/problems.hpp"
+#include "octotigerII/gravity/boundary.hpp"
+#include "octotigerII/verification/analytic.hpp"
 
 #ifdef OCTOTIGERII_WITH_HPX
 #include <hpx/modules/program_options.hpp>
@@ -37,7 +39,12 @@ namespace {
 		options("mesh.level", po::value<int>(), "Uniform block level");
 		options("mesh.lower", po::value<Real>(), "Lower domain coordinate (cm)");
 		options("mesh.upper", po::value<Real>(), "Upper domain coordinate (cm)");
-		options("mesh.periodic", po::value<std::string>(), "Periodic boundaries: on/off");
+		options("mesh.periodic", po::value<std::string>(), "Legacy shorthand: on=all periodic, off=all outflow; per-face settings override");
+		for (int axis = 0; axis < ndim; ++axis)
+			for (auto side : {"Lower", "Upper"}) {
+				auto const key = std::string("mesh.boundary.") + "xyz"[axis] + side;
+				options(key.c_str(), po::value<std::string>(), "Face boundary: periodic, reflecting, outflow, analytic");
+			}
 		options("runtime.stopTime", po::value<Real>(), "Stop time (s)");
 		options("runtime.maxSteps", po::value<int>(), "Maximum number of steps");
 		options("runtime.workerTasks", po::value<int>(), "Maximum concurrent tasks; 0 uses worker count");
@@ -112,7 +119,18 @@ namespace {
 		readNumber(values, "verification.absoluteTolerance", config.verification.absoluteTolerance);
 		readOption(values, "mesh.cells", config.mesh.cells);
 		readOption(values, "mesh.level", config.mesh.level);
-		readBoolean(values, "mesh.periodic", config.mesh.periodic);
+		if (values.count("mesh.periodic")) {
+			bool periodic = false;
+			readBoolean(values, "mesh.periodic", periodic);
+			config.mesh.boundary = periodic ? physics::BoundaryConditions::periodic() : physics::BoundaryConditions{};
+		}
+		for (int axis = 0; axis < ndim; ++axis)
+			for (bool lower : {true, false}) {
+				auto const key = std::string("mesh.boundary.") + "xyz"[axis] + (lower ? "Lower" : "Upper");
+				if (values.count(key))
+					(lower ? config.mesh.boundary.lower : config.mesh.boundary.upper)[axis] =
+						physics::parseBoundaryCondition(values[key].as<std::string>());
+			}
 		Real lower = units::value(config.mesh.lower), upper = units::value(config.mesh.upper);
 		readNumber(values, "mesh.lower", lower);
 		readNumber(values, "mesh.upper", upper);
@@ -153,6 +171,8 @@ void Config::validate() const {
 	if (verification.directMaxPairs < 1 || verification.directSamples < 0)
 		throw std::invalid_argument("Direct pair budget must be positive and directSamples nonnegative");
 	if (randomSeed < 0) throw std::invalid_argument("randomSeed must be nonnegative");
+	mesh.boundary.validate();
+	if (gravityEnabled()) gravity::validateBoundaries(mesh.boundary);
 	validateProblem(*this);
 	if (mesh.cells < 4 || mesh.cells > 128 || (mesh.cells & (mesh.cells - 1)) || mesh.level < 0 || mesh.level > 6)
 		throw std::invalid_argument("mesh: cells=power of two in [4,128], level=0..6");
@@ -160,7 +180,8 @@ void Config::validate() const {
 		!(timestep.cfl > 0 && timestep.cfl <= 0.5) || !(hydro.gamma > 1) || !(radiation.lightSpeedRatio > 0 && radiation.lightSpeedRatio <= 1) ||
 		runtime.maxSteps < 1 || output.every < 1 || runtime.workerTasks < 0)
 		throw std::invalid_argument("Invalid domain, timestep, gas, radiation, or output setting");
-	if (gravityEnabled() && mesh.periodic) throw std::invalid_argument("Gravity currently requires 3D isolated boundaries");
+	if (mesh.boundary.contains(physics::BoundaryCondition::Analytic) && !problemBoundary(*this))
+		throw std::invalid_argument(std::string("Analytic boundary is not implemented for problem ") + build::problem);
 	if (gravity.multipoleOrder < 1 || gravity.multipoleOrder > 10 || !(gravity.openingAngle > 0 && gravity.openingAngle < 1 / sqrt(3.0)))
 		throw std::invalid_argument("Gravity requires order 1..10 and 0<openingAngle<1/sqrt(3)");
 	if (output.directory.empty()) throw std::invalid_argument("Empty output directory");

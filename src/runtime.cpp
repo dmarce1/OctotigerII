@@ -8,6 +8,8 @@
 #include <optional>
 #include "octotigerII/storage/registry.hpp"
 #include "octotigerII/subgrid/view.hpp"
+#include "octotigerII/problems.hpp"
+#include "octotigerII/verification/analytic.hpp"
 #if OCTOTIGERII_GRAVITY
 #include "octotigerII/gravity/fieldSolver.hpp"
 #endif
@@ -90,9 +92,11 @@ public:
 	using Solver = physics::MusclHancock<System>;
 	typename Solver::Workspace work;
 
-	void advance(Subgrid const& block, storage::ColumnHandle<State> const& fields, HaloPlan const& plan, System const& system, unsigned bank, units::Time dt) {
+	void advance(Subgrid const& block, storage::ColumnHandle<State> const& fields, HaloPlan const& plan, System const& system, unsigned bank, units::Time dt,
+		units::Time time, physics::AnalyticBoundary<State> const& analytic) {
 		auto interior = fields.read(block.interior, bank).get();
 		readHalo(fields, plan, bank, ghosts);
+		applyHaloBoundaries(plan, ghosts, system, time, analytic);
 		PatchView<State> input(block, std::move(interior), plan, ghosts);
 		auto output = fields.output(block.interior, bank ^ 1);
 		{
@@ -159,6 +163,17 @@ public:
 	  , blocks_(std::move(blocks))
 	  , fields_(std::move(fields))
 	  , owner_(owner) {
+		if (config_.mesh.boundary.contains(physics::BoundaryCondition::Analytic)) {
+			auto evaluator = problemBoundary(config_);
+			if constexpr (build::hydro) {
+				hydroBoundary_ = [evaluator, gas = hydro::HydroSystem(config_.hydro.gamma)](auto const& position, auto time) {
+					return gas.conservedState(evaluator(position, time).hydro);
+				};
+			}
+			if constexpr (build::radiation) {
+				radiationBoundary_ = [evaluator](auto const& position, auto time) { return evaluator(position, time).radiation; };
+			}
+		}
 		for (auto const& block : blocks_)
 			if (block.interior.partition == owner_) owned_.push_back(block.id);
 		for (auto id : owned_)
@@ -273,6 +288,8 @@ public:
 private:
 
 	Config config_;
+	physics::AnalyticBoundary<hydro::ConservedState> hydroBoundary_;
+	physics::AnalyticBoundary<radiation::RadiationSystem::State> radiationBoundary_;
 	std::vector<Subgrid> blocks_;
 	FieldDirectory fields_;
 	std::size_t owner_ = 0;
@@ -297,9 +314,11 @@ private:
 				std::optional<HaloPlan> temporary;
 				if (stolen) temporary = makeHaloPlan(config_, blocks_, id);
 				auto const& plan = stolen ? *temporary : plans_.at(id);
-				if constexpr (build::hydro) workspace.hydro.advance(block, fields_.hydro, plan, hydro::HydroSystem(config_.hydro.gamma), bank_, dt);
+				if constexpr (build::hydro)
+					workspace.hydro.advance(block, fields_.hydro, plan, hydro::HydroSystem(config_.hydro.gamma), bank_, dt, time_, hydroBoundary_);
 				if constexpr (build::radiation)
-					workspace.radiation.advance(block, fields_.radiation, plan, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), bank_, dt);
+					workspace.radiation.advance(block, fields_.radiation, plan,
+						radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), bank_, dt, time_, radiationBoundary_);
 				if constexpr (build::gravity) copyFields(fields_.gravity, block.interior, bank_);
 			} else if constexpr (build::gravity && build::hydro) {
 				kick(block, dt);

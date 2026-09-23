@@ -132,7 +132,7 @@ void compareTransport(Select select, Admissible admissible) {
 		EXPECT_TRUE(admissible(final[i])) << "Transport admissibility";
 		final[i].forEach([&](auto f, auto q) { close(q, reference[i].template get<f>(), 3e-12, "Tiled transport mismatch"); });
 	}
-	if (fine.mesh.periodic) {
+	if (fine.mesh.boundary.all(physics::BoundaryCondition::Periodic)) {
 		State initialNorm{}, finalNorm{};
 		for (auto const& state : initial)
 			initialNorm += componentAbs(state);

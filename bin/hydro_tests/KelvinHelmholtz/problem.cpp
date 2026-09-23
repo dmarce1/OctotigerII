@@ -9,18 +9,22 @@
 #include "octotigerII/verification/analytic.hpp"
 
 namespace octotigerII {
+
+ProblemBoundary problemBoundary(Config const&) {
+	return {};
+}
+
+
 verification::Reference problemReference([[maybe_unused]] Config const& c) {
 	return {};
 }
 
 void problemDefaults(Config& c) {
-	c.mesh.periodic = true;
+	c.mesh.boundary = physics::BoundaryConditions::periodic();
 	c.runtime.stopTime = units::Time::from_value(0.1);
 }
 
-void validateProblem(Config const& c) {
-	if (!c.mesh.periodic) throw std::invalid_argument("Kelvin–Helmholtz requires periodic boundaries");
-}
+void validateProblem(Config const&) {}
 
 /// Initialize this problem in the executable's compile-time dimension.
 

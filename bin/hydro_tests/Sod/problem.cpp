@@ -9,15 +9,26 @@
 #include "octotigerII/verification/analytic.hpp"
 
 namespace octotigerII {
+
+ProblemBoundary problemBoundary(Config const& c) {
+	return verification::sodReference(c).evaluate;
+}
+
+
 verification::Reference problemReference([[maybe_unused]] Config const& c) {
-	return verification::sodReference(c);
+	auto reference = verification::sodReference(c);
+	if (c.mesh.boundary.periodic(0)) {
+		reference.evaluate = {};
+		reference.reason = "The isolated Sod Riemann reference does not apply to periodic x boundaries";
+	} else if (c.mesh.boundary.lower[0] == physics::BoundaryCondition::Analytic && c.mesh.boundary.upper[0] == physics::BoundaryCondition::Analytic) {
+		reference.validUntil = units::Time::from_value(std::numeric_limits<Real>::infinity());
+	}
+	return reference;
 }
 
 void problemDefaults(Config&) {}
 
-void validateProblem(Config const& c) {
-	if (c.mesh.periodic) throw std::invalid_argument("Sod requires outflow boundaries");
-}
+void validateProblem(Config const&) {}
 
 /// Initialize this problem in the executable's compile-time dimension.
 /// Shock-tube states follow @ref ref_sod1978 "Sod (1978)".

@@ -136,36 +136,40 @@ Reference sphereReference(Config const& c, bool gaussian) {
 }
 
 
-Reference streamingReference(Config const& c) {
+ExactState streamingState(Config const& c, mesh::PhysicalCoordinates const& position, units::Time time) {
+	using std::exp;
+	using std::round;
 	using std::sqrt;
 
-	Reference result;
-	result.name = "Periodic streaming translation";
-	if (!c.mesh.periodic) {
-		result.reason = "Streaming reference requires periodic boundaries";
-		return result;
-	}
 	auto const length = c.mesh.upper - c.mesh.lower;
 	auto const speed = c.radiation.lightSpeedRatio * constants::c / sqrt(Real(ndim));
-	result.evaluate = [=](mesh::PhysicalCoordinates const& position, units::Time time) {
-		using std::exp;
-		using std::round;
-		using std::sqrt;
+	Real r2 = 0;
+	for (int axis = 0; axis < ndim; ++axis) {
+		auto distance = position[axis] - (c.mesh.lower + 0.25 * length + speed * time);
+		if (c.mesh.boundary.periodic(axis)) distance -= round(distance / length) * length;
+		Real const q = distance / (0.08 * length);
+		r2 += q * q;
+	}
+	ExactState state;
+	state.radiation.energy() = units::EnergyDensity::from_value(1e-6 + exp(-0.5 * r2));
+	for (int axis = 0; axis < ndim; ++axis)
+		state.radiation.radiativeFlux(axis) = constants::c * state.radiation.energy() / sqrt(Real(ndim));
+	return state;
+}
 
-		Real r2 = 0;
-		for (auto const& x : position) {
-			auto distance = x - (c.mesh.lower + 0.25 * length + speed * time);
-			distance -= round(distance / length) * length;
-			Real const q = distance / (0.08 * length);
-			r2 += q * q;
+
+Reference streamingReference(Config const& c) {
+	Reference result;
+	result.name = "Streaming translation";
+	for (int axis = 0; axis < ndim; ++axis) {
+		if (!c.mesh.boundary.periodic(axis) &&
+			!(c.mesh.boundary.lower[axis] == physics::BoundaryCondition::Analytic && c.mesh.boundary.upper[axis] == physics::BoundaryCondition::Analytic)) {
+			result.reason = "Streaming reference requires paired periodic or paired analytic faces on each axis";
+			return result;
 		}
-		ExactState state;
-		state.radiation.energy() = units::EnergyDensity::from_value(1e-6 + exp(-0.5 * r2));
-		for (int axis = 0; axis < ndim; ++axis)
-			state.radiation.radiativeFlux(axis) = constants::c * state.radiation.energy() / sqrt(Real(ndim));
-		return state;
-	};
+	}
+	result.evaluate = [c](mesh::PhysicalCoordinates const& position, units::Time time) { return streamingState(c, position, time); };
 	return result;
 }
 
-}	 // namespace octotigerII::verification
+} // namespace octotigerII::verification

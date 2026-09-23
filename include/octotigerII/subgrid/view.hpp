@@ -87,4 +87,16 @@ void readHalo(storage::ColumnHandle<State> const& fields, HaloPlan const& plan, 
 	if (error) std::rethrow_exception(error);
 }
 
+/// Complete physical boundary values after all donor reads have finished.
+/// Analytic corners use the original position and take precedence over other faces.
+template <typename System>
+void applyHaloBoundaries(HaloPlan const& plan, std::vector<typename System::State>& ghosts, System const& system,
+	units::Time time, physics::AnalyticBoundary<typename System::State> const& analytic = {}) {
+	for (std::size_t i = 0; i < plan.reflectionMasks.size(); ++i)
+		if (plan.reflectionMasks[i]) ghosts.at(i) = physics::reflectBoundary(ghosts.at(i), plan.reflectionMasks[i], system);
+	for (auto const& ghost : plan.analyticGhosts)
+		ghosts.at(ghost.destination) = physics::evaluateBoundary(analytic, ghost.position, time, system);
+}
+
+
 }	 // namespace octotigerII

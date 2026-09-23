@@ -9,6 +9,12 @@
 #include "octotigerII/verification/analytic.hpp"
 
 namespace octotigerII {
+
+ProblemBoundary problemBoundary(Config const&) {
+	return {};
+}
+
+
 verification::Reference problemReference([[maybe_unused]] Config const& c) {
 	return {};
 }
@@ -17,7 +23,7 @@ void problemDefaults(Config& c) {
 	c.mesh.lower = units::Length::from_value(-3e10);
 	c.mesh.upper = units::Length::from_value(3e10);
 	c.runtime.stopTime = units::Time::from_value(0.4);
-	c.mesh.periodic = true;
+	c.mesh.boundary = physics::BoundaryConditions::periodic();
 }
 
 void validateProblem(Config const&) {}
@@ -35,7 +41,7 @@ void initializeProblem(Snapshot& data, Config const& c) {
 		Real distance2 = 0;
 		for (int axis = 0; axis < ndim; ++axis) {
 			auto distance = point[axis] - (c.mesh.lower + 0.25 * length);
-			if (c.mesh.periodic) distance -= round(distance / length) * length;
+			if (c.mesh.boundary.periodic(axis)) distance -= round(distance / length) * length;
 			distance2 += distance * distance / (0.08 * length * 0.08 * length);
 		}
 		auto& state = data.radiation.values()[i];

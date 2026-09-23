@@ -93,4 +93,7 @@ Reference sphereReference(Config const& config, bool gaussian);
 
 Reference streamingReference(Config const& config);
 
+/// Freely translating beam; wrap only the axes configured as periodic.
+ExactState streamingState(Config const& config, mesh::PhysicalCoordinates const& position, units::Time time);
+
 }	 // namespace octotigerII::verification

@@ -51,7 +51,7 @@ void initializeProblem(Snapshot& data, Config const& c) {
 			Real distance2 = 0;
 			for (int axis = 0; axis < c.dimensions; ++axis) {
 				auto distance = point[axis] - (c.mesh.lower + 0.25 * length);
-				if (c.mesh.periodic) distance -= round(distance / length) * length;
+				if (c.mesh.boundary.periodic(axis)) distance -= round(distance / length) * length;
 				distance2 += distance * distance / (0.08 * length * 0.08 * length);
 			}
 			auto& state = data.radiation.values()[i];

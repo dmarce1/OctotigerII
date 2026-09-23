@@ -30,6 +30,7 @@ CartesianTopology::CartesianTopology(Config const& config, std::size_t partition
 
 HaloPlan makeHaloPlan(Config const& config_, std::vector<Subgrid> const& blocks_, std::size_t index) {
 	profiling::Region profile("mesh.halo_plan");
+	config_.mesh.boundary.validate();
 	auto const& block = blocks_.at(index);
 	int const n = 1 << config_.mesh.level;
 	int const globalCells = n * config_.mesh.cells;
@@ -45,15 +46,22 @@ HaloPlan makeHaloPlan(Config const& config_, std::vector<Subgrid> const& blocks_
 		if (padded.isInterior(cell)) return;
 		auto const ghost = plan.ghostCount++;
 		plan.ghostIndices[padded.index(cell)] = ghost;
+		mesh::Coordinates global{};
+		for (int axis = 0; axis < ndim; ++axis)
+			global[axis] = block.location.coordinates[axis] * config_.mesh.cells + cell[axis] - 2;
+		auto const mapped = config_.mesh.boundary.map(global, globalCells);
+		plan.reflectionMasks.push_back(mapped.analytic ? 0 : mapped.reflectionMask);
+		if (mapped.analytic) {
+			mesh::PhysicalCoordinates position{};
+			for (int axis = 0; axis < ndim; ++axis)
+				position[axis] = config_.mesh.lower + (Real(global[axis]) + 0.5) * block.cellWidth;
+			plan.analyticGhosts.push_back({ghost, position});
+			return;
+		}
 		mesh::Coordinates sourceBlock{};
 		for (int axis = 0; axis < ndim; ++axis) {
-			int coordinate = block.location.coordinates[axis] * config_.mesh.cells + cell[axis] - 2;
-			if (config_.mesh.periodic)
-				coordinate = (coordinate % globalCells + globalCells) % globalCells;
-			else
-				coordinate = std::clamp(coordinate, 0, globalCells - 1);
-			sourceBlock[axis] = coordinate / config_.mesh.cells;
-			cell[axis] = coordinate % config_.mesh.cells;
+			sourceBlock[axis] = mapped.source[axis] / config_.mesh.cells;
+			cell[axis] = mapped.source[axis] % config_.mesh.cells;
 		}
 		auto const sourceId = mesh::linearIndex(sourceBlock, mesh::filledCoordinates(n));
 		auto const& source = blocks_.at(sourceId);

@@ -9,6 +9,12 @@
 #include "octotigerII/verification/analytic.hpp"
 
 namespace octotigerII {
+
+ProblemBoundary problemBoundary(Config const&) {
+	return {};
+}
+
+
 verification::Reference problemReference([[maybe_unused]] Config const& c) {
 	return verification::sphereReference(c, false);
 }

@@ -200,7 +200,7 @@ energy fluxes, `dphi/dt` evolution, or exact total-energy conservation claims.
 
 ## Scope of this first version
 
-Included: CPU numerics, 1D/2D/3D fixed tiled meshes, periodic/outflow transport,
+Included: CPU numerics, 1D/2D/3D fixed tiled meshes, per-face periodic/reflecting/outflow/analytic transport,
 isolated 3D gravity, shared timesteps, distributed field storage and locality work queues, and Silo output.
 
 Omitted: CUDA, HIP, Kokkos, Vc, CPPuddle, Unitiger, the old FMM, old problems
@@ -265,3 +265,5 @@ original smooth sphere/Gaussian comparison. Orders 1 through 10 are supported.
 Use `--verification.analytic=on` to require a reference.
 See [analytic verification](docs/analytic-verification.md) for available
 solutions, accuracy gates, interpretation, and the standard problem interface.
+
+Physical boundary options and analytic problem hooks are documented in [docs/boundaries.md](docs/boundaries.md).

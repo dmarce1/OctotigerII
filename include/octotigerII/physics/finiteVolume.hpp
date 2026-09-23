@@ -7,6 +7,7 @@
 #pragma once
 
 #include "octotigerII/mesh.hpp"
+#include "octotigerII/physics/boundary.hpp"
 #include "octotigerII/profiling.hpp"
 
 #include <algorithm>
@@ -29,34 +30,6 @@ enum class Limiter
 	Minmod,
 	VanLeer,
 	MinmodTheta
-};
-
-
-enum class BoundaryCondition
-{
-	Outflow,
-	Periodic,
-	Reflecting
-};
-
-
-/// Lower/upper physical boundary rule for each coordinate direction.
-/// @ingroup numerics
-class BoundaryConditions {
-public:
-
-	std::array<BoundaryCondition, ndim> lower{};
-	std::array<BoundaryCondition, ndim> upper{};
-
-	/// Construct periodic boundaries in all ndim directions.
-	static BoundaryConditions periodic() {
-		BoundaryConditions result;
-		for (int axis = 0; axis < ndim; ++axis) {
-			result.lower[axis] = BoundaryCondition::Periodic;
-			result.upper[axis] = BoundaryCondition::Periodic;
-		}
-		return result;
-	}
 };
 
 
@@ -86,59 +59,26 @@ Q limitedSlope(Q leftDifference, Q rightDifference, Limiter limiter, Real theta 
 /// Fill physical boundaries for an owning test patch, including corner cells.
 /// The distributed runtime instead obtains its temporary halos from the mesh adapter.
 template <typename System>
-void fillGhostCells(mesh::PatchData<typename System::State>& patch, BoundaryConditions const& boundaries, System const& system) {
-	using State = typename System::State;
-	mesh::MeshLayout const& layout = patch.layout();
-	int const ghostWidth = layout.ghostWidth();
-	if (ghostWidth == 0) {
-		return;
-	}
-	mesh::Coordinates const extents = layout.extents();
-	mesh::forEachCoordinate(extents, [&](mesh::Coordinates const& destination) {
-		if (layout.isInterior(destination)) {
-			return;
+void fillGhostCells(mesh::PatchData<typename System::State>& patch, BoundaryConditions const& boundaries, System const& system,
+	AnalyticBoundary<typename System::State> const& analytic = {}) {
+	boundaries.validate();
+	if (boundaries.contains(BoundaryCondition::Analytic) && !analytic)
+		throw std::invalid_argument("Analytic boundary requires a problem evaluator");
+	auto const& layout = patch.layout();
+	mesh::forEachCoordinate(layout.extents(), [&](mesh::Coordinates const& destination) {
+		if (layout.isInterior(destination)) return;
+		auto cell = destination;
+		for (int axis = 0; axis < ndim; ++axis)
+			cell[axis] -= layout.ghostWidth();
+		auto const mapped = boundaries.map(cell, layout.cellsPerActiveDimension());
+		if (mapped.analytic) {
+			mesh::PhysicalCoordinates position{};
+			for (int axis = 0; axis < ndim; ++axis)
+				position[axis] = patch.lower()[axis] + (Real(cell[axis]) + 0.5) * patch.cellWidth();
+			patch.atStorage(destination) = evaluateBoundary(analytic, position, patch.timeState().time, system);
+		} else {
+			patch.atStorage(destination) = reflectBoundary(patch.atInterior(mapped.source), mapped.reflectionMask, system);
 		}
-		mesh::Coordinates source = destination;
-		std::array<bool, ndim> reflect{};
-		for (int axis = 0; axis < ndim; ++axis) {
-			int coordinate = destination[axis] - ghostWidth;
-			int const count = layout.cellsPerActiveDimension();
-			if (coordinate < 0) {
-				switch (boundaries.lower[axis]) {
-				case BoundaryCondition::Periodic:
-					coordinate = (coordinate % count + count) % count;
-					break;
-				case BoundaryCondition::Outflow:
-					coordinate = 0;
-					break;
-				case BoundaryCondition::Reflecting:
-					coordinate = -coordinate - 1;
-					reflect[axis] = true;
-					break;
-				}
-			} else if (coordinate >= count) {
-				switch (boundaries.upper[axis]) {
-				case BoundaryCondition::Periodic:
-					coordinate %= count;
-					break;
-				case BoundaryCondition::Outflow:
-					coordinate = count - 1;
-					break;
-				case BoundaryCondition::Reflecting:
-					coordinate = 2 * count - coordinate - 1;
-					reflect[axis] = true;
-					break;
-				}
-			}
-			source[axis] = coordinate + ghostWidth;
-		}
-		State state = patch.atStorage(source);
-		for (int axis = 0; axis < ndim; ++axis) {
-			if (reflect[axis]) {
-				state = system.reflected(state, axis);
-			}
-		}
-		patch.atStorage(destination) = state;
 	});
 }
 
@@ -205,9 +145,10 @@ public:
 	}
 
 	/// Advance an owning test patch using the supplied physical boundary conditions.
-	StepResult advance(mesh::PatchData<State>& patch, units::Time stepSize, BoundaryConditions const& boundaries) const {
+	StepResult advance(mesh::PatchData<State>& patch, units::Time stepSize, BoundaryConditions const& boundaries,
+		AnalyticBoundary<State> const& analytic = {}) const {
 		return advanceWithBoundaryUpdater(
-			patch, stepSize, [&](mesh::PatchData<State>& boundaryPatch, units::Time) { fillGhostCells(boundaryPatch, boundaries, system_); });
+			patch, stepSize, [&](mesh::PatchData<State>& boundaryPatch, units::Time) { fillGhostCells(boundaryPatch, boundaries, system_, analytic); });
 	}
 
 	// AMR drivers can supply same-level, coarse/fine, or physical boundary

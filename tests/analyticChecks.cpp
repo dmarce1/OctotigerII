@@ -82,7 +82,7 @@ void referenceIdentities() {
 	Real const density = units::value(q.density()), p = units::value(q.pressure()), u = units::value(q.velocity(0));
 	Real const shock = density * u / (density - 0.125);
 	close(p + density * (shock - u) * (shock - u), 0.1 + 0.125 * shock * shock, 2e-12, "Sod shock momentum jump at gamma=5/3");
-	c.mesh.periodic = true;
+	c.mesh.boundary = physics::BoundaryConditions::periodic();
 	c.radiation.lightSpeedRatio = 0.25;
 	auto const streaming = verification::streamingReference(c);
 	x.fill(units::Length::from_value(0.25));

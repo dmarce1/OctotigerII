@@ -69,6 +69,22 @@ public:
 };
 
 
+/// A prescribed ghost has no donor read and is evaluated at this physical position.
+class AnalyticGhost {
+public:
+
+	std::size_t destination = 0;
+	mesh::PhysicalCoordinates position{};
+
+	template <typename Archive>
+	void serialize(Archive& archive, unsigned) {
+		archive & destination;
+		for (auto& coordinate : position)
+			archive & coordinate;
+	}
+};
+
+
 // Read-only geometry, reused for every stage. Each read is a contiguous run
 // of required source cells. Halos do not include the block's interior.
 /// Reusable geometry plan for a block's halo.
@@ -82,17 +98,19 @@ public:
 	// Padded index -> compact ghost index; interiors contain the sentinel.
 	std::vector<std::size_t> ghostIndices;
 	std::size_t ghostCount = 0;
+	std::vector<unsigned> reflectionMasks;
+	std::vector<AnalyticGhost> analyticGhosts;
 
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & reads & ghostIndices & ghostCount;
+		archive & reads & ghostIndices & ghostCount & reflectionMasks & analyticGhosts;
 	}
 };
 
 
 /// Map the fixed-level Cartesian halo to contiguous source runs.
-/// This adapter currently handles periodic wrapping or outflow clamping.
+/// Physical boundaries use per-face wrapping, clamping, reflection, or analytic data.
 HaloPlan makeHaloPlan(Config const& config, std::vector<Subgrid> const& blocks, std::size_t index);
 
 

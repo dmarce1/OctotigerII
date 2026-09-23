@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "octotigerII/buildConfig.hpp"
+#include "octotigerII/physics/boundary.hpp"
 #include "octotigerII/units/constants.hpp"
 
 namespace octotigerII {
@@ -23,11 +24,11 @@ public:
 	public:
 		int cells = 16, level = 1;
 		units::Length lower{}, upper = units::Length::from_value(1);
-		bool periodic = false;
+		physics::BoundaryConditions boundary;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & cells & level & lower & upper & periodic;
+			archive & cells & level & lower & upper & boundary;
 		}
 	} mesh;
 
