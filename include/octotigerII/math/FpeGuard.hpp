@@ -1,10 +1,16 @@
+/** @file
+ * @brief Scoped floating-point exception checking around numerical kernels.
+ * @ingroup math
+ */
 #pragma once
 #include <cfenv>
 
 #if defined(__GLIBC__) || defined(__linux__)
 extern "C" {
 int fegetexcept();
+
 int feenableexcept(int);
+
 int fedisableexcept(int);
 }
 #define hasFpeEnableExcept 1
@@ -12,8 +18,13 @@ int fedisableexcept(int);
 #define hasFpeEnableExcept 0
 #endif
 
+
+/// Preserves the floating-point environment while checking sensitive calculations.
+/// The guard is scoped to the executing thread; it does not validate remote work.
+/// @ingroup math
 class FpeGuard {
-  public:
+public:
+
 	explicit FpeGuard(int mask = (FE_DIVBYZERO | FE_OVERFLOW | FE_INVALID)) noexcept {
 #if hasFpeEnableExcept
 		previousEnabled = fegetexcept();
@@ -29,14 +40,13 @@ class FpeGuard {
 			feenableexcept(enabledHere);
 		}
 #else
-		(void)mask;
+		(void) mask;
 #endif
 	}
 
 	FpeGuard(FpeGuard const&) = delete;
+
 	FpeGuard(FpeGuard&&) = delete;
-	FpeGuard& operator=(FpeGuard const&) = delete;
-	FpeGuard& operator=(FpeGuard&&) = delete;
 
 	~FpeGuard() noexcept {
 #if hasFpeEnableExcept
@@ -61,7 +71,12 @@ class FpeGuard {
 #endif
 	}
 
-  private:
+	FpeGuard& operator=(FpeGuard const&) = delete;
+
+	FpeGuard& operator=(FpeGuard&&) = delete;
+
+private:
+
 	int previousEnabled = -1;
 	int enabledHere = 0;
 	std::fexcept_t previousFlags{};

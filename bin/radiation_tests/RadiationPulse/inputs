@@ -1,0 +1,8 @@
+# Multidimensional periodic initially isotropic M1 pulse
+# All dimensional values are cgs.
+mesh.cells=8
+mesh.level=1
+runtime.stopTime=0.2
+mesh.periodic=on
+output.directory=output/radiation-pulse
+output.every=10

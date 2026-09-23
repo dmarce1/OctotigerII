@@ -3,10 +3,11 @@
 
 #include "octotigerII/physics/finiteVolume.hpp"
 
+
 namespace octotigerII::physics {
 
 std::string_view finiteVolumeSchemeName() {
 	return "unsplit MUSCL-Hancock with face-centered fluxes";
 }
 
-} // namespace octotigerII::physics
+}	 // namespace octotigerII::physics

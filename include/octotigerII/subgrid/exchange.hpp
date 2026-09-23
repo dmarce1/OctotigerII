@@ -24,7 +24,7 @@ template <class State> struct FieldFluxPacket {
 	mesh::BlockLocation location;
 	mesh::MeshLayout layout;
 	mesh::PhysicalCoordinates lower{};
-	Real cellWidth = 1;
+	units::Length cellWidth = units::Length::from_value(1);
 	mesh::TimeInterval interval;
 	std::vector<std::vector<State>> fluxes;
 	template <class Archive> void serialize(Archive& archive, unsigned) {
@@ -34,8 +34,8 @@ template <class State> struct FieldFluxPacket {
 
 struct ExchangeDomain {
 	int dimensionCount = 3;
-	Real lower = -1;
-	Real upper = 1;
+	units::Length lower = units::Length::from_value(-1);
+	units::Length upper = units::Length::from_value(1);
 	bool periodic = false;
 	template <class Archive> void serialize(Archive& archive, unsigned) {
 		archive & dimensionCount & lower & upper & periodic;
@@ -44,21 +44,22 @@ struct ExchangeDomain {
 
 namespace transportExchange {
 inline void validateDomain(ExchangeDomain const& domain) {
-	if (domain.dimensionCount < 1 || domain.dimensionCount > 3 || !std::isfinite(domain.lower) ||
-		!std::isfinite(domain.upper) || !(domain.upper > domain.lower) ||
-		!std::isfinite(domain.upper - domain.lower))
+	if (domain.dimensionCount < 1 || domain.dimensionCount > 3 || !units::finite(domain.lower) ||
+		!units::finite(domain.upper) || !(domain.upper > domain.lower) ||
+		!units::finite(domain.upper - domain.lower))
 		throw std::invalid_argument(
 			"Transport domain must have 1-3 dimensions and finite increasing bounds");
 }
 
-inline bool sameTime(Real left, Real right) {
-	return std::isfinite(left) && std::isfinite(right) &&
-		   std::abs(left - right) <= 64 * epsilonR * std::max(std::abs(left), std::abs(right));
+inline bool sameTime(units::Time left, units::Time right) {
+	return units::finite(left) && units::finite(right) &&
+		   units::abs(left - right) <=
+			   64 * epsilonR * std::max(units::abs(left), units::abs(right));
 }
 
 template <class State>
 void fillHalo(mesh::PatchData<State>& target, std::vector<FieldSnapshot<State>> const& sources,
-			  ExchangeDomain const& domain, Real time, bool includeInterior = false) {
+			  ExchangeDomain const& domain, units::Time time, bool includeInterior = false) {
 	validateDomain(domain);
 	auto const& layout = target.layout();
 	if (layout.dimensionCount() != domain.dimensionCount || !(domain.upper > domain.lower) ||
@@ -71,8 +72,8 @@ void fillHalo(mesh::PatchData<State>& target, std::vector<FieldSnapshot<State>> 
 				"Transport halo snapshot has wrong dimension or physical time");
 	}
 	auto const extents = layout.extents();
-	Real const width = target.cellWidth();
-	Real const volume = layout.cellMeasure(width);
+	auto const width = target.cellWidth();
+	// Accumulate dimensionless fractions of the target cell volume.
 	for (int z = 0; z < extents[2]; ++z)
 		for (int y = 0; y < extents[1]; ++y)
 			for (int x = 0; x < extents[0]; ++x) {
@@ -84,9 +85,9 @@ void fillHalo(mesh::PatchData<State>& target, std::vector<FieldSnapshot<State>> 
 					cell[axis] -= layout.ghostWidth();
 				mesh::PhysicalCoordinates low{};
 				for (int axis = 0; axis < domain.dimensionCount; ++axis) {
-					low[axis] = target.lower()[axis] + cell[axis] * width;
+					low[axis] = target.lower()[axis] + Real(cell[axis]) * width;
 					if (domain.periodic) {
-						Real const length = domain.upper - domain.lower;
+						auto const length = domain.upper - domain.lower;
 						low[axis] -= std::floor((low[axis] - domain.lower) / length) * length;
 					} else {
 						low[axis] = std::clamp(low[axis], domain.lower, domain.upper - width);
@@ -97,7 +98,7 @@ void fillHalo(mesh::PatchData<State>& target, std::vector<FieldSnapshot<State>> 
 				for (auto const& source : sources) {
 					auto const& patch = source.fields;
 					auto const& sourceLayout = patch.layout();
-					Real const sourceWidth = patch.cellWidth();
+					auto const sourceWidth = patch.cellWidth();
 					mesh::Coordinates first{}, last{};
 					bool overlaps = true;
 					for (int axis = 0; axis < domain.dimensionCount; ++axis) {
@@ -120,17 +121,19 @@ void fillHalo(mesh::PatchData<State>& target, std::vector<FieldSnapshot<State>> 
 								mesh::Coordinates const donor{i, j, k};
 								Real overlap = 1;
 								for (int axis = 0; axis < domain.dimensionCount; ++axis) {
-									Real const donorLow =
-										patch.lower()[axis] + donor[axis] * sourceWidth;
-									overlap *= std::max(Real(0), std::min(low[axis] + width,
-																		  donorLow + sourceWidth) -
-																	 std::max(low[axis], donorLow));
+									auto const donorLow =
+										patch.lower()[axis] + Real(donor[axis]) * sourceWidth;
+									overlap *= std::max(units::Length{},
+														std::min(low[axis] + width,
+																 donorLow + sourceWidth) -
+															std::max(low[axis], donorLow)) /
+											   width;
 								}
 								sum += overlap * patch.atInterior(donor);
 								coverage += overlap;
 							}
 				}
-				if (std::abs(coverage - volume) > 256 * epsilonR * volume)
+				if (std::abs(coverage - Real(1)) > 256 * epsilonR)
 					throw std::runtime_error(
 						"Halo directory has a gap, overlap, or unsupported periodic cell");
 				target.atStorage(storage) = sum / coverage;
@@ -138,27 +141,28 @@ void fillHalo(mesh::PatchData<State>& target, std::vector<FieldSnapshot<State>> 
 }
 
 template <int dimensions, class State, class System>
-FieldFluxPacket<State> advance(mesh::BlockLocation const& location, mesh::PatchData<State>& fields,
-							   std::vector<FieldSnapshot<State>> const& sources,
-							   ExchangeDomain const& domain, System const& system, Real stepSize) {
+FieldFluxPacket<typename System::Flux>
+advance(mesh::BlockLocation const& location, mesh::PatchData<State>& fields,
+		std::vector<FieldSnapshot<State>> const& sources, ExchangeDomain const& domain,
+		System const& system, units::Time stepSize) {
 	physics::MusclHancock<System, dimensions> solver{system};
-	Real const begin = fields.timeState().time;
+	auto const begin = fields.timeState().time;
 	auto result = solver.advanceWithBoundaryUpdater(
-		fields, stepSize, [&](mesh::PatchData<State>& target, Real requestedTime) {
+		fields, stepSize, [&](mesh::PatchData<State>& target, units::Time requestedTime) {
 			// End-state halos require the global end-state barrier. They must
 			// NOT be refreshed using old snapshots mislabeled as new time.
 			if (requestedTime == begin) {
 				fillHalo(target, sources, domain, requestedTime);
 			}
 		});
-	FieldFluxPacket<State> packet{location,			  fields.layout(),	   fields.lower(),
-								  fields.cellWidth(), result.timeInterval, {}};
+	FieldFluxPacket<typename System::Flux> packet{
+		location, fields.layout(), fields.lower(), fields.cellWidth(), result.timeInterval, {}};
 	for (auto& flux : result.faceFluxes)
 		packet.fluxes.push_back(std::move(flux));
 	return packet;
 }
 template <class State, class System>
-Real stableStep(mesh::PatchData<State> const& fields, System const& system, Real cfl) {
+units::Time stableStep(mesh::PatchData<State> const& fields, System const& system, Real cfl) {
 	switch (fields.layout().dimensionCount()) {
 	case 1:
 		return physics::MusclHancock<System, 1>(system).stableTimestep(fields, cfl);
@@ -171,10 +175,10 @@ Real stableStep(mesh::PatchData<State> const& fields, System const& system, Real
 }
 
 template <class State, class System>
-FieldFluxPacket<State>
+FieldFluxPacket<typename System::Flux>
 advancePatch(mesh::BlockLocation const& location, mesh::PatchData<State>& fields,
 			 std::vector<FieldSnapshot<State>> const& sources, ExchangeDomain const& domain,
-			 System const& system, Real stepSize) {
+			 System const& system, units::Time stepSize) {
 	switch (fields.layout().dimensionCount()) {
 	case 1:
 		return advance<1>(location, fields, sources, domain, system, stepSize);

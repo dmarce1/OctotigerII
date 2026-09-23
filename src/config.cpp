@@ -1,189 +1,222 @@
 #include "octotigerII/config.hpp"
 #include <cmath>
 #include <fstream>
-#include <map>
 #include <sstream>
 #include <stdexcept>
+#include <string>
+#include <vector>
+#include "octotigerII/problems.hpp"
+
+#ifdef OCTOTIGERII_WITH_HPX
+#include <hpx/modules/program_options.hpp>
+#else
+#include <boost/program_options.hpp>
+#endif
 
 namespace octotigerII {
+
 namespace {
-std::string trim(std::string s) {
-	auto first = s.find_first_not_of(" \t\r\n");
-	return first == std::string::npos ? ""
-									  : s.substr(first, s.find_last_not_of(" \t\r\n") - first + 1);
-}
-using Settings = std::map<std::string, std::string>;
-void setting(Settings& values, std::string line) {
-	auto pos = line.find('=');
-	if (pos == std::string::npos)
-		throw std::invalid_argument("Expected key=value: " + line);
-	std::string key = trim(line.substr(0, pos)), value = trim(line.substr(pos + 1));
-	if (key.empty() || value.empty())
-		throw std::invalid_argument("Empty setting: " + line);
-	values[key] = value;
-}
-Real number(std::string const& value) {
-	std::size_t consumed = 0;
-	Real x = std::stod(value, &consumed);
-	if (consumed != value.size() || !std::isfinite(x))
-		throw std::invalid_argument("Invalid number: " + value);
-	return x;
-}
-int integer(std::string const& value) {
-	std::size_t consumed = 0;
-	int x = std::stoi(value, &consumed);
-	if (consumed != value.size())
-		throw std::invalid_argument("Invalid integer: " + value);
-	return x;
-}
-bool boolean(std::string const& value) {
-	if (value == "on" || value == "true")
-		return true;
-	if (value == "off" || value == "false")
-		return false;
-	throw std::invalid_argument("Expected on/off: " + value);
-}
-} // namespace
-bool Config::hydroEnabled() const {
-	return problem == "sod" || problem == "kelvin-helmholtz" || problem == "collapse";
-}
-bool Config::radiationEnabled() const {
-	return problem == "streaming" || problem == "radiation-pulse";
-}
-bool Config::gravityEnabled() const {
-	return problem == "gravity-sphere" || problem == "gravity-gaussian" || problem == "collapse";
-}
-void Config::validate() const {
-	if (!hydroEnabled() && !radiationEnabled() && !gravityEnabled())
-		throw std::invalid_argument("Unknown problem: " + problem);
-	if (dimensions < 1 || dimensions > 3 || cells < 4 || cells > 128 || (cells & (cells - 1)) ||
-		level < 0 || level > 6)
-		throw std::invalid_argument("mesh: ndim=1..3, cells=power of two in [4,128], level=0..6");
-	if (!(upper > lower) || !std::isfinite(upper - lower) || !(stopTime >= 0) ||
-		!(cfl > 0 && cfl <= 0.5) || !(gamma > 1) ||
-		!(lightSpeedRatio > 0 && lightSpeedRatio <= 1) || maxSteps < 1 || outputEvery < 1)
-		throw std::invalid_argument("Invalid domain, timestep, gas, radiation, or output setting");
-	if (gravityEnabled() && (dimensions != 3 || periodic))
-		throw std::invalid_argument("Gravity currently requires 3D isolated boundaries");
-	if (multipoleOrder < 3 || multipoleOrder > 5 ||
-		!(openingAngle > 0 && openingAngle < 1 / std::sqrt(3.0)))
-		throw std::invalid_argument("Gravity requires order 3..5 and 0<opening_angle<1/sqrt(3)");
-	if (problem == "sod" && (dimensions != 1 || periodic))
-		throw std::invalid_argument("Sod requires 1D outflow boundaries");
-	if (problem == "kelvin-helmholtz" && (dimensions != 2 || !periodic))
-		throw std::invalid_argument("Kelvin-Helmholtz requires 2D periodic boundaries");
-	if (outputFormat != "csv" && outputFormat != "silo")
-		throw std::invalid_argument("output.format must be csv or silo");
-#ifndef OCTOTIGERII_WITH_SILO
-	if (outputEnabled && outputFormat == "silo")
-		throw std::invalid_argument("Silo output requires OCTOTIGERII_WITH_SILO=ON");
+
+#ifdef OCTOTIGERII_WITH_HPX
+	namespace po = hpx::program_options;
+#else
+	namespace po = boost::program_options;
 #endif
-	if (outputDirectory.empty())
-		throw std::invalid_argument("Empty output directory");
-	if (gravityEnabled() && !hydroEnabled() && stopTime != 0)
-		throw std::invalid_argument("Static gravity examples require runtime.stop_time=0");
+
+	void addSettings(po::options_description& description) {
+		auto options = description.add_options();
+		options("randomSeed", po::value<std::int64_t>(), "Global nonnegative random seed (default 5489)");
+		options("verification.analytic", po::value<std::string>(), "Analytic comparison: auto (default), on (required), off");
+		options("verification.gravityReference", po::value<std::string>(), "Gravity reference: direct (default) or continuum");
+		options("verification.directMaxPairs", po::value<std::int64_t>(), "Direct-reference pair budget (default 20000000; at least one complete target)");
+		options("verification.directSamples", po::value<std::int64_t>(),
+			"Number of direct-reference targets; 0 selects automatically, positive overrides the pair budget");
+		options("verification.relativeL1Tolerance", po::value<Real>(), "Maximum relative L1 for each reference field; -1 disables the accuracy gate");
+		options("verification.absoluteTolerance", po::value<Real>(), "Maximum absolute Linf for zero-reference fields (CGS), when the gate is enabled");
+		options("mesh.cells", po::value<int>(), "Cells per block per active axis");
+		options("mesh.level", po::value<int>(), "Uniform block level");
+		options("mesh.lower", po::value<Real>(), "Lower domain coordinate (cm)");
+		options("mesh.upper", po::value<Real>(), "Upper domain coordinate (cm)");
+		options("mesh.periodic", po::value<std::string>(), "Periodic boundaries: on/off");
+		options("runtime.stopTime", po::value<Real>(), "Stop time (s)");
+		options("runtime.maxSteps", po::value<int>(), "Maximum number of steps");
+		options("runtime.workerTasks", po::value<int>(), "Maximum concurrent tasks; 0 uses worker count");
+		options("runtime.workStealing", po::value<std::string>(), "Remote work stealing: on/off");
+		options("timestep.cfl", po::value<Real>(), "Courant factor");
+		options("hydro.gamma", po::value<Real>(), "Ideal-gas adiabatic index");
+		options("radiation.lightSpeedRatio", po::value<Real>(), "Radiation transport speed divided by c");
+		options("gravity.multipoleOrder", po::value<int>(), "Gravity expansion order (1..10)");
+		options("gravity.openingAngle", po::value<Real>(), "Gravity opening angle");
+		options("output.enabled", po::value<std::string>(), "Silo output: on/off");
+		options("output.every", po::value<int>(), "Output every N steps");
+		options("output.directory", po::value<std::string>(), "Silo output directory");
+	}
+
+	void addLegacySettings(po::options_description& description) {
+		auto options = description.add_options();
+		options("runtime.stop_time", po::value<Real>(), "Alias for runtime.stopTime");
+		options("runtime.max_steps", po::value<int>(), "Alias for runtime.maxSteps");
+		options("runtime.worker_tasks", po::value<int>(), "Alias for runtime.workerTasks");
+		options("runtime.work_stealing", po::value<std::string>(), "Alias for runtime.workStealing");
+		options("radiation.light_speed_ratio", po::value<Real>(), "Alias for radiation.lightSpeedRatio");
+		options("gravity.multipole_order", po::value<int>(), "Alias for gravity.multipoleOrder");
+		options("gravity.opening_angle", po::value<Real>(), "Alias for gravity.openingAngle");
+	}
+
+	char const* selectedKey(po::variables_map const& values, char const* key, char const* legacy = nullptr) {
+		bool const canonicalPresent = values.count(key) != 0;
+		bool const legacyPresent = legacy != nullptr && values.count(legacy) != 0;
+		if (canonicalPresent && legacyPresent) throw std::invalid_argument(std::string("Conflicting names for ") + key + ": " + legacy);
+		if (canonicalPresent) return key;
+		if (legacyPresent) return legacy;
+		return nullptr;
+	}
+
+	template <typename T>
+	void readOption(po::variables_map const& values, char const* key, T& target, char const* legacy = nullptr) {
+		if (char const* selected = selectedKey(values, key, legacy)) target = values[selected].as<T>();
+	}
+
+	void readNumber(po::variables_map const& values, char const* key, Real& target, char const* legacy = nullptr) {
+		using std::isfinite;
+
+		if (char const* selected = selectedKey(values, key, legacy)) {
+			Real const value = values[selected].as<Real>();
+			if (!isfinite(value)) throw std::invalid_argument(std::string("Invalid number for ") + key);
+			target = value;
+		}
+	}
+
+	void readBoolean(po::variables_map const& values, char const* key, bool& target, char const* legacy = nullptr) {
+		if (char const* selected = selectedKey(values, key, legacy)) {
+			std::string const value = values[selected].as<std::string>();
+			if (value == "on" || value == "true")
+				target = true;
+			else if (value == "off" || value == "false")
+				target = false;
+			else
+				throw std::invalid_argument(std::string("Expected on/off for ") + key + ": " + value);
+		}
+	}
+
+	void applySettings(Config& config, po::variables_map const& values) {
+		if (values.count("problem.name") || values.count("mesh.ndim"))
+			throw std::invalid_argument("Problem and dimension are build choices; select OCTOTIGERII_PROBLEM and OCTOTIGERII_NDIM in CMake");
+
+		readOption(values, "randomSeed", config.randomSeed);
+		readOption(values, "verification.analytic", config.verification.analytic);
+		readOption(values, "verification.gravityReference", config.verification.gravityReference);
+		readOption(values, "verification.directMaxPairs", config.verification.directMaxPairs);
+		readOption(values, "verification.directSamples", config.verification.directSamples);
+		readNumber(values, "verification.relativeL1Tolerance", config.verification.relativeL1Tolerance);
+		readNumber(values, "verification.absoluteTolerance", config.verification.absoluteTolerance);
+		readOption(values, "mesh.cells", config.mesh.cells);
+		readOption(values, "mesh.level", config.mesh.level);
+		readBoolean(values, "mesh.periodic", config.mesh.periodic);
+		Real lower = units::value(config.mesh.lower), upper = units::value(config.mesh.upper);
+		readNumber(values, "mesh.lower", lower);
+		readNumber(values, "mesh.upper", upper);
+		config.mesh.lower = units::Length::from_value(lower);
+		config.mesh.upper = units::Length::from_value(upper);
+
+		Real stopTime = units::value(config.runtime.stopTime);
+		readNumber(values, "runtime.stopTime", stopTime, "runtime.stop_time");
+		config.runtime.stopTime = units::Time::from_value(stopTime);
+		readOption(values, "runtime.maxSteps", config.runtime.maxSteps, "runtime.max_steps");
+		readOption(values, "runtime.workerTasks", config.runtime.workerTasks, "runtime.worker_tasks");
+		readBoolean(values, "runtime.workStealing", config.runtime.workStealing, "runtime.work_stealing");
+
+		readNumber(values, "timestep.cfl", config.timestep.cfl);
+		readNumber(values, "hydro.gamma", config.hydro.gamma);
+		readNumber(values, "radiation.lightSpeedRatio", config.radiation.lightSpeedRatio, "radiation.light_speed_ratio");
+		readOption(values, "gravity.multipoleOrder", config.gravity.multipoleOrder, "gravity.multipole_order");
+		readNumber(values, "gravity.openingAngle", config.gravity.openingAngle, "gravity.opening_angle");
+		readBoolean(values, "output.enabled", config.output.enabled);
+		readOption(values, "output.every", config.output.every);
+		readOption(values, "output.directory", config.output.directory);
+	}
+
+}	 // namespace
+
+void Config::validate() const {
+	using std::isfinite;
+	using std::sqrt;
+
+	if (verification.analytic != "auto" && verification.analytic != "on" && verification.analytic != "off")
+		throw std::invalid_argument("verification.analytic must be auto, on, or off");
+	if (!isfinite(verification.relativeL1Tolerance) || !isfinite(verification.absoluteTolerance) ||
+		(verification.relativeL1Tolerance < 0 && verification.relativeL1Tolerance != -1) || verification.absoluteTolerance < 0 ||
+		(verification.analytic == "off" && verification.relativeL1Tolerance >= 0))
+		throw std::invalid_argument("Invalid analytic verification tolerance or disabled accuracy gate");
+	if (verification.gravityReference != "direct" && verification.gravityReference != "continuum")
+		throw std::invalid_argument("verification.gravityReference must be direct or continuum");
+	if (verification.directMaxPairs < 1 || verification.directSamples < 0)
+		throw std::invalid_argument("Direct pair budget must be positive and directSamples nonnegative");
+	if (randomSeed < 0) throw std::invalid_argument("randomSeed must be nonnegative");
+	validateProblem(*this);
+	if (mesh.cells < 4 || mesh.cells > 128 || (mesh.cells & (mesh.cells - 1)) || mesh.level < 0 || mesh.level > 6)
+		throw std::invalid_argument("mesh: cells=power of two in [4,128], level=0..6");
+	if (!(mesh.upper > mesh.lower) || !units::finite(mesh.upper - mesh.lower) || !(runtime.stopTime >= units::Time{}) ||
+		!(timestep.cfl > 0 && timestep.cfl <= 0.5) || !(hydro.gamma > 1) || !(radiation.lightSpeedRatio > 0 && radiation.lightSpeedRatio <= 1) ||
+		runtime.maxSteps < 1 || output.every < 1 || runtime.workerTasks < 0)
+		throw std::invalid_argument("Invalid domain, timestep, gas, radiation, or output setting");
+	if (gravityEnabled() && mesh.periodic) throw std::invalid_argument("Gravity currently requires 3D isolated boundaries");
+	if (gravity.multipoleOrder < 1 || gravity.multipoleOrder > 10 || !(gravity.openingAngle > 0 && gravity.openingAngle < 1 / sqrt(3.0)))
+		throw std::invalid_argument("Gravity requires order 1..10 and 0<openingAngle<1/sqrt(3)");
+	if (output.directory.empty()) throw std::invalid_argument("Empty output directory");
 }
 
 Config parseConfig(std::vector<std::string> const& arguments) {
-	Settings values;
-	// Config files first, CLI overrides second, independent of argument order.
-	for (auto const& arg : arguments)
-		if (arg.starts_with("--config=")) {
-			std::ifstream in(arg.substr(9));
-			if (!in)
-				throw std::runtime_error("Cannot open config: " + arg.substr(9));
-			std::string line;
-			while (std::getline(in, line)) {
-				line = trim(line.substr(0, line.find_first_of("#;")));
-				if (!line.empty())
-					setting(values, line);
-			}
+	po::options_description settings("Simulation options");
+	addSettings(settings);
+	po::options_description legacy("Legacy aliases");
+	addLegacySettings(legacy);
+	po::options_description buildChoices("Build-time choices");
+	buildChoices.add_options()("problem.name", po::value<std::string>(), "Select OCTOTIGERII_PROBLEM in CMake")(
+		"mesh.ndim", po::value<int>(), "Select OCTOTIGERII_NDIM in CMake");
+	po::options_description iniOptions;
+	iniOptions.add(settings).add(legacy).add(buildChoices);
+	po::options_description commandOptions;
+	commandOptions.add(iniOptions);
+	commandOptions.add_options()("config", po::value<std::vector<std::string>>()->composing(), "INI file (repeatable)");
+
+	po::variables_map commandValues;
+	po::store(po::command_line_parser(arguments)
+				  .options(commandOptions)
+				  .style(po::command_line_style::allow_long | po::command_line_style::long_allow_adjacent)
+				  .run(),
+		commandValues);
+	po::notify(commandValues);
+
+	Config config;
+	problemDefaults(config);
+	if (commandValues.count("config")) {
+		for (std::string const& path : commandValues["config"].as<std::vector<std::string>>()) {
+			std::ifstream input(path);
+			if (!input) throw std::runtime_error("Cannot open config: " + path);
+			po::variables_map iniValues;
+			po::store(po::parse_config_file(input, iniOptions), iniValues);
+			po::notify(iniValues);
+			applySettings(config, iniValues);
 		}
-	for (auto const& arg : arguments) {
-		if (arg.starts_with("--config="))
-			continue;
-		if (!arg.starts_with("--"))
-			throw std::invalid_argument("Expected --key=value: " + arg);
-		setting(values, arg.substr(2));
 	}
-	Config c;
-	if (auto it = values.find("problem.name"); it != values.end())
-		c.problem = it->second;
-	// Small, explicit defaults for each ordinary problem.
-	if (c.problem == "kelvin-helmholtz") {
-		c.dimensions = 2;
-		c.periodic = true;
-		c.stopTime = 0.1;
-	}
-	if (c.radiationEnabled()) {
-		c.lower = -3e10;
-		c.upper = 3e10;
-		c.stopTime = 0.4;
-		c.periodic = true;
-	}
-	if (c.gravityEnabled()) {
-		c.dimensions = 3;
-		c.cells = 4;
-		c.lower = -1e9;
-		c.upper = 1e9;
-		c.stopTime = 0;
-	}
-	if (c.problem == "collapse")
-		c.stopTime = 1;
-	for (auto const& [key, v] : values) {
-		if (key == "problem.name")
-			c.problem = v;
-		else if (key == "mesh.ndim")
-			c.dimensions = integer(v);
-		else if (key == "mesh.cells")
-			c.cells = integer(v);
-		else if (key == "mesh.level")
-			c.level = integer(v);
-		else if (key == "mesh.lower")
-			c.lower = number(v);
-		else if (key == "mesh.upper")
-			c.upper = number(v);
-		else if (key == "mesh.periodic")
-			c.periodic = boolean(v);
-		else if (key == "runtime.stop_time")
-			c.stopTime = number(v);
-		else if (key == "runtime.max_steps")
-			c.maxSteps = integer(v);
-		else if (key == "timestep.cfl")
-			c.cfl = number(v);
-		else if (key == "hydro.gamma")
-			c.gamma = number(v);
-		else if (key == "radiation.light_speed_ratio")
-			c.lightSpeedRatio = number(v);
-		else if (key == "gravity.multipole_order")
-			c.multipoleOrder = integer(v);
-		else if (key == "gravity.opening_angle")
-			c.openingAngle = number(v);
-		else if (key == "output.enabled")
-			c.outputEnabled = boolean(v);
-		else if (key == "output.every")
-			c.outputEvery = integer(v);
-		else if (key == "output.directory")
-			c.outputDirectory = v;
-		else if (key == "output.format")
-			c.outputFormat = v;
-		else
-			throw std::invalid_argument("Unknown option: " + key);
-	}
-	c.validate();
-	return c;
+	applySettings(config, commandValues);
+	config.validate();
+	return config;
 }
+
 std::string helpText() {
-	return "OctotigerII 0.1.0 (cgs)\n"
-		   "Usage: octotigerII --config=examples/sod.ini [--key=value ...]\n"
-		   "Problems: sod, kelvin-helmholtz, gravity-sphere, gravity-gaussian,\n"
-		   "          streaming, radiation-pulse, collapse\n"
-		   "Options: problem.name, mesh.ndim, mesh.cells, mesh.level, mesh.lower,\n"
-		   "         mesh.upper, mesh.periodic, runtime.stop_time, runtime.max_steps,\n"
-		   "         timestep.cfl, hydro.gamma, radiation.light_speed_ratio,\n"
-		   "         gravity.multipole_order, gravity.opening_angle, output.enabled,\n"
-		   "         output.every, output.directory, output.format (csv|silo)\n"
-		   "Booleans: on/off. mesh.cells is cells per block per active axis.\n"
-		   "Fixed hierarchy: 2^mesh.level blocks per active axis.\n";
+	po::options_description settings("Simulation options");
+	addSettings(settings);
+	std::ostringstream output;
+	output << build::executable << " (CGS, " << ndim << "D)\n"
+		   << "Usage: " << build::executable << " [--config=/path/to/bin/problem/inputs] [--key=value ...]\n"
+		   << "Problem and dimension are fixed at build time. CLI values override INI files.\n"
+		   << "Settings use dotted groups; snake_case names remain supported as aliases.\n"
+		   << "Booleans: on/off. mesh.cells is cells per block per active axis.\n"
+		   << "Cartesian blocks: 2^mesh.level blocks per axis.\n\n"
+		   << settings;
+	return output.str();
 }
-} // namespace octotigerII
+
+}	 // namespace octotigerII

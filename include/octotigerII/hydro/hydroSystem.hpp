@@ -1,100 +1,87 @@
-// Copyright (c) 2026 AUTHORS
+/** @file
+ * @brief Ideal-gas Euler states, HLLC fluxes, and positivity safeguards.
+ * @ingroup numerics
+ */
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
-
-#include "octotigerII/math/Vector.hpp"
 #include "octotigerII/mesh.hpp"
 #include "octotigerII/physics/finiteVolume.hpp"
+#include "octotigerII/units/cgs.hpp"
+#include "octotigerII/units/state.hpp"
 
-#include <array>
 
 namespace octotigerII::hydro {
+using ConservedState = units::FluidState<units::Density, units::MomentumDensity, units::EnergyDensity>;
+using PrimitiveState = units::FluidState<units::Density, units::Velocity, units::Pressure>;
+using ConservedFlux = units::FluidState<units::MassFlux, units::MomentumFlux, units::EnergyFlux>;
 
-class ConservedState : public Vector<Real, 5> {
-  public:
-	using Vector<Real, 5>::Vector;
-	constexpr ConservedState() = default;
-	constexpr ConservedState(Vector<Real, 5> const& state) : Vector<Real, 5>(state) {}
 
-	constexpr Real& density() {
-		return (*this)[0];
-	}
-	constexpr Real density() const {
-		return (*this)[0];
-	}
-	constexpr Real& momentum(int axis) {
-		return (*this)[axis + 1];
-	}
-	constexpr Real momentum(int axis) const {
-		return (*this)[axis + 1];
-	}
-	constexpr Real& totalEnergy() {
-		return (*this)[4];
-	}
-	constexpr Real totalEnergy() const {
-		return (*this)[4];
-	}
-};
-
-class PrimitiveState : public Vector<Real, 5> {
-  public:
-	using Vector<Real, 5>::Vector;
-	constexpr PrimitiveState() = default;
-	constexpr PrimitiveState(Vector<Real, 5> const& state) : Vector<Real, 5>(state) {}
-
-	constexpr Real& density() {
-		return (*this)[0];
-	}
-	constexpr Real density() const {
-		return (*this)[0];
-	}
-	constexpr Real& velocity(int axis) {
-		return (*this)[axis + 1];
-	}
-	constexpr Real velocity(int axis) const {
-		return (*this)[axis + 1];
-	}
-	constexpr Real& pressure() {
-		return (*this)[4];
-	}
-	constexpr Real pressure() const {
-		return (*this)[4];
-	}
-};
-
+/// Ideal-gas Euler flux adapter with primitive reconstruction.
+/// HLLC follows @ref ref_toro1994 "Toro et al. (1994)"; inadmissible or degenerate
+/// star states fall back to the HLL flux of @ref ref_harten1983 "Harten et al. (1983)".
+/// @ingroup numerics
 class HydroSystem {
-  public:
+public:
+
 	using State = ConservedState;
 	using Reconstruction = PrimitiveState;
+	using Flux = ConservedFlux;
 
-	explicit HydroSystem(Real adiabaticIndex = Real(5) / 3, Real densityFloor = Real(1e-14),
-						 Real pressureFloor = Real(1e-14));
+	explicit HydroSystem(Real adiabaticIndex = Real(5) / 3, units::Density densityFloor = units::Density::from_value(1e-14),
+		units::Pressure pressureFloor = units::Pressure::from_value(1e-14));
 
+	/// Return the ideal-gas ratio of specific heats.
 	Real adiabaticIndex() const;
-	[[nodiscard]] PrimitiveState reconstructionVariables(ConservedState const& state) const;
-	[[nodiscard]] ConservedState conservedState(PrimitiveState const& state) const;
-	ConservedState physicalFlux(ConservedState const& state, int normal) const;
-	ConservedState riemann(ConservedState const& left, ConservedState const& right,
-						   int normal) const;
-	[[nodiscard]] ConservedState reflected(ConservedState state, int normal) const;
-	Real maximumSignalSpeed(ConservedState const& state, int normal) const;
-	bool admissible(ConservedState const& state) const;
-	[[nodiscard]] ConservedState correctRoundoff(ConservedState state, Real updateScale) const;
-	[[nodiscard]] ConservedState limitFlux(ConservedState const& left, ConservedState const& right,
-										   ConservedState const& highOrderFlux, int normal,
-										   Real stepOverCellWidth, int dimensionCount) const;
 
-  private:
+	/// Convert (ρ, ρv, E) to (ρ, v, P); reject inadmissible input.
+	PrimitiveState reconstructionVariables(State const&) const;
+
+	/// Convert primitive CGS quantities to density, momentum density, and total energy density.
+	State conservedState(PrimitiveState const&) const;
+
+	/// Return the Euler flux normal to an axis in [0, ndim).
+	Flux physicalFlux(State const&, int normal) const;
+
+	/// Return the HLLC face flux, falling back to HLL for degenerate or inadmissible star states.
+	Flux riemann(State const&, State const&, int normal) const;
+
+	/// Reverse normal momentum while preserving density, tangential momenta, and energy.
+	State reflected(State, int normal) const;
+
+	/// Return |v_n| plus the adiabatic sound speed.
+	units::Velocity maximumSignalSpeed(State const&, int normal) const;
+
+	/// Require finite state values and density/pressure at or above the configured floors.
+	bool admissible(State const&) const;
+
+	/// Return the candidate unchanged; hydro does not silently repair a failed state.
+	State correctRoundoff(State, State const& updateScale) const;
+
+	/// Blend toward a first-order local Lax–Friedrichs flux when needed.
+	/// A common face coefficient preserves conservative flux sharing. Related idea:
+	/// @ref ref_hu2013 "Hu et al. (2013)"; this implementation selects it by bisection.
+	Flux limitFlux(State const&, State const&, Flux const&, int normal, units::TimePerLength stepOverCellWidth) const;
+
+	/// Multiply a face-flux difference by Δt/Δx to obtain a typed state increment.
+	static State integratedFlux(Flux const&, units::TimePerLength);
+
+	/// Multiply the typed state by velocity to obtain its advective flux.
+	static Flux advectiveFlux(State const&, units::Velocity);
+
+private:
+
 	Real adiabaticIndex_;
-	Real densityFloor_;
-	Real pressureFloor_;
+	units::Density densityFloor_;
+	units::Pressure pressureFloor_;
 
-	Real pressure(ConservedState const& state) const;
-	ConservedState hll(ConservedState const& left, ConservedState const& right, int normal) const;
+	/// Compute P=(γ−1)(E−|ρv|²/(2ρ)); invalid density returns negative infinity.
+	units::Pressure pressure(State const&) const;
+
+	/// Two-wave hydro fallback from @ref ref_harten1983 "Harten et al. (1983)".
+	Flux hll(State const&, State const&, int normal) const;
 };
 
-template <int dimensionCount> using Solver = physics::MusclHancock<HydroSystem, dimensionCount>;
 
+using Solver = physics::MusclHancock<HydroSystem>;
 using Fields = mesh::PatchData<ConservedState>;
-
-} // namespace octotigerII::hydro
+}	 // namespace octotigerII::hydro

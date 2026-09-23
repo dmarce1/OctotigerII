@@ -1,63 +1,88 @@
-"""Exercise the normal executable, strict options and physical output."""
-import csv
-import math
+"""Exercise one compiled problem/dimension, strict options, and Silo time series."""
 from pathlib import Path
+import json
+import math
 import subprocess
 import sys
 
-executable, examples, destination = map(Path, sys.argv[1:4])
-runtime_args = sys.argv[4:]
+executable, inputs, destination = map(Path, sys.argv[1:4])
+problem, ndim = sys.argv[4:6]
+runtime_args = sys.argv[6:]
+
 
 def execute(*args, success=True):
-    result = subprocess.run([str(executable), *args, *runtime_args], capture_output=True, text=True, timeout=120)
+    result = subprocess.run([str(executable), *args, *runtime_args],
+                            capture_output=True, text=True, timeout=120)
     if (result.returncode == 0) != success:
         raise RuntimeError(result.stdout + result.stderr)
     return result
 
-def read_frame(path):
-    with path.open() as stream:
-        return [{k: float(v) for k, v in row.items()} for row in csv.DictReader(stream)]
 
 execute('--not.an.option=1', success=False)
+execute('--output.format=csv', success=False)
 execute('--mesh.cells=7', success=False)
-execute('--mesh.ndim=nan', success=False)
-execute('--problem.name=gravity-sphere', '--mesh.periodic=on', success=False)
-execute('--problem.name=gravity-sphere', '--mesh.ndim=2', success=False)
-execute('--problem.name=streaming', '--radiation.light_speed_ratio=0', success=False)
-execute('--runtime.max_steps=1', '--runtime.stop_time=1', '--output.enabled=off', success=False)
+# Even matching values cannot masquerade as runtime configuration choices.
+execute('--problem.name=' + problem, success=False)
+execute('--mesh.ndim=' + ndim, success=False)
+execute('--radiation.lightSpeedRatio=0', success=False)
+static = problem in ('gravity-sphere', 'gravity-gaussian')
+if not static:
+    execute('--runtime.maxSteps=1', '--runtime.stopTime=1e6', '--output.enabled=off',
+            '--mesh.cells=4', '--mesh.level=0', success=False)
+if problem in ('gravity-sphere', 'gravity-gaussian', 'collapse'):
+    execute('--mesh.periodic=on', success=False)
 
-# Exact streaming translation at a reduced speed; physical flux must still
-# be c*E, not c_hat*E. A pointwise relative L1 check catches wrong direction,
-# missing evolution, and accidental use of the physical transport speed.
-for ratio in (1.0, 0.25):
-    folder = destination / str(ratio)
-    execute('--config=' + str(examples / 'streaming.ini'), '--mesh.cells=64',
-            '--runtime.stop_time=0.2', '--radiation.light_speed_ratio=' + str(ratio),
-            '--output.directory=' + str(folder), '--output.every=10000')
-    initial = read_frame(folder / 'frame_000000.csv')
-    final = read_frame(folder / 'frame_000001.csv')
-    length, speed, time = 6e10, 2.99792458e10, 0.2
-    error, norm = 0.0, 0.0
-    for row in final:
-        distance = row['x_cm'] - (-3e10 + 0.25 * length + ratio * speed * time)
-        distance -= round(distance / length) * length
-        exact = 1e-6 + math.exp(-0.5 * (distance / (0.08 * length)) ** 2)
-        error += abs(row['radiationEnergy'] - exact)
-        norm += abs(exact)
-        assert math.isclose(row['time_s'], time, rel_tol=1e-14)
-        assert math.isclose(row['radiationFluxX'], speed * row['radiationEnergy'], rel_tol=1e-11)
-    assert error / norm < 0.025, error / norm
-    initial_energy = sum(row['radiationEnergy'] * row['dx_cm'] for row in initial)
-    final_energy = sum(row['radiationEnergy'] * row['dx_cm'] for row in final)
-    assert math.isclose(initial_energy, final_energy, rel_tol=2e-12)
-    print(f'streaming ratio={ratio}: relative L1={error/norm:.6e}')
+result = execute('--config=' + str(inputs), '--mesh.cells=4', '--mesh.level=0',
+                 '--runtime.stopTime=' + ('0' if static else '0.001'),
+                 '--output.directory=' + str(destination), '--output.every=10000')
+assert 'Completed' in result.stdout and problem in result.stdout and ndim + 'D' in result.stdout
+frames = (destination / 'frames.visit').read_text().splitlines()
+assert frames == [f'frame_{i:06d}.silo' for i in range(len(frames))]
+assert len(frames) == (1 if static else 2)
+assert all((destination / frame).is_file() for frame in frames)
+print('Compiled problem/dimension, application options and Silo time series passed')
 
-# Gravity-only output must contain source density and physical gravity.
-folder = destination / 'gravity'
-execute('--config=' + str(examples / 'gravity-gaussian.ini'), '--output.directory=' + str(folder))
-rows = read_frame(folder / 'frame_000000.csv')
-assert len(rows) == 8**3
-assert all(row['potential'] < 0 and row['density'] > 0 for row in rows)
-assert all(row['x_cm'] * row['accelerationX'] < 0 for row in rows)
-assert all(math.isfinite(value) for row in rows for value in row.values())
-print('Application options, cgs output, streaming translation and gravity output passed')
+report = json.loads((destination / 'analytic-errors.json').read_text())
+has_reference = problem in ('sod', 'gravity-sphere', 'gravity-gaussian', 'streaming', 'collapse')
+assert report['status'] == ('available' if has_reference else 'unavailable')
+assert report['problem'] == problem and report['ndim'] == int(ndim)
+assert report['sampling'] == 'cell-center'
+assert report['schemaVersion'] == 3
+if has_reference:
+    assert report['cells'] == 4 ** int(ndim)
+    assert report['fields']
+    for field in report['fields']:
+        for norm in ('L1', 'L2', 'Linf'):
+            absolute = field['absolute' + norm]
+            reference = field['reference' + norm]
+            relative = field[norm]
+            assert absolute >= 0 and reference >= 0
+            if reference:
+                assert math.isclose(relative, absolute / reference, rel_tol=1e-14)
+            else:
+                assert relative is None
+    execute('--mesh.cells=4', '--mesh.level=0', '--runtime.stopTime=' + ('0' if static else '0.05'),
+            '--output.enabled=off', '--verification.analytic=on', '--verification.relativeL1Tolerance=0', success=False)
+else:
+    assert report['reason'] and not report['fields']
+    execute('--output.enabled=off', '--verification.analytic=on', success=False)
+execute('--verification.analytic=invalid', success=False)
+execute('--verification.relativeL1Tolerance=nan', success=False)
+execute('--verification.analytic=off', '--verification.relativeL1Tolerance=0.1', success=False)
+print('Analytic report, availability, and failing accuracy gates passed')
+
+if problem in ('gravity-sphere', 'gravity-gaussian', 'collapse'):
+    assert report['referenceKind'] == 'direct'
+    assert report['randomSeed'] == 5489 and report['randomGenerator'] == 'mt19937_64'
+    args = ('--mesh.cells=4', '--mesh.level=0', '--runtime.stopTime=0',
+            '--verification.directSamples=1', '--randomSeed=17',
+            '--output.directory=' + str(destination))
+    one = execute(*args)
+    assert 'WARNING:' in one.stdout and 'cannot be estimated' in one.stdout
+    sample = json.loads((destination / 'analytic-errors.json').read_text())
+    assert sample['cells'] == 1 and sample['totalCells'] == 64
+    assert sample['randomSeed'] == 17 and len(sample['targetIndices']) == 1
+    assert sample['sampling'] == 'random-cell-center-without-replacement'
+    assert all(f['samplingWarning'] and f['relativeL1HalfWidth95'] is None for f in sample['fields'])
+    execute(*args)
+    assert sample == json.loads((destination / 'analytic-errors.json').read_text())

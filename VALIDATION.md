@@ -1,71 +1,183 @@
-# Validation of the initial OctotigerII project
+# Validation of OctotigerII
 
-Host checks performed with GCC 13.3.0, C++20, on Linux x86-64. CMake configured
-and built the actual new project; no old application stubs or mocked physics
-were substituted. Numerical libraries were compiled with `-Wall -Wextra
--Wpedantic`.
+## Direct gravity verification and orders 1–10 (2026-09-23)
 
-## Completed
+This revision passed 32/32 CTest checks across HPX Release builds: gravity-sphere
+3D (11), Sod 1D (10), and collapse 3D (11). Existing installed dependencies were
+reused. The gravity build's application and direct-reference checks were rerun
+after the final reference mass calculation was aligned exactly with the solver's
+`density * cellVolume` evaluation order. No multi-locality test was rerun for
+this revision; canonical source ordering and reversed snapshot ordering are
+covered by the direct-reference test.
 
-- Release serial CPU build: **10/10 CTest checks passed**.
-- Debug serial build with AddressSanitizer and UndefinedBehaviorSanitizer:
-  **10/10 checks passed**. Leak detection was disabled for this execution
-  environment; leak checking is not claimed.
-- Serial CPU plus Silo 4.11/HDF5 1.10.10: **11/11 checks passed**.
-- HPX 1.11.0 plus Silo, two worker threads on one locality:
-  **11/11 checks passed**, including all seven ordinary problems.
-- Two independent HPX processes/localities using TCP and two threads each:
-  Sod (64 cells), streaming (64 cells), and collapse (512 cells) completed.
-  All final output fields agreed with their one-locality runs to the checked
-  tolerance of `2e-13` relative plus `1e-20` absolute. This exercised remote
-  component creation, snapshots, field serialization, advances, gravity
-  assignment, and source-kick actions. It is a single-host network check,
-  not a multi-node cluster or scaling test.
+Checks cover order validation (1–10 accepted; 0/11 rejected), independent
+point-mass potential/acceleration and self exclusion, vacuum targets and
+sources, automatic work limits and explicit count overrides, repeated/changed
+seeds, target uniqueness, snapshot-order independence, sample uncertainty and
+warnings, JSON output, accuracy gates, and HPX option serialization. Continuum
+reference identities and mesh convergence remain tested explicitly in continuum
+mode. The 8³ dense-source solver check runs all ten orders against its independent
+full direct sum. Relative acceleration RMS decreases from 5.809166e-02 at p=1
+to 1.356410e-08 at p=10; potential RMS at p=10 is 6.506875e-11.
 
-The small test suite consists of two numerical checks, the seven ordinary
-example problems, an application/output check when Python is present, and a
-Silo readback check when Silo is enabled. The numerical and application checks
-cover:
+The user's 64³ uniform-sphere setup (`mesh.cells=8`, `mesh.level=3`, theta=0.5)
+was also run with the default direct reference, output disabled, and four HPX
+threads. Both orders used the same 1,024 targets, seed 5489, and all 17,256
+nonzero source masses. The sphere mass was 5.266113e+30 g.
 
-- Hydro agreement between one block and a tiled mesh; periodic conservation
-  of all five conserved fields; positive density and pressure.
-- M1 agreement between one block and tiled meshes in 1D, 2D, and 3D;
-  periodic conservation of all four fields; `E >= 0`, `|F| <= c E`.
-- Reduced-speed streaming compared with a translated analytic Gaussian;
-  physical output flux remains `F=cE` rather than `cHat E`.
-- The gravity kick preserves internal energy and applies the specified
-  momentum impulse.
-- The new production FMM tree driver compared with an independent direct
-  sum over an 8³ nonuniform density fixture. Both M2L and P2P paths execute;
-  the reference uses the same cell-centered point sources and excludes self.
-- FMM error improves with expansion order; potential and acceleration scale
-  correctly when cell width changes.
-- Unknown options, invalid mesh sizes and dimensions, unsupported gravity
-  boundaries, invalid light speed, and premature maximum-step termination
-  return failure.
-- Actual CSV output contains the expected time, cell count, density, and
-  physical gravity fields.
-- Silo files are opened and read back in 1D/2D/3D. Coordinates, multimeshes,
-  zone centering, data, cycle, time, and physical flux conversion are checked.
-  The same output file is written twice to verify `DB_CLOBBER`.
+| Order | Potential relative L2 | Acceleration-X relative L2 |
+| ---: | ---: | ---: |
+| 3 | 3.330820e-04 | 5.764977e-03 |
+| 5 | 1.966291e-05 | 3.846277e-04 |
 
-FMM relative RMS errors (opening angle 0.5):
+At p=5 the approximate 95% sampling half-widths for these L2 values were
+4.343574e-06 and 5.961419e-05 respectively. These are estimates over sampled
+targets, not bounds on unsampled errors. The direct comparison removes the
+continuous-sphere discretization floor from the FMM accuracy measurement.
 
-| p | Potential | Acceleration |
+## Problem and compile-time-dimension revision
+
+Checked with GCC 13.3.0, C++20, Release builds on Linux x86-64. HPX builds use
+real HPX 1.11.0, with no substituted runtime or physics. Numerical libraries
+compile with `-Wall -Wextra -Wpedantic`; the final matrix builds emitted no
+compiler warnings.
+
+Every supported problem/dimension combination was configured, built, and tested:
+
+| Problem | Dimensions checked | CTest checks per build |
+| --- | --- | ---: |
+| Sod | 1, 2, 3 | 6 |
+| Kelvin–Helmholtz | 2, 3 | 6 |
+| Streaming | 1, 2, 3 | 6 |
+| Radiation pulse | 1, 2, 3 | 6 |
+| Gravity sphere | 3 | 6 |
+| Gravity Gaussian | 3 | 6 |
+| Collapse | 3 | 7 |
+
+The serial matrix passed **85/85 checks across 14 builds**. Three additional
+HPX builds—streaming 1D, streaming 2D, and collapse 3D—passed **22/22 CTest
+checks**, using two worker threads per locality. Each HPX build also passed
+storage and transport checks across two independent TCP processes, with parcel
+coalescing enabled and a one-byte zero-copy threshold. Streaming 1D transport
+also passed across three TCP processes, including fewer blocks than localities.
+These are separate processes on one host, not multi-node or scaling measurements.
+
+CMake rejects KH 1D, gravity sphere 2D, collapse 1D, Sod 4D, and unknown problems.
+A fresh KH configuration without an explicit dimension selects its manifest's
+2D default. The noninteractive helper validates the same manifests before doing
+dependency work. CMake presets, builder argument/help syntax, and standalone
+manifest validation were checked. The existing HPX installation was reused;
+this revision did not repeat a clean HPX dependency bootstrap.
+
+## What the current checks establish
+
+CTest launches the existing assertion-based regression programs and the Python
+application check. Google Test conversion is **deferred**, as is the interactive
+builder; see [ROADMAP.md](ROADMAP.md).
+
+- Coordinates contain exactly `ndim` elements; hydro and radiation states occupy
+  `ndim+2` and `ndim+1` scalar quantities respectively. There are no inactive axes.
+  Cartesian traversal, flattening, child slots/parents, and invalid-axis rejection
+  are checked for every compiled dimension.
+- The selected problem's initial and evolved values agree between a tiled mesh
+  and a single-block reference mesh. Periodic runs conserve each evolved field;
+  hydro positivity and M1 realizability are checked. Sod remains planar, and KH
+  remains uniform along its extruded z direction in 3D.
+- Conservation tolerances are relative to each component's L1 norm. This allows
+  floating-point cancellation of opposite physical CGS fluxes whose signed total
+  is zero, without imposing an inappropriate dimensionful absolute tolerance.
+- The independent 1D streaming profile translates at ĉ while every cell retains
+  physical `F=cE`, tested at full and quarter light speed.
+- The collapse gravity kick applies its momentum impulse and preserves gas
+  internal energy. Gravity compares the discrete point-mass solution with an
+  independent direct sum, checks near/far work, and verifies order convergence
+  and physical length scaling.
+- Generic storage checks include irregular capacities, multiple partitions per
+  locality, independent layouts and same-type fields, configurable banks, local
+  views, remote transfers, quantity-type rejection, retained-buffer retirement,
+  fresh identities, and pointer serialization chunks for density and physical F.
+  Sod retains the failed numerical-stage rollback/retry check. Other transport
+  problems reject an invalid step and check publication and task accounting.
+- HPX archives roundtrip dimension-sized geometry, typed snapshots, and flux
+  packets. Runtime problem/dimension overrides are rejected. Application output
+  completes its requested time and writes the expected time series.
+- Silo readback checks the actual compiled geometry, coordinates, physical units,
+  field values, cycle/time, absence of inactive vector components, and repeated
+  writes using `DB_CLOBBER`.
+
+Streaming relative L1 energy errors, 128 cells at t=0.2 s:
+
+| ĉ/c | Relative L1 |
+| --- | ---: |
+| 1 | 1.418577e-03 |
+| 0.25 | 4.121192e-04 |
+
+Gravity relative RMS errors, opening angle 0.5:
+
+| Order | Potential | Acceleration |
 | --- | ---: | ---: |
 | 3 | 2.025507e-05 | 7.413578e-04 |
 | 4 | 3.701440e-06 | 1.836427e-04 |
 | 5 | 1.558004e-06 | 4.481547e-05 |
 
-Streaming energy relative L1 errors, 128 cells, t=0.2 s:
+## Reproduce
 
-| cHat/c | Relative L1 |
-| --- | ---: |
-| 1 | 1.418577e-03 |
-| 0.25 | 4.121192e-04 |
+Select one problem/dimension as described in [BUILDING.md](BUILDING.md), build,
+and run CTest in that build directory. Repeat for the supported combinations
+to cover the whole matrix. For example, from HOME:
 
-These finite-resolution checks establish basic correctness of this first
-implementation. They do not establish astrophysical production accuracy,
-mesh convergence of every example, gravitational energy conservation, or
-large-scale performance. The gravity test compares the discrete point-mass
-problem, not an exact continuum sphere potential.
+```bash
+ctest --test-dir ~/workspace/OctotigerII/release/streaming/1d --output-on-failure
+python3 ~/workspace/OctotigerII/tests/distributed.py \
+  ~/workspace/OctotigerII/release/streaming/1d/tests/storageChecks
+python3 ~/workspace/OctotigerII/tests/distributed.py \
+  ~/workspace/OctotigerII/release/streaming/1d/tests/numericalChecks transport
+OCTOTIGERII_TEST_LOCALITIES=3 python3 ~/workspace/OctotigerII/tests/distributed.py \
+  ~/workspace/OctotigerII/release/streaming/1d/tests/numericalChecks transport
+```
+
+The Doxygen manual generates with 1.9.8 and warnings treated as errors. All 12
+bibliography entries have resolving citation keys. Generated internal HTML
+file/anchor links were checked. Both standalone `docs.sh` and the CMake `docs`
+target were exercised.
+
+Sanitizer, leak, accelerator, multi-node, throughput, and memory-performance
+measurements were not performed for this revision. The tests do not establish
+production astrophysical accuracy or mesh convergence of every problem.
+Gravity tests compare discrete point masses, not an exact continuum sphere;
+global gas-plus-gravity energy conservation is not claimed.
+
+## Earlier revisions
+
+The preceding custom-storage/physical-flux revision passed 13 serial and 14 HPX
+CTest checks in its runtime-selected multi-problem executable, plus two- and
+three-locality checks. The original implementation also passed historical serial
+AddressSanitizer/UndefinedBehaviorSanitizer checks with leak detection disabled.
+Those historical sanitizer results do not validate the present revision.
+
+## Standard analytic verification
+
+The `analytic.references` and `analytic.convergence` CTests validate independent
+exact solutions and numerical convergence. Supported problems are Sod, uniform
+sphere gravity, spherical-cutoff Gaussian gravity, and periodic streaming.
+See [analytic verification](docs/analytic-verification.md) for definitions and
+limitations. Existing direct-summation gravity checks are retained.
+
+### Verified on 2026-09-23
+
+All 63 CTests passed across seven Release builds: Sod 1D/3D, streaming 1D/3D,
+uniform sphere 3D, Gaussian gravity 3D with HPX, and radiation-pulse 2D (the
+unavailable-reference path). The other six builds used the serial backend.
+HPX tests included configuration serialization. These are single-locality HPX
+checks; no new multi-locality claim is made.
+
+Representative relative L1 results from `analytic.convergence`:
+
+| Build | Field | Coarse N | Coarse error | Fine N | Fine error |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Sod 1D | density | 32 | 2.552316e-02 | 64 | 1.280111e-02 |
+| Sod 3D | density | 16 | 4.090404e-02 | 32 | 2.591659e-02 |
+| Gaussian gravity 3D (HPX) | potential | 16 | 4.876158e-03 | 32 | 1.221247e-03 |
+| Sphere gravity 3D | potential | 16 | 3.850622e-02 | 32 | 1.304695e-02 |
+| Streaming 1D | radiationEnergy | 32 | 2.377071e-02 | 64 | 6.118829e-03 |
+| Streaming 3D | radiationEnergy | 16 | 1.318741e-01 | 32 | 3.710528e-02 |

@@ -1,0 +1,1 @@
+octo_problem(streaming DIMENSIONS 1 2 3 DEFAULT_DIMENSION 1 RADIATION)

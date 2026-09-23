@@ -1,34 +1,20 @@
+/** @file
+ * @brief CGS potential and acceleration field ordering.
+ * @ingroup numerics
+ */
 // Copyright (c) 2026 AUTHORS
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
 
-#include "octotigerII/math/Vector.hpp"
 #include "octotigerII/mesh.hpp"
+#include "octotigerII/units/state.hpp"
+
 
 namespace octotigerII::gravity {
 
-class State : public Vector<Real, 4> {
-  public:
-	using Vector<Real, 4>::Vector;
-	constexpr State() = default;
-	constexpr State(Vector<Real, 4> const& state) : Vector<Real, 4>(state) {}
-
-	constexpr Real& potential() {
-		return (*this)[0];
-	}
-	constexpr Real potential() const {
-		return (*this)[0];
-	}
-	constexpr Real& acceleration(int axis) {
-		return (*this)[axis + 1];
-	}
-	constexpr Real acceleration(int axis) const {
-		return (*this)[axis + 1];
-	}
-};
+using State = units::ScalarVectorState<units::VelocitySquared, units::Acceleration>;
 
 using Fields = mesh::PatchData<State>;
 
-void validateDimensionCount(int dimensionCount);
 
-} // namespace octotigerII::gravity
+}	 // namespace octotigerII::gravity

@@ -3,29 +3,52 @@
   "configurePresets": [
     {
       "name": "release",
-      "displayName": "CPU, HPX and Silo",
+      "displayName": "CPU, HPX and Silo \u2014 Sod 1D",
       "generator": "Unix Makefiles",
-      "binaryDir": "${sourceDir}/release",
-      "cacheVariables": {"CMAKE_BUILD_TYPE": "Release"}
+      "binaryDir": "${sourceDir}/release/sod/1d",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OCTOTIGERII_PROBLEM": "sod",
+        "OCTOTIGERII_NDIM": "1"
+      }
     },
     {
       "name": "serial",
-      "displayName": "Standalone serial CPU",
+      "displayName": "Standalone serial CPU with Silo \u2014 Sod 1D",
       "generator": "Unix Makefiles",
-      "binaryDir": "${sourceDir}/build-serial",
+      "binaryDir": "${sourceDir}/build-serial/sod/1d",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "OCTOTIGERII_WITH_HPX": "OFF",
-        "OCTOTIGERII_WITH_SILO": "OFF"
+        "OCTOTIGERII_PROBLEM": "sod",
+        "OCTOTIGERII_NDIM": "1"
       }
     }
   ],
   "buildPresets": [
-    {"name": "release", "configurePreset": "release"},
-    {"name": "serial", "configurePreset": "serial"}
+    {
+      "name": "release",
+      "configurePreset": "release"
+    },
+    {
+      "name": "serial",
+      "configurePreset": "serial"
+    }
   ],
   "testPresets": [
-    {"name": "release", "configurePreset": "release", "output": {"outputOnFailure": true}},
-    {"name": "serial", "configurePreset": "serial", "output": {"outputOnFailure": true}}
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "serial",
+      "configurePreset": "serial",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
   ]
 }

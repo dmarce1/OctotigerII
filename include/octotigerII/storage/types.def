@@ -1,0 +1,9 @@
+// The wire types used by the application. One registration per distinct C++
+// type, irrespective of how many named fields use it. No include guard: the
+// declaration and definition passes supply OCTO_STORAGE_TYPE separately.
+OCTO_STORAGE_TYPE(octotigerII::units::Density, density)
+OCTO_STORAGE_TYPE(octotigerII::units::MomentumDensity, momentum)
+OCTO_STORAGE_TYPE(octotigerII::units::EnergyDensity, energy)
+OCTO_STORAGE_TYPE(octotigerII::units::VelocitySquared, potential)
+OCTO_STORAGE_TYPE(octotigerII::units::Acceleration, acceleration)
+OCTO_STORAGE_TYPE(octotigerII::units::EnergyFlux, energyFlux)

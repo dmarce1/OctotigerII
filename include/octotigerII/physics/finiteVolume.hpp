@@ -1,3 +1,7 @@
+/** @file
+ * @brief Unsplit MUSCL-Hancock transport and slope limiting.
+ * @ingroup numerics
+ */
 // Copyright (c) 2026 AUTHORS
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
@@ -12,26 +16,41 @@
 #include <utility>
 #include <vector>
 
+
 namespace octotigerII::physics {
 
+/// Return the implemented transport scheme name.
 std::string_view finiteVolumeSchemeName();
 
-enum class Limiter { Minmod, VanLeer, MinmodTheta };
 
-enum class BoundaryCondition { Outflow, Periodic, Reflecting };
+enum class Limiter
+{
+	Minmod,
+	VanLeer,
+	MinmodTheta
+};
 
-struct BoundaryConditions {
-	std::array<BoundaryCondition, mesh::maximumDimensionCount> lower{
-		BoundaryCondition::Outflow, BoundaryCondition::Outflow, BoundaryCondition::Outflow};
-	std::array<BoundaryCondition, mesh::maximumDimensionCount> upper{
-		BoundaryCondition::Outflow, BoundaryCondition::Outflow, BoundaryCondition::Outflow};
 
-	[[nodiscard]] static BoundaryConditions periodic(int dimensionCount) {
-		if (dimensionCount < 1 || dimensionCount > mesh::maximumDimensionCount) {
-			throw std::invalid_argument("Boundary dimensionality must lie in [1,3]");
-		}
+enum class BoundaryCondition
+{
+	Outflow,
+	Periodic,
+	Reflecting
+};
+
+
+/// Lower/upper physical boundary rule for each coordinate direction.
+/// @ingroup numerics
+class BoundaryConditions {
+public:
+
+	std::array<BoundaryCondition, ndim> lower{};
+	std::array<BoundaryCondition, ndim> upper{};
+
+	/// Construct periodic boundaries in all ndim directions.
+	static BoundaryConditions periodic() {
 		BoundaryConditions result;
-		for (int axis = 0; axis < dimensionCount; ++axis) {
+		for (int axis = 0; axis < ndim; ++axis) {
 			result.lower[axis] = BoundaryCondition::Periodic;
 			result.upper[axis] = BoundaryCondition::Periodic;
 		}
@@ -39,31 +58,34 @@ struct BoundaryConditions {
 	}
 };
 
-inline Real limitedSlope(Real leftDifference, Real rightDifference, Limiter limiter,
-						 Real theta = Real(1.5)) {
-	if (!((leftDifference > 0 && rightDifference > 0) ||
-		  (leftDifference < 0 && rightDifference < 0))) {
-		return 0;
+
+/// Limit component differences without mixing their dimensions.
+/// Supports minmod, van Leer harmonic mean, and generalized minmod with theta.
+template <typename Q>
+Q limitedSlope(Q leftDifference, Q rightDifference, Limiter limiter, Real theta = Real(1.5)) {
+	if (!((leftDifference > Q{} && rightDifference > Q{}) || (leftDifference < Q{} && rightDifference < Q{}))) {
+		return Q{};
 	}
-	Real const sign = std::copysign(Real(1), leftDifference);
-	Real const left = std::abs(leftDifference);
-	Real const right = std::abs(rightDifference);
+	Real const sign = (leftDifference > Q{} ? Real(1) : Real(-1));
+	auto const left = boost::units::abs(leftDifference);
+	auto const right = boost::units::abs(rightDifference);
 	switch (limiter) {
 	case Limiter::Minmod:
 		return sign * std::min(left, right);
 	case Limiter::VanLeer:
 		return sign * (Real(2) * left * right / (left + right));
 	case Limiter::MinmodTheta: {
-		Real const centered = Real(0.5) * (left + right);
+		auto const centered = Real(0.5) * (left + right);
 		return sign * std::min({theta * left, centered, theta * right});
 	}
 	}
 	throw std::logic_error("Unknown finite-volume limiter");
 }
 
-template <class System>
-void fillGhostCells(mesh::PatchData<typename System::State>& patch,
-					BoundaryConditions const& boundaries, System const& system) {
+/// Fill physical boundaries for an owning test patch, including corner cells.
+/// The distributed runtime instead obtains its temporary halos from the mesh adapter.
+template <typename System>
+void fillGhostCells(mesh::PatchData<typename System::State>& patch, BoundaryConditions const& boundaries, System const& system) {
 	using State = typename System::State;
 	mesh::MeshLayout const& layout = patch.layout();
 	int const ghostWidth = layout.ghostWidth();
@@ -71,292 +93,288 @@ void fillGhostCells(mesh::PatchData<typename System::State>& patch,
 		return;
 	}
 	mesh::Coordinates const extents = layout.extents();
-	for (int z = 0; z < extents[2]; ++z) {
-		for (int y = 0; y < extents[1]; ++y) {
-			for (int x = 0; x < extents[0]; ++x) {
-				mesh::Coordinates const destination{x, y, z};
-				if (layout.isInterior(destination)) {
-					continue;
+	mesh::forEachCoordinate(extents, [&](mesh::Coordinates const& destination) {
+		if (layout.isInterior(destination)) {
+			return;
+		}
+		mesh::Coordinates source = destination;
+		std::array<bool, ndim> reflect{};
+		for (int axis = 0; axis < ndim; ++axis) {
+			int coordinate = destination[axis] - ghostWidth;
+			int const count = layout.cellsPerActiveDimension();
+			if (coordinate < 0) {
+				switch (boundaries.lower[axis]) {
+				case BoundaryCondition::Periodic:
+					coordinate = (coordinate % count + count) % count;
+					break;
+				case BoundaryCondition::Outflow:
+					coordinate = 0;
+					break;
+				case BoundaryCondition::Reflecting:
+					coordinate = -coordinate - 1;
+					reflect[axis] = true;
+					break;
 				}
-				mesh::Coordinates source = destination;
-				std::array<bool, mesh::maximumDimensionCount> reflect{};
-				for (int axis = 0; axis < layout.dimensionCount(); ++axis) {
-					int coordinate = destination[axis] - ghostWidth;
-					int const count = layout.cellsPerActiveDimension();
-					if (coordinate < 0) {
-						switch (boundaries.lower[axis]) {
-						case BoundaryCondition::Periodic:
-							coordinate = (coordinate % count + count) % count;
-							break;
-						case BoundaryCondition::Outflow:
-							coordinate = 0;
-							break;
-						case BoundaryCondition::Reflecting:
-							coordinate = -coordinate - 1;
-							reflect[axis] = true;
-							break;
-						}
-					} else if (coordinate >= count) {
-						switch (boundaries.upper[axis]) {
-						case BoundaryCondition::Periodic:
-							coordinate %= count;
-							break;
-						case BoundaryCondition::Outflow:
-							coordinate = count - 1;
-							break;
-						case BoundaryCondition::Reflecting:
-							coordinate = 2 * count - coordinate - 1;
-							reflect[axis] = true;
-							break;
-						}
-					}
-					source[axis] = coordinate + ghostWidth;
+			} else if (coordinate >= count) {
+				switch (boundaries.upper[axis]) {
+				case BoundaryCondition::Periodic:
+					coordinate %= count;
+					break;
+				case BoundaryCondition::Outflow:
+					coordinate = count - 1;
+					break;
+				case BoundaryCondition::Reflecting:
+					coordinate = 2 * count - coordinate - 1;
+					reflect[axis] = true;
+					break;
 				}
-				State state = patch.atStorage(source);
-				for (int axis = 0; axis < layout.dimensionCount(); ++axis) {
-					if (reflect[axis]) {
-						state = system.reflected(state, axis);
-					}
-				}
-				patch.atStorage(destination) = state;
+			}
+			source[axis] = coordinate + ghostWidth;
+		}
+		State state = patch.atStorage(source);
+		for (int axis = 0; axis < ndim; ++axis) {
+			if (reflect[axis]) {
+				state = system.reflected(state, axis);
 			}
 		}
-	}
+		patch.atStorage(destination) = state;
+	});
 }
+
 
 // Dimensionally unsplit MUSCL-Hancock. Reconstruction is directional, the
 // half-step predictor contains the divergence from every active direction,
 // and the only intercell quantities are face-centered fluxes.
-template <class System, int dimensionCount> class MusclHancock {
-  public:
-	static_assert(dimensionCount >= 1 && dimensionCount <= mesh::maximumDimensionCount);
+/// Dimensionally unsplit, second-order predictor/corrector for conservative systems.
+/// Piecewise-linear reconstruction follows the MUSCL lineage of
+/// @ref ref_vanleer1979 "van Leer (1979)". Face states are predicted by half of
+/// the full multidimensional flux divergence, then a shared face flux updates cells.
+/// The System adapter supplies states, fluxes, admissibility, and unit conversions.
+/// @ingroup numerics
+template <typename System>
+class MusclHancock {
+public:
+
 	using State = typename System::State;
 	using Reconstruction = typename System::Reconstruction;
-	using FaceFluxes = std::array<std::vector<State>, dimensionCount>;
+	using Flux = typename System::Flux;
+	using FaceFluxes = std::array<std::vector<Flux>, ndim>;
 
-	struct StepResult {
+	/// Physical integration interval and the face fluxes produced by the step.
+	/// @ingroup numerics
+	class StepResult {
+	public:
+
 		mesh::TimeInterval timeInterval;
 		FaceFluxes faceFluxes;
 	};
 
+
 	MusclHancock(System system, Limiter limiter = Limiter::VanLeer, Real theta = Real(1.5))
-		: system_(std::move(system)), limiter_(limiter), theta_(theta) {
+	  : system_(std::move(system))
+	  , limiter_(limiter)
+	  , theta_(theta) {
 		if (!(theta_ >= 1 && theta_ <= 2)) {
 			throw std::invalid_argument("minmod-theta parameter must lie in [1,2]");
 		}
 	}
 
-	[[nodiscard]] Real stableTimestep(mesh::PatchData<State> const& patch,
-									  Real courantNumber) const {
-		if (patch.layout().dimensionCount() != dimensionCount ||
-			!(courantNumber > 0 && courantNumber <= Real(0.5))) {
+	/// Return CFL divided by the sum of maximum directional speeds divided by cell width.
+	/// Requires a positive finite speed and 0<CFL≤0.5.
+	template <typename Patch>
+	units::Time stableTimestep(Patch const& patch, Real courantNumber) const {
+		if (!(courantNumber > 0 && courantNumber <= Real(0.5))) {
 			throw std::invalid_argument("Invalid MUSCL-Hancock layout or Courant number");
 		}
-		std::array<Real, dimensionCount> maximumSpeed{};
-		patch.layout().forEachInterior([&](mesh::Coordinates const&, std::size_t index) {
-			State const& state = patch.values()[index];
-			for (int axis = 0; axis < dimensionCount; ++axis) {
-				maximumSpeed[axis] =
-					std::max(maximumSpeed[axis], system_.maximumSignalSpeed(state, axis));
+		std::array<units::Velocity, ndim> maximumSpeed{};
+		patch.layout().forEachInterior([&](mesh::Coordinates const& cell, std::size_t) {
+			State const state = patch.atInterior(cell);
+			for (int axis = 0; axis < ndim; ++axis) {
+				maximumSpeed[axis] = std::max(maximumSpeed[axis], system_.maximumSignalSpeed(state, axis));
 			}
 		});
-		Real inverseStep = 0;
-		for (Real speed : maximumSpeed) {
+		units::InverseTime inverseStep{};
+		for (auto speed : maximumSpeed) {
 			inverseStep += speed / patch.cellWidth();
 		}
-		if (!(inverseStep > 0) || !std::isfinite(inverseStep)) {
+		if (!(inverseStep > units::InverseTime{}) || !units::finite(inverseStep)) {
 			throw std::runtime_error("No finite positive signal speed in finite-volume patch");
 		}
 		return courantNumber / inverseStep;
 	}
 
-	StepResult advance(mesh::PatchData<State>& patch, Real stepSize,
-					   BoundaryConditions const& boundaries) const {
-		return advanceWithBoundaryUpdater(patch, stepSize,
-										  [&](mesh::PatchData<State>& boundaryPatch, Real) {
-											  fillGhostCells(boundaryPatch, boundaries, system_);
-										  });
+	/// Advance an owning test patch using the supplied physical boundary conditions.
+	StepResult advance(mesh::PatchData<State>& patch, units::Time stepSize, BoundaryConditions const& boundaries) const {
+		return advanceWithBoundaryUpdater(
+			patch, stepSize, [&](mesh::PatchData<State>& boundaryPatch, units::Time) { fillGhostCells(boundaryPatch, boundaries, system_); });
 	}
 
 	// AMR drivers can supply same-level, coarse/fine, or physical boundary
 	// data at the requested physical time. The time-tagged interface avoids
 	// baking a global-cycle assumption into the spatial integrator and can
 	// later interpolate boundaries for level-dependent timesteps.
-	template <class BoundaryUpdater>
-	StepResult advanceWithBoundaryUpdater(mesh::PatchData<State>& patch, Real stepSize,
-										  BoundaryUpdater&& updateBoundaries) const {
-		mesh::MeshLayout const& layout = patch.layout();
-		if (layout.dimensionCount() != dimensionCount || layout.ghostWidth() < 2) {
-			throw std::invalid_argument(
-				"MUSCL-Hancock requires matching dimensionality and two ghost cells");
-		}
-		if (!(stepSize > 0) || !std::isfinite(stepSize)) {
-			throw std::invalid_argument("MUSCL-Hancock timestep must be positive and finite");
-		}
-		mesh::TimeInterval const timeInterval{patch.timeState().time,
-											  patch.timeState().time + stepSize};
-		updateBoundaries(patch, timeInterval.begin);
+	/// Advance an owning patch with a caller-provided time-aware boundary fill.
+	template <typename BoundaryUpdater>
+	StepResult advanceWithBoundaryUpdater(mesh::PatchData<State>& patch, units::Time stepSize, BoundaryUpdater&& updateBoundaries) const {
+		mesh::TimeInterval const interval{patch.timeState().time, patch.timeState().time + stepSize};
+		updateBoundaries(patch, interval.begin);
+		Workspace workspace;
+		auto next = patch.values();
+		advanceInto(patch, stepSize, workspace,
+			[&](mesh::Coordinates const& cell, State const& value) { next[patch.layout().index(patch.layout().storageCoordinates(cell))] = value; });
+		patch.values().swap(next);
+		patch.timeState().completeStep(stepSize);
+		updateBoundaries(patch, interval.end);
+		return StepResult{interval, std::move(workspace.fluxes)};
+	}
 
-		std::array<std::vector<State>, dimensionCount> minus;
-		std::array<std::vector<State>, dimensionCount> plus;
-		for (int axis = 0; axis < dimensionCount; ++axis) {
+	/// Reusable predictor and face-flux arrays for one concurrently executing worker.
+	/// @ingroup numerics
+	class Workspace {
+	public:
+
+		std::array<std::vector<State>, ndim> minus;
+		std::array<std::vector<State>, ndim> plus;
+		FaceFluxes fluxes;
+	};
+
+
+	// Input is immutable. The caller owns a disjoint output range and publishes
+	// it only after every task in the stage succeeds. Workspace is reusable.
+	/// Read an immutable patch and write each interior result through the supplied callback.
+	/// Requires two ghost layers. Workspace is exclusive to this task; the caller
+	/// publishes output only after all dependent work and transfers finish.
+	template <typename Patch, typename Writer>
+	void advanceInto(Patch const& patch, units::Time stepSize, Workspace& workspace, Writer&& write) const {
+		mesh::MeshLayout const& layout = patch.layout();
+		if (layout.ghostWidth() < 2) throw std::invalid_argument("MUSCL-Hancock needs two ghost cells");
+		if (!(stepSize > units::Time{}) || !units::finite(stepSize)) throw std::invalid_argument("MUSCL-Hancock timestep must be positive and finite");
+		auto& minus = workspace.minus;
+		auto& plus = workspace.plus;
+		for (int axis = 0; axis < ndim; ++axis) {
 			minus[axis].resize(layout.cellCount());
 			plus[axis].resize(layout.cellCount());
 		}
 		predictFaceStates(patch, stepSize, minus, plus);
 
-		FaceFluxes fluxes;
-		for (int axis = 0; axis < dimensionCount; ++axis) {
+		auto& fluxes = workspace.fluxes;
+		for (int axis = 0; axis < ndim; ++axis) {
 			fluxes[axis].resize(layout.faceCount(axis));
 			mesh::Coordinates const faceExtents = layout.faceExtents(axis);
-			for (int z = 0; z < faceExtents[2]; ++z) {
-				for (int y = 0; y < faceExtents[1]; ++y) {
-					for (int x = 0; x < faceExtents[0]; ++x) {
-						mesh::Coordinates const face{x, y, z};
-						mesh::Coordinates left =
-							layout.storageCoordinates({std::min(x, layout.interiorExtent(0) - 1),
-													   std::min(y, layout.interiorExtent(1) - 1),
-													   std::min(z, layout.interiorExtent(2) - 1)});
-						mesh::Coordinates right = left;
-						left[axis] = layout.ghostWidth() + face[axis] - 1;
-						right[axis] = layout.ghostWidth() + face[axis];
-						State const& leftState = plus[axis][layout.index(left)];
-						State const& rightState = minus[axis][layout.index(right)];
-						State highOrderFlux = system_.riemann(leftState, rightState, axis);
-						highOrderFlux = system_.limitFlux(
-							patch.atStorage(left), patch.atStorage(right), highOrderFlux, axis,
-							stepSize / patch.cellWidth(), dimensionCount);
-						fluxes[axis][layout.faceIndex(axis, face)] = highOrderFlux;
-					}
-				}
-			}
+			mesh::forEachCoordinate(faceExtents, [&](mesh::Coordinates const& face) {
+				mesh::Coordinates left = face;
+				for (int d = 0; d < ndim; ++d)
+					left[d] = std::min(left[d], layout.interiorExtent(d) - 1);
+				left = layout.storageCoordinates(left);
+				mesh::Coordinates right = left;
+				left[axis] = layout.ghostWidth() + face[axis] - 1;
+				right[axis] = layout.ghostWidth() + face[axis];
+				State const& leftState = plus[axis][layout.index(left)];
+				State const& rightState = minus[axis][layout.index(right)];
+				Flux highOrderFlux = system_.riemann(leftState, rightState, axis);
+				highOrderFlux = system_.limitFlux(patch.atStorage(left), patch.atStorage(right), highOrderFlux, axis, stepSize / patch.cellWidth());
+				fluxes[axis][layout.faceIndex(axis, face)] = highOrderFlux;
+			});
 		}
 
-		std::vector<State> next = patch.values();
-		layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t cellIndex) {
-			State update{};
-			for (int axis = 0; axis < dimensionCount; ++axis) {
+		layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t) {
+			Flux update{};
+			for (int axis = 0; axis < ndim; ++axis) {
 				mesh::Coordinates lowerFace = cell;
 				mesh::Coordinates upperFace = cell;
 				++upperFace[axis];
-				update += fluxes[axis][layout.faceIndex(axis, lowerFace)] -
-						  fluxes[axis][layout.faceIndex(axis, upperFace)];
+				update += fluxes[axis][layout.faceIndex(axis, lowerFace)] - fluxes[axis][layout.faceIndex(axis, upperFace)];
 			}
-			State candidate = patch.values()[cellIndex] + (stepSize / patch.cellWidth()) * update;
-			candidate =
-				system_.correctRoundoff(candidate, abs(update) * (stepSize / patch.cellWidth()));
+			State candidate = patch.atInterior(cell) + (stepSize / patch.cellWidth()) * update;
+			candidate = system_.correctRoundoff(candidate, componentAbs((stepSize / patch.cellWidth()) * update));
 			if (!system_.admissible(candidate)) {
 				throw std::runtime_error("MUSCL-Hancock update produced an inadmissible state");
 			}
-			next[cellIndex] = candidate;
+			write(cell, candidate);
 		});
-		patch.values().swap(next);
-		patch.timeState().completeStep(stepSize);
-		updateBoundaries(patch, timeInterval.end);
-		return StepResult{timeInterval, std::move(fluxes)};
 	}
 
-  private:
+private:
+
 	System system_;
 	Limiter limiter_;
 	Real theta_;
 
-	void predictFaceStates(mesh::PatchData<State> const& patch, Real stepSize,
-						   std::array<std::vector<State>, dimensionCount>& minus,
-						   std::array<std::vector<State>, dimensionCount>& plus) const {
+	/// Limit directional slopes, predict with the half-step unsplit divergence, and
+	/// fall back to the cell center if a predicted face would be inadmissible.
+	template <typename Patch>
+	void predictFaceStates(
+		Patch const& patch, units::Time stepSize, std::array<std::vector<State>, ndim>& minus, std::array<std::vector<State>, ndim>& plus) const {
 		mesh::MeshLayout const& layout = patch.layout();
 		int const ghostWidth = layout.ghostWidth();
-		mesh::Coordinates begin{};
-		mesh::Coordinates end{};
-		for (int axis = 0; axis < mesh::maximumDimensionCount; ++axis) {
-			if (axis < dimensionCount) {
-				begin[axis] = ghostWidth - 1;
-				end[axis] = ghostWidth + layout.cellsPerActiveDimension() + 1;
-			} else {
-				begin[axis] = 0;
-				end[axis] = 1;
+		auto const begin = mesh::filledCoordinates(ghostWidth - 1);
+		auto const end = mesh::filledCoordinates(ghostWidth + layout.cellsPerActiveDimension() + 1);
+
+		mesh::forEachCoordinate(begin, end, [&](mesh::Coordinates const& cell) {
+			std::size_t const cellIndex = layout.index(cell);
+			State const centerState = patch.atStorage(cell);
+			Reconstruction const center = system_.reconstructionVariables(centerState);
+			std::array<Reconstruction, ndim> slopes{};
+			for (int axis = 0; axis < ndim; ++axis) {
+				mesh::Coordinates left = cell;
+				mesh::Coordinates right = cell;
+				--left[axis];
+				++right[axis];
+				Reconstruction const leftState = system_.reconstructionVariables(patch.atStorage(left));
+				Reconstruction const rightState = system_.reconstructionVariables(patch.atStorage(right));
+				slopes[axis].forEach([&](auto field, auto& slope) {
+					slope = limitedSlope(center.template get<field>() - leftState.template get<field>(),
+						rightState.template get<field>() - center.template get<field>(), limiter_, theta_);
+				});
 			}
-		}
 
-		for (int z = begin[2]; z < end[2]; ++z) {
-			for (int y = begin[1]; y < end[1]; ++y) {
-				for (int x = begin[0]; x < end[0]; ++x) {
-					mesh::Coordinates const cell{x, y, z};
-					std::size_t const cellIndex = layout.index(cell);
-					State const centerState = patch.values()[cellIndex];
-					Reconstruction const center = system_.reconstructionVariables(centerState);
-					std::array<Reconstruction, dimensionCount> slopes{};
-					for (int axis = 0; axis < dimensionCount; ++axis) {
-						mesh::Coordinates left = cell;
-						mesh::Coordinates right = cell;
-						--left[axis];
-						++right[axis];
-						Reconstruction const leftState =
-							system_.reconstructionVariables(patch.atStorage(left));
-						Reconstruction const rightState =
-							system_.reconstructionVariables(patch.atStorage(right));
-						for (int field = 0; field < Reconstruction::size(); ++field) {
-							slopes[axis][field] =
-								limitedSlope(center[field] - leftState[field],
-											 rightState[field] - center[field], limiter_, theta_);
-						}
-					}
-
-					Real slopeFraction = 1;
-					auto validFaces = [&](Real fraction) {
-						for (int axis = 0; axis < dimensionCount; ++axis) {
-							State const lower = system_.conservedState(
-								center - Real(0.5) * fraction * slopes[axis]);
-							State const upper = system_.conservedState(
-								center + Real(0.5) * fraction * slopes[axis]);
-							if (!system_.admissible(lower) || !system_.admissible(upper)) {
-								return false;
-							}
-						}
-						return true;
-					};
-					if (!validFaces(slopeFraction)) {
-						Real low = 0;
-						Real high = 1;
-						for (int iteration = 0; iteration < 48; ++iteration) {
-							Real const fraction = Real(0.5) * (low + high);
-							if (validFaces(fraction)) {
-								low = fraction;
-							} else {
-								high = fraction;
-							}
-						}
-						slopeFraction = low;
-					}
-
-					State predictor{};
-					for (int axis = 0; axis < dimensionCount; ++axis) {
-						minus[axis][cellIndex] = system_.conservedState(
-							center - Real(0.5) * slopeFraction * slopes[axis]);
-						plus[axis][cellIndex] = system_.conservedState(
-							center + Real(0.5) * slopeFraction * slopes[axis]);
-						predictor += system_.physicalFlux(minus[axis][cellIndex], axis) -
-									 system_.physicalFlux(plus[axis][cellIndex], axis);
-					}
-					predictor *= Real(0.5) * stepSize / patch.cellWidth();
-					bool validPrediction = true;
-					for (int axis = 0; axis < dimensionCount; ++axis) {
-						minus[axis][cellIndex] += predictor;
-						plus[axis][cellIndex] += predictor;
-						validPrediction = validPrediction &&
-										  system_.admissible(minus[axis][cellIndex]) &&
-										  system_.admissible(plus[axis][cellIndex]);
-					}
-					if (!validPrediction) {
-						for (int axis = 0; axis < dimensionCount; ++axis) {
-							minus[axis][cellIndex] = centerState;
-							plus[axis][cellIndex] = centerState;
-						}
+			Real slopeFraction = 1;
+			auto validFaces = [&](Real fraction) {
+				for (int axis = 0; axis < ndim; ++axis) {
+					State const lower = system_.conservedState(center - Real(0.5) * fraction * slopes[axis]);
+					State const upper = system_.conservedState(center + Real(0.5) * fraction * slopes[axis]);
+					if (!system_.admissible(lower) || !system_.admissible(upper)) {
+						return false;
 					}
 				}
+				return true;
+			};
+			if (!validFaces(slopeFraction)) {
+				Real low = 0;
+				Real high = 1;
+				for (int iteration = 0; iteration < 48; ++iteration) {
+					Real const fraction = Real(0.5) * (low + high);
+					if (validFaces(fraction)) {
+						low = fraction;
+					} else {
+						high = fraction;
+					}
+				}
+				slopeFraction = low;
 			}
-		}
+
+			Flux predictorFlux{};
+			for (int axis = 0; axis < ndim; ++axis) {
+				minus[axis][cellIndex] = system_.conservedState(center - Real(0.5) * slopeFraction * slopes[axis]);
+				plus[axis][cellIndex] = system_.conservedState(center + Real(0.5) * slopeFraction * slopes[axis]);
+				predictorFlux += system_.physicalFlux(minus[axis][cellIndex], axis) - system_.physicalFlux(plus[axis][cellIndex], axis);
+			}
+			State const predictor = (Real(0.5) * stepSize / patch.cellWidth()) * predictorFlux;
+			bool validPrediction = true;
+			for (int axis = 0; axis < ndim; ++axis) {
+				minus[axis][cellIndex] += predictor;
+				plus[axis][cellIndex] += predictor;
+				validPrediction = validPrediction && system_.admissible(minus[axis][cellIndex]) && system_.admissible(plus[axis][cellIndex]);
+			}
+			if (!validPrediction) {
+				for (int axis = 0; axis < ndim; ++axis) {
+					minus[axis][cellIndex] = centerState;
+					plus[axis][cellIndex] = centerState;
+				}
+			}
+		});
 	}
 };
 
-} // namespace octotigerII::physics
+
+}	 // namespace octotigerII::physics

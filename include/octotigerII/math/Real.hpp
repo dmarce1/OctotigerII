@@ -1,3 +1,7 @@
+/** @file
+ * @brief Scalar arithmetic type and mathematical constants.
+ * @ingroup math
+ */
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
 #include <limits>

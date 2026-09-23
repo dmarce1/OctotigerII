@@ -1,0 +1,18 @@
+/** @defgroup storage Distributed field storage
+ * Typed columns, independent indexing layouts, buffers, and HPX components.
+ */
+/** @defgroup mesh Mesh and halo adapters
+ * Geometry and indexing metadata, snapshots, temporary execution views.
+ */
+/** @defgroup numerics Numerical methods
+ * Conservative transport and isolated Newtonian gravity.
+ */
+/** @defgroup units CGS quantities and constants
+ * Boost.Units quantities remain typed in storage, calculation, and transport.
+ */
+/** @defgroup runtime Execution and application
+ * Configuration, locality work queues, stage publication, diagnostics, output.
+ */
+/** @defgroup math Mathematical utilities
+ * Fixed-size vectors, arithmetic types, and floating-point exception guards.
+ */

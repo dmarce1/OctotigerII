@@ -1,0 +1,7 @@
+# 3D gas plus isolated self-gravity; no gravitational-energy correction
+# All dimensional values are cgs.
+mesh.cells=4
+mesh.level=1
+runtime.stopTime=5
+output.directory=output/collapse
+output.every=1

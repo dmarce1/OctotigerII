@@ -1,0 +1,8 @@
+# Periodic freely streaming M1 Gaussian in the compiled dimension
+# All dimensional values are cgs.
+mesh.cells=32
+mesh.level=1
+runtime.stopTime=0.4
+mesh.periodic=on
+output.directory=output/streaming
+output.every=10

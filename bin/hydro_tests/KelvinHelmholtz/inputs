@@ -1,0 +1,8 @@
+# Multidimensional periodic shear instability
+# All dimensional values are cgs.
+mesh.cells=16
+mesh.level=1
+runtime.stopTime=0.1
+mesh.periodic=on
+output.directory=output/kelvin-helmholtz
+output.every=10

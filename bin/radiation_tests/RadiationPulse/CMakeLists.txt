@@ -1,0 +1,1 @@
+octo_problem(radiation-pulse DIMENSIONS 1 2 3 DEFAULT_DIMENSION 2 RADIATION)

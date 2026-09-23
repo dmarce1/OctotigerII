@@ -8,25 +8,32 @@
 #include <stdexcept>
 #include <tuple>
 
+
 namespace octotigerII::gravity::diagonal {
+
+
 namespace {
 constexpr double pi = 3.1415926535897932384626433832795;
+
 int index(int x, int y, int z) {
 	const int n = x + y + z;
 	return n * n + (z == 0 ? x : n + 1 + x);
 }
+
 double power(double x, int n) {
 	double r = 1;
 	for (int i = 0; i < n; ++i)
 		r *= x;
 	return r;
 }
+
 double factorial(int n) {
 	double r = 1;
 	for (int i = 2; i <= n; ++i)
 		r *= i;
 	return r;
 }
+
 void reduce(Coefficients& a, int x, int y, int z, double v) {
 	if (z < 2)
 		a[index(x, y, z)] += v;
@@ -37,8 +44,11 @@ void reduce(Coefficients& a, int x, int y, int z, double v) {
 }
 std::map<std::array<int, 4>, std::shared_ptr<const Operator>> cache;
 std::shared_mutex cacheMutex;
+
 // Golub-Welsch is unnecessary at these tiny orders: Newton iteration on L_n.
 std::vector<std::pair<double, double>> laguerre(int n) {
+	using std::abs;
+
 	std::vector<std::pair<double, double>> q;
 	double z = 0;
 	for (int i = 0; i < n; ++i) {
@@ -63,13 +73,12 @@ std::vector<std::pair<double, double>> laguerre(int n) {
 			deriv = n * (l - prev) / z;
 			const double dz = l / deriv;
 			z -= dz;
-			if (std::abs(dz) < 2e-15 * (1 + std::abs(z))) {
+			if (abs(dz) < 2e-15 * (1 + abs(z))) {
 				converged = true;
 				break;
 			}
 		}
-		if (!converged)
-			throw std::runtime_error("diagonal FMM Laguerre quadrature failed");
+		if (!converged) throw std::runtime_error("diagonal FMM Laguerre quadrature failed");
 		// Reevaluate derivative at the converged root.
 		double l = 1;
 		prev = 0;
@@ -83,17 +92,20 @@ std::vector<std::pair<double, double>> laguerre(int n) {
 	}
 	return q;
 }
-} // namespace
+
+}	 // namespace
+
+
 int coefficientCount(int p) {
-	if (p < 0 || p > 5)
-		throw std::invalid_argument("diagonal FMM order must be 0..5");
+	if (p < 0 || p > 10) throw std::invalid_argument("diagonal FMM order must be 0..10");
 	return (p + 1) * (p + 1);
 }
+
 const std::vector<Index>& indices(int p) {
 	coefficientCount(p);
 	static const auto tables = [] {
-		std::array<std::vector<Index>, 6> result;
-		for (int p = 0; p <= 5; ++p)
+		std::array<std::vector<Index>, 11> result;
+		for (int p = 0; p <= 10; ++p)
 			for (int n = 0; n <= p; ++n) {
 				for (int x = 0; x <= n; ++x)
 					result[p].push_back({x, n - x, 0});
@@ -104,42 +116,39 @@ const std::vector<Index>& indices(int p) {
 	}();
 	return tables[p];
 }
+
 Coefficients point(double mass, const Vector& s, int p) {
 	Coefficients a(coefficientCount(p), 0);
 	for (int n = 0; n <= p; ++n)
 		for (int x = 0; x <= n; ++x)
 			for (int y = 0; y <= n - x; ++y) {
 				const int z = n - x - y;
-				reduce(a, x, y, z,
-					   mass * power(s[0], x) * power(s[1], y) * power(s[2], z) /
-						   (factorial(x) * factorial(y) * factorial(z)));
+				reduce(a, x, y, z, mass * power(s[0], x) * power(s[1], y) * power(s[2], z) / (factorial(x) * factorial(y) * factorial(z)));
 			}
 	return a;
 }
+
 Coefficients shiftMultipole(const Coefficients& a, const Vector& s, double ratio, int p) {
 	const auto e = point(1, s, p);
 	const auto& ix = indices(p);
-	if (a.size() != 1 && a.size() != ix.size())
-		throw std::invalid_argument("invalid multipole size");
+	if (a.size() != 1 && a.size() != ix.size()) throw std::invalid_argument("invalid multipole size");
 	Coefficients b(ix.size(), 0);
 	for (std::size_t i = 0; i < a.size(); ++i)
 		for (std::size_t j = 0; j < ix.size(); ++j) {
-			if (ix[i].degree() + ix[j].degree() > p)
-				continue;
-			reduce(b, ix[i].x + ix[j].x, ix[i].y + ix[j].y, ix[i].z + ix[j].z,
-				   a[i] * power(ratio, ix[i].degree()) * e[j]);
+			if (ix[i].degree() + ix[j].degree() > p) continue;
+			reduce(b, ix[i].x + ix[j].x, ix[i].y + ix[j].y, ix[i].z + ix[j].z, a[i] * power(ratio, ix[i].degree()) * e[j]);
 		}
 	return b;
 }
+
 double derivative(const Coefficients& l, int x, int y, int z) {
-	if (z >= 2)
-		return -derivative(l, x + 2, y, z - 2) - derivative(l, x, y + 2, z - 2);
+	if (z >= 2) return -derivative(l, x + 2, y, z - 2) - derivative(l, x, y + 2, z - 2);
 	return l.at(index(x, y, z));
 }
+
 Coefficients shiftLocal(const Coefficients& l, const Vector& s, double ratio, int p) {
 	const auto& ix = indices(p);
-	if (l.size() != ix.size())
-		throw std::invalid_argument("invalid local size");
+	if (l.size() != ix.size()) throw std::invalid_argument("invalid local size");
 	Coefficients b(ix.size(), 0);
 	for (std::size_t i = 0; i < ix.size(); ++i) {
 		const auto a = ix[i];
@@ -147,35 +156,39 @@ Coefficients shiftLocal(const Coefficients& l, const Vector& s, double ratio, in
 			for (int x = 0; x <= n; ++x)
 				for (int y = 0; y <= n - x; ++y) {
 					const int z = n - x - y;
-					b[i] += derivative(l, a.x + x, a.y + y, a.z + z) * power(s[0], x) *
-							power(s[1], y) * power(s[2], z) /
-							(factorial(x) * factorial(y) * factorial(z));
+					b[i] += derivative(l, a.x + x, a.y + y, a.z + z) * power(s[0], x) * power(s[1], y) * power(s[2], z) /
+						(factorial(x) * factorial(y) * factorial(z));
 				}
 		b[i] *= power(ratio, a.degree());
 	}
 	return b;
 }
+
 std::array<double, 4> evaluate(const Coefficients& l, const Vector& s, int p) {
 	const auto b = shiftLocal(l, s, 1, p);
 	return {b[0], derivative(b, 1, 0, 0), derivative(b, 0, 1, 0), derivative(b, 0, 0, 1)};
 }
-Operator::Operator(int p, Offset r) : count_(coefficientCount(p)) {
-	if (p < 3)
-		throw std::invalid_argument("diagonal FMM M2L order must be 3,4,5");
-	const double radius = std::hypot(double(r[0]), double(r[1]), double(r[2]));
-	if (radius == 0)
-		throw std::invalid_argument("zero M2L separation");
+
+Operator::Operator(int p, Offset r)
+  : count_(coefficientCount(p)) {
+	using std::abs;
+	using std::cos;
+	using std::hypot;
+	using std::sin;
+
+	if (p < 1) throw std::invalid_argument("diagonal FMM M2L order must be 1..10");
+	const double radius = hypot(double(r[0]), double(r[1]), double(r[2]));
+	if (radius == 0) throw std::invalid_argument("zero M2L separation");
 	Vector e{r[0] / radius, r[1] / radius, r[2] / radius};
 	int a = 0;
 	for (int d = 1; d < 3; ++d)
-		if (std::abs(e[d]) < std::abs(e[a]))
-			a = d;
+		if (abs(e[d]) < abs(e[a])) a = d;
 	Vector u{};
 	u[a] = 1;
 	const double dot = e[a];
 	for (int d = 0; d < 3; ++d)
 		u[d] -= dot * e[d];
-	const double norm = std::hypot(u[0], u[1], u[2]);
+	const double norm = hypot(u[0], u[1], u[2]);
 	for (auto& v : u)
 		v /= norm;
 	Vector v{e[1] * u[2] - e[2] * u[1], e[2] * u[0] - e[0] * u[2], e[0] * u[1] - e[1] * u[0]};
@@ -187,8 +200,7 @@ Operator::Operator(int p, Offset r) : count_(coefficientCount(p)) {
 			const double angle = 2 * pi * j / angles;
 			std::array<std::complex<double>, 3> k;
 			for (int d = 0; d < 3; ++d)
-				k[d] = t / radius *
-					   std::complex<double>(-e[d], u[d] * std::cos(angle) + v[d] * std::sin(angle));
+				k[d] = t / radius * std::complex<double>(-e[d], u[d] * cos(angle) + v[d] * sin(angle));
 			// exp(k.R)=exp(-t) is the diagonal translation. Its exp(-t)
 			// factor is already in the Gauss-Laguerre weight w.
 			diagonal_.push_back(-w / (radius * angles));
@@ -205,9 +217,11 @@ Operator::Operator(int p, Offset r) : count_(coefficientCount(p)) {
 			}
 		}
 }
+
 void Operator::add(Coefficients& l, const Coefficients& m, double h) const {
-	if (!(h > 0) || !std::isfinite(h) || (m.size() != 1 && m.size() != std::size_t(count_)) ||
-		(l.size() != 4 && l.size() != std::size_t(count_)))
+	using std::isfinite;
+
+	if (!(h > 0) || !isfinite(h) || (m.size() != 1 && m.size() != std::size_t(count_)) || (l.size() != 4 && l.size() != std::size_t(count_)))
 		throw std::invalid_argument("invalid M2L data");
 	for (std::size_t q = 0; q < diagonal_.size(); ++q) {
 		std::complex<double> wave = 0;
@@ -219,35 +233,37 @@ void Operator::add(Coefficients& l, const Coefficients& m, double h) const {
 			l[i] += (fromWave_[off + i] * wave).real();
 	}
 }
+
 std::shared_ptr<const Operator> getOperator(int p, Offset r) {
 	const std::array<int, 4> key{p, r[0], r[1], r[2]};
 	{
 		std::shared_lock lock(cacheMutex);
 		const auto it = cache.find(key);
-		if (it != cache.end())
-			return it->second;
+		if (it != cache.end()) return it->second;
 	}
 	// Short construction, no suspension or HPX calls under the lock. Build once.
 	std::unique_lock lock(cacheMutex);
 	auto it = cache.find(key);
-	if (it != cache.end())
-		return it->second;
+	if (it != cache.end()) return it->second;
 	auto op = std::make_shared<const Operator>(p, r);
 	cache.emplace(key, op);
 	return op;
 }
+
 std::size_t cachedOperatorCount() {
 	std::shared_lock lock(cacheMutex);
 	return cache.size();
 }
+
 void addDirect(Coefficients& l, double m, Offset r, double h) {
-	const double distance = std::hypot(double(r[0]), double(r[1]), double(r[2]));
-	if (distance == 0 || !(h > 0))
-		throw std::invalid_argument("invalid P2P separation");
+	using std::hypot;
+
+	const double distance = hypot(double(r[0]), double(r[1]), double(r[2]));
+	if (distance == 0 || !(h > 0)) throw std::invalid_argument("invalid P2P separation");
 	l.at(0) -= m / (h * distance);
 	const double f = m / (h * distance * distance * distance);
 	l.at(index(1, 0, 0)) += f * r[0];
 	l.at(index(0, 1, 0)) += f * r[1];
 	l.at(index(0, 0, 1)) += f * r[2];
 }
-} // namespace octotigerII::gravity::diagonal
+}	 // namespace octotigerII::gravity::diagonal

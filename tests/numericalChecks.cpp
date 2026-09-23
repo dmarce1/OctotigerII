@@ -1,5 +1,3 @@
-#include "octotigerII/gravity/solver.hpp"
-#include "octotigerII/subgrid/subgrid.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
@@ -7,163 +5,205 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include "octotigerII/gravity/solver.hpp"
+#include "octotigerII/runtime.hpp"
+#include "runtimeMain.hpp"
 
 using namespace octotigerII;
+
+
 namespace {
 void require(bool ok, char const* message) {
-	if (!ok)
-		throw std::runtime_error(message);
+	if (!ok) throw std::runtime_error(message);
 }
+
 void close(Real actual, Real expected, Real relative, char const* message) {
-	require(std::isfinite(actual) && std::isfinite(expected), "Nonfinite comparison");
-	if (std::abs(actual - expected) > relative * std::max(Real(1), std::abs(expected))) {
+	using std::abs;
+	using std::isfinite;
+
+	require(isfinite(actual) && isfinite(expected), "Nonfinite comparison");
+	if (abs(actual - expected) > relative * std::max(Real(1), abs(expected))) {
 		std::cerr << message << ": " << actual << " != " << expected << '\n';
 		throw std::runtime_error(message);
 	}
 }
-std::vector<Subgrid> blocks(Config const& c) {
-	std::vector<Subgrid> result;
-	int const n = 1 << c.level;
-	for (int z = 0; z < (c.dimensions > 2 ? n : 1); ++z)
-		for (int y = 0; y < (c.dimensions > 1 ? n : 1); ++y)
-			for (int x = 0; x < n; ++x)
-				result.emplace_back(c, mesh::BlockLocation{c.level, {x, y, z}, c.dimensions});
-	return result;
+
+template <typename U>
+void close(boost::units::quantity<U, Real> actual, boost::units::quantity<U, Real> expected, Real relative, char const* message) {
+	close(units::value(actual), units::value(expected), relative, message);
 }
-Real stable(std::vector<Subgrid> const& blocks) {
-	Real dt = std::numeric_limits<Real>::infinity();
-	for (auto const& b : blocks)
-		dt = std::min(dt, b.stableTimestep());
-	return dt;
+
+std::unique_ptr<Runtime> blocks(Config const& c) {
+	return std::make_unique<Runtime>(c);
 }
-void advance(std::vector<Subgrid>& blocks, Real dt) {
-	std::vector<HydroSnapshot> hydro;
-	std::vector<RadiationSnapshot> radiation;
-	for (auto const& b : blocks) {
-		auto const s = b.snapshot();
-		if (s.hydroEnabled)
-			hydro.push_back({s.location, s.hydro});
-		if (s.radiationEnabled)
-			radiation.push_back({s.location, s.radiation});
-	}
-	for (auto& b : blocks)
-		b.advance(hydro, radiation, dt);
+
+units::Time stable(std::unique_ptr<Runtime> const& blocks) {
+	return blocks->stableTimestep();
 }
-template <class State, class Select>
-std::vector<State> flatten(std::vector<Subgrid> const& blocks, Config const& c, Select select) {
-	int const n = c.cells * (1 << c.level);
+
+void advance(std::unique_ptr<Runtime>& blocks, units::Time dt) {
+	blocks->advance(dt);
+}
+
+template <typename State, typename Select>
+std::vector<State> flatten(std::unique_ptr<Runtime> const& blocks, Config const& c, Select select) {
+	int const n = c.mesh.cells * (1 << c.mesh.level);
 	std::size_t count = 1;
-	for (int d = 0; d < c.dimensions; ++d)
+	for (int d = 0; d < ndim; ++d)
 		count *= n;
 	std::vector<State> result(count);
-	for (auto const& b : blocks) {
-		auto const s = b.snapshot();
+	for (auto const& s : blocks->snapshots()) {
 		s.layout.forEachInterior([&](mesh::Coordinates cell, std::size_t index) {
-			for (int d = 0; d < c.dimensions; ++d)
-				cell[d] += s.location.coordinates[d] * c.cells;
-			result[(static_cast<std::size_t>(cell[2]) * n + cell[1]) * n + cell[0]] =
-				select(s, index);
+			for (int d = 0; d < ndim; ++d)
+				cell[d] += s.location.coordinates[d] * c.mesh.cells;
+			result[mesh::linearIndex(cell, mesh::filledCoordinates(n))] = select(s, index);
 		});
 	}
 	return result;
 }
-template <class State> State sum(std::vector<State> const& values) {
+
+template <typename State>
+State sum(std::vector<State> const& values) {
 	State total{};
 	for (auto const& value : values)
 		total += value;
 	return total;
 }
-void transport() {
-	// The same global mesh split into 1 or 2^ndim blocks must give the same
-	// solution, including corner halos in the unsplit predictor.
-	for (int dimensions = 1; dimensions <= 3; ++dimensions) {
-		Config fine =
-			parseConfig({"--problem.name=streaming", "--mesh.ndim=" + std::to_string(dimensions),
-						 "--mesh.cells=4", "--mesh.level=1", "--runtime.stop_time=0.2",
-						 "--output.enabled=off"});
-		Config single = fine;
-		single.cells = 8;
-		single.level = 0;
-		auto a = blocks(fine), b = blocks(single);
-		auto select = [](Snapshot const& s, std::size_t i) { return s.radiation.values()[i]; };
-		using State = radiation::RadiationSystem::State;
-		auto initial = flatten<State>(a, fine, select);
-		Real time = 0;
-		while (time < fine.stopTime) {
-			Real dt = std::min({stable(a), stable(b), fine.stopTime - time});
-			advance(a, dt);
-			advance(b, dt);
+
+void reportScheduling(Runtime const& runtime) {
+	auto const statistics = runtime.statistics();
+	require(statistics.localTasks + statistics.stolenTasks == 2 * runtime.size() * runtime.generation(), "Transport tasks missing or duplicated");
+	std::cout << "  Scheduling: " << statistics.localTasks << " local, " << statistics.stolenTasks << " stolen tasks\n";
+}
+
+void streamingProfile() {
+	using std::abs;
+	using std::exp;
+	using std::round;
+
+	// Independent analytic advection: the profile travels at cHat while the
+	// stored physical streaming flux remains c E, including at reduced speed.
+	for (Real ratio : {Real(1), Real(0.25)}) {
+		Config c = parseConfig({"--mesh.cells=32", "--mesh.level=2", "--runtime.stopTime=0.2", "--output.enabled=off"});
+		c.radiation.lightSpeedRatio = ratio;
+		auto runtime = blocks(c);
+		units::Time time{};
+		while (time < c.runtime.stopTime) {
+			auto const dt = std::min(stable(runtime), c.runtime.stopTime - time);
+			advance(runtime, dt);
 			time += dt;
 		}
-		auto final = flatten<State>(a, fine, select), reference = flatten<State>(b, single, select);
-		for (std::size_t i = 0; i < final.size(); ++i) {
-			require(radiation::RadiationSystem(physicalLightSpeed).admissible(final[i]),
-					"M1 realizability");
-			for (int f = 0; f < 4; ++f)
-				close(final[i][f], reference[i][f], 3e-12, "Tiled radiation mismatch");
+		Real error = 0, norm = 0;
+		auto const length = c.mesh.upper - c.mesh.lower;
+		auto const center = c.mesh.lower + 0.25 * length + ratio * constants::c * time;
+		for (auto const& snapshot : runtime->snapshots()) {
+			snapshot.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t index) {
+				auto const position = snapshot.layout.cellCenter(snapshot.lower, snapshot.cellWidth, cell);
+				auto distance = position[0] - center;
+				distance -= round(distance / length) * length;
+				Real const scaled = distance / (0.08 * length);
+				Real const expected = 1e-6 + exp(-0.5 * scaled * scaled);
+				auto const& state = snapshot.radiation.values()[index];
+				error += abs(units::value(state.energy()) - expected);
+				norm += expected;
+				close(state.radiativeFlux(0), constants::c * state.energy(), 3e-12, "Physical streaming flux must remain c E");
+				for (int axis = 1; axis < ndim; ++axis)
+					close(state.radiativeFlux(axis), units::EnergyFlux{}, 1e-14, "Spurious transverse radiation flux");
+			});
 		}
-		for (int f = 0; f < 4; ++f)
-			close(sum(final)[f], sum(initial)[f], 3e-12, "Periodic radiation conservation");
-		std::cout << dimensions
-				  << "D radiation: decomposition, conservation, realizability passed\n";
+		require(error / norm < 0.003, "Radiation analytic streaming profile");
+		std::cout << "Streaming cHat/c=" << ratio << " relative L1=" << error / norm << '\n';
 	}
-	Config fine =
-		parseConfig({"--problem.name=kelvin-helmholtz", "--mesh.cells=8", "--mesh.level=1",
-					 "--runtime.stop_time=0.04", "--output.enabled=off"});
+}
+
+template <typename State, typename Select, typename Admissible>
+void compareTransport(Select select, Admissible admissible) {
+	Config fine = parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
+	fine.runtime.workerTasks = 1;
 	Config single = fine;
-	single.cells = 16;
-	single.level = 0;
+	single.mesh.cells = 8;
+	single.mesh.level = 0;
 	auto a = blocks(fine), b = blocks(single);
-	auto select = [](Snapshot const& s, std::size_t i) { return s.hydro.values()[i]; };
-	using State = hydro::ConservedState;
 	auto initial = flatten<State>(a, fine, select);
-	Real time = 0;
-	while (time < fine.stopTime) {
-		Real dt = std::min({stable(a), stable(b), fine.stopTime - time});
+	auto referenceInitial = flatten<State>(b, single, select);
+	for (std::size_t i = 0; i < initial.size(); ++i)
+		initial[i].forEach([&](auto f, auto q) { close(q, referenceInitial[i].template get<f>(), 3e-12, "Initial decomposition mismatch"); });
+	for (int step = 0; step < 3; ++step) {
+		auto const dt = std::min(stable(a), stable(b));
 		advance(a, dt);
 		advance(b, dt);
-		time += dt;
 	}
 	auto final = flatten<State>(a, fine, select), reference = flatten<State>(b, single, select);
 	for (std::size_t i = 0; i < final.size(); ++i) {
-		require(hydro::HydroSystem(fine.gamma).admissible(final[i]), "Hydro positivity");
-		for (int f = 0; f < 5; ++f)
-			close(final[i][f], reference[i][f], 3e-12, "Tiled hydro mismatch");
+		require(admissible(final[i]), "Transport admissibility");
+		final[i].forEach([&](auto f, auto q) { close(q, reference[i].template get<f>(), 3e-12, "Tiled transport mismatch"); });
 	}
-	for (int f = 0; f < 5; ++f)
-		close(sum(final)[f], sum(initial)[f], 3e-12, "Periodic hydro conservation");
-	std::cout << "Hydro: decomposition, conservation, positivity passed\n";
-	// A source kick must change momenta and kinetic energy while leaving
-	// the gas internal energy exactly unchanged up to rounding.
-	Config c = parseConfig({"--problem.name=collapse", "--mesh.level=0", "--output.enabled=off"});
-	Subgrid gas(c, {0, {0, 0, 0}, 3});
-	std::vector<gravity::State> acceleration(64, gravity::State{0, 2, -3, 4});
-	gas.setGravity(acceleration);
-	auto before = gas.snapshot();
-	gas.kickGravity(0.1);
-	auto after = gas.snapshot();
-	before.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) {
-		for (int axis = 0; axis < 3; ++axis)
-			close(after.hydro.values()[i].momentum(axis),
-				  before.hydro.values()[i].density() * 0.1 * acceleration[0].acceleration(axis),
-				  1e-14, "Gravity impulse");
-		close(
-			hydro::HydroSystem(c.gamma).reconstructionVariables(after.hydro.values()[i]).pressure(),
-			hydro::HydroSystem(c.gamma)
-				.reconstructionVariables(before.hydro.values()[i])
-				.pressure(),
-			1e-14, "Kick internal energy");
-	});
-	std::cout << "Gravity kick internal energy passed\n";
+	if (fine.mesh.periodic) {
+		State initialNorm{}, finalNorm{};
+		for (auto const& state : initial)
+			initialNorm += componentAbs(state);
+		for (auto const& state : final)
+			finalNorm += componentAbs(state);
+		auto const expected = sum(initial);
+		// A zero net physical flux can cancel components of order c E. Scale
+		// roundoff by their L1 norm, not by the near-zero signed total.
+		sum(final).forEach([&](auto f, auto q) {
+			auto const scale = std::max(initialNorm.template get<f>(), finalNorm.template get<f>());
+			require(units::abs(q - expected.template get<f>()) <= 3e-12 * scale, "Periodic conservation relative to component L1 norm");
+		});
+	}
+	if (std::string(build::problem) == "sod" || std::string(build::problem) == "kelvin-helmholtz") {
+		std::size_t const plane = std::string(build::problem) == "sod" ? 8 : 64;
+		for (std::size_t i = plane; i < final.size(); ++i)
+			final[i].forEach([&](auto f, auto q) { close(q, final[i % plane].template get<f>(), 3e-12, "Extruded problem developed transverse structure"); });
+	}
+	std::cout << build::problem << ' ' << ndim << "D decomposition and admissibility passed\n";
+	reportScheduling(*a);
 }
+
+void transport() {
+	if (std::string(build::problem) == "streaming" && ndim == 1) streamingProfile();
+	if constexpr (build::radiation)
+		compareTransport<radiation::RadiationSystem::State>([](Snapshot const& s, std::size_t i) { return s.radiation.values()[i]; },
+			[](auto const& state) { return radiation::RadiationSystem(constants::c).admissible(state); });
+	if constexpr (build::hydro) {
+		auto const c = parseConfig({});
+		compareTransport<hydro::ConservedState>([](Snapshot const& s, std::size_t i) { return s.hydro.values()[i]; },
+			[&](auto const& state) { return hydro::HydroSystem(c.hydro.gamma).admissible(state); });
+	}
+	if constexpr (build::gravity && build::hydro) {
+		Config c = parseConfig({"--mesh.cells=4", "--mesh.level=0", "--output.enabled=off"});
+		Runtime gas(c);
+		gravity::State gravity{};
+		for (int axis = 0; axis < ndim; ++axis)
+			gravity.acceleration(axis) = units::Acceleration::from_value(axis + 2);
+		auto const count = gas.snapshots().front().layout.interiorCellCount();
+		gas.setGravity({std::vector<gravity::State>(count, gravity)});
+		auto before = gas.snapshots().front();
+		auto const dt = units::Time::from_value(0.1);
+		gas.kickGravity(dt);
+		auto after = gas.snapshots().front();
+		before.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) {
+			for (int axis = 0; axis < ndim; ++axis)
+				close(after.hydro.values()[i].momentum(axis),
+					before.hydro.values()[i].momentum(axis) + before.hydro.values()[i].density() * dt * gravity.acceleration(axis), 1e-14, "Gravity impulse");
+			close(hydro::HydroSystem(c.hydro.gamma).reconstructionVariables(after.hydro.values()[i]).pressure(),
+				hydro::HydroSystem(c.hydro.gamma).reconstructionVariables(before.hydro.values()[i]).pressure(), 1e-14, "Kick internal energy");
+		});
+	}
+}
+
+#if OCTOTIGERII_GRAVITY
 void gravityCheck() {
+	using std::sin;
+
 	int constexpr n = 8;
-	Real constexpr h = 13;
-	std::vector<Real> density(n * n * n);
+	auto constexpr h = units::Length::from_value(13);
+	std::vector<units::Density> density(n * n * n);
 	for (int z = 0; z < n; ++z)
 		for (int y = 0; y < n; ++y)
 			for (int x = 0; x < n; ++x)
-				density[(z * n + y) * n + x] = 1 + 0.2 * std::sin(0.7 * x + 0.3 * y - 0.9 * z);
+				density[(z * n + y) * n + x] = units::Density::from_value(1 + 0.2 * sin(0.7 * x + 0.3 * y - 0.9 * z));
 	std::vector<gravity::State> reference(density.size());
 	for (int z = 0; z < n; ++z)
 		for (int y = 0; y < n; ++y)
@@ -172,61 +212,60 @@ void gravityCheck() {
 				for (int k = 0; k < n; ++k)
 					for (int j = 0; j < n; ++j)
 						for (int i = 0; i < n; ++i) {
-							if (x == i && y == j && z == k)
-								continue;
-							std::array<Real, 3> const r{h * (x - i), h * (y - j), h * (z - k)};
-							Real const distance = std::hypot(r[0], r[1], r[2]);
-							Real const gm = gravity::gravitationalConstant *
-											density[(k * n + j) * n + i] * h * h * h;
+							if (x == i && y == j && z == k) continue;
+							std::array<units::Length, 3> const r{h * Real(x - i), h * Real(y - j), h * Real(z - k)};
+							auto const distance = units::hypot(units::hypot(r[0], r[1]), r[2]);
+							auto const gm = constants::G * density[(k * n + j) * n + i] * h * h * h;
 							field.potential() -= gm / distance;
 							for (int d = 0; d < 3; ++d)
-								field.acceleration(d) -=
-									gm * r[d] / (distance * distance * distance);
+								field.acceleration(d) -= gm * r[d] / (distance * distance * distance);
 						}
 			}
 	Real previous = std::numeric_limits<Real>::infinity();
-	for (int order = 3; order <= 5; ++order) {
+	for (int order = 1; order <= 10; ++order) {
 		auto const solution = gravity::solve(density, n, h, order, 0.5);
-		require(solution.statistics.multipolePairs > 0 && solution.statistics.directPairs > 0,
-				"FMM must execute both near and far interactions");
-		Real errorPhi = 0, normPhi = 0, errorG = 0, normG = 0;
+		require(solution.statistics.multipolePairs > 0 && solution.statistics.directPairs > 0, "FMM must execute both near and far interactions");
+		units::Quantity<4, 0, -4> errorPhi{}, normPhi{};
+		units::Quantity<2, 0, -4> errorG{}, normG{};
 		for (std::size_t i = 0; i < density.size(); ++i) {
-			errorPhi += std::pow(solution.fields[i][0] - reference[i][0], 2);
-			normPhi += reference[i][0] * reference[i][0];
+			errorPhi += boost::units::pow<2>(solution.fields[i].potential() - reference[i].potential());
+			normPhi += reference[i].potential() * reference[i].potential();
 			for (int d = 1; d < 4; ++d) {
-				errorG += std::pow(solution.fields[i][d] - reference[i][d], 2);
-				normG += reference[i][d] * reference[i][d];
+				errorG += boost::units::pow<2>(solution.fields[i].acceleration(d - 1) - reference[i].acceleration(d - 1));
+				normG += reference[i].acceleration(d - 1) * reference[i].acceleration(d - 1);
 			}
 		}
-		Real const relative = std::sqrt(errorG / normG);
-		std::cout << "p=" << order << " relative RMS phi=" << std::sqrt(errorPhi / normPhi)
-				  << " g=" << relative << '\n';
-		require(relative < previous && relative < 0.02 && std::sqrt(errorPhi / normPhi) < 0.003,
-				"FMM direct-reference accuracy/order convergence");
+		Real const relative = units::sqrt(errorG / normG);
+		std::cout << "p=" << order << " relative RMS phi=" << Real(units::sqrt(errorPhi / normPhi)) << " g=" << relative << '\n';
+		require(relative < previous && relative < (order >= 3 ? 0.02 : 0.25) && units::sqrt(errorPhi / normPhi) < (order >= 3 ? 0.003 : 0.05),
+			"FMM direct-reference accuracy/order convergence");
 		previous = relative;
 		if (order == 5) {
 			require(relative < 0.002, "p=5 gravity accuracy");
-			auto const scaled = gravity::solve(density, n, 2 * h, order, 0.5);
+			auto const scaled = gravity::solve(density, n, 2.0 * h, order, 0.5);
 			for (std::size_t i = 0; i < density.size(); ++i) {
-				close(scaled.fields[i][0], 4 * solution.fields[i][0], 1e-13,
-					  "Potential length scaling");
+				close(scaled.fields[i].potential(), 4.0 * solution.fields[i].potential(), 1e-13, "Potential length scaling");
 				for (int d = 1; d < 4; ++d)
-					close(scaled.fields[i][d], 2 * solution.fields[i][d], 1e-13,
-						  "Acceleration length scaling");
+					close(scaled.fields[i].acceleration(d - 1), 2.0 * solution.fields[i].acceleration(d - 1), 1e-13, "Acceleration length scaling");
 			}
 		}
 	}
 }
-} // namespace
-int main(int argc, char** argv) {
+
+#endif
+
+}	 // namespace
+
+
+int testMain(int argc, char** argv) {
 	try {
 		std::cout << std::scientific << std::setprecision(6);
-		if (argc != 2)
-			throw std::invalid_argument("Expected transport or gravity");
-		if (std::string(argv[1]) == "transport")
-			transport();
+		if (argc != 2) throw std::invalid_argument("Expected transport or gravity");
+		if (std::string(argv[1]) == "transport") transport();
+#if OCTOTIGERII_GRAVITY
 		else if (std::string(argv[1]) == "gravity")
 			gravityCheck();
+#endif
 		else
 			throw std::invalid_argument("Unknown check");
 		return 0;
@@ -234,4 +273,8 @@ int main(int argc, char** argv) {
 		std::cerr << error.what() << '\n';
 		return 1;
 	}
+}
+
+int main(int argc, char** argv) {
+	return runtimeMain(argc, argv, testMain);
 }

@@ -7,16 +7,13 @@
 #include <functional>
 #include <limits>
 
+
 namespace octotigerII::mesh {
 
-MeshLayout::MeshLayout(int dimensionCount, int cellsPerActiveDimension, int ghostWidth)
-	: dimensionCount_(dimensionCount), cellsPerActiveDimension_(cellsPerActiveDimension),
-	  ghostWidth_(ghostWidth) {
+MeshLayout::MeshLayout(int cellsPerActiveDimension, int ghostWidth)
+  : cellsPerActiveDimension_(cellsPerActiveDimension)
+  , ghostWidth_(ghostWidth) {
 	rebuild();
-}
-
-int MeshLayout::dimensionCount() const {
-	return dimensionCount_;
 }
 
 int MeshLayout::cellsPerActiveDimension() const {
@@ -25,11 +22,6 @@ int MeshLayout::cellsPerActiveDimension() const {
 
 int MeshLayout::ghostWidth() const {
 	return ghostWidth_;
-}
-
-bool MeshLayout::isActive(int axis) const {
-	validateAxis(axis);
-	return axis < dimensionCount_;
 }
 
 int MeshLayout::interiorExtent(int axis) const {
@@ -59,7 +51,7 @@ std::size_t MeshLayout::cellCount() const {
 }
 
 int MeshLayout::childCount() const {
-	return 1 << dimensionCount_;
+	return 1 << ndim;
 }
 
 bool MeshLayout::isActiveChild(int childSlot) const {
@@ -76,7 +68,7 @@ std::vector<int> MeshLayout::activeChildSlots() const {
 
 std::size_t MeshLayout::index(Coordinates const& storageCoordinates) const {
 	std::size_t result = 0;
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
+	for (int axis = 0; axis < ndim; ++axis) {
 		if (storageCoordinates[axis] < 0 || storageCoordinates[axis] >= extents_[axis]) {
 			throw std::out_of_range("Mesh storage coordinate is outside the allocated extent");
 		}
@@ -85,17 +77,13 @@ std::size_t MeshLayout::index(Coordinates const& storageCoordinates) const {
 	return result;
 }
 
-std::size_t MeshLayout::index(int x, int y, int z) const {
-	return index(Coordinates{x, y, z});
-}
-
 Coordinates MeshLayout::storageCoordinates(Coordinates const& interiorCoordinates) const {
 	Coordinates result{};
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
+	for (int axis = 0; axis < ndim; ++axis) {
 		if (interiorCoordinates[axis] < 0 || interiorCoordinates[axis] >= interiorExtents_[axis]) {
 			throw std::out_of_range("Mesh interior coordinate is outside the active extent");
 		}
-		result[axis] = isActive(axis) ? interiorCoordinates[axis] + ghostWidth_ : 0;
+		result[axis] = interiorCoordinates[axis] + ghostWidth_;
 	}
 	return result;
 }
@@ -105,23 +93,18 @@ Coordinates MeshLayout::interiorCoordinates(Coordinates const& storageCoordinate
 	if (!isInterior(storageCoordinates)) {
 		throw std::out_of_range("Mesh storage coordinate is not an interior cell");
 	}
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
-		result[axis] = isActive(axis) ? storageCoordinates[axis] - ghostWidth_ : 0;
+	for (int axis = 0; axis < ndim; ++axis) {
+		result[axis] = storageCoordinates[axis] - ghostWidth_;
 	}
 	return result;
 }
 
 bool MeshLayout::isInterior(Coordinates const& storageCoordinates) const {
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
+	for (int axis = 0; axis < ndim; ++axis) {
 		if (storageCoordinates[axis] < 0 || storageCoordinates[axis] >= extents_[axis]) {
 			return false;
 		}
-		if (isActive(axis) &&
-			(storageCoordinates[axis] < ghostWidth_ ||
-			 storageCoordinates[axis] >= ghostWidth_ + cellsPerActiveDimension_)) {
-			return false;
-		}
-		if (!isActive(axis) && storageCoordinates[axis] != 0) {
+		if (storageCoordinates[axis] < ghostWidth_ || storageCoordinates[axis] >= ghostWidth_ + cellsPerActiveDimension_) {
 			return false;
 		}
 	}
@@ -130,9 +113,6 @@ bool MeshLayout::isInterior(Coordinates const& storageCoordinates) const {
 
 Coordinates MeshLayout::faceExtents(int normal) const {
 	validateAxis(normal);
-	if (!isActive(normal)) {
-		throw std::invalid_argument("Inactive axes do not own face arrays");
-	}
 	Coordinates result = interiorExtents_;
 	++result[normal];
 	return result;
@@ -146,7 +126,7 @@ std::size_t MeshLayout::faceIndex(int normal, Coordinates const& faceCoordinates
 	Coordinates const dimensions = faceExtents(normal);
 	std::size_t stride = 1;
 	std::size_t result = 0;
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
+	for (int axis = 0; axis < ndim; ++axis) {
 		if (faceCoordinates[axis] < 0 || faceCoordinates[axis] >= dimensions[axis]) {
 			throw std::out_of_range("Face coordinate is outside the face array");
 		}
@@ -156,66 +136,48 @@ std::size_t MeshLayout::faceIndex(int normal, Coordinates const& faceCoordinates
 	return result;
 }
 
-Real MeshLayout::cellMeasure(Real cellWidth) const {
-	if (!(cellWidth > 0) || !std::isfinite(cellWidth)) {
-		throw std::invalid_argument("Cell width must be positive and finite");
-	}
-	Real result = 1;
-	for (int axis = 0; axis < dimensionCount_; ++axis) {
-		result *= cellWidth;
-	}
-	return result;
+units::Volume MeshLayout::cellMeasure(units::Length width) const {
+	if (!(width > units::Length{}) || !units::finite(width)) throw std::invalid_argument("Cell width must be positive and finite");
+	// Lower-dimensional totals use one centimeter along each inactive axis.
+	auto const cm = units::Length::from_value(1);
+	return boost::units::pow<ndim>(width) * boost::units::pow<3 - ndim>(cm);
 }
 
-Real MeshLayout::faceMeasure(Real cellWidth) const {
-	if (!(cellWidth > 0) || !std::isfinite(cellWidth)) {
-		throw std::invalid_argument("Cell width must be positive and finite");
-	}
-	Real result = 1;
-	for (int axis = 1; axis < dimensionCount_; ++axis) {
-		result *= cellWidth;
-	}
-	return result;
+units::Quantity<2, 0, 0> MeshLayout::faceMeasure(units::Length width) const {
+	return cellMeasure(width) / width;
 }
 
-PhysicalCoordinates MeshLayout::cellCenter(PhysicalCoordinates const& lower, Real cellWidth,
-										   Coordinates const& interiorCoordinates) const {
+PhysicalCoordinates MeshLayout::cellCenter(PhysicalCoordinates const& lower, units::Length cellWidth, Coordinates const& interiorCoordinates) const {
 	PhysicalCoordinates result{};
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
+	for (int axis = 0; axis < ndim; ++axis) {
 		if (interiorCoordinates[axis] < 0 || interiorCoordinates[axis] >= interiorExtents_[axis]) {
 			throw std::out_of_range("Cell-center coordinate is outside the interior");
 		}
-		result[axis] = isActive(axis)
-						   ? lower[axis] + (interiorCoordinates[axis] + Real(0.5)) * cellWidth
-						   : Real(0);
+		result[axis] = lower[axis] + (interiorCoordinates[axis] + Real(0.5)) * cellWidth;
 	}
 	return result;
 }
 
 void MeshLayout::rebuild() {
-	if (dimensionCount_ < 1 || dimensionCount_ > maximumDimensionCount) {
-		throw std::invalid_argument("Mesh dimension count must be 1, 2, or 3");
-	}
 	if (cellsPerActiveDimension_ < 2 || cellsPerActiveDimension_ % 2 != 0) {
 		throw std::invalid_argument("Active mesh extent must be a positive even number");
 	}
 	if (ghostWidth_ < 0) {
 		throw std::invalid_argument("Mesh ghost width cannot be negative");
 	}
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
-		bool const active = axis < dimensionCount_;
-		interiorExtents_[axis] = active ? cellsPerActiveDimension_ : 1;
-		extents_[axis] = active ? cellsPerActiveDimension_ + 2 * ghostWidth_ : 1;
+	for (int axis = 0; axis < ndim; ++axis) {
+		interiorExtents_[axis] = cellsPerActiveDimension_;
+		extents_[axis] = cellsPerActiveDimension_ + 2 * ghostWidth_;
 	}
 	strides_[0] = 1;
-	for (int axis = 1; axis < maximumDimensionCount; ++axis) {
+	for (int axis = 1; axis < ndim; ++axis) {
 		strides_[axis] = strides_[axis - 1] * extents_[axis - 1];
 	}
 }
 
 void MeshLayout::validateAxis(int axis) const {
-	if (axis < 0 || axis >= maximumDimensionCount) {
-		throw std::out_of_range("Mesh axis must be 0, 1, or 2");
+	if (axis < 0 || axis >= ndim) {
+		throw std::out_of_range("Mesh axis must lie in [0, ndim)");
 	}
 }
 
@@ -235,13 +197,13 @@ BlockLocation BlockLocation::parent() const {
 	if (isRoot()) {
 		throw std::logic_error("The root block has no parent");
 	}
-	if (level < 0 || dimensionCount < 1 || dimensionCount > maximumDimensionCount) {
+	if (level < 0) {
 		throw std::invalid_argument("Invalid block location");
 	}
 	BlockLocation result = *this;
 	--result.level;
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
-		result.coordinates[axis] = axis < dimensionCount ? coordinates[axis] / 2 : 0;
+	for (int axis = 0; axis < ndim; ++axis) {
+		result.coordinates[axis] = coordinates[axis] / 2;
 	}
 	return result;
 }
@@ -250,51 +212,47 @@ int BlockLocation::childSlot() const {
 	if (isRoot()) {
 		throw std::logic_error("The root block is not a child");
 	}
-	if (level < 0 || dimensionCount < 1 || dimensionCount > maximumDimensionCount) {
+	if (level < 0) {
 		throw std::invalid_argument("Invalid block location");
 	}
 	int result = 0;
-	for (int axis = 0; axis < dimensionCount; ++axis) {
+	for (int axis = 0; axis < ndim; ++axis) {
 		result |= (coordinates[axis] & 1) << axis;
 	}
 	return result;
 }
 
 BlockLocation BlockLocation::child(int slot) const {
-	if (level < 0 || level >= std::numeric_limits<unsigned>::digits - 2 || dimensionCount < 1 ||
-		dimensionCount > maximumDimensionCount || slot < 0 || slot >= (1 << dimensionCount)) {
+	if (level < 0 || level >= std::numeric_limits<unsigned>::digits - 2 || slot < 0 || slot >= (1 << ndim)) {
 		throw std::invalid_argument("Invalid child slot for block dimensionality");
 	}
 	BlockLocation result = *this;
 	++result.level;
-	for (int axis = 0; axis < maximumDimensionCount; ++axis) {
-		result.coordinates[axis] =
-			axis < dimensionCount ? 2 * coordinates[axis] + ((slot >> axis) & 1) : 0;
+	for (int axis = 0; axis < ndim; ++axis) {
+		result.coordinates[axis] = 2 * coordinates[axis] + ((slot >> axis) & 1);
 	}
 	return result;
 }
 
 std::size_t BlockLocationHash::operator()(BlockLocation const& location) const noexcept {
 	std::size_t result = std::hash<int>{}(location.level);
-	result ^=
-		std::hash<int>{}(location.dimensionCount) + 0x9e3779b9 + (result << 6) + (result >> 2);
 	for (int coordinate : location.coordinates) {
 		result ^= std::hash<int>{}(coordinate) + 0x9e3779b9 + (result << 6) + (result >> 2);
 	}
 	return result;
 }
 
-Real TimeState::nextTime() const {
+units::Time TimeState::nextTime() const {
 	return time + stepSize;
 }
 
 bool TimeState::synchronizedWith(TimeState const& other, Real tolerance) const {
-	Real const scale = std::max({Real(1), std::abs(time), std::abs(other.time)});
-	return std::abs(time - other.time) <= tolerance * scale;
+	auto const scale = std::max({units::Time::from_value(1), units::abs(time), units::abs(other.time)});
+	return units::abs(time - other.time) <= tolerance * scale;
 }
 
-void TimeState::completeStep(Real completedStepSize) {
-	if (!(completedStepSize > 0) || !std::isfinite(completedStepSize)) {
+void TimeState::completeStep(units::Time completedStepSize) {
+	if (!(completedStepSize > units::Time{}) || !units::finite(completedStepSize)) {
 		throw std::invalid_argument("Completed timestep must be positive and finite");
 	}
 	stepSize = completedStepSize;
@@ -303,16 +261,16 @@ void TimeState::completeStep(Real completedStepSize) {
 	++substep;
 }
 
-Real TimeInterval::duration() const {
+units::Time TimeInterval::duration() const {
 	if (end < begin) {
 		throw std::logic_error("Time interval ends before it begins");
 	}
 	return end - begin;
 }
 
-bool TimeInterval::contains(Real sampleTime, Real tolerance) const {
-	Real const scale = std::max({Real(1), std::abs(begin), std::abs(end), std::abs(sampleTime)});
+bool TimeInterval::contains(units::Time sampleTime, Real tolerance) const {
+	auto const scale = std::max({units::Time::from_value(1), units::abs(begin), units::abs(end), units::abs(sampleTime)});
 	return sampleTime >= begin - tolerance * scale && sampleTime <= end + tolerance * scale;
 }
 
-} // namespace octotigerII::mesh
+}	 // namespace octotigerII::mesh

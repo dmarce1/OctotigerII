@@ -1,23 +1,54 @@
+/** @file
+ * @brief Global diagnostics and symmetric gravity/transport integration.
+ * @ingroup runtime
+ */
 #pragma once
+#include <functional>
 #include "octotigerII/config.hpp"
 #include "octotigerII/gravity/solver.hpp"
 #include "octotigerII/runtime.hpp"
-#include <functional>
+
 
 namespace octotigerII {
-struct Diagnostics {
-	Real time = 0, mass = 0, gasEnergy = 0, radiationEnergy = 0;
-	Real minimumDensity = 0, minimumPressure = 0, minimumRadiationEnergy = 0,
-		 maximumReducedFlux = 0;
-	std::array<Real, 3> momentum{};
+
+
+/// CGS volume integrals and extrema of synchronized interior fields.
+/// maximumReducedFlux is the dimensionless magnitude |F|/(cE).
+/// @ingroup runtime
+class Diagnostics {
+public:
+
+	units::Time time{};
+	units::Mass mass{};
+	units::Energy gasEnergy{}, radiationEnergy{};
+	units::Density minimumDensity{};
+	units::Pressure minimumPressure{};
+	units::EnergyDensity minimumRadiationEnergy{};
+	Real maximumReducedFlux = 0;
+	std::array<units::Momentum, ndim> momentum{};
 };
+
+
+/// Integrate synchronized interior fields and check positivity and radiation realizability.
 Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& config);
-struct RunResult {
+
+
+/// Initial/final diagnostics, completed-step count, gravity work, and final snapshots.
+/// @ingroup runtime
+class RunResult {
+public:
+
 	Diagnostics initial, final;
 	int steps = 0;
 	gravity::Statistics gravityWork;
 	std::vector<Snapshot> snapshots;
 };
+
+
 using Observer = std::function<void(std::vector<Snapshot> const&, int, Diagnostics const&)>;
+
+/// Advance the configured problem and call the observer with synchronized snapshots.
+/// Gravity uses symmetric source/transport/source composition; see
+/// @ref ref_strang1968 "Strang (1968)".
 RunResult run(Config const& config, Observer const& observer = {});
-} // namespace octotigerII
+}	 // namespace octotigerII
