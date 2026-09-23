@@ -20,6 +20,15 @@ public:
 
 	std::uint64_t multipolePairs = 0;
 	std::uint64_t directPairs = 0;
+	/// Bounded worker tasks dispatched by the field solver, including exchanges.
+	std::uint64_t workerTasks = 0;
+	/// Leaves evaluated on each locality; empty for the standalone serial reference.
+	std::vector<std::uint64_t> localityCells;
+
+	template <typename Archive>
+	void serialize(Archive& archive, unsigned) {
+		archive & multipolePairs & directPairs & workerTasks & localityCells;
+	}
 };
 
 

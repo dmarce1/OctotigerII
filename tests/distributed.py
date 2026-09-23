@@ -22,7 +22,7 @@ def run(executable, arguments, localities=2):
     for sock in sockets:
         sock.close()
     executable = str(Path(executable).resolve())
-    common = [f"--hpx:localities={localities}", "--hpx:threads=2", "--hpx:bind=none",
+    common = [f"--hpx:localities={localities}", "--hpx:threads=" + os.environ.get("OCTOTIGERII_TEST_THREADS", "2"), "--hpx:bind=none",
               f"--hpx:agas=127.0.0.1:{ports[0]}",
               "--hpx:ini=hpx.parcel.message_handlers=" + os.environ.get("OCTOTIGERII_TEST_COALESCING", "1"),
               "--hpx:ini=hpx.parcel.zero_copy_serialization_threshold=" + os.environ.get("OCTOTIGERII_TEST_CHUNK_THRESHOLD", "1")]
@@ -36,7 +36,7 @@ def run(executable, arguments, localities=2):
                 if i:
                     command.append("--hpx:worker")
                 processes.append(subprocess.Popen(command, stdout=logs[i], stderr=subprocess.STDOUT))
-            statuses = [process.wait(timeout=120) for process in processes]
+            statuses = [process.wait(timeout=300) for process in processes]
             if any(statuses):
                 raise RuntimeError(f"Distributed execution failed: {statuses}")
         finally:

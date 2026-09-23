@@ -1,0 +1,9 @@
+n=8 p=3 theta=0.5 workers=1 pattern=0 multipolePairs=1452 directPairs=37888 digest=4771979583816720914 cellsPerLocality= 512
+n=8 p=3 theta=0.5 workers=4 pattern=0 multipolePairs=1452 directPairs=37888 digest=4771979583816720914 cellsPerLocality= 512
+n=8 p=3 theta=0.5 workers=4 pattern=0 multipolePairs=1452 directPairs=37888 digest=4771979583816720914 cellsPerLocality= 512
+n=8 p=1 theta=0.57 workers=4 pattern=0 multipolePairs=1548 directPairs=31744 digest=13252963588950193203 cellsPerLocality= 512
+n=8 p=10 theta=0.4 workers=4 pattern=0 multipolePairs=948 directPairs=70144 digest=17489266560866282221 cellsPerLocality= 512
+n=4 p=3 theta=0.1 workers=4 pattern=1 multipolePairs=0 directPairs=2016 digest=4998340203152526200 cellsPerLocality= 64
+n=4 p=3 theta=0.5 workers=4 pattern=2 multipolePairs=0 directPairs=2016 digest=15567473145155401509 cellsPerLocality= 64
+n=16 p=3 theta=0.5 workers=4 pattern=0 multipolePairs=33120 directPairs=412416 digest=505002038768973637 cellsPerLocality= 4096
+Partitioned FMM checks passed

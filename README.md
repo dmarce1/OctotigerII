@@ -185,7 +185,7 @@ but there is currently no gas–radiation exchange solver or combined example.
 
 Gravity uses a new cell-octree driver around the recovered compact Cartesian
 plane-wave FMM operators. Moments and locals retain `(p+1)²` real coefficients
-for `p=1..10`. An upward M2M pass, symmetric pair traversal with diagonal M2L,
+for `p=1..10`. An upward M2M pass, target-owned diagonal M2L interactions,
 and a downward L2L pass produce potential and acceleration. The opening test
 is `cell_width / separation < gravity.openingAngle`, with the angle strictly
 below `1/sqrt(3)`. Near leaf pairs use Newtonian direct summation. Cells are
@@ -208,10 +208,30 @@ and test harnesses, SCF, binary-star setup, rotating frames, species/degenerate
 EOS, radiation opacities/coupling/subcycling, dynamic AMR, shadow hierarchies,
 dynamic repartitioning, checkpoints, and old command-line compatibility.
 
-Transport fetches only the required halo ranges and never broadcasts full
-snapshot directories. Snapshot output/diagnostics and the gravity solve still
-use the coordinating locality. This revision changes storage and execution;
-it does not add dynamic AMR, distributed FMM, or checkpoint/restart.
+Transport fetches only the required halo ranges. The application FMM partitions
+moments and local expansions at every tree level across HPX localities. Bounded
+HPX workers process target cells within each locality; source moments and parent
+locals are fetched in deduplicated batches. Density comes directly from field
+storage, and gravity is written directly to the next field bank. No full density
+or FMM hierarchy is gathered for the solve. The hierarchy persists across steps.
+
+`--hpx:threads=N` sets worker threads per process; `runtime.workerTasks=0` uses
+that count, and a positive value caps concurrent gravity workers per locality.
+FMM cells can be divided across localities even when the mesh has only one block.
+The console reports `cellsPerLocality` for the last solve and the total number of
+bounded `workerTasks` dispatched. FMM ownership is static; remote transport work
+stealing does not move FMM targets. In an HPX-free build the same field solver
+runs serially. The standalone `gravity::solve` remains a serial numerical reference.
+
+Interaction pairs and the opening criterion are preserved. Each target accumulates
+its own direction of a pair in deterministic order; this avoids concurrent writes.
+Pair counters still count unordered pairs once. Rounding can differ from the old
+symmetric traversal. See [the FMM execution design](docs/parallel-fmm.md).
+
+Snapshots, diagnostic reductions, direct-reference verification, and Silo output
+still use the coordinating locality. There is a synchronization between tree
+levels; coarse levels have limited concurrency. Dynamic AMR, dynamic FMM
+repartitioning, and checkpoint/restart remain future work.
 
 See [VALIDATION.md](VALIDATION.md) for the checks actually performed and
 [PROVENANCE.md](PROVENANCE.md) for the source selection.

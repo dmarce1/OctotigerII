@@ -1,0 +1,4 @@
+iteration=0 seconds=1.050824e+00 cells=32768 workerTasks=18 cellsPerLocality= 32768
+iteration=1 seconds=1.058092e+00 cells=32768 workerTasks=18 cellsPerLocality= 32768
+iteration=2 seconds=1.130942e+00 cells=32768 workerTasks=18 cellsPerLocality= 32768
+iteration=3 seconds=1.054013e+00 cells=32768 workerTasks=18 cellsPerLocality= 32768

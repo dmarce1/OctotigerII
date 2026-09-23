@@ -1,0 +1,6 @@
+Locality 0:
+iteration=0 seconds=3.764090e-01 cells=32768 workerTasks=111 cellsPerLocality= 16384 16384
+iteration=1 seconds=3.395911e-01 cells=32768 workerTasks=111 cellsPerLocality= 16384 16384
+iteration=2 seconds=3.422519e-01 cells=32768 workerTasks=111 cellsPerLocality= 16384 16384
+iteration=3 seconds=3.569564e-01 cells=32768 workerTasks=111 cellsPerLocality= 16384 16384
+Locality 1:

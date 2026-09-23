@@ -5,7 +5,7 @@ The current application supports fixed-level Cartesian meshes, Euler hydro,
 uncoupled M1 radiation transport, and isolated Newtonian gravity.
 
 Start with [problem builds](../BUILDING.md), [storage and execution](../STORAGE.md),
-[the numerical conventions](numerics.md), or the
+[the numerical conventions](numerics.md), [parallel gravity](parallel-fmm.md), or the
 [bibliography](../BIBLIOGRAPHY.md). The Modules, Classes, and Files pages provide
 API documentation and links to the source. Search accepts names such as
 `StoragePartition`, `RadiationSystem`, or `Runtime`.
@@ -58,9 +58,9 @@ and @ref runtime for the contracts that make this safe.
 The storage component accepts arbitrary range lengths and several layouts in
 the same partitions; the current mesh adapter remains fixed-level Cartesian.
 Dynamic AMR, refluxing, ownership migration, particle integration, and restart
-checkpoints remain future work. Gravity and diagnostics still gather on the
-coordinator. The gravity tree organizes its calculation and does not own the
-distributed fluid fields.
+checkpoints remain future work. The FMM partitions its hierarchy across localities,
+reads density from distributed field ranges, and publishes gravity through the
+same field store. Diagnostics and output still gather on the coordinator.
 
 See [validation](../VALIDATION.md) for reproducible tests and their limits.
 See [documenting code](documenting.md) for the citation and formatting conventions.

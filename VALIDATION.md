@@ -1,5 +1,71 @@
 # Validation of OctotigerII
 
+## Threaded and distributed FMM (2026-09-23)
+
+The application now uses a persistent partitioned FMM hierarchy through
+`Runtime::solveGravity()`. Validation uses GCC 13.3.0, Release builds, and the
+existing HPX 1.11.0 installation. The standalone serial solver remains available
+as an independent traversal reference.
+
+The dedicated `gravity.partitioned` test covers:
+
+- Identical unordered M2L and P2P pair counts relative to the old symmetric solver.
+- Potential and all acceleration components within `3e-12` of each component's
+  maximum absolute reference value, including zeros and cancellation points.
+- Orders 1, 3, and 10; opening angles 0.1, 0.4, 0.5, and 0.57; dense asymmetric
+  masses, one isolated mass, and a completely empty mass distribution.
+- 4³, 8³, and 16³ meshes; one and multiple field blocks; FMM partition boundaries
+  crossing field blocks; empty coarse-level partitions.
+- One versus four worker tasks, repeated solves on alternating banks, exact
+  preservation of the other state fields, invalid density rejection, draining
+  failed work, and a corrected retry with unchanged published gravity.
+
+Two- and three-process TCP CTests run the same checks, with two HPX threads per
+process. A separate three-process run with one HPX thread per process also passed.
+Every process reported its owned evaluated leaves. For 4,096 leaves, the
+three-process split was 1,366 / 1,365 / 1,365. Reported field digests were identical
+across one, two, and three processes for every dedicated case, and across one and
+four worker tasks. These checks use independent processes on one host.
+
+A separate three-process collapse application run completed a transport step,
+both gravity kicks, and a new FMM solve. Its final gravity fields passed the
+existing direct-reference checks. The complete suites passed **49/49 CTests**:
+
+| Build | Checks passed |
+| --- | ---: |
+| HPX gravity sphere 3D | 14/14 |
+| HPX collapse 3D | 14/14 |
+| Serial gravity sphere 3D | 11/11 |
+| HPX Sod 1D (gravity excluded) | 10/10 |
+
+The serial partitioned test was rerun after the final input-validation guard.
+Build logs contained no compiler warnings. Doxygen regenerated successfully with
+warnings treated as errors. Test and timing logs are in
+`docs/validation/parallel-fmm/`.
+
+### Local timing sample
+
+An asymmetric dense 32³ mesh, order 3, theta 0.5, with eight cells per field-block
+axis was timed inside `FieldSolver::solve()`. The first solve warms operator
+caches; the table is the median of the following three solves. Field transfers,
+FMM exchanges, and publication writes are included; initialization of the fixture,
+snapshots, output, and direct verification are excluded. HPX affinity was disabled.
+The environment provides an eight-CPU quota. All configurations ran on one host.
+
+| HPX processes | Threads per process | Median solve time (s) | Relative to one thread |
+| ---: | ---: | ---: | ---: |
+| 1 | 1 | 1.058092e+00 | 1.00× |
+| 1 | 4 | 3.322818e-01 | 3.18× |
+| 2 | 2 | 3.422519e-01 | 3.09× |
+
+Reproduce with `tests/gravityParallelChecks benchmark 2 3` and the desired HPX
+thread/launcher settings. The positional benchmark arguments are block level and
+multipole order; block width is eight cells. This is a small timing sample, not
+cluster scaling evidence. Separate physical-node testing has not been performed.
+Snapshots, diagnostics, Silo output, and direct-reference verification remain
+centralized. See [parallel FMM](docs/parallel-fmm.md) for execution details.
+
+
 ## Direct gravity verification and orders 1–10 (2026-09-23)
 
 This revision passed 32/32 CTest checks across HPX Release builds: gravity-sphere

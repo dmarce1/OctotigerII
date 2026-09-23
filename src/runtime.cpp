@@ -7,6 +7,9 @@
 #include <optional>
 #include "octotigerII/storage/registry.hpp"
 #include "octotigerII/subgrid/view.hpp"
+#if OCTOTIGERII_GRAVITY
+#include "octotigerII/gravity/fieldSolver.hpp"
+#endif
 
 #ifdef OCTOTIGERII_WITH_HPX
 #include <hpx/include/components.hpp>
@@ -405,6 +408,9 @@ public:
 	std::vector<storage::Locality> localities;
 	std::unique_ptr<CartesianTopology> topology;
 	std::unique_ptr<FieldRepository> fields;
+#if OCTOTIGERII_GRAVITY
+	std::unique_ptr<gravity::FieldSolver> gravitySolver;
+#endif
 #ifdef OCTOTIGERII_WITH_HPX
 	std::vector<hpx::id_type> executors;
 #else
@@ -547,6 +553,24 @@ void Runtime::kickGravity(units::Time dt) {
 	impl_->bank ^= 1;
 	++impl_->generation;
 }
+
+gravity::Statistics Runtime::solveGravity() {
+	std::lock_guard guard(impl_->apiMutex);
+#if OCTOTIGERII_GRAVITY
+	if (!impl_->gravitySolver)
+		impl_->gravitySolver = std::make_unique<gravity::FieldSolver>(impl_->config, impl_->topology->blocks(),
+			impl_->fields->directory(), impl_->localities);
+	auto result = impl_->gravitySolver->solve(impl_->bank);
+	impl_->bank ^= 1;
+	++impl_->generation;
+	impl_->gravityTime = impl_->time.time;
+	impl_->gravityReady = true;
+	return result;
+#else
+	throw std::logic_error("Gravity is not part of this executable");
+#endif
+}
+
 
 void Runtime::setGravity(std::vector<std::vector<gravity::State>> const& fields) {
 	std::lock_guard guard(impl_->apiMutex);

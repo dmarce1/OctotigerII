@@ -1,0 +1,29 @@
+Test project /workspace/scratch/c684163604d1/build-fmm-sod
+      Start  1: units
+      Start  2: options
+ 1/10 Test  #1: units ............................   Passed    0.00 sec
+      Start  3: silo
+ 2/10 Test  #2: options ..........................   Passed    0.01 sec
+      Start  4: serialization
+ 3/10 Test  #4: serialization ....................   Passed    0.01 sec
+      Start  5: example.sod.1d
+ 4/10 Test  #3: silo .............................   Passed    0.03 sec
+      Start  6: application
+ 5/10 Test  #5: example.sod.1d ...................   Passed    0.03 sec
+      Start  7: transport
+ 6/10 Test  #7: transport ........................   Passed    0.02 sec
+      Start  8: storage
+ 7/10 Test  #8: storage ..........................   Passed    0.01 sec
+      Start  9: analytic.references
+ 8/10 Test  #9: analytic.references ..............   Passed    0.02 sec
+      Start 10: analytic.convergence
+ 9/10 Test #10: analytic.convergence .............   Passed    0.03 sec
+10/10 Test  #6: application ......................   Passed    0.32 sec
+
+100% tests passed out of 10
+
+Label Time Summary:
+analytic       =   0.03 sec*proc (1 test)
+convergence    =   0.03 sec*proc (1 test)
+
+Total Test time (real) =   0.35 sec

@@ -31,8 +31,13 @@ int application(std::vector<std::string> const& args) {
 		auto const comparison = octotigerII::verification::compare(result.snapshots, config);
 		comparison.print(std::cout);
 		comparison.enforce(config);
-		if (config.gravityEnabled())
-			std::cout << "gravity multipolePairs=" << result.gravityWork.multipolePairs << " directPairs=" << result.gravityWork.directPairs << '\n';
+		if (config.gravityEnabled()) {
+			std::cout << "gravity multipolePairs=" << result.gravityWork.multipolePairs << " directPairs=" << result.gravityWork.directPairs
+				<< " workerTasks=" << result.gravityWork.workerTasks << " cellsPerLocality=";
+			for (auto count : result.gravityWork.localityCells)
+				std::cout << ' ' << count;
+			std::cout << '\n';
+		}
 		std::cout << "Completed " << result.steps << " steps at t=" << octotigerII::units::value(result.final.time) << " s\n";
 		return 0;
 	} catch (std::exception const& error) {

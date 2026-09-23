@@ -4,6 +4,7 @@
  */
 #pragma once
 #include <memory>
+#include "octotigerII/gravity/solver.hpp"
 #include "octotigerII/subgrid/subgrid.hpp"
 
 
@@ -55,6 +56,10 @@ public:
 	/// Publish one transport update only after all blocks and remote writebacks succeed.
 	/// On failure, drain work and preserve the previously published state and time.
 	void advance(units::Time dt);
+
+	/// Solve gravity on the partitioned hierarchy and publish its distributed fields.
+	/// The input bank and physical time survive a failed solve unchanged.
+	gravity::Statistics solveGravity();
 
 	/// Validate a complete gravity field directory, fill the next bank, then publish it.
 	void setGravity(std::vector<std::vector<gravity::State>> const& fields);

@@ -1,0 +1,37 @@
+Test project /workspace/scratch/c684163604d1/build-fmm-collapse
+      Start 11: gravity.distributed.3
+ 1/14 Test #11: gravity.distributed.3 ............   Passed   16.71 sec
+      Start 10: gravity.distributed.2
+ 2/14 Test #10: gravity.distributed.2 ............   Passed    4.07 sec
+      Start  8: gravity
+      Start  9: gravity.partitioned
+ 3/14 Test  #9: gravity.partitioned ..............   Passed    1.47 sec
+      Start  6: application
+ 4/14 Test  #8: gravity ..........................   Passed    1.90 sec
+      Start  5: example.collapse.3d
+ 5/14 Test  #6: application ......................   Passed    0.62 sec
+      Start  7: transport
+ 6/14 Test  #5: example.collapse.3d ..............   Passed    0.21 sec
+      Start 13: storage
+ 7/14 Test  #7: transport ........................   Passed    0.05 sec
+      Start 14: analytic.references
+ 8/14 Test #13: storage ..........................   Passed    0.04 sec
+      Start  3: silo
+ 9/14 Test #14: analytic.references ..............   Passed    0.02 sec
+      Start 12: gravity.directReference
+10/14 Test  #3: silo .............................   Passed    0.02 sec
+      Start  4: serialization
+11/14 Test #12: gravity.directReference ..........   Passed    0.02 sec
+      Start  2: options
+12/14 Test  #4: serialization ....................   Passed    0.01 sec
+      Start  1: units
+13/14 Test  #1: units ............................   Passed    0.00 sec
+14/14 Test  #2: options ..........................   Passed    0.01 sec
+
+100% tests passed out of 14
+
+Label Time Summary:
+distributed    =  20.78 sec*proc (2 tests)
+gravity        =  20.78 sec*proc (2 tests)
+
+Total Test time (real) =  22.97 sec

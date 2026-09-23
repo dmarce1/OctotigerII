@@ -57,7 +57,7 @@ octo_library(octotigerIIApplication src/runtime.cpp src/simulation.cpp src/outpu
   src/storage.cpp src/verification/analytic.cpp)
 target_link_libraries(octotigerIIApplication PUBLIC octotigerIISubgrid)
 if(PROBLEM_GRAVITY)
-  target_sources(octotigerIIApplication PRIVATE src/verification/directGravity.cpp)
+  target_sources(octotigerIIApplication PRIVATE src/verification/directGravity.cpp src/gravity/fieldSolver.cpp)
 endif()
 
 foreach(module Mesh Physics Hydro Radiation Gravity Subgrid Application)

@@ -112,10 +112,13 @@ requires a bounded number of coordinator actions per locality, rather than one
 coordinator action for each block. Local workers schedule individual blocks.
 
 Snapshots contain compact interiors only. Transport never broadcasts the global
-snapshot directory. Output/diagnostics and the present gravity driver still
-gather snapshots on the coordinator. The mathematical tree inside the FMM is
-independent of field ownership and remains part of that gravity algorithm.
-Distributed gravity and distributed diagnostic reductions are separate work.
+snapshot directory. Output/diagnostics still gather snapshots on the coordinator.
+The FMM hierarchy is independently partitioned by global cell index at every
+level. It reads density from field ranges, exchanges required moments and parent
+locals, and writes gravity plus copied state into the unpublished bank. Its
+partition boundaries may cut field blocks; writes cover disjoint ranges. The
+runtime publishes that bank only after all localities and their transfers finish.
+Distributed diagnostic reductions remain separate work.
 
 ## HPX communication and zero-copy
 

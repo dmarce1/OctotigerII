@@ -9,41 +9,6 @@
 namespace octotigerII {
 
 
-namespace {
-#if OCTOTIGERII_GRAVITY
-	std::size_t globalIndex(mesh::BlockLocation const& location, mesh::Coordinates cell, int cells, int n) {
-		for (int d = 0; d < ndim; ++d)
-			cell[d] += location.coordinates[d] * cells;
-		return mesh::linearIndex(cell, mesh::filledCoordinates(n));
-	}
-
-	gravity::Statistics solveGravity(Runtime& runtime, std::vector<Snapshot> const& snapshots, Config const& c) {
-		int const n = c.mesh.cells * (1 << c.mesh.level);
-		std::vector<units::Density> density(static_cast<std::size_t>(n) * n * n);
-		for (auto const& block : snapshots)
-			block.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
-				density[globalIndex(block.location, cell, c.mesh.cells, n)] =
-					block.hydroEnabled ? block.hydro.values()[i].density() : block.density.values()[i];
-			});
-		auto solution = gravity::solve(density, n, (c.mesh.upper - c.mesh.lower) / Real(n), c.gravity.multipoleOrder, c.gravity.openingAngle);
-		std::vector<std::vector<gravity::State>> fields(snapshots.size());
-		for (std::size_t b = 0; b < snapshots.size(); ++b)
-			snapshots[b].layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t) {
-				fields[b].push_back(solution.fields[globalIndex(snapshots[b].location, cell, c.mesh.cells, n)]);
-			});
-		runtime.setGravity(fields);
-		return solution.statistics;
-	}
-
-#else
-	[[maybe_unused]] gravity::Statistics solveGravity(Runtime&, std::vector<Snapshot> const&, Config const&) {
-		throw std::logic_error("Gravity is not part of this executable");
-	}
-#endif
-
-}	 // namespace
-
-
 Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 	if (snapshots.empty()) throw std::invalid_argument("Empty snapshot directory");
 	Diagnostics d;
@@ -96,11 +61,8 @@ RunResult run(Config const& c, Observer const& observer) {
 	verification::reference(c, c.runtime.stopTime);
 	Runtime runtime(c);
 	RunResult result;
+	if constexpr (build::gravity) result.gravityWork = runtime.solveGravity();
 	auto snapshots = runtime.snapshots();
-	if constexpr (build::gravity) {
-		result.gravityWork = solveGravity(runtime, snapshots, c);
-		snapshots = runtime.snapshots();
-	}
 	result.initial = diagnose(snapshots, c);
 	result.final = result.initial;
 	if (observer) observer(snapshots, 0, result.initial);
@@ -109,19 +71,17 @@ RunResult run(Config const& c, Observer const& observer) {
 		auto const dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
 			throw std::runtime_error("Timestep cannot advance physical time");
-		if constexpr (build::gravity) {
-			runtime.kickGravity(dt / 2.0);
-			snapshots = runtime.snapshots();
-		}
+		if constexpr (build::gravity) runtime.kickGravity(dt / 2.0);
 		runtime.advance(dt);
-		snapshots = runtime.snapshots();
 		if constexpr (build::gravity) {
-			auto const work = solveGravity(runtime, snapshots, c);
+			auto const work = runtime.solveGravity();
 			result.gravityWork.multipolePairs += work.multipolePairs;
 			result.gravityWork.directPairs += work.directPairs;
+			result.gravityWork.workerTasks += work.workerTasks;
+			result.gravityWork.localityCells = work.localityCells;
 			runtime.kickGravity(dt / 2.0);
-			snapshots = runtime.snapshots();
 		}
+		snapshots = runtime.snapshots();
 		++result.steps;
 		result.final = diagnose(snapshots, c);
 		if (observer) observer(snapshots, result.steps, result.final);
