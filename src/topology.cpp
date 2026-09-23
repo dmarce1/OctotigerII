@@ -1,4 +1,5 @@
 #include "octotigerII/subgrid/topology.hpp"
+#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <limits>
 #include <map>
@@ -28,6 +29,7 @@ CartesianTopology::CartesianTopology(Config const& config, std::size_t partition
 }
 
 HaloPlan makeHaloPlan(Config const& config_, std::vector<Subgrid> const& blocks_, std::size_t index) {
+	profiling::Region profile("mesh.halo_plan");
 	auto const& block = blocks_.at(index);
 	int const n = 1 << config_.mesh.level;
 	int const globalCells = n * config_.mesh.cells;

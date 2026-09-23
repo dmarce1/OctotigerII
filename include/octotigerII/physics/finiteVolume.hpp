@@ -7,6 +7,7 @@
 #pragma once
 
 #include "octotigerII/mesh.hpp"
+#include "octotigerII/profiling.hpp"
 
 #include <algorithm>
 #include <array>
@@ -255,28 +256,35 @@ public:
 			minus[axis].resize(layout.cellCount());
 			plus[axis].resize(layout.cellCount());
 		}
-		predictFaceStates(patch, stepSize, minus, plus);
-
-		auto& fluxes = workspace.fluxes;
-		for (int axis = 0; axis < ndim; ++axis) {
-			fluxes[axis].resize(layout.faceCount(axis));
-			mesh::Coordinates const faceExtents = layout.faceExtents(axis);
-			mesh::forEachCoordinate(faceExtents, [&](mesh::Coordinates const& face) {
-				mesh::Coordinates left = face;
-				for (int d = 0; d < ndim; ++d)
-					left[d] = std::min(left[d], layout.interiorExtent(d) - 1);
-				left = layout.storageCoordinates(left);
-				mesh::Coordinates right = left;
-				left[axis] = layout.ghostWidth() + face[axis] - 1;
-				right[axis] = layout.ghostWidth() + face[axis];
-				State const& leftState = plus[axis][layout.index(left)];
-				State const& rightState = minus[axis][layout.index(right)];
-				Flux highOrderFlux = system_.riemann(leftState, rightState, axis);
-				highOrderFlux = system_.limitFlux(patch.atStorage(left), patch.atStorage(right), highOrderFlux, axis, stepSize / patch.cellWidth());
-				fluxes[axis][layout.faceIndex(axis, face)] = highOrderFlux;
-			});
+		{
+			profiling::Region profile("transport.reconstruct_predict");
+			predictFaceStates(patch, stepSize, minus, plus);
 		}
 
+		auto& fluxes = workspace.fluxes;
+		{
+			profiling::Region profile("transport.fluxes");
+			for (int axis = 0; axis < ndim; ++axis) {
+				fluxes[axis].resize(layout.faceCount(axis));
+				mesh::Coordinates const faceExtents = layout.faceExtents(axis);
+				mesh::forEachCoordinate(faceExtents, [&](mesh::Coordinates const& face) {
+					mesh::Coordinates left = face;
+					for (int d = 0; d < ndim; ++d)
+						left[d] = std::min(left[d], layout.interiorExtent(d) - 1);
+					left = layout.storageCoordinates(left);
+					mesh::Coordinates right = left;
+					left[axis] = layout.ghostWidth() + face[axis] - 1;
+					right[axis] = layout.ghostWidth() + face[axis];
+					State const& leftState = plus[axis][layout.index(left)];
+					State const& rightState = minus[axis][layout.index(right)];
+					Flux highOrderFlux = system_.riemann(leftState, rightState, axis);
+					highOrderFlux = system_.limitFlux(patch.atStorage(left), patch.atStorage(right), highOrderFlux, axis, stepSize / patch.cellWidth());
+					fluxes[axis][layout.faceIndex(axis, face)] = highOrderFlux;
+				});
+			}
+		}
+
+		profiling::Region updateProfile("transport.update");
 		layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t) {
 			Flux update{};
 			for (int axis = 0; axis < ndim; ++axis) {

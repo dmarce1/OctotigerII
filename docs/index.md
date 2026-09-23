@@ -5,7 +5,8 @@ The current application supports fixed-level Cartesian meshes, Euler hydro,
 uncoupled M1 radiation transport, and isolated Newtonian gravity.
 
 Start with [problem builds](../BUILDING.md), [storage and execution](../STORAGE.md),
-[the numerical conventions](numerics.md), [parallel gravity](parallel-fmm.md), or the
+[the numerical conventions](numerics.md), [parallel gravity](parallel-fmm.md),
+[profiling](profiling.md), or the
 [bibliography](../BIBLIOGRAPHY.md). The Modules, Classes, and Files pages provide
 API documentation and links to the source. Search accepts names such as
 `StoragePartition`, `RadiationSystem`, or `Runtime`.

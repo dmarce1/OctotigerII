@@ -1,4 +1,5 @@
 #include "octotigerII/runtime.hpp"
+#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <exception>
 #include <limits>
@@ -94,7 +95,10 @@ public:
 		readHalo(fields, plan, bank, ghosts);
 		PatchView<State> input(block, std::move(interior), plan, ghosts);
 		auto output = fields.output(block.interior, bank ^ 1);
-		Solver(system).advanceInto(input, dt, work, [&](mesh::Coordinates const& cell, State const& state) { output.put(block.layout.index(cell), state); });
+		{
+			profiling::Region profile(std::is_same_v<System, hydro::HydroSystem> ? "hydro.advance" : "radiation.advance");
+			Solver(system).advanceInto(input, dt, work, [&](mesh::Coordinates const& cell, State const& state) { output.put(block.layout.index(cell), state); });
+		}
 		fields.commit(block.interior, bank ^ 1, output);
 	}
 };
@@ -169,6 +173,7 @@ public:
 	}
 
 	void initialize() {
+		profiling::Elapsed profile("runtime.initialize.wall_ns");
 		for (auto id : owned_) {
 			auto const& block = blocks_.at(id);
 			auto const initial = initialSnapshot(config_, block.location);
@@ -205,7 +210,9 @@ public:
 #ifdef OCTOTIGERII_WITH_HPX
 		std::vector<hpx::future<PhaseResult>> pending;
 		for (std::size_t i = 0; i < workspaces_.size(); ++i)
-			pending.push_back(hpx::async([&, i] { return worker(operation, dt, generation, executors, workspaces_[i]); }));
+			pending.push_back(hpx::async(profiling::annotated([&, i] { return worker(operation, dt, generation, executors, workspaces_[i]); },
+				operation == Operation::Timestep ? "runtime.timestep.worker" :
+				operation == Operation::Advance ? "runtime.advance.worker" : "runtime.gravity_kick.worker")));
 		auto results = collect(pending);
 #else
 		std::vector<PhaseResult> results{worker(operation, dt, generation, executors, workspaces_.front())};
@@ -220,6 +227,7 @@ public:
 	}
 
 	std::vector<Snapshot> snapshots(unsigned bank, mesh::TimeState time) const {
+		profiling::Elapsed profile("runtime.snapshots.local.wall_ns");
 		std::vector<Snapshot> result;
 		for (auto id : owned_) {
 			auto const& block = blocks_.at(id);
@@ -329,6 +337,7 @@ private:
 		auto result = units::Time::from_value(std::numeric_limits<Real>::infinity());
 		[[maybe_unused]] auto fieldStep = [&](auto const& fields, auto const& system) {
 			auto input = fields.read(block.interior, bank_).get();
+			profiling::Region profile("transport.signal_speed");
 			units::InverseTime rate{};
 			std::array<units::Velocity, ndim> speed{};
 			for (std::size_t i = 0; i < block.interior.count; ++i)
@@ -367,18 +376,21 @@ private:
 		auto input = fields_.hydro.read(block.interior, bank_).get();
 		auto gravity = fields_.gravity.read(block.interior, bank_).get();
 		auto output = fields_.hydro.output(block.interior, bank_ ^ 1);
-		for (std::size_t i = 0; i < block.interior.count; ++i) {
-			auto state = input.at(i);
-			units::EnergyDensity work{};
-			for (int d = 0; d < ndim; ++d) {
-				auto const old = state.momentum(d);
-				auto const impulse = dt * state.density() * gravity.at(i).acceleration(d);
-				state.momentum(d) += impulse;
-				work += impulse * (old + 0.5 * impulse) / state.density();
+		{
+			profiling::Region profile("gravity.kick");
+			for (std::size_t i = 0; i < block.interior.count; ++i) {
+				auto state = input.at(i);
+				units::EnergyDensity work{};
+				for (int d = 0; d < ndim; ++d) {
+					auto const old = state.momentum(d);
+					auto const impulse = dt * state.density() * gravity.at(i).acceleration(d);
+					state.momentum(d) += impulse;
+					work += impulse * (old + 0.5 * impulse) / state.density();
+				}
+				state.totalEnergy() += work;
+				if (!hydro::HydroSystem(config_.hydro.gamma).admissible(state)) throw std::runtime_error("Invalid gravity kick state");
+				output.put(i, state);
 			}
-			state.totalEnergy() += work;
-			if (!hydro::HydroSystem(config_.hydro.gamma).admissible(state)) throw std::runtime_error("Invalid gravity kick state");
-			output.put(i, state);
 		}
 		fields_.hydro.commit(block.interior, bank_ ^ 1, output);
 	}
@@ -512,6 +524,7 @@ char const* Runtime::backend() {
 }
 
 std::vector<Snapshot> Runtime::snapshots() const {
+	profiling::Elapsed profile("runtime.snapshots.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
 	std::vector<Snapshot> result;
 #ifdef OCTOTIGERII_WITH_HPX
@@ -530,11 +543,13 @@ std::vector<Snapshot> Runtime::snapshots() const {
 }
 
 units::Time Runtime::stableTimestep() const {
+	profiling::Elapsed profile("runtime.timestep.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
 	return impl_->phase(Operation::Timestep, {}).timestep;
 }
 
 void Runtime::advance(units::Time dt) {
+	profiling::Elapsed profile("runtime.advance.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
 	if (!(dt > units::Time{}) || !units::finite(dt) || impl_->time.time + dt == impl_->time.time) throw std::invalid_argument("Invalid step size");
 	if (!impl_->config.hydroEnabled() && !impl_->config.radiationEnabled()) throw std::logic_error("No transport fields to advance");
@@ -545,6 +560,7 @@ void Runtime::advance(units::Time dt) {
 }
 
 void Runtime::kickGravity(units::Time dt) {
+	profiling::Elapsed profile("runtime.gravity_kick.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
 	if (!impl_->config.hydroEnabled() || !impl_->config.gravityEnabled() || !impl_->gravityReady || impl_->gravityTime != impl_->time.time ||
 		!(dt > units::Time{}) || !units::finite(dt))
@@ -555,6 +571,7 @@ void Runtime::kickGravity(units::Time dt) {
 }
 
 gravity::Statistics Runtime::solveGravity() {
+	profiling::Elapsed profile("runtime.gravity.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
 #if OCTOTIGERII_GRAVITY
 	if (!impl_->gravitySolver)

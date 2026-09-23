@@ -1,4 +1,5 @@
 #include "octotigerII/gravity/fieldSolver.hpp"
+#include "octotigerII/profiling.hpp"
 
 #include <algorithm>
 #include <atomic>
@@ -172,6 +173,7 @@ public:
 	}
 
 	std::vector<Coefficients> read(unsigned depth, bool local, std::vector<std::size_t> const& ids) const {
+		profiling::Region profile("gravity.exchange.pack");
 		auto const& level = levels_.at(depth);
 		auto const& data = local ? level.locals : level.moments;
 		std::vector<Coefficients> result;
@@ -210,7 +212,7 @@ private:
 	std::vector<FieldRange> ranges_;
 
 	template <typename Function>
-	Statistics parallel(std::size_t count, Function const& function) const {
+	Statistics parallel(std::size_t count, char const* name, Function const& function) const {
 		if (count == 0) return {};
 		constexpr std::size_t grain = 16;
 		auto const workers = std::min(workers_, (count + grain - 1) / grain);
@@ -232,7 +234,7 @@ private:
 		pending.reserve(workers);
 		try {
 			for (std::size_t i = 0; i < workers; ++i)
-				pending.push_back(hpx::async([&, i] { return work(i); }));
+				pending.push_back(hpx::async(profiling::annotated([&, i] { return work(i); }, name)));
 		} catch (...) {
 			auto error = std::current_exception();
 			try {
@@ -245,6 +247,7 @@ private:
 			accumulate(result, part);
 #else
 		(void) workers;
+		(void) name;
 		result = work(0);
 #endif
 		return result;
@@ -284,11 +287,12 @@ private:
 	template <typename Needs>
 	Sources fetch(
 		unsigned depth, bool local, std::size_t targets, Needs const& needs, std::vector<storage::Locality> const& peers, Statistics& statistics) const {
+		profiling::Elapsed profile("gravity.exchange.wall_ns");
 		auto const& level = levels_.at(depth);
 		Sources sources{level, local, {}};
 		if (partitions_ == 1) return sources;
 		std::vector<std::unordered_set<std::size_t>> requests(workers_);
-		accumulate(statistics, parallel(targets, [&](std::size_t i, std::size_t worker, Statistics&) {
+		accumulate(statistics, parallel(targets, "gravity.exchange.plan", [&](std::size_t i, std::size_t worker, Statistics&) {
 			needs(i, [&](std::size_t id) {
 				if (id < level.begin || id >= level.end) requests[worker].insert(id);
 			});
@@ -321,7 +325,11 @@ private:
 			}
 			std::rethrow_exception(error);
 		}
-		auto values = collect(pending);
+		auto values = [&] {
+			profiling::Elapsed wait("gravity.exchange.wait.wall_ns");
+			return collect(pending);
+		}();
+		profiling::Region unpack("gravity.exchange.unpack");
 		for (std::size_t b = 0; b < batches.size(); ++b) {
 			if (values[b].size() != batches[b].size()) throw std::logic_error("Incomplete FMM source transfer");
 			for (std::size_t i = 0; i < batches[b].size(); ++i)
@@ -334,15 +342,16 @@ private:
 	}
 
 	Statistics initialize(unsigned bank) {
+		profiling::Elapsed profile("gravity.initialize.wall_ns");
 		Statistics result;
 		for (auto& level : levels_)
-			accumulate(result, parallel(level.moments.size(), [&](std::size_t i, std::size_t, Statistics&) {
+			accumulate(result, parallel(level.moments.size(), "gravity.clear", [&](std::size_t i, std::size_t, Statistics&) {
 				std::fill(level.moments[i].begin(), level.moments[i].end(), 0);
 				std::fill(level.locals[i].begin(), level.locals[i].end(), 0);
 			}));
 		auto const volume = cellWidth_ * cellWidth_ * cellWidth_;
 		auto const gram = units::Mass::from_value(1);
-		accumulate(result, parallel(ranges_.size(), [&](std::size_t r, std::size_t, Statistics&) {
+		accumulate(result, parallel(ranges_.size(), "gravity.p2m", [&](std::size_t r, std::size_t, Statistics&) {
 			auto const& segment = ranges_[r];
 			auto fill = [&](auto density) {
 				for (std::size_t i = 0; i < segment.range.count; ++i) {
@@ -364,6 +373,7 @@ private:
 	}
 
 	Statistics upward(unsigned depth, std::vector<storage::Locality> const& peers) {
+		profiling::Elapsed profile("gravity.upward.wall_ns");
 		auto& level = levels_.at(depth);
 		auto const& fine = levels_.at(depth + 1);
 		Statistics result;
@@ -375,7 +385,7 @@ private:
 					need(index(child(c, slot), fine.count));
 			},
 			peers, result);
-		accumulate(result, parallel(level.moments.size(), [&](std::size_t i, std::size_t, Statistics&) {
+		accumulate(result, parallel(level.moments.size(), "gravity.m2m", [&](std::size_t i, std::size_t, Statistics&) {
 			auto const c = coordinate(level.begin + i, level.count);
 			for (int slot = 0; slot < 8; ++slot)
 				add(level.moments[i],
@@ -385,6 +395,7 @@ private:
 	}
 
 	Statistics downward(unsigned depth, std::vector<storage::Locality> const& peers) {
+		profiling::Elapsed profile("gravity.downward.wall_ns");
 		auto& level = levels_.at(depth);
 		Statistics result;
 		auto sources = fetch(
@@ -394,7 +405,7 @@ private:
 			depth - 1, true, level.locals.size(),
 			[&](std::size_t i, auto need) { need(index(parent(coordinate(level.begin + i, level.count)), level.count / 2)); }, peers, result);
 		bool const leaf = depth + 1 == levels_.size();
-		accumulate(result, parallel(level.locals.size(), [&](std::size_t i, std::size_t, Statistics& statistics) {
+		accumulate(result, parallel(level.locals.size(), leaf ? "gravity.p2p_l2l" : "gravity.m2l_l2l", [&](std::size_t i, std::size_t, Statistics& statistics) {
 			auto const target = level.begin + i;
 			interactions(depth, target, [&](std::size_t source, diagonal::Offset const& r) {
 				if (leaf) {
@@ -422,9 +433,10 @@ private:
 	}
 
 	Statistics publish(unsigned bank) {
+		profiling::Elapsed profile("gravity.publish.wall_ns");
 		auto const gram = units::Mass::from_value(1);
 		auto const cm = units::Length::from_value(1);
-		auto result = parallel(ranges_.size(), [&](std::size_t r, std::size_t, Statistics&) {
+		auto result = parallel(ranges_.size(), "gravity.publish", [&](std::size_t r, std::size_t, Statistics&) {
 			auto const& segment = ranges_[r];
 			auto const range = segment.range;
 			auto output = fields_.gravity.output(range, bank ^ 1);
@@ -507,6 +519,7 @@ public:
 FieldSolver::FieldSolver(
 	Config const& config, std::vector<Subgrid> const& blocks, FieldDirectory const& fields, std::vector<storage::Locality> const& localities)
   : impl_(std::make_unique<Impl>()) {
+	profiling::Elapsed profile("gravity.setup.wall_ns");
 	config.validate();
 	if (localities.empty()) throw std::invalid_argument("FMM requires at least one locality");
 	int const n = config.mesh.cells * (1 << config.mesh.level);
@@ -536,6 +549,7 @@ FieldSolver::FieldSolver(
 FieldSolver::~FieldSolver() = default;
 
 Statistics FieldSolver::solve(unsigned bank) {
+	profiling::Elapsed profile("gravity.solve.wall_ns");
 	auto result = impl_->phase(Stage::Initialize, 0, bank);
 	for (unsigned depth = impl_->depths - 1; depth > 0; --depth)
 		accumulate(result, impl_->phase(Stage::Upward, depth - 1, bank));
@@ -544,6 +558,9 @@ Statistics FieldSolver::solve(unsigned bank) {
 	auto publication = impl_->phase(Stage::Publish, 0, bank);
 	accumulate(result, publication);
 	result.localityCells = std::move(publication.localityCells);
+	profiling::sample("gravity.multipole_pairs", double(result.multipolePairs));
+	profiling::sample("gravity.direct_pairs", double(result.directPairs));
+	profiling::sample("gravity.worker_tasks", double(result.workerTasks));
 	return result;
 }
 

@@ -3,5 +3,6 @@
 /debug/
 /relwithdebinfo/
 /output*/
+/profiles/
 *.silo
 *.visit

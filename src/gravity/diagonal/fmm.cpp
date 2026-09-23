@@ -1,5 +1,6 @@
 // Distributed under the Boost Software License, Version 1.0.
 #include "octotigerII/gravity/diagonal/fmm.hpp"
+#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <cmath>
 #include <map>
@@ -176,6 +177,7 @@ Operator::Operator(int p, Offset r)
 	using std::hypot;
 	using std::sin;
 
+	profiling::Region profile("gravity.operator_setup");
 	if (p < 1) throw std::invalid_argument("diagonal FMM M2L order must be 1..10");
 	const double radius = hypot(double(r[0]), double(r[1]), double(r[2]));
 	if (radius == 0) throw std::invalid_argument("zero M2L separation");

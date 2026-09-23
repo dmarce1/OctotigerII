@@ -1,5 +1,6 @@
 // Distributed under the Boost Software License, Version 1.0.
 #include "octotigerII/gravity/solver.hpp"
+#include "octotigerII/profiling.hpp"
 #include <array>
 #include <cmath>
 #include <functional>
@@ -56,6 +57,8 @@ Solution solve(std::vector<units::Density> const& density, int n, units::Length 
 	using std::isfinite;
 	using std::sqrt;
 
+	profiling::Region profile("gravity.serial.solve");
+
 	// The diagonal expansion uses dimensionless coefficients, normalized to
 	// one gram and one centimeter. Restore dimensions before applying G.
 	auto const cm = units::Length::from_value(1);
@@ -75,17 +78,20 @@ Solution solve(std::vector<units::Density> const& density, int n, units::Length 
 		leaves.moments[i][0] = density[i] * volume / gram;
 	}
 	// Upward pass: compact moments about geometric cell centers.
-	for (int level = static_cast<int>(levels.size()) - 2; level >= 0; --level) {
-		auto& parent = levels[level];
-		auto const& fine = levels[level + 1];
-		for (int z = 0; z < parent.count; ++z)
-			for (int y = 0; y < parent.count; ++y)
-				for (int x = 0; x < parent.count; ++x) {
-					Coordinate const c{x, y, z};
-					for (int slot = 0; slot < 8; ++slot)
-						add(parent.moments[index(c, parent.count)],
-							diagonal::shiftMultipole(fine.moments[index(child(c, slot), fine.count)], childOffset(slot), 0.5, order));
-				}
+	{
+		profiling::Region profile("gravity.serial.m2m");
+		for (int level = static_cast<int>(levels.size()) - 2; level >= 0; --level) {
+			auto& parent = levels[level];
+			auto const& fine = levels[level + 1];
+			for (int z = 0; z < parent.count; ++z)
+				for (int y = 0; y < parent.count; ++y)
+					for (int x = 0; x < parent.count; ++x) {
+						Coordinate const c{x, y, z};
+						for (int slot = 0; slot < 8; ++slot)
+							add(parent.moments[index(c, parent.count)],
+								diagonal::shiftMultipole(fine.moments[index(child(c, slot), fine.count)], childOffset(slot), 0.5, order));
+					}
+		}
 	}
 	Solution result;
 	// Symmetric cell-pair traversal. Both cells always have the same width.
@@ -118,20 +124,27 @@ Solution solve(std::vector<units::Density> const& density, int n, units::Length 
 					interact(depth + 1, child(a, i), child(b, j));
 		}
 	};
-	interact(0, {0, 0, 0}, {0, 0, 0});
-	// Downward pass: normalized derivatives scale with the level width.
-	for (std::size_t depth = 0; depth + 1 < levels.size(); ++depth) {
-		auto const& parent = levels[depth];
-		auto& fine = levels[depth + 1];
-		for (int z = 0; z < parent.count; ++z)
-			for (int y = 0; y < parent.count; ++y)
-				for (int x = 0; x < parent.count; ++x) {
-					Coordinate const c{x, y, z};
-					for (int slot = 0; slot < 8; ++slot)
-						add(fine.locals[index(child(c, slot), fine.count)],
-							diagonal::shiftLocal(parent.locals[index(c, parent.count)], childOffset(slot), 0.5, order));
-				}
+	{
+		profiling::Region interactions("gravity.serial.interactions");
+		interact(0, {0, 0, 0}, {0, 0, 0});
 	}
+	// Downward pass: normalized derivatives scale with the level width.
+	{
+		profiling::Region profile("gravity.serial.l2l");
+		for (std::size_t depth = 0; depth + 1 < levels.size(); ++depth) {
+			auto const& parent = levels[depth];
+			auto& fine = levels[depth + 1];
+			for (int z = 0; z < parent.count; ++z)
+				for (int y = 0; y < parent.count; ++y)
+					for (int x = 0; x < parent.count; ++x) {
+						Coordinate const c{x, y, z};
+						for (int slot = 0; slot < 8; ++slot)
+							add(fine.locals[index(child(c, slot), fine.count)],
+								diagonal::shiftLocal(parent.locals[index(c, parent.count)], childOffset(slot), 0.5, order));
+					}
+		}
+	}
+	profiling::Region publish("gravity.serial.l2p");
 	result.fields.resize(density.size());
 	for (std::size_t i = 0; i < density.size(); ++i) {
 		auto& field = result.fields[i];

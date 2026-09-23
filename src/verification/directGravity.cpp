@@ -1,4 +1,5 @@
 #include "octotigerII/verification/directGravity.hpp"
+#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -43,6 +44,8 @@ ErrorNorm directErrorNorm(Field const& field, std::size_t population) {
 	using std::abs;
 	using std::isfinite;
 	using std::sqrt;
+
+	profiling::Region profile("verification.direct_error_norm");
 
 	auto const count = field.exact.size();
 	if (count == 0 || count > population || count != field.numerical.size()) throw std::invalid_argument("Invalid direct norm sample");
@@ -89,6 +92,7 @@ ErrorNorm directErrorNorm(Field const& field, std::size_t population) {
 
 
 Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config const& c) {
+	profiling::Region profile("verification.direct_gravity");
 	static_assert(ndim == 3);
 	if (snapshots.empty()) throw std::invalid_argument("Direct gravity comparison needs snapshots");
 	Comparison result;

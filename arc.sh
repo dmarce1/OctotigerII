@@ -29,6 +29,7 @@ tar -C "$project_parent" -czf "$temporary" \
     --exclude="$project_name/relwithdebinfo" \
     --exclude="$project_name/build-*" \
     --exclude="$project_name/output*" \
+    --exclude="$project_name/profiles" \
     "$project_name"
 mv -f -- "$temporary" "$archive"
 printf 'Created %s\n' "$archive"

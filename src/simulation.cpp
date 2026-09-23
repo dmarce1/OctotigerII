@@ -1,4 +1,5 @@
 #include "octotigerII/simulation.hpp"
+#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -10,6 +11,7 @@ namespace octotigerII {
 
 
 Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
+	profiling::Region profile("diagnostics");
 	if (snapshots.empty()) throw std::invalid_argument("Empty snapshot directory");
 	Diagnostics d;
 	d.time = snapshots.front().time;
@@ -57,6 +59,7 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 }
 
 RunResult run(Config const& c, Observer const& observer) {
+	profiling::Elapsed profile("simulation.wall_ns");
 	c.validate();
 	verification::reference(c, c.runtime.stopTime);
 	Runtime runtime(c);

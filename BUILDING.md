@@ -98,3 +98,10 @@ single-block transport, periodic conservation, admissibility, storage lifetime
 and transfer checks, and Silo readback. Gravity adds the independent direct-sum
 reference; HPX adds typed serialization checks. Formal Google Test fixtures and
 individual test cases are a separately deferred step.
+
+## Profiling dependencies
+
+`build.sh` enables APEX and PAPI in HPX, enables PAPI in APEX, and lets HPX fetch
+its matching APEX source. It reuses installed/module PAPI or builds PAPI 7.2.0
+locally without root access. See [profiling](docs/profiling.md) for dependency
+selection, annotated regions, and timing/hardware-counter commands.

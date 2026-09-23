@@ -1,4 +1,5 @@
 #include "octotigerII/verification/analytic.hpp"
+#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
@@ -123,6 +124,8 @@ Comparison compare(std::vector<Snapshot> const& snapshots, Config const& c) {
 	using std::abs;
 	using std::sqrt;
 
+	profiling::Region profile("verification.compare");
+
 	if (snapshots.empty()) throw std::invalid_argument("Analytic comparison needs snapshots");
 
 #if OCTOTIGERII_GRAVITY
@@ -226,6 +229,7 @@ void Comparison::print(std::ostream& out) const {
 
 
 void Comparison::writeJson(std::ostream& out) const {
+	profiling::Region profile("output.verification_json");
 	out << std::scientific << std::setprecision(17);
 	out << "{\n  \"schemaVersion\": 3,\n  \"problem\": " << jsonString(build::problem) << ",\n  \"ndim\": " << ndim << ",\n  \"status\": " << jsonString(status)
 		<< ",\n  \"reference\": " << jsonString(name) << ",\n  \"reason\": " << jsonString(reason) << ",\n  \"sampling\": " << jsonString(sampling)

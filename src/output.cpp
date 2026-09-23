@@ -1,4 +1,5 @@
 #include "octotigerII/output.hpp"
+#include "octotigerII/profiling.hpp"
 #include <filesystem>
 #include <iomanip>
 #include <memory>
@@ -69,6 +70,7 @@ namespace {
 	}
 
 	void writeSilo(std::vector<Snapshot> const& patches, Config const& c, std::string const& filename, int cycle, units::Time time) {
+		profiling::Region profile("output.silo");
 		std::unique_ptr<DBfile, decltype(&DBClose)> file(DBCreate(filename.c_str(), DB_CLOBBER, DB_LOCAL, "OctotigerII (cgs)", DB_HDF5), &DBClose);
 		if (!file) throw std::runtime_error("Cannot create Silo file: " + filename);
 		std::unique_ptr<DBoptlist, decltype(&DBFreeOptlist)> options(DBMakeOptlist(6), &DBFreeOptlist);

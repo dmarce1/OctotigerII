@@ -6,6 +6,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
 
+#include "octotigerII/profiling.hpp"
+
 #include "octotigerII/storage/columns.hpp"
 #include "octotigerII/subgrid/topology.hpp"
 
@@ -65,6 +67,7 @@ private:
 /// and drain all transfers before returning or propagating an exception.
 template <typename State>
 void readHalo(storage::ColumnHandle<State> const& fields, HaloPlan const& plan, unsigned bank, std::vector<State>& ghosts) {
+	profiling::Elapsed profile("transport.halo.wall_ns");
 	std::vector<storage::PendingColumns<State>> pending;
 	pending.reserve(plan.reads.size());
 	// Launch all independent reads before awaiting any result.
