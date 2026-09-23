@@ -10,54 +10,49 @@
 #include "octotigerII/mesh.hpp"
 #include "octotigerII/storage/layout.hpp"
 
-
 namespace octotigerII {
-
 
 // A persistent block is geometry and an address. It owns no field arrays.
 /// Persistent block descriptor containing geometry and an interior address only.
 /// @ingroup mesh
 class Subgrid {
 public:
-
 	std::uint64_t id = 0;
 	mesh::BlockLocation location;
 	mesh::MeshLayout layout;
 	mesh::PhysicalCoordinates lower{};
 	units::Length cellWidth{};
 	storage::Range interior;
+	storage::Range boundaryFlux;
 
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & id & location & layout & cellWidth & interior;
+		archive & id & location & layout & cellWidth & interior & boundaryFlux;
 		for (auto& coordinate : lower)
 			archive & coordinate;
 	}
 };
 
-
 /// One element mapping from a fetched contiguous range to a compact ghost buffer.
 /// @ingroup mesh
 class HaloCopy {
 public:
-
 	std::size_t source = 0;
 	std::size_t destination = 0;
+	Real weight = 1;
 
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & source & destination;
+		archive & source & destination & weight;
 	}
 };
-
 
 /// Contiguous source range plus its destination mappings in the halo.
 /// @ingroup mesh
 class HaloRead {
 public:
-
 	storage::Range range;
 	std::vector<HaloCopy> copies;
 
@@ -68,11 +63,9 @@ public:
 	}
 };
 
-
 /// A prescribed ghost has no donor read and is evaluated at this physical position.
 class AnalyticGhost {
 public:
-
 	std::size_t destination = 0;
 	mesh::PhysicalCoordinates position{};
 
@@ -84,7 +77,6 @@ public:
 	}
 };
 
-
 // Read-only geometry, reused for every stage. Each read is a contiguous run
 // of required source cells. Halos do not include the block's interior.
 /// Reusable geometry plan for a block's halo.
@@ -93,6 +85,16 @@ public:
 /// @ingroup mesh
 class HaloPlan {
 public:
+	class Prolongation {
+	public:
+		std::size_t destination = 0, center = 0;
+		std::array<std::size_t, ndim> left{}, right{};
+		std::array<Real, ndim> offset{};
+		template <typename Archive>
+		void serialize(Archive& a, unsigned) {
+			a & destination & center & left & right & offset;
+		}
+	};
 
 	std::vector<HaloRead> reads;
 	// Padded index -> compact ghost index; interiors contain the sentinel.
@@ -101,30 +103,27 @@ public:
 	std::vector<unsigned> reflectionMasks;
 	std::vector<unsigned> outflowLowerMasks, outflowUpperMasks;
 	std::vector<AnalyticGhost> analyticGhosts;
+	std::vector<Prolongation> prolongations;
+	std::size_t valueCount = 0;
 
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
 		archive & reads & ghostIndices & ghostCount & reflectionMasks & outflowLowerMasks & outflowUpperMasks & analyticGhosts;
+		archive & prolongations & valueCount;
 	}
 };
 
-
-/// Map the fixed-level Cartesian halo to contiguous source runs.
+/// Map mixed-level Cartesian halos to weighted source runs and prolongation stencils.
 /// Physical boundaries use per-face wrapping, clamping, reflection, or analytic data.
 HaloPlan makeHaloPlan(Config const& config, std::vector<Subgrid> const& blocks, std::size_t index);
 
-
-// Current mesh adapter: fixed, uniform Cartesian blocks. Only this adapter
-// interprets mesh.level. The field store accepts arbitrary range lengths.
-/// Current fixed-level Cartesian mesh adapter.
-/// Supplies descriptors and halo dependencies to an otherwise topology-independent
-/// store. Mixed-level AMR and refinement operations are not implemented here.
+/// Cartesian leaf blocks with dyadic spatial refinement and independent storage.
 /// @ingroup mesh
 class CartesianTopology {
 public:
-
 	CartesianTopology(Config const& config, std::size_t partitions);
+	CartesianTopology(Config const& config, std::size_t partitions, std::vector<mesh::BlockLocation> const& leaves);
 
 	/// Return the current ordered block descriptors.
 	std::vector<Subgrid> const& blocks() const {
@@ -140,11 +139,20 @@ public:
 	HaloPlan halo(std::size_t block) const;
 
 private:
-
 	Config config_;
 	storage::Layout layout_;
 	std::vector<Subgrid> blocks_;
 };
 
+std::size_t boundaryFluxCount(int cells);
+std::size_t boundaryFluxIndex(int cells, int axis, bool upper, mesh::Coordinates const& cell);
+
+class FluxCorrection {
+public:
+	std::size_t cell = 0, coarseFlux = 0;
+	int sign = 0;
+	std::vector<storage::Range> fineFluxes;
+};
+std::vector<FluxCorrection> makeRefluxPlan(Config const&, std::vector<Subgrid> const&, std::size_t block);
 
 }	 // namespace octotigerII

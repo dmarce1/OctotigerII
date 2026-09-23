@@ -1,8 +1,9 @@
 # OctotigerII developer reference {#mainpage}
 
 OctotigerII separates numerical fields, mesh geometry, and distributed execution.
-The current application supports fixed-level Cartesian meshes, Euler hydro,
-uncoupled M1 radiation transport, and isolated Newtonian gravity.
+The current application supports adaptive Cartesian meshes, Euler hydro,
+uncoupled M1 radiation transport, and Newtonian gravity with open, periodic,
+and reflecting boundaries.
 
 Start with [problem builds](../BUILDING.md), [storage and execution](../STORAGE.md),
 [the numerical conventions](numerics.md), [parallel gravity](parallel-fmm.md),
@@ -43,6 +44,8 @@ or open the generated `index.html` directly in a browser.
 | `StoragePartition` | Named typed columns, banks, allocation lifetimes | Mesh cells, tree relationships, particles |
 | `FieldHandle<T>` | Field identity and partition/range directory | Halo geometry or update order |
 | `CartesianTopology` | Blocks, coordinates, field ranges, halo plans | Numerical field values |
+| `refinement` | Read-only criterion interface, mass and shadow criteria | Topology changes and storage placement |
+| `amr::Hierarchy` | Conservative transfers, evolved coarse shadows | Physical leaf ownership |
 | `LocalExecutor` | Ready-work queue and bounded reusable workspaces | Field allocation policy |
 | `Runtime` | Stage synchronization and publication | Physics-specific flux formulas |
 
@@ -57,9 +60,9 @@ and @ref runtime for the contracts that make this safe.
 ## Scope and validation
 
 The storage component accepts arbitrary range lengths and several layouts in
-the same partitions; the current mesh adapter remains fixed-level Cartesian.
-Dynamic AMR, refluxing, ownership migration, particle integration, and restart
-checkpoints remain future work. The FMM partitions its hierarchy across localities,
+the same partitions. The adaptive mesh supplies conservative transfers, evolved
+shadows, coarse/fine refluxing, and Morton-ordered placement. See [AMR](amr.md).
+Particle integration and restart checkpoints remain future work. The FMM partitions its numerical expansions across localities,
 reads density from distributed field ranges, and publishes gravity through the
 same field store. Diagnostics and output still gather on the coordinator.
 

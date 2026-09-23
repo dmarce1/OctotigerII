@@ -34,6 +34,8 @@ public:
 		return images_;
 	}
 	diagonal::Offset separation(diagonal::Offset target, diagonal::Offset source, int count, SourceImage const& image) const;
+	/// Integer physical centers on a common lattice, without the +1/2 cell offset.
+	diagonal::Offset centerSeparation(diagonal::Offset target, diagonal::Offset source, int count, SourceImage const& image) const;
 	bool acceptable(diagonal::Offset r, int count, double theta, bool correction) const;
 	double nextImageDistance(diagonal::Offset r, int count) const;
 

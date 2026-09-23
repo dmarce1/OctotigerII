@@ -1,0 +1,63 @@
+Locality 0:
+Enabling memory tracking!
+          (            )
+   (      )\ )      ( /(
+   )\    (()/( (    )\())
+((((_)(   /(_)))\  ((_)\
+ )\ _ )\ (_)) ((_) __((_)
+ (_)_\(_)| _ \| __|\ \/ /
+  / _ \  |  _/| _|  >  <
+ /_/ \_\ |_|  |___|/_/\_\
+APEX Version: v1.11.0-c9b81b4-HEAD
+Built on: 23:25:45 Sep 22 2026 (Release)
+C++ Language Standard version : 202002
+GCC Compiler version : 13.3.0
+Configured features: Pthread, PAPI, PLUGINS
+
+[==========] Running 10 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 10 tests from Amr
+[ RUN      ] Amr.OptionsValidateAndRoundTrip
+[       OK ] Amr.OptionsValidateAndRoundTrip (0 ms)
+[ RUN      ] Amr.MortonDestinationAndConservativeRefineCoarsen
+[       OK ] Amr.MortonDestinationAndConservativeRefineCoarsen (34 ms)
+[ RUN      ] Amr.FailedCriterionPreservesPublishedMeshAndState
+[       OK ] Amr.FailedCriterionPreservesPublishedMeshAndState (4 ms)
+[ RUN      ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+[       OK ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners (28 ms)
+[ RUN      ] Amr.MassThresholdRespectsFinestLevel
+[       OK ] Amr.MassThresholdRespectsFinestLevel (44 ms)
+[ RUN      ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+/workspace/scratch/3c74a02c5a19/work/OctotigerII/tests/amrChecks.cpp:175: Skipped
+
+
+[  SKIPPED ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon (0 ms)
+[ RUN      ] Amr.MixedLevelTransportConservesPeriodicIntegrals
+/workspace/scratch/3c74a02c5a19/work/OctotigerII/tests/amrChecks.cpp:195: Skipped
+
+
+[  SKIPPED ] Amr.MixedLevelTransportConservesPeriodicIntegrals (0 ms)
+[ RUN      ] Amr.RegridCadenceAndTravelBudget
+/workspace/scratch/3c74a02c5a19/work/OctotigerII/tests/amrChecks.cpp:208: Skipped
+
+
+[  SKIPPED ] Amr.RegridCadenceAndTravelBudget (0 ms)
+[ RUN      ] Amr.EvolvedShadowDiffersFromFreshRestriction
+/workspace/scratch/3c74a02c5a19/work/OctotigerII/tests/amrChecks.cpp:236: Skipped
+
+
+[  SKIPPED ] Amr.EvolvedShadowDiffersFromFreshRestriction (0 ms)
+[ RUN      ] Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages
+[       OK ] Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages (7211 ms)
+[----------] 10 tests from Amr (7324 ms total)
+
+[----------] Global test environment tear-down
+[==========] 10 tests from 1 test suite ran. (7324 ms total)
+[  PASSED  ] 6 tests.
+[  SKIPPED ] 4 tests, listed below:
+[  SKIPPED ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+[  SKIPPED ] Amr.MixedLevelTransportConservesPeriodicIntegrals
+[  SKIPPED ] Amr.RegridCadenceAndTravelBudget
+[  SKIPPED ] Amr.EvolvedShadowDiffersFromFreshRestriction
+Locality 1:
+Locality 2:

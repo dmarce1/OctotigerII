@@ -6,6 +6,7 @@
 #include <random>
 #include <set>
 #include <stdexcept>
+#include <tuple>
 #include "octotigerII/gravity/ewald.hpp"
 #include "octotigerII/gravity/images.hpp"
 #include "octotigerII/profiling.hpp"
@@ -100,33 +101,57 @@ Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config c
 	result.referenceKind = "direct";
 	result.status = "available";
 	result.time = snapshots.front().time;
-	result.cellsPerAxis = c.mesh.cells * (1 << c.mesh.level);
+	int finest = 0;
+	std::vector<mesh::BlockLocation> leaves;
+	for (auto const& block : snapshots) {
+		leaves.push_back(block.location);
+		if (block.location.level < 0 || block.location.level > 16 || block.layout.cellsPerActiveDimension() != c.mesh.cells || block.layout.ghostWidth() != 0 ||
+			!block.gravityEnabled || block.gravity.values().size() != block.layout.interiorCellCount())
+			throw std::invalid_argument("Invalid direct gravity snapshot geometry or fields");
+		auto const width = (c.mesh.upper - c.mesh.lower) / Real(c.mesh.cells * (1 << block.location.level));
+		if (block.cellWidth != width) throw std::invalid_argument("Inconsistent direct gravity cell width");
+		finest = std::max(finest, block.location.level);
+	}
+	// Reuse mesh validation for complete coverage, bounds, and duplicate or
+	// overlapping leaves before treating any cell as an independent mass.
+	CartesianTopology const geometry(c, 1, leaves);
+	result.cellsPerAxis = c.mesh.cells * (1 << finest);
 	result.multipoleOrder = c.gravity.multipoleOrder;
 	result.openingAngle = c.gravity.openingAngle;
 	result.randomSeed = c.randomSeed;
-	int const n = result.cellsPerAxis;
-	result.totalCells = std::size_t(n) * n * n;
+	int const n = 2 * result.cellsPerAxis;
 	auto const h = (c.mesh.upper - c.mesh.lower) / Real(n);
-	auto const volume = h * h * h;
-	// Canonical x-fast global indices make both the draw and source summation
-	// independent of block order, task completion order and HPX locality count.
-	std::vector<units::Mass> masses(result.totalCells);
-	std::vector<gravity::State const*> numerical(result.totalCells, nullptr);
+	class Cell {
+	public:
+		gravity::diagonal::Offset center{};
+		units::Mass mass{};
+		gravity::State const* field = nullptr;
+	};
+	std::vector<Cell> cells;
 	for (auto const& block : snapshots) {
-		if (!units::finite(block.time) || block.time != result.time || block.cellWidth != h || block.location.level != c.mesh.level)
-			throw std::invalid_argument("Direct gravity reference requires synchronized uniform snapshots");
-		block.layout.forEachInterior([&](mesh::Coordinates cell, std::size_t i) {
-			for (int d = 0; d < ndim; ++d) {
-				cell[d] += block.location.coordinates[d] * c.mesh.cells;
-				if (cell[d] < 0 || cell[d] >= n) throw std::invalid_argument("Invalid direct gravity cell coordinate");
-			}
-			auto const id = mesh::linearIndex(cell, mesh::filledCoordinates(n));
-			if (numerical[id]) throw std::invalid_argument("Duplicate direct gravity cell");
-			numerical[id] = &block.gravity.values()[i];
+		if (!units::finite(block.time) || block.time != result.time) throw std::invalid_argument("Direct gravity reference requires synchronized snapshots");
+		auto const volume = block.layout.cellMeasure(block.cellWidth);
+		block.layout.forEachInterior([&](mesh::Coordinates const& coordinate, std::size_t i) {
+			Cell cell;
+			for (int d = 0; d < 3; ++d)
+				cell.center[d] = (2 * (block.location.coordinates[d] * c.mesh.cells + coordinate[d]) + 1) * (1 << (finest - block.location.level));
 			auto const density = block.hydroEnabled ? block.hydro.values()[i].density() : block.density.values()[i];
-			masses[id] = density * volume;
-			if (!(masses[id] >= units::Mass{}) || !units::finite(masses[id])) throw std::invalid_argument("Invalid direct gravity mass");
+			cell.mass = density * volume;
+			cell.field = &block.gravity.values()[i];
+			if (!(cell.mass >= units::Mass{}) || !units::finite(cell.mass)) throw std::invalid_argument("Invalid direct gravity mass");
+			cells.push_back(cell);
 		});
+	}
+	// Physical x-fast ordering is independent of Morton block placement and
+	// locality count. No covered coarse cell enters the reference sum.
+	std::sort(cells.begin(), cells.end(),
+		[](auto const& a, auto const& b) { return std::tie(a.center[2], a.center[1], a.center[0]) < std::tie(b.center[2], b.center[1], b.center[0]); });
+	result.totalCells = cells.size();
+	std::vector<units::Mass> masses;
+	std::vector<gravity::State const*> numerical;
+	for (auto const& cell : cells) {
+		masses.push_back(cell.mass);
+		numerical.push_back(cell.field);
 	}
 	std::vector<std::size_t> sources;
 	for (std::size_t i = 0; i < masses.size(); ++i) {
@@ -144,7 +169,7 @@ Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config c
 	if (count < result.totalCells) result.sampling = "random-cell-center-without-replacement";
 	std::array<Field, 4> fields{Field{"potential", "cm^2/s^2", {}, {}}, Field{"accelerationX", "cm/s^2", {}, {}}, Field{"accelerationY", "cm/s^2", {}, {}},
 		Field{"accelerationZ", "cm/s^2", {}, {}}};
-	auto coordinates = [n](std::size_t id) { return std::array<int, 3>{int(id % n), int(id / n % n), int(id / (std::size_t(n) * n))}; };
+	auto coordinates = [&](std::size_t id) { return cells.at(id).center; };
 	for (auto const target : result.targetIndices) {
 		auto const x = coordinates(target);
 		std::array<long double, 4> sum{};
@@ -153,7 +178,7 @@ Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config c
 			if (images.active()) {
 				gravity::diagonal::Coefficients local(5, 0);
 				for (auto const& image : images.images()) {
-					auto const r = images.separation(x, y, n, image);
+					auto const r = images.centerSeparation(x, y, n, image);
 					if (r != gravity::diagonal::Offset{}) gravity::diagonal::addDirect(local, units::value(masses[source]), r, units::value(h));
 					if (images.periodic()) gravity::ewald::addDirect(local, units::value(masses[source]), r, images.periods(n), units::value(h));
 				}

@@ -1,0 +1,49 @@
+Locality 0:
+Enabling memory tracking!
+          (            )
+   (      )\ )      ( /(
+   )\    (()/( (    )\())
+((((_)(   /(_)))\  ((_)\
+ )\ _ )\ (_)) ((_) __((_)
+ (_)_\(_)| _ \| __|\ \/ /
+  / _ \  |  _/| _|  >  <
+ /_/ \_\ |_|  |___|/_/\_\
+APEX Version: v1.11.0-c9b81b4-HEAD
+Built on: 23:25:45 Sep 22 2026 (Release)
+C++ Language Standard version : 202002
+GCC Compiler version : 13.3.0
+Configured features: Pthread, PAPI, PLUGINS
+
+[==========] Running 9 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 9 tests from Amr
+[ RUN      ] Amr.OptionsValidateAndRoundTrip
+[       OK ] Amr.OptionsValidateAndRoundTrip (0 ms)
+[ RUN      ] Amr.MortonDestinationAndConservativeRefineCoarsen
+[       OK ] Amr.MortonDestinationAndConservativeRefineCoarsen (888 ms)
+[ RUN      ] Amr.FailedCriterionPreservesPublishedMeshAndState
+[       OK ] Amr.FailedCriterionPreservesPublishedMeshAndState (223 ms)
+[ RUN      ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+[       OK ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners (156 ms)
+[ RUN      ] Amr.MassThresholdRespectsFinestLevel
+/workspace/scratch/3c74a02c5a19/work/OctotigerII/tests/amrChecks.cpp:145: Skipped
+
+
+[  SKIPPED ] Amr.MassThresholdRespectsFinestLevel (0 ms)
+[ RUN      ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+[       OK ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon (2 ms)
+[ RUN      ] Amr.MixedLevelTransportConservesPeriodicIntegrals
+[       OK ] Amr.MixedLevelTransportConservesPeriodicIntegrals (3294 ms)
+[ RUN      ] Amr.RegridCadenceAndTravelBudget
+[       OK ] Amr.RegridCadenceAndTravelBudget (822 ms)
+[ RUN      ] Amr.EvolvedShadowDiffersFromFreshRestriction
+[       OK ] Amr.EvolvedShadowDiffersFromFreshRestriction (6 ms)
+[----------] 9 tests from Amr (5397 ms total)
+
+[----------] Global test environment tear-down
+[==========] 9 tests from 1 test suite ran. (5397 ms total)
+[  PASSED  ] 8 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] Amr.MassThresholdRespectsFinestLevel
+Locality 1:
+Locality 2:

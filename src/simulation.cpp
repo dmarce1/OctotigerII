@@ -6,9 +6,7 @@
 #include "octotigerII/profiling.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
-
 namespace octotigerII {
-
 
 Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 	profiling::Region profile("diagnostics");
@@ -65,27 +63,32 @@ RunResult run(Config const& c, Observer const& observer) {
 	Runtime runtime(c);
 	bool const kick = build::hydro && (build::gravity || c.hasExternalAcceleration());
 	RunResult result;
-	if constexpr (build::gravity) result.gravityWork = runtime.solveGravity();
+	[[maybe_unused]] auto solveGravity = [&] {
+		auto const work = runtime.solveGravity();
+		result.gravityWork.multipolePairs += work.multipolePairs;
+		result.gravityWork.directPairs += work.directPairs;
+		result.gravityWork.workerTasks += work.workerTasks;
+		result.gravityWork.ewaldPairs += work.ewaldPairs;
+		result.gravityWork.reflectedPairs += work.reflectedPairs;
+		result.gravityWork.localityCells = work.localityCells;
+	};
+	if constexpr (build::gravity) solveGravity();
 	auto snapshots = runtime.snapshots();
 	result.initial = diagnose(snapshots, c);
 	result.final = result.initial;
 	if (observer) observer(snapshots, 0, result.initial);
 	while (result.final.time < c.runtime.stopTime) {
 		if (result.steps >= c.runtime.maxSteps) throw std::runtime_error("Maximum steps reached before requested stop time");
-		auto const dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
+		auto dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
+		if (runtime.regrid(dt)) {
+			if constexpr (build::gravity) solveGravity();
+			dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
+		}
 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
 			throw std::runtime_error("Timestep cannot advance physical time");
 		if (kick) runtime.kickGravity(dt / 2.0);
 		runtime.advance(dt);
-		if constexpr (build::gravity) {
-			auto const work = runtime.solveGravity();
-			result.gravityWork.multipolePairs += work.multipolePairs;
-			result.gravityWork.directPairs += work.directPairs;
-			result.gravityWork.workerTasks += work.workerTasks;
-			result.gravityWork.ewaldPairs += work.ewaldPairs;
-			result.gravityWork.reflectedPairs += work.reflectedPairs;
-			result.gravityWork.localityCells = work.localityCells;
-		}
+		if constexpr (build::gravity) solveGravity();
 		if (kick) runtime.kickGravity(dt / 2.0);
 		snapshots = runtime.snapshots();
 		++result.steps;

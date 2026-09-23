@@ -1,19 +1,16 @@
 #include "octotigerII/output.hpp"
-#include "octotigerII/profiling.hpp"
 #include <filesystem>
 #include <iomanip>
 #include <memory>
 #include <silo.h>
 #include <sstream>
 #include <stdexcept>
+#include "octotigerII/profiling.hpp"
 #include "octotigerII/verification/analytic.hpp"
-
 
 namespace octotigerII {
 
-
 namespace {
-
 
 	class Variable {
 	public:
@@ -22,9 +19,9 @@ namespace {
 		std::vector<double> values;
 	};
 
-
 	std::vector<Variable> variables(Snapshot const& b, [[maybe_unused]] Config const& c) {
 		std::vector<Variable> result;
+		if (c.amr.enabled) result.push_back({"refinementLevel", "", std::vector<double>(b.layout.interiorCellCount(), b.location.level)});
 		auto field = [&](std::string name, std::string units, auto value) {
 			Variable v{std::move(name), std::move(units), {}};
 			b.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) { v.values.push_back(units::value(value(i))); });
@@ -129,7 +126,6 @@ namespace {
 	}
 
 }	 // namespace
-
 
 Output::Output(Config const& c)
   : config_(c) {

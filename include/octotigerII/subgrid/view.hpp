@@ -8,12 +8,11 @@
 
 #include "octotigerII/profiling.hpp"
 
+#include "octotigerII/amr/interpolation.hpp"
 #include "octotigerII/storage/columns.hpp"
 #include "octotigerII/subgrid/topology.hpp"
 
-
 namespace octotigerII {
-
 
 // An execution-time patch: interior columns are direct local storage views
 // (or received buffers for stolen work). Only ghost values occupy workspace.
@@ -24,7 +23,6 @@ namespace octotigerII {
 template <typename State>
 class PatchView {
 public:
-
 	PatchView(Subgrid const& block, storage::Columns<State> interior, HaloPlan const& plan, std::vector<State> const& ghosts)
 	  : block_(block)
 	  , interior_(std::move(interior))
@@ -54,14 +52,12 @@ public:
 	}
 
 private:
-
 	Subgrid const& block_;
 	storage::Columns<State> interior_;
 	HaloPlan const& plan_;
 	std::vector<State> const& ghosts_;
 	mesh::MeshLayout padded_;
 };
-
 
 /// Launch independent column reads, scatter them to compact ghost storage,
 /// and drain all transfers before returning or propagating an exception.
@@ -73,13 +69,13 @@ void readHalo(storage::ColumnHandle<State> const& fields, HaloPlan const& plan, 
 	// Launch all independent reads before awaiting any result.
 	for (auto const& read : plan.reads)
 		pending.push_back(fields.read(read.range, bank));
-	ghosts.resize(plan.ghostCount);
+	ghosts.assign(plan.valueCount ? plan.valueCount : plan.ghostCount, State{});
 	std::exception_ptr error;
 	for (std::size_t i = 0; i < pending.size(); ++i) {
 		try {
 			auto values = pending[i].get();
 			for (auto const& copy : plan.reads[i].copies)
-				ghosts[copy.destination] = values.at(copy.source);
+				ghosts[copy.destination] += copy.weight * values.at(copy.source);
 		} catch (...) {
 			if (!error) error = std::current_exception();
 		}
@@ -90,13 +86,24 @@ void readHalo(storage::ColumnHandle<State> const& fields, HaloPlan const& plan, 
 /// Complete physical boundary values after all donor reads have finished.
 /// Analytic corners use the original position and take precedence over other faces.
 template <typename System>
-void applyHaloBoundaries(HaloPlan const& plan, std::vector<typename System::State>& ghosts, System const& system,
-	units::Time time, physics::AnalyticBoundary<typename System::State> const& analytic = {}) {
-	for (std::size_t i = 0; i < plan.reflectionMasks.size(); ++i)
-		ghosts.at(i) = physics::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i), system);
+void applyHaloBoundaries(HaloPlan const& plan, std::vector<typename System::State>& ghosts, System const& system, units::Time time,
+	physics::AnalyticBoundary<typename System::State> const& analytic = {}) {
 	for (auto const& ghost : plan.analyticGhosts)
 		ghosts.at(ghost.destination) = physics::evaluateBoundary(analytic, ghost.position, time, system);
+	auto transform = [&](std::size_t i) {
+		ghosts.at(i) = physics::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i), system);
+	};
+	for (std::size_t i = plan.ghostCount; i < plan.reflectionMasks.size(); ++i)
+		transform(i);
+	for (auto const& interpolation : plan.prolongations) {
+		std::array<typename System::State, ndim> slopes;
+		auto const& center = ghosts.at(interpolation.center);
+		for (int d = 0; d < ndim; ++d)
+			slopes[d] = amr::slope(ghosts.at(interpolation.left[d]), center, ghosts.at(interpolation.right[d]));
+		ghosts.at(interpolation.destination) = amr::interpolate(center, slopes, interpolation.offset, system);
+	}
+	for (std::size_t i = 0; i < plan.ghostCount; ++i)
+		transform(i);
 }
-
 
 }	 // namespace octotigerII

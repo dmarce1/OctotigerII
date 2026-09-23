@@ -5,20 +5,20 @@
 #include <stdexcept>
 #include "octotigerII/problems.hpp"
 
-
 namespace octotigerII {
 Snapshot initialSnapshot(Config const& c, mesh::BlockLocation location) {
 	using std::ldexp;
 
 	Snapshot data_;
 	c.validate();
-	if (location.level != c.mesh.level) throw std::invalid_argument("Subgrid location/config mismatch");
+	if (location.level < 0 || location.level > 16) throw std::invalid_argument("Invalid subgrid level");
 	data_.location = location;
 	data_.layout = mesh::MeshLayout(c.mesh.cells);
-	auto const blockWidth = (c.mesh.upper - c.mesh.lower) * ldexp(Real(1), -c.mesh.level);
+	auto const blockWidth = (c.mesh.upper - c.mesh.lower) * ldexp(Real(1), -location.level);
 	data_.cellWidth = blockWidth / Real(c.mesh.cells);
 	for (int axis = 0; axis < ndim; ++axis) {
-		if (location.coordinates[axis] < 0 || location.coordinates[axis] >= (1 << c.mesh.level)) throw std::invalid_argument("Subgrid coordinate out of bounds");
+		if (location.coordinates[axis] < 0 || location.coordinates[axis] >= (1 << location.level))
+			throw std::invalid_argument("Subgrid coordinate out of bounds");
 		data_.lower[axis] = c.mesh.lower + Real(location.coordinates[axis]) * blockWidth;
 	}
 	data_.hydroEnabled = c.hydroEnabled();

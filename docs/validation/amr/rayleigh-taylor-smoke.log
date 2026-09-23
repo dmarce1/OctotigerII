@@ -1,0 +1,34 @@
+OctotigerII 0.1.0 | serial fields | rayleigh-taylor | 2D
+step=0 time=0.000000e+00 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=4 time=1.323720e-02 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=8 time=1.985471e-02 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=12 time=2.647190e-02 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=16 time=3.308906e-02 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=20 time=3.970632e-02 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=24 time=4.632368e-02 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=28 time=5.294106e-02 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=32 time=5.955829e-02 mass=1.500000e+00 gasEnergy=6.218764e+00 radiationEnergy=0.000000e+00
+step=36 time=6.617521e-02 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=40 time=7.279170e-02 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=44 time=7.940776e-02 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=48 time=8.602339e-02 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=52 time=9.263861e-02 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=56 time=9.925344e-02 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=60 time=1.058679e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=64 time=1.124819e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=68 time=1.190956e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=72 time=1.257088e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=76 time=1.323217e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=80 time=1.389342e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=84 time=1.455464e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=88 time=1.521582e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=92 time=1.587695e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=96 time=1.653803e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=100 time=1.719906e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=104 time=1.786005e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=108 time=1.852099e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=112 time=1.918190e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=116 time=1.984276e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+step=117 time=2.000000e-01 mass=1.500000e+00 gasEnergy=6.218765e+00 radiationEnergy=0.000000e+00
+Analytic comparison: unavailable (The nonlinear Rayleigh-Taylor problem has no implemented exact solution)
+Completed 117 steps at t=2.000000e-01 s

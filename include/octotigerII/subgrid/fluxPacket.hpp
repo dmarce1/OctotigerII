@@ -8,19 +8,16 @@
 #include <vector>
 #include "octotigerII/mesh.hpp"
 
-
 namespace octotigerII {
-
 
 // Time-tagged face fluxes for consumers of the numerical kernel.
 /// Flux values with geometry and a physical time interval.
-/// These are fluxes, not time-integrated corrections. A future AMR driver would
-/// need to integrate and reconcile them; this type alone does not perform refluxing.
+/// These are fluxes, not time-integrated corrections. The runtime uses separate
+/// boundary-flux columns for AMR refluxing; this value is a kernel exchange format.
 /// @ingroup mesh
 template <typename State>
 class FieldFluxPacket {
 public:
-
 	mesh::BlockLocation location;
 	mesh::MeshLayout layout;
 	mesh::PhysicalCoordinates lower{};
@@ -36,6 +33,5 @@ public:
 			archive & coordinate;
 	}
 };
-
 
 }	 // namespace octotigerII

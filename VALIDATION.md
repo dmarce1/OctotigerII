@@ -1,5 +1,66 @@
 # Validation of OctotigerII
 
+## Adaptive mesh, evolved shadows, and independent gravity tree (2026-09-23)
+
+Release builds with GCC 13.3.0 passed the complete serial suites below.
+Skipped cases require physics absent from that executable.
+
+| Build | Passed | Skipped | Failed |
+| --- | ---: | ---: | ---: |
+| Sod 1D | 104 | 0 | 0 |
+| Rayleigh–Taylor 2D | 108 | 0 | 0 |
+| Streaming radiation 3D | 106 | 1 | 0 |
+| Gravity sphere 3D | 108 | 4 | 0 |
+
+The AMR suite additionally passed in the coupled collapse build: all 10 cases.
+HPX tests used two and three independent TCP localities, with two threads per
+locality and the zero-copy threshold set to one byte. Hydro passed all nine
+AMR cases; radiation passed eight with the density-only criterion skipped;
+gravity passed six with four transport-only cases skipped. These are same-host
+communication checks.
+
+The new tests cover:
+
+- Conservative split/merge transfers and Morton ordering of destination leaves.
+- A failed refinement criterion preserving the published mesh and values.
+- Maximum cell mass with a hard finest-level limit.
+- Refinement through four block levels, with independent checks of 2:1 balance
+  across faces, edges, corners, and periodic boundaries.
+- Signal-speed padding, periodic wrapping, step cadence, and early regridding
+  when the travel budget is consumed.
+- Independent evolution of coarse shadows, retained when active leaves refresh.
+- Mixed-level hydro/radiation reflux conservation over four transport steps.
+- Mixed-level FMM/direct agreement for open, one-, two-, and three-dimensional
+  periodicity, a reflecting wall, and combined periodic/reflecting images.
+  At order four and opening angle 0.3, potential and each force component met
+  `L2(error) < 0.003 * L2(reference) + 1e-13` in its CGS units on 16
+  reproducibly selected targets per case.
+- Silo readback of leaf counts, mixed cell widths, coordinates, and
+  `refinementLevel` fields.
+
+The RT AMR input completed 117 steps to time 0.2 with external gravity and
+reflecting vertical walls. Reported mass remained 1.5. Silo readback showed
+16 level-two blocks initially and 64 level-three blocks later; this threshold
+refined the whole domain during this short run. The separately constructed
+mixed-level transport and output fixtures exercise coarse/fine interfaces.
+
+A coupled collapse smoke run completed transport, gravity kicks, and repeated
+FMM evaluation on 32,768 active cells. Its 32-target direct comparison gave
+relative force L2 errors below `6.4e-5` at order four and opening angle 0.3.
+This open-boundary problem does not provide a closed-domain mass-conservation
+test.
+
+A second collapse run used mass refinement alone and checked every timestep.
+It completed 26 steps to time 2, coarsening from 512 level-three blocks to
+448 level-three and eight level-two blocks. The rebuilt FMM covered 29,184
+active cells, with sampled relative force L2 errors below `8.5e-5` at the end.
+
+Logs and reproduction commands are in [the AMR validation record](docs/validation/amr/README.md).
+The bibliography checker passed; final build logs contained no compiler warnings.
+Doxygen was unavailable for regenerating the HTML manual in this environment.
+AMR currently uses synchronized timesteps and coordinator-side refinement
+planning and shadow storage/evolution; active transport and gravity are distributed.
+
 ## Threaded and distributed FMM (2026-09-23)
 
 The application now uses a persistent partitioned FMM hierarchy through

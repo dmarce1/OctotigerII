@@ -1,0 +1,228 @@
+Internal ctest changing into directory: /workspace/scratch/3c74a02c5a19/build-inflow-radiation
+Test project /workspace/scratch/3c74a02c5a19/build-inflow-radiation
+        Start 103: streaming.3d.AnalyticConvergence.MeshRefinementReducesError
+        Start  65: streaming.3d.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition
+  1/107 Test  #65: streaming.3d.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition ..............................................   Passed    0.28 sec
+        Start 107: application
+  2/107 Test #107: application .......................................................................................................................   Passed    0.14 sec
+        Start  98: streaming.3d.Amr.MixedLevelTransportConservesPeriodicIntegrals
+  3/107 Test  #98: streaming.3d.Amr.MixedLevelTransportConservesPeriodicIntegrals ....................................................................   Passed    0.13 sec
+        Start  85: streaming.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem>
+  4/107 Test  #85: streaming.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem> .............   Passed    0.08 sec
+        Start 106: example.streaming.3d
+  5/107 Test #106: example.streaming.3d ..............................................................................................................   Passed    0.08 sec
+        Start  84: streaming.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem>
+  6/107 Test  #84: streaming.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem> .........................   Passed    0.08 sec
+        Start  89: streaming.3d.Transport.RadiationDecompositionConservationAndAdmissibility
+  7/107 Test  #89: streaming.3d.Transport.RadiationDecompositionConservationAndAdmissibility .........................................................   Passed    0.06 sec
+        Start  99: streaming.3d.Amr.RegridCadenceAndTravelBudget
+  8/107 Test  #99: streaming.3d.Amr.RegridCadenceAndTravelBudget .....................................................................................   Passed    0.05 sec
+        Start  64: streaming.3d.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::radiation::RadiationSystem>
+  9/107 Test  #64: streaming.3d.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::radiation::RadiationSystem> .......................   Passed    0.04 sec
+        Start  91: streaming.3d.Runtime.FailedStageRollsBackAndRetryPublishesOnce
+ 10/107 Test  #91: streaming.3d.Runtime.FailedStageRollsBackAndRetryPublishesOnce ....................................................................   Passed    0.03 sec
+        Start  93: streaming.3d.Amr.MortonDestinationAndConservativeRefineCoarsen
+ 11/107 Test  #93: streaming.3d.Amr.MortonDestinationAndConservativeRefineCoarsen ....................................................................   Passed    0.02 sec
+        Start  62: streaming.3d.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::radiation::RadiationSystem>
+ 12/107 Test  #62: streaming.3d.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::radiation::RadiationSystem> ...   Passed    0.02 sec
+        Start 104: streaming.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+ 13/107 Test #104: streaming.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip .......................................................   Passed    0.02 sec
+        Start  88: streaming.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem>
+ 14/107 Test  #88: streaming.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem> ....................   Passed    0.01 sec
+        Start  87: streaming.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem>
+ 15/107 Test  #87: streaming.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem> ..................   Passed    0.01 sec
+        Start  86: streaming.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem>
+ 16/107 Test  #86: streaming.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem> ............................   Passed    0.00 sec
+        Start  94: streaming.3d.Amr.FailedCriterionPreservesPublishedMeshAndState
+ 17/107 Test  #94: streaming.3d.Amr.FailedCriterionPreservesPublishedMeshAndState ....................................................................   Passed    0.00 sec
+        Start  17: streaming.3d.Options.HierarchicalIniSections
+ 18/107 Test  #17: streaming.3d.Options.HierarchicalIniSections ......................................................................................   Passed    0.01 sec
+        Start 100: streaming.3d.Amr.EvolvedShadowDiffersFromFreshRestriction
+ 19/107 Test #100: streaming.3d.Amr.EvolvedShadowDiffersFromFreshRestriction .........................................................................   Passed    0.00 sec
+        Start  58: streaming.3d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported
+ 20/107 Test  #58: streaming.3d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported ...........................................................   Passed    0.00 sec
+        Start  97: streaming.3d.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+ 21/107 Test  #97: streaming.3d.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon .............................................................   Passed    0.01 sec
+        Start  63: streaming.3d.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::radiation::RadiationSystem>
+ 22/107 Test  #63: streaming.3d.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::radiation::RadiationSystem> .........   Passed    0.00 sec
+        Start  19: streaming.3d.Options.LegacyAndCanonicalNamesSharePrecedence
+ 23/107 Test  #19: streaming.3d.Options.LegacyAndCanonicalNamesSharePrecedence .......................................................................   Passed    0.00 sec
+        Start  54: streaming.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+ 24/107 Test  #54: streaming.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated ...........................................................   Passed    0.00 sec
+        Start  56: streaming.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+ 25/107 Test  #56: streaming.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ....................................................   Passed    0.00 sec
+        Start  21: streaming.3d.Options.MissingAndMalformedIniAreRejected
+ 26/107 Test  #21: streaming.3d.Options.MissingAndMalformedIniAreRejected ............................................................................   Passed    0.00 sec
+        Start  52: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1"
+ 27/107 Test  #52: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1" .................................................   Passed    0.00 sec
+        Start  66: streaming.3d.SlopeValues.IndependentUnequalSlopeValues
+ 28/107 Test  #66: streaming.3d.SlopeValues.IndependentUnequalSlopeValues ............................................................................   Passed    0.00 sec
+        Start  20: streaming.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+ 29/107 Test  #20: streaming.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth ..................................................................   Passed    0.00 sec
+        Start  55: streaming.3d.BoundaryOptions.IniCliAndLegacyPrecedence
+ 30/107 Test  #55: streaming.3d.BoundaryOptions.IniCliAndLegacyPrecedence ............................................................................   Passed    0.00 sec
+        Start  53: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0"
+ 31/107 Test  #53: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0" .........................................   Passed    0.00 sec
+        Start  18: streaming.3d.Options.CliOverridesIniRegardlessOfArgumentOrder
+ 32/107 Test  #18: streaming.3d.Options.CliOverridesIniRegardlessOfArgumentOrder .....................................................................   Passed    0.00 sec
+        Start  61: streaming.3d.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::radiation::RadiationSystem>
+ 33/107 Test  #61: streaming.3d.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::radiation::RadiationSystem> .....   Passed    0.00 sec
+        Start  40: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11"
+ 34/107 Test  #40: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11" ...........................................   Passed    0.00 sec
+        Start 101: streaming.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities
+ 35/107 Test #101: streaming.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities .........................................................   Passed    0.00 sec
+        Start  79: streaming.3d.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25
+ 36/107 Test  #79: streaming.3d.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25 ..................................   Passed    0.00 sec
+        Start  27: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4
+ 37/107 Test  #27: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4 ....................................................................   Passed    0.00 sec
+        Start  51: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes"
+ 38/107 Test  #51: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes" ............................................   Passed    0.00 sec
+        Start  28: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5
+ 39/107 Test  #28: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5 ....................................................................   Passed    0.00 sec
+        Start  92: streaming.3d.Amr.OptionsValidateAndRoundTrip
+ 40/107 Test  #92: streaming.3d.Amr.OptionsValidateAndRoundTrip ......................................................................................   Passed    0.00 sec
+        Start  39: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0"
+ 41/107 Test  #39: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0" ............................................   Passed    0.00 sec
+        Start  48: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1"
+ 42/107 Test  #48: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1" .......................................   Passed    0.00 sec
+        Start  38: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1"
+ 43/107 Test  #38: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1" .......................................................   Passed    0.00 sec
+        Start  23: streaming.3d.OptionValues.DuplicateAliasIsRejected
+ 44/107 Test  #23: streaming.3d.OptionValues.DuplicateAliasIsRejected ................................................................................   Passed    0.00 sec
+        Start  50: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1"
+ 45/107 Test  #50: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1" .......................................................   Passed    0.00 sec
+        Start  73: streaming.3d.Radiation.VacuumFluxAndPhysicalFluxRoundTrip
+ 46/107 Test  #73: streaming.3d.Radiation.VacuumFluxAndPhysicalFluxRoundTrip .........................................................................   Passed    0.00 sec
+        Start  49: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0"
+ 47/107 Test  #49: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0" .......................................   Passed    0.00 sec
+        Start  26: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3
+ 48/107 Test  #26: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3 ....................................................................   Passed    0.00 sec
+        Start  81: streaming.3d.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25
+ 49/107 Test  #81: streaming.3d.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25 .................................   Passed    0.00 sec
+        Start  24: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1
+ 50/107 Test  #24: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1 ....................................................................   Passed    0.00 sec
+        Start  78: streaming.3d.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1
+ 51/107 Test  #78: streaming.3d.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1 .....................................   Passed    0.00 sec
+        Start  22: streaming.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+ 52/107 Test  #22: streaming.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp ..................................................................   Passed    0.00 sec
+        Start  29: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6
+ 53/107 Test  #29: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6 ....................................................................   Passed    0.00 sec
+        Start  77: streaming.3d.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation
+ 54/107 Test  #77: streaming.3d.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation .......................................................   Passed    0.00 sec
+        Start 102: streaming.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy
+ 55/107 Test #102: streaming.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy ........................................................................   Passed    0.00 sec
+        Start  45: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf"
+ 56/107 Test  #45: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf" .....................................................   Passed    0.00 sec
+        Start  32: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9
+ 57/107 Test  #32: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9 ....................................................................   Passed    0.00 sec
+        Start  80: streaming.3d.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1
+ 58/107 Test  #80: streaming.3d.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1 ....................................   Passed    0.00 sec
+        Start  30: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7
+ 59/107 Test  #30: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7 ....................................................................   Passed    0.00 sec
+        Start  33: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10
+ 60/107 Test  #33: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10 ...................................................................   Passed    0.00 sec
+        Start   4: streaming.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce
+ 61/107 Test   #4: streaming.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce .............................................................................   Passed    0.00 sec
+        Start  25: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2
+ 62/107 Test  #25: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2 ....................................................................   Passed    0.00 sec
+        Start  44: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4"
+ 63/107 Test  #44: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4" ................................................   Passed    0.00 sec
+        Start  12: streaming.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+ 64/107 Test  #12: streaming.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 ..........................................................   Passed    0.00 sec
+        Start  46: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1"
+ 65/107 Test  #46: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1" .......................................................   Passed    0.00 sec
+        Start  59: streaming.3d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes
+ 66/107 Test  #59: streaming.3d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes ....................................................................   Passed    0.00 sec
+        Start   6: streaming.3d.Mesh.CgsGeometryAndPatchBounds
+ 67/107 Test   #6: streaming.3d.Mesh.CgsGeometryAndPatchBounds .......................................................................................   Passed    0.00 sec
+        Start  14: streaming.3d.VectorMath.InitializationArithmeticAndDotProduct
+ 68/107 Test  #14: streaming.3d.VectorMath.InitializationArithmeticAndDotProduct .....................................................................   Passed    0.00 sec
+        Start  34: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1"
+ 69/107 Test  #34: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1" .....................................................   Passed    0.00 sec
+        Start   3: streaming.3d.Units.DimensionalMeshAndChildTopology
+ 70/107 Test   #3: streaming.3d.Units.DimensionalMeshAndChildTopology ................................................................................   Passed    0.00 sec
+        Start  31: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8
+ 71/107 Test  #31: streaming.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8 ....................................................................   Passed    0.00 sec
+        Start   5: streaming.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+ 72/107 Test   #5: streaming.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes .........................................................................   Passed    0.00 sec
+        Start   7: streaming.3d.BlockTopology.ChildBitsParentAndInvalidSlots
+ 73/107 Test   #7: streaming.3d.BlockTopology.ChildBitsParentAndInvalidSlots .........................................................................   Passed    0.00 sec
+        Start  10: streaming.3d.StorageLayout.EmptyPartitionsOverflowAndSlices
+ 74/107 Test  #10: streaming.3d.StorageLayout.EmptyPartitionsOverflowAndSlices .......................................................................   Passed    0.00 sec
+        Start  60: streaming.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+ 75/107 Test  #60: streaming.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ........................................................   Passed    0.00 sec
+        Start  47: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid"
+ 76/107 Test  #47: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid" ...............................   Passed    0.00 sec
+        Start  13: streaming.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+ 77/107 Test  #13: streaming.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 ..........................................................   Passed    0.00 sec
+        Start  11: streaming.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+ 78/107 Test  #11: streaming.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 ..........................................................   Passed    0.00 sec
+        Start  35: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod"
+ 79/107 Test  #35: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod" ....................................................   Passed    0.00 sec
+        Start  16: streaming.3d.VectorMath.SplitConcatenateAndUnitVectors
+ 80/107 Test  #16: streaming.3d.VectorMath.SplitConcatenateAndUnitVectors ............................................................................   Passed    0.00 sec
+        Start  15: streaming.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision
+ 81/107 Test  #15: streaming.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision ...................................................................   Passed    0.00 sec
+        Start   8: streaming.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals
+ 82/107 Test   #8: streaming.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals ..............................................................   Passed    0.00 sec
+        Start   2: streaming.3d.Units.PhysicalRadiationFluxAndReducedSpeed
+ 83/107 Test   #2: streaming.3d.Units.PhysicalRadiationFluxAndReducedSpeed ...........................................................................   Passed    0.00 sec
+        Start  83: streaming.3d.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25
+ 84/107 Test  #83: streaming.3d.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25 ...........................................   Passed    0.00 sec
+        Start  76: streaming.3d.Radiation.RejectsInvalidSpeedAndAxis
+ 85/107 Test  #76: streaming.3d.Radiation.RejectsInvalidSpeedAndAxis .................................................................................   Passed    0.00 sec
+        Start  90: streaming.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement
+ 86/107 Test  #90: streaming.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement ................................................................   Passed    0.00 sec
+        Start  82: streaming.3d.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1
+ 87/107 Test  #82: streaming.3d.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1 ..............................................   Passed    0.00 sec
+        Start  41: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0"
+ 88/107 Test  #41: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0" ..............................................   Passed    0.00 sec
+        Start  42: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6"
+ 89/107 Test  #42: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6" ............................................   Passed    0.00 sec
+        Start   9: streaming.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+ 90/107 Test   #9: streaming.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact ...................................................   Passed    0.00 sec
+        Start   1: streaming.3d.Units.CgsConversionsAndConstants
+ 91/107 Test   #1: streaming.3d.Units.CgsConversionsAndConstants .....................................................................................   Passed    0.00 sec
+        Start  43: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan"
+ 92/107 Test  #43: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan" ............................................   Passed    0.00 sec
+        Start  57: streaming.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+ 93/107 Test  #57: streaming.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums .......................................................................   Passed    0.00 sec
+        Start  36: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3"
+ 94/107 Test  #36: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3" .........................................................   Passed    0.00 sec
+        Start  37: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3"
+ 95/107 Test  #37: streaming.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3" ........................................................   Passed    0.00 sec
+        Start  75: streaming.3d.Radiation.RoundoffRepairDoesNotHidePhysicalViolations
+ 96/107 Test  #75: streaming.3d.Radiation.RoundoffRepairDoesNotHidePhysicalViolations ................................................................   Passed    0.00 sec
+        Start  74: streaming.3d.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux
+ 97/107 Test  #74: streaming.3d.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux .............................................   Passed    0.00 sec
+        Start  67: streaming.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00>
+ 98/107 Test  #67: streaming.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00> ...............................   Passed    0.00 sec
+        Start  68: streaming.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00>
+ 99/107 Test  #68: streaming.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00> ...............................   Passed    0.00 sec
+        Start  69: streaming.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00>
+100/107 Test  #69: streaming.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00> ...............................   Passed    0.00 sec
+        Start  70: streaming.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00>
+101/107 Test  #70: streaming.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00> ..............................   Passed    0.00 sec
+        Start  71: streaming.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00>
+102/107 Test  #71: streaming.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00> ..............................   Passed    0.00 sec
+        Start  72: streaming.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00>
+103/107 Test  #72: streaming.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00> ..............................   Passed    0.00 sec
+        Start  95: streaming.3d.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+104/107 Test  #95: streaming.3d.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners ...............................................................   Passed    0.05 sec
+        Start  96: streaming.3d.Amr.MassThresholdRespectsFinestLevel
+105/107 Test  #96: streaming.3d.Amr.MassThresholdRespectsFinestLevel .................................................................................***Skipped   0.00 sec
+        Start 105: streaming.3d.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry
+106/107 Test #105: streaming.3d.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry ........................................................   Passed    0.04 sec
+107/107 Test #103: streaming.3d.AnalyticConvergence.MeshRefinementReducesError .......................................................................   Passed    5.35 sec
+
+100% tests passed, 0 tests failed out of 107
+
+Label Time Summary:
+application    =   0.22 sec*proc (2 tests)
+integration    =   5.68 sec*proc (13 tests)
+unit           =   0.78 sec*proc (92 tests)
+
+Total Test time (real) =   5.40 sec
+
+The following tests did not run:
+	 96 - streaming.3d.Amr.MassThresholdRespectsFinestLevel (Skipped)

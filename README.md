@@ -99,8 +99,9 @@ spellings of one setting in the same CLI or input file is an error. Repeated
 The HPX build parses these settings with `hpx::program_options`; the
 HPX-free serial build uses `boost::program_options` with the same settings.
 `mesh.cells` is a power-of-two number of cells per block
-per axis; `mesh.level` gives `2^level` blocks per axis. The current mesh is
-fixed-level Cartesian. `problem.name` and `mesh.ndim` are no longer runtime
+per axis; `mesh.level` gives the initial `2^level` blocks per axis. Enable
+`amr.enabled=on` for mixed spatial levels, evolved shadows, and mass/error
+refinement criteria. See [AMR configuration and design](docs/amr.md). `problem.name` and `mesh.ndim` are no longer runtime
 options: remove them from old input files and select their CMake equivalents.
 Unknown settings and unsupported build combinations fail explicitly.
 
@@ -169,6 +170,9 @@ field energy is reported.
   Its range addresses are independent of any mesh or particle topology.
 - `Subgrid` is geometry and an interior range; it owns no numerical arrays.
 - `CartesianTopology` supplies block placement and reusable halo geometry.
+- `refinement::CellView` supplies typed fields, gradients, shadows, and signal
+  speeds to common refinement criteria. `amr::Hierarchy` evolves the coarse
+  shadows and supplies conservative transfers during regridding.
 - `Runtime` owns the field repository and one work scheduler per locality.
   Stages read immutable inputs and publish disjoint outputs after completion.
 - Local kernels view field interiors directly. Only halos and solver work arrays
@@ -205,14 +209,16 @@ energy fluxes, `dphi/dt` evolution, or exact total-energy conservation claims.
 
 ## Scope of this first version
 
-Included: CPU numerics, 1D/2D/3D fixed tiled meshes, per-face periodic/reflecting/outflow/inflow/analytic transport,
+Included: CPU numerics, 1D/2D/3D adaptive Cartesian meshes, per-face periodic/reflecting/outflow/inflow/analytic transport,
 3D gravity with periodic/reflecting images, uniform external acceleration, shared timesteps,
-distributed field storage and locality work queues, and Silo output.
+distributed field storage and locality work queues, evolved coarse shadows,
+conservative prolongation/restriction and refluxing, Morton-ordered regridding,
+an independent adaptive FMM octree, and Silo output.
 
 Omitted: CUDA, HIP, Kokkos, Vc, CPPuddle, Unitiger, the old FMM, old problems
 and test harnesses, SCF, binary-star setup, rotating frames, species/degenerate
-EOS, radiation opacities/coupling/subcycling, dynamic AMR, shadow hierarchies,
-dynamic repartitioning, checkpoints, and old command-line compatibility.
+EOS, radiation opacities/coupling/subcycling, temporal AMR, checkpoints,
+and old command-line compatibility.
 
 Transport fetches only the required halo ranges. The application FMM partitions
 moments and local expansions at every tree level across HPX localities. Bounded
@@ -231,13 +237,15 @@ runs serially. The standalone `gravity::solve` remains a serial numerical refere
 
 Interaction pairs and the opening criterion are preserved. Each target accumulates
 its own direction of a pair in deterministic order; this avoids concurrent writes.
-Pair counters still count unordered pairs once. Rounding can differ from the old
+The uniform solver counts unordered pairs once; the adaptive traversal counts
+directed accepted interactions, as the image solver does. Rounding can differ from the old
 symmetric traversal. See [the FMM execution design](docs/parallel-fmm.md).
 
 Snapshots, diagnostic reductions, direct-reference verification, and Silo output
 still use the coordinating locality. There is a synchronization between tree
-levels; coarse levels have limited concurrency. Dynamic AMR, dynamic FMM
-repartitioning, and checkpoint/restart remain future work.
+levels; coarse levels have limited concurrency. AMR decisions and shadow storage
+currently use the coordinator. Regridding reassigns contiguous Morton segments;
+FMM ownership is rebuilt separately. Checkpoint/restart remains future work.
 
 See [VALIDATION.md](VALIDATION.md) for the checks actually performed and
 [PROVENANCE.md](PROVENANCE.md) for the source selection.

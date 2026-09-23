@@ -1,0 +1,219 @@
+Internal ctest changing into directory: /workspace/scratch/3c74a02c5a19/build-amr-sod-1d
+Test project /workspace/scratch/3c74a02c5a19/build-amr-sod-1d
+        Start 104: application
+        Start 101: sod.1d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+  1/104 Test #101: sod.1d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip ...............................................   Passed    0.02 sec
+        Start 103: example.sod.1d
+  2/104 Test #103: example.sod.1d ......................................................................................................   Passed    0.01 sec
+        Start  20: sod.1d.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+  3/104 Test  #20: sod.1d.Options.LaterIniOverridesEarlierAndCliOverridesBoth ..........................................................   Passed    0.00 sec
+        Start  19: sod.1d.Options.LegacyAndCanonicalNamesSharePrecedence
+  4/104 Test  #19: sod.1d.Options.LegacyAndCanonicalNamesSharePrecedence ...............................................................   Passed    0.00 sec
+        Start  18: sod.1d.Options.CliOverridesIniRegardlessOfArgumentOrder
+  5/104 Test  #18: sod.1d.Options.CliOverridesIniRegardlessOfArgumentOrder .............................................................   Passed    0.00 sec
+        Start  25: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/2
+  6/104 Test  #25: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/2 ............................................................   Passed    0.00 sec
+        Start 100: sod.1d.AnalyticConvergence.MeshRefinementReducesError
+  7/104 Test #100: sod.1d.AnalyticConvergence.MeshRefinementReducesError ...............................................................   Passed    0.01 sec
+        Start  26: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/3
+  8/104 Test  #26: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/3 ............................................................   Passed    0.01 sec
+        Start  27: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/4
+  9/104 Test  #27: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/4 ............................................................   Passed    0.01 sec
+        Start  78: sod.1d.Hydro.RejectsVacuumNegativePressureAndNonfiniteState
+ 10/104 Test  #78: sod.1d.Hydro.RejectsVacuumNegativePressureAndNonfiniteState .........................................................   Passed    0.00 sec
+        Start  32: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/9
+ 11/104 Test  #32: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/9 ............................................................   Passed    0.00 sec
+        Start   3: sod.1d.Units.DimensionalMeshAndChildTopology
+ 12/104 Test   #3: sod.1d.Units.DimensionalMeshAndChildTopology ........................................................................   Passed    0.00 sec
+        Start  65: sod.1d.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition
+ 13/104 Test  #65: sod.1d.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition ......................................   Passed    0.00 sec
+        Start  14: sod.1d.VectorMath.InitializationArithmeticAndDotProduct
+ 14/104 Test  #14: sod.1d.VectorMath.InitializationArithmeticAndDotProduct .............................................................   Passed    0.00 sec
+        Start  12: sod.1d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+ 15/104 Test  #12: sod.1d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 ..................................................   Passed    0.00 sec
+        Start  23: sod.1d.OptionValues.DuplicateAliasIsRejected
+ 16/104 Test  #23: sod.1d.OptionValues.DuplicateAliasIsRejected ........................................................................   Passed    0.00 sec
+        Start  24: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/1
+ 17/104 Test  #24: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/1 ............................................................   Passed    0.00 sec
+        Start  13: sod.1d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+ 18/104 Test  #13: sod.1d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 ..................................................   Passed    0.00 sec
+        Start   8: sod.1d.TimeMetadata.StepPublicationSynchronizationAndIntervals
+ 19/104 Test   #8: sod.1d.TimeMetadata.StepPublicationSynchronizationAndIntervals ......................................................   Passed    0.00 sec
+        Start  22: sod.1d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+ 20/104 Test  #22: sod.1d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp ..........................................................   Passed    0.00 sec
+        Start   7: sod.1d.BlockTopology.ChildBitsParentAndInvalidSlots
+ 21/104 Test   #7: sod.1d.BlockTopology.ChildBitsParentAndInvalidSlots .................................................................   Passed    0.00 sec
+        Start  15: sod.1d.VectorMath.InPlaceScalarAliasingAndIntegerDivision
+ 22/104 Test  #15: sod.1d.VectorMath.InPlaceScalarAliasingAndIntegerDivision ...........................................................   Passed    0.00 sec
+        Start  55: sod.1d.BoundaryOptions.IniCliAndLegacyPrecedence
+ 23/104 Test  #55: sod.1d.BoundaryOptions.IniCliAndLegacyPrecedence ....................................................................   Passed    0.00 sec
+        Start  41: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0"
+ 24/104 Test  #41: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0" ......................................   Passed    0.00 sec
+        Start  42: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6"
+ 25/104 Test  #42: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6" ....................................   Passed    0.00 sec
+        Start   2: sod.1d.Units.HydroEnergyAndFluxDimensions
+ 26/104 Test   #2: sod.1d.Units.HydroEnergyAndFluxDimensions ...........................................................................   Passed    0.00 sec
+        Start  43: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan"
+ 27/104 Test  #43: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan" ....................................   Passed    0.00 sec
+        Start  10: sod.1d.StorageLayout.EmptyPartitionsOverflowAndSlices
+ 28/104 Test  #10: sod.1d.StorageLayout.EmptyPartitionsOverflowAndSlices ...............................................................   Passed    0.00 sec
+        Start   6: sod.1d.Mesh.CgsGeometryAndPatchBounds
+ 29/104 Test   #6: sod.1d.Mesh.CgsGeometryAndPatchBounds ...............................................................................   Passed    0.00 sec
+        Start  38: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1"
+ 30/104 Test  #38: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1" ...............................................   Passed    0.00 sec
+        Start  11: sod.1d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+ 31/104 Test  #11: sod.1d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 ..................................................   Passed    0.00 sec
+        Start  21: sod.1d.Options.MissingAndMalformedIniAreRejected
+ 32/104 Test  #21: sod.1d.Options.MissingAndMalformedIniAreRejected ....................................................................   Passed    0.00 sec
+        Start  31: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/8
+ 33/104 Test  #31: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/8 ............................................................   Passed    0.00 sec
+        Start   9: sod.1d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+ 34/104 Test   #9: sod.1d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact ...........................................   Passed    0.00 sec
+        Start  40: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11"
+ 35/104 Test #104: application .........................................................................................................   Passed    0.13 sec
+        Start   4: sod.1d.Mesh.FaceIndicesCoverEachFaceExactlyOnce
+ 36/104 Test  #40: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11" ...................................   Passed    0.00 sec
+        Start  37: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3"
+ 37/104 Test   #4: sod.1d.Mesh.FaceIndicesCoverEachFaceExactlyOnce .....................................................................   Passed    0.00 sec
+        Start  36: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3"
+ 38/104 Test  #37: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3" ................................................   Passed    0.00 sec
+        Start  16: sod.1d.VectorMath.SplitConcatenateAndUnitVectors
+ 39/104 Test  #36: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3" .................................................   Passed    0.00 sec
+        Start   5: sod.1d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+ 40/104 Test  #16: sod.1d.VectorMath.SplitConcatenateAndUnitVectors ....................................................................   Passed    0.00 sec
+        Start  28: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/5
+ 41/104 Test   #5: sod.1d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes .................................................................   Passed    0.00 sec
+        Start   1: sod.1d.Units.CgsConversionsAndConstants
+ 42/104 Test  #28: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/5 ............................................................   Passed    0.00 sec
+        Start  34: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1"
+ 43/104 Test   #1: sod.1d.Units.CgsConversionsAndConstants .............................................................................   Passed    0.00 sec
+        Start  30: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/7
+ 44/104 Test  #34: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1" .............................................   Passed    0.00 sec
+        Start  53: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0"
+ 45/104 Test  #30: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/7 ............................................................   Passed    0.00 sec
+        Start  73: sod.1d.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy
+ 46/104 Test  #53: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0" .................................   Passed    0.00 sec
+        Start  54: sod.1d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+ 47/104 Test  #73: sod.1d.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy ............................................................   Passed    0.00 sec
+        Start  45: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf"
+ 48/104 Test  #54: sod.1d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated ...................................................   Passed    0.00 sec
+        Start  39: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0"
+ 49/104 Test  #45: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf" .............................................   Passed    0.00 sec
+        Start  74: sod.1d.Hydro.EulerFluxAndAcousticSpeedInEveryDirection
+ 50/104 Test  #39: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0" ....................................   Passed    0.00 sec
+        Start  51: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes"
+ 51/104 Test  #74: sod.1d.Hydro.EulerFluxAndAcousticSpeedInEveryDirection ..............................................................   Passed    0.00 sec
+        Start  56: sod.1d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+ 52/104 Test  #51: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes" ....................................   Passed    0.00 sec
+        Start  90: sod.1d.Amr.MortonDestinationAndConservativeRefineCoarsen
+ 53/104 Test  #56: sod.1d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ............................................   Passed    0.00 sec
+        Start  89: sod.1d.Amr.OptionsValidateAndRoundTrip
+ 54/104 Test  #90: sod.1d.Amr.MortonDestinationAndConservativeRefineCoarsen ............................................................   Passed    0.00 sec
+        Start  91: sod.1d.Amr.FailedCriterionPreservesPublishedMeshAndState
+ 55/104 Test  #89: sod.1d.Amr.OptionsValidateAndRoundTrip ..............................................................................   Passed    0.00 sec
+        Start  44: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4"
+ 56/104 Test  #91: sod.1d.Amr.FailedCriterionPreservesPublishedMeshAndState ............................................................   Passed    0.00 sec
+        Start  17: sod.1d.Options.HierarchicalIniSections
+ 57/104 Test  #44: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4" ........................................   Passed    0.00 sec
+        Start  29: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/6
+ 58/104 Test  #17: sod.1d.Options.HierarchicalIniSections ..............................................................................   Passed    0.00 sec
+        Start  46: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1"
+ 59/104 Test  #29: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/6 ............................................................   Passed    0.00 sec
+        Start  88: sod.1d.Runtime.FailedStageRollsBackAndRetryPublishesOnce
+ 60/104 Test  #46: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1" ...............................................   Passed    0.00 sec
+        Start  52: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1"
+ 61/104 Test  #88: sod.1d.Runtime.FailedStageRollsBackAndRetryPublishesOnce ............................................................   Passed    0.00 sec
+        Start  35: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod"
+ 62/104 Test  #52: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1" .........................................   Passed    0.00 sec
+        Start  93: sod.1d.Amr.MassThresholdRespectsFinestLevel
+ 63/104 Test  #93: sod.1d.Amr.MassThresholdRespectsFinestLevel .........................................................................   Passed    0.00 sec
+        Start  50: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1"
+ 64/104 Test  #35: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod" ............................................   Passed    0.00 sec
+        Start  62: sod.1d.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::hydro::HydroSystem>
+ 65/104 Test  #50: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1" ...............................................   Passed    0.00 sec
+        Start  85: sod.1d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem>
+ 66/104 Test  #62: sod.1d.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::hydro::HydroSystem> ...   Passed    0.00 sec
+        Start  57: sod.1d.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+ 67/104 Test  #85: sod.1d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem> ....................   Passed    0.00 sec
+        Start  47: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid"
+ 68/104 Test  #57: sod.1d.BoundaryMapping.AsymmetricFacesAndInvalidEnums ...............................................................   Passed    0.00 sec
+        Start  95: sod.1d.Amr.MixedLevelTransportConservesPeriodicIntegrals
+ 69/104 Test  #47: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid" .......................   Passed    0.00 sec
+        Start  84: sod.1d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem>
+ 70/104 Test  #95: sod.1d.Amr.MixedLevelTransportConservesPeriodicIntegrals ............................................................   Passed    0.00 sec
+        Start  60: sod.1d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+ 71/104 Test  #84: sod.1d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem> ..................   Passed    0.00 sec
+        Start  97: sod.1d.Amr.EvolvedShadowDiffersFromFreshRestriction
+ 72/104 Test  #60: sod.1d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ................................................   Passed    0.00 sec
+        Start  81: sod.1d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem>
+ 73/104 Test  #97: sod.1d.Amr.EvolvedShadowDiffersFromFreshRestriction .................................................................   Passed    0.00 sec
+        Start  61: sod.1d.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::hydro::HydroSystem>
+ 74/104 Test  #81: sod.1d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem> .........................   Passed    0.00 sec
+        Start  96: sod.1d.Amr.RegridCadenceAndTravelBudget
+ 75/104 Test  #61: sod.1d.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::hydro::HydroSystem> .....   Passed    0.00 sec
+        Start  75: sod.1d.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux
+ 76/104 Test  #96: sod.1d.Amr.RegridCadenceAndTravelBudget .............................................................................   Passed    0.00 sec
+        Start  64: sod.1d.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::hydro::HydroSystem>
+ 77/104 Test  #75: sod.1d.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux ...................................................   Passed    0.00 sec
+        Start  76: sod.1d.Hydro.SupersonicRiemannFluxUsesUpwindState
+ 78/104 Test  #64: sod.1d.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::hydro::HydroSystem> .......................   Passed    0.00 sec
+        Start  86: sod.1d.Transport.HydroDecompositionConservationAndAdmissibility
+ 79/104 Test  #76: sod.1d.Hydro.SupersonicRiemannFluxUsesUpwindState ...................................................................   Passed    0.00 sec
+        Start  94: sod.1d.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+ 80/104 Test  #86: sod.1d.Transport.HydroDecompositionConservationAndAdmissibility .....................................................   Passed    0.00 sec
+        Start  77: sod.1d.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive
+ 81/104 Test  #94: sod.1d.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon .....................................................   Passed    0.00 sec
+        Start  83: sod.1d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem>
+ 82/104 Test  #77: sod.1d.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive .....................................................   Passed    0.00 sec
+        Start  63: sod.1d.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::hydro::HydroSystem>
+ 83/104 Test  #83: sod.1d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem> ............................   Passed    0.00 sec
+        Start  99: sod.1d.AnalyticReference.ErrorNormsAndAccuracyPolicy
+ 84/104 Test  #63: sod.1d.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::hydro::HydroSystem> .........   Passed    0.00 sec
+        Start  87: sod.1d.Storage.IndependentFieldsBanksViewsTypesAndRetirement
+ 85/104 Test  #99: sod.1d.AnalyticReference.ErrorNormsAndAccuracyPolicy ................................................................   Passed    0.00 sec
+        Start  80: sod.1d.HydroValidation.RejectsInvalidEosAndFloors
+ 86/104 Test  #87: sod.1d.Storage.IndependentFieldsBanksViewsTypesAndRetirement ........................................................   Passed    0.00 sec
+        Start  48: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1"
+ 87/104 Test  #80: sod.1d.HydroValidation.RejectsInvalidEosAndFloors ...................................................................   Passed    0.00 sec
+        Start  49: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0"
+ 88/104 Test  #48: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1" ...............................   Passed    0.00 sec
+        Start  82: sod.1d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem>
+ 89/104 Test  #49: sod.1d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0" ...............................   Passed    0.00 sec
+        Start  33: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/10
+ 90/104 Test  #82: sod.1d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem> .............   Passed    0.00 sec
+        Start  58: sod.1d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported
+ 91/104 Test  #33: sod.1d.Orders/MultipoleOption.SupportedOrderIsAccepted/10 ...........................................................   Passed    0.00 sec
+        Start  98: sod.1d.AnalyticReference.IndependentSphereSodAndStreamingIdentities
+ 92/104 Test  #58: sod.1d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported ...................................................   Passed    0.00 sec
+        Start  79: sod.1d.Hydro.FluxLimiterRepairsDestructiveFluxConservatively
+ 93/104 Test  #98: sod.1d.AnalyticReference.IndependentSphereSodAndStreamingIdentities .................................................   Passed    0.00 sec
+        Start  59: sod.1d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes
+ 94/104 Test  #79: sod.1d.Hydro.FluxLimiterRepairsDestructiveFluxConservatively ........................................................   Passed    0.00 sec
+        Start  66: sod.1d.SlopeValues.IndependentUnequalSlopeValues
+ 95/104 Test  #59: sod.1d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes ............................................................   Passed    0.00 sec
+        Start  67: sod.1d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00>
+ 96/104 Test  #66: sod.1d.SlopeValues.IndependentUnequalSlopeValues ....................................................................   Passed    0.00 sec
+        Start  68: sod.1d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00>
+ 97/104 Test  #67: sod.1d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00> .......................   Passed    0.00 sec
+        Start  69: sod.1d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00>
+ 98/104 Test  #68: sod.1d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00> .......................   Passed    0.00 sec
+        Start  70: sod.1d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00>
+ 99/104 Test  #69: sod.1d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00> .......................   Passed    0.00 sec
+        Start  71: sod.1d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00>
+100/104 Test  #70: sod.1d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00> ......................   Passed    0.00 sec
+        Start  72: sod.1d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00>
+101/104 Test  #71: sod.1d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00> ......................   Passed    0.00 sec
+        Start  92: sod.1d.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+102/104 Test  #72: sod.1d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00> ......................   Passed    0.00 sec
+        Start 102: sod.1d.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry
+103/104 Test  #92: sod.1d.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners .......................................................   Passed    0.00 sec
+104/104 Test #102: sod.1d.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry ................................................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 104
+
+Label Time Summary:
+application    =   0.14 sec*proc (2 tests)
+integration    =   0.06 sec*proc (13 tests)
+unit           =   0.23 sec*proc (89 tests)
+
+Total Test time (real) =   0.28 sec

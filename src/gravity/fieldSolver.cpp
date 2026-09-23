@@ -1,4 +1,5 @@
 #include "octotigerII/gravity/fieldSolver.hpp"
+#include "octotigerII/gravity/adaptiveFieldSolver.hpp"
 #include "octotigerII/gravity/ewald.hpp"
 #include "octotigerII/gravity/images.hpp"
 #include "octotigerII/profiling.hpp"
@@ -533,6 +534,7 @@ namespace octotigerII::gravity {
 
 class FieldSolver::Impl {
 public:
+	std::unique_ptr<AdaptiveFieldSolver> adaptive;
 	unsigned depths = 0;
 #ifdef OCTOTIGERII_WITH_HPX
 	std::vector<hpx::id_type> partitions;
@@ -573,6 +575,10 @@ FieldSolver::FieldSolver(
 	profiling::Elapsed profile("gravity.setup.wall_ns");
 	config.validate();
 	if (localities.empty()) throw std::invalid_argument("FMM requires at least one locality");
+	if (config.amr.enabled) {
+		impl_->adaptive = std::make_unique<AdaptiveFieldSolver>(config, blocks, fields, localities);
+		return;
+	}
 	int const n = config.mesh.cells * (1 << config.mesh.level);
 	for (int count = 1; count <= n; count *= 2)
 		++impl_->depths;
@@ -600,6 +606,7 @@ FieldSolver::FieldSolver(
 FieldSolver::~FieldSolver() = default;
 
 Statistics FieldSolver::solve(unsigned bank) {
+	if (impl_->adaptive) return impl_->adaptive->solve(bank);
 	profiling::Elapsed profile("gravity.solve.wall_ns");
 	auto result = impl_->phase(Stage::Initialize, 0, bank);
 	for (unsigned depth = impl_->depths - 1; depth > 0; --depth)

@@ -36,7 +36,19 @@ namespace {
 		options("verification.relativeL1Tolerance", po::value<Real>(), "Maximum relative L1 for each reference field; -1 disables the accuracy gate");
 		options("verification.absoluteTolerance", po::value<Real>(), "Maximum absolute Linf for zero-reference fields (CGS), when the gate is enabled");
 		options("mesh.cells", po::value<int>(), "Cells per block per active axis");
-		options("mesh.level", po::value<int>(), "Uniform block level");
+		options("mesh.level", po::value<int>(), "Initial block level (also the default AMR minimum)");
+		options("amr.enabled", po::value<std::string>(), "Adaptive mesh refinement: on/off");
+		options("amr.minLevel", po::value<int>(), "Coarsest block level; -1 uses mesh.level");
+		options("amr.maxLevel", po::value<int>(), "Finest allowed block level (default 6)");
+		options("amr.regridEvery", po::value<int>(), "Maximum synchronized timesteps between regrids (default 4)");
+		options("amr.maxCellMass", po::value<Real>(), "Maximum mass per active cell (g); 0 disables mass refinement");
+		options("amr.shadowTolerance", po::value<Real>(), "Relative fine/shadow difference; 0 disables shadow refinement");
+		options("amr.shadowFloor", po::value<Real>(), "Normalization floor as a fraction of each field's maximum magnitude");
+		options("amr.coarsenFactor", po::value<Real>(), "Coarsening threshold relative to refinement threshold (default 0.25)");
+		options("amr.signalBuffer", po::value<Real>(), "Safety factor for signal travel before the next regrid (at least 1)");
+		options("amr.bufferCells", po::value<int>(), "Additional cells around refinement tags (default 1)");
+		options("amr.hydro", po::value<std::string>(), "Use hydro fields for shadow refinement: on/off");
+		options("amr.radiation", po::value<std::string>(), "Use radiation fields for shadow refinement: on/off");
 		options("mesh.lower", po::value<Real>(), "Lower domain coordinate (cm)");
 		options("mesh.upper", po::value<Real>(), "Upper domain coordinate (cm)");
 		options("mesh.periodic", po::value<std::string>(), "Legacy shorthand: on=all periodic, off=all outflow; per-face settings override");
@@ -137,6 +149,18 @@ namespace {
 		readNumber(values, "verification.absoluteTolerance", config.verification.absoluteTolerance);
 		readOption(values, "mesh.cells", config.mesh.cells);
 		readOption(values, "mesh.level", config.mesh.level);
+		readBoolean(values, "amr.enabled", config.amr.enabled);
+		readBoolean(values, "amr.hydro", config.amr.hydro);
+		readBoolean(values, "amr.radiation", config.amr.radiation);
+		readOption(values, "amr.minLevel", config.amr.minLevel);
+		readOption(values, "amr.maxLevel", config.amr.maxLevel);
+		readOption(values, "amr.regridEvery", config.amr.regridEvery);
+		readOption(values, "amr.bufferCells", config.amr.bufferCells);
+		readQuantity(values, "amr.maxCellMass", config.amr.maxCellMass);
+		readNumber(values, "amr.shadowTolerance", config.amr.shadowTolerance);
+		readNumber(values, "amr.shadowFloor", config.amr.shadowFloor);
+		readNumber(values, "amr.coarsenFactor", config.amr.coarsenFactor);
+		readNumber(values, "amr.signalBuffer", config.amr.signalBuffer);
 		if (values.count("mesh.periodic")) {
 			bool periodic = false;
 			readBoolean(values, "mesh.periodic", periodic);
@@ -146,8 +170,7 @@ namespace {
 			for (bool lower : {true, false}) {
 				auto const key = std::string("mesh.boundary.") + "xyz"[axis] + (lower ? "Lower" : "Upper");
 				if (values.count(key))
-					(lower ? config.mesh.boundary.lower : config.mesh.boundary.upper)[axis] =
-						physics::parseBoundaryCondition(values[key].as<std::string>());
+					(lower ? config.mesh.boundary.lower : config.mesh.boundary.upper)[axis] = physics::parseBoundaryCondition(values[key].as<std::string>());
 			}
 		Real lower = units::value(config.mesh.lower), upper = units::value(config.mesh.upper);
 		readNumber(values, "mesh.lower", lower);
@@ -205,6 +228,14 @@ void Config::validate() const {
 	validateProblem(*this);
 	if (mesh.cells < 4 || mesh.cells > 128 || (mesh.cells & (mesh.cells - 1)) || mesh.level < 0 || mesh.level > 6)
 		throw std::invalid_argument("mesh: cells=power of two in [4,128], level=0..6");
+	int const minimumLevel = amr.minLevel < 0 ? mesh.level : amr.minLevel;
+	if (amr.minLevel < -1 || minimumLevel > mesh.level || amr.maxLevel < minimumLevel || amr.maxLevel > 16 || (amr.enabled && amr.maxLevel < mesh.level) ||
+		amr.regridEvery < 1 || amr.bufferCells < 0 || !(amr.maxCellMass >= units::Mass{}) || !units::finite(amr.maxCellMass) ||
+		!isfinite(amr.shadowTolerance) || amr.shadowTolerance < 0 || !isfinite(amr.shadowFloor) || amr.shadowFloor <= 0 || !isfinite(amr.coarsenFactor) ||
+		!(amr.coarsenFactor > 0 && amr.coarsenFactor < 1) || !isfinite(amr.signalBuffer) || amr.signalBuffer < 1)
+		throw std::invalid_argument("Invalid AMR levels, criteria, buffering, or regrid interval");
+	if (amr.enabled && amr.maxCellMass > units::Mass{} && !build::hydro && !build::gravity)
+		throw std::invalid_argument("Mass refinement requires a density field");
 	if (!(mesh.upper > mesh.lower) || !units::finite(mesh.upper - mesh.lower) || !(runtime.stopTime >= units::Time{}) ||
 		!(timestep.cfl > 0 && timestep.cfl <= 0.5) || !(hydro.gamma > 1) || !(radiation.lightSpeedRatio > 0 && radiation.lightSpeedRatio <= 1) ||
 		runtime.maxSteps < 1 || output.every < 1 || runtime.workerTasks < 0)
@@ -264,7 +295,7 @@ std::string helpText() {
 		   << "Problem and dimension are fixed at build time. CLI values override INI files.\n"
 		   << "Settings use dotted groups; snake_case names remain supported as aliases.\n"
 		   << "Booleans: on/off. mesh.cells is cells per block per active axis.\n"
-		   << "Cartesian blocks: 2^mesh.level blocks per axis.\n\n"
+		   << "Initial Cartesian mesh: 2^mesh.level blocks per axis.\n\n"
 		   << settings;
 	return output.str();
 }

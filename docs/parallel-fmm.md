@@ -1,5 +1,9 @@
 # Threaded and distributed FMM
 
+With AMR enabled, the independent sparse cell octree uses a dual tree walk,
+including different source and target sizes. See [adaptive gravity](amr.md).
+The uniform path described below remains available when AMR is disabled.
+
 ## Execution and ownership
 
 The application calls `Runtime::solveGravity()`. A persistent `gravity::FieldSolver`

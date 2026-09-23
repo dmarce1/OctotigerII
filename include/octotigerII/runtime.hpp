@@ -5,18 +5,16 @@
 #pragma once
 #include <memory>
 #include "octotigerII/gravity/solver.hpp"
+#include "octotigerII/refinement/criteria.hpp"
 #include "octotigerII/subgrid/subgrid.hpp"
 
-
 namespace octotigerII {
-
 
 /// Cumulative completed tasks on their owning locality and on a stealing locality.
 /// Timestep calculations also count as tasks; these are not network-message counts.
 /// @ingroup runtime
 class SchedulingStatistics {
 public:
-
 	std::uint64_t localTasks = 0;
 	std::uint64_t stolenTasks = 0;
 
@@ -26,7 +24,6 @@ public:
 		archive & localTasks & stolenTasks;
 	}
 };
-
 
 // Owns fields, mesh metadata, and one scheduler per locality. No subgrid
 // component owns numerical state. API calls are serialized stage operations.
@@ -38,8 +35,7 @@ public:
 /// @ingroup runtime
 class Runtime {
 public:
-
-	explicit Runtime(Config const& config);
+	explicit Runtime(Config const& config, refinement::Criteria additionalCriteria = {});
 
 	~Runtime();
 
@@ -56,6 +52,11 @@ public:
 	/// Publish one transport update only after all blocks and remote writebacks succeed.
 	/// On failure, drain work and preserve the previously published state and time.
 	void advance(units::Time dt);
+
+	/// Regrid at synchronization points. Predicted signal travel can exhaust
+	/// the buffer before amr.regridEvery. Returns whether leaves changed.
+	bool regrid(units::Time nextStep, bool force = false);
+	std::size_t shadowCellCount() const;
 
 	/// Solve gravity on the partitioned hierarchy and publish its distributed fields.
 	/// The input bank and physical time survive a failed solve unchanged.
@@ -81,10 +82,8 @@ public:
 	static char const* backend();
 
 private:
-
 	class Impl;
 	std::unique_ptr<Impl> impl_;
 };
-
 
 }	 // namespace octotigerII

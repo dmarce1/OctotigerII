@@ -1,0 +1,28 @@
+[==========] Running 10 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 10 tests from Amr
+[ RUN      ] Amr.OptionsValidateAndRoundTrip
+[       OK ] Amr.OptionsValidateAndRoundTrip (0 ms)
+[ RUN      ] Amr.MortonDestinationAndConservativeRefineCoarsen
+[       OK ] Amr.MortonDestinationAndConservativeRefineCoarsen (12 ms)
+[ RUN      ] Amr.FailedCriterionPreservesPublishedMeshAndState
+[       OK ] Amr.FailedCriterionPreservesPublishedMeshAndState (2 ms)
+[ RUN      ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+[       OK ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners (35 ms)
+[ RUN      ] Amr.MassThresholdRespectsFinestLevel
+[       OK ] Amr.MassThresholdRespectsFinestLevel (20 ms)
+[ RUN      ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+[       OK ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon (1 ms)
+[ RUN      ] Amr.MixedLevelTransportConservesPeriodicIntegrals
+[       OK ] Amr.MixedLevelTransportConservesPeriodicIntegrals (27 ms)
+[ RUN      ] Amr.RegridCadenceAndTravelBudget
+[       OK ] Amr.RegridCadenceAndTravelBudget (9 ms)
+[ RUN      ] Amr.EvolvedShadowDiffersFromFreshRestriction
+[       OK ] Amr.EvolvedShadowDiffersFromFreshRestriction (0 ms)
+[ RUN      ] Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages
+[       OK ] Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages (21598 ms)
+[----------] 10 tests from Amr (21710 ms total)
+
+[----------] Global test environment tear-down
+[==========] 10 tests from 1 test suite ran. (21710 ms total)
+[  PASSED  ] 10 tests.

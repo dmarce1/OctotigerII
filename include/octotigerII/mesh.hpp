@@ -17,7 +17,6 @@
 #include <utility>
 #include <vector>
 
-
 namespace octotigerII::mesh {
 
 using Coordinates = std::array<int, ndim>;
@@ -64,24 +63,20 @@ void forEachCoordinate(Coordinates const& extents, Function&& function) {
 	forEachCoordinate(Coordinates{}, extents, std::forward<Function>(function));
 }
 
-
 /// Indexing for an ndim-dimensional Cartesian patch with x contiguous.
 /// CGS integrated totals use unit transverse measure in reduced dimensions;
 /// that convention does not add coordinate axes, cells, or vector components.
 /// @ingroup mesh
 class MeshLayout {
 public:
-
 	MeshLayout()
 	  : MeshLayout(2) {}
 
 	explicit MeshLayout(int cellsPerActiveDimension, int ghostWidth = 0);
 
-
 	int cellsPerActiveDimension() const;
 
 	int ghostWidth() const;
-
 
 	int interiorExtent(int axis) const;
 
@@ -102,7 +97,6 @@ public:
 	std::vector<int> activeChildSlots() const;
 
 	std::size_t index(Coordinates const& storageCoordinates) const;
-
 
 	Coordinates storageCoordinates(Coordinates const& interiorCoordinates) const;
 
@@ -136,7 +130,6 @@ public:
 	}
 
 private:
-
 	int cellsPerActiveDimension_ = 2;
 	int ghostWidth_ = 0;
 	Coordinates interiorExtents_{};
@@ -150,13 +143,11 @@ private:
 	static std::size_t product(Coordinates const& extents);
 };
 
-
 /// Topological identity (level and ndim integer coordinates).
 /// This value carries no ownership of numerical field arrays.
 /// @ingroup mesh
 class BlockLocation {
 public:
-
 	int level = 0;
 	Coordinates coordinates{};
 
@@ -180,15 +171,25 @@ public:
 	friend bool operator==(BlockLocation const&, BlockLocation const&) = default;
 };
 
-
 /// Hash of the block location for topology directories.
 /// @ingroup mesh
 class BlockLocationHash {
 public:
-
 	std::size_t operator()(BlockLocation const& location) const noexcept;
 };
 
+/// Morton order on the common finest lattice; ancestors precede descendants.
+/// Sixteen block levels fit in 48 bits in three dimensions.
+inline std::uint64_t mortonKey(BlockLocation const& location) {
+	if (location.level < 0 || location.level > 16) throw std::invalid_argument("Morton block level outside [0,16]");
+	std::uint64_t key = 0;
+	for (int d = 0; d < ndim; ++d) {
+		auto const coordinate = std::uint64_t(location.coordinates[d]) << (16 - location.level);
+		for (int bit = 0; bit < 16; ++bit)
+			key |= ((coordinate >> bit) & 1) << (ndim * bit + d);
+	}
+	return key;
+}
 
 // Time is patch-local even while the first implementation advances every
 // level synchronously. This deliberately leaves room for temporal refinement:
@@ -200,7 +201,6 @@ public:
 /// @ingroup mesh
 class TimeState {
 public:
-
 	units::Time time{};
 	units::Time stepSize{};
 	std::uint64_t step = 0;
@@ -224,12 +224,10 @@ public:
 	}
 };
 
-
 /// Closed physical time interval used to label fluxes and boundary data.
 /// @ingroup mesh
 class TimeInterval {
 public:
-
 	units::Time begin{};
 	units::Time end{};
 
@@ -245,7 +243,6 @@ public:
 	}
 };
 
-
 /// Owning patch value used for temporary snapshots and standalone kernel tests.
 /// Persistent distributed interiors live in storage::StoragePartition instead.
 /// Values use MeshLayout indexing; this type may include ghosts when used in tests.
@@ -253,7 +250,6 @@ public:
 template <typename State>
 class PatchData {
 public:
-
 	PatchData() = default;
 
 	PatchData(MeshLayout layout, units::Length cellWidth, PhysicalCoordinates lower = {})
@@ -334,13 +330,11 @@ public:
 	}
 
 private:
-
 	MeshLayout layout_;
 	units::Length cellWidth_ = units::Length::from_value(1);
 	PhysicalCoordinates lower_{};
 	TimeState timeState_{};
 	std::vector<State> values_;
 };
-
 
 }	 // namespace octotigerII::mesh

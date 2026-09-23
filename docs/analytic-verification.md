@@ -129,8 +129,9 @@ and seed, changing order, opening angle, block order or HPX scheduling preserves
 the sample. Explicit sample counts also keep the same targets as density evolves.
 Automatic counts may change if the number of nonzero sources changes.
 
-Console and JSON norms use only the selected targets. On the current uniform
-mesh, every target has the same volume weight. For a sampled comparison, the
+Console and JSON direct-reference norms use only the selected targets with
+equal cell weights. On a mixed-level AMR mesh these are cell-sampled norms,
+not volume-weighted continuum errors. Source masses use actual cell volumes. For a sampled comparison, the
 console reports approximate 95% half-widths for relative L1 and L2, and warns
 when either exceeds the corresponding measured error. A one-target sample or
 zero sample reference norm produces an unavailable-uncertainty warning.

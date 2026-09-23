@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
 #include <cmath>
 #include <filesystem>
+#include <gtest/gtest.h>
 #include <iostream>
 #include <memory>
 #include <silo.h>
@@ -9,7 +9,6 @@
 #include "octotigerII/verification/analytic.hpp"
 
 using namespace octotigerII;
-
 
 namespace {
 
@@ -48,7 +47,8 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 	}
 	auto field = [&](char const* name, char const* units, auto expected) {
 		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> var(DBGetQuadvar(file.get(), ("block0/" + std::string(name)).c_str()), &DBFreeQuadvar);
-		ASSERT_TRUE(var && var->datatype == DB_DOUBLE && var->centering == DB_ZONECENT && var->nels == int(patch.layout.interiorCellCount())) << "Silo field metadata";
+		ASSERT_TRUE(var && var->datatype == DB_DOUBLE && var->centering == DB_ZONECENT && var->nels == int(patch.layout.interiorCellCount()))
+			<< "Silo field metadata";
 		EXPECT_TRUE(var->units && std::string(var->units) == units) << "Silo CGS field units";
 		EXPECT_TRUE(var->dtime == 0 && var->cycle == 0) << "Silo time/cycle";
 		auto const* values = static_cast<double const*>(var->vals[0]);
@@ -88,7 +88,8 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 	for (int axis = ndim; axis < 3; ++axis) {
 		for (int i = 0; i < toc->nmultivar; ++i) {
 			std::string const name = toc->multivar_names[i];
-			EXPECT_TRUE(name != std::string("momentum") + "XYZ"[axis] && name != std::string("radiationFlux") + "XYZ"[axis]) << "Silo contains inactive vector component";
+			EXPECT_TRUE(name != std::string("momentum") + "XYZ"[axis] && name != std::string("radiationFlux") + "XYZ"[axis])
+				<< "Silo contains inactive vector component";
 		}
 	}
 	std::cout << problem << ' ' << dimensions << "D Silo roundtrip passed\n";
@@ -96,10 +97,50 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 
 }	 // namespace
 
-
 #include "testSupport.hpp"
 
 TEST(SiloOutput, GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip) {
 	test::TemporaryDirectory directory;
 	check(build::problem, ndim, directory.path);
+}
+
+TEST(SiloOutput, MixedLevelsContainOnlyLeavesAndReportTheirGeometry) {
+	test::TemporaryDirectory directory;
+	auto c = parseConfig({"--mesh.level=1", "--mesh.cells=4", "--amr.enabled=on", "--amr.maxLevel=2", "--output.directory=" + directory.path.string()});
+	std::vector<Snapshot> leaves;
+	mesh::BlockLocation const root;
+	for (int slot = 0; slot < (1 << ndim); ++slot) {
+		auto const child = root.child(slot);
+		if (slot == 0) {
+			for (int fine = 0; fine < (1 << ndim); ++fine)
+				leaves.push_back(initialSnapshot(c, child.child(fine)));
+		} else
+			leaves.push_back(initialSnapshot(c, child));
+	}
+	Output output(c);
+	output(leaves, 0, diagnose(leaves, c));
+	std::unique_ptr<DBfile, decltype(&DBClose)> file(DBOpen((directory.path / "frame_000000.silo").c_str(), DB_HDF5, DB_READ), &DBClose);
+	ASSERT_TRUE(file);
+	std::unique_ptr<DBmultimesh, decltype(&DBFreeMultimesh)> multi(DBGetMultimesh(file.get(), "mesh"), &DBFreeMultimesh);
+	std::unique_ptr<DBmultivar, decltype(&DBFreeMultivar)> levels(DBGetMultivar(file.get(), "refinementLevel"), &DBFreeMultivar);
+	ASSERT_TRUE(multi);
+	ASSERT_TRUE(levels);
+	EXPECT_EQ(multi->nblocks, int(leaves.size()));
+	EXPECT_EQ(levels->nvars, int(leaves.size()));
+	for (std::size_t b = 0; b < leaves.size(); ++b) {
+		auto const prefix = "block" + std::to_string(b) + "/";
+		std::unique_ptr<DBquadmesh, decltype(&DBFreeQuadmesh)> mesh(DBGetQuadmesh(file.get(), (prefix + "mesh").c_str()), &DBFreeQuadmesh);
+		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> level(DBGetQuadvar(file.get(), (prefix + "refinementLevel").c_str()), &DBFreeQuadvar);
+		ASSERT_TRUE(mesh);
+		ASSERT_TRUE(level);
+		EXPECT_EQ(level->nels, int(leaves[b].layout.interiorCellCount()));
+		for (int i = 0; i < level->nels; ++i)
+			EXPECT_DOUBLE_EQ(static_cast<double const*>(level->vals[0])[i], leaves[b].location.level);
+		for (int d = 0; d < ndim; ++d) {
+			ASSERT_EQ(mesh->dims[d], 5);
+			auto const* coordinate = static_cast<double const*>(mesh->coords[d]);
+			for (int i = 0; i <= 4; ++i)
+				EXPECT_DOUBLE_EQ(coordinate[i], units::value(leaves[b].lower[d] + Real(i) * leaves[b].cellWidth));
+		}
+	}
 }

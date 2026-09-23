@@ -1,0 +1,40 @@
+OctotigerII 0.1.0 | serial fields | collapse | 3D
+step=0 time=0.000000e+00 mass=5.044666e+30 gasEnergy=2.000000e+40 radiationEnergy=0.000000e+00
+step=1 time=2.780660e-01 mass=5.044676e+30 gasEnergy=8.230521e+40 radiationEnergy=0.000000e+00
+step=2 time=4.852929e-01 mass=5.044693e+30 gasEnergy=2.097990e+41 radiationEnergy=0.000000e+00
+step=3 time=6.282663e-01 mass=5.044709e+30 gasEnergy=3.381522e+41 radiationEnergy=0.000000e+00
+step=4 time=7.441802e-01 mass=5.044724e+30 gasEnergy=4.664428e+41 radiationEnergy=0.000000e+00
+step=5 time=8.443584e-01 mass=5.044739e+30 gasEnergy=5.948123e+41 radiationEnergy=0.000000e+00
+step=6 time=9.338934e-01 mass=5.044753e+30 gasEnergy=7.232832e+41 radiationEnergy=0.000000e+00
+step=7 time=1.015603e+00 mass=5.044767e+30 gasEnergy=8.518529e+41 radiationEnergy=0.000000e+00
+step=8 time=1.091240e+00 mass=5.044781e+30 gasEnergy=9.805133e+41 radiationEnergy=0.000000e+00
+step=9 time=1.161989e+00 mass=5.044795e+30 gasEnergy=1.109256e+42 radiationEnergy=0.000000e+00
+step=10 time=1.228688e+00 mass=5.044809e+30 gasEnergy=1.238071e+42 radiationEnergy=0.000000e+00
+step=11 time=1.291961e+00 mass=5.044822e+30 gasEnergy=1.366953e+42 radiationEnergy=0.000000e+00
+step=12 time=1.352287e+00 mass=5.044836e+30 gasEnergy=1.495895e+42 radiationEnergy=0.000000e+00
+step=13 time=1.410042e+00 mass=5.044849e+30 gasEnergy=1.624890e+42 radiationEnergy=0.000000e+00
+step=14 time=1.465527e+00 mass=5.044862e+30 gasEnergy=1.753935e+42 radiationEnergy=0.000000e+00
+step=15 time=1.518989e+00 mass=5.044876e+30 gasEnergy=1.883025e+42 radiationEnergy=0.000000e+00
+step=16 time=1.570634e+00 mass=5.044889e+30 gasEnergy=2.012155e+42 radiationEnergy=0.000000e+00
+step=17 time=1.620633e+00 mass=5.044902e+30 gasEnergy=2.141324e+42 radiationEnergy=0.000000e+00
+step=18 time=1.669134e+00 mass=5.044914e+30 gasEnergy=2.270527e+42 radiationEnergy=0.000000e+00
+step=19 time=1.716263e+00 mass=5.044927e+30 gasEnergy=2.399762e+42 radiationEnergy=0.000000e+00
+step=20 time=1.762129e+00 mass=5.044940e+30 gasEnergy=2.529027e+42 radiationEnergy=0.000000e+00
+step=21 time=1.806827e+00 mass=5.044953e+30 gasEnergy=2.658320e+42 radiationEnergy=0.000000e+00
+step=22 time=1.850442e+00 mass=5.044965e+30 gasEnergy=2.787638e+42 radiationEnergy=0.000000e+00
+step=23 time=1.893048e+00 mass=5.044978e+30 gasEnergy=2.916980e+42 radiationEnergy=0.000000e+00
+step=24 time=1.934710e+00 mass=5.044991e+30 gasEnergy=3.046345e+42 radiationEnergy=0.000000e+00
+step=25 time=1.975489e+00 mass=5.045003e+30 gasEnergy=3.175730e+42 radiationEnergy=0.000000e+00
+step=26 time=2.000000e+00 mass=5.045011e+30 gasEnergy=3.254820e+42 radiationEnergy=0.000000e+00
+Analytic comparison: available | Direct summation of cell-center masses | cell centers | t=2.000000e+00 s | relative L1/L2/Linf
+  direct targets=32/29184 sources=29184 | sampled norms (Linf is sample maximum) | mt19937_64 seed=5489
+  potential L1=1.014705e-06 L2=1.451086e-06 Linf=2.233721e-06
+    estimated 95% sampling half-width: L1=4.408006e-07 L2=5.645550e-07
+  accelerationX L1=6.016892e-05 L2=8.452619e-05 Linf=1.375528e-04
+    estimated 95% sampling half-width: L1=2.687692e-05 L2=3.721306e-05
+  accelerationY L1=5.425267e-05 L2=6.725405e-05 Linf=7.638214e-05
+    estimated 95% sampling half-width: L1=2.605929e-05 L2=3.168550e-05
+  accelerationZ L1=5.790865e-05 L2=7.320611e-05 Linf=9.360568e-05
+    estimated 95% sampling half-width: L1=2.716698e-05 L2=3.122487e-05
+gravity multipolePairs=86528448 directPairs=737512448 workerTasks=364 cellsPerLocality= 29184
+Completed 26 steps at t=2.000000e+00 s

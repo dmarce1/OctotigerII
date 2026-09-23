@@ -47,9 +47,10 @@ ctest --test-dir release/sod/1d --output-on-failure --output-junit test-results.
 | Radiation | Isotropic and streaming M1 limits, oblique closure symmetry/trace, causal characteristic speeds, HLL upwinding, physical CGS flux, reduced light speed, realizability, vacuum and bounded roundoff repair |
 | Finite-volume evolution | Uniform-state preservation, nonuniform periodic conservation, admissibility, all three limiters, face/edge/corner boundary rules, CFL scaling, invalid timesteps, boundary time tags |
 | Runtime and storage | Tiled/single-block agreement, periodic conservation, stage failure/rollback/retry, task accounting, independent fields/banks, type checks, retained buffers, retirement |
+| AMR | Conservative split/merge, Morton ordering, mass cap and finest level, periodic signal padding, early regrid cadence, evolved shadows, deep 2:1 face/edge/corner balance, mixed-level reflux conservation, transactional failure, adaptive FMM/direct image comparisons |
 | Gravity | Independent point-mass fields, self exclusion, vacuum, superposition, geometric scaling, multipole-order convergence against independent direct sums, worker/block reproducibility, interaction counts, failure/retry |
 | Verification | Exact Sod/star states, shell-integrated sphere/Gaussian reference, streaming wraparound, injected error norms, accuracy gates, spatial convergence, reproducible sampling and uncertainty |
-| Output and communication | Silo geometry/CGS fields/readback/overwrite, CLI/report checks, typed HPX archive roundtrip, zero-copy buffers, 2- and 3-locality execution |
+| Output and communication | Uniform and mixed-level Silo geometry/CGS fields/readback/overwrite, leaf refinement levels, CLI/report checks, typed HPX archive roundtrip, zero-copy buffers, 2- and 3-locality execution |
 
 ## Build the complete matrix
 

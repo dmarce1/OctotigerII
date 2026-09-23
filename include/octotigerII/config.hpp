@@ -34,6 +34,19 @@ public:
 		}
 	} mesh;
 
+	class AmrOptions {
+	public:
+		bool enabled = false, hydro = true, radiation = true;
+		int minLevel = -1, maxLevel = 6, regridEvery = 4, bufferCells = 1;
+		units::Mass maxCellMass{};
+		Real shadowTolerance = 0.05, shadowFloor = 1e-8, coarsenFactor = 0.25, signalBuffer = 1;
+
+		template <typename Archive>
+		void serialize(Archive& archive, unsigned) {
+			archive & enabled & hydro & radiation & minLevel & maxLevel & regridEvery & bufferCells;
+			archive & maxCellMass & shadowTolerance & shadowFloor & coarsenFactor & signalBuffer;
+		}
+	} amr;
 
 	class RuntimeOptions {
 	public:
@@ -47,7 +60,6 @@ public:
 		}
 	} runtime;
 
-
 	class TimestepOptions {
 	public:
 		Real cfl = 0.4;
@@ -57,7 +69,6 @@ public:
 			archive & cfl;
 		}
 	} timestep;
-
 
 	class HydroOptions {
 	public:
@@ -94,7 +105,6 @@ public:
 		}
 	} radiation;
 
-
 	class GravityOptions {
 	public:
 		int multipoleOrder = 5;
@@ -105,7 +115,6 @@ public:
 			archive & multipoleOrder & openingAngle;
 		}
 	} gravity;
-
 
 	class OutputOptions {
 	public:
@@ -118,7 +127,6 @@ public:
 			archive & every & enabled & directory;
 		}
 	} output;
-
 
 	class VerificationOptions {
 	public:
@@ -155,7 +163,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & randomSeed & mesh & runtime & timestep & hydro & rayleighTaylor & radiation & gravity & output & verification;
+		archive & randomSeed & mesh & amr & runtime & timestep & hydro & rayleighTaylor & radiation & gravity & output & verification;
 	}
 };
 

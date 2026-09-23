@@ -58,6 +58,20 @@ double ImageGeometry::nextImageDistance(diagonal::Offset r, int count) const {
 	return sqrt(next2);
 }
 
+diagonal::Offset ImageGeometry::centerSeparation(diagonal::Offset a, diagonal::Offset b, int count, SourceImage const& image) const {
+	for (int d = 0; d < 3; ++d) {
+		if (image.mask & (1u << d)) b[d] = -b[d] + image.translation[d] * count;
+		a[d] -= b[d];
+		int const period = periods_[d] * count;
+		if (period) {
+			a[d] %= period;
+			if (2 * a[d] > period) a[d] -= period;
+			if (2 * a[d] < -period) a[d] += period;
+		}
+	}
+	return a;
+}
+
 bool ImageGeometry::acceptable(diagonal::Offset r, int count, double theta, bool correction) const {
 	using std::abs;
 	using std::hypot;
