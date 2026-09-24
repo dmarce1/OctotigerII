@@ -1,3 +1,4 @@
+problem.name=gravity-sphere
 # 3D isolated uniform-density sphere; static gravity solve
 # All dimensional values are cgs.
 mesh.cells=4

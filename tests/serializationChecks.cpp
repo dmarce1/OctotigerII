@@ -1,3 +1,4 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <hpx/include/serialization.hpp>
 #include <iostream>
@@ -25,9 +26,12 @@ void samePatch(mesh::PatchData<State> const& a, mesh::PatchData<State> const& b)
 }
 
 void check() {
-	auto c = parseConfig({"--mesh.level=0", "--output.enabled=off"});
+	auto c = test::parseConfig({"--mesh.level=0", "--output.enabled=off"});
 	c.verification.analytic = "on";
 	c.randomSeed = 987654321;
+	c.amr.refineDensity = units::Density::from_value(0.03);
+	c.star.radius = units::Length::from_value(8e8);
+	c.star.center[0] = units::Length::from_value(2e8);
 	c.verification.directSamples = 23;
 	c.verification.directMaxPairs = 12345;
 	c.verification.gravityReference = "continuum";
@@ -87,6 +91,12 @@ void check() {
 		restored.verification.absoluteTolerance == c.verification.absoluteTolerance);
 	EXPECT_TRUE(before.time == after.time && before.cellWidth == after.cellWidth && before.lower == after.lower);
 	EXPECT_EQ(restored.hydro.acceleration, c.hydro.acceleration);
+	EXPECT_EQ(restored.amr.refineDensity, c.amr.refineDensity);
+	EXPECT_EQ(restored.star.radius, c.star.radius);
+	EXPECT_EQ(restored.star.center, c.star.center);
+	EXPECT_EQ(restored.star.centralDensity, c.star.centralDensity);
+	EXPECT_EQ(restored.star.polytropicIndex, c.star.polytropicIndex);
+	EXPECT_EQ(restored.star.atmosphereFraction, c.star.atmosphereFraction);
 	EXPECT_EQ(restored.rayleighTaylor.densityLower, c.rayleighTaylor.densityLower);
 	EXPECT_EQ(restored.rayleighTaylor.densityUpper, c.rayleighTaylor.densityUpper);
 	EXPECT_EQ(restored.rayleighTaylor.interfacePressure, c.rayleighTaylor.interfacePressure);
@@ -109,7 +119,7 @@ TEST(Serialization, TypedConfigSnapshotsAndFluxPacketsRoundTrip) {
 
 
 TEST(Serialization, PerFaceBoundariesAndHaloPlansRoundTrip) {
-	auto c = parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1"});
+	auto c = test::parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1"});
 	CartesianTopology topology(c, 2);
 	// Serialize all boundary kinds even in builds whose gravity policy disallows them.
 	c.mesh.boundary.lower[0] = physics::BoundaryCondition::Analytic;
@@ -155,7 +165,7 @@ TEST(Serialization, PerFaceBoundariesAndHaloPlansRoundTrip) {
 }
 
 TEST(Serialization, InflowAndDirectionalOutflowMasksRoundTrip) {
-	auto c = parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=0"});
+	auto c = test::parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=0"});
 	c.mesh.boundary.upper.fill(physics::BoundaryCondition::Inflow);
 	CartesianTopology topology(c, 1);
 	auto const plan = makeHaloPlan(c, topology.blocks(), 0);

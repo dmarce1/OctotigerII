@@ -59,7 +59,7 @@ Reference reference(Config const& c, units::Time time) {
 		result.evaluate = {};
 		result.reason = "This analytic reference does not include external acceleration";
 	}
-	if (build::gravity &&
+	if (c.gravityEnabled() &&
 		(c.mesh.boundary.contains(physics::BoundaryCondition::Periodic) || c.mesh.boundary.contains(physics::BoundaryCondition::Reflecting))) {
 		result.evaluate = {};
 		result.reason = "Isolated continuum gravity reference is unavailable with image boundaries; use verification.gravityReference=direct";
@@ -90,7 +90,7 @@ std::vector<Field> sample(Snapshot const& b, [[maybe_unused]] Config const& c, R
 		result.push_back(std::move(f));
 	};
 #if OCTOTIGERII_HYDRO
-	{
+	if (c.hydroEnabled()) {
 		hydro::HydroSystem const gas(c.hydro.gamma);
 		field("density", "g/cm^3", [&](std::size_t i) { return b.hydro.values()[i].density(); }, [](auto const& q) { return q.hydro.density(); });
 		field(
@@ -110,14 +110,14 @@ std::vector<Field> sample(Snapshot const& b, [[maybe_unused]] Config const& c, R
 		}
 	}
 #endif
-	if constexpr (build::gravity) {
+	if (c.gravityEnabled() && c.gravityEnabled()) {
 		field("potential", "cm^2/s^2", [&](std::size_t i) { return b.gravity.values()[i].potential(); }, [](auto const& q) { return q.gravity.potential(); });
 		for (int axis = 0; axis < ndim; ++axis)
 			field(
 				std::string("acceleration") + "XYZ"[axis], "cm/s^2", [&](std::size_t i) { return b.gravity.values()[i].acceleration(axis); },
 				[axis](auto const& q) { return q.gravity.acceleration(axis); });
 	}
-	if constexpr (build::radiation) {
+	if (build::radiation && c.radiationEnabled()) {
 		field(
 			"radiationEnergy", "erg/cm^3", [&](std::size_t i) { return b.radiation.values()[i].energy(); }, [](auto const& q) { return q.radiation.energy(); });
 		for (int axis = 0; axis < ndim; ++axis)
@@ -141,6 +141,7 @@ Comparison compare(std::vector<Snapshot> const& snapshots, Config const& c) {
 	if (usesDirectGravity(c)) return compareDirectGravity(snapshots, c);
 #endif
 	Comparison result;
+	result.problem = c.problem;
 	result.time = snapshots.front().time;
 	result.cellsPerAxis = c.mesh.cells * (1 << c.mesh.level);
 	result.multipoleOrder = c.gravity.multipoleOrder;
@@ -240,7 +241,7 @@ void Comparison::print(std::ostream& out) const {
 void Comparison::writeJson(std::ostream& out) const {
 	profiling::Region profile("output.verification_json");
 	out << std::scientific << std::setprecision(17);
-	out << "{\n  \"schemaVersion\": 3,\n  \"problem\": " << jsonString(build::problem) << ",\n  \"ndim\": " << ndim << ",\n  \"status\": " << jsonString(status)
+	out << "{\n  \"schemaVersion\": 3,\n  \"problem\": " << jsonString(problem) << ",\n  \"ndim\": " << ndim << ",\n  \"status\": " << jsonString(status)
 		<< ",\n  \"reference\": " << jsonString(name) << ",\n  \"reason\": " << jsonString(reason) << ",\n  \"sampling\": " << jsonString(sampling)
 		<< ",\n  \"time\": " << units::value(time) << ",\n  \"cells\": " << cells << ",\n  \"cellsPerAxis\": " << cellsPerAxis
 		<< ",\n  \"referenceKind\": " << jsonString(referenceKind) << ",\n  \"totalCells\": " << totalCells << ",\n  \"sourceCells\": " << sourceCells

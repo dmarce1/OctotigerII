@@ -24,8 +24,7 @@ int application(std::vector<std::string> const& args) {
 		auto const result = octotigerII::run(config, [&](auto const& snapshots, int step, auto const& d) {
 			output(snapshots, step, d);
 			if (step == 0 || step % config.output.every == 0 || d.time >= config.runtime.stopTime)
-				std::cout << "step=" << step << " time=" << octotigerII::units::value(d.time) << " mass=" << octotigerII::units::value(d.mass)
-						  << " gasEnergy=" << octotigerII::units::value(d.gasEnergy) << " radiationEnergy=" << octotigerII::units::value(d.radiationEnergy)
+				std::cout << "step=" << step << " time=" << octotigerII::units::value(d.time)
 						  << '\n';
 		});
 		auto const comparison = octotigerII::verification::compare(result.snapshots, config);

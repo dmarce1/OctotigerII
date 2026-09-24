@@ -1,3 +1,4 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
@@ -78,7 +79,7 @@ void streamingProfile() {
 	// Independent analytic advection: the profile travels at cHat while the
 	// stored physical streaming flux remains c E, including at reduced speed.
 	for (Real ratio : {Real(1), Real(0.25)}) {
-		Config c = parseConfig({"--mesh.cells=32", "--mesh.level=2", "--runtime.stopTime=0.2", "--output.enabled=off"});
+		Config c = octotigerII::parseConfig({"--problem.name=streaming", "--mesh.cells=32", "--mesh.level=2", "--runtime.stopTime=0.2", "--output.enabled=off"});
 		c.radiation.lightSpeedRatio = ratio;
 		auto runtime = blocks(c);
 		units::Time time{};
@@ -111,8 +112,8 @@ void streamingProfile() {
 }
 
 template <typename State, typename Select, typename Admissible>
-void compareTransport(Select select, Admissible admissible) {
-	Config fine = parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
+void compareTransport(char const* problem, Select select, Admissible admissible) {
+	Config fine = octotigerII::parseConfig({std::string("--problem.name=") + problem, "--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 	fine.runtime.workerTasks = 1;
 	Config single = fine;
 	single.mesh.cells = 8;
@@ -146,18 +147,18 @@ void compareTransport(Select select, Admissible admissible) {
 			EXPECT_TRUE(units::abs(q - expected.template get<f>()) <= 3e-12 * scale) << "Periodic conservation relative to component L1 norm";
 		});
 	}
-	if (std::string(build::problem) == "sod" || std::string(build::problem) == "kelvin-helmholtz") {
-		std::size_t const plane = std::string(build::problem) == "sod" ? 8 : 64;
+	if (fine.problem == "sod" || fine.problem == "kelvin-helmholtz") {
+		std::size_t const plane = fine.problem == "sod" ? 8 : 64;
 		for (std::size_t i = plane; i < final.size(); ++i)
 			final[i].forEach([&](auto f, auto q) { close(q, final[i % plane].template get<f>(), 3e-12, "Extruded problem developed transverse structure"); });
 	}
-	std::cout << build::problem << ' ' << ndim << "D decomposition and admissibility passed\n";
+	std::cout << fine.problem << ' ' << ndim << "D decomposition and admissibility passed\n";
 	reportScheduling(*a);
 }
 
 #if OCTOTIGERII_RADIATION
 TEST(Transport, RadiationDecompositionConservationAndAdmissibility) {
-	compareTransport<radiation::RadiationSystem::State>([](Snapshot const& s, std::size_t i) { return s.radiation.values()[i]; },
+	compareTransport<radiation::RadiationSystem::State>("streaming", [](Snapshot const& s, std::size_t i) { return s.radiation.values()[i]; },
 		[](auto const& state) { return radiation::RadiationSystem(constants::c).admissible(state); });
 }
 
@@ -172,8 +173,8 @@ TEST(Transport, StreamingProfileAtFullAndReducedLightSpeed) {
 
 #if OCTOTIGERII_HYDRO
 TEST(Transport, HydroDecompositionConservationAndAdmissibility) {
-	auto const c = parseConfig({});
-	compareTransport<hydro::ConservedState>([](Snapshot const& s, std::size_t i) { return s.hydro.values()[i]; },
+	auto const c = test::parseConfig({});
+	compareTransport<hydro::ConservedState>("sod", [](Snapshot const& s, std::size_t i) { return s.hydro.values()[i]; },
 		[&](auto const& state) { return hydro::HydroSystem(c.hydro.gamma).admissible(state); });
 }
 #endif
@@ -181,7 +182,7 @@ TEST(Transport, HydroDecompositionConservationAndAdmissibility) {
 
 #if OCTOTIGERII_GRAVITY && OCTOTIGERII_HYDRO
 TEST(Transport, GravityKickPreservesInternalEnergy) {
-		Config c = parseConfig({"--mesh.cells=4", "--mesh.level=0", "--output.enabled=off"});
+		Config c = octotigerII::parseConfig({"--problem.name=collapse","--mesh.cells=4", "--mesh.level=0", "--output.enabled=off"});
 		Runtime gas(c);
 		gravity::State gravity{};
 		for (int axis = 0; axis < ndim; ++axis)

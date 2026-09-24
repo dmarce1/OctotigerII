@@ -1,7 +1,7 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <limits>
 #include "octotigerII/radiation/radiationTransport.hpp"
-#include "testSupport.hpp"
 
 using namespace octotigerII;
 using namespace octotigerII::radiation;

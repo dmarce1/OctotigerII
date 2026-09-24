@@ -58,7 +58,7 @@ For example, a 3D Sod shock tube with reflecting x walls, periodic y faces,
 and outflow z faces can use:
 
 ```sh
-./octotigerII-sod-3d --mesh.periodic=off \
+./release/octoII-3d --problem.name=sod --mesh.periodic=off \
   --mesh.boundary.xLower=reflecting --mesh.boundary.xUpper=reflecting \
   --mesh.boundary.yLower=periodic --mesh.boundary.yUpper=periodic
 ```

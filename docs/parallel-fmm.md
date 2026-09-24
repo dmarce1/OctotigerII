@@ -81,12 +81,12 @@ correctness launcher; it is not a cluster submission script.
 From HOME, replacing the project path if needed:
 
 ```bash
-ctest --test-dir ~/workspace/OctotigerII/release/gravity-sphere/3d \
+ctest --test-dir ~/workspace/OctotigerII/release \
   --output-on-failure -R 'gravity\.(partitioned|distributed)'
 
 OCTOTIGERII_TEST_LOCALITIES=3 OCTOTIGERII_TEST_THREADS=2 \
 python3 ~/workspace/OctotigerII/tests/distributed.py \
-  ~/workspace/OctotigerII/release/gravity-sphere/3d/tests/gravityParallelChecks
+  ~/workspace/OctotigerII/release/tests/gravityParallelChecks
 ```
 
 The console's `cellsPerLocality` reports the number of leaves evaluated on each

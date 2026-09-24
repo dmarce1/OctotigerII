@@ -8,7 +8,7 @@
 #include "octotigerII/subgrid/subgrid.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
-namespace octotigerII {
+namespace octotigerII::gravity_gaussian {
 
 ProblemBoundary problemBoundary(Config const&) {
 	return {};
@@ -32,11 +32,12 @@ void validateProblem(Config const& c) {
 
 /// Initialize this problem in the executable's compile-time dimension.
 
-void initializeProblem(Snapshot& data, Config const& c) {
+void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	using std::exp;
 
 
 	auto const length = c.mesh.upper - c.mesh.lower;
+	Real const sigma = refinementProbe ? Real(initialFeatureWidth(0.15 * length, data.cellWidth) / length) : Real(0.15);
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 		auto const point = data.layout.cellCenter(data.lower, data.cellWidth, cell);
 		Real radius2 = 0;
@@ -44,7 +45,7 @@ void initializeProblem(Snapshot& data, Config const& c) {
 			Real const r = (point[axis] - (c.mesh.lower + c.mesh.upper) / 2.0) / length;
 			radius2 += r * r;
 		}
-		data.density.values()[i] = units::Density::from_value(radius2 < 0.5 * 0.5 ? 1e4 * exp(-radius2 / (2 * 0.15 * 0.15)) : 0);
+		data.density.values()[i] = units::Density::from_value(radius2 < 0.5 * 0.5 ? 1e4 * exp(-radius2 / (2 * sigma * sigma)) : 0);
 	});
 }
 }	 // namespace octotigerII

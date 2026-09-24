@@ -358,7 +358,7 @@ private:
 		return parallel(segments_.size(), "gravity.adaptive.p2m", [&](std::size_t s, Statistics&) {
 			auto const& segment = segments_[s];
 			auto const handle = [&] {
-				if constexpr (build::hydro)
+				if (build::hydro && config_.hydroEnabled())
 					return std::get<0>(fields_.hydro.fields);
 				else
 					return fields_.density;
@@ -455,7 +455,7 @@ private:
 				output.put(i, field);
 			}
 			fields_.gravity.commit(segment.range, bank ^ 1, output);
-			if constexpr (build::hydro)
+			if (build::hydro && config_.hydroEnabled())
 				copy(fields_.hydro, segment.range, bank);
 			else {
 				auto input = fields_.density.read(segment.range, bank).get();
@@ -463,7 +463,7 @@ private:
 				std::copy_n(input.data(), segment.range.count, next.data());
 				fields_.density.commit(segment.range, bank ^ 1, next);
 			}
-			if constexpr (build::radiation) copy(fields_.radiation, segment.range, bank);
+			if (build::radiation && config_.radiationEnabled()) copy(fields_.radiation, segment.range, bank);
 		});
 		std::uint64_t leaves = 0;
 		for (auto const& segment : segments_)

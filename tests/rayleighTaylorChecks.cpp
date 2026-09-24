@@ -1,9 +1,9 @@
+#include "testSupport.hpp"
 #include <algorithm>
 #include <cmath>
 #include <gtest/gtest.h>
 #include "octotigerII/problems.hpp"
 #include "octotigerII/simulation.hpp"
-#include "testSupport.hpp"
 
 using namespace octotigerII;
 
@@ -21,9 +21,9 @@ std::vector<hydro::ConservedState> flatten(std::vector<Snapshot> const& snapshot
 }
 
 TEST(RayleighTaylor, DefaultsAndPhysicalParameterValidation) {
-	auto c = parseConfig({});
-	EXPECT_TRUE(build::hydro);
-	EXPECT_FALSE(build::gravity);
+	auto c = test::parseConfig({});
+	EXPECT_TRUE(test::hydro);
+	EXPECT_FALSE(test::gravity);
 	for (int d = 0; d < ndim - 1; ++d)
 		EXPECT_TRUE(c.mesh.boundary.periodic(d));
 	EXPECT_EQ(c.mesh.boundary.lower[ndim - 1], physics::BoundaryCondition::Reflecting);
@@ -32,15 +32,15 @@ TEST(RayleighTaylor, DefaultsAndPhysicalParameterValidation) {
 	EXPECT_LT(c.hydro.acceleration[ndim - 1], units::Acceleration{});
 	for (auto argument : {"--rayleighTaylor.densityLower=0", "--rayleighTaylor.densityUpper=0.5", "--rayleighTaylor.interfacePressure=0.01",
 			 "--rayleighTaylor.perturbation=-1", "--rayleighTaylor.perturbation=nan"})
-		EXPECT_THROW(parseConfig({argument}), std::invalid_argument);
+		EXPECT_THROW(test::parseConfig({argument}), std::invalid_argument);
 	auto const key = std::string("--hydro.acceleration.") + "xyz"[ndim - 1];
-	EXPECT_THROW(parseConfig({key + "=0.1"}), std::invalid_argument);
-	EXPECT_THROW(parseConfig({key + "=nan"}), std::invalid_argument);
-	EXPECT_NO_THROW(parseConfig({key + "=0", "--rayleighTaylor.perturbation=0"}));
+	EXPECT_THROW(test::parseConfig({key + "=0.1"}), std::invalid_argument);
+	EXPECT_THROW(test::parseConfig({key + "=nan"}), std::invalid_argument);
+	EXPECT_NO_THROW(test::parseConfig({key + "=0", "--rayleighTaylor.perturbation=0"}));
 }
 
 TEST(RayleighTaylor, InitialLayersHaveHydrostaticPressureAndZeroMeanSeed) {
-	auto c = parseConfig({"--mesh.cells=8", "--mesh.level=0", "--mesh.lower=-1", "--mesh.upper=1", "--rayleighTaylor.densityLower=1.25",
+	auto c = test::parseConfig({"--mesh.cells=8", "--mesh.level=0", "--mesh.lower=-1", "--mesh.upper=1", "--rayleighTaylor.densityLower=1.25",
 		"--rayleighTaylor.densityUpper=2.75", "--rayleighTaylor.interfacePressure=3.5", "--rayleighTaylor.perturbation=0.02"});
 	auto block = initialSnapshot(c, {});
 	hydro::HydroSystem gas(c.hydro.gamma);
@@ -64,7 +64,7 @@ TEST(RayleighTaylor, InitialLayersHaveHydrostaticPressureAndZeroMeanSeed) {
 }
 
 TEST(RayleighTaylor, ExternalKickPreservesInternalEnergyAndRestrictsTimestep) {
-	auto c = parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
+	auto c = test::parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 	Runtime runtime(c);
 	auto const before = flatten(runtime.snapshots(), 8);
 	auto const dt = units::Time::from_value(0.02);
@@ -90,7 +90,7 @@ TEST(RayleighTaylor, ExternalKickPreservesInternalEnergyAndRestrictsTimestep) {
 }
 
 TEST(RayleighTaylor, EvolvingGravityAndWallsAgreeAcrossPartitions) {
-	auto fine = parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off", "--runtime.stopTime=0.05"});
+	auto fine = test::parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off", "--runtime.stopTime=0.05"});
 	auto single = fine;
 	single.mesh.cells = 8;
 	single.mesh.level = 0;
@@ -108,7 +108,7 @@ TEST(RayleighTaylor, PerturbationGrowsUnderGravity) {
 	using std::cos;
 
 	// Allow the initial compressible adjustment to pass before measuring growth.
-	auto c = parseConfig({"--mesh.cells=16", "--mesh.level=0", "--output.enabled=off", "--runtime.stopTime=5"});
+	auto c = test::parseConfig({"--mesh.cells=16", "--mesh.level=0", "--output.enabled=off", "--runtime.stopTime=5"});
 	auto amplitude = [&](std::vector<Snapshot> const& snapshots) {
 		Real projection = 0, norm = 0;
 		for (auto const& b : snapshots)

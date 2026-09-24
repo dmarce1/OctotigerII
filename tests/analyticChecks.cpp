@@ -1,3 +1,4 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
@@ -26,7 +27,7 @@ void referenceIdentities() {
 	using std::exp;
 	using std::sqrt;
 
-	Config c;
+	auto c = test::parseConfig({});
 	c.mesh.lower = units::Length::from_value(-1);
 	c.mesh.upper = units::Length::from_value(1);
 	mesh::PhysicalCoordinates x{};
@@ -91,7 +92,7 @@ void referenceIdentities() {
 }
 
 void normsAndPolicy() {
-	auto c = parseConfig({"--mesh.cells=4", "--mesh.level=0", "--runtime.stopTime=0", "--output.enabled=off"});
+	auto c = test::parseConfig({"--mesh.cells=4", "--mesh.level=0", "--runtime.stopTime=0", "--output.enabled=off"});
 	c.verification.gravityReference = "continuum";
 	auto ref = problemReference(c);
 	if (!ref.evaluate) {
@@ -109,18 +110,18 @@ void normsAndPolicy() {
 	auto patch = initialSnapshot(c, {});
 	patch.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 		auto const q = ref.evaluate(patch.layout.cellCenter(patch.lower, patch.cellWidth, cell), {});
-		if constexpr (build::gravity) patch.gravity.values()[i] = q.gravity;
+		if constexpr (test::gravity) patch.gravity.values()[i] = q.gravity;
 #if OCTOTIGERII_HYDRO
 		patch.hydro.values()[i] = hydro::HydroSystem(c.hydro.gamma).conservedState(q.hydro);
 #endif
-		if constexpr (build::radiation) patch.radiation.values()[i] = q.radiation;
+		if constexpr (test::radiation) patch.radiation.values()[i] = q.radiation;
 	});
 	for (auto const& f : verification::compare({patch}, c).fields)
 		close(f.linf, 0, 1e-12, "Exact synthetic field must have zero error");
 	patch.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) {
-		if constexpr (build::gravity) patch.gravity.values()[i].potential() *= 1.1;
-		if constexpr (build::hydro) patch.hydro.values()[i].density() *= 1.1;
-		if constexpr (build::radiation) patch.radiation.values()[i].energy() *= 1.1;
+		if constexpr (test::gravity) patch.gravity.values()[i].potential() *= 1.1;
+		if constexpr (test::hydro) patch.hydro.values()[i].density() *= 1.1;
+		if constexpr (test::radiation) patch.radiation.values()[i].energy() *= 1.1;
 	});
 	auto const comparison = verification::compare({patch}, c);
 	ASSERT_FALSE(comparison.fields.empty());
@@ -139,7 +140,7 @@ void normsAndPolicy() {
 	c.verification.relativeL1Tolerance = -1;
 	c.verification.analytic = "off";
 	EXPECT_TRUE(verification::compare({patch}, c).status == "disabled") << "Disabled comparison";
-	if (std::string(build::problem) == "sod") {
+	if (std::string(test::problem) == "sod") {
 		c.verification.analytic = "auto";
 		EXPECT_TRUE(!verification::reference(c, 2.0 * ref.validUntil).evaluate) << "Late Sod reference must be unavailable";
 		c.verification.analytic = "on";
@@ -154,13 +155,13 @@ void normsAndPolicy() {
 }
 
 void convergence() {
-	std::string const problem = build::problem;
+	std::string const problem = test::problem;
 	bool const gravity = problem == "gravity-sphere" || problem == "gravity-gaussian";
 	if (!gravity && problem != "sod" && problem != "streaming") return;
 	int const coarse = gravity || ndim == 3 ? 16 : 32;
 	std::vector<verification::Comparison> results;
 	for (int n : {coarse, 2 * coarse}) {
-		auto c = parseConfig({"--mesh.cells=" + std::to_string(n), "--mesh.level=0", "--output.enabled=off", "--verification.analytic=on"});
+		auto c = test::parseConfig({"--mesh.cells=" + std::to_string(n), "--mesh.level=0", "--output.enabled=off", "--verification.analytic=on"});
 		if (gravity) {
 			c.verification.gravityReference = "continuum";
 			c.gravity.openingAngle = 0.35;

@@ -96,6 +96,7 @@ Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config c
 	if (snapshots.empty()) throw std::invalid_argument("Direct gravity comparison needs snapshots");
 	gravity::ImageGeometry const images(c.mesh.boundary);
 	Comparison result;
+	result.problem = c.problem;
 	result.name = "Direct summation of cell-center masses";
 	if (images.active()) result.name = "Direct cell-center image summation with Ewald lattice correction";
 	result.referenceKind = "direct";

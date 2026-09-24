@@ -14,10 +14,11 @@ Reduced-dimensional cell masses retain the existing unit transverse measure.
 | Setting | Default | Meaning |
 | --- | --- | --- |
 | `amr.enabled` | `off` | Enable initial and subsequent adaptation |
-| `mesh.level` | problem default | Initial uniform block level |
+| `mesh.level` | problem default | Required base block level during startup |
 | `amr.minLevel` | `-1` | Minimum level; `-1` uses `mesh.level` |
 | `amr.maxLevel` | `6` | Maximum block level, at most 16 |
 | `amr.regridEvery` | `4` | Maximum timesteps between refinement checks |
+| `amr.refineDensity` | `0` | Density threshold in g/cm³; zero disables density refinement |
 | `amr.maxCellMass` | `0` | Maximum cell mass in grams; zero disables this criterion |
 | `amr.shadowTolerance` | `0.05` | Relative fine/shadow difference; zero disables this criterion |
 | `amr.shadowFloor` | `1e-8` | Field normalization floor as a fraction of its maximum magnitude |
@@ -44,8 +45,8 @@ amr.bufferCells=1
 The complete input is `examples/rayleigh-taylor-amr.ini`. After building:
 
 ```bash
-release/rayleigh-taylor/3d/octotigerII-rayleigh-taylor-3d \
-  --config=examples/rayleigh-taylor-amr.ini
+release/octoII-3d --problem.name=rayleigh-taylor \
+  --problem.name=rayleigh-taylor --config=examples/rayleigh-taylor-amr.ini
 ```
 
 Open `output/rayleigh-taylor-amr/frames.visit` in VisIt. Rayleigh–Taylor requires
@@ -60,6 +61,37 @@ cell requests refinement. Complete sibling families can merge when both the
 fine cells and proposed coarse cells satisfy the coarsening threshold.
 Face, edge, and corner neighbors, including periodic neighbors, remain 2:1
 balanced. Only active leaves count toward conserved totals and gravity.
+
+## Initial hierarchy
+
+With AMR enabled, startup begins with one root block. The problem initializer
+fills it, criteria inspect it, and selected blocks split by one level. Every
+new candidate leaf is filled by the initializer at its own coordinates and
+cell width before the next refinement check. This repeats until the criteria,
+required base level (`mesh.level`), and 2:1 balance are satisfied, or the maximum
+level is reached. `amr.minLevel` controls later coarsening; it can be below the
+startup base level. No coarse-state prolongation supplies the initial fine data.
+
+The initializer receives `Snapshot::cellWidth` and a `refinementProbe` flag.
+During tagging it may temporarily broaden an unresolved feature through
+`initialFeatureWidth`, so a narrow or off-center peak cannot fall between root
+cell centers and disappear. Collapse, the gravity Gaussian, radiation pulse,
+and polytrope use this mechanism. After selecting the mesh, all stored leaves
+are filled with `refinementProbe=false`, using the physical initial profile.
+The broadening is only a startup tagging aid. The initializer must still make
+its feature large enough to exceed the selected refinement criterion, and the
+maximum level must permit the required resolution.
+
+The lookahead timestep is recalculated on each initialized candidate mesh and
+limited by the requested stop time. Startup changes in sampled total mass are
+changes in initial quadrature resolution, not an evolved conservation error.
+Conservation tracking begins on the completed initial mesh. Later regrids use
+conservative transfers of the current solution.
+
+Density refinement uses `rho/amr.refineDensity > 1`; unlike cell-mass refinement,
+this ratio does not decrease just because a cell splits. Dense regions therefore
+reach `amr.maxLevel`. A proposed coarse cell must also be below the coarsening
+threshold before siblings merge. See [the polytrope scenario](polytrope.md).
 
 ## Shared criterion interface
 

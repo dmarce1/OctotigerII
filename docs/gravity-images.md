@@ -34,7 +34,7 @@ direction. Outflow refers to a source-free exterior, not zero potential gradient
 Build a 3D gravity problem as usual, then choose the faces at runtime. For a slab:
 
 ```sh
-./octotigerII-gravity-sphere-3d --mesh.periodic=off \
+./release/octoII-3d --problem.name=gravity-sphere --mesh.periodic=off \
   --mesh.boundary.xLower=periodic --mesh.boundary.xUpper=periodic \
   --mesh.boundary.yLower=periodic --mesh.boundary.yUpper=periodic
 ```
@@ -42,7 +42,7 @@ Build a 3D gravity problem as usual, then choose the faces at runtime. For a sla
 For one periodic axis and a lower reflecting z face:
 
 ```sh
-./octotigerII-gravity-sphere-3d --mesh.periodic=off \
+./release/octoII-3d --problem.name=gravity-sphere --mesh.periodic=off \
   --mesh.boundary.xLower=periodic --mesh.boundary.xUpper=periodic \
   --mesh.boundary.zLower=reflecting
 ```

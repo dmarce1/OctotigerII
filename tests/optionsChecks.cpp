@@ -1,7 +1,7 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <fstream>
 #include "octotigerII/config.hpp"
-#include "testSupport.hpp"
 
 using namespace octotigerII;
 
@@ -25,7 +25,7 @@ protected:
 
 
 TEST_F(Options, HierarchicalIniSections) {
-	auto const c = parseConfig({"--config=" + first});
+	auto const c = test::parseConfig({"--config=" + first});
 	EXPECT_EQ(c.gravity.multipoleOrder, 3);
 	EXPECT_DOUBLE_EQ(c.gravity.openingAngle, 0.4);
 	EXPECT_EQ(c.mesh.cells, 8);
@@ -35,7 +35,7 @@ TEST_F(Options, HierarchicalIniSections) {
 
 
 TEST_F(Options, CliOverridesIniRegardlessOfArgumentOrder) {
-	auto const c = parseConfig({"--gravity.multipoleOrder=5", "--config=" + first, "--gravity.openingAngle=0.5", "--runtime.workStealing=on"});
+	auto const c = test::parseConfig({"--gravity.multipoleOrder=5", "--config=" + first, "--gravity.openingAngle=0.5", "--runtime.workStealing=on"});
 	EXPECT_EQ(c.gravity.multipoleOrder, 5);
 	EXPECT_DOUBLE_EQ(c.gravity.openingAngle, 0.5);
 	EXPECT_TRUE(c.runtime.workStealing);
@@ -43,30 +43,30 @@ TEST_F(Options, CliOverridesIniRegardlessOfArgumentOrder) {
 
 
 TEST_F(Options, LegacyAndCanonicalNamesSharePrecedence) {
-	EXPECT_EQ(parseConfig({"--config=" + first, "--gravity.multipole_order=4"}).gravity.multipoleOrder, 4);
-	auto const c = parseConfig({"--config=" + second, "--gravity.openingAngle=0.4"});
+	EXPECT_EQ(test::parseConfig({"--config=" + first, "--gravity.multipole_order=4"}).gravity.multipoleOrder, 4);
+	auto const c = test::parseConfig({"--config=" + second, "--gravity.openingAngle=0.4"});
 	EXPECT_EQ(c.gravity.multipoleOrder, 4);
 	EXPECT_DOUBLE_EQ(c.gravity.openingAngle, 0.4);
 }
 
 
 TEST_F(Options, LaterIniOverridesEarlierAndCliOverridesBoth) {
-	auto const c = parseConfig({"--config=" + first, "--config=" + second, "--gravity.multipoleOrder=5"});
+	auto const c = test::parseConfig({"--config=" + first, "--config=" + second, "--gravity.multipoleOrder=5"});
 	EXPECT_EQ(c.gravity.multipoleOrder, 5);
 	EXPECT_DOUBLE_EQ(c.gravity.openingAngle, 0.45);
 }
 
 
 TEST_F(Options, MissingAndMalformedIniAreRejected) {
-	EXPECT_THROW(parseConfig({"--config=" + first + ".missing"}), std::exception);
+	EXPECT_THROW(test::parseConfig({"--config=" + first + ".missing"}), std::exception);
 	{ std::ofstream file(first); file << "not.an.option=3\n"; }
-	EXPECT_THROW(parseConfig({"--config=" + first}), std::exception);
+	EXPECT_THROW(test::parseConfig({"--config=" + first}), std::exception);
 }
 
 
 TEST(OptionValues, SplitArgumentsSamplingAndGeneratedHelp) {
-	EXPECT_EQ(parseConfig({"--mesh.cells", "8"}).mesh.cells, 8);
-	auto const c = parseConfig({"--randomSeed=42", "--verification.directSamples=17", "--verification.directMaxPairs=1234"});
+	EXPECT_EQ(test::parseConfig({"--mesh.cells", "8"}).mesh.cells, 8);
+	auto const c = test::parseConfig({"--randomSeed=42", "--verification.directSamples=17", "--verification.directMaxPairs=1234"});
 	EXPECT_EQ(c.randomSeed, 42u);
 	EXPECT_EQ(c.verification.directSamples, 17u);
 	EXPECT_EQ(c.verification.directMaxPairs, 1234u);
@@ -78,7 +78,7 @@ class MultipoleOption : public ::testing::TestWithParam<int> {};
 
 
 TEST_P(MultipoleOption, SupportedOrderIsAccepted) {
-	EXPECT_EQ(parseConfig({"--gravity.multipoleOrder=" + std::to_string(GetParam())}).gravity.multipoleOrder, GetParam());
+	EXPECT_EQ(test::parseConfig({"--gravity.multipoleOrder=" + std::to_string(GetParam())}).gravity.multipoleOrder, GetParam());
 }
 
 
@@ -89,12 +89,12 @@ class InvalidOption : public ::testing::TestWithParam<std::string> {};
 
 
 TEST_P(InvalidOption, RejectsInvalidValue) {
-	EXPECT_THROW(parseConfig({GetParam()}), std::exception) << GetParam();
+	EXPECT_THROW(test::parseConfig({GetParam()}), std::exception) << GetParam();
 }
 
 
 INSTANTIATE_TEST_SUITE_P(Validation, InvalidOption, ::testing::Values(
-	"--not.an.option=1", "--problem.name=sod", "--mesh.ndim=3", "--mesh.cells=3", "--mesh.level=-1",
+	"--not.an.option=1", "--problem.name=unknown", "--mesh.ndim=3", "--mesh.cells=3", "--mesh.level=-1",
 	"--gravity.multipoleOrder=0", "--gravity.multipoleOrder=11", "--gravity.openingAngle=0", "--gravity.openingAngle=0.6",
 	"--gravity.openingAngle=nan", "--gravity.multipoleO=4", "--hydro.gamma=inf", "--hydro.gamma=1",
 	"--verification.gravityReference=invalid", "--verification.directSamples=-1", "--verification.directMaxPairs=0",
@@ -102,7 +102,7 @@ INSTANTIATE_TEST_SUITE_P(Validation, InvalidOption, ::testing::Values(
 
 
 TEST(OptionValues, DuplicateAliasIsRejected) {
-	EXPECT_THROW(parseConfig({"--gravity.multipoleOrder=3", "--gravity.multipole_order=3"}), std::exception);
+	EXPECT_THROW(test::parseConfig({"--gravity.multipoleOrder=3", "--gravity.multipole_order=3"}), std::exception);
 }
 
 } // namespace

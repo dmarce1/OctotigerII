@@ -21,7 +21,7 @@ Real ShadowCriterion::operator()(CellView const& cell) const {
 }
 
 Criteria makeCriteria(Config const& config) {
-	return {MassCriterion(config.amr.maxCellMass), ShadowCriterion(config.amr)};
+	return {MassCriterion(config.amr.maxCellMass), DensityCriterion(config.amr.refineDensity), ShadowCriterion(config.amr)};
 }
 
 Real score(CellView const& cell, Criteria const& criteria) {

@@ -1,0 +1,1 @@
+octo_problem(polytrope DIMENSIONS 3 DEFAULT_DIMENSION 3 HYDRO GRAVITY)

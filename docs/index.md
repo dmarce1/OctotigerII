@@ -30,10 +30,10 @@ The generated site includes its search assets and works from local files.
 For an existing CMake build:
 
 ```bash
-cmake --build ~/workspace/OctotigerII/release/sod/1d --target docs
+cmake --build ~/workspace/OctotigerII/release --target docs
 ```
 
-That target writes `release/sod/1d/docs/html/index.html`. In Eclipse, create an External
+That target writes `release/docs/html/index.html`. In Eclipse, create an External
 Tools entry for `${workspace_loc:/OctotigerII/docs.sh}` with argument `--open`,
 or open the generated `index.html` directly in a browser.
 

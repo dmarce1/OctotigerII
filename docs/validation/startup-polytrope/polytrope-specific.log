@@ -1,0 +1,14 @@
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from Polytrope
+[ RUN      ] Polytrope.RadiusCenterAndPressureFollowIniAndCli
+[       OK ] Polytrope.RadiusCenterAndPressureFollowIniAndCli (0 ms)
+[ RUN      ] Polytrope.UnresolvedOffCenterStarTriggersRefinementAndFinalStateIsPhysical
+[       OK ] Polytrope.UnresolvedOffCenterStarTriggersRefinementAndFinalStateIsPhysical (352 ms)
+[ RUN      ] Polytrope.SmallHydroGravityStepRemainsNearEquilibrium
+[       OK ] Polytrope.SmallHydroGravityStepRemainsNearEquilibrium (806 ms)
+[----------] 3 tests from Polytrope (1159 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (1159 ms total)
+[  PASSED  ] 3 tests.

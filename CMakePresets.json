@@ -3,25 +3,21 @@
   "configurePresets": [
     {
       "name": "release",
-      "displayName": "CPU, HPX and Silo \u2014 Sod 1D",
+      "displayName": "CPU, HPX and Silo \u2014 all dimensions",
       "generator": "Unix Makefiles",
-      "binaryDir": "${sourceDir}/release/sod/1d",
+      "binaryDir": "${sourceDir}/release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "OCTOTIGERII_PROBLEM": "sod",
-        "OCTOTIGERII_NDIM": "1"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
       "name": "serial",
-      "displayName": "Standalone serial CPU with Silo \u2014 Sod 1D",
+      "displayName": "Standalone serial CPU with Silo \u2014 all dimensions",
       "generator": "Unix Makefiles",
-      "binaryDir": "${sourceDir}/build-serial/sod/1d",
+      "binaryDir": "${sourceDir}/build-serial",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "OCTOTIGERII_WITH_HPX": "OFF",
-        "OCTOTIGERII_PROBLEM": "sod",
-        "OCTOTIGERII_NDIM": "1"
+        "OCTOTIGERII_WITH_HPX": "OFF"
       }
     }
   ],

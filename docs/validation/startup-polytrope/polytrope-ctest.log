@@ -1,0 +1,289 @@
+Test project /workspace/scratch/ab2c051a3aca/build-star
+        Start 125: polytrope.3d.Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages
+        Start 137: example.polytrope.3d
+        Start  96: polytrope.3d.GravityImages.FmmMatchesDirectWithIndependentImageAcceptance
+        Start 105: polytrope.3d.PartitionedGravity.PeriodicAndReflectedImagesMatchSerialAcrossOwners
+  1/138 Test #105: polytrope.3d.PartitionedGravity.PeriodicAndReflectedImagesMatchSerialAcrossOwners ...............................   Passed    3.41 sec
+        Start 113: polytrope.3d.GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum
+  2/138 Test #113: polytrope.3d.GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum ......................................   Passed    2.20 sec
+        Start 107: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 10, 0.4, 0)
+  3/138 Test #107: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 10, 0.4, 0) .....   Passed    0.90 sec
+        Start 131: polytrope.3d.Polytrope.SmallHydroGravityStepRemainsNearEquilibrium
+  4/138 Test #131: polytrope.3d.Polytrope.SmallHydroGravityStepRemainsNearEquilibrium ..............................................   Passed    1.17 sec
+        Start 103: polytrope.3d.DirectReference.ImageFieldsAndContinuumAvailabilityFollowBoundaries
+  5/138 Test #103: polytrope.3d.DirectReference.ImageFieldsAndContinuumAvailabilityFollowBoundaries ................................   Passed    0.65 sec
+        Start  99: polytrope.3d.GravityImages.RootEwaldCorrectionSurvivesDownwardPropagation
+  6/138 Test  #96: polytrope.3d.GravityImages.FmmMatchesDirectWithIndependentImageAcceptance .......................................   Passed    8.75 sec
+        Start 110: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(2, 3, 0.5, 0)
+  7/138 Test  #99: polytrope.3d.GravityImages.RootEwaldCorrectionSurvivesDownwardPropagation .......................................   Passed    0.59 sec
+        Start  97: polytrope.3d.GravityImages.ClosedReflectingBoxAndPeriodicUniformLatticeHaveZeroForce
+  8/138 Test #110: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(2, 3, 0.5, 0) ......   Passed    0.43 sec
+        Start 136: polytrope.3d.SiloOutput.AmrTimeSeriesRefreshesDomainsAndPreservesCoverage
+  9/138 Test  #97: polytrope.3d.GravityImages.ClosedReflectingBoxAndPeriodicUniformLatticeHaveZeroForce ............................   Passed    0.30 sec
+        Start 138: application
+ 10/138 Test #136: polytrope.3d.SiloOutput.AmrTimeSeriesRefreshesDomainsAndPreservesCoverage .......................................   Passed    0.21 sec
+        Start  93: polytrope.3d.EwaldKernel.HighestOrderAndLargeOpenDisplacementsConverge
+ 11/138 Test #138: application .....................................................................................................   Passed    0.17 sec
+        Start 126: polytrope.3d.Amr.StartupVisitsRootAndRefillsEveryNewLevel
+ 12/138 Test  #93: polytrope.3d.EwaldKernel.HighestOrderAndLargeOpenDisplacementsConverge ..........................................   Passed    0.08 sec
+        Start 130: polytrope.3d.Polytrope.UnresolvedOffCenterStarTriggersRefinementAndFinalStateIsPhysical
+ 13/138 Test #126: polytrope.3d.Amr.StartupVisitsRootAndRefillsEveryNewLevel .......................................................   Passed    0.09 sec
+        Start 104: polytrope.3d.PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible
+ 14/138 Test #104: polytrope.3d.PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible ...............................   Passed    0.11 sec
+        Start 122: polytrope.3d.Amr.MixedLevelTransportConservesPeriodicIntegrals
+ 15/138 Test #122: polytrope.3d.Amr.MixedLevelTransportConservesPeriodicIntegrals ..................................................   Passed    0.05 sec
+        Start 123: polytrope.3d.Amr.RegridCadenceAndTravelBudget
+ 16/138 Test #123: polytrope.3d.Amr.RegridCadenceAndTravelBudget ...................................................................   Passed    0.02 sec
+        Start 135: polytrope.3d.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry
+ 17/138 Test #135: polytrope.3d.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry ......................................   Passed    0.08 sec
+        Start 134: polytrope.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+ 18/138 Test #134: polytrope.3d.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip .....................................   Passed    0.04 sec
+        Start 119: polytrope.3d.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+ 19/138 Test #119: polytrope.3d.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners .............................................   Passed    0.05 sec
+        Start  88: polytrope.3d.EwaldKernel.SplitAndQuadratureIndependenceIncludingHighDerivatives
+ 20/138 Test  #88: polytrope.3d.EwaldKernel.SplitAndQuadratureIndependenceIncludingHighDerivatives .................................   Passed    0.04 sec
+        Start 120: polytrope.3d.Amr.MassThresholdRespectsFinestLevel
+ 21/138 Test #130: polytrope.3d.Polytrope.UnresolvedOffCenterStarTriggersRefinementAndFinalStateIsPhysical .........................   Passed    0.43 sec
+        Start 117: polytrope.3d.Amr.MortonDestinationAndConservativeRefineCoarsen
+ 22/138 Test #120: polytrope.3d.Amr.MassThresholdRespectsFinestLevel ...............................................................   Passed    0.03 sec
+        Start  80: polytrope.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem>
+ 23/138 Test #117: polytrope.3d.Amr.MortonDestinationAndConservativeRefineCoarsen ..................................................   Passed    0.02 sec
+        Start 127: polytrope.3d.Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution
+ 24/138 Test  #80: polytrope.3d.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem> ...   Passed    0.03 sec
+        Start  79: polytrope.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem>
+ 25/138 Test #127: polytrope.3d.Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution ..........................................   Passed    0.02 sec
+        Start 106: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 1, 0.57, 0)
+ 26/138 Test #106: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 1, 0.57, 0) .....   Passed    0.02 sec
+        Start 111: polytrope.3d.Transport.HydroDecompositionConservationAndAdmissibility
+ 27/138 Test  #79: polytrope.3d.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem> ...............   Passed    0.03 sec
+        Start 118: polytrope.3d.Amr.FailedCriterionPreservesPublishedMeshAndState
+ 28/138 Test #118: polytrope.3d.Amr.FailedCriterionPreservesPublishedMeshAndState ..................................................   Passed    0.01 sec
+        Start  98: polytrope.3d.GravityImages.ThreeSingleWallsMatchExplicitMirroredMasses
+ 29/138 Test #111: polytrope.3d.Transport.HydroDecompositionConservationAndAdmissibility ...........................................   Passed    0.02 sec
+        Start 115: polytrope.3d.Runtime.FailedStageRollsBackAndRetryPublishesOnce
+ 30/138 Test  #98: polytrope.3d.GravityImages.ThreeSingleWallsMatchExplicitMirroredMasses ..........................................   Passed    0.02 sec
+        Start  89: polytrope.3d.EwaldKernel.GradientAndHessianArePotentialDerivatives
+ 31/138 Test #115: polytrope.3d.Runtime.FailedStageRollsBackAndRetryPublishesOnce ..................................................   Passed    0.02 sec
+        Start  94: polytrope.3d.EwaldM2L.TraceAndLocalLaplacianAgreeWithIndividualSources
+ 32/138 Test  #89: polytrope.3d.EwaldKernel.GradientAndHessianArePotentialDerivatives ..............................................   Passed    0.01 sec
+        Start  92: polytrope.3d.EwaldKernel.PeriodicSeamsSelfLimitAndCubicMadelungConstant
+ 33/138 Test  #92: polytrope.3d.EwaldKernel.PeriodicSeamsSelfLimitAndCubicMadelungConstant .........................................   Passed    0.01 sec
+        Start  57: polytrope.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+ 34/138 Test  #94: polytrope.3d.EwaldM2L.TraceAndLocalLaplacianAgreeWithIndividualSources ..........................................   Passed    0.02 sec
+        Start 116: polytrope.3d.Amr.OptionsValidateAndRoundTrip
+ 35/138 Test #116: polytrope.3d.Amr.OptionsValidateAndRoundTrip ....................................................................   Passed    0.01 sec
+        Start 121: polytrope.3d.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+ 36/138 Test  #57: polytrope.3d.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated .........................................   Passed    0.01 sec
+        Start  90: polytrope.3d.EwaldKernel.SinglePeriodicAxisMatchesLongDirectImageSum
+ 37/138 Test #121: polytrope.3d.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon ...........................................   Passed    0.01 sec
+        Start  58: polytrope.3d.BoundaryOptions.IniCliAndLegacyPrecedence
+ 38/138 Test  #90: polytrope.3d.EwaldKernel.SinglePeriodicAxisMatchesLongDirectImageSum ............................................   Passed    0.01 sec
+        Start  86: polytrope.3d.Gravity.SuperpositionAndDensityScaling
+ 39/138 Test  #58: polytrope.3d.BoundaryOptions.IniCliAndLegacyPrecedence ..........................................................   Passed    0.01 sec
+        Start  87: polytrope.3d.Gravity.RejectsInvalidGeometryOrderAngleAndDensity
+ 40/138 Test  #86: polytrope.3d.Gravity.SuperpositionAndDensityScaling .............................................................   Passed    0.01 sec
+        Start  73: polytrope.3d.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux
+ 41/138 Test  #87: polytrope.3d.Gravity.RejectsInvalidGeometryOrderAngleAndDensity .................................................   Passed    0.01 sec
+        Start 108: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.1, 1)
+ 42/138 Test #108: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.1, 1) ......   Passed    0.01 sec
+        Start 124: polytrope.3d.Amr.EvolvedShadowDiffersFromFreshRestriction
+ 43/138 Test  #73: polytrope.3d.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux .........................................   Passed    0.02 sec
+        Start 129: polytrope.3d.Polytrope.RadiusCenterAndPressureFollowIniAndCli
+ 44/138 Test #124: polytrope.3d.Amr.EvolvedShadowDiffersFromFreshRestriction .......................................................   Passed    0.01 sec
+        Start  56: polytrope.3d.LaneEmden.PhysicalScalingAndHydrostaticBalance
+ 45/138 Test  #56: polytrope.3d.LaneEmden.PhysicalScalingAndHydrostaticBalance .....................................................   Passed    0.01 sec
+        Start  20: polytrope.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+ 46/138 Test #129: polytrope.3d.Polytrope.RadiusCenterAndPressureFollowIniAndCli ...................................................   Passed    0.01 sec
+        Start  17: polytrope.3d.Options.HierarchicalIniSections
+ 47/138 Test  #17: polytrope.3d.Options.HierarchicalIniSections ....................................................................   Passed    0.01 sec
+        Start  21: polytrope.3d.Options.MissingAndMalformedIniAreRejected
+ 48/138 Test  #20: polytrope.3d.Options.LaterIniOverridesEarlierAndCliOverridesBoth ................................................   Passed    0.01 sec
+        Start  83: polytrope.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem>
+ 49/138 Test  #21: polytrope.3d.Options.MissingAndMalformedIniAreRejected ..........................................................   Passed    0.01 sec
+        Start 133: polytrope.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy
+ 50/138 Test  #83: polytrope.3d.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem> ..........   Passed    0.01 sec
+        Start  31: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8
+ 51/138 Test  #31: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/8 ..................................................   Passed    0.01 sec
+        Start  30: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7
+ 52/138 Test #133: polytrope.3d.AnalyticReference.ErrorNormsAndAccuracyPolicy ......................................................   Passed    0.01 sec
+        Start  82: polytrope.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem>
+ 53/138 Test  #82: polytrope.3d.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem> ........   Passed    0.01 sec
+        Start  19: polytrope.3d.Options.LegacyAndCanonicalNamesSharePrecedence
+ 54/138 Test  #30: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/7 ..................................................   Passed    0.01 sec
+        Start 102: polytrope.3d.DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder
+ 55/138 Test  #19: polytrope.3d.Options.LegacyAndCanonicalNamesSharePrecedence .....................................................   Passed    0.01 sec
+        Start  43: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan"
+ 56/138 Test #102: polytrope.3d.DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder .................................   Passed    0.01 sec
+        Start  22: polytrope.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+ 57/138 Test  #43: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan" ..........................   Passed    0.01 sec
+        Start 109: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.5, 2)
+ 58/138 Test  #22: polytrope.3d.OptionValues.SplitArgumentsSamplingAndGeneratedHelp ................................................   Passed    0.01 sec
+        Start  39: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0"
+ 59/138 Test #109: polytrope.3d.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.5, 2) ......   Passed    0.01 sec
+        Start 112: polytrope.3d.Transport.GravityKickPreservesInternalEnergy
+ 60/138 Test  #39: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0" ..........................   Passed    0.01 sec
+        Start  32: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9
+ 61/138 Test  #32: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/9 ..................................................   Passed    0.01 sec
+        Start  68: polytrope.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00>
+ 62/138 Test #112: polytrope.3d.Transport.GravityKickPreservesInternalEnergy .......................................................   Passed    0.01 sec
+        Start  40: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11"
+ 63/138 Test  #68: polytrope.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00> ............   Passed    0.01 sec
+        Start  18: polytrope.3d.Options.CliOverridesIniRegardlessOfArgumentOrder
+ 64/138 Test  #40: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11" .........................   Passed    0.01 sec
+        Start  27: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4
+ 65/138 Test  #18: polytrope.3d.Options.CliOverridesIniRegardlessOfArgumentOrder ...................................................   Passed    0.01 sec
+        Start  41: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0"
+ 66/138 Test  #27: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/4 ..................................................   Passed    0.01 sec
+        Start  63: polytrope.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+ 67/138 Test  #63: polytrope.3d.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ......................................   Passed    0.01 sec
+        Start  37: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3"
+ 68/138 Test  #41: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0" ............................   Passed    0.01 sec
+        Start  28: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5
+ 69/138 Test  #37: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3" ......................................   Passed    0.01 sec
+        Start   8: polytrope.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals
+ 70/138 Test  #28: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/5 ..................................................   Passed    0.01 sec
+        Start  55: polytrope.3d.LaneEmden.StandardPolytropeSurfaceAndInvalidIndices
+ 71/138 Test   #8: polytrope.3d.TimeMetadata.StepPublicationSynchronizationAndIntervals ............................................   Passed    0.01 sec
+        Start  81: polytrope.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem>
+ 72/138 Test  #55: polytrope.3d.LaneEmden.StandardPolytropeSurfaceAndInvalidIndices ................................................   Passed    0.01 sec
+        Start  36: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3"
+ 73/138 Test  #81: polytrope.3d.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem> ..................   Passed    0.01 sec
+        Start  29: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6
+ 74/138 Test  #36: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3" .......................................   Passed    0.01 sec
+        Start  46: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1"
+ 75/138 Test  #29: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/6 ..................................................   Passed    0.01 sec
+        Start  60: polytrope.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+ 76/138 Test  #60: polytrope.3d.BoundaryMapping.AsymmetricFacesAndInvalidEnums .....................................................   Passed    0.01 sec
+        Start  78: polytrope.3d.HydroValidation.RejectsInvalidEosAndFloors
+ 77/138 Test  #46: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1" .....................................   Passed    0.01 sec
+        Start   6: polytrope.3d.Mesh.CgsGeometryAndPatchBounds
+ 78/138 Test  #78: polytrope.3d.HydroValidation.RejectsInvalidEosAndFloors .........................................................   Passed    0.01 sec
+        Start  52: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1"
+ 79/138 Test   #6: polytrope.3d.Mesh.CgsGeometryAndPatchBounds .....................................................................   Passed    0.01 sec
+        Start  23: polytrope.3d.OptionValues.DuplicateAliasIsRejected
+ 80/138 Test  #23: polytrope.3d.OptionValues.DuplicateAliasIsRejected ..............................................................   Passed    0.01 sec
+        Start  54: polytrope.3d.LaneEmden.IndexOneMatchesClosedForm
+ 81/138 Test  #54: polytrope.3d.LaneEmden.IndexOneMatchesClosedForm ................................................................   Passed    0.01 sec
+        Start  10: polytrope.3d.StorageLayout.EmptyPartitionsOverflowAndSlices
+ 82/138 Test  #52: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1" ...............................   Passed    0.02 sec
+        Start  38: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1"
+ 83/138 Test  #10: polytrope.3d.StorageLayout.EmptyPartitionsOverflowAndSlices .....................................................   Passed    0.01 sec
+        Start  34: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1"
+ 84/138 Test  #38: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1" .....................................   Passed    0.01 sec
+        Start  26: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3
+ 85/138 Test  #34: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1" ...................................   Passed    0.01 sec
+        Start   1: polytrope.3d.Units.CgsConversionsAndConstants
+ 86/138 Test   #1: polytrope.3d.Units.CgsConversionsAndConstants ...................................................................   Passed    0.01 sec
+        Start  42: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6"
+ 87/138 Test  #26: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/3 ..................................................   Passed    0.01 sec
+        Start   7: polytrope.3d.BlockTopology.ChildBitsParentAndInvalidSlots
+ 88/138 Test  #42: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6" ..........................   Passed    0.01 sec
+        Start  50: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1"
+ 89/138 Test   #7: polytrope.3d.BlockTopology.ChildBitsParentAndInvalidSlots .......................................................   Passed    0.01 sec
+        Start 114: polytrope.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement
+ 90/138 Test  #50: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1" .....................................   Passed    0.01 sec
+        Start   5: polytrope.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+ 91/138 Test #114: polytrope.3d.Storage.IndependentFieldsBanksViewsTypesAndRetirement ..............................................   Passed    0.01 sec
+        Start 100: polytrope.3d.DirectReference.ReproducibleDistinctSampling
+ 92/138 Test   #5: polytrope.3d.Mesh.RejectsInvalidExtentsCoordinatesAndAxes .......................................................   Passed    0.01 sec
+        Start 128: polytrope.3d.Amr.DensityCriterionUsesDensityRatherThanCellMass
+ 93/138 Test #100: polytrope.3d.DirectReference.ReproducibleDistinctSampling .......................................................   Passed    0.01 sec
+        Start  48: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1"
+ 94/138 Test #128: polytrope.3d.Amr.DensityCriterionUsesDensityRatherThanCellMass ..................................................   Passed    0.01 sec
+        Start 132: polytrope.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities
+ 95/138 Test  #48: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1" .....................   Passed    0.01 sec
+        Start  47: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid"
+ 96/138 Test #132: polytrope.3d.AnalyticReference.IndependentSphereSodAndStreamingIdentities .......................................   Passed    0.01 sec
+        Start  61: polytrope.3d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported
+ 97/138 Test  #61: polytrope.3d.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported .........................................   Passed    0.01 sec
+        Start  53: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0"
+ 98/138 Test  #47: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid" .............   Passed    0.01 sec
+        Start   9: polytrope.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+ 99/138 Test  #53: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0" .......................   Passed    0.01 sec
+        Start  24: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1
+100/138 Test   #9: polytrope.3d.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact .................................   Passed    0.01 sec
+        Start  62: polytrope.3d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes
+101/138 Test  #24: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/1 ..................................................   Passed    0.01 sec
+        Start  33: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10
+102/138 Test  #62: polytrope.3d.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes ..................................................   Passed    0.01 sec
+        Start  69: polytrope.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00>
+103/138 Test  #33: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/10 .................................................   Passed    0.01 sec
+        Start  11: polytrope.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+104/138 Test  #69: polytrope.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00> ............   Passed    0.01 sec
+        Start  77: polytrope.3d.Hydro.FluxLimiterRepairsDestructiveFluxConservatively
+105/138 Test  #11: polytrope.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 ........................................   Passed    0.00 sec
+        Start  74: polytrope.3d.Hydro.SupersonicRiemannFluxUsesUpwindState
+106/138 Test  #77: polytrope.3d.Hydro.FluxLimiterRepairsDestructiveFluxConservatively ..............................................   Passed    0.01 sec
+        Start  85: polytrope.3d.Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce
+107/138 Test  #74: polytrope.3d.Hydro.SupersonicRiemannFluxUsesUpwindState .........................................................   Passed    0.01 sec
+        Start  45: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf"
+108/138 Test  #85: polytrope.3d.Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce ..............................   Passed    0.01 sec
+        Start  25: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2
+109/138 Test  #45: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf" ...................................   Passed    0.01 sec
+        Start   3: polytrope.3d.Units.DimensionalMeshAndChildTopology
+110/138 Test  #25: polytrope.3d.Orders/MultipoleOption.SupportedOrderIsAccepted/2 ..................................................   Passed    0.01 sec
+        Start  65: polytrope.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00>
+111/138 Test   #3: polytrope.3d.Units.DimensionalMeshAndChildTopology ..............................................................   Passed    0.01 sec
+        Start  75: polytrope.3d.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive
+112/138 Test  #65: polytrope.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00> .............   Passed    0.01 sec
+        Start 101: polytrope.3d.DirectReference.SamplingUncertaintyAndCensusLimits
+113/138 Test  #75: polytrope.3d.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive ...........................................   Passed    0.01 sec
+        Start  35: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod"
+114/138 Test #101: polytrope.3d.DirectReference.SamplingUncertaintyAndCensusLimits .................................................   Passed    0.01 sec
+        Start  51: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes"
+115/138 Test  #35: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=sod" ..................................   Passed    0.01 sec
+        Start  44: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4"
+116/138 Test  #51: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes" ..........................   Passed    0.01 sec
+        Start  71: polytrope.3d.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy
+117/138 Test  #44: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4" ..............................   Passed    0.01 sec
+        Start  14: polytrope.3d.VectorMath.InitializationArithmeticAndDotProduct
+118/138 Test  #14: polytrope.3d.VectorMath.InitializationArithmeticAndDotProduct ...................................................   Passed    0.01 sec
+        Start   4: polytrope.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce
+119/138 Test  #71: polytrope.3d.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy ..................................................   Passed    0.01 sec
+        Start  70: polytrope.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00>
+120/138 Test  #70: polytrope.3d.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00> ............   Passed    0.01 sec
+        Start  91: polytrope.3d.EwaldKernel.SlabMatchesIndependentFourierGreenFunctionAndSheetField
+121/138 Test   #4: polytrope.3d.Mesh.FaceIndicesCoverEachFaceExactlyOnce ...........................................................   Passed    0.01 sec
+        Start   2: polytrope.3d.Units.HydroEnergyAndFluxDimensions
+122/138 Test   #2: polytrope.3d.Units.HydroEnergyAndFluxDimensions .................................................................   Passed    0.00 sec
+        Start  67: polytrope.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00>
+123/138 Test  #91: polytrope.3d.EwaldKernel.SlabMatchesIndependentFourierGreenFunctionAndSheetField ................................   Passed    0.01 sec
+        Start  13: polytrope.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+124/138 Test  #67: polytrope.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00> .............   Passed    0.01 sec
+125/138 Test  #13: polytrope.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 ........................................   Passed    0.00 sec
+        Start  16: polytrope.3d.VectorMath.SplitConcatenateAndUnitVectors
+        Start  49: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0"
+126/138 Test  #16: polytrope.3d.VectorMath.SplitConcatenateAndUnitVectors ..........................................................   Passed    0.00 sec
+        Start  76: polytrope.3d.Hydro.RejectsVacuumNegativePressureAndNonfiniteState
+127/138 Test  #49: polytrope.3d.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0" .....................   Passed    0.01 sec
+        Start  72: polytrope.3d.Hydro.EulerFluxAndAcousticSpeedInEveryDirection
+128/138 Test  #76: polytrope.3d.Hydro.RejectsVacuumNegativePressureAndNonfiniteState ...............................................   Passed    0.00 sec
+        Start  12: polytrope.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+129/138 Test  #72: polytrope.3d.Hydro.EulerFluxAndAcousticSpeedInEveryDirection ....................................................   Passed    0.01 sec
+        Start  15: polytrope.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision
+130/138 Test  #12: polytrope.3d.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 ........................................   Passed    0.00 sec
+        Start  66: polytrope.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00>
+131/138 Test  #15: polytrope.3d.VectorMath.InPlaceScalarAliasingAndIntegerDivision .................................................   Passed    0.00 sec
+        Start  59: polytrope.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+132/138 Test  #66: polytrope.3d.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00> .............   Passed    0.01 sec
+133/138 Test  #59: polytrope.3d.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ..................................   Passed    0.00 sec
+        Start  64: polytrope.3d.SlopeValues.IndependentUnequalSlopeValues
+        Start  95: polytrope.3d.GravityImages.GeometryAndReflectionParity
+134/138 Test  #64: polytrope.3d.SlopeValues.IndependentUnequalSlopeValues ..........................................................   Passed    0.00 sec
+        Start  84: polytrope.3d.Gravity.VacuumHasExactlyZeroPotentialAndForce
+135/138 Test  #95: polytrope.3d.GravityImages.GeometryAndReflectionParity ..........................................................   Passed    0.00 sec
+136/138 Test  #84: polytrope.3d.Gravity.VacuumHasExactlyZeroPotentialAndForce ......................................................   Passed    0.01 sec
+137/138 Test #137: example.polytrope.3d ............................................................................................   Passed   17.32 sec
+138/138 Test #125: polytrope.3d.Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages .............................................   Passed   21.95 sec
+
+100% tests passed out of 138
+
+Label Time Summary:
+amr            =  22.28 sec*proc (13 tests)
+application    =  17.49 sec*proc (2 tests)
+gravity        =   9.84 sec*proc (12 tests)
+integration    =  32.16 sec*proc (49 tests)
+polytrope      =   1.62 sec*proc (6 tests)
+unit           =  32.67 sec*proc (107 tests)
+
+Total Test time (real) =  22.13 sec

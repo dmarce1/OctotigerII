@@ -5,8 +5,21 @@
 #include <stdexcept>
 #include <vector>
 #include "octotigerII/units/cgs.hpp"
+#include "octotigerII/config.hpp"
 
 namespace octotigerII::test {
+#ifndef OCTOII_TEST_PROBLEM
+#define OCTOII_TEST_PROBLEM "sod"
+#endif
+inline constexpr char problem[] = OCTOII_TEST_PROBLEM;
+inline constexpr bool hydro = std::string_view(problem) == "sod" || std::string_view(problem) == "collapse" || std::string_view(problem) == "polytrope" || std::string_view(problem) == "rayleigh-taylor";
+inline constexpr bool radiation = std::string_view(problem) == "streaming";
+inline constexpr bool gravity = std::string_view(problem) == "gravity-sphere" || std::string_view(problem) == "collapse" || std::string_view(problem) == "polytrope";
+inline Config parseConfig(std::vector<std::string> arguments) {
+ arguments.insert(arguments.begin(), std::string("--problem.name=") + problem);
+ return octotigerII::parseConfig(arguments);
+}
+
 
 // Unique across concurrent CTest processes, repeated runs and test shuffling.
 class TemporaryDirectory {
