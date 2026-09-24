@@ -8,6 +8,9 @@
 #include <stdexcept>
 #include <tuple>
 #include "octotigerII/profiling.hpp"
+#ifdef OCTOTIGERII_WITH_HPX
+#include <hpx/synchronization/shared_mutex.hpp>
+#endif
 
 namespace octotigerII::gravity::diagonal {
 
@@ -42,7 +45,11 @@ namespace {
 		}
 	}
 	std::map<std::array<int, 4>, std::shared_ptr<const Operator>> cache;
+#ifdef OCTOTIGERII_WITH_HPX
+	hpx::shared_mutex cacheMutex;
+#else
 	std::shared_mutex cacheMutex;
+#endif
 
 	// Golub-Welsch is unnecessary at these tiny orders: Newton iteration on L_n.
 	std::vector<std::pair<double, double>> laguerre(int n) {

@@ -27,16 +27,16 @@ The historical RT smoke run used the example input in 2D. The current 3D
 command is:
 
 ```bash
-BUILD_DIRECTORY/octotigerII-rayleigh-taylor-3d \
-  --config=examples/rayleigh-taylor-amr.ini \
+BUILD_DIRECTORY/release/octoII-3d --problem.name=rayleigh-taylor \
+  --problem.name=rayleigh-taylor --config=examples/rayleigh-taylor-amr.ini \
   --runtime.stopTime=0.2 --output.every=4
 ```
 
 The coupled gravity smoke used:
 
 ```bash
-BUILD_DIRECTORY/octotigerII-collapse-3d \
-  --config=bin/science/Collapse/inputs \
+BUILD_DIRECTORY/release/octoII-3d --problem.name=collapse \
+  --problem.name=collapse --config=bin/science/Collapse/inputs \
   --amr.enabled=on --amr.minLevel=1 --amr.maxLevel=3 \
   --amr.maxCellMass=1e28 --amr.shadowTolerance=0.1 --amr.regridEvery=2 \
   --runtime.stopTime=0.5 --output.enabled=off \

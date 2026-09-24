@@ -8,7 +8,7 @@
 #include "octotigerII/subgrid/subgrid.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
-namespace octotigerII {
+namespace octotigerII::rayleigh_taylor {
 
 ProblemBoundary problemBoundary(Config const&) {
 	return {};
@@ -43,7 +43,7 @@ void validateProblem(Config const& c) {
 		throw std::invalid_argument("Rayleigh-Taylor hydrostatic pressure must remain positive through the upper wall");
 }
 
-void initializeProblem(Snapshot& data, Config const& c) {
+void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	using std::cos;
 
 	hydro::HydroSystem gas(c.hydro.gamma);

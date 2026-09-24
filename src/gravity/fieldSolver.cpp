@@ -363,7 +363,7 @@ private:
 					levels_.back().moments[segment.leaf + i][0] = rho * volume / gram;
 				}
 			};
-			if constexpr (build::hydro) {
+			if (build::hydro && config_.hydroEnabled()) {
 				auto input = std::get<0>(fields_.hydro.fields).read(segment.range, bank).get();
 				fill([&](std::size_t i) { return input.data()[i]; });
 			} else {
@@ -506,7 +506,7 @@ private:
 				output.put(i, field);
 			}
 			fields_.gravity.commit(range, bank ^ 1, output);
-			if constexpr (build::hydro)
+			if (build::hydro && config_.hydroEnabled())
 				copy(fields_.hydro, range, bank);
 			else {
 				auto input = fields_.density.read(range, bank).get();
@@ -514,7 +514,7 @@ private:
 				std::copy_n(input.data(), range.count, density.data());
 				fields_.density.commit(range, bank ^ 1, density);
 			}
-			if constexpr (build::radiation) copy(fields_.radiation, range, bank);
+			if (build::radiation && config_.radiationEnabled()) copy(fields_.radiation, range, bank);
 		});
 		result.localityCells = {levels_.back().moments.size()};
 		return result;

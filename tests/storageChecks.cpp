@@ -1,3 +1,4 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 #include <limits>
@@ -149,12 +150,12 @@ void same(std::vector<Snapshot> const& a, std::vector<Snapshot> const& b) {
 }
 
 void stages() {
-	auto config = parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
+	auto config = test::parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 	Runtime runtime(config), reference(config);
 	auto initial = runtime.snapshots();
 	bool rejected = false;
 	try {
-		if (std::string(build::problem) == "sod")
+		if (std::string(test::problem) == "sod")
 			runtime.advance(units::Time::from_value(10));
 		else
 			runtime.advance(units::Time::from_value(-1));

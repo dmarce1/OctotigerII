@@ -118,6 +118,38 @@ namespace {
 				fluxFields.commit(block.boundaryFlux, 0, flux);
 			}
 		}
+
+		BoundaryTransport boundaryTransport(Subgrid const& block, physics::BoundaryConditions const& boundaries, units::Time dt) const {
+			BoundaryTransport result;
+			int const n = block.layout.cellsPerActiveDimension();
+			// cellMeasure also supplies the unit transverse area in 1D/2D.
+			auto const measure = dt * block.layout.cellMeasure(block.cellWidth) / block.cellWidth;
+			auto add = [](auto q, auto& inward, auto& outward) {
+				if (q < decltype(q){}) inward -= q;
+				else outward += q;
+			};
+			for (int axis = 0; axis < ndim; ++axis) {
+				if (boundaries.periodic(axis)) continue;
+				for (bool upper : {false, true}) {
+					if (block.location.coordinates[axis] != (upper ? (1 << block.location.level) - 1 : 0)) continue;
+					auto extents = mesh::filledCoordinates(n);
+					extents[axis] = 1;
+					mesh::forEachCoordinate(extents, [&](auto face) {
+						face[axis] = upper ? n : 0;
+						auto const q = (upper ? measure : -measure) * work.fluxes[axis][block.layout.faceIndex(axis, face)];
+						if constexpr (std::is_same_v<System, hydro::HydroSystem>) {
+							add(q.template get<0>(), result.inward.mass, result.outward.mass);
+							add(q.totalEnergy(), result.inward.gasEnergy, result.outward.gasEnergy);
+							for (int d = 0; d < ndim; ++d) add(q.momentum(d), result.inward.momentum[d], result.outward.momentum[d]);
+						} else {
+							add(q.template get<0>(), result.inward.radiationEnergy, result.outward.radiationEnergy);
+							for (int d = 0; d < ndim; ++d) add(q.radiativeFlux(d), result.inward.radiationFlux[d], result.outward.radiationFlux[d]);
+						}
+					});
+				}
+			}
+			return result;
+		}
 	};
 
 	class Workspace {
@@ -129,12 +161,13 @@ namespace {
 	class PhaseResult {
 	public:
 		SchedulingStatistics tasks;
+		BoundaryTransport boundary;
 		units::Time timestep = units::Time::from_value(std::numeric_limits<Real>::infinity());
 		std::array<units::Velocity, ndim> signalSpeed{};
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & tasks & timestep & signalSpeed;
+			archive & tasks & timestep & signalSpeed & boundary;
 		}
 	};
 
@@ -172,11 +205,11 @@ public:
 	  , owner_(owner) {
 		if (config_.mesh.boundary.contains(physics::BoundaryCondition::Analytic)) {
 			auto evaluator = problemBoundary(config_);
-			if constexpr (build::hydro) {
+			if (build::hydro && config_.hydroEnabled()) {
 				hydroBoundary_ = [evaluator, gas = hydro::HydroSystem(config_.hydro.gamma)](
 									 auto const& position, auto time) { return gas.conservedState(evaluator(position, time).hydro); };
 			}
-			if constexpr (build::radiation) {
+			if (build::radiation && config_.radiationEnabled()) {
 				radiationBoundary_ = [evaluator](auto const& position, auto time) { return evaluator(position, time).radiation; };
 			}
 		}
@@ -201,9 +234,9 @@ public:
 		for (auto id : owned_) {
 			auto const& block = blocks_.at(id);
 			auto const initial = initialSnapshot(config_, block.location);
-			if constexpr (build::hydro) initializeFields(fields_.hydro, block.interior, initial.hydro);
-			if constexpr (build::radiation) initializeFields(fields_.radiation, block.interior, initial.radiation);
-			if constexpr (build::gravity) {
+			if (build::hydro && config_.hydroEnabled()) initializeFields(fields_.hydro, block.interior, initial.hydro);
+			if (build::radiation && config_.radiationEnabled()) initializeFields(fields_.radiation, block.interior, initial.radiation);
+			if (build::gravity && config_.gravityEnabled()) {
 				initializeFields(fields_.gravity, block.interior, initial.gravity);
 				if (!config_.hydroEnabled()) {
 					auto output = fields_.density.output(block.interior, 0);
@@ -245,6 +278,7 @@ public:
 #endif
 		PhaseResult result;
 		for (auto const& part : results) {
+			result.boundary += part.boundary;
 			result.tasks.localTasks += part.tasks.localTasks;
 			result.tasks.stolenTasks += part.tasks.stolenTasks;
 			result.timestep = std::min(result.timestep, part.timestep);
@@ -274,9 +308,9 @@ public:
 				patch.timeState() = time;
 				exportFields(field, block.interior, bank, patch);
 			};
-			if constexpr (build::hydro) exportOne(fields_.hydro, snapshot.hydro);
-			if constexpr (build::radiation) exportOne(fields_.radiation, snapshot.radiation);
-			if constexpr (build::gravity) {
+			if (build::hydro && config_.hydroEnabled()) exportOne(fields_.hydro, snapshot.hydro);
+			if (build::radiation && config_.radiationEnabled()) exportOne(fields_.radiation, snapshot.radiation);
+			if (build::gravity && config_.gravityEnabled()) {
 				exportOne(fields_.gravity, snapshot.gravity);
 				if (!snapshot.hydroEnabled) {
 					snapshot.density = mesh::PatchData<units::Density>(block.layout, block.cellWidth, block.lower);
@@ -309,7 +343,11 @@ private:
 	std::map<std::uint64_t, HaloPlan> plans_;
 	std::map<std::uint64_t, std::vector<FluxCorrection>> refluxPlans_;
 	std::vector<Workspace> workspaces_;
+#ifdef OCTOTIGERII_WITH_HPX
+	hpx::mutex queueMutex_;
+#else
 	std::mutex queueMutex_;
+#endif
 	std::size_t next_ = 0;
 	std::uint64_t generation_ = 0;
 	unsigned bank_ = 0;
@@ -327,23 +365,27 @@ private:
 				std::optional<HaloPlan> temporary;
 				if (stolen) temporary = makeHaloPlan(config_, blocks_, id);
 				auto const& plan = stolen ? *temporary : plans_.at(id);
-				if constexpr (build::hydro)
+				if constexpr (build::hydro) if (config_.hydroEnabled()) {
 					workspace.hydro.advance(block, fields_.hydro, plan, hydro::HydroSystem(config_.hydro.gamma), bank_, dt, time_, hydroBoundary_,
 						fields_.hydroFlux, config_.amr.enabled);
-				if constexpr (build::radiation)
+					result.boundary += workspace.hydro.boundaryTransport(block, config_.mesh.boundary, dt);
+				}
+				if constexpr (build::radiation) if (config_.radiationEnabled()) {
 					workspace.radiation.advance(block, fields_.radiation, plan, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c),
 						bank_, dt, time_, radiationBoundary_, fields_.radiationFlux, config_.amr.enabled);
-				if constexpr (build::gravity) copyFields(fields_.gravity, block.interior, bank_);
+					result.boundary += workspace.radiation.boundaryTransport(block, config_.mesh.boundary, dt);
+				}
+				if (build::gravity && config_.gravityEnabled()) copyFields(fields_.gravity, block.interior, bank_);
 			} else if (operation == Operation::Reflux) {
 				auto const plan = stolen ? makeRefluxPlan(config_, blocks_, id) : refluxPlans_.at(id);
-				if constexpr (build::hydro) reflux(block, plan, fields_.hydro, fields_.hydroFlux, hydro::HydroSystem(config_.hydro.gamma), dt);
-				if constexpr (build::radiation)
+				if (build::hydro && config_.hydroEnabled()) reflux(block, plan, fields_.hydro, fields_.hydroFlux, hydro::HydroSystem(config_.hydro.gamma), dt);
+				if (build::radiation && config_.radiationEnabled())
 					reflux(block, plan, fields_.radiation, fields_.radiationFlux, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c),
 						dt);
-			} else if constexpr (build::hydro) {
+			} else if (build::hydro && config_.hydroEnabled()) {
 				kick(block, dt);
-				if constexpr (build::gravity) copyFields(fields_.gravity, block.interior, bank_);
-				if constexpr (build::radiation) copyFields(fields_.radiation, block.interior, bank_);
+				if (build::gravity && config_.gravityEnabled()) copyFields(fields_.gravity, block.interior, bank_);
+				if (build::radiation && config_.radiationEnabled()) copyFields(fields_.radiation, block.interior, bank_);
 			} else {
 				throw std::logic_error("Gravity kicks are not part of this executable");
 			}
@@ -392,14 +434,14 @@ private:
 			if (!(rate > units::InverseTime{}) || !units::finite(rate)) throw std::runtime_error("No finite positive signal speed");
 			return config_.timestep.cfl / rate;
 		};
-		if constexpr (build::hydro) {
+		if (build::hydro && config_.hydroEnabled()) {
 			for (int d = 0; d < ndim; ++d)
 				maximumAcceleration[d] = units::abs(config_.hydro.acceleration[d]);
 			result = fieldStep(fields_.hydro, hydro::HydroSystem(config_.hydro.gamma));
 			units::Acceleration acceleration{};
 			for (auto component : config_.hydro.acceleration)
 				acceleration += units::abs(component);
-			if constexpr (build::gravity) {
+			if (build::gravity && config_.gravityEnabled()) {
 				auto input = fields_.gravity.read(block.interior, bank_).get();
 				for (std::size_t i = 0; i < block.interior.count; ++i) {
 					units::Acceleration norm{};
@@ -418,9 +460,9 @@ private:
 				result = std::min(result, 0.2 * units::sqrt(block.cellWidth / acceleration));
 			}
 		}
-		if constexpr (build::radiation)
+		if (build::radiation && config_.radiationEnabled())
 			result = std::min(result, fieldStep(fields_.radiation, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c)));
-		if constexpr (build::radiation)
+		if (build::radiation && config_.radiationEnabled())
 			for (auto& speed : blockSpeed)
 				speed = std::max(speed, config_.radiation.lightSpeedRatio * constants::c);
 		for (int d = 0; d < ndim; ++d) {
@@ -467,7 +509,7 @@ private:
 	void kick(Subgrid const& block, units::Time dt) {
 		auto input = fields_.hydro.read(block.interior, bank_).get();
 		std::optional<storage::Columns<gravity::State>> gravity;
-		if constexpr (build::gravity) gravity = fields_.gravity.read(block.interior, bank_).get();
+		if (build::gravity && config_.gravityEnabled()) gravity = fields_.gravity.read(block.interior, bank_).get();
 		auto output = fields_.hydro.output(block.interior, bank_ ^ 1);
 		{
 			profiling::Region profile("gravity.kick");
@@ -477,7 +519,7 @@ private:
 				for (int d = 0; d < ndim; ++d) {
 					auto const old = state.momentum(d);
 					auto acceleration = config_.hydro.acceleration[d];
-					if constexpr (build::gravity) acceleration += gravity->at(i).acceleration(d);
+					if (build::gravity && config_.gravityEnabled()) acceleration += gravity->at(i).acceleration(d);
 					auto const impulse = dt * state.density() * acceleration;
 					state.momentum(d) += impulse;
 					work += impulse * (old + 0.5 * impulse) / state.density();
@@ -531,6 +573,7 @@ public:
 	units::Time gravityTime{};
 	bool gravityReady = false;
 	SchedulingStatistics statistics;
+	BoundaryTransport boundary;
 	refinement::Criteria criteria;
 	std::unique_ptr<amr::Hierarchy> shadow;
 	std::uint64_t lastRegridStep = 0;
@@ -561,11 +604,11 @@ public:
 		auto const& directory = nextFields->directory();
 		for (auto const& block : nextTopology->blocks()) {
 			auto const snapshot = source.transfer(block.location);
-			if constexpr (build::hydro) initializeFields(directory.hydro, block.interior, snapshot.hydro);
-			if constexpr (build::radiation) initializeFields(directory.radiation, block.interior, snapshot.radiation);
-			if constexpr (build::gravity) {
+			if (build::hydro && config.hydroEnabled()) initializeFields(directory.hydro, block.interior, snapshot.hydro);
+			if (build::radiation && config.radiationEnabled()) initializeFields(directory.radiation, block.interior, snapshot.radiation);
+			if (build::gravity && config.gravityEnabled()) {
 				initializeFields(directory.gravity, block.interior, snapshot.gravity);
-				if constexpr (!build::hydro) {
+				if (!config.hydroEnabled()) {
 					auto output = directory.density.output(block.interior, 0);
 					std::copy(snapshot.density.values().begin(), snapshot.density.values().end(), output.data());
 					directory.density.commit(block.interior, 0, output);
@@ -611,6 +654,7 @@ public:
 #endif
 		PhaseResult result;
 		for (auto const& part : results) {
+			result.boundary += part.boundary;
 			result.tasks.localTasks += part.tasks.localTasks;
 			result.tasks.stolenTasks += part.tasks.stolenTasks;
 			result.timestep = std::min(result.timestep, part.timestep);
@@ -637,7 +681,12 @@ Runtime::Runtime(Config const& config, refinement::Criteria additionalCriteria)
 #else
 	impl_->localities = {0};
 #endif
-	impl_->topology = std::make_unique<CartesianTopology>(config, impl_->localities.size());
+	std::optional<amr::InitialMesh> startup;
+	if (config.amr.enabled) {
+		startup = amr::initializeMesh(config, impl_->criteria);
+		impl_->topology = std::make_unique<CartesianTopology>(config, impl_->localities.size(), startup->leaves);
+	} else
+		impl_->topology = std::make_unique<CartesianTopology>(config, impl_->localities.size());
 	impl_->fields = std::make_unique<FieldRepository>(config, impl_->topology->storageLayout(), impl_->localities);
 #ifdef OCTOTIGERII_WITH_HPX
 	std::vector<hpx::future<hpx::id_type>> pending;
@@ -652,10 +701,12 @@ Runtime::Runtime(Config const& config, refinement::Criteria additionalCriteria)
 	impl_->executor = std::make_unique<LocalExecutor>(config, impl_->topology->blocks(), impl_->fields->directory(), 0);
 	impl_->executor->initialize();
 #endif
-	if (config.amr.enabled) {
-		auto dt = stableTimestep();
-		if (!units::finite(dt)) dt = {};
-		regrid(dt, true);
+	if (startup) {
+		impl_->shadow = std::make_unique<amr::Hierarchy>(config, impl_->exportSnapshots());
+		impl_->regridInitialized = true;
+		impl_->signalSpeed = startup->signalSpeed;
+		for (int d = 0; d < ndim; ++d)
+			impl_->travelBudget[d] = config.amr.signalBuffer * startup->signalSpeed[d] * startup->timestep * Real(config.amr.regridEvery);
 	}
 }
 
@@ -710,7 +761,7 @@ void Runtime::advance(units::Time dt) {
 		nextShadow = std::make_unique<amr::Hierarchy>(*impl_->shadow);
 		nextShadow->advance(dt);
 	}
-	impl_->phase(Operation::Advance, dt);
+	auto const transport = impl_->phase(Operation::Advance, dt);
 	if (impl_->config.amr.enabled) impl_->phase(Operation::Reflux, dt);
 	auto nextTime = impl_->time;
 	nextTime.completeStep(dt);
@@ -718,9 +769,15 @@ void Runtime::advance(units::Time dt) {
 	impl_->bank ^= 1;
 	++impl_->generation;
 	impl_->time = nextTime;
+	impl_->boundary += transport.boundary;
 	if (nextShadow) impl_->shadow = std::move(nextShadow);
 	for (int d = 0; d < ndim; ++d)
 		impl_->travel[d] += impl_->signalSpeed[d] * dt;
+}
+
+BoundaryTransport Runtime::boundaryTransport() const {
+	std::lock_guard guard(impl_->apiMutex);
+	return impl_->boundary;
 }
 
 std::size_t Runtime::shadowCellCount() const {
@@ -777,8 +834,8 @@ bool Runtime::regrid(units::Time nextStep, bool force) {
 void Runtime::kickGravity(units::Time dt) {
 	profiling::Elapsed profile("runtime.gravity_kick.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
-	if (!impl_->config.hydroEnabled() || (!build::gravity && !impl_->config.hasExternalAcceleration()) ||
-		(build::gravity && (!impl_->gravityReady || impl_->gravityTime != impl_->time.time)) || !(dt > units::Time{}) || !units::finite(dt))
+	if (!impl_->config.hydroEnabled() || (!impl_->config.gravityEnabled() && !impl_->config.hasExternalAcceleration()) ||
+		(impl_->config.gravityEnabled() && (!impl_->gravityReady || impl_->gravityTime != impl_->time.time)) || !(dt > units::Time{}) || !units::finite(dt))
 		throw std::logic_error("Gravity kick requires synchronized gas and gravity");
 	std::unique_ptr<amr::Hierarchy> nextShadow;
 	if (impl_->shadow) {
@@ -792,6 +849,7 @@ void Runtime::kickGravity(units::Time dt) {
 }
 
 gravity::Statistics Runtime::solveGravity() {
+	if (!impl_->config.gravityEnabled()) throw std::logic_error("Selected problem does not enable gravity");
 	profiling::Elapsed profile("runtime.gravity.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
 #if OCTOTIGERII_GRAVITY
@@ -835,7 +893,7 @@ void Runtime::setGravity(std::vector<std::vector<gravity::State>> const& fields)
 			std::copy_n(input.data(), input.size(), output.data());
 			directory.density.commit(range, impl_->bank ^ 1, output);
 		}
-		if constexpr (build::radiation) copyFields(directory.radiation, range, impl_->bank);
+		if (build::radiation && impl_->config.radiationEnabled()) copyFields(directory.radiation, range, impl_->bank);
 		auto output = directory.gravity.output(range, impl_->bank ^ 1);
 		for (std::size_t i = 0; i < range.count; ++i)
 			output.put(i, fields[b][i]);

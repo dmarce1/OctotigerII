@@ -6,7 +6,7 @@
 #include "octotigerII/problems.hpp"
 
 namespace octotigerII {
-Snapshot initialSnapshot(Config const& c, mesh::BlockLocation location) {
+Snapshot initialSnapshot(Config const& c, mesh::BlockLocation location, bool refinementProbe) {
 	using std::ldexp;
 
 	Snapshot data_;
@@ -24,13 +24,13 @@ Snapshot initialSnapshot(Config const& c, mesh::BlockLocation location) {
 	data_.hydroEnabled = c.hydroEnabled();
 	data_.radiationEnabled = c.radiationEnabled();
 	data_.gravityEnabled = c.gravityEnabled();
-	if constexpr (build::hydro) data_.hydro = hydro::Fields(data_.layout, data_.cellWidth, data_.lower);
-	if constexpr (build::radiation) data_.radiation = radiation::Fields(data_.layout, data_.cellWidth, data_.lower);
-	if constexpr (build::gravity) {
+	if (build::hydro && c.hydroEnabled()) data_.hydro = hydro::Fields(data_.layout, data_.cellWidth, data_.lower);
+	if (build::radiation && c.radiationEnabled()) data_.radiation = radiation::Fields(data_.layout, data_.cellWidth, data_.lower);
+	if (build::gravity && c.gravityEnabled()) {
 		data_.gravity = gravity::Fields(data_.layout, data_.cellWidth, data_.lower);
 		if (!data_.hydroEnabled) data_.density = mesh::PatchData<units::Density>(data_.layout, data_.cellWidth, data_.lower);
 	}
-	initializeProblem(data_, c);
+	initializeProblem(data_, c, refinementProbe);
 	return data_;
 }
 

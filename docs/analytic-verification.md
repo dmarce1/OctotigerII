@@ -15,6 +15,7 @@ reports `unavailable`, with a reason. An unavailable reference is never reported
 | `gravity-sphere` | 3 | Direct discrete reference by default; optional continuum isolated uniform sphere, including interior and exterior potential and acceleration; potential vanishes at infinity. |
 | `gravity-gaussian` | 3 | Direct discrete reference by default; optional continuum isolated spherical Gaussian truncated at radius half the domain width, including the contribution of exterior shells to the interior potential. |
 | `streaming` | 1, 2, 3 | Periodic translation along the diagonal of the active dimensions, with transport speed `lightSpeedRatio*c` and physical flux magnitude `c*E`. |
+| `polytrope` | 3 | Direct gravity by default; `verification.gravityReference=continuum` compares against the Lane–Emden equilibrium profile (tenuous atmosphere approximation). |
 | `collapse` | 3 | Direct gravity reference at the current time; no analytic hydrodynamic solution. |
 | `kelvin-helmholtz`, `radiation-pulse` | As supported by their manifests | No full analytic reference currently implemented; status is explicitly unavailable. |
 
@@ -31,21 +32,20 @@ from HOME, with the checkout at `~/workspace/OctotigerII`:
 
 ```bash
 cd "$HOME/workspace/OctotigerII"
-cmake -S . -B release/sod-1d \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DOCTOTIGERII_PROBLEM=sod -DOCTOTIGERII_NDIM=1
-cmake --build release/sod-1d -j
-./release/sod-1d/octotigerII-sod-1d \
-  --config=bin/hydro_tests/Sod/inputs \
+cmake -S . -B release \
+  -DCMAKE_BUILD_TYPE=Release
+cmake --build release -j
+./release/octoII-1d --problem.name=sod \
+  --problem.name=sod --config=bin/hydro_tests/Sod/inputs \
   --verification.analytic=on \
   --mesh.cells=32 --mesh.level=2 \
   --output.directory=output/sod-analytic
-ctest --test-dir release/sod-1d --output-on-failure
+ctest --test-dir release --output-on-failure
 ```
 
 Supply the normal HPX dependency paths for your installation, or configure with
 `-DOCTOTIGERII_WITH_HPX=OFF` for the serial backend. Gravity builds use
-`-DOCTOTIGERII_PROBLEM=gravity-sphere` or `gravity-gaussian`, and dimension 3.
+`--problem.name=gravity-sphere` or `--problem.name=gravity-gaussian` with `octoII-3d`.
 Their input files are `bin/gravity_tests/Sphere/inputs` and
 `bin/gravity_tests/Gaussian/inputs`. Gravity tests require `runtime.stopTime=0`.
 

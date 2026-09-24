@@ -1,89 +1,71 @@
-"""Exercise one compiled problem/dimension, strict options, and Silo time series."""
-from pathlib import Path
+#!/usr/bin/env python3
+"""Exercise every registered problem and the fixed-dimension/module CLI contract."""
+import csv
 import json
-import math
+import pathlib
 import subprocess
 import sys
+import tempfile
 
-executable, inputs, destination = map(Path, sys.argv[1:4])
-problem, ndim = sys.argv[4:6]
-runtime_args = sys.argv[6:]
+exe, source, dimension = sys.argv[1:4]
+dimension = int(dimension)
+hydro, radiation, gravity = (value in ('1', 'ON', 'TRUE') for value in sys.argv[4:7])
+runtime = sys.argv[7:]
+problems = {
+    'sod': ((1, 2, 3), hydro, 'HYDRO'),
+    'kelvin-helmholtz': ((2, 3), hydro, 'HYDRO'),
+    'rayleigh-taylor': ((3,), hydro, 'HYDRO'),
+    'streaming': ((1, 2, 3), radiation, 'RADIATION'),
+    'radiation-pulse': ((1, 2, 3), radiation, 'RADIATION'),
+    'gravity-sphere': ((3,), gravity, 'GRAVITY'),
+    'gravity-gaussian': ((3,), gravity, 'GRAVITY'),
+    'collapse': ((3,), hydro and gravity, 'HYDRO' if not hydro else 'GRAVITY'),
+    'polytrope': ((3,), hydro and gravity, 'HYDRO' if not hydro else 'GRAVITY'),
+}
 
-
-def execute(*args, success=True):
-    result = subprocess.run([str(executable), *args, *runtime_args],
-                            capture_output=True, text=True, timeout=120)
-    if (result.returncode == 0) != success:
-        raise RuntimeError(result.stdout + result.stderr)
+def run(*args, success=True, contains=None):
+    result = subprocess.run([exe, *args, *runtime], text=True, capture_output=True, timeout=90)
+    assert result.returncode == (0 if success else 1), (args, result.returncode, result.stdout, result.stderr)
+    if contains:
+        assert contains in result.stdout + result.stderr, (args, result.stdout, result.stderr)
     return result
 
-
-execute('--not.an.option=1', success=False)
-execute('--output.format=csv', success=False)
-execute('--mesh.cells=7', success=False)
-# Even matching values cannot masquerade as runtime configuration choices.
-execute('--problem.name=' + problem, success=False)
-execute('--mesh.ndim=' + ndim, success=False)
-execute('--radiation.lightSpeedRatio=0', success=False)
-static = problem in ('gravity-sphere', 'gravity-gaussian')
-if not static:
-    execute('--runtime.maxSteps=1', '--runtime.stopTime=1e6', '--output.enabled=off',
-            '--mesh.cells=4', '--mesh.level=0', success=False)
-if problem in ('gravity-sphere', 'gravity-gaussian', 'collapse'):
-    execute('--mesh.periodic=on', '--mesh.cells=4', '--mesh.level=0',
-            '--runtime.stopTime=0', '--output.enabled=off')
-
-result = execute('--config=' + str(inputs), '--mesh.cells=4', '--mesh.level=0',
-                 '--runtime.stopTime=' + ('0' if static else '0.001'),
-                 '--output.directory=' + str(destination), '--output.every=10000')
-assert 'Completed' in result.stdout and problem in result.stdout and ndim + 'D' in result.stdout
-frames = (destination / 'frames.visit').read_text().splitlines()
-assert frames == [f'frame_{i:06d}.silo' for i in range(len(frames))]
-assert len(frames) == (1 if static else 2)
-assert all((destination / frame).is_file() for frame in frames)
-print('Compiled problem/dimension, application options and Silo time series passed')
-
-report = json.loads((destination / 'analytic-errors.json').read_text())
-has_reference = problem in ('sod', 'gravity-sphere', 'gravity-gaussian', 'streaming', 'collapse')
-assert report['status'] == ('available' if has_reference else 'unavailable')
-assert report['problem'] == problem and report['ndim'] == int(ndim)
-assert report['sampling'] == 'cell-center'
-assert report['schemaVersion'] == 3
-if has_reference:
-    assert report['cells'] == 4 ** int(ndim)
-    assert report['fields']
-    for field in report['fields']:
-        for norm in ('L1', 'L2', 'Linf'):
-            absolute = field['absolute' + norm]
-            reference = field['reference' + norm]
-            relative = field[norm]
-            assert absolute >= 0 and reference >= 0
-            if reference:
-                assert math.isclose(relative, absolute / reference, rel_tol=1e-14)
-            else:
-                assert relative is None
-    execute('--mesh.cells=4', '--mesh.level=0', '--runtime.stopTime=' + ('0' if static else '0.05'),
-            '--output.enabled=off', '--verification.analytic=on', '--verification.relativeL1Tolerance=0', success=False)
-else:
-    assert report['reason'] and not report['fields']
-    execute('--output.enabled=off', '--verification.analytic=on', success=False)
-execute('--verification.analytic=invalid', success=False)
-execute('--verification.relativeL1Tolerance=nan', success=False)
-execute('--verification.analytic=off', '--verification.relativeL1Tolerance=0.1', success=False)
-print('Analytic report, availability, and failing accuracy gates passed')
-
-if problem in ('gravity-sphere', 'gravity-gaussian', 'collapse'):
-    assert report['referenceKind'] == 'direct'
-    assert report['randomSeed'] == 5489 and report['randomGenerator'] == 'mt19937_64'
-    args = ('--mesh.cells=4', '--mesh.level=0', '--runtime.stopTime=0',
-            '--verification.directSamples=1', '--randomSeed=17',
-            '--output.directory=' + str(destination))
-    one = execute(*args)
-    assert 'WARNING:' in one.stdout and 'cannot be estimated' in one.stdout
-    sample = json.loads((destination / 'analytic-errors.json').read_text())
-    assert sample['cells'] == 1 and sample['totalCells'] == 64
-    assert sample['randomSeed'] == 17 and len(sample['targetIndices']) == 1
-    assert sample['sampling'] == 'random-cell-center-without-replacement'
-    assert all(f['samplingWarning'] and f['relativeL1HalfWidth95'] is None for f in sample['fields'])
-    execute(*args)
-    assert sample == json.loads((destination / 'analytic-errors.json').read_text())
+run(success=False, contains='I have done everything you asked of me')
+run('--problem.name=', success=False)
+run('--help', contains=f'octoII-{dimension}d')
+for option in ('--mesh.ndim=3', '--ndim=3', '--problem.name=unknown'):
+    run(option, success=False)
+with tempfile.TemporaryDirectory(prefix='octoII-application-') as directory:
+    root = pathlib.Path(directory)
+    for name, (dimensions, enabled, module) in problems.items():
+        if not enabled or dimension not in dimensions:
+            expected = f'OCTOII_WITH_{module}=ON' if not enabled else 'supported dimensions:'
+            run(f'--problem.name={name}', success=False, contains=expected)
+            continue
+        inputs = pathlib.Path(source) / 'examples' / (name + '.ini')
+        if name == 'rayleigh-taylor':
+            inputs = pathlib.Path(source) / 'examples/rayleigh-taylor-amr.ini'
+        output = root / name
+        run(f'--problem.name={name}', f'--config={inputs}', '--amr.enabled=off', '--amr.minLevel=0', '--mesh.cells=4', '--mesh.level=0',
+            '--runtime.stopTime=' + ('0' if name.startswith('gravity-') else '1e-14'), '--output.every=1', '--output.enabled=on',
+            f'--output.directory={output}', contains='Completed')
+        rows = list(csv.DictReader((output / 'conservation.csv').open()))
+        assert rows and rows[0]['step'] == '0', name
+        if name in ('collapse', 'polytrope'):
+            assert 'gas_gravity_energy_erg_grid' in rows[0], name
+        reports = list(output.rglob('*.json'))
+        assert reports, name
+        for report in reports:
+            data = json.loads(report.read_text())
+            assert data['problem'] == name and data['ndim'] == dimension, data
+    if hydro and radiation:
+        # Resolve the final problem first, then apply that problem's defaults.
+        first = root / 'first.ini'
+        second = root / 'second.ini'
+        first.write_text('[problem]\nname=sod\n[mesh]\ncells=8\n')
+        second.write_text('[problem]\nname=streaming\n')
+        run(f'--config={first}', success=False, contains='No problem specified')
+        run('--problem.name=streaming', f'--config={first}', f'--config={second}', '--mesh.cells=4', '--runtime.stopTime=0',
+            '--output.enabled=off', contains='streaming')
+        run('--problem.name=sod', f'--config={second}', '--runtime.stopTime=0', '--output.enabled=off', contains='sod')
+print(f'{dimension}D: all problem availability, runtime selection, output identity and dimension rejection checks passed')

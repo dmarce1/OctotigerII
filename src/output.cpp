@@ -1,4 +1,5 @@
 #include "octotigerII/output.hpp"
+#include <limits>
 #include <algorithm>
 #include <filesystem>
 #include <iomanip>
@@ -35,7 +36,7 @@ namespace {
 			}
 		};
 #if OCTOTIGERII_HYDRO
-		{
+		if (c.hydroEnabled()) {
 			field("density", "g/cm^3", false, [&](std::size_t i, int) { return b.hydro.values()[i].density(); });
 			field("momentum", "g/(cm^2 s)", true, [&](std::size_t i, int axis) { return b.hydro.values()[i].momentum(axis); });
 			field("velocity", "cm/s", true, [&](std::size_t i, int axis) { return b.hydro.values()[i].momentum(axis) / b.hydro.values()[i].density(); });
@@ -43,16 +44,17 @@ namespace {
 			field("pressure", "dyn/cm^2", false,
 				[&](std::size_t i, int) { return hydro::HydroSystem(c.hydro.gamma).reconstructionVariables(b.hydro.values()[i]).pressure(); });
 		}
-#elif OCTOTIGERII_GRAVITY
-		{
+#endif
+#if OCTOTIGERII_GRAVITY
+		if (!c.hydroEnabled() && c.gravityEnabled()) {
 			field("density", "g/cm^3", false, [&](std::size_t i, int) { return b.density.values()[i]; });
 		}
 #endif
-		if constexpr (build::radiation) {
+		if (build::radiation && c.radiationEnabled()) {
 			field("radiationEnergy", "erg/cm^3", false, [&](std::size_t i, int) { return b.radiation.values()[i].energy(); });
 			field("radiationFlux", "erg/(cm^2 s)", true, [&](std::size_t i, int axis) { return b.radiation.values()[i].radiativeFlux(axis); });
 		}
-		if constexpr (build::gravity) {
+		if (build::gravity && c.gravityEnabled()) {
 			field("potential", "cm^2/s^2", false, [&](std::size_t i, int) { return b.gravity.values()[i].potential(); });
 			field("acceleration", "cm/s^2", true, [&](std::size_t i, int axis) { return b.gravity.values()[i].acceleration(axis); });
 		}
@@ -185,13 +187,61 @@ namespace {
 
 Output::Output(Config const& c)
   : config_(c) {
-	if (!c.output.enabled) return;
 	std::filesystem::create_directories(c.output.directory);
+	conservation_.exceptions(std::ios::badbit | std::ios::failbit);
+	conservation_.open(std::filesystem::path(c.output.directory) / "conservation.csv");
+	conservation_ << std::scientific << std::setprecision(std::numeric_limits<Real>::max_digits10);
+	conservation_ << "step,time_s";
+	auto header = [&](std::string const& name) {
+		for (auto const* suffix : {"grid", "in", "out", "corrected", "l1", "norm", "drift_scaled"}) conservation_ << ',' << name << '_' << suffix;
+	};
+	if (c.hydroEnabled() || c.gravityEnabled()) header("mass_g");
+	if (c.hydroEnabled()) {
+		for (int d = 0; d < ndim; ++d) header(std::string("momentum_") + "xyz"[d] + "_g_cm_s");
+		header("gas_energy_erg");
+		conservation_ << ",kinetic_energy_erg_grid,thermal_energy_erg_grid";
+		if (c.gravityEnabled()) conservation_ << ",potential_energy_erg_grid,gas_gravity_energy_erg_grid,gas_gravity_energy_erg_norm,gas_gravity_energy_drift_scaled";
+	}
+	if (c.radiationEnabled()) {
+		header("radiation_energy_erg");
+		for (int d = 0; d < ndim; ++d) header(std::string("radiation_flux_integral_") + "xyz"[d] + "_erg_cm_s");
+	}
+	conservation_ << '\n';
+	if (!c.output.enabled) return;
 	series_.open(std::filesystem::path(c.output.directory) / "frames.visit");
 	series_.exceptions(std::ios::badbit | std::ios::failbit);
 }
 
 void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnostics const& d) {
+	if (!haveInitial_) { initial_ = d; haveInitial_ = true; }
+	conservation_ << step << ',' << units::value(d.time);
+	auto write = [&](auto grid, auto inward, auto outward, auto l1, auto initial, auto initialL1) {
+		auto const corrected = grid + outward - inward;
+		auto const norm = std::max({initialL1, l1, inward + outward});
+		Real const drift = norm > decltype(norm){} ? Real((corrected - initial) / norm) : Real(0);
+		conservation_ << ',' << units::value(grid) << ',' << units::value(inward) << ',' << units::value(outward)
+			<< ',' << units::value(corrected) << ',' << units::value(l1) << ',' << units::value(norm) << ',' << drift;
+	};
+	auto const& in = d.boundary.inward;
+	auto const& out = d.boundary.outward;
+	if (config_.hydroEnabled() || config_.gravityEnabled()) write(d.mass, in.mass, out.mass, d.norm.mass, initial_.mass, initial_.norm.mass);
+	if (config_.hydroEnabled()) {
+		for (int axis = 0; axis < ndim; ++axis) write(d.momentum[axis], in.momentum[axis], out.momentum[axis], d.norm.momentum[axis], initial_.momentum[axis], initial_.norm.momentum[axis]);
+		write(d.gasEnergy, in.gasEnergy, out.gasEnergy, d.norm.gasEnergy, initial_.gasEnergy, initial_.norm.gasEnergy);
+		conservation_ << ',' << units::value(d.kineticEnergy) << ',' << units::value(d.thermalEnergy);
+		if (config_.gravityEnabled()) {
+			auto const norm = std::max(initial_.gasGravityNorm, d.gasGravityNorm);
+			Real const drift = norm > units::Energy{} ? Real((d.gasGravityEnergy - initial_.gasGravityEnergy) / norm) : Real(0);
+			conservation_ << ',' << units::value(d.potentialEnergy) << ',' << units::value(d.gasGravityEnergy)
+				<< ',' << units::value(norm) << ',' << drift;
+		}
+	}
+	if (config_.radiationEnabled()) {
+		write(d.radiationEnergy, in.radiationEnergy, out.radiationEnergy, d.norm.radiationEnergy, initial_.radiationEnergy, initial_.norm.radiationEnergy);
+		for (int axis = 0; axis < ndim; ++axis) write(d.radiationFlux[axis], in.radiationFlux[axis], out.radiationFlux[axis], d.norm.radiationFlux[axis], initial_.radiationFlux[axis], initial_.norm.radiationFlux[axis]);
+	}
+	conservation_ << '\n';
+	conservation_.flush();
 	if (!config_.output.enabled) return;
 	if (step != 0 && step % config_.output.every != 0 && d.time < config_.runtime.stopTime) return;
 	std::ostringstream base;

@@ -266,13 +266,13 @@ and run CTest in that build directory. Repeat for the supported combinations
 to cover the whole matrix. For example, from HOME:
 
 ```bash
-ctest --test-dir ~/workspace/OctotigerII/release/streaming/1d --output-on-failure
+ctest --test-dir ~/workspace/OctotigerII/release --output-on-failure
 python3 ~/workspace/OctotigerII/tests/distributed.py \
-  ~/workspace/OctotigerII/release/streaming/1d/tests/storageChecks
+  ~/workspace/OctotigerII/release/tests/storageChecks
 python3 ~/workspace/OctotigerII/tests/distributed.py \
-  ~/workspace/OctotigerII/release/streaming/1d/tests/numericalChecks --gtest_filter='Transport.*'
+  ~/workspace/OctotigerII/release/tests/numericalChecks --gtest_filter='Transport.*'
 OCTOTIGERII_TEST_LOCALITIES=3 python3 ~/workspace/OctotigerII/tests/distributed.py \
-  ~/workspace/OctotigerII/release/streaming/1d/tests/numericalChecks --gtest_filter='Transport.*'
+  ~/workspace/OctotigerII/release/tests/numericalChecks --gtest_filter='Transport.*'
 ```
 
 The Doxygen manual generates with 1.9.8 and warnings treated as errors. All 12

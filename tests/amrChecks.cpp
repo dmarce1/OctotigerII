@@ -1,10 +1,10 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <set>
 #include "octotigerII/amr/hierarchy.hpp"
 #include "octotigerII/runtime.hpp"
 #include "octotigerII/simulation.hpp"
 #include "octotigerII/subgrid/view.hpp"
-#include "testSupport.hpp"
 #if OCTOTIGERII_GRAVITY
 #include "octotigerII/verification/directGravity.hpp"
 #endif
@@ -12,12 +12,17 @@
 using namespace octotigerII;
 namespace {
 Config configuration() {
-	auto c = parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
+	auto c = test::parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 	c.mesh.lower = units::Length::from_value(-0.5);
 	c.mesh.upper = units::Length::from_value(0.5);
+	// Keep a stellar fixture resolved inside this unit-sized test domain.
+	c.star.radius = units::Length::from_value(0.25);
+	c.star.center.fill(units::Length{});
 	c.amr.enabled = true;
 	c.amr.maxLevel = 2;
 	c.amr.shadowTolerance = 0;
+	c.amr.refineDensity = {};
+	c.amr.maxCellMass = {};
 	c.amr.bufferCells = 0;
 	c.amr.regridEvery = 1;
 	c.mesh.boundary = physics::BoundaryConditions::periodic();
@@ -46,21 +51,23 @@ void compareTotals(Diagnostics const& a, Diagnostics const& b) {
 }
 
 TEST(Amr, OptionsValidateAndRoundTrip) {
-	auto c = parseConfig({"--amr.enabled=on", "--amr.minLevel=0", "--amr.maxLevel=3", "--amr.regridEvery=7", "--amr.shadowTolerance=0.03",
+	auto c = test::parseConfig({"--amr.enabled=on", "--amr.minLevel=0", "--amr.maxLevel=3", "--amr.regridEvery=7", "--amr.shadowTolerance=0.03",
 		"--amr.signalBuffer=1.5", "--amr.bufferCells=2"});
 	EXPECT_TRUE(c.amr.enabled);
 	EXPECT_EQ(c.amr.maxLevel, 3);
 	EXPECT_EQ(c.amr.regridEvery, 7);
 	EXPECT_DOUBLE_EQ(c.amr.shadowTolerance, 0.03);
 	for (auto const* option : {"--amr.regridEvery=0", "--amr.maxLevel=17", "--amr.signalBuffer=0.5", "--amr.coarsenFactor=1", "--amr.shadowFloor=0"})
-		EXPECT_THROW(parseConfig({option}), std::invalid_argument);
+		EXPECT_THROW(test::parseConfig({option}), std::invalid_argument);
 }
 
 TEST(Amr, MortonDestinationAndConservativeRefineCoarsen) {
 	auto c = configuration();
-	auto const initial = diagnose(uniform(c), c);
-	bool enabled = true;
+	bool enabled = false;
 	Runtime runtime(c, {corner(c, &enabled)});
+	auto const initial = diagnose(runtime.snapshots(), c);
+	enabled = true;
+	ASSERT_TRUE(runtime.regrid(units::Time{}, true));
 	auto refined = runtime.snapshots();
 	ASSERT_GT(refined.size(), std::size_t(1 << ndim));
 	std::set<int> levels;
@@ -141,7 +148,7 @@ TEST(Amr, DeepRefinementBalancesFacesEdgesAndPeriodicCorners) {
 }
 
 TEST(Amr, MassThresholdRespectsFinestLevel) {
-	if constexpr (!build::hydro && !build::gravity) {
+	if constexpr (!test::hydro && !test::gravity) {
 		GTEST_SKIP();
 	} else {
 		auto c = configuration();
@@ -149,7 +156,7 @@ TEST(Amr, MassThresholdRespectsFinestLevel) {
 		units::Mass maximum{};
 		for (auto const& block : leaves)
 			block.layout.forEachInterior([&](auto const&, std::size_t i) {
-				auto const density = build::hydro ? block.hydro.values()[i].density() : block.density.values()[i];
+				auto const density = test::hydro ? block.hydro.values()[i].density() : block.density.values()[i];
 				maximum = std::max(maximum, density * block.layout.cellMeasure(block.cellWidth));
 			});
 		c.amr.maxCellMass = maximum / Real((1 << ndim) * 2);
@@ -158,7 +165,7 @@ TEST(Amr, MassThresholdRespectsFinestLevel) {
 		for (auto const& block : runtime.snapshots()) {
 			EXPECT_LE(block.location.level, c.amr.maxLevel);
 			block.layout.forEachInterior([&](auto const&, std::size_t i) {
-				auto const density = build::hydro ? block.hydro.values()[i].density() : block.density.values()[i];
+				auto const density = test::hydro ? block.hydro.values()[i].density() : block.density.values()[i];
 				if (density * block.layout.cellMeasure(block.cellWidth) > c.amr.maxCellMass) {
 					EXPECT_EQ(block.location.level, c.amr.maxLevel);
 					capped = true;
@@ -171,7 +178,7 @@ TEST(Amr, MassThresholdRespectsFinestLevel) {
 
 TEST(Amr, SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon) {
 	auto c = configuration();
-	if constexpr (!build::hydro && !build::radiation) {
+	if constexpr (!test::hydro && !test::radiation) {
 		GTEST_SKIP();
 	} else {
 		auto leaves = uniform(c);
@@ -191,7 +198,7 @@ TEST(Amr, SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon) {
 }
 
 TEST(Amr, MixedLevelTransportConservesPeriodicIntegrals) {
-	if constexpr (!build::hydro && !build::radiation) {
+	if constexpr (!test::hydro && !test::radiation) {
 		GTEST_SKIP();
 	} else {
 		auto c = configuration();
@@ -204,7 +211,7 @@ TEST(Amr, MixedLevelTransportConservesPeriodicIntegrals) {
 }
 
 TEST(Amr, RegridCadenceAndTravelBudget) {
-	if constexpr (!build::hydro && !build::radiation) {
+	if constexpr (!test::hydro && !test::radiation) {
 		GTEST_SKIP();
 	} else {
 		auto c = configuration();
@@ -232,7 +239,7 @@ TEST(Amr, RegridCadenceAndTravelBudget) {
 }
 
 TEST(Amr, EvolvedShadowDiffersFromFreshRestriction) {
-	if constexpr (!build::hydro && !build::radiation) {
+	if constexpr (!test::hydro && !test::radiation) {
 		GTEST_SKIP();
 	} else {
 		auto c = configuration();
@@ -244,14 +251,14 @@ TEST(Amr, EvolvedShadowDiffersFromFreshRestriction) {
 				using std::sin;
 				auto const x = Real((block.layout.cellCenter(block.lower, block.cellWidth, cell)[0] - c.mesh.lower) / (c.mesh.upper - c.mesh.lower));
 				Real const wave = 1 + 0.2 * sin(2 * piR * x);
-				if constexpr (build::hydro) {
+				if constexpr (test::hydro) {
 					hydro::PrimitiveState q;
 					q.density() = units::Density::from_value(wave);
 					q.pressure() = units::Pressure::from_value(1);
 					q.velocity(0) = units::Velocity::from_value(0.5);
 					block.hydro.values()[i] = hydro::HydroSystem(c.hydro.gamma).conservedState(q);
 				}
-				if constexpr (build::radiation) {
+				if constexpr (test::radiation) {
 					block.radiation.values()[i].energy() = units::EnergyDensity::from_value(wave);
 					for (int d = 0; d < ndim; ++d)
 						block.radiation.values()[i].radiativeFlux(d) = {};
@@ -259,13 +266,13 @@ TEST(Amr, EvolvedShadowDiffersFromFreshRestriction) {
 				}
 			});
 		amr::Hierarchy evolved(c, initial);
-		auto const dt = units::Time::from_value(build::radiation ? 1e-13 : 0.001);
+		auto const dt = units::Time::from_value(test::radiation ? 1e-13 : 0.001);
 		auto const old = evolved.shadow({evolved.cellLevel(c.mesh.level), mesh::filledCoordinates(0)});
 		evolved.advance(dt);
 		auto const after = evolved.shadow({evolved.cellLevel(c.mesh.level), mesh::filledCoordinates(0)});
 		Real difference = 0;
-		if constexpr (build::hydro) difference += units::value(units::abs(after.hydro.density() - old.hydro.density()));
-		if constexpr (build::radiation) difference += units::value(units::abs(after.radiation.energy() - old.radiation.energy()));
+		if constexpr (test::hydro) difference += units::value(units::abs(after.hydro.density() - old.hydro.density()));
+		if constexpr (test::radiation) difference += units::value(units::abs(after.radiation.energy() - old.radiation.energy()));
 		EXPECT_GT(difference, 1e-10);
 		evolved.refreshLeaves(initial);
 		auto const preserved = evolved.shadow({evolved.cellLevel(c.mesh.level), mesh::filledCoordinates(0)});
@@ -280,6 +287,8 @@ TEST(Amr, AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages) {
 		// HPX may resume this test on a different OS thread after an action.
 		// Keep case context on assertions instead of GoogleTest's TLS trace stack.
 		auto c = configuration();
+		c.problem = "gravity-sphere";
+		c.runtime.stopTime = {};
 		c.gravity.multipoleOrder = 4;
 		c.gravity.openingAngle = 0.3;
 		c.verification.directSamples = 16;
@@ -305,3 +314,59 @@ TEST(Amr, AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages) {
 }
 #endif
 }	 // namespace
+
+TEST(Amr, StartupVisitsRootAndRefillsEveryNewLevel) {
+	if constexpr (!test::hydro && !test::gravity) {
+		GTEST_SKIP();
+	} else {
+		auto c = configuration();
+		c.mesh.level = 2;
+		c.amr.maxLevel = 3;
+		c.runtime.stopTime = {};
+		std::set<int> filled, inspected;
+		auto initialize = [&](Config const& config, mesh::BlockLocation location) {
+			filled.insert(location.level);
+			auto b = initialSnapshot(config, location);
+			b.layout.forEachInterior([&](auto const&, std::size_t i) {
+				auto const density = units::Density::from_value(1 + location.level);
+				if constexpr (test::hydro) b.hydro.values()[i].density() = density;
+				else b.density.values()[i] = density;
+			});
+			return b;
+		};
+		refinement::Criteria criteria{[&](refinement::CellView const& cell) {
+			inspected.insert(cell.level);
+			Real const density = units::value(cell.mass/cell.volume);
+			EXPECT_NEAR(density, 1 + cell.level, 1e-12);
+			return cell.level < 3 && density > cell.level + 0.5 ? Real(2) : Real(0);
+		}};
+		auto const mesh = amr::initializeMesh(c, criteria, initialize);
+		EXPECT_EQ(filled, (std::set<int>{0, 1, 2, 3}));
+		EXPECT_EQ(inspected, filled);
+		for (auto const& leaf : mesh.leaves) EXPECT_EQ(leaf.level, 3);
+	}
+}
+
+TEST(Amr, StartupLeavesContainProblemValuesAtTheirOwnResolution) {
+	auto c = configuration();
+	Runtime runtime(c, {corner(c)});
+	for (auto const& block : runtime.snapshots()) {
+		auto const expected = initialSnapshot(c, block.location);
+		block.layout.forEachInterior([&](auto const&, std::size_t i) {
+			if constexpr (test::hydro) test::expectStateNear(block.hydro.values()[i], expected.hydro.values()[i]);
+			if constexpr (test::radiation) test::expectStateNear(block.radiation.values()[i], expected.radiation.values()[i]);
+			if constexpr (test::gravity && !test::hydro) EXPECT_EQ(block.density.values()[i], expected.density.values()[i]);
+		});
+	}
+}
+
+TEST(Amr, DensityCriterionUsesDensityRatherThanCellMass) {
+	refinement::CellView cell;
+	cell.volume = units::Volume::from_value(8);
+	cell.mass = units::Mass::from_value(24);
+	refinement::DensityCriterion const criterion(units::Density::from_value(2));
+	EXPECT_DOUBLE_EQ(criterion(cell), 1.5);
+	cell.volume /= 8.0;
+	cell.mass /= 8.0;
+	EXPECT_DOUBLE_EQ(criterion(cell), 1.5);
+}

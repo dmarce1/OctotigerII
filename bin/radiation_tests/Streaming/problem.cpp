@@ -8,7 +8,7 @@
 #include "octotigerII/subgrid/subgrid.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
-namespace octotigerII {
+namespace octotigerII::streaming {
 
 ProblemBoundary problemBoundary(Config const& c) {
 	return [c](mesh::PhysicalCoordinates const& position, units::Time time) { return verification::streamingState(c, position, time); };
@@ -30,7 +30,7 @@ void validateProblem(Config const&) {}
 
 /// Initialize this problem in the executable's compile-time dimension.
 
-void initializeProblem(Snapshot& data, Config const& c) {
+void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	using std::exp;
 	using std::round;
 	using std::sqrt;

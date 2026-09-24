@@ -7,20 +7,20 @@ direct sums, conservation laws, symmetry, convergence and decomposition checks.
 
 ## Run the current build
 
-From the source directory after building the selected problem:
+From the source directory after building all three dimensions:
 
 ```bash
-ctest --test-dir release/sod/1d --output-on-failure -j 2
-ctest --test-dir release/sod/1d --output-on-failure -L unit
-ctest --test-dir release/sod/1d --output-on-failure -L integration
-ctest --test-dir release/sod/1d --output-on-failure -R 'Convergence|Transport'
+ctest --test-dir release --output-on-failure -j 2
+ctest --test-dir release --output-on-failure -L unit
+ctest --test-dir release --output-on-failure -L integration
+ctest --test-dir release --output-on-failure -R 'Convergence|Transport'
 ```
 
 For a specific GoogleTest case or repeated/shuffled execution:
 
 ```bash
-release/sod/1d/tests/hydroChecks --gtest_filter='Hydro.*'
-release/sod/1d/tests/storageChecks --gtest_shuffle --gtest_repeat=10 --hpx:threads=2 --hpx:bind=none
+release/3d/tests/hydroChecks-3d --gtest_filter='Hydro.*'
+release/3d/tests/storageChecks-3d --gtest_shuffle --gtest_repeat=10 --hpx:threads=2 --hpx:bind=none
 ```
 
 HPX flags are needed only with HPX builds. Test discovery (`--gtest_list_tests`)
@@ -33,7 +33,7 @@ The `gravityParallelChecks benchmark [level] [order]` command remains available.
 To write a JUnit report:
 
 ```bash
-ctest --test-dir release/sod/1d --output-on-failure --output-junit test-results.xml
+ctest --test-dir release --output-on-failure --output-junit test-results.xml
 ```
 
 ## Coverage
@@ -52,25 +52,23 @@ ctest --test-dir release/sod/1d --output-on-failure --output-junit test-results.
 | Verification | Exact Sod/star states, shell-integrated sphere/Gaussian reference, streaming wraparound, injected error norms, accuracy gates, spatial convergence, reproducible sampling and uncertainty |
 | Output and communication | Uniform and mixed-level Silo geometry/CGS fields/readback/overwrite, leaf refinement levels, CLI/report checks, typed HPX archive roundtrip, zero-copy buffers, 2- and 3-locality execution |
 
-## Build the complete matrix
+## All dimensions and module configurations
 
-The runner reads supported problem/dimension combinations from `bin` manifests;
-it does not model unused dimensions as singleton axes. Each combination gets
-its own build directory, configure/build/test failures stop the run, and each
-build writes `test-results.xml`.
+One configure/build produces all three dimensions and their GoogleTest suites.
+Problem-specific tests select their problem at runtime. The application tests
+exercise every problem, including errors for unavailable modules or dimensions.
 
 ```bash
-python3 tests/run_matrix.py --backend serial -j 4
-python3 tests/run_matrix.py --backend hpx -j 4 --cmake-arg=-DHPX_DIR=/path/to/hpx/lib/cmake/HPX
-python3 tests/run_matrix.py --backend serial --problem streaming --ndim 3 -j 4
+./build.sh release -j 12
+ctest --test-dir release --output-on-failure -j 2
+python3 tests/run_matrix.py --backend serial --module-matrix -j 4
+python3 tests/run_matrix.py --backend hpx -j 4 --cmake-arg=-DHPX_DIR=/path/to/HPX
 ```
 
-`--build-type Debug`, `--unit-only`, `--build-root PATH`, repeated `--problem`
-and repeated `--cmake-arg=-D...` options are supported. Existing compiler,
-`CMAKE_PREFIX_PATH`, and dependency environment settings are inherited.
-Hydro-only, radiation-only and gravity-only builds instantiate/link their own
-physics tests. Collapse also checks hydro/gravity coupling. HPX-only tests are
-registered only when HPX is enabled.
+The optional module matrix uses all eight HYDRO/RADIATION/GRAVITY ON/OFF
+combinations. Each configuration builds all dimensions and writes a JUnit report.
+`--build-type Debug`, `--unit-only`, `--build-root PATH`, and repeatable
+`--cmake-arg=-D...` options are supported.
 
 ## Dependencies and distributed runs
 
@@ -84,7 +82,7 @@ or use `-DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=/path/to/googletest` offline.
 For an HPX build:
 
 ```bash
-ctest --test-dir release/collapse/3d --output-on-failure -L distributed
+ctest --test-dir release --output-on-failure -L distributed
 ```
 
 These tests launch independent HPX TCP localities on the same host, using two

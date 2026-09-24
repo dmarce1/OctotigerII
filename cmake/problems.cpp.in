@@ -1,0 +1,48 @@
+// Generated from the problem manifests. Do not edit.
+#include "octotigerII/problems.hpp"
+#include "octotigerII/subgrid/subgrid.hpp"
+#include "octotigerII/verification/analytic.hpp"
+#include <stdexcept>
+namespace octotigerII {
+@declarations@
+namespace {
+class Problem {
+public:
+ const char* name;
+ bool hydro, radiation, gravity;
+ const char* unavailable;
+ void (*defaults)(Config&);
+ void (*validate)(Config const&);
+ void (*initialize)(Snapshot&, Config const&, bool);
+ ProblemBoundary (*boundary)(Config const&);
+ verification::Reference (*reference)(Config const&);
+};
+const Problem problems[] = {
+@entries@
+};
+Problem const& selected(Config const& c) {
+ for (auto const& p : problems) if (c.problem == p.name) {
+  if (*p.unavailable) throw std::invalid_argument("Problem '" + c.problem + "' is unavailable: " + p.unavailable);
+  return p;
+ }
+ throw std::invalid_argument("Unknown problem: " + c.problem);
+}
+}
+bool Config::hydroEnabled() const { return build::hydro && selected(*this).hydro; }
+bool Config::radiationEnabled() const { return build::radiation && selected(*this).radiation; }
+bool Config::gravityEnabled() const { return build::gravity && selected(*this).gravity; }
+void problemDefaults(Config& c) { selected(c).defaults(c); }
+void validateProblem(Config const& c) { selected(c).validate(c); }
+void initializeProblem(Snapshot& s, Config const& c, bool probe) { selected(c).initialize(s, c, probe); }
+ProblemBoundary problemBoundary(Config const& c) { return selected(c).boundary(c); }
+verification::Reference problemReference(Config const& c) { return selected(c).reference(c); }
+std::string problemHelp() {
+ std::string result;
+ for (auto const& p : problems) {
+  result += std::string("  ") + p.name;
+  if (*p.unavailable) result += std::string(" (unavailable: ") + p.unavailable + ")";
+  result += "\n";
+ }
+ return result;
+}
+}

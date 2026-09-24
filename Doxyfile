@@ -1,7 +1,7 @@
 PROJECT_NAME           = OctotigerII
 PROJECT_BRIEF          = "Typed CGS fields, independent mesh topology, and HPX execution"
 OUTPUT_DIRECTORY       = $(OCTOTIGERII_DOC_OUTPUT)
-INPUT                  = docs/amr.md docs/parallel-fmm.md docs/analytic-verification.md docs/index.md docs/numerics.md docs/documenting.md docs/groups.dox BIBLIOGRAPHY.md STORAGE.md VALIDATION.md BUILDING.md ROADMAP.md include src bin cmake/buildConfig.hpp.in
+INPUT                  = docs/conservation.md docs/amr.md docs/parallel-fmm.md docs/analytic-verification.md docs/index.md docs/numerics.md docs/documenting.md docs/groups.dox BIBLIOGRAPHY.md STORAGE.md VALIDATION.md BUILDING.md ROADMAP.md octotigerII src bin cmake/buildConfig.hpp.in
 FILE_PATTERNS          = *.hpp *.cpp *.md *.dox *.in
 RECURSIVE              = YES
 EXCLUDE_PATTERNS       = */types.def

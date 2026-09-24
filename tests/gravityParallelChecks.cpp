@@ -1,3 +1,4 @@
+#include "testSupport.hpp"
 #include <algorithm>
 #include <bit>
 #include <chrono>
@@ -34,7 +35,7 @@ std::vector<storage::Locality> localities() {
 class Fixture {
 public:
 	Fixture(int cells, int level, int order, Real theta, int workers, int pattern, physics::BoundaryConditions boundaries = {})
-	  : config(parseConfig({"--mesh.cells=" + std::to_string(cells), "--mesh.level=" + std::to_string(level), "--output.enabled=off"}))
+	  : config(test::parseConfig({"--mesh.cells=" + std::to_string(cells), "--mesh.level=" + std::to_string(level), "--output.enabled=off"}))
 	  , owners(localities())
 	  , topology(config, owners.size())
 	  , repository(config, topology.storageLayout(), owners) {
@@ -55,7 +56,7 @@ public:
 			for (std::size_t i = 0; i < block.interior.count; ++i)
 				gravity.put(i, {});
 			fields.gravity.commit(block.interior, 0, gravity);
-			if constexpr (build::hydro) {
+			if constexpr (test::hydro) {
 				auto gas = fields.hydro.output(block.interior, 0);
 				block.layout.forEachInterior([&](mesh::Coordinates c, std::size_t i) {
 					hydro::ConservedState state{};
@@ -85,7 +86,7 @@ public:
 	void checkCopiedState() const {
 		auto const& fields = repository.directory();
 		for (auto const& block : topology.blocks()) {
-			if constexpr (build::hydro) {
+			if constexpr (test::hydro) {
 				auto a = fields.hydro.read(block.interior, 0).get();
 				auto b = fields.hydro.read(block.interior, 1).get();
 				for (std::size_t i = 0; i < block.interior.count; ++i)
@@ -102,7 +103,7 @@ public:
 	void firstDensity(units::Density value) {
 		auto const range = topology.blocks().front().interior.slice(0, 1);
 		auto const& fields = repository.directory();
-		if constexpr (build::hydro) {
+		if constexpr (test::hydro) {
 			auto input = fields.hydro.read(range, 0).get();
 			auto state = input.at(0);
 			state.density() = value;

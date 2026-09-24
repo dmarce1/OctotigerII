@@ -1,3 +1,4 @@
+#include "testSupport.hpp"
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -58,12 +59,12 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 	using std::abs;
 	using std::isfinite;
 
-	auto c = parseConfig({"--mesh.level=0", "--mesh.cells=4", "--runtime.stopTime=0", "--output.directory=" + root.string()});
+	auto c = octotigerII::test::parseConfig({"--mesh.level=0", "--mesh.cells=4", "--runtime.stopTime=0", "--output.directory=" + root.string()});
 	c.verification.gravityReference = "continuum";
 	auto patch = initialSnapshot(c, {0, {}});
 	// Give every component a different value, including a nonzero analytic
 	// error, so component permutation or sign errors cannot pass unnoticed.
-	if constexpr (build::hydro) {
+	if constexpr (octotigerII::test::hydro) {
 		hydro::HydroSystem gas(c.hydro.gamma);
 		for (auto& state : patch.hydro.values()) {
 			auto primitive = gas.reconstructionVariables(state);
@@ -73,7 +74,7 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 			state = gas.conservedState(primitive);
 		}
 	}
-	if constexpr (build::radiation) {
+	if constexpr (octotigerII::test::radiation) {
 		for (auto& state : patch.radiation.values()) {
 			for (int axis = 0; axis < ndim; ++axis) {
 				state.radiativeFlux(axis) = constants::c * state.energy() * (Real(axis + 1) / (10 * ndim));
@@ -187,16 +188,15 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 
 }	 // namespace
 
-#include "testSupport.hpp"
 
 TEST(SiloOutput, GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip) {
-	test::TemporaryDirectory directory;
-	check(build::problem, ndim, directory.path);
+	octotigerII::test::TemporaryDirectory directory;
+	check(octotigerII::test::problem, ndim, directory.path);
 }
 
 TEST(SiloOutput, MixedLevelsContainOnlyLeavesAndReportTheirGeometry) {
-	test::TemporaryDirectory directory;
-	auto c = parseConfig({"--mesh.level=1", "--mesh.cells=4", "--amr.enabled=on", "--amr.maxLevel=2", "--output.directory=" + directory.path.string()});
+	octotigerII::test::TemporaryDirectory directory;
+	auto c = octotigerII::test::parseConfig({"--mesh.level=1", "--mesh.cells=4", "--amr.enabled=on", "--amr.maxLevel=2", "--output.directory=" + directory.path.string()});
 	std::vector<Snapshot> leaves;
 	mesh::BlockLocation const root;
 	for (int slot = 0; slot < (1 << ndim); ++slot) {
@@ -241,8 +241,8 @@ TEST(SiloOutput, MixedLevelsContainOnlyLeavesAndReportTheirGeometry) {
 TEST(SiloOutput, AmrTimeSeriesRefreshesDomainsAndPreservesCoverage) {
 	using std::lround;
 
-	test::TemporaryDirectory directory;
-	auto c = parseConfig({"--mesh.level=1", "--mesh.cells=4", "--amr.enabled=on", "--amr.maxLevel=2", "--output.every=1",
+	octotigerII::test::TemporaryDirectory directory;
+	auto c = octotigerII::test::parseConfig({"--mesh.level=1", "--mesh.cells=4", "--amr.enabled=on", "--amr.maxLevel=2", "--output.every=1",
 		"--verification.analytic=off", "--output.directory=" + directory.path.string()});
 	int constexpr children = 1 << ndim;
 	std::array<int, 4> const counts{children, 2 * children - 1, children * children, children};
@@ -287,19 +287,19 @@ TEST(SiloOutput, AmrTimeSeriesRefreshesDomainsAndPreservesCoverage) {
 		ASSERT_TRUE(levels);
 		ASSERT_EQ(multi->nblocks, counts[frame]);
 		ASSERT_EQ(levels->nvars, counts[frame]);
-		if constexpr (build::hydro) {
+		if constexpr (octotigerII::test::hydro) {
 			checkVectorExpression(file.get(), "momentum", "", counts[frame]);
 			checkVectorExpression(file.get(), "velocity", "", counts[frame]);
 		}
-		if constexpr (build::radiation) {
+		if constexpr (octotigerII::test::radiation) {
 			checkVectorExpression(file.get(), "radiationFlux", "", counts[frame]);
 		}
-		if constexpr (build::gravity) {
+		if constexpr (octotigerII::test::gravity) {
 			checkVectorExpression(file.get(), "acceleration", "", counts[frame]);
 		}
 		std::unique_ptr<DBdefvars, decltype(&DBFreeDefvars)> expressions(DBGetDefvars(file.get(), "expressions"), &DBFreeDefvars);
 		ASSERT_TRUE(expressions);
-		EXPECT_EQ(expressions->ndefs, 2 * int(build::hydro) + int(build::radiation) + int(build::gravity)) << "Analytic expressions disabled";
+		EXPECT_EQ(expressions->ndefs, 2 * int(octotigerII::test::hydro) + int(octotigerII::test::radiation) + int(octotigerII::test::gravity)) << "Analytic expressions disabled";
 		// Count coverage on the finest block lattice using only coordinates read
 		// from disk: every region must appear once, with no holes or overlaps.
 		auto const lattice = mesh::filledCoordinates(4);

@@ -3,10 +3,10 @@ set -euo pipefail
 
 usage() {
     cat <<'EOF'
-Usage: ./build.sh [release|debug|relwithdebinfo] --problem NAME --ndim N [-j JOBS]
+Usage: ./build.sh [release|debug|relwithdebinfo] [-j JOBS] [-DOCTOII_WITH_HYDRO=OFF ...]
 
-Build HPX 1.11.0 in packages/TYPE/hpx and OctotigerII in TYPE/PROBLEM/NDIMd.
-Defaults: --problem sod --ndim 1. See bin/*/*/CMakeLists.txt for supported dimensions.
+Build octoII-1d, octoII-2d, octoII-3d and the octoII link in TYPE/.
+HYDRO, RADIATION and GRAVITY are all ON by default.
 Requires a C++20 compiler, CMake, and Git. Uses installed Boost and hwloc,
 tries environment modules when available, then lets HPX fetch missing ones.
 HPX also fetches Asio. No system packages are installed or changed.
@@ -16,8 +16,7 @@ dependency modules, set OCTOTIGERII_BOOST_MODULE and OCTOTIGERII_HWLOC_MODULE.
 EOF
 }
 
-problem=sod
-ndim=1
+physics_args=()
 build_type=Release
 build_dir_name=release
 jobs="${SLURM_CPUS_PER_TASK:-$(getconf _NPROCESSORS_ONLN 2>/dev/null || printf '2')}"
@@ -26,13 +25,7 @@ while (($#)); do
         release|Release) build_type=Release; build_dir_name=release ;;
         debug|Debug) build_type=Debug; build_dir_name=debug ;;
         relwithdebinfo|RelWithDebInfo) build_type=RelWithDebInfo; build_dir_name=relwithdebinfo ;;
-        --problem|--ndim)
-            (($# >= 2)) || { usage >&2; exit 2; }
-            if [[ "$1" == --problem ]]; then problem="$2"; else ndim="$2"; fi
-            shift
-            ;;
-        --problem=*) problem="${1#*=}" ;;
-        --ndim=*) ndim="${1#*=}" ;;
+        -DOCTOII_WITH_HYDRO=*|-DOCTOII_WITH_RADIATION=*|-DOCTOII_WITH_GRAVITY=*) physics_args+=("$1") ;;
         -j|--jobs)
             (($# >= 2)) || { usage >&2; exit 2; }
             jobs="$2"
@@ -45,15 +38,12 @@ while (($#)); do
 done
 [[ "$jobs" =~ ^[1-9][0-9]*$ ]] || { printf 'Invalid job count: %s\n' "$jobs" >&2; exit 2; }
 
-[[ "$problem" =~ ^[a-z][a-z0-9_-]*$ ]] || { echo 'Invalid problem name' >&2; exit 2; }
-[[ "$ndim" =~ ^[123]$ ]] || { echo 'ndim must be 1, 2, or 3' >&2; exit 2; }
-
 project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 hpx_dir="$project_dir/packages/$build_dir_name/hpx"
 hpx_src="$hpx_dir/src"
 hpx_build="$hpx_dir/build"
 hpx_install="$hpx_dir/install"
-octo_build="$project_dir/$build_dir_name/$problem/${ndim}d"
+octo_build="$project_dir/$build_dir_name"
 
 for program in cmake git; do
     command -v "$program" >/dev/null || { printf 'Missing required program: %s\n' "$program" >&2; exit 1; }
@@ -65,11 +55,6 @@ refresh_prefix_path() {
     cmake_prefix_path="${CMAKE_PREFIX_PATH:-}"
     cmake_prefix_path="${cmake_prefix_path//:/;}"
 }
-
-# Reject unsupported choices before fetching or building dependencies.
-cmake "-DPROJECT_SOURCE_DIR=$project_dir" \
-    "-DOCTOTIGERII_PROBLEM=$problem" "-DOCTOTIGERII_NDIM=$ndim" \
-    -P "$project_dir/cmake/Problems.cmake"
 
 # Use one compiler pair for both CMake projects, including repeated builds.
 compiler_args=()
@@ -213,9 +198,8 @@ cmake -S "$project_dir" -B "$octo_build" \
     "-DHPX_DIR=$(dirname "$hpx_config")" \
     "-DCMAKE_PREFIX_PATH=$hpx_install${cmake_prefix_path:+;$cmake_prefix_path}" \
     -DOCTOTIGERII_WITH_HPX=ON \
-    "-DOCTOTIGERII_PROBLEM=$problem" \
-    "-DOCTOTIGERII_NDIM=$ndim" \
+    -DOCTOTIGERII_BUILD_TESTS=ON \
+    "${physics_args[@]}" \
     "${compiler_args[@]}" "${dependency_args[@]}"
 cmake --build "$octo_build" --parallel "$jobs"
-printf 'Executable: %s/octotigerII-%s-%sd\n' "$octo_build" "$problem" "$ndim"
-
+printf 'Executables: %s/octoII-{1d,2d,3d}; octoII -> octoII-3d\n' "$octo_build"

@@ -1,3 +1,4 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
@@ -45,7 +46,7 @@ void uncertainty() {
 void directReference() {
 	using std::sqrt;
 
-	auto c = parseConfig({"--mesh.cells=4", "--mesh.level=0", "--runtime.stopTime=0", "--output.enabled=off", "--verification.analytic=on"});
+	auto c = test::parseConfig({"--mesh.cells=4", "--mesh.level=0", "--runtime.stopTime=0", "--output.enabled=off", "--verification.analytic=on"});
 	auto patch = initialSnapshot(c, {});
 	// One point mass in a corner: self potential/force are zero. Every other
 	// cell, including vacuum targets, has an independently known field.
@@ -127,7 +128,7 @@ TEST(DirectReference, ImageFieldsAndContinuumAvailabilityFollowBoundaries) {
 	using B = physics::BoundaryConditions;
 	using R = physics::BoundaryCondition;
 	for (int mode=0;mode<4;++mode) {
-		auto c=parseConfig({"--mesh.cells=4","--mesh.level=0","--runtime.stopTime=0","--output.enabled=off"});
+		auto c=test::parseConfig({"--mesh.cells=4","--mesh.level=0","--runtime.stopTime=0","--output.enabled=off"});
 		if(mode==0) c.mesh.boundary.lower[0]=c.mesh.boundary.upper[0]=R::Periodic;
 		if(mode==1) c.mesh.boundary.lower[2]=R::Reflecting;
 		if(mode==2) c.mesh.boundary=B::periodic();

@@ -1,10 +1,10 @@
+#include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <limits>
 #include "octotigerII/buildConfig.hpp"
 #include "octotigerII/hydro/hydroSystem.hpp"
 #include "octotigerII/physics/finiteVolume.hpp"
 #include "octotigerII/radiation/radiationTransport.hpp"
-#include "testSupport.hpp"
 
 using namespace octotigerII;
 

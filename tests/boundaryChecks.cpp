@@ -1,3 +1,4 @@
+#include "testSupport.hpp"
 #include <fstream>
 #include <gtest/gtest.h>
 #include <limits>
@@ -7,7 +8,6 @@
 #include "octotigerII/storage/registry.hpp"
 #include "octotigerII/subgrid/view.hpp"
 #include "octotigerII/verification/analytic.hpp"
-#include "testSupport.hpp"
 #ifdef OCTOTIGERII_WITH_HPX
 #include <hpx/runtime_distributed/find_all_localities.hpp>
 #endif
@@ -23,24 +23,24 @@ TEST(BoundaryOptions, EveryActiveFaceAndPeriodicPairAreValidated) {
 	for (int axis = 0; axis < ndim; ++axis) {
 		auto const prefix = std::string("--mesh.boundary.") + "xyz"[axis];
 		for (auto side : {"Lower", "Upper"}) {
-			EXPECT_THROW(parseConfig({"--mesh.periodic=off", prefix + side + "=periodic"}), std::invalid_argument);
-			EXPECT_THROW(parseConfig({prefix + side + "=invalid"}), std::invalid_argument);
+			EXPECT_THROW(test::parseConfig({"--mesh.periodic=off", prefix + side + "=periodic"}), std::invalid_argument);
+			EXPECT_THROW(test::parseConfig({prefix + side + "=invalid"}), std::invalid_argument);
 			for (auto rule : {"reflecting", "outflow", "inflow", "analytic"}) {
 				auto args = std::vector<std::string>{"--mesh.periodic=off", prefix + side + "=" + rule};
 				bool const available = std::string(rule) == "outflow" || std::string(rule) == "inflow" || std::string(rule) == "reflecting" ||
-					(!build::gravity &&
-						(std::string(rule) == "reflecting" || std::string(build::problem) == "sod" || std::string(build::problem) == "streaming"));
+					(!test::gravity &&
+						(std::string(rule) == "reflecting" || std::string(test::problem) == "sod" || std::string(test::problem) == "streaming"));
 				if (available)
-					EXPECT_NO_THROW(parseConfig(args));
+					EXPECT_NO_THROW(test::parseConfig(args));
 				else
-					EXPECT_THROW(parseConfig(args), std::invalid_argument);
+					EXPECT_THROW(test::parseConfig(args), std::invalid_argument);
 			}
 		}
 		auto args = std::vector<std::string>{"--mesh.periodic=off", prefix + "Lower=periodic", prefix + "Upper=periodic"};
-		EXPECT_TRUE(parseConfig(args).mesh.boundary.periodic(axis));
+		EXPECT_TRUE(test::parseConfig(args).mesh.boundary.periodic(axis));
 	}
 	for (int axis = ndim; axis < 3; ++axis)
-		EXPECT_THROW(parseConfig({std::string("--mesh.boundary.") + "xyz"[axis] + "Lower=outflow"}), std::exception);
+		EXPECT_THROW(test::parseConfig({std::string("--mesh.boundary.") + "xyz"[axis] + "Lower=outflow"}), std::exception);
 }
 
 TEST(BoundaryOptions, IniCliAndLegacyPrecedence) {
@@ -50,19 +50,19 @@ TEST(BoundaryOptions, IniCliAndLegacyPrecedence) {
 		std::ofstream out(path);
 		out << "[mesh]\nperiodic=off\n[mesh.boundary]\nxLower=reflecting\nxUpper=outflow\n";
 	}
-	auto c = parseConfig({"--config=" + path, "--mesh.boundary.xUpper=reflecting"});
+	auto c = test::parseConfig({"--config=" + path, "--mesh.boundary.xUpper=reflecting"});
 	EXPECT_EQ(c.mesh.boundary.lower[0], Rule::Reflecting);
 	EXPECT_EQ(c.mesh.boundary.upper[0], Rule::Reflecting);
-	EXPECT_TRUE(parseConfig({"--config=" + path, "--mesh.periodic=on"}).mesh.boundary.all(Rule::Periodic));
-	c = parseConfig({"--mesh.boundary.xLower=reflecting", "--mesh.periodic=off"});
+	EXPECT_TRUE(test::parseConfig({"--config=" + path, "--mesh.periodic=on"}).mesh.boundary.all(Rule::Periodic));
+	c = test::parseConfig({"--mesh.boundary.xLower=reflecting", "--mesh.periodic=off"});
 	EXPECT_EQ(c.mesh.boundary.lower[0], Rule::Reflecting);
 	EXPECT_EQ(c.mesh.boundary.upper[0], Rule::Outflow);
-	EXPECT_THROW(parseConfig({"--mesh.periodic=on", "--mesh.boundary.xLower=outflow"}), std::invalid_argument);
+	EXPECT_THROW(test::parseConfig({"--mesh.periodic=on", "--mesh.boundary.xLower=outflow"}), std::invalid_argument);
 	{
 		std::ofstream out(path);
 		out << "mesh.periodic=off\nmesh.boundary.xLower=periodic\n";
 	}
-	EXPECT_TRUE(parseConfig({"--config=" + path, "--mesh.boundary.xUpper=periodic"}).mesh.boundary.periodic(0));
+	EXPECT_TRUE(test::parseConfig({"--config=" + path, "--mesh.boundary.xUpper=periodic"}).mesh.boundary.periodic(0));
 }
 
 TEST(BoundaryMapping, ReflectionMirrorsBothLayersAndAllCornerComponents) {
@@ -120,7 +120,7 @@ TEST(GravityBoundaries, OutflowPeriodicAndReflectingAreSupported) {
 }
 
 TEST(AnalyticBoundaries, StreamingWrapsOnlyPeriodicAxes) {
-	Config c;
+	auto c = test::parseConfig({});
 	c.radiation.lightSpeedRatio = 0.25;
 	c.mesh.boundary = Boundaries::uniform(Rule::Analytic);
 	mesh::PhysicalCoordinates position{};
@@ -138,8 +138,8 @@ TEST(AnalyticBoundaries, StreamingWrapsOnlyPeriodicAxes) {
 }
 
 TEST(AnalyticBoundaries, ProblemReferencePolicyTracksBoundaryChoice) {
-	if (std::string(build::problem) == "sod") {
-		auto c = parseConfig({"--mesh.boundary.xLower=analytic", "--mesh.boundary.xUpper=analytic"});
+	if (std::string(test::problem) == "sod") {
+		auto c = test::parseConfig({"--mesh.boundary.xLower=analytic", "--mesh.boundary.xUpper=analytic"});
 		EXPECT_TRUE(problemBoundary(c));
 		EXPECT_TRUE(std::isinf(units::value(problemReference(c).validUntil)));
 		c.mesh.boundary = Boundaries::periodic();
@@ -224,7 +224,7 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 	// Partitions intentionally cut across block ownership and range boundaries.
 	owners.push_back(owners.front());
 	storage::PartitionSet store(owners);
-	auto c = parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1"});
+	auto c = test::parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1"});
 	c.mesh.lower = units::Length{};
 	c.mesh.upper = units::Length::from_value(1);
 	CartesianTopology topology(c, owners.size());
@@ -356,7 +356,7 @@ TEST(BoundaryRuntime, MixedAndAnalyticBoundariesAreIndependentOfDecomposition) {
 #endif
 	// Run through the real executor and work-stealing path, including changing stage times.
 	for (auto rule : {Rule::Reflecting, Rule::Inflow, Rule::Outflow, Rule::Analytic}) {
-		auto fine = parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
+		auto fine = test::parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 		if (rule == Rule::Analytic && !problemBoundary(fine)) continue;
 		fine.mesh.boundary.lower[0] = rule;
 		if (ndim > 1) fine.mesh.boundary.lower[1] = fine.mesh.boundary.upper[1] = Rule::Periodic;

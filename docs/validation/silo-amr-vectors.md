@@ -3,8 +3,8 @@
 The reported RT disappearance was reproduced with the 3D AMR example:
 
 ```sh
-release/rayleigh-taylor/3d/octotigerII-rayleigh-taylor-3d \
-  --config=examples/rayleigh-taylor-amr.ini \
+release/octoII-3d --problem.name=rayleigh-taylor \
+  --problem.name=rayleigh-taylor --config=examples/rayleigh-taylor-amr.ini \
   --runtime.stopTime=0.014 --output.every=4
 ```
 

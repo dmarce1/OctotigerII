@@ -1,3 +1,4 @@
+problem.name=rayleigh-taylor
 # Rayleigh-Taylor: heavy fluid above light, uniform downward gravity.
 # CGS; defaults choose periodic transverse axes and reflecting vertical walls.
 # The only supported Rayleigh-Taylor build is 3D, with z vertical.

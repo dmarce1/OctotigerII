@@ -1,3 +1,4 @@
+problem.name=radiation-pulse
 # Multidimensional periodic initially isotropic M1 pulse
 # All dimensional values are cgs.
 mesh.cells=8

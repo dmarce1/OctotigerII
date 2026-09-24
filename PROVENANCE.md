@@ -20,7 +20,7 @@ The diagonal operator is the earlier separation-aligned plane-wave
 factorization, with p+1 Gauss–Laguerre nodes and 2p+1 angular samples. It is not
 the optimized six-direction aggregation implementation, and no performance
 advantage over the old solver is asserted. See the comments in
-`include/octotigerII/gravity/diagonal/fmm.hpp` and `src/gravity/diagonal/fmm.cpp`.
+`octotigerII/gravity/diagonal/fmm.hpp` and `src/gravity/diagonal/fmm.cpp`.
 
 References carried by the numerical implementation:
 

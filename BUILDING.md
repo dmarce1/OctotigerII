@@ -1,123 +1,100 @@
-# Problem-specific builds {#problem_builds}
+# Dimension builds {#problem_builds}
 
-The organization follows Castro's separation of common solver code from
-problem-local setup, using CMake and OctotigerII's typed storage/runtime.
-A build directory selects one problem and one dimension. All executable and
-library translation units in that directory use the same generated
-`include/octotigerII/buildConfig.hpp`; no dimension is sent as mutable runtime
-metadata. Headers that depend on this file must be compiled through the CMake
-library targets so they inherit the correct generated include directory.
+One CMake configuration builds `octoII-1d`, `octoII-2d`, and `octoII-3d`.
+`octoII` is a relative symbolic link to `octoII-3d`, in both the build and
+installation directories. Problems are selected at runtime with
+`--problem.name=sod` on the command line. There is no default problem; an input
+file alone does not select one.
+Dimension is fixed by the executable; `--ndim` and `--mesh.ndim` are rejected.
+
+From HOME, with an existing HPX installation:
+
+```bash
+cmake -S ~/workspace/OctotigerII -B ~/workspace/OctotigerII/release \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_PREFIX_PATH="$HOME/local/hpx/Release;$HOME/local/silo;$HOME/local/hdf5"
+cmake --build ~/workspace/OctotigerII/release -j 12
+ctest --test-dir ~/workspace/OctotigerII/release --output-on-failure -j 2
+~/workspace/OctotigerII/release/octoII-1d \
+  --problem.name=sod --config="$HOME/workspace/OctotigerII/bin/hydro_tests/Sod/inputs" --hpx:threads=12
+~/workspace/OctotigerII/release/octoII --problem.name=gravity-sphere --hpx:threads=12
+```
+
+To build HPX locally first, use `~/workspace/OctotigerII/build.sh release -j 12`.
+The helper shares dependencies under `packages/TYPE` and builds all dimensions
+in `TYPE/`. `--problem`, `--ndim`, and `--tests-only` are no longer build options.
+Use a fresh directory when migrating from an old problem-specific build.
+The old `OCTOTIGERII_PROBLEM` and `OCTOTIGERII_NDIM` cache choices are rejected.
+
+## Physics modules
+
+All three CMake options default to ON:
+
+| CMake option | Module |
+|---|---|
+| `OCTOII_WITH_HYDRO` | Hydrodynamics |
+| `OCTOII_WITH_RADIATION` | M1 radiation transport |
+| `OCTOII_WITH_GRAVITY` | Self-gravity |
+
+For example, append `-DOCTOII_WITH_GRAVITY=OFF` to CMake or `build.sh`.
+The leading `-D` is CMake's option syntax, not part of the option name.
+Disabled solver sources and problem implementations are omitted from the build.
+The registry retains unavailable problem names so selecting one prints a clear
+error and exits with status 1. `--help` lists problems and availability reasons.
+An all-OFF build is supported; every production problem is then unavailable.
+Gravity and Rayleigh–Taylor remain 3D-only. Kelvin–Helmholtz requires 2D or 3D.
+Uniform external acceleration remains a hydro feature and does not require the
+self-gravity module, but the existing 3D restriction remains in force.
+
+Compiled availability is distinct from activity: Sod allocates and advances
+hydro only, streaming radiation only, gravity fixtures gravity and density,
+and collapse/polytrope hydro plus gravity. Problem identity is serialized with
+Config for HPX localities. All localities must run the same dimensional binary.
 
 ## Problem manifests and implementation
 
-The top-level CMake configuration discovers `bin/*/*/CMakeLists.txt` manifests.
-For example, the Sod manifest contains:
+CMake discovers `bin/*/*/CMakeLists.txt`, for example:
 
 ```cmake
 octo_problem(sod DIMENSIONS 1 2 3 DEFAULT_DIMENSION 1 HYDRO)
 ```
 
-`HYDRO`, `RADIATION`, and `GRAVITY` select the required physics. CMake rejects
-unsupported dimensions, including any gravity build outside 3D. The generated
-header exposes `octotigerII::ndim` and `build::{problem,hydro,radiation,gravity}`.
-Rayleigh–Taylor also requires 3D. A 1D or 2D hydro executable rejects nonzero
-`hydro.acceleration` components at input validation.
-Only the selected problem's `problem.cpp` is linked. The gravity FMM sources
-are compiled only for gravity problems. Unneeded hydro/radiation adapters are
-not application dependencies; the optional units/serialization checks may
-still build both adapters to check the common physical interfaces.
+`DIMENSIONS` and module requirements control registry availability. The legacy
+`DEFAULT_DIMENSION` manifest field is descriptive; it does not select a build.
+Each implementation uses its own namespace (`octotigerII::sod`,
+`octotigerII::kelvin_helmholtz`, etc.) and implements the hooks declared in
+`problems.hpp`: defaults, validation, initialization, analytic reference, and
+analytic boundary data. CMake generates the dispatcher for each dimension.
+Add a manifest, namespaced implementation, and inputs to add a problem.
 
-Each problem implements the three hooks in `problems.hpp`:
-
-- `problemDefaults(Config&)`: defaults before runtime inputs are applied.
-- `validateProblem(Config const&)`: restrictions specific to that setup.
-- `initializeProblem(Snapshot&, Config const&)`: initialize one interior block.
-
-The mesh, storage and timestep scheduler do not branch on problem names.
-The parser registers the selected problem's additional typed parameters;
-Rayleigh–Taylor exposes its layer densities, interface pressure, and seed amplitude.
-Add a directory, manifest, implementation, and inputs to introduce a
-new problem. A new physics implementation still needs its own common-library
-integration; manifests select existing modules rather than creating a solver.
-
-Unlike Castro's generated `_prob_params`, this revision does not introduce a
-parameter-code generator. The current fixtures use the existing typed Config
-settings, including `Config::RayleighTaylorOptions`. Additional options should
-remain typed rather than becoming an untyped map inside numerical kernels.
-
-Uniform external gravity uses `Config::HydroOptions::acceleration` and can
-be used by a `HYDRO` problem without selecting `GRAVITY` (which enables the
-self-gravity FMM). Rayleigh–Taylor selects this hydro-only configuration in
-2D and 3D, with downward acceleration along the last active axis.
+The parser requires a command-line problem, reads all input files, applies the
+selected problem's defaults once, then applies
+input settings in the same precedence order. Problem-specific parameters remain
+typed members of Config. Initializers continue receiving cell width through
+Snapshot and may widen unresolved features during startup refinement probes.
 
 ## Compile-time dimension
 
-`OCTOTIGERII_NDIM` sets the literal `ndim` constant. There is no runtime fallback
-or dispatch between 1D/2D/3D solvers. Coordinates and geometry arrays contain
-exactly `ndim` entries. Cartesian traversal carries over those entries directly.
-A block has `cells^ndim` interiors and `(cells+2*ghostWidth)^ndim` padded temporary
-cells. Child counts are `2^ndim`; each transport workspace has `ndim` directional
-arrays. Stored hydro states have `ndim+2` scalars; radiation has `ndim+1`.
-Silo writes only the corresponding coordinates and vector components.
+Each dimension has its own generated header and libraries. Coordinates have
+exactly `ndim` entries, blocks contain `cells^ndim` interiors, and there are
+`2^ndim` children. Hydro stores `ndim+2` scalars and radiation `ndim+1`.
+Lower-dimensional builds evolve only active momentum and flux components.
+The M1 isotropic pressure remains E/3; CGS totals use unit transverse measure.
+Do not mix generated dimension headers in an include search path.
 
-Lower-dimensional hydro evolves only those momentum components; radiation
-evolves only those flux components. This is not a 1D/2D calculation retaining
-three-component transverse dynamics. The M1 closure still describes physical
-radiation: its isotropic pressure is E/3 even in a 1D or 2D spatial calculation.
-The 3D gravity algorithm and physical dimensional exponents retain their
-mathematical constants. CGS diagnostic totals retain a unit transverse measure
-in reduced dimensions without adding mesh axes or cells.
+## Dependencies and tests
 
-## Build and run choices
+CMake 3.22+, a C++20 compiler, Boost 1.71+, Silo, HDF5, and zlib are required.
+HPX 1.11+ with distributed runtime is the default. Set
+`-DOCTOTIGERII_WITH_HPX=OFF` for the serial backend, which uses Boost.Program_options.
+The `release` and `serial` presets build all dimensions in separate directories.
+GoogleTest 1.12+ is reused when installed, otherwise pinned 1.14.0 is fetched.
+For offline builds set `OCTOTIGERII_FETCH_GOOGLETEST=OFF` and provide GTest_ROOT.
+`OCTOTIGERII_BUILD_TESTS=OFF` omits tests. CTest names include dimension and suite.
+`tests/run_matrix.py --module-matrix` also tests disabled-module combinations.
 
-Build choices: problem, dimension, compiler, build type and HPX backend.
-Runtime choices: block cells, level, domain bounds, supported boundaries,
-physical parameters, timestep and output controls. Changing a runtime choice
-never regenerates the build header. A gravity executable remains 3D even if
-an input file attempts to say otherwise; runtime problem/dimension options
-are rejected with a message identifying the CMake settings.
+## Eclipse and profiling
 
-Use separate build directories such as `release/sod/1d`, `release/sod/2d`, and
-`release/collapse/3d`. The executable names are `octotigerII-sod-1d`,
-`octotigerII-sod-2d`, and `octotigerII-collapse-3d`. Do not mix executables from
-different builds within an HPX run: their state shapes and action payloads differ.
-
-The existing `build.sh` is noninteractive and passes these choices to CMake.
-It shares its HPX dependency between problems of the same build type. The
-interactive problem/dimension/level wizard is deliberately deferred; see
-[the roadmap](ROADMAP.md).
-
-## Eclipse and clangd
-
-The checked-in default Eclipse build path and clangd compilation database point
-to `release/sod/1d`, matching the default preset. For another variant, point
-Eclipse's build directory and `.clangd`'s `CompilationDatabase` at that variant's
-build directory. CMake writes `compile_commands.json` there, including the
-matching generated include path. Do not combine dimension-specific generated
-headers in one include search path.
-
-## Tests
-
-Tests use GoogleTest with individual CTest discovery. An installed GoogleTest
-1.12+ is reused; otherwise CMake fetches the pinned 1.14.0 source without root.
-`GTest_ROOT` or `CMAKE_PREFIX_PATH` selects an installation. For offline builds,
-set `OCTOTIGERII_FETCH_GOOGLETEST=OFF` or provide an unpacked tree using
-`FETCHCONTENT_SOURCE_DIR_GOOGLETEST`. Tests can be omitted with
-`OCTOTIGERII_BUILD_TESTS=OFF`.
-
-After `./build.sh release --problem sod --ndim 1`, run:
-
-```bash
-ctest --test-dir release/sod/1d --output-on-failure -j 2
-ctest --test-dir release/sod/1d --output-on-failure -L unit
-```
-
-See [testing](docs/testing.md) for the full coverage list, direct GoogleTest
-filters, distributed tests, and the problem/dimension matrix runner.
-
-## Profiling dependencies
-
-`build.sh` enables APEX and PAPI in HPX, enables PAPI in APEX, and lets HPX fetch
-its matching APEX source. It reuses installed/module PAPI or builds PAPI 7.2.0
-locally without root access. See [profiling](docs/profiling.md) for dependency
-selection, annotated regions, and timing/hardware-counter commands.
+The default compilation database is `release/compile_commands.json`. A source
+has one compile command per dimension; select the desired variant in the IDE.
+`build.sh` retains HPX APEX/PAPI setup. See [profiling](docs/profiling.md).

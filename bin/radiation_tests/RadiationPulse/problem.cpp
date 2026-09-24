@@ -8,7 +8,7 @@
 #include "octotigerII/subgrid/subgrid.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
-namespace octotigerII {
+namespace octotigerII::radiation_pulse {
 
 ProblemBoundary problemBoundary(Config const&) {
 	return {};
@@ -30,19 +30,20 @@ void validateProblem(Config const&) {}
 
 /// Initialize this problem in the executable's compile-time dimension.
 
-void initializeProblem(Snapshot& data, Config const& c) {
+void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	using std::exp;
 	using std::round;
 
 
 	auto const length = c.mesh.upper - c.mesh.lower;
+	auto const width = refinementProbe ? initialFeatureWidth(0.08 * length, data.cellWidth) : 0.08 * length;
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 		auto const point = data.layout.cellCenter(data.lower, data.cellWidth, cell);
 		Real distance2 = 0;
 		for (int axis = 0; axis < ndim; ++axis) {
 			auto distance = point[axis] - (c.mesh.lower + 0.25 * length);
 			if (c.mesh.boundary.periodic(axis)) distance -= round(distance / length) * length;
-			distance2 += distance * distance / (0.08 * length * 0.08 * length);
+			distance2 += distance * distance / (width * width);
 		}
 		auto& state = data.radiation.values()[i];
 		state.energy() = units::EnergyDensity::from_value(1e-6 + exp(-0.5 * distance2));

@@ -1,0 +1,9 @@
+# Small, smooth all-physics state for application and output smoke tests.
+mesh.lower=-5e9
+mesh.upper=5e9
+mesh.cells=4
+mesh.level=0
+runtime.stopTime=0.001
+output.directory=output/test-all
+output.every=100
+radiation.lightSpeedRatio=1e-6

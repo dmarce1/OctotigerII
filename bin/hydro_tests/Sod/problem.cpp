@@ -8,7 +8,7 @@
 #include "octotigerII/subgrid/subgrid.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
-namespace octotigerII {
+namespace octotigerII::sod {
 
 ProblemBoundary problemBoundary(Config const& c) {
 	return verification::sodReference(c).evaluate;
@@ -32,7 +32,7 @@ void validateProblem(Config const&) {}
 
 /// Initialize this problem in the executable's compile-time dimension.
 /// Shock-tube states follow @ref ref_sod1978 "Sod (1978)".
-void initializeProblem(Snapshot& data, Config const& c) {
+void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	hydro::HydroSystem gas(c.hydro.gamma);
 
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {

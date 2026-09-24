@@ -1,3 +1,4 @@
+problem.name=streaming
 # Periodic freely streaming M1 Gaussian in the compiled dimension
 # All dimensional values are cgs.
 mesh.cells=32

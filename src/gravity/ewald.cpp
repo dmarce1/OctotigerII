@@ -7,6 +7,9 @@
 #include <shared_mutex>
 #include <stdexcept>
 #include "octotigerII/profiling.hpp"
+#ifdef OCTOTIGERII_WITH_HPX
+#include <hpx/synchronization/shared_mutex.hpp>
+#endif
 
 namespace octotigerII::gravity::ewald {
 namespace {
@@ -100,7 +103,11 @@ namespace {
 
 	std::map<std::array<int, 7>, std::shared_ptr<Operator const>> cache;
 	std::map<std::array<int, 6>, std::array<double, 4>> pointCache;
+#ifdef OCTOTIGERII_WITH_HPX
+	hpx::shared_mutex cacheMutex, pointMutex;
+#else
 	std::shared_mutex cacheMutex, pointMutex;
+#endif
 }	 // namespace
 
 double Derivatives::at(int x, int y, int z) const {

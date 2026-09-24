@@ -27,6 +27,7 @@ namespace {
 
 	void addSettings(po::options_description& description) {
 		auto options = description.add_options();
+		options("problem.name", po::value<std::string>(), "Problem to run (required on the command line)");
 		options("randomSeed", po::value<std::int64_t>(), "Global nonnegative random seed (default 5489)");
 		options("verification.analytic", po::value<std::string>(), "Analytic comparison: auto (default), on (required), off");
 		options("verification.gravityReference", po::value<std::string>(), "Gravity reference: direct (default) or continuum");
@@ -41,6 +42,7 @@ namespace {
 		options("amr.minLevel", po::value<int>(), "Coarsest block level; -1 uses mesh.level");
 		options("amr.maxLevel", po::value<int>(), "Finest allowed block level (default 6)");
 		options("amr.regridEvery", po::value<int>(), "Maximum synchronized timesteps between regrids (default 4)");
+		options("amr.refineDensity", po::value<Real>(), "Refine cells above this density (g/cm^3); 0 disables density refinement");
 		options("amr.maxCellMass", po::value<Real>(), "Maximum mass per active cell (g); 0 disables mass refinement");
 		options("amr.shadowTolerance", po::value<Real>(), "Relative fine/shadow difference; 0 disables shadow refinement");
 		options("amr.shadowFloor", po::value<Real>(), "Normalization floor as a fraction of each field's maximum magnitude");
@@ -63,16 +65,25 @@ namespace {
 		options("runtime.workStealing", po::value<std::string>(), "Remote work stealing: on/off");
 		options("timestep.cfl", po::value<Real>(), "Courant factor");
 		options("hydro.gamma", po::value<Real>(), "Ideal-gas adiabatic index");
-		if constexpr (build::hydro)
-			for (int axis = 0; axis < ndim; ++axis) {
+		for (int axis = 0; axis < ndim; ++axis) {
 				auto const key = std::string("hydro.acceleration.") + "xyz"[axis];
 				options(key.c_str(), po::value<Real>(), "Uniform external acceleration (cm/s^2)");
 			}
-		if (std::string(build::problem) == "rayleigh-taylor") {
+		{
 			options("rayleighTaylor.densityLower", po::value<Real>(), "Lower-layer density (g/cm^3)");
 			options("rayleighTaylor.densityUpper", po::value<Real>(), "Upper-layer density (g/cm^3)");
 			options("rayleighTaylor.interfacePressure", po::value<Real>(), "Pressure at the domain midpoint (dyn/cm^2)");
 			options("rayleighTaylor.perturbation", po::value<Real>(), "Vertical velocity perturbation amplitude (cm/s)");
+		}
+		{
+			for (int d = 0; d < ndim; ++d) {
+				auto const key = std::string("star.center.") + "xyz"[d];
+				options(key.c_str(), po::value<Real>(), "Star center coordinate (cm); default is box midpoint");
+			}
+			options("star.radius", po::value<Real>(), "Lane-Emden surface radius (cm)");
+			options("star.centralDensity", po::value<Real>(), "Central density (g/cm^3)");
+			options("star.polytropicIndex", po::value<Real>(), "Polytropic index: 0 < n < 5 (default 1.5)");
+			options("star.atmosphereFraction", po::value<Real>(), "Ambient density divided by central density (default 1e-8)");
 		}
 		options("radiation.lightSpeedRatio", po::value<Real>(), "Radiation transport speed divided by c");
 		options("gravity.multipoleOrder", po::value<int>(), "Gravity expansion order (1..10)");
@@ -137,8 +148,7 @@ namespace {
 	}
 
 	void applySettings(Config& config, po::variables_map const& values) {
-		if (values.count("problem.name") || values.count("mesh.ndim"))
-			throw std::invalid_argument("Problem and dimension are build choices; select OCTOTIGERII_PROBLEM and OCTOTIGERII_NDIM in CMake");
+
 
 		readOption(values, "randomSeed", config.randomSeed);
 		readOption(values, "verification.analytic", config.verification.analytic);
@@ -157,6 +167,7 @@ namespace {
 		readOption(values, "amr.regridEvery", config.amr.regridEvery);
 		readOption(values, "amr.bufferCells", config.amr.bufferCells);
 		readQuantity(values, "amr.maxCellMass", config.amr.maxCellMass);
+		readQuantity(values, "amr.refineDensity", config.amr.refineDensity);
 		readNumber(values, "amr.shadowTolerance", config.amr.shadowTolerance);
 		readNumber(values, "amr.shadowFloor", config.amr.shadowFloor);
 		readNumber(values, "amr.coarsenFactor", config.amr.coarsenFactor);
@@ -195,6 +206,14 @@ namespace {
 		readQuantity(values, "rayleighTaylor.densityUpper", config.rayleighTaylor.densityUpper);
 		readQuantity(values, "rayleighTaylor.interfacePressure", config.rayleighTaylor.interfacePressure);
 		readQuantity(values, "rayleighTaylor.perturbation", config.rayleighTaylor.perturbation);
+		for (int d = 0; d < ndim; ++d) {
+			auto const key = std::string("star.center.") + "xyz"[d];
+			readQuantity(values, key.c_str(), config.star.center[d]);
+		}
+		readQuantity(values, "star.radius", config.star.radius);
+		readQuantity(values, "star.centralDensity", config.star.centralDensity);
+		readNumber(values, "star.polytropicIndex", config.star.polytropicIndex);
+		readNumber(values, "star.atmosphereFraction", config.star.atmosphereFraction);
 		readNumber(values, "radiation.lightSpeedRatio", config.radiation.lightSpeedRatio, "radiation.light_speed_ratio");
 		readOption(values, "gravity.multipoleOrder", config.gravity.multipoleOrder, "gravity.multipole_order");
 		readNumber(values, "gravity.openingAngle", config.gravity.openingAngle, "gravity.opening_angle");
@@ -232,18 +251,18 @@ void Config::validate() const {
 		throw std::invalid_argument("mesh: cells=power of two in [4,128], level=0..6");
 	int const minimumLevel = amr.minLevel < 0 ? mesh.level : amr.minLevel;
 	if (amr.minLevel < -1 || minimumLevel > mesh.level || amr.maxLevel < minimumLevel || amr.maxLevel > 16 || (amr.enabled && amr.maxLevel < mesh.level) ||
-		amr.regridEvery < 1 || amr.bufferCells < 0 || !(amr.maxCellMass >= units::Mass{}) || !units::finite(amr.maxCellMass) ||
+		amr.regridEvery < 1 || amr.bufferCells < 0 || !(amr.maxCellMass >= units::Mass{}) || !units::finite(amr.maxCellMass) || !(amr.refineDensity >= units::Density{}) || !units::finite(amr.refineDensity) ||
 		!isfinite(amr.shadowTolerance) || amr.shadowTolerance < 0 || !isfinite(amr.shadowFloor) || amr.shadowFloor <= 0 || !isfinite(amr.coarsenFactor) ||
 		!(amr.coarsenFactor > 0 && amr.coarsenFactor < 1) || !isfinite(amr.signalBuffer) || amr.signalBuffer < 1)
 		throw std::invalid_argument("Invalid AMR levels, criteria, buffering, or regrid interval");
-	if (amr.enabled && amr.maxCellMass > units::Mass{} && !build::hydro && !build::gravity)
-		throw std::invalid_argument("Mass refinement requires a density field");
+	if (amr.enabled && (amr.maxCellMass > units::Mass{} || amr.refineDensity > units::Density{}) && !hydroEnabled() && !gravityEnabled())
+		throw std::invalid_argument("Mass/density refinement requires a density field");
 	if (!(mesh.upper > mesh.lower) || !units::finite(mesh.upper - mesh.lower) || !(runtime.stopTime >= units::Time{}) ||
 		!(timestep.cfl > 0 && timestep.cfl <= 0.5) || !(hydro.gamma > 1) || !(radiation.lightSpeedRatio > 0 && radiation.lightSpeedRatio <= 1) ||
 		runtime.maxSteps < 1 || output.every < 1 || runtime.workerTasks < 0)
 		throw std::invalid_argument("Invalid domain, timestep, gas, radiation, or output setting");
 	if (mesh.boundary.contains(physics::BoundaryCondition::Analytic) && !problemBoundary(*this))
-		throw std::invalid_argument(std::string("Analytic boundary is not implemented for problem ") + build::problem);
+		throw std::invalid_argument(std::string("Analytic boundary is not implemented for problem ") + problem);
 	if (gravity.multipoleOrder < 1 || gravity.multipoleOrder > 10 || !(gravity.openingAngle > 0 && gravity.openingAngle < 1 / sqrt(3.0)))
 		throw std::invalid_argument("Gravity requires order 1..10 and 0<openingAngle<1/sqrt(3)");
 	if (output.directory.empty()) throw std::invalid_argument("Empty output directory");
@@ -254,11 +273,8 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 	addSettings(settings);
 	po::options_description legacy("Legacy aliases");
 	addLegacySettings(legacy);
-	po::options_description buildChoices("Build-time choices");
-	buildChoices.add_options()("problem.name", po::value<std::string>(), "Select OCTOTIGERII_PROBLEM in CMake")(
-		"mesh.ndim", po::value<int>(), "Select OCTOTIGERII_NDIM in CMake");
 	po::options_description iniOptions;
-	iniOptions.add(settings).add(legacy).add(buildChoices);
+	iniOptions.add(settings).add(legacy);
 	po::options_description commandOptions;
 	commandOptions.add(iniOptions);
 	commandOptions.add_options()("config", po::value<std::vector<std::string>>()->composing(), "INI file (repeatable)");
@@ -271,19 +287,44 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		commandValues);
 	po::notify(commandValues);
 
+	if (!commandValues.count("problem.name") || commandValues["problem.name"].as<std::string>().empty())
+		throw std::invalid_argument("I have done everything you asked of me. No problem specified, no problem solved. Use --problem.name=<name>.");
+
 	Config config;
-	problemDefaults(config);
+	std::vector<po::variables_map> files;
 	if (commandValues.count("config")) {
-		for (std::string const& path : commandValues["config"].as<std::vector<std::string>>()) {
+		for (auto const& path : commandValues["config"].as<std::vector<std::string>>()) {
 			std::ifstream input(path);
 			if (!input) throw std::runtime_error("Cannot open config: " + path);
-			po::variables_map iniValues;
-			po::store(po::parse_config_file(input, iniOptions), iniValues);
-			po::notify(iniValues);
-			applySettings(config, iniValues);
+			po::variables_map values;
+			po::store(po::parse_config_file(input, iniOptions), values);
+			po::notify(values);
+			readOption(values, "problem.name", config.problem);
+			files.push_back(std::move(values));
 		}
 	}
-	applySettings(config, commandValues);
+	readOption(commandValues, "problem.name", config.problem);
+	problemDefaults(config);
+	bool lowerSet = false, upperSet = false, gammaSet = false, densitySet = false;
+	std::array<bool, ndim> centerSet{};
+	auto apply = [&](po::variables_map const& values) {
+		for (int d = 0; d < ndim; ++d) centerSet[d] = centerSet[d] || values.count(std::string("star.center.") + "xyz"[d]);
+		lowerSet = lowerSet || values.count("mesh.lower");
+		upperSet = upperSet || values.count("mesh.upper");
+		gammaSet = gammaSet || values.count("hydro.gamma");
+		densitySet = densitySet || values.count("amr.refineDensity");
+		applySettings(config, values);
+	};
+	for (auto const& values : files) apply(values);
+	apply(commandValues);
+	if (config.problem == "polytrope") {
+		if (!lowerSet) config.mesh.lower = -2.0 * config.star.radius;
+		if (!upperSet) config.mesh.upper = 2.0 * config.star.radius;
+		for (int d = 0; d < ndim; ++d)
+			if (!centerSet[d]) config.star.center[d] = (config.mesh.lower + config.mesh.upper) / 2.0;
+		if (!gammaSet) config.hydro.gamma = 1 + 1 / config.star.polytropicIndex;
+		if (!densitySet) config.amr.refineDensity = 0.01 * config.star.centralDensity;
+	}
 	config.validate();
 	return config;
 }
@@ -293,12 +334,12 @@ std::string helpText() {
 	addSettings(settings);
 	std::ostringstream output;
 	output << build::executable << " (CGS, " << ndim << "D)\n"
-		   << "Usage: " << build::executable << " [--config=/path/to/bin/problem/inputs] [--key=value ...]\n"
-		   << "Problem and dimension are fixed at build time. CLI values override INI files.\n"
+		   << "Usage: " << build::executable << " --problem.name=<name> [--config=/path/to/bin/problem/inputs] [--key=value ...]\n"
+		   << "A command-line --problem.name is required (an INI entry alone is insufficient); dimension is fixed by the executable. CLI values override INI files.\n"
 		   << "Settings use dotted groups; snake_case names remain supported as aliases.\n"
 		   << "Booleans: on/off. mesh.cells is cells per block per active axis.\n"
 		   << "Initial Cartesian mesh: 2^mesh.level blocks per axis.\n\n"
-		   << settings;
+		   << settings << "\nProblems:\n" << problemHelp();
 	return output.str();
 }
 

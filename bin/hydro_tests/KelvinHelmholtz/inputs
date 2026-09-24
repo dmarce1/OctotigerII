@@ -1,3 +1,4 @@
+problem.name=kelvin-helmholtz
 # Multidimensional periodic shear instability
 # All dimensional values are cgs.
 mesh.cells=16

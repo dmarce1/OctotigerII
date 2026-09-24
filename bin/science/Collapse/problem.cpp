@@ -8,7 +8,7 @@
 #include "octotigerII/subgrid/subgrid.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
-namespace octotigerII {
+namespace octotigerII::collapse {
 
 ProblemBoundary problemBoundary(Config const&) {
 	return {};
@@ -30,11 +30,12 @@ void validateProblem(Config const&) {}
 
 /// Initialize this problem in the executable's compile-time dimension.
 
-void initializeProblem(Snapshot& data, Config const& c) {
+void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	using std::exp;
 
 	hydro::HydroSystem gas(c.hydro.gamma);
 	auto const length = c.mesh.upper - c.mesh.lower;
+	Real const sigma = refinementProbe ? Real(initialFeatureWidth(0.15 * length, data.cellWidth) / length) : Real(0.15);
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 		auto const point = data.layout.cellCenter(data.lower, data.cellWidth, cell);
 		Real radius2 = 0;
@@ -43,7 +44,7 @@ void initializeProblem(Snapshot& data, Config const& c) {
 			radius2 += r * r;
 		}
 		hydro::PrimitiveState primitive{};
-		primitive.density() = units::Density::from_value(1e4 * (0.01 + exp(-radius2 / (2 * 0.15 * 0.15))));
+		primitive.density() = units::Density::from_value(1e4 * (0.01 + exp(-radius2 / (2 * sigma * sigma))));
 		primitive.pressure() = units::Pressure::from_value(1e12);
 		data.hydro.values()[i] = gas.conservedState(primitive);
 	});
