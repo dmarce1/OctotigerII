@@ -27,7 +27,7 @@ namespace {
 
 	void addSettings(po::options_description& description) {
 		auto options = description.add_options();
-		options("problem.name", po::value<std::string>(), "Problem to run (required on the command line)");
+		options("problem.name", po::value<std::string>(), "Problem to run (required in an INI file or on the command line)");
 		options("randomSeed", po::value<std::int64_t>(), "Global nonnegative random seed (default 5489)");
 		options("verification.analytic", po::value<std::string>(), "Analytic comparison: auto (default), on (required), off");
 		options("verification.gravityReference", po::value<std::string>(), "Gravity reference: direct (default) or continuum");
@@ -319,9 +319,6 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		commandValues);
 	po::notify(commandValues);
 
-	if (!commandValues.count("problem.name") || commandValues["problem.name"].as<std::string>().empty())
-		throw std::invalid_argument("I have done everything you asked of me. No problem specified, no problem solved. Use --problem.name=<name>.");
-
 	Config config;
 	std::vector<po::variables_map> files;
 	if (commandValues.count("config")) {
@@ -336,6 +333,8 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		}
 	}
 	readOption(commandValues, "problem.name", config.problem);
+	if (config.problem.empty())
+		throw std::invalid_argument("No problem specified. Set problem.name in an INI file or use --problem.name=<name>.");
 	problemDefaults(config);
 	bool lowerSet = false, upperSet = false, gammaSet = false, densitySet = false;
 	std::array<bool, ndim> centerSet{};
@@ -366,8 +365,8 @@ std::string helpText() {
 	addSettings(settings);
 	std::ostringstream output;
 	output << build::executable << " (CGS, " << ndim << "D)\n"
-		   << "Usage: " << build::executable << " --problem.name=<name> [--config=/path/to/bin/problem/inputs] [--key=value ...]\n"
-		   << "A command-line --problem.name is required (an INI entry alone is insufficient); dimension is fixed by the executable. CLI values override INI files.\n"
+		   << "Usage: " << build::executable << " [--config=/path/to/bin/problem/inputs] [--problem.name=<name>] [--key=value ...]\n"
+		   << "A problem name is required in an INI file or on the command line; dimension is fixed by the executable. CLI values override INI files.\n"
 		   << "Settings use dotted groups; snake_case names remain supported as aliases.\n"
 		   << "Booleans: on/off. mesh.cells is cells per block per active axis.\n"
 		   << "Initial Cartesian mesh: 2^mesh.level blocks per axis.\n\n"
