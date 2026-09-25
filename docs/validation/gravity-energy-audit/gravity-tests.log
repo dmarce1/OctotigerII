@@ -1,0 +1,22 @@
+[==========] Running 7 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 7 tests from GravityEnergy
+[ RUN      ] GravityEnergy.IsolatedUniformWithAndWithoutSpecies
+[       OK ] GravityEnergy.IsolatedUniformWithAndWithoutSpecies (204 ms)
+[ RUN      ] GravityEnergy.IsolatedAdaptiveWithAndWithoutSpecies
+[       OK ] GravityEnergy.IsolatedAdaptiveWithAndWithoutSpecies (2442 ms)
+[ RUN      ] GravityEnergy.PeriodicUniformWithSpecies
+[       OK ] GravityEnergy.PeriodicUniformWithSpecies (456 ms)
+[ RUN      ] GravityEnergy.PeriodicAdaptiveWithSpecies
+[       OK ] GravityEnergy.PeriodicAdaptiveWithSpecies (13051 ms)
+[ RUN      ] GravityEnergy.RegridRefineAndCoarsenIndependentOfTimeTreatment
+[       OK ] GravityEnergy.RegridRefineAndCoarsenIndependentOfTimeTreatment (5407 ms)
+[ RUN      ] GravityEnergy.NaiveMatchesUnbracketedLegacyKicks
+[       OK ] GravityEnergy.NaiveMatchesUnbracketedLegacyKicks (198 ms)
+[ RUN      ] GravityEnergy.AdaptivePotentialOperatorIsReciprocal
+[       OK ] GravityEnergy.AdaptivePotentialOperatorIsReciprocal (296 ms)
+[----------] 7 tests from GravityEnergy (22056 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test suite ran. (22056 ms total)
+[  PASSED  ] 7 tests.

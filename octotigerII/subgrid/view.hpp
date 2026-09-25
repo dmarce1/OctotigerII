@@ -6,6 +6,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
 
+#include <optional>
 #include "octotigerII/profiling.hpp"
 
 #include "octotigerII/amr/interpolation.hpp"
@@ -13,6 +14,14 @@
 #include "octotigerII/subgrid/topology.hpp"
 
 namespace octotigerII {
+
+struct HaloTime {
+	unsigned bank = 0;
+	Real fraction = 0;
+	unsigned nextBank = ~0u; // Default selects bank^1; coupled gravity uses a separate predictor.
+	template <typename Archive>
+	void serialize(Archive& archive, unsigned) { archive & bank & fraction & nextBank; }
+};
 
 // An execution-time patch: interior columns are direct local storage views
 // (or received buffers for stolen work). Only ghost values occupy workspace.
@@ -59,44 +68,52 @@ private:
 	mesh::MeshLayout padded_;
 };
 
-/// Launch independent column reads, scatter them to compact ghost storage,
-/// and drain all transfers before returning or propagating an exception.
-template <typename State>
-void readHalo(storage::ColumnHandle<State> const& fields, HaloPlan const& plan, unsigned bank, std::vector<State>& ghosts) {
+/// Read the donor's own bank and, for an advancing coarse donor, interpolate
+/// its two endpoints before spatial prolongation. Drain every launched read.
+template <typename Field, typename State, typename Access>
+void readTimedHalo(Field const& field, HaloPlan const& plan, unsigned bank, std::vector<State>& ghosts,
+	std::vector<HaloTime> const& times, Access access) {
 	profiling::Elapsed profile("transport.halo.wall_ns");
-	std::vector<storage::PendingColumns<State>> pending;
-	pending.reserve(plan.reads.size());
-	// Launch all independent reads before awaiting any result.
-	for (auto const& read : plan.reads)
-		pending.push_back(fields.read(read.range, bank));
+	using Pending = decltype(field.read(storage::Range{}, bank));
+	std::vector<Pending> old, next;
+	std::vector<HaloTime> selected;
+	for (auto const& read : plan.reads) {
+		auto const t = times.empty() ? HaloTime{bank, 0} : times.at(read.level);
+		selected.push_back(t);
+		old.push_back(field.read(read.range, t.bank));
+		// A zero fraction needs no new endpoint, which may still be unwritten.
+		if (t.fraction != 0) next.push_back(field.read(read.range, t.nextBank == ~0u ? (t.bank ^ 1) : t.nextBank));
+	}
 	ghosts.assign(plan.valueCount ? plan.valueCount : plan.ghostCount, State{});
 	std::exception_ptr error;
-	for (std::size_t i = 0; i < pending.size(); ++i) {
-		try {
-			auto values = pending[i].get();
-			for (auto const& copy : plan.reads[i].copies)
-				ghosts[copy.destination] += copy.weight * values.at(copy.source);
-		} catch (...) {
-			if (!error) error = std::current_exception();
+	std::size_t j = 0;
+	for (std::size_t i = 0; i < old.size(); ++i) {
+		std::optional<decltype(old[i].get())> values, future;
+		try { values = old[i].get(); } catch (...) { if (!error) error = std::current_exception(); }
+		if (selected[i].fraction != 0) {
+			try { future = next[j].get(); } catch (...) { if (!error) error = std::current_exception(); }
+			++j;
+		}
+		if (!values || (selected[i].fraction != 0 && !future)) continue;
+		for (auto const& copy : plan.reads[i].copies) {
+			auto value = access(*values, copy.source);
+			if (future) value = (1 - selected[i].fraction) * value + selected[i].fraction * access(*future, copy.source);
+			ghosts[copy.destination] += copy.weight * value;
 		}
 	}
 	if (error) std::rethrow_exception(error);
 }
 
-/// Scalar counterpart for composition columns; all reads drain before return.
+template <typename State>
+void readHalo(storage::ColumnHandle<State> const& fields, HaloPlan const& plan, unsigned bank, std::vector<State>& ghosts,
+	std::vector<HaloTime> const& times = {}) {
+	readTimedHalo(fields, plan, bank, ghosts, times, [](auto const& v, std::size_t i) { return v.at(i); });
+}
+
 template <typename T>
-void readHalo(storage::FieldHandle<T> const& field, HaloPlan const& plan, unsigned bank, std::vector<T>& ghosts) {
-	std::vector<storage::Future<storage::Buffer<T>>> pending;
-	for (auto const& read : plan.reads) pending.push_back(field.read(read.range, bank));
-	ghosts.assign(plan.valueCount ? plan.valueCount : plan.ghostCount, T{});
-	std::exception_ptr error;
-	for (std::size_t i = 0; i < pending.size(); ++i) {
-		try {
-			auto values = pending[i].get();
-			for (auto const& copy : plan.reads[i].copies) ghosts[copy.destination] += copy.weight * values.data()[copy.source];
-		} catch (...) { if (!error) error = std::current_exception(); }
-	}
-	if (error) std::rethrow_exception(error);
+void readHalo(storage::FieldHandle<T> const& field, HaloPlan const& plan, unsigned bank, std::vector<T>& ghosts,
+	std::vector<HaloTime> const& times = {}) {
+	readTimedHalo(field, plan, bank, ghosts, times, [](auto const& v, std::size_t i) { return v.data()[i]; });
 }
 
 /// Complete physical boundary values after all donor reads have finished.

@@ -28,6 +28,7 @@ namespace {
 		std::size_t parent = absent;
 		std::array<std::size_t, 8> children{};
 		storage::Range field;
+		std::size_t block = absent;
 		bool leaf() const {
 			return field.count != 0;
 		}
@@ -37,20 +38,22 @@ namespace {
 		Tree(Config const& config, std::vector<Subgrid> const& blocks) {
 			static_assert(ndim == 3);
 			int const bits = std::countr_zero(unsigned(config.mesh.cells));
-			std::unordered_map<Location, storage::Range, mesh::BlockLocationHash> locations;
-			for (auto const& block : blocks)
+			std::unordered_map<Location, std::pair<storage::Range, std::size_t>, mesh::BlockLocationHash> locations;
+			for (std::size_t b = 0; b < blocks.size(); ++b) {
+				auto const& block = blocks[b];
 				block.layout.forEachInterior([&](auto const& cell, std::size_t i) {
 					Location location{block.location.level + bits, {}};
 					for (int d = 0; d < 3; ++d)
 						location.coordinates[d] = block.location.coordinates[d] * config.mesh.cells + cell[d];
-					if (!locations.emplace(location, block.interior.slice(i, 1)).second) throw std::logic_error("Overlapping gravity leaves");
+					if (!locations.emplace(location, std::pair{block.interior.slice(i, 1), b}).second) throw std::logic_error("Overlapping gravity leaves");
 					while (!location.isRoot()) {
 						location = location.parent();
 						locations.try_emplace(location);
 					}
 				});
-			for (auto const& [location, range] : locations)
-				nodes.push_back({location, absent, {}, range});
+			}
+			for (auto const& [location, source] : locations)
+				nodes.push_back({location, absent, {}, source.first, source.second});
 			std::sort(nodes.begin(), nodes.end(), [](auto const& a, auto const& b) {
 				auto const& x = a.location;
 				auto const& y = b.location;
@@ -85,6 +88,7 @@ namespace {
 	public:
 		storage::Range range;
 		std::vector<std::size_t> nodes;
+		std::size_t block = 0;
 	};
 	enum class AdaptiveStage
 	{
@@ -146,15 +150,18 @@ public:
 	  , fields_(std::move(fields))
 	  , tree_(std::make_unique<Tree>(config, blocks))
 	  , owner_(owner)
-	  , partitions_(partitions) {
+	  , partitions_(partitions)
+	  , blockCount_(blocks.size()) {
 		auto const n = tree_->nodes.size();
 		begin_ = (n * owner + partitions - 1) / partitions;
 		end_ = (n * (owner + 1) + partitions - 1) / partitions;
 		order_ = config.gravity.multipoleOrder;
 		coefficients_ = diagonal::coefficientCount(order_) + (images_.active() ? 1 : 0);
+		forceCoefficients_ = diagonal::coefficientCount(order_ + 1) + (images_.active() ? 1 : 0);
 		length_ = units::value(config.mesh.upper - config.mesh.lower);
 		moments_.resize(end_ - begin_);
 		locals_.assign(end_ - begin_, Coefficients(coefficients_));
+		forceLocals_.assign(end_ - begin_, Coefficients(forceCoefficients_));
 		interactions_.resize(end_ - begin_);
 		for (auto i = begin_; i < end_; ++i)
 			moments_[i - begin_].resize(tree_->nodes[i].leaf() ? 1 : coefficients_);
@@ -170,14 +177,35 @@ public:
 		std::sort(addresses.begin(), addresses.end());
 		for (auto const& [address, id] : addresses) {
 			auto const [partition, offset] = address;
-			if (segments_.empty() || segments_.back().range.partition != partition || segments_.back().range.offset + segments_.back().range.count != offset)
-				segments_.push_back({{partition, offset, 0}, {}});
+			auto const block = tree_->nodes[id].block;
+			if (segments_.empty() || segments_.back().block != block || segments_.back().range.partition != partition ||
+				segments_.back().range.offset + segments_.back().range.count != offset)
+				segments_.push_back({{partition, offset, 0}, {}, block});
 			++segments_.back().range.count;
 			segments_.back().nodes.push_back(id);
 		}
 		for (auto const& image : images_.images()) {
 			walk(0, 0, image, false);
 			if (images_.periodic()) walk(0, 0, image, true);
+		}
+	}
+	void configure(FieldSolveRequest const& request, bool publishState) {
+		if ((!request.sources.empty() && request.sources.size() != blockCount_) ||
+			(!request.targets.empty() && request.targets.size() != blockCount_))
+			throw std::invalid_argument("Gravity selection must contain one entry per block");
+		for (auto const& source : request.sources)
+			if (!std::isfinite(source.weight) || !std::isfinite(source.secondWeight))
+				throw std::invalid_argument("Gravity density weights must be finite");
+		request_ = request;
+		publishState_ = publishState;
+		activeTargets_.clear();
+		if (!request.targets.empty()) {
+			activeTargets_.assign(tree_->nodes.size(), 0);
+			for (std::size_t i = tree_->nodes.size(); i-- > 0;) {
+				auto const& node = tree_->nodes[i];
+				if (node.leaf()) activeTargets_[i] = request.targets[node.block] != 0;
+				if (activeTargets_[i] && node.parent != absent) activeTargets_[node.parent] = 1;
+			}
 		}
 	}
 	Statistics execute(AdaptiveStage stage, unsigned depth, unsigned bank, std::vector<storage::Locality> const& peers) {
@@ -193,17 +221,18 @@ public:
 		}
 		throw std::logic_error("Unknown adaptive gravity stage");
 	}
-	std::vector<Coefficients> read(bool local, std::vector<std::size_t> const& ids) const {
+	std::vector<Coefficients> read(unsigned field, std::vector<std::size_t> const& ids) const {
 		std::vector<Coefficients> result;
 		for (auto id : ids) {
 			if (id < begin_ || id >= end_) throw std::out_of_range("Wrong adaptive FMM owner");
-			result.push_back((local ? locals_ : moments_)[id - begin_]);
+			result.push_back((field == 2 ? forceLocals_ : (field == 1 ? locals_ : moments_))[id - begin_]);
 		}
 		return result;
 	}
 #ifdef OCTOTIGERII_WITH_HPX
 	HPX_DEFINE_COMPONENT_ACTION(AdaptiveFmmPartition, execute, ExecuteAction)
 	HPX_DEFINE_COMPONENT_ACTION(AdaptiveFmmPartition, read, ReadAction)
+	HPX_DEFINE_COMPONENT_ACTION(AdaptiveFmmPartition, configure, ConfigureAction)
 #endif
 private:
 	Config config_;
@@ -211,11 +240,20 @@ private:
 	FieldDirectory fields_;
 	std::unique_ptr<Tree> tree_;
 	std::size_t owner_ = 0, partitions_ = 1, begin_ = 0, end_ = 0, workers_ = 1;
-	int order_ = 1, coefficients_ = 4;
+	std::size_t blockCount_ = 0;
+	FieldSolveRequest request_;
+	bool publishState_ = true;
+	std::vector<unsigned char> activeTargets_;
+	int order_ = 1, coefficients_ = 4, forceCoefficients_ = 9;
 	Real length_ = 1;
-	std::vector<Coefficients> moments_, locals_;
+	// Scalar locals preserve the reciprocal potential operator; the auxiliary
+	// force locals retain degree order_+1 for symmetric degree-order_ gradients.
+	std::vector<Coefficients> moments_, locals_, forceLocals_;
 	std::vector<std::vector<Interaction>> interactions_;
 	std::vector<Segment> segments_;
+	bool targetActive(std::size_t id) const {
+		return activeTargets_.empty() || activeTargets_[id];
+	}
 
 	Real width(std::size_t id) const {
 		return length_ / Real(1 << tree_->nodes[id].location.level);
@@ -272,7 +310,15 @@ private:
 			if (target >= begin_ && target < end_) interactions_[target - begin_].push_back(pair);
 			return;
 		}
-		if (!a.leaf() && (b.leaf() || a.location.level <= b.location.level)) {
+		if (!a.leaf() && !b.leaf() && a.location.level == b.location.level) {
+			// Refine both equal-sized nodes together. Splitting only the target
+			// can accept (child(a), b) before b is split, while the reversed walk
+			// accepts (child(b), a). Those are different approximate kernels and
+			// violate volume-weighted potential reciprocity on an adaptive mesh.
+			for (auto targetChild : a.children)
+				for (auto sourceChild : b.children)
+					walk(targetChild, sourceChild, image, correction);
+		} else if (!a.leaf() && (b.leaf() || a.location.level < b.location.level)) {
 			for (auto child : a.children)
 				walk(child, source, image, correction);
 		} else {
@@ -311,28 +357,29 @@ private:
 	class Sources {
 	public:
 		AdaptiveFmmPartition const& owner;
-		bool local;
+		unsigned field;
 		std::unordered_map<std::size_t, Coefficients> remote;
 		Coefficients const& at(std::size_t id) const {
-			if (id >= owner.begin_ && id < owner.end_) return (local ? owner.locals_ : owner.moments_)[id - owner.begin_];
+			if (id >= owner.begin_ && id < owner.end_)
+				return (field == 2 ? owner.forceLocals_ : (field == 1 ? owner.locals_ : owner.moments_))[id - owner.begin_];
 			return remote.at(id);
 		}
 	};
-	Sources fetch(std::unordered_set<std::size_t> const& requests, bool local, std::vector<storage::Locality> const& peers) const {
-		Sources result{*this, local, {}};
+	Sources fetch(std::unordered_set<std::size_t> const& requests, unsigned field, std::vector<storage::Locality> const& peers) const {
+		Sources result{*this, field, {}};
 #ifdef OCTOTIGERII_WITH_HPX
 		std::vector<std::vector<std::size_t>> byOwner(partitions_);
 		for (auto id : requests)
 			if (id < begin_ || id >= end_) byOwner[id * partitions_ / tree_->nodes.size()].push_back(id);
 		std::vector<std::vector<std::size_t>> batches;
 		std::vector<hpx::future<std::vector<Coefficients>>> pending;
-		auto const batchSize = std::max(std::size_t(1), std::size_t(65536) / coefficients_);
+		auto const batchSize = std::max(std::size_t(1), std::size_t(65536) / (field == 2 ? forceCoefficients_ : coefficients_));
 		for (std::size_t owner = 0; owner < partitions_; ++owner) {
 			auto& ids = byOwner[owner];
 			std::sort(ids.begin(), ids.end());
 			for (std::size_t i = 0; i < ids.size(); i += batchSize) {
 				batches.emplace_back(ids.begin() + i, ids.begin() + std::min(ids.size(), i + batchSize));
-				pending.push_back(hpx::async<ReadAction>(peers[owner], local, batches.back()));
+				pending.push_back(hpx::async<ReadAction>(peers[owner], field, batches.back()));
 			}
 		}
 		auto values = collect(pending);
@@ -355,20 +402,23 @@ private:
 			std::fill(moment.begin(), moment.end(), 0);
 		for (auto& local : locals_)
 			std::fill(local.begin(), local.end(), 0);
+		for (auto& local : forceLocals_)
+			std::fill(local.begin(), local.end(), 0);
 		return parallel(segments_.size(), "gravity.adaptive.p2m", [&](std::size_t s, Statistics&) {
 			auto const& segment = segments_[s];
-			auto const handle = [&] {
-				if (build::hydro && config_.hydroEnabled())
-					return std::get<0>(fields_.hydro.fields);
-				else
-					return fields_.density;
-			}();
-			auto input = handle.read(segment.range, bank).get();
+			auto const& handle = request_.density.id || !request_.density.sumSources.empty() ? request_.density :
+				(build::hydro && config_.hydroEnabled() ? std::get<0>(fields_.hydro.fields) : fields_.density);
+			auto const source = request_.sources.empty() ? DensitySelection{bank, 0, 1, 0} : request_.sources[segment.block];
+			storage::Buffer<units::Density> first, second;
+			if (source.weight != 0) first = handle.read(segment.range, source.bank).get();
+			if (source.secondWeight != 0) second = handle.read(segment.range, source.secondBank).get();
 			for (std::size_t i = 0; i < segment.nodes.size(); ++i) {
 				auto const id = segment.nodes[i];
 				Real const h = width(id);
-				Real const mass = units::value(input.data()[i]) * h * h * h;
-				if (!(mass >= 0) || !isfinite(mass)) throw std::invalid_argument("Invalid adaptive gravity mass");
+				auto const rho = (source.weight != 0 ? source.weight * first.data()[i] : units::Density{}) +
+					(source.secondWeight != 0 ? source.secondWeight * second.data()[i] : units::Density{});
+				Real const mass = units::value(rho) * h * h * h;
+				if ((!request_.allowSignedDensity && !(mass >= 0)) || !isfinite(mass)) throw std::invalid_argument("Invalid adaptive gravity mass");
 				moments_[id - begin_][0] = mass;
 			}
 		});
@@ -393,39 +443,53 @@ private:
 		auto const [start, stop] = levelRange(depth);
 		std::unordered_set<std::size_t> needs, parentIds;
 		for (auto id = start; id < stop; ++id) {
+			if (!targetActive(id)) continue;
 			for (auto const& pair : interactions_[id - begin_])
 				needs.insert(pair.source);
 			if (tree_->nodes[id].parent != absent) parentIds.insert(tree_->nodes[id].parent);
 		}
 		auto const sources = fetch(needs, false, peers), parents = fetch(parentIds, true, peers);
+		auto const forceParents = fetch(parentIds, 2, peers);
 		return parallel(stop - start, "gravity.adaptive.m2l_l2l", [&](std::size_t i, Statistics& stats) {
 			auto const id = start + i;
+			if (!targetActive(id)) return;
 			auto& local = locals_[id - begin_];
+			auto& forceLocal = forceLocals_[id - begin_];
 			for (auto const& pair : interactions_[id - begin_]) {
 				auto const& moment = sources.at(pair.source);
-				if (moment[0] == 0) continue;
+				if (std::all_of(moment.begin(), moment.end(), [](Real value) { return value == 0; })) continue;
 				Real const unit = length_ / pair.count;
 				Coefficients contribution(coefficients_);
+				Coefficients forceContribution(forceCoefficients_);
 				if (pair.direct) {
-					if (pair.correction)
+					if (pair.correction) {
 						ewald::addDirect(contribution, moment[0], pair.separation, images_.periods(pair.count), unit);
-					else
+						ewald::addDirect(forceContribution, moment[0], pair.separation, images_.periods(pair.count), unit);
+					} else {
 						diagonal::addDirect(contribution, moment[0], pair.separation, unit);
+						diagonal::addDirect(forceContribution, moment[0], pair.separation, unit);
+					}
 					++stats.directPairs;
 				} else {
 					auto const normalized = rescale(reflectMultipole(moment, pair.reflection, order_), width(pair.source) / unit, order_);
-					if (pair.correction)
+					if (pair.correction) {
 						ewald::getOperator(order_, pair.separation, images_.periods(pair.count))->add(contribution, normalized, unit);
-					else
+						ewald::getOperator(order_, pair.separation, images_.periods(pair.count), true)->add(forceContribution, normalized, unit);
+					} else {
 						diagonal::getOperator(order_, pair.separation)->add(contribution, normalized, unit);
+						diagonal::getOperator(order_, pair.separation, true)->add(forceContribution, normalized, unit);
+					}
 					++stats.multipolePairs;
 				}
 				add(local, rescale(std::move(contribution), width(id) / unit, order_));
+				add(forceLocal, rescale(std::move(forceContribution), width(id) / unit, order_ + 1));
 				if (pair.correction) ++stats.ewaldPairs;
 				if (pair.reflection) ++stats.reflectedPairs;
 			}
-			if (tree_->nodes[id].parent != absent)
+			if (tree_->nodes[id].parent != absent) {
 				add(local, (images_.active() ? imageShiftLocal : diagonal::shiftLocal)(parents.at(tree_->nodes[id].parent), childOffset(id), 0.5, order_));
+				add(forceLocal, (images_.active() ? imageShiftLocal : diagonal::shiftLocal)(forceParents.at(tree_->nodes[id].parent), childOffset(id), 0.5, order_ + 1));
+			}
 		});
 	}
 	template <typename StateType>
@@ -437,24 +501,29 @@ private:
 		field.commit(range, bank ^ 1, output);
 	}
 	Statistics publish(unsigned bank) {
+		auto const& destination = std::get<0>(request_.output.fields).id ? request_.output : fields_.gravity;
+		auto const outputBank = publishState_ ? bank ^ 1 : request_.outputBank;
 		auto result = parallel(segments_.size(), "gravity.adaptive.publish", [&](std::size_t s, Statistics&) {
 			auto const& segment = segments_[s];
-			auto output = fields_.gravity.output(segment.range, bank ^ 1);
+			if (!request_.targets.empty() && !request_.targets[segment.block]) return;
+			auto output = destination.output(segment.range, outputBank);
 			for (std::size_t i = 0; i < segment.nodes.size(); ++i) {
 				auto const id = segment.nodes[i];
 				auto const& local = locals_[id - begin_];
+				auto const& forceLocal = forceLocals_[id - begin_];
 				auto const g = constants::G * units::Mass::from_value(1) / units::Length::from_value(1);
 				State field;
 				field.potential() = g * local[0];
 				for (int d = 0; d < 3; ++d) {
 					diagonal::Offset e{};
 					e[d] = 1;
-					field.acceleration(d) = -g * diagonal::derivative(local, e[0], e[1], e[2]) / units::Length::from_value(width(id));
+					field.acceleration(d) = -g * diagonal::derivative(forceLocal, e[0], e[1], e[2]) / units::Length::from_value(width(id));
 				}
 				if (!finite(field)) throw std::runtime_error("Nonfinite adaptive FMM solution");
 				output.put(i, field);
 			}
-			fields_.gravity.commit(segment.range, bank ^ 1, output);
+			destination.commit(segment.range, outputBank, output);
+			if (!publishState_) return;
 			if (build::hydro && config_.hydroEnabled())
 				copy(fields_.hydro, segment.range, bank);
 			else {
@@ -473,7 +542,7 @@ private:
 		});
 		std::uint64_t leaves = 0;
 		for (auto const& segment : segments_)
-			leaves += segment.nodes.size();
+			if (request_.targets.empty() || request_.targets[segment.block]) leaves += segment.nodes.size();
 		result.localityCells = {leaves};
 		return result;
 	}
@@ -485,6 +554,7 @@ using AdaptiveFmmComponent = hpx::components::component<octotigerII::gravity::Ad
 HPX_REGISTER_COMPONENT(AdaptiveFmmComponent, octotigerII_adaptive_fmm)
 HPX_REGISTER_ACTION(octotigerII::gravity::AdaptiveFmmPartition::ExecuteAction, octotigerII_adaptive_fmm_execute)
 HPX_REGISTER_ACTION(octotigerII::gravity::AdaptiveFmmPartition::ReadAction, octotigerII_adaptive_fmm_read)
+HPX_REGISTER_ACTION(octotigerII::gravity::AdaptiveFmmPartition::ConfigureAction, octotigerII_adaptive_fmm_configure)
 #endif
 
 namespace octotigerII::gravity {
@@ -496,6 +566,23 @@ public:
 #else
 	std::unique_ptr<AdaptiveFmmPartition> partition;
 #endif
+	void configure(FieldSolveRequest const& request, bool publishState) {
+#ifdef OCTOTIGERII_WITH_HPX
+		std::vector<hpx::future<void>> pending;
+		std::exception_ptr error;
+		try {
+			for (auto const& id : partitions)
+				pending.push_back(hpx::async<AdaptiveFmmPartition::ConfigureAction>(id, request, publishState));
+		} catch (...) { error = std::current_exception(); }
+		for (auto& task : pending) {
+			try { task.get(); } catch (...) { if (!error) error = std::current_exception(); }
+		}
+		if (error) std::rethrow_exception(error);
+#else
+		partition->configure(request, publishState);
+#endif
+	}
+	Statistics solve(unsigned bank);
 	Statistics phase(AdaptiveStage stage, unsigned depth, unsigned bank) {
 #ifdef OCTOTIGERII_WITH_HPX
 		std::vector<hpx::future<Statistics>> pending;
@@ -528,12 +615,20 @@ AdaptiveFieldSolver::AdaptiveFieldSolver(
 }
 AdaptiveFieldSolver::~AdaptiveFieldSolver() = default;
 Statistics AdaptiveFieldSolver::solve(unsigned bank) {
-	auto result = impl_->phase(AdaptiveStage::Initialize, 0, bank);
-	for (unsigned depth = impl_->depths - 1; depth > 0; --depth)
-		accumulate(result, impl_->phase(AdaptiveStage::Upward, depth - 1, bank));
-	for (unsigned depth = 0; depth < impl_->depths; ++depth)
-		accumulate(result, impl_->phase(AdaptiveStage::Downward, depth, bank));
-	accumulate(result, impl_->phase(AdaptiveStage::Publish, 0, bank));
+	impl_->configure({}, true);
+	return impl_->solve(bank);
+}
+Statistics AdaptiveFieldSolver::solve(FieldSolveRequest const& request) {
+	impl_->configure(request, false);
+	return impl_->solve(request.sourceBank);
+}
+Statistics AdaptiveFieldSolver::Impl::solve(unsigned bank) {
+	auto result = phase(AdaptiveStage::Initialize, 0, bank);
+	for (unsigned depth = depths - 1; depth > 0; --depth)
+		accumulate(result, phase(AdaptiveStage::Upward, depth - 1, bank));
+	for (unsigned depth = 0; depth < depths; ++depth)
+		accumulate(result, phase(AdaptiveStage::Downward, depth, bank));
+	accumulate(result, phase(AdaptiveStage::Publish, 0, bank));
 	return result;
 }
 }	 // namespace octotigerII::gravity

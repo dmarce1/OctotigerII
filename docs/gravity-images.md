@@ -72,8 +72,13 @@ uniform across the source/target supports. This ensures independent acceptance
 levels never subtract different images. Leaf point interactions resolve ties
 with an antisymmetric displacement convention.
 
-The correction M2L is a dense `(p+1)²` by `(p+1)²` contraction, O(p⁴), cached by
-order, separation and lattice periods measured in cell widths. Newtonian image
+The scalar correction M2L is a dense `(p+1)²` by `(p+1)²` contraction, O(p⁴).
+The auxiliary force local adds one target degree, giving a `(p+2)²` by `(p+1)²`
+contraction. Both are cached by source order, local kind, separation, and lattice
+periods measured in cell widths. The auxiliary gradient has degree p at both
+ends of a pair, preserving action/reaction; see the
+[expansion derivation](parallel-fmm.md#scalar-reciprocity-and-mutual-force).
+Newtonian image
 interactions retain the cached diagonal translations. Ewald initialization is
 more expensive than subsequent applications. Caches are local to each process;
 cache size grows with the distinct geometries encountered. The same source-only

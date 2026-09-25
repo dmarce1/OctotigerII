@@ -55,6 +55,28 @@ function(octo_test name module labels)
     PROPERTIES TIMEOUT 300 LABELS "${labels}")
   if(OCTOTIGERII_WITH_HPX AND module STREQUAL "Application" AND Python3_Interpreter_FOUND)
     foreach(count 2 3)
+      if(name STREQUAL "gravityTimeIntegrationChecks")
+        # Keep each distributed case below the launcher's per-process timeout.
+        # Fixed-mesh temporal convergence is checked by the serial/single-locality cases.
+        foreach(case
+            HierarchicalSubcyclesAndConserves
+            ConventionalSubcyclesAndConserves
+            PeriodicAndReflectingShellWorkConserves
+            HierarchicalForcesBalanceMomentumAfterSubcycling
+            RegridAfterCoupledSubcyclesClosesAllBudgets
+            InvalidIntervalPreservesPublishedState
+            DisabledTimeRefinementMatchesGlobalComposition
+            NaiveSubcyclesAndRegridEnergyOptionRemainsIndependent
+            NestedThreeLevelShellAndFluxRegistersConserve
+            FineCflCanRequireMoreThanTwoSubsteps)
+          add_test(NAME distributed.${target}.${case}.${count} COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/distributed.py $<TARGET_FILE:${target}>)
+          set_tests_properties(distributed.${target}.${case}.${count} PROPERTIES
+            ENVIRONMENT "OCTOTIGERII_TEST_LOCALITIES=${count};GTEST_FILTER=GravityTimeIntegration.${case}"
+            TIMEOUT 360 LABELS "distributed" RUN_SERIAL TRUE)
+        endforeach()
+        continue()
+      endif()
       add_test(NAME distributed.${target}.${count} COMMAND ${Python3_EXECUTABLE}
         ${CMAKE_CURRENT_SOURCE_DIR}/distributed.py $<TARGET_FILE:${target}>)
       set_tests_properties(distributed.${target}.${count} PROPERTIES
@@ -70,11 +92,14 @@ octo_test(laneEmdenChecks Subgrid "unit;polytrope")
 if(OCTOTIGERII_HYDRO)
   octo_test(hydroChecks Hydro unit)
   octo_test(dualEnergyChecks Application dual-energy)
+  octo_test(timeRefinementChecks Application "integration;amr;time-refinement")
   if(OCTOTIGERII_MASS_FRACTIONS)
     octo_test(speciesChecks Application "integration;species")
   endif()
   if(OCTOTIGERII_GRAVITY AND OCTOTIGERII_MASS_FRACTIONS)
     octo_test(gravityEnergyChecks Application "integration;conservation;gravity")
+    octo_test(gravityTimeIntegrationChecks Application "integration;conservation;gravity;time-refinement")
+    octo_test(gravityFluxWorkChecks Application "unit;gravity")
   endif()
 endif()
 if(OCTOTIGERII_RADIATION)
@@ -88,6 +113,7 @@ if(OCTOTIGERII_GRAVITY)
   octo_test(ewaldChecks Gravity "unit;gravity")
   octo_test(directGravityChecks Application integration gravity-sphere)
   octo_test(gravityParallelChecks Application integration gravity-sphere)
+  octo_test(partialGravityChecks Application "integration;gravity;time-refinement" gravity-sphere)
 endif()
 if(defaultProblem)
   octo_test(unitsChecks Subgrid unit)

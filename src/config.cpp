@@ -64,6 +64,7 @@ namespace {
 		options("runtime.workerTasks", po::value<int>(), "Maximum concurrent tasks; 0 uses worker count");
 		options("runtime.workStealing", po::value<std::string>(), "Remote work stealing: on/off");
 		options("timestep.cfl", po::value<Real>(), "Courant factor");
+		options("timestep.refinement", po::value<std::string>(), "Dyadic level time refinement: on/off (default on; transport and self-gravity without external acceleration)");
 		options("massFractions.enabled", po::value<std::string>(), "Material partial densities and massless tracers: on/off (default off)");
 		options("massFractions.species", po::value<std::string>(), "Semicolon-separated name:initialFraction:element, A=mass,Z=number, or He=70%,O=30% definitions");
 		options("hydro.gamma", po::value<Real>(), "Ideal-gas adiabatic index");
@@ -95,6 +96,9 @@ namespace {
 		options("radiation.lightSpeedRatio", po::value<Real>(), "Radiation transport speed divided by c");
 		options("gravity.multipoleOrder", po::value<int>(), "Gravity expansion order (1..10)");
 		options("gravity.openingAngle", po::value<Real>(), "Gravity opening angle");
+		options("gravity.timeIntegration", po::value<std::string>(), "Time-refined self-gravity: hierarchical (default) or conventional");
+		options("gravity.energyTreatment", po::value<std::string>(), "Self-gravity energy: mullen (default) or naive kinetic-work kicks");
+		options("gravity.conserveRegridEnergy", po::value<std::string>(), "Conserve gas plus gravitational energy during regridding: on (default)/off");
 		options("output.enabled", po::value<std::string>(), "Silo output: on/off");
 		options("output.every", po::value<int>(), "Output every N steps");
 		options("output.directory", po::value<std::string>(), "Silo output directory");
@@ -206,6 +210,7 @@ namespace {
 		readBoolean(values, "runtime.workStealing", config.runtime.workStealing, "runtime.work_stealing");
 
 		readNumber(values, "timestep.cfl", config.timestep.cfl);
+		readBoolean(values, "timestep.refinement", config.timestep.refinement);
 		readNumber(values, "hydro.gamma", config.hydro.gamma);
 		readNumber(values, "hydro.meanMolecularWeight", config.hydro.meanMolecularWeight);
 		readBoolean(values, "hydro.dualEnergy.enabled", config.hydro.dualEnergy.enabled);
@@ -231,6 +236,9 @@ namespace {
 		readNumber(values, "radiation.lightSpeedRatio", config.radiation.lightSpeedRatio, "radiation.light_speed_ratio");
 		readOption(values, "gravity.multipoleOrder", config.gravity.multipoleOrder, "gravity.multipole_order");
 		readNumber(values, "gravity.openingAngle", config.gravity.openingAngle, "gravity.opening_angle");
+		readOption(values, "gravity.timeIntegration", config.gravity.timeIntegration);
+		readOption(values, "gravity.energyTreatment", config.gravity.energyTreatment);
+		readBoolean(values, "gravity.conserveRegridEnergy", config.gravity.conserveRegridEnergy);
 		readBoolean(values, "output.enabled", config.output.enabled);
 		readOption(values, "output.every", config.output.every);
 		readOption(values, "output.directory", config.output.directory);
@@ -239,6 +247,10 @@ namespace {
 }	 // namespace
 
 void Config::validate() const {
+	if (gravity.timeIntegration != "hierarchical" && gravity.timeIntegration != "conventional")
+		throw std::invalid_argument("gravity.timeIntegration must be hierarchical or conventional");
+	if (gravity.energyTreatment != "mullen" && gravity.energyTreatment != "naive")
+		throw std::invalid_argument("gravity.energyTreatment must be mullen or naive");
 	using std::isfinite;
 	using std::sqrt;
 

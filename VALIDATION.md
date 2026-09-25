@@ -391,3 +391,41 @@ and pressure/synchronization thresholds 0.001/0.1.
 HPX was unavailable in this execution environment. HPX configuration, state,
 and flux serialization were updated and their round-trip tests extended, but
 HPX builds and multiple-locality execution were not run here.
+
+## Gravity energy audit and selectable treatments — 2026-09-24
+
+510/510 serial tests pass. See [audit and comparison results](docs/validation/gravity-energy-audit/README.md)
+for the adaptive FMM reciprocity fix, independent timestep/regrid controls,
+conservative combined-energy remapping, and physical/AMR boundary checks.
+HPX/distributed execution remains unverified here.
+
+## Conservation archive merged into the time-refinement checkout — 2026-09-25
+
+The energy-conservation archive was merged with the in-progress transport
+time-refinement changes. The 3D serial gravity-energy, options, and
+time-refinement selections passed 55/55 tests. The 3D HPX gravity-energy and
+serialization selections passed 10/10 tests, and the two-locality distributed
+gravity-energy suite passed. A seven-step serial polytrope run through t=0.25 s
+finished with scaled gas-plus-gravity drift -6.20402181363211189e-17.
+At this baseline, gravity still used globally synchronized timesteps; these
+results preceded the gravity integrators described below.
+
+## Hierarchical and conventional gravity time refinement — 2026-09-25
+
+Implemented selectable gravity time integration with AMR subcycling, canonical
+mass-flux energy work, synchronized regridding, and the global reference path.
+The hierarchical mode adapts HOLD's interaction schedule to Eulerian mass
+transport. Its FMM force calculation additionally uses auxiliary order-(p+1)
+locals so matching source/target degrees preserve mutual force.
+
+143 selected serial regressions passed. Both modes show fixed-mesh temporal
+orders 2.04–2.09 for density, momentum, and gas energy in the smooth AMR case.
+Ten single-locality HPX regressions and all ten coupled two-locality cases
+passed; the partial-gravity suite also passed with two and three localities.
+Full-profile polytrope and collapse smoke runs give scaled energy-budget
+residuals near roundoff. These results establish discrete conservation and the
+tested temporal accuracy; they do not establish production accuracy or speedup.
+
+See the [derivation](docs/gravity-time-coupling-derivation.md) and
+[validation record](docs/validation/gravity-time-integration.txt) for numerical
+results, HPX execution scope, and limitations.

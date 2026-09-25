@@ -15,6 +15,7 @@ Hierarchy::Values& Hierarchy::Values::operator+=(Values const& other) {
 	radiation += other.radiation;
 	gravity += other.gravity;
 	density += other.density;
+	gasGravityEnergy += other.gasGravityEnergy;
 	if (species.empty()) species.resize(other.species.size());
 	if (species.size() != other.species.size()) throw std::logic_error("Shadow species size mismatch");
 	for (std::size_t s = 0; s < species.size(); ++s) species[s] += other.species[s];
@@ -22,7 +23,7 @@ Hierarchy::Values& Hierarchy::Values::operator+=(Values const& other) {
 }
 
 Hierarchy::Values Hierarchy::Values::operator*(Real weight) const {
-	Values result{hydro * weight, radiation * weight, gravity * weight, density * weight, species};
+	Values result{hydro * weight, radiation * weight, gravity * weight, density * weight, gasGravityEnergy * weight, species};
 	for (auto& q : result.species) q *= weight;
 	return result;
 }
@@ -51,6 +52,8 @@ Hierarchy::Hierarchy(Config const& config, std::vector<Snapshot> const& leaves)
 				if (!config_.hydroEnabled()) value.density = block.density.values()[i];
 			}
 			if (build::hydro && config_.hydroEnabled()) value.density = value.hydro.density();
+			if (config_.hydroEnabled() && config_.gravityEnabled())
+				value.gasGravityEnergy = value.hydro.totalEnergy() + 0.5 * value.density * value.gravity.potential();
 			auto scale = [](auto& maximum, auto const& state) {
 				state.forEach([&](auto f, auto v) { maximum.template get<f>() = std::max(maximum.template get<f>(), units::abs(v)); });
 			};
@@ -74,6 +77,87 @@ Hierarchy::Hierarchy(Config const& config, std::vector<Snapshot> const& leaves)
 }
 
 void Hierarchy::advance(units::Time dt) {
+	if (!config_.timestep.refinement || config_.gravityEnabled() || config_.hasExternalAcceleration()) {
+		advanceOnce(dt);
+		return;
+	}
+	// The independent shadow hierarchy includes fine covered cells. A coarse
+	// synchronization interval must never be applied to all of them in one step.
+	auto remaining = dt;
+	auto step = dt;
+	while (remaining > units::Time{}) {
+		std::array<units::Velocity, ndim> speed{};
+		auto width = config_.mesh.upper - config_.mesh.lower;
+		for (auto const& [cell, value] : cells_) {
+			width = std::min(width, (config_.mesh.upper - config_.mesh.lower) / Real(std::uint64_t(1) << cell.level));
+			for (int d = 0; d < ndim; ++d) {
+				if (build::hydro && config_.hydroEnabled()) speed[d] = std::max(speed[d], hydro::HydroSystem(config_.hydro).maximumSignalSpeed(value.hydro, d));
+				if (build::radiation && config_.radiationEnabled()) speed[d] = std::max(speed[d], radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c).maximumSignalSpeed(value.radiation, d));
+			}
+		}
+		units::InverseTime rate{};
+		for (auto v : speed) rate += v / width;
+		if (!(rate > units::InverseTime{}) || !units::finite(rate)) throw std::runtime_error("Invalid shadow CFL rate");
+		auto const limit = config_.timestep.cfl / rate;
+		while (step > limit || step > remaining) step /= 2;
+		if (!(step > units::Time{}) || time_ + step == time_) throw std::runtime_error("Shadow timestep cannot advance time");
+		advanceOnce(step);
+		remaining -= step;
+		if (remaining <= 32 * epsilonR * dt) remaining = {};
+	}
+}
+
+void Hierarchy::advanceGravity(units::Time dt) {
+	if (!(dt > units::Time{}) || !units::finite(dt))
+		throw std::invalid_argument("Shadow gravity timestep must be positive and finite");
+	auto const end = time_ + dt;
+	if (!units::finite(end) || end == time_) throw std::runtime_error("Shadow timestep cannot advance time");
+	Real elapsed = 0, fraction = 1;
+	while (elapsed < 1) {
+		std::array<units::Velocity, ndim> speed{};
+		auto width = config_.mesh.upper - config_.mesh.lower;
+		units::Acceleration maximumAcceleration{};
+		for (auto const& [cell, value] : cells_) {
+			width = std::min(width, (config_.mesh.upper - config_.mesh.lower) / Real(std::uint64_t(1) << cell.level));
+			units::Acceleration acceleration{};
+			for (int d = 0; d < ndim; ++d) {
+				if (build::hydro && config_.hydroEnabled()) {
+					speed[d] = std::max(speed[d], hydro::HydroSystem(config_.hydro).maximumSignalSpeed(value.hydro, d));
+					acceleration += units::abs(config_.hydro.acceleration[d]
+						+ (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{}));
+				}
+				if (build::radiation && config_.radiationEnabled())
+					speed[d] = std::max(speed[d], radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c).maximumSignalSpeed(value.radiation, d));
+			}
+			maximumAcceleration = std::max(maximumAcceleration, acceleration);
+		}
+		units::InverseTime rate{};
+		for (auto v : speed) rate += v / width;
+		if (!(rate > units::InverseTime{}) || !units::finite(rate)) throw std::runtime_error("Invalid shadow CFL rate");
+		auto limit = config_.timestep.cfl / rate;
+		if (maximumAcceleration > units::Acceleration{}) {
+			// Include the speed gained during the source step, using the same
+			// displacement and acceleration constraints as the physical cells.
+			auto const a = 0.5 * maximumAcceleration / width;
+			limit = std::min(limit, 2.0 * config_.timestep.cfl /
+				(rate + units::sqrt(rate * rate + 4.0 * a * config_.timestep.cfl)));
+			limit = std::min(limit, 0.2 * units::sqrt(width / maximumAcceleration));
+		}
+		while (fraction * dt > limit || fraction > 1 - elapsed) fraction /= 2;
+		auto const step = fraction * dt;
+		if (!(step > units::Time{}) || time_ + step == time_) throw std::runtime_error("Shadow timestep cannot advance time");
+		// These are independent error-estimation states, not physical leaves.
+		// Their field stays fixed until refreshGravity; no extra gravity solve
+		// or physical energy/momentum budget is introduced by this forecast.
+		kick(step / 2.0);
+		advanceOnce(step);
+		kick(step / 2.0);
+		elapsed += fraction;
+	}
+	time_ = end;
+}
+
+void Hierarchy::advanceOnce(units::Time dt) {
 	// A half-sized patch on every block (including ancestors) covers exactly
 	// its coarse shadow cells. Different levels advance their own solution.
 	// All stencils read the immutable old hierarchy; publication follows all work.
@@ -218,17 +302,21 @@ Hierarchy::Values Hierarchy::reconstructFrom(mesh::BlockLocation coarse, mesh::B
 	std::array<hydro::ConservedState, ndim> gasSlopes{};
 	std::array<radiation::RadiationSystem::State, ndim> radiationSlopes{};
 	std::array<Real, ndim> offset{};
+	std::array<units::EnergyDensity, ndim> energySlopes{};
 	Real const ratio = Real(1 << (fine.level - coarse.level));
 	for (int d = 0; d < ndim; ++d) {
 		auto left = coarse, right = coarse;
 		--left.coordinates[d];
 		++right.coordinates[d];
 		auto const a = average(left), b = average(right);
+		energySlopes[d] = physics::limitedSlope(center.gasGravityEnergy - a.gasGravityEnergy,
+			b.gasGravityEnergy - center.gasGravityEnergy, physics::Limiter::Minmod);
 		gasSlopes[d] = slope(a.hydro, center.hydro, b.hydro);
 		radiationSlopes[d] = slope(a.radiation, center.radiation, b.radiation);
 		offset[d] = (fine.coordinates[d] + 0.5) / ratio - (coarse.coordinates[d] + 0.5);
 	}
 	auto result = center;
+	for (int d = 0; d < ndim; ++d) result.gasGravityEnergy += offset[d] * energySlopes[d];
 	if (build::hydro && config_.hydroEnabled()) result.hydro = interpolate(center.hydro, gasSlopes, offset, hydro::HydroSystem(config_.hydro));
 	if (build::radiation && config_.radiationEnabled())
 		result.radiation = interpolate(center.radiation, radiationSlopes, offset, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c));
@@ -289,6 +377,18 @@ refinement::CellView Hierarchy::sample(mesh::BlockLocation block, mesh::Coordina
 			result.acceleration[d] = config_.hydro.acceleration[d] + (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{});
 		if (build::radiation && config_.radiationEnabled()) result.signalSpeed[d] = std::max(result.signalSpeed[d], config_.radiation.lightSpeedRatio * constants::c);
 	}
+	return result;
+}
+
+std::vector<units::EnergyDensity> Hierarchy::transferGasGravityEnergy(mesh::BlockLocation location) const {
+	mesh::MeshLayout const layout(config_.mesh.cells);
+	std::vector<units::EnergyDensity> result(layout.cellCount());
+	layout.forEachInterior([&](auto const& coordinate, std::size_t i) {
+		mesh::BlockLocation cell{cellLevel(location.level), {}};
+		for (int d = 0; d < ndim; ++d)
+			cell.coordinates[d] = location.coordinates[d] * config_.mesh.cells + coordinate[d];
+		result[i] = reconstruct(cell).gasGravityEnergy;
+	});
 	return result;
 }
 

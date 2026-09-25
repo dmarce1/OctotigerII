@@ -71,7 +71,9 @@ std::array<double, 4> evaluate(const Coefficients&, const Vector& offset, int p)
 class Operator {
 public:
 
-	Operator(int p, Offset separation);
+	/// forceLocal adds one local degree while retaining source degree p. Its
+	/// gradient has degree p on both sides of an interaction, preserving mutual force.
+	Operator(int p, Offset separation, bool forceLocal = false);
 
 	// R=(target center-source center)/cell width. Source moments use that width.
 	// Outputs potential derivatives with respect to target normalized coordinates.
@@ -86,14 +88,14 @@ public:
 
 private:
 
-	int count_;
+	int sourceCount_, localCount_;
 	std::vector<std::complex<double>> toWave_, fromWave_;
 	std::vector<double> diagonal_;
 };
 
 
 /// Find or build an immutable cached translation for the order and integer separation.
-std::shared_ptr<const Operator> getOperator(int p, Offset separation);
+std::shared_ptr<const Operator> getOperator(int p, Offset separation, bool forceLocal = false);
 
 /// Return the number of cached order/separation translation operators.
 std::size_t cachedOperatorCount();

@@ -1,5 +1,6 @@
 #include "testSupport.hpp"
 #include <gtest/gtest.h>
+#include <iostream>
 #include <limits>
 #include "octotigerII/buildConfig.hpp"
 #include "octotigerII/hydro/hydroSystem.hpp"
@@ -71,6 +72,98 @@ TYPED_TEST(FiniteVolume, UniformStateIsPreservedForEveryLimiter) {
 		EXPECT_EQ(patch.timeState().time, 4.0 * dt);
 	}
 }
+
+
+TYPED_TEST(FiniteVolume, PredictorTransformationUsesCellCentersAndPreservesUpdateBase) {
+	auto patch = this->patch();
+	physics::fillGhostCells(patch, physics::BoundaryConditions::periodic(), this->system);
+	auto const original = patch.values();
+	auto transform = [](typename TypeParam::State state, mesh::Coordinates const& storage) {
+		Real phase = 0;
+		for (int axis = 0; axis < ndim; ++axis) phase += (axis + 1) * (storage[axis] - 1.5) / 8;
+		return state * (1 + 0.05 * std::sin(2 * piR * phase));
+	};
+	auto predictorPatch = patch;
+	mesh::forEachCoordinate(patch.layout().extents(), [&](auto const& storage) {
+		predictorPatch.atStorage(storage) = transform(patch.atStorage(storage), storage);
+	});
+	physics::MusclHancock<TypeParam> solver(this->system);
+	auto const dt = 0.01 * solver.stableTimestep(predictorPatch, 0.3);
+	typename physics::MusclHancock<TypeParam>::Workspace actualWorkspace, referenceWorkspace;
+	auto actual = patch.values();
+	auto reference = predictorPatch.values();
+	solver.advanceInto(patch, dt, actualWorkspace,
+		[&](auto const& cell, auto const& state) { actual[patch.layout().index(patch.layout().storageCoordinates(cell))] = state; }, transform);
+	solver.advanceInto(predictorPatch, dt, referenceWorkspace,
+		[&](auto const& cell, auto const& state) { reference[patch.layout().index(patch.layout().storageCoordinates(cell))] = state; });
+	for (int axis = 0; axis < ndim; ++axis)
+		for (std::size_t face = 0; face < actualWorkspace.fluxes[axis].size(); ++face)
+			test::expectStateNear(actualWorkspace.fluxes[axis][face], referenceWorkspace.fluxes[axis][face]);
+	patch.layout().forEachInterior([&](auto const& cell, auto index) {
+		auto const expected = reference[index] - predictorPatch.atInterior(cell) + patch.atInterior(cell);
+		test::expectStateNear(actual[index], expected);
+	});
+	for (std::size_t index = 0; index < original.size(); ++index)
+		test::expectStateNear(patch.values()[index], original[index], 0);
+}
+
+#if OCTOTIGERII_HYDRO
+TEST(FiniteVolumeMidpoint, NumericalFluxPredictorHasSecondOrderAtFixedMesh) {
+	// A Hancock spatial predictor is not the derivative of the numerical
+	// semidiscrete flux operator. The explicit-midpoint path must use that
+	// operator and must not apply a second Hancock time prediction afterward.
+	hydro::HydroSystem const gas(1.4);
+	physics::MusclHancock<hydro::HydroSystem> const solver(gas);
+	using Patch = mesh::PatchData<hydro::ConservedState>;
+	auto integrate = [&](int steps) {
+		Patch patch(mesh::MeshLayout(8, 2), units::Length::from_value(0.25));
+		patch.layout().forEachInterior([&](auto const& cell, auto) {
+			hydro::PrimitiveState primitive;
+			primitive.density() = units::Density::from_value(1 + 0.1 * std::sin(2 * piR * (cell[0] + 0.5) / 8));
+			primitive.pressure() = units::Pressure::from_value(2);
+			primitive.velocity(0) = units::Velocity::from_value(0.2);
+			patch.atInterior(cell) = gas.conservedState(primitive);
+		});
+		auto const dt = units::Time::from_value(0.04 / steps);
+		for (int step = 0; step < steps; ++step) {
+			physics::fillGhostCells(patch, physics::BoundaryConditions::periodic(), gas);
+			physics::MusclHancock<hydro::HydroSystem>::Workspace first, second;
+			solver.advanceInto(patch, {}, first, [](auto const&, auto const&) {});
+			auto midpoint = patch;
+			patch.layout().forEachInterior([&](auto const& cell, auto) {
+				hydro::ConservedFlux divergence;
+				for (int d = 0; d < ndim; ++d) {
+					auto upper = cell; ++upper[d];
+					divergence += first.fluxes[d][patch.layout().faceIndex(d, cell)] - first.fluxes[d][patch.layout().faceIndex(d, upper)];
+				}
+				midpoint.atInterior(cell) += (0.5 * dt / patch.cellWidth()) * divergence;
+			});
+			physics::fillGhostCells(midpoint, physics::BoundaryConditions::periodic(), gas);
+			auto next = patch;
+			solver.advanceInto(patch, dt, second,
+				[&](auto const& cell, auto const& value) { next.atInterior(cell) = value; },
+				[&](auto const&, auto const& cell) { return midpoint.atStorage(cell); }, false);
+			patch = std::move(next);
+		}
+		return patch;
+	};
+	auto const reference = integrate(128);
+	std::array<Real, 3> errors{};
+	int run = 0;
+	for (int steps : {2, 4, 8}) {
+		auto const actual = integrate(steps);
+		reference.layout().forEachInterior([&](auto const& cell, auto) {
+			errors[run] += std::abs(units::value(actual.atInterior(cell).density() - reference.atInterior(cell).density()));
+		});
+		++run;
+	}
+	std::cout << "Fixed-mesh explicit-midpoint density errors: " << errors[0] << ", " << errors[1] << ", " << errors[2]
+		<< "; orders " << std::log2(errors[0] / errors[1]) << ", " << std::log2(errors[1] / errors[2]) << '\n';
+	EXPECT_GT(errors[0], 1e-10);
+	EXPECT_LT(errors[1], 0.28 * errors[0]);
+	EXPECT_LT(errors[2], 0.28 * errors[1]);
+}
+#endif
 
 
 TYPED_TEST(FiniteVolume, NonuniformPeriodicEvolutionConservesEveryComponent) {

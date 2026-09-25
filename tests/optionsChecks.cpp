@@ -33,6 +33,43 @@ TEST_F(Options, HierarchicalIniSections) {
 	EXPECT_FALSE(c.runtime.workStealing);
 }
 
+TEST_F(Options, IndependentGravityEnergyControls) {
+	auto const defaults = test::parseConfig({});
+	EXPECT_EQ(defaults.gravity.energyTreatment, "mullen");
+	EXPECT_TRUE(defaults.gravity.conserveRegridEnergy);
+	{ std::ofstream out(first); out << "[gravity]\nenergyTreatment=naive\nconserveRegridEnergy=off\n"; }
+	auto const legacy = test::parseConfig({"--config=" + first});
+	EXPECT_EQ(legacy.gravity.energyTreatment, "naive");
+	EXPECT_FALSE(legacy.gravity.conserveRegridEnergy);
+	auto const mixed = test::parseConfig({"--config=" + first, "--gravity.conserveRegridEnergy=on"});
+	EXPECT_EQ(mixed.gravity.energyTreatment, "naive");
+	EXPECT_TRUE(mixed.gravity.conserveRegridEnergy);
+	auto const other = test::parseConfig({"--config=" + first, "--gravity.energyTreatment=mullen"});
+	EXPECT_EQ(other.gravity.energyTreatment, "mullen");
+	EXPECT_FALSE(other.gravity.conserveRegridEnergy);
+	EXPECT_THROW(test::parseConfig({"--gravity.energyTreatment=unknown"}), std::invalid_argument);
+}
+
+
+TEST_F(Options, GravityTimeIntegrationControls) {
+	auto const defaults = test::parseConfig({});
+	EXPECT_EQ(defaults.gravity.timeIntegration, "hierarchical");
+	{ std::ofstream out(first); out << "[gravity]\ntimeIntegration=conventional\nenergyTreatment=naive\nconserveRegridEnergy=off\n"; }
+	auto const conventional = test::parseConfig({"--config=" + first});
+	EXPECT_EQ(conventional.gravity.timeIntegration, "conventional");
+	EXPECT_EQ(conventional.gravity.energyTreatment, "naive");
+	EXPECT_FALSE(conventional.gravity.conserveRegridEnergy);
+	auto const hierarchical = test::parseConfig({"--gravity.timeIntegration=hierarchical", "--config=" + first});
+	EXPECT_EQ(hierarchical.gravity.timeIntegration, "hierarchical");
+	EXPECT_EQ(hierarchical.gravity.energyTreatment, "naive");
+	EXPECT_FALSE(hierarchical.gravity.conserveRegridEnergy);
+	auto const global = test::parseConfig({"--gravity.timeIntegration=conventional", "--timestep.refinement=off"});
+	EXPECT_EQ(global.gravity.timeIntegration, "conventional");
+	EXPECT_FALSE(global.timestep.refinement);
+	EXPECT_THROW(test::parseConfig({"--gravity.timeIntegration=unknown"}), std::invalid_argument);
+	EXPECT_NE(helpText().find("gravity.timeIntegration"), std::string::npos);
+}
+
 
 TEST_F(Options, CliOverridesIniRegardlessOfArgumentOrder) {
 	auto const c = test::parseConfig({"--gravity.multipoleOrder=5", "--config=" + first, "--gravity.openingAngle=0.5", "--runtime.workStealing=on"});

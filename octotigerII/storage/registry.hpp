@@ -43,9 +43,10 @@ class FieldRepository {
 public:
 	FieldRepository(Config const& config, storage::Layout const& layout, std::vector<storage::Locality> const& localities)
 	  : store_(localities) {
+		unsigned const banks = config.amr.enabled && config.timestep.refinement ? (config.gravityEnabled() ? 4 : 3) : 2;
 		if (config.massFractions.enabled) {
 			for (auto const& s : config.massFractions.species) {
-				species_.push_back(std::make_unique<storage::Field<units::Density>>(layout, store_, 2, "massFractions." + s.name));
+				species_.push_back(std::make_unique<storage::Field<units::Density>>(layout, store_, banks, "massFractions." + s.name));
 				directory_.species.push_back(species_.back()->handle());
 			}
 		}
@@ -64,7 +65,7 @@ public:
 		if (config.amr.enabled) {
 			storage::Layout fluxLayout(std::vector<std::size_t>(layout.ranges().size(), boundaryFluxCount(config.mesh.cells)), localities.size());
 			for (auto const& s : config.massFractions.species) if (config.massFractions.enabled) {
-				speciesFlux_.push_back(std::make_unique<storage::Field<units::MassFlux>>(fluxLayout, store_, 1, "massFractions.boundaryFlux." + s.name));
+				speciesFlux_.push_back(std::make_unique<storage::Field<units::MassFlux>>(fluxLayout, store_, 2, "massFractions.boundaryFlux." + s.name));
 				directory_.speciesFlux.push_back(speciesFlux_.back()->handle());
 			}
 			if (build::hydro && config.hydroEnabled()) {
@@ -77,18 +78,18 @@ public:
 			}
 		}
 		if (build::hydro && config.hydroEnabled()) {
-			hydro_ = std::make_unique<storage::ColumnFields<hydro::ConservedState>>(layout, store_, "hydro", config.massFractions.enabled);
+			hydro_ = std::make_unique<storage::ColumnFields<hydro::ConservedState>>(layout, store_, "hydro", config.massFractions.enabled, banks);
 			directory_.hydro = hydro_->handle();
 			if (config.massFractions.enabled)
 				for (std::size_t s = 0; s < config.massFractions.species.size(); ++s)
 					if (!config.massFractions.species[s].tracer()) std::get<0>(directory_.hydro.fields).sumSources.push_back(directory_.species[s]);
 		}
 		if (build::radiation && config.radiationEnabled()) {
-			radiation_ = std::make_unique<storage::ColumnFields<radiation::RadiationSystem::State>>(layout, store_, "radiation");
+			radiation_ = std::make_unique<storage::ColumnFields<radiation::RadiationSystem::State>>(layout, store_, "radiation", false, banks);
 			directory_.radiation = radiation_->handle();
 		}
 		if (build::gravity && config.gravityEnabled()) {
-			gravity_ = std::make_unique<storage::ColumnFields<gravity::State>>(layout, store_, "gravity");
+			gravity_ = std::make_unique<storage::ColumnFields<gravity::State>>(layout, store_, "gravity", false, banks);
 			directory_.gravity = gravity_->handle();
 			if (!config.hydroEnabled()) {
 				density_ = std::make_unique<storage::Field<units::Density>>(layout, store_, 2, "density");

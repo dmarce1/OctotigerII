@@ -56,11 +56,12 @@ class HaloRead {
 public:
 	storage::Range range;
 	std::vector<HaloCopy> copies;
+	int level = 0;
 
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & range & copies;
+		archive & range & copies & level;
 	}
 };
 

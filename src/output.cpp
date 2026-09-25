@@ -210,7 +210,7 @@ Output::Output(Config const& c)
 		for (int d = 0; d < ndim; ++d) header(std::string("momentum_") + "xyz"[d] + "_g_cm_s");
 		header("gas_energy_erg");
 		conservation_ << ",kinetic_energy_erg_grid,thermal_energy_erg_grid";
-		if (c.gravityEnabled()) conservation_ << ",potential_energy_erg_grid,potential_energy_erg_in,potential_energy_erg_out,gas_gravity_energy_erg_grid,gas_gravity_energy_erg_corrected,gas_gravity_energy_erg_norm,gas_gravity_energy_drift_scaled";
+		if (c.gravityEnabled()) conservation_ << ",potential_energy_erg_grid,potential_energy_erg_in,potential_energy_erg_out,gas_gravity_energy_erg_grid,gas_gravity_energy_erg_corrected,gas_gravity_energy_erg_norm,gas_gravity_energy_drift_scaled,gravity_reciprocity_defect_erg,gravity_regrid_energy_change_erg,gravity_energy_budget_residual_scaled";
 	}
 	if (c.radiationEnabled()) {
 		header("radiation_energy_erg");
@@ -245,7 +245,9 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 			conservation_ << ',' << units::value(d.potentialEnergy) << ',' << units::value(in.potentialEnergy) << ',' << units::value(out.potentialEnergy)
 				<< ',' << units::value(d.gasGravityEnergy)
 				<< ',' << units::value(d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy)
-				<< ',' << units::value(norm) << ',' << drift;
+				<< ',' << units::value(norm) << ',' << drift
+				<< ',' << units::value(d.gravityReciprocityDefect) << ',' << units::value(d.gravityRegridEnergyChange)
+				<< ',' << (norm > units::Energy{} ? drift - Real((d.gravityReciprocityDefect + d.gravityRegridEnergyChange) / norm) : Real(0));
 		}
 	}
 	if (config_.radiationEnabled()) {

@@ -1,0 +1,334 @@
+GCC 13.3.0; Release; HPX-free serial build. All physics modules enabled.
+
+timeRefinementChecks-1d
+[==========] Running 9 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 9 tests from TimeRefinement
+[ RUN      ] TimeRefinement.DefaultOnAndExplicitOff
+[       OK ] TimeRefinement.DefaultOnAndExplicitOff (0 ms)
+[ RUN      ] TimeRefinement.HydroUsesFourOrMoreFineStepsAndConserves
+[       OK ] TimeRefinement.HydroUsesFourOrMoreFineStepsAndConserves (2 ms)
+[ RUN      ] TimeRefinement.DisabledPathUsesFineCflAndNoSubcycles
+[       OK ] TimeRefinement.DisabledPathUsesFineCflAndNoSubcycles (0 ms)
+[ RUN      ] TimeRefinement.RadiationSubcyclesAndConserves
+[       OK ] TimeRefinement.RadiationSubcyclesAndConserves (1 ms)
+[ RUN      ] TimeRefinement.RegridAfterSubcyclingPreservesSynchronizedState
+[       OK ] TimeRefinement.RegridAfterSubcyclingPreservesSynchronizedState (0 ms)
+[ RUN      ] TimeRefinement.HaloUsesEachDonorBankAndCoarseTimeFraction
+[       OK ] TimeRefinement.HaloUsesEachDonorBankAndCoarseTimeFraction (0 ms)
+[ RUN      ] TimeRefinement.StreamingRetainsSecondOrderAcrossLevelBoundary
+Streaming L1 errors: 1.54187e+09, 4.18646e+08, 1.02342e+08; final observed order 2.03233
+[       OK ] TimeRefinement.StreamingRetainsSecondOrderAcrossLevelBoundary (189 ms)
+[ RUN      ] TimeRefinement.NestedThreeLevelRegistersConserve
+[       OK ] TimeRefinement.NestedThreeLevelRegistersConserve (0 ms)
+[ RUN      ] TimeRefinement.OutflowBoundaryLedgerCoversEverySubstep
+[       OK ] TimeRefinement.OutflowBoundaryLedgerCoversEverySubstep (0 ms)
+[----------] 9 tests from TimeRefinement (195 ms total)
+
+[----------] Global test environment tear-down
+[==========] 9 tests from 1 test suite ran. (195 ms total)
+[  PASSED  ] 9 tests.
+
+timeRefinementChecks-2d
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from TimeRefinement
+[ RUN      ] TimeRefinement.DefaultOnAndExplicitOff
+[       OK ] TimeRefinement.DefaultOnAndExplicitOff (0 ms)
+[ RUN      ] TimeRefinement.HydroUsesFourOrMoreFineStepsAndConserves
+[       OK ] TimeRefinement.HydroUsesFourOrMoreFineStepsAndConserves (54 ms)
+[ RUN      ] TimeRefinement.DisabledPathUsesFineCflAndNoSubcycles
+[       OK ] TimeRefinement.DisabledPathUsesFineCflAndNoSubcycles (12 ms)
+[ RUN      ] TimeRefinement.RadiationSubcyclesAndConserves
+[       OK ] TimeRefinement.RadiationSubcyclesAndConserves (61 ms)
+[ RUN      ] TimeRefinement.RegridAfterSubcyclingPreservesSynchronizedState
+[       OK ] TimeRefinement.RegridAfterSubcyclingPreservesSynchronizedState (9 ms)
+[ RUN      ] TimeRefinement.HaloUsesEachDonorBankAndCoarseTimeFraction
+[       OK ] TimeRefinement.HaloUsesEachDonorBankAndCoarseTimeFraction (0 ms)
+[ RUN      ] TimeRefinement.NestedThreeLevelRegistersConserve
+[       OK ] TimeRefinement.NestedThreeLevelRegistersConserve (17 ms)
+[ RUN      ] TimeRefinement.OutflowBoundaryLedgerCoversEverySubstep
+[       OK ] TimeRefinement.OutflowBoundaryLedgerCoversEverySubstep (18 ms)
+[----------] 8 tests from TimeRefinement (173 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (173 ms total)
+[  PASSED  ] 8 tests.
+
+timeRefinementChecks-3d
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from TimeRefinement
+[ RUN      ] TimeRefinement.DefaultOnAndExplicitOff
+[       OK ] TimeRefinement.DefaultOnAndExplicitOff (0 ms)
+[ RUN      ] TimeRefinement.HydroUsesFourOrMoreFineStepsAndConserves
+[       OK ] TimeRefinement.HydroUsesFourOrMoreFineStepsAndConserves (2670 ms)
+[ RUN      ] TimeRefinement.DisabledPathUsesFineCflAndNoSubcycles
+[       OK ] TimeRefinement.DisabledPathUsesFineCflAndNoSubcycles (334 ms)
+[ RUN      ] TimeRefinement.RadiationSubcyclesAndConserves
+[       OK ] TimeRefinement.RadiationSubcyclesAndConserves (2853 ms)
+[ RUN      ] TimeRefinement.RegridAfterSubcyclingPreservesSynchronizedState
+[       OK ] TimeRefinement.RegridAfterSubcyclingPreservesSynchronizedState (352 ms)
+[ RUN      ] TimeRefinement.HaloUsesEachDonorBankAndCoarseTimeFraction
+[       OK ] TimeRefinement.HaloUsesEachDonorBankAndCoarseTimeFraction (0 ms)
+[ RUN      ] TimeRefinement.NestedThreeLevelRegistersConserve
+[       OK ] TimeRefinement.NestedThreeLevelRegistersConserve (1831 ms)
+[ RUN      ] TimeRefinement.OutflowBoundaryLedgerCoversEverySubstep
+[       OK ] TimeRefinement.OutflowBoundaryLedgerCoversEverySubstep (554 ms)
+[----------] 8 tests from TimeRefinement (8598 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (8598 ms total)
+[  PASSED  ] 8 tests.
+
+amrChecks-1d
+[==========] Running 12 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 12 tests from Amr
+[ RUN      ] Amr.OptionsValidateAndRoundTrip
+[       OK ] Amr.OptionsValidateAndRoundTrip (0 ms)
+[ RUN      ] Amr.MortonDestinationAndConservativeRefineCoarsen
+[       OK ] Amr.MortonDestinationAndConservativeRefineCoarsen (0 ms)
+[ RUN      ] Amr.FailedCriterionPreservesPublishedMeshAndState
+[       OK ] Amr.FailedCriterionPreservesPublishedMeshAndState (0 ms)
+[ RUN      ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+[       OK ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners (0 ms)
+[ RUN      ] Amr.MassThresholdRespectsFinestLevel
+[       OK ] Amr.MassThresholdRespectsFinestLevel (0 ms)
+[ RUN      ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+[       OK ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon (0 ms)
+[ RUN      ] Amr.MixedLevelTransportConservesPeriodicIntegrals
+[       OK ] Amr.MixedLevelTransportConservesPeriodicIntegrals (0 ms)
+[ RUN      ] Amr.RegridCadenceAndTravelBudget
+[       OK ] Amr.RegridCadenceAndTravelBudget (0 ms)
+[ RUN      ] Amr.EvolvedShadowDiffersFromFreshRestriction
+[       OK ] Amr.EvolvedShadowDiffersFromFreshRestriction (0 ms)
+[ RUN      ] Amr.StartupVisitsRootAndRefillsEveryNewLevel
+[       OK ] Amr.StartupVisitsRootAndRefillsEveryNewLevel (0 ms)
+[ RUN      ] Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution
+[       OK ] Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution (0 ms)
+[ RUN      ] Amr.DensityCriterionUsesDensityRatherThanCellMass
+[       OK ] Amr.DensityCriterionUsesDensityRatherThanCellMass (0 ms)
+[----------] 12 tests from Amr (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 12 tests from 1 test suite ran. (2 ms total)
+[  PASSED  ] 12 tests.
+
+amrChecks-3d
+[==========] Running 13 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 13 tests from Amr
+[ RUN      ] Amr.OptionsValidateAndRoundTrip
+[       OK ] Amr.OptionsValidateAndRoundTrip (0 ms)
+[ RUN      ] Amr.MortonDestinationAndConservativeRefineCoarsen
+[       OK ] Amr.MortonDestinationAndConservativeRefineCoarsen (18 ms)
+[ RUN      ] Amr.FailedCriterionPreservesPublishedMeshAndState
+[       OK ] Amr.FailedCriterionPreservesPublishedMeshAndState (3 ms)
+[ RUN      ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+[       OK ] Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners (36 ms)
+[ RUN      ] Amr.MassThresholdRespectsFinestLevel
+[       OK ] Amr.MassThresholdRespectsFinestLevel (23 ms)
+[ RUN      ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+[       OK ] Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon (2 ms)
+[ RUN      ] Amr.MixedLevelTransportConservesPeriodicIntegrals
+[       OK ] Amr.MixedLevelTransportConservesPeriodicIntegrals (51 ms)
+[ RUN      ] Amr.RegridCadenceAndTravelBudget
+[       OK ] Amr.RegridCadenceAndTravelBudget (14 ms)
+[ RUN      ] Amr.EvolvedShadowDiffersFromFreshRestriction
+[       OK ] Amr.EvolvedShadowDiffersFromFreshRestriction (1 ms)
+[ RUN      ] Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages
+[       OK ] Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages (7921 ms)
+[ RUN      ] Amr.StartupVisitsRootAndRefillsEveryNewLevel
+[       OK ] Amr.StartupVisitsRootAndRefillsEveryNewLevel (98 ms)
+[ RUN      ] Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution
+[       OK ] Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution (10 ms)
+[ RUN      ] Amr.DensityCriterionUsesDensityRatherThanCellMass
+[       OK ] Amr.DensityCriterionUsesDensityRatherThanCellMass (0 ms)
+[----------] 13 tests from Amr (8181 ms total)
+
+[----------] Global test environment tear-down
+[==========] 13 tests from 1 test suite ran. (8181 ms total)
+[  PASSED  ] 13 tests.
+
+speciesChecks-1d
+[==========] Running 7 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 7 tests from Species
+[ RUN      ] Species.AllElementsAliasesAndMixtureMoments
+[       OK ] Species.AllElementsAliasesAndMixtureMoments (0 ms)
+[ RUN      ] Species.InvalidDefinitionsFail
+[       OK ] Species.InvalidDefinitionsFail (0 ms)
+[ RUN      ] Species.HydroDensityHasNoAllocatedColumn
+[       OK ] Species.HydroDensityHasNoAllocatedColumn (0 ms)
+[ RUN      ] Species.NonuniformContactFluxesConserveEverySpecies
+[       OK ] Species.NonuniformContactFluxesConserveEverySpecies (0 ms)
+[ RUN      ] Species.RuntimeAndAMRPreserveCompositionAndMaterialMass
+[       OK ] Species.RuntimeAndAMRPreserveCompositionAndMaterialMass (1 ms)
+[ RUN      ] Species.IniMixturesAndCommandLineOverride
+[       OK ] Species.IniMixturesAndCommandLineOverride (0 ms)
+[ RUN      ] Species.NonuniformFractionsSurviveConservativeSplitAndMerge
+[       OK ] Species.NonuniformFractionsSurviveConservativeSplitAndMerge (0 ms)
+[----------] 7 tests from Species (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test suite ran. (2 ms total)
+[  PASSED  ] 7 tests.
+
+speciesChecks-3d
+[==========] Running 7 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 7 tests from Species
+[ RUN      ] Species.AllElementsAliasesAndMixtureMoments
+[       OK ] Species.AllElementsAliasesAndMixtureMoments (0 ms)
+[ RUN      ] Species.InvalidDefinitionsFail
+[       OK ] Species.InvalidDefinitionsFail (0 ms)
+[ RUN      ] Species.HydroDensityHasNoAllocatedColumn
+[       OK ] Species.HydroDensityHasNoAllocatedColumn (0 ms)
+[ RUN      ] Species.NonuniformContactFluxesConserveEverySpecies
+[       OK ] Species.NonuniformContactFluxesConserveEverySpecies (1 ms)
+[ RUN      ] Species.RuntimeAndAMRPreserveCompositionAndMaterialMass
+[       OK ] Species.RuntimeAndAMRPreserveCompositionAndMaterialMass (215 ms)
+[ RUN      ] Species.IniMixturesAndCommandLineOverride
+[       OK ] Species.IniMixturesAndCommandLineOverride (0 ms)
+[ RUN      ] Species.NonuniformFractionsSurviveConservativeSplitAndMerge
+[       OK ] Species.NonuniformFractionsSurviveConservativeSplitAndMerge (1 ms)
+[----------] 7 tests from Species (220 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test suite ran. (220 ms total)
+[  PASSED  ] 7 tests.
+
+storageChecks-1d
+[==========] Running 2 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from Storage
+[ RUN      ] Storage.IndependentFieldsBanksViewsTypesAndRetirement
+Shared partitions, independent layouts/fields, physical flux, views, banks, type validation and retirement passed
+[       OK ] Storage.IndependentFieldsBanksViewsTypesAndRetirement (0 ms)
+[----------] 1 test from Storage (0 ms total)
+
+[----------] 1 test from Runtime
+[ RUN      ] Runtime.FailedStageRollsBackAndRetryPublishesOnce
+Failed stage rollback, retry, publication and task accounting passed (6 local, 0 stolen tasks)
+[       OK ] Runtime.FailedStageRollsBackAndRetryPublishesOnce (0 ms)
+[----------] 1 test from Runtime (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 2 test suites ran. (0 ms total)
+[  PASSED  ] 2 tests.
+
+optionsChecks-1d
+[==========] Running 39 tests from 4 test suites.
+[----------] Global test environment set-up.
+[----------] 6 tests from Options
+[ RUN      ] Options.HierarchicalIniSections
+[       OK ] Options.HierarchicalIniSections (0 ms)
+[ RUN      ] Options.CliOverridesIniRegardlessOfArgumentOrder
+[       OK ] Options.CliOverridesIniRegardlessOfArgumentOrder (0 ms)
+[ RUN      ] Options.LegacyAndCanonicalNamesSharePrecedence
+[       OK ] Options.LegacyAndCanonicalNamesSharePrecedence (0 ms)
+[ RUN      ] Options.LaterIniOverridesEarlierAndCliOverridesBoth
+[       OK ] Options.LaterIniOverridesEarlierAndCliOverridesBoth (0 ms)
+[ RUN      ] Options.MissingAndMalformedIniAreRejected
+[       OK ] Options.MissingAndMalformedIniAreRejected (0 ms)
+[ RUN      ] Options.DualEnergyIniAndCliPrecedence
+[       OK ] Options.DualEnergyIniAndCliPrecedence (0 ms)
+[----------] 6 tests from Options (2 ms total)
+
+[----------] 3 tests from OptionValues
+[ RUN      ] OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+[       OK ] OptionValues.SplitArgumentsSamplingAndGeneratedHelp (0 ms)
+[ RUN      ] OptionValues.DuplicateAliasIsRejected
+[       OK ] OptionValues.DuplicateAliasIsRejected (0 ms)
+[ RUN      ] OptionValues.DualEnergyDefaultsAndValidation
+[       OK ] OptionValues.DualEnergyDefaultsAndValidation (0 ms)
+[----------] 3 tests from OptionValues (0 ms total)
+
+[----------] 10 tests from Orders/MultipoleOption
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/0
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/0 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/1
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/1 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/2
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/2 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/3
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/3 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/4
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/4 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/5
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/5 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/6
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/6 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/7
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/7 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/8
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/8 (0 ms)
+[ RUN      ] Orders/MultipoleOption.SupportedOrderIsAccepted/9
+[       OK ] Orders/MultipoleOption.SupportedOrderIsAccepted/9 (0 ms)
+[----------] 10 tests from Orders/MultipoleOption (0 ms total)
+
+[----------] 20 tests from Validation/InvalidOption
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/0
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/0 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/1
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/1 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/2
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/2 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/3
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/3 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/4
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/4 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/5
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/5 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/6
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/6 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/7
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/7 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/8
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/8 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/9
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/9 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/10
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/10 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/11
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/11 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/12
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/12 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/13
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/13 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/14
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/14 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/15
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/15 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/16
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/16 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/17
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/17 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/18
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/18 (0 ms)
+[ RUN      ] Validation/InvalidOption.RejectsInvalidValue/19
+[       OK ] Validation/InvalidOption.RejectsInvalidValue/19 (0 ms)
+[----------] 20 tests from Validation/InvalidOption (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 39 tests from 4 test suites ran. (5 ms total)
+[  PASSED  ] 39 tests.
+
+gravityEnergyChecks-3d
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from GravityEnergy
+[ RUN      ] GravityEnergy.IsolatedUniformWithAndWithoutSpecies
+[       OK ] GravityEnergy.IsolatedUniformWithAndWithoutSpecies (189 ms)
+[ RUN      ] GravityEnergy.IsolatedAdaptiveWithAndWithoutSpecies
+[       OK ] GravityEnergy.IsolatedAdaptiveWithAndWithoutSpecies (2194 ms)
+[ RUN      ] GravityEnergy.PeriodicUniformWithSpecies
+[       OK ] GravityEnergy.PeriodicUniformWithSpecies (448 ms)
+[ RUN      ] GravityEnergy.PeriodicAdaptiveWithSpecies
+[       OK ] GravityEnergy.PeriodicAdaptiveWithSpecies (12383 ms)
+[----------] 4 tests from GravityEnergy (15215 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (15215 ms total)
+[  PASSED  ] 4 tests.

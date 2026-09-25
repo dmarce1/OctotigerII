@@ -1,0 +1,136 @@
+Gravity time refinement validation — 2026-09-25
+================================================
+
+Implementation
+--------------
+gravity.timeIntegration=hierarchical (default) selects the finite-volume
+adaptation of Pelupessy et al.'s HOLD interaction schedule. The conventional
+option evaluates full gravity at each active level's cadence. Both support the
+independent mullen/naive energy and conservative/nonconservative regrid options.
+Disabling timestep refinement selects the existing global composition.
+
+The derivation is in ../gravity-time-coupling-derivation.md. This is an Eulerian
+predictor/corrector with HOLD's paired endpoint impulse quadrature, not a claim
+of a symplectic particle integrator. The new midpoint transport path is used
+only by refined self-gravity. The global transport path is unchanged.
+
+Builds and regression results
+----------------------------
+GCC 13.3, Release, double precision, Linux. Serial build:
+
+  cmake -S . -B /tmp/octotigerII-conservation-serial \
+    -DOCTOTIGERII_WITH_HPX=OFF -DCMAKE_BUILD_TYPE=Release \
+    -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=<existing GoogleTest source>
+
+143 selected serial tests passed, in three completed selections:
+  * 45: 1D finiteVolumeChecks/timeRefinementChecks, and 3D
+    gravityChecks/ewaldChecks/gravityParallelChecks.
+  * 97: 3D gravityTimeIntegrationChecks (before the additional image case),
+    partialGravityChecks, gravityEnergyChecks, gravityFluxWorkChecks,
+    finiteVolumeChecks, timeRefinementChecks, and optionsChecks.
+  * 1: the additional periodic/reflecting coupled shell-work case.
+
+These are targeted regression selections, not the complete repository suite.
+The coupled cases exercise both integrators, with and without species; true
+coarse/fine subcycling; three occupied levels; more than two fine CFL substeps;
+reflux; regrid refinement/coarsening; independent naive/regrid controls; invalid
+interval rejection; and exact equality to the manual global sequence when time
+refinement is off. Isolated, periodic, and reflecting energy budgets are covered.
+
+HPX 1.11 Release:
+  * 10/10 single-locality gravity-energy and serialization tests passed.
+  * All ten non-convergence gravity integration cases passed with two TCP
+    localities and two HPX workers per locality (including periodic/reflecting
+    boundaries, mutual momentum, three levels, CFL subdivision, and regridding).
+  * The partialGravityChecks suite passed with both two and three localities.
+These are 12 successful distributed CTest entries. The final selection of ten
+coupled two-locality cases plus the three-locality partial suite took 156.48 s.
+Reproduction with the HPX build in release/:
+
+  ctest --test-dir release --output-on-failure \
+    -R '^distributed\.(gravityTimeIntegrationChecks-3d\..*\.2|partialGravityChecks-3d\.[23])$'
+
+The initial combined distributed run exposed a test-harness error: GoogleTest
+ScopedTrace stores its stack per OS thread, whereas HPX may resume a task on a
+different worker. The new yielding tests now log their case context directly.
+Each distributed integration case has its own process-timeout budget. The
+corrected runs above all passed; no numerical change was needed for that crash.
+The HPX application release/octoII-3d was rebuilt and its option help checked.
+
+Fixed-mesh temporal convergence
+------------------------------
+Smooth central polytrope, four cells per block, AMR levels 1/2 with the negative
+octant refined, fixed domain [-2e8,2e8]^3 cm. The mesh does not change. The end
+time is 0.6 times the initial coarse stable timestep. The three runs use 2, 4,
+and 8 synchronization intervals; the reference uses 32. Errors are volume-
+weighted relative L1. Each momentum error combines all three components.
+
+method        field         error(2)     error(4)     error(8)     orders
+hierarchical  density       1.32542e-6   3.19505e-7   7.51757e-8   2.05254,2.08750
+hierarchical  momentum      3.61859e-4   8.78751e-5   2.07881e-5   2.04190,2.07969
+hierarchical  gas energy    2.21564e-6   5.34066e-7   1.25649e-7   2.05264,2.08761
+conventional  density       1.32539e-6   3.19498e-7   7.51745e-8   2.05254,2.08749
+conventional  momentum      3.61596e-4   8.78167e-5   2.07745e-5   2.04181,2.07968
+conventional  gas energy    2.21560e-6   5.34054e-7   1.25647e-7   2.05264,2.08760
+
+This establishes second-order temporal behavior for this smooth fixed-mesh
+case, including an AMR interface. It is not a shock, variable-composition,
+mesh-convergence, or long-time orbital-accuracy result. A separate gravity-free
+finite-volume midpoint regression checks temporal accuracy independently.
+
+Conservation and mutual force
+-----------------------------
+The integration regressions close mass and gas-plus-discrete-binding energy
+against the accumulated physical-boundary fluxes. The energy acceptance gate
+is 8e-13 times the gas/binding norm; it includes accumulated floating-point
+error and is not an accuracy bound for the continuum gravitational solution.
+
+The FMM additionally uses an auxiliary order-(p+1) force local with order-p
+source moments. The scalar order-p potential is unchanged. Reciprocal node
+lists alone did not ensure equal/opposite forces with the original truncated
+gradient. The new force construction is independently checked for full,
+shell, and cross-only source sets, including periodic Ewald gravity.
+
+At p=5, theta=0.5, normalized isolated force residuals (full/shell/cross):
+  uniform:  2.48e-16 / 1.42e-16 / 3.16e-16
+  adaptive: 2.68e-17 / 4.13e-17 / 7.49e-17
+The normalization is net force divided by the sum of absolute cell forces.
+Hierarchical coupled momentum plus boundary transport also passes at the
+default approximate FMM setting and with an effectively direct setting.
+Reflecting walls may exchange momentum with the gas. Conventional asynchronous
+full-force quadrature does not promise exact total momentum cancellation.
+
+Application smoke runs
+----------------------
+Five serial application runs completed to t=0.025 s (one synchronization
+interval each) using the final numerical implementation:
+
+  polytrope, maxLevel=2, hierarchical: energy-budget residual -2.14414e-17
+  polytrope, maxLevel=2, conventional: energy-budget residual -2.14414e-17
+  collapse,  maxLevel=2, hierarchical: energy-budget residual  1.20250e-16
+  collapse,  maxLevel=2, conventional: energy-budget residual  1.20250e-16
+  polytrope, maxLevel=3, hierarchical: energy-budget residual -5.07422e-17
+
+These use the examples' full stellar/cloud profiles, including atmosphere,
+with output disabled and short run limits. Residuals are the diagnostics'
+scaled gas-plus-binding budget including boundary transport. Actual changing
+topology is tested by the integration regressions above, not these smoke runs.
+
+Scope and remaining limits
+--------------------------
+Energy conservation is a discrete finite-volume identity for a fixed reciprocal
+potential operator, with canonical accepted mass fluxes. It does not imply
+machine-precision trajectories or continuum energy accuracy. Regridding has
+its own conservative energy correction.
+
+The coupled runtime's field updates and gravity solves support HPX execution,
+but some source/energy-ledger loops are coordinated centrally. Partial solves
+still traverse the source hierarchy. No speedup or cluster-scaling claim is
+made; the auxiliary force locals also add storage and translation work.
+
+Uniform external acceleration remains on the global path. Arbitrary per-cell
+time bins, radiation-plus-gravity convergence, variable-composition temporal
+convergence, long production evolutions, and current-revision sanitizers were
+not validated. In-step numerical exceptions restore the refined-step checkpoint;
+there is no automatic timestep retry or process-failure recovery. The invalid-
+interval test covers rejection before staging, not an injected mid-step fault.
