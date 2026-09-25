@@ -515,6 +515,12 @@ private:
 				fields_.density.commit(range, bank ^ 1, density);
 			}
 			if (build::radiation && config_.radiationEnabled()) copy(fields_.radiation, range, bank);
+			for (auto const& field : fields_.species) {
+				auto input = field.read(range, bank).get();
+				auto output = field.output(range, bank ^ 1);
+				std::copy_n(input.data(), range.count, output.data());
+				field.commit(range, bank ^ 1, output);
+			}
 		});
 		result.localityCells = {levels_.back().moments.size()};
 		return result;

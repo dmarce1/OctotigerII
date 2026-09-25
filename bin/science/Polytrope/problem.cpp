@@ -76,7 +76,7 @@ void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool re
 		auto const scale = initialFeatureWidth(star.scaleLength(), data.cellWidth);
 		star = problems::Polytrope(c.star.polytropicIndex, c.star.radius * Real(scale / star.scaleLength()), c.star.centralDensity);
 	}
-	hydro::HydroSystem const gas(c.hydro.gamma);
+	hydro::HydroSystem const gas(c.hydro);
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 		auto const x = data.layout.cellCenter(data.lower, data.cellWidth, cell);
 		data.hydro.values()[i] = gas.conservedState(state(c, star, x).hydro);

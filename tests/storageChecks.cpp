@@ -170,7 +170,7 @@ void stages() {
 	same(runtime.snapshots(), reference.snapshots());
 	EXPECT_TRUE(runtime.generation() == 1) << "Completed stage did not publish exactly once";
 	auto const stats = runtime.statistics();
-	EXPECT_TRUE(stats.localTasks + stats.stolenTasks == 2 * runtime.size()) << "Successful tasks missing or duplicated";
+	EXPECT_TRUE(stats.localTasks + stats.stolenTasks == (config.hydroEnabled() ? 3 : 2) * runtime.size()) << "Successful tasks missing or duplicated";
 	std::cout << "Failed stage rollback, retry, publication and task accounting passed (" << stats.localTasks << " local, " << stats.stolenTasks
 			  << " stolen tasks)\n";
 }

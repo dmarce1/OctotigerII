@@ -105,4 +105,28 @@ TEST(OptionValues, DuplicateAliasIsRejected) {
 	EXPECT_THROW(test::parseConfig({"--gravity.multipoleOrder=3", "--gravity.multipole_order=3"}), std::exception);
 }
 
+TEST(OptionValues, DualEnergyDefaultsAndValidation) {
+	auto c = test::parseConfig({});
+	EXPECT_TRUE(c.hydro.dualEnergy.enabled);
+	EXPECT_EQ(c.hydro.dualEnergy.exponent, 1);
+	EXPECT_EQ(c.hydro.dualEnergy.pressureThreshold, 0.001);
+	EXPECT_EQ(c.hydro.dualEnergy.syncThreshold, 0.1);
+	c = test::parseConfig({"--hydro.dualEnergy.enabled=off", "--hydro.dualEnergy.exponent=-0.5", "--hydro.meanMolecularWeight=0.6"});
+	EXPECT_FALSE(c.hydro.dualEnergy.enabled);
+	EXPECT_EQ(c.hydro.dualEnergy.exponent, -0.5);
+	EXPECT_EQ(c.hydro.meanMolecularWeight, 0.6);
+	for (auto const* option : {"--hydro.dualEnergy.exponent=0", "--hydro.dualEnergy.exponent=nan", "--hydro.dualEnergy.pressureThreshold=-1",
+		"--hydro.dualEnergy.syncThreshold=1", "--hydro.dualEnergy.syncThreshold=0.001", "--hydro.meanMolecularWeight=0"})
+		EXPECT_THROW(test::parseConfig({option}), std::exception);
+}
+
+TEST_F(Options, DualEnergyIniAndCliPrecedence) {
+	{ std::ofstream f(first); f << "[hydro.dualEnergy]\nenabled=off\nexponent=-2\npressureThreshold=0.002\nsyncThreshold=0.2\n"; }
+	auto c = test::parseConfig({"--config=" + first, "--hydro.dualEnergy.enabled=on", "--hydro.dualEnergy.exponent=0.5"});
+	EXPECT_TRUE(c.hydro.dualEnergy.enabled);
+	EXPECT_EQ(c.hydro.dualEnergy.exponent, 0.5);
+	EXPECT_EQ(c.hydro.dualEnergy.pressureThreshold, 0.002);
+	EXPECT_EQ(c.hydro.dualEnergy.syncThreshold, 0.2);
+}
+
 } // namespace

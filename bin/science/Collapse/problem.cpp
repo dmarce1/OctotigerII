@@ -33,7 +33,7 @@ void validateProblem(Config const&) {}
 void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	using std::exp;
 
-	hydro::HydroSystem gas(c.hydro.gamma);
+	hydro::HydroSystem gas(c.hydro);
 	auto const length = c.mesh.upper - c.mesh.lower;
 	Real const sigma = refinementProbe ? Real(initialFeatureWidth(0.15 * length, data.cellWidth) / length) : Real(0.15);
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {

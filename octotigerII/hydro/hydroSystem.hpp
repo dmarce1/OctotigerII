@@ -5,15 +5,16 @@
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
 #include "octotigerII/mesh.hpp"
+#include "octotigerII/config.hpp"
 #include "octotigerII/physics/finiteVolume.hpp"
 #include "octotigerII/units/cgs.hpp"
 #include "octotigerII/units/state.hpp"
 
 
 namespace octotigerII::hydro {
-using ConservedState = units::FluidState<units::Density, units::MomentumDensity, units::EnergyDensity>;
-using PrimitiveState = units::FluidState<units::Density, units::Velocity, units::Pressure>;
-using ConservedFlux = units::FluidState<units::MassFlux, units::MomentumFlux, units::EnergyFlux>;
+using ConservedState = units::FluidState<units::Density, units::MomentumDensity, units::EnergyDensity, units::Density>;
+using PrimitiveState = units::FluidState<units::Density, units::Velocity, units::Pressure, units::Dimensionless>;
+using ConservedFlux = units::FluidState<units::MassFlux, units::MomentumFlux, units::EnergyFlux, units::MassFlux>;
 
 
 /// Ideal-gas Euler flux adapter with primitive reconstruction.
@@ -28,15 +29,30 @@ public:
 	using Flux = ConservedFlux;
 
 	explicit HydroSystem(Real adiabaticIndex = Real(5) / 3, units::Density densityFloor = units::Density::from_value(1e-14),
-		units::Pressure pressureFloor = units::Pressure::from_value(1e-14));
+		units::Pressure pressureFloor = units::Pressure::from_value(1e-14), DualEnergyOptions dualEnergy = {}, Real meanMolecularWeight = 1);
+
+	explicit HydroSystem(Config::HydroOptions const&);
+
+	/// Selected thermal energy density, using the lower dual-energy threshold.
+	units::EnergyDensity internalEnergy(State const&) const;
+	units::Temperature temperature(State const&) const;
+
+	/// Encode/decode the normalized entropy density. Positive arguments required.
+	units::Density auxiliaryFromInternalEnergy(units::Density, units::EnergyDensity) const;
+	units::EnergyDensity internalEnergyFromAuxiliary(State const&) const;
+
+	/// Reset only A, when (E-K)/E exceeds the upper threshold. Never changes E.
+	void synchronize(State&) const;
 
 	/// Return the ideal-gas ratio of specific heats.
 	Real adiabaticIndex() const;
 
-	/// Convert (ρ, ρv, E) to (ρ, v, P); reject inadmissible input.
+	/// Convert (rho, rho v, E, A) to (rho, v, P, A/rho); reject inadmissible input.
 	PrimitiveState reconstructionVariables(State const&) const;
 
-	/// Convert primitive CGS quantities to density, momentum density, and total energy density.
+	/// Initialize/constrain (rho, rho v, E, A) from CGS primitives.
+	/// A zero primitive auxiliary requests initialization from rho and pressure;
+	/// a positive value preserves independently reconstructed A/rho.
 	State conservedState(PrimitiveState const&) const;
 
 	/// Return the Euler flux normal to an axis in [0, ndim).
@@ -73,11 +89,15 @@ public:
 
 private:
 
+	DualEnergyOptions dualEnergy_;
+	Real meanMolecularWeight_;
 	Real adiabaticIndex_;
 	units::Density densityFloor_;
 	units::Pressure pressureFloor_;
 
-	/// Compute P=(γ−1)(E−|ρv|²/(2ρ)); invalid density returns negative infinity.
+	units::EnergyDensity totalInternalEnergy(State const&) const;
+
+	/// Compute P=(gamma-1)u from the selected internal energy.
 	units::Pressure pressure(State const&) const;
 
 	/// Two-wave hydro fallback from @ref ref_harten1983 "Harten et al. (1983)".

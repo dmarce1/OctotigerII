@@ -19,7 +19,7 @@ class Diagnostics : public ConservedTotals {
 public:
 
 	units::Time time{};
-	units::Energy kineticEnergy{}, thermalEnergy{}, potentialEnergy{}, gasGravityEnergy{};
+	units::Energy kineticEnergy{}, thermalEnergy{}, gasGravityEnergy{};
 	BoundaryTransport boundary;
 	ConservedTotals norm; ///< Sum of absolute cell contributions, component by component.
 	units::Energy gasGravityNorm{};

@@ -33,7 +33,7 @@ void validateProblem(Config const&) {}
 /// Initialize this problem in the executable's compile-time dimension.
 /// Shock-tube states follow @ref ref_sod1978 "Sod (1978)".
 void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
-	hydro::HydroSystem gas(c.hydro.gamma);
+	hydro::HydroSystem gas(c.hydro);
 
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 		auto const point = data.layout.cellCenter(data.lower, data.cellWidth, cell);

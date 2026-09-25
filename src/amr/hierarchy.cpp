@@ -2,6 +2,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 #include "octotigerII/amr/hierarchy.hpp"
 #include <bit>
+#include "octotigerII/composition/transport.hpp"
 #include <set>
 #include "octotigerII/amr/interpolation.hpp"
 #include "octotigerII/problems.hpp"
@@ -14,11 +15,16 @@ Hierarchy::Values& Hierarchy::Values::operator+=(Values const& other) {
 	radiation += other.radiation;
 	gravity += other.gravity;
 	density += other.density;
+	if (species.empty()) species.resize(other.species.size());
+	if (species.size() != other.species.size()) throw std::logic_error("Shadow species size mismatch");
+	for (std::size_t s = 0; s < species.size(); ++s) species[s] += other.species[s];
 	return *this;
 }
 
 Hierarchy::Values Hierarchy::Values::operator*(Real weight) const {
-	return {hydro * weight, radiation * weight, gravity * weight, density * weight};
+	Values result{hydro * weight, radiation * weight, gravity * weight, density * weight, species};
+	for (auto& q : result.species) q *= weight;
+	return result;
 }
 
 Hierarchy::Hierarchy(Config const& config, std::vector<Snapshot> const& leaves)
@@ -37,6 +43,7 @@ Hierarchy::Hierarchy(Config const& config, std::vector<Snapshot> const& leaves)
 		if (block.time != time_) throw std::invalid_argument("Shadow hierarchy requires synchronized leaves");
 		block.layout.forEachInterior([&](auto const& coordinate, std::size_t i) {
 			Values value;
+			for (auto const& s : block.species) value.species.push_back(s.values()[i]);
 			if (build::hydro && config_.hydroEnabled()) value.hydro = block.hydro.values()[i];
 			if (build::radiation && config_.radiationEnabled()) value.radiation = block.radiation.values()[i];
 			if (build::gravity && config_.gravityEnabled()) {
@@ -97,11 +104,27 @@ void Hierarchy::advance(units::Time dt) {
 		};
 		if constexpr (build::hydro) if (config_.hydroEnabled()) {
 			hydro::Solver::Workspace work;
-			hydro::Solver(hydro::HydroSystem(config_.hydro.gamma)).advanceInto(gas, dt, work, [&](auto const& cell, auto const& value) {
+			hydro::Solver(hydro::HydroSystem(config_.hydro)).advanceInto(gas, dt, work, [&](auto const& cell, auto const& value) {
 				auto& target = destination(cell);
 				target.hydro = value;
+				hydro::HydroSystem(config_.hydro).synchronize(target.hydro);
 				target.density = value.density();
 			});
+			if (config_.massFractions.enabled) {
+				auto read = [&](std::size_t s, auto const& cell) {
+					mesh::BlockLocation global{level, {}};
+					for (int d = 0; d < ndim; ++d) global.coordinates[d] = block.coordinates[d] * n + cell[d];
+					return average(global).species.at(s);
+				};
+				auto flux = composition::fluxes(config_.massFractions, layout, read,
+					[&](int d, auto const& face) { return work.fluxes[d][layout.faceIndex(d, face)].template get<0>(); });
+				layout.forEachInterior([&](auto const& cell, std::size_t) {
+					auto& target = destination(cell);
+					for (std::size_t s = 0; s < flux.size(); ++s)
+						target.species[s] = composition::update(read(s, cell), flux[s], layout, cell, dt / width);
+					target.density = target.hydro.density() = composition::totalDensity(config_.massFractions, target.species);
+				});
+			}
 		}
 		if constexpr (build::radiation) if (config_.radiationEnabled()) {
 			radiation::Solver::Workspace work;
@@ -124,6 +147,7 @@ void Hierarchy::kick(units::Time dt) {
 				value.hydro.totalEnergy() += impulse * (value.hydro.momentum(d) + 0.5 * impulse) / value.hydro.density();
 				value.hydro.momentum(d) += impulse;
 			}
+			hydro::HydroSystem(config_.hydro).synchronize(value.hydro);
 		}
 }
 
@@ -136,6 +160,8 @@ void Hierarchy::refreshLeaves(std::vector<Snapshot> const& leaves) {
 			for (int d = 0; d < ndim; ++d)
 				cell.coordinates[d] = block.location.coordinates[d] * config_.mesh.cells + coordinate[d];
 			auto& value = cells_.at(cell);
+			value.species.clear();
+			for (auto const& s : block.species) value.species.push_back(s.values()[i]);
 			if (build::hydro && config_.hydroEnabled()) {
 				value.hydro = block.hydro.values()[i];
 				value.density = value.hydro.density();
@@ -164,9 +190,10 @@ Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
 			position[d] = config_.mesh.lower + (cell.coordinates[d] + 0.5) * h;
 		auto const sample = problemBoundary(config_)(position, time_);
 		Values result;
-		if (build::hydro && config_.hydroEnabled()) result.hydro = hydro::HydroSystem(config_.hydro.gamma).conservedState(sample.hydro);
+		if (build::hydro && config_.hydroEnabled()) result.hydro = hydro::HydroSystem(config_.hydro).conservedState(sample.hydro);
 		if (build::radiation && config_.radiationEnabled()) result.radiation = sample.radiation;
 		if (build::hydro && config_.hydroEnabled()) result.density = result.hydro.density();
+		if (config_.massFractions.enabled) result.species = composition::initialDensities(config_.massFractions, result.density);
 		return result;
 	}
 	cell.coordinates = mapped.source;
@@ -179,7 +206,7 @@ Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
 	auto result = found->second;
 	if (build::hydro && config_.hydroEnabled())
 		result.hydro = physics::transformBoundary(
-			result.hydro, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, hydro::HydroSystem(config_.hydro.gamma));
+			result.hydro, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, hydro::HydroSystem(config_.hydro));
 	if (build::radiation && config_.radiationEnabled())
 		result.radiation = physics::transformBoundary(result.radiation, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask,
 			radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c));
@@ -202,10 +229,17 @@ Hierarchy::Values Hierarchy::reconstructFrom(mesh::BlockLocation coarse, mesh::B
 		offset[d] = (fine.coordinates[d] + 0.5) / ratio - (coarse.coordinates[d] + 0.5);
 	}
 	auto result = center;
-	if (build::hydro && config_.hydroEnabled()) result.hydro = interpolate(center.hydro, gasSlopes, offset, hydro::HydroSystem(config_.hydro.gamma));
+	if (build::hydro && config_.hydroEnabled()) result.hydro = interpolate(center.hydro, gasSlopes, offset, hydro::HydroSystem(config_.hydro));
 	if (build::radiation && config_.radiationEnabled())
 		result.radiation = interpolate(center.radiation, radiationSlopes, offset, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c));
 	if (build::hydro && config_.hydroEnabled()) result.density = result.hydro.density();
+	if (config_.massFractions.enabled) {
+		// Inject concentrations and prolong hydro density. Summed child partial
+		// densities preserve each parent species mass and the hydro mass together.
+		for (std::size_t s = 0; s < result.species.size(); ++s)
+			result.species[s] = center.species[s] * Real(result.density / center.density);
+		result.density = result.hydro.density() = composition::totalDensity(config_.massFractions, result.species);
+	}
 	// Prescribed gravity-only densities use conservative, positive injection.
 	return result;
 }
@@ -250,7 +284,7 @@ refinement::CellView Hierarchy::sample(mesh::BlockLocation block, mesh::Coordina
 		auto const a = average(left), b = average(right);
 		result.hydro.gradient[d] = (b.hydro - a.hydro) / (2.0 * result.width);
 		result.radiation.gradient[d] = (b.radiation - a.radiation) / (2.0 * result.width);
-		if (build::hydro && config_.hydroEnabled()) result.signalSpeed[d] = hydro::HydroSystem(config_.hydro.gamma).maximumSignalSpeed(value.hydro, d);
+		if (build::hydro && config_.hydroEnabled()) result.signalSpeed[d] = hydro::HydroSystem(config_.hydro).maximumSignalSpeed(value.hydro, d);
 		if (build::hydro && config_.hydroEnabled())
 			result.acceleration[d] = config_.hydro.acceleration[d] + (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{});
 		if (build::radiation && config_.radiationEnabled()) result.signalSpeed[d] = std::max(result.signalSpeed[d], config_.radiation.lightSpeedRatio * constants::c);
@@ -275,11 +309,14 @@ Snapshot Hierarchy::transfer(mesh::BlockLocation location) const {
 		result.gravity = gravity::Fields(result.layout, result.cellWidth, result.lower);
 		if (!config_.hydroEnabled()) result.density = mesh::PatchData<units::Density>(result.layout, result.cellWidth, result.lower);
 	}
+	if (config_.massFractions.enabled)
+		for (std::size_t s = 0; s < config_.massFractions.species.size(); ++s) result.species.emplace_back(result.layout, result.cellWidth, result.lower);
 	result.layout.forEachInterior([&](auto const& coordinate, std::size_t i) {
 		mesh::BlockLocation cell{cellLevel(location.level), {}};
 		for (int d = 0; d < ndim; ++d)
 			cell.coordinates[d] = location.coordinates[d] * config_.mesh.cells + coordinate[d];
 		auto const value = reconstruct(cell);
+		for (std::size_t s = 0; s < result.species.size(); ++s) result.species[s].values()[i] = value.species.at(s);
 		if (build::hydro && config_.hydroEnabled()) result.hydro.values()[i] = value.hydro;
 		if (build::radiation && config_.radiationEnabled()) result.radiation.values()[i] = value.radiation;
 		if (build::gravity && config_.gravityEnabled()) {

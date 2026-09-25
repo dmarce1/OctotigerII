@@ -190,9 +190,13 @@ public:
 		return get<ndim + 1>();
 	}
 
+	/// Auxiliary conserved density/flux, or its specific value in hydro primitives.
+	constexpr auto& auxiliary() { return get<ndim + 2>(); }
+	constexpr auto const& auxiliary() const { return get<ndim + 2>(); }
+
 	/// Access component ndim+1 for a hydro state, otherwise component 0.
 	constexpr auto& energy() {
-		if constexpr (sizeof...(Q) == ndim + 2)
+		if constexpr (sizeof...(Q) >= ndim + 2)
 			return get<ndim + 1>();
 		else
 			return get<0>();
@@ -200,7 +204,7 @@ public:
 
 	/// Access component ndim+1 for a hydro state, otherwise component 0.
 	constexpr auto const& energy() const {
-		if constexpr (sizeof...(Q) == ndim + 2)
+		if constexpr (sizeof...(Q) >= ndim + 2)
 			return get<ndim + 1>();
 		else
 			return get<0>();
@@ -318,8 +322,8 @@ namespace detail {
 template <typename Scalar, typename Vector, std::size_t... I>
 auto scalarVector(std::index_sequence<I...>) -> State<Scalar, decltype((void) I, Vector{})...>;
 
-template <typename Density, typename Vector, typename Energy, std::size_t... I>
-auto fluid(std::index_sequence<I...>) -> State<Density, decltype((void) I, Vector{})..., Energy>;
+template <typename Density, typename Vector, typename Energy, typename... Extra, std::size_t... I>
+auto fluid(std::index_sequence<I...>) -> State<Density, decltype((void) I, Vector{})..., Energy, Extra...>;
 }	 // namespace detail
 
 /// One scalar followed by exactly ndim vector components.
@@ -327,7 +331,7 @@ template <typename Scalar, typename Vector>
 using ScalarVectorState = decltype(detail::scalarVector<Scalar, Vector>(std::make_index_sequence<ndim>{}));
 
 /// Density, exactly ndim momentum/velocity components, and energy/pressure.
-template <typename Density, typename Vector, typename Energy>
-using FluidState = decltype(detail::fluid<Density, Vector, Energy>(std::make_index_sequence<ndim>{}));
+template <typename Density, typename Vector, typename Energy, typename... Extra>
+using FluidState = decltype(detail::fluid<Density, Vector, Energy, Extra...>(std::make_index_sequence<ndim>{}));
 
 }	 // namespace octotigerII::units

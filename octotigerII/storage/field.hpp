@@ -97,9 +97,12 @@ public:
 	std::vector<PartitionSet::Partition> partitions;
 	FieldId id = 0;
 	unsigned banks = 0;
+	/// Read-only sum, evaluated into temporary buffers on demand. No backing allocation.
+	std::vector<FieldHandle<T>> sumSources;
 
 	/// Report whether a range belongs to the current locality.
 	bool local(Range const& range) const {
+		if (!sumSources.empty()) return sumSources.front().local(range);
 #ifdef OCTOTIGERII_WITH_HPX
 		return owners.at(range.partition) == hpx::find_here();
 #else
@@ -110,6 +113,28 @@ public:
 
 	/// Return a direct retained local view or asynchronously fetch a contiguous remote range.
 	Future<Buffer<T>> read(Range range, unsigned bank) const {
+		if (!sumSources.empty()) {
+			std::vector<Future<Buffer<T>>> pending;
+			for (auto const& source : sumSources) pending.push_back(source.read(range, bank));
+			auto sum = [range](auto reads) {
+				Buffer<T> result(range.count);
+				std::fill_n(result.data(), range.count, T{});
+				std::exception_ptr error;
+				for (auto& read : reads) {
+					try {
+						auto values = read.get();
+						for (std::size_t i = 0; i < range.count; ++i) result.data()[i] += values.data()[i];
+					} catch (...) { if (!error) error = std::current_exception(); }
+				}
+				if (error) std::rethrow_exception(error);
+				return result;
+			};
+#ifdef OCTOTIGERII_WITH_HPX
+			return hpx::async(std::move(sum), std::move(pending));
+#else
+			return Future<Buffer<T>>(sum(std::move(pending)));
+#endif
+		}
 		validate(range, bank);
 #ifdef OCTOTIGERII_WITH_HPX
 		if (local(range)) return hpx::make_ready_future(readField<T>(partitions.at(range.partition), id, bank, range.offset, range.count));
@@ -121,12 +146,18 @@ public:
 
 	/// Acquire a direct local output view or allocate a temporary remote result buffer.
 	Buffer<T> output(Range range, unsigned bank) const {
+		if (!sumSources.empty()) { sumSources.front().validate(range, bank); return Buffer<T>(range.count); }
 		validate(range, bank);
 		return local(range) ? read(range, bank).get() : Buffer<T>(range.count);
 	}
 
 	/// Finish writing the selected output range before returning to the stage scheduler.
 	void commit(Range range, unsigned bank, Buffer<T> const& output) const {
+		if (!sumSources.empty()) {
+			sumSources.front().validate(range, bank);
+			if (output.size() != range.count) throw std::invalid_argument("Derived field size mismatch");
+			return; // Writes of a temporary reconstructed component are deliberately discarded.
+		}
 		validate(range, bank);
 		if (output.size() != range.count) throw std::invalid_argument("Field commit size mismatch");
 #ifdef OCTOTIGERII_WITH_HPX
@@ -145,7 +176,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & layout & owners & partitions & id & banks;
+		archive & layout & owners & partitions & id & banks & sumSources;
 	}
 
 private:

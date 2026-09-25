@@ -38,11 +38,21 @@ namespace {
 #if OCTOTIGERII_HYDRO
 		if (c.hydroEnabled()) {
 			field("density", "g/cm^3", false, [&](std::size_t i, int) { return b.hydro.values()[i].density(); });
+			for (std::size_t s = 0; s < c.massFractions.species.size(); ++s) if (c.massFractions.enabled) {
+				auto const& species = c.massFractions.species[s];
+				field((species.tracer() ? "tracerDensity_" : "partialDensity_") + species.name, "g/cm^3", false, [&](std::size_t i, int) { return b.species.at(s).values()[i]; });
+				field((species.tracer() ? "tracer_" : "massFraction_") + species.name, "", false,
+					[&](std::size_t i, int) { return b.species.at(s).values()[i] / b.hydro.values()[i].density(); });
+			}
 			field("momentum", "g/(cm^2 s)", true, [&](std::size_t i, int axis) { return b.hydro.values()[i].momentum(axis); });
 			field("velocity", "cm/s", true, [&](std::size_t i, int axis) { return b.hydro.values()[i].momentum(axis) / b.hydro.values()[i].density(); });
 			field("gasEnergy", "erg/cm^3", false, [&](std::size_t i, int) { return b.hydro.values()[i].totalEnergy(); });
+			field("internalEnergy", "erg/cm^3", false, [&](std::size_t i, int) { return hydro::HydroSystem(c.hydro).internalEnergy(b.hydro.values()[i]); });
+			field("temperature", "K", false, [&](std::size_t i, int) { return hydro::HydroSystem(c.hydro).temperature(b.hydro.values()[i]); });
+			if (c.hydro.dualEnergy.enabled)
+				field("dualEnergy", "g/cm^3", false, [&](std::size_t i, int) { return b.hydro.values()[i].auxiliary(); });
 			field("pressure", "dyn/cm^2", false,
-				[&](std::size_t i, int) { return hydro::HydroSystem(c.hydro.gamma).reconstructionVariables(b.hydro.values()[i]).pressure(); });
+				[&](std::size_t i, int) { return hydro::HydroSystem(c.hydro).reconstructionVariables(b.hydro.values()[i]).pressure(); });
 		}
 #endif
 #if OCTOTIGERII_GRAVITY
@@ -200,7 +210,7 @@ Output::Output(Config const& c)
 		for (int d = 0; d < ndim; ++d) header(std::string("momentum_") + "xyz"[d] + "_g_cm_s");
 		header("gas_energy_erg");
 		conservation_ << ",kinetic_energy_erg_grid,thermal_energy_erg_grid";
-		if (c.gravityEnabled()) conservation_ << ",potential_energy_erg_grid,gas_gravity_energy_erg_grid,gas_gravity_energy_erg_norm,gas_gravity_energy_drift_scaled";
+		if (c.gravityEnabled()) conservation_ << ",potential_energy_erg_grid,potential_energy_erg_in,potential_energy_erg_out,gas_gravity_energy_erg_grid,gas_gravity_energy_erg_corrected,gas_gravity_energy_erg_norm,gas_gravity_energy_drift_scaled";
 	}
 	if (c.radiationEnabled()) {
 		header("radiation_energy_erg");
@@ -231,8 +241,10 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 		conservation_ << ',' << units::value(d.kineticEnergy) << ',' << units::value(d.thermalEnergy);
 		if (config_.gravityEnabled()) {
 			auto const norm = std::max(initial_.gasGravityNorm, d.gasGravityNorm);
-			Real const drift = norm > units::Energy{} ? Real((d.gasGravityEnergy - initial_.gasGravityEnergy) / norm) : Real(0);
-			conservation_ << ',' << units::value(d.potentialEnergy) << ',' << units::value(d.gasGravityEnergy)
+			Real const drift = norm > units::Energy{} ? Real((d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy - initial_.gasGravityEnergy) / norm) : Real(0);
+			conservation_ << ',' << units::value(d.potentialEnergy) << ',' << units::value(in.potentialEnergy) << ',' << units::value(out.potentialEnergy)
+				<< ',' << units::value(d.gasGravityEnergy)
+				<< ',' << units::value(d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy)
 				<< ',' << units::value(norm) << ',' << drift;
 		}
 	}

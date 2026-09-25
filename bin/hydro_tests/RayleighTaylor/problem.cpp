@@ -46,7 +46,7 @@ void validateProblem(Config const& c) {
 void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	using std::cos;
 
-	hydro::HydroSystem gas(c.hydro.gamma);
+	hydro::HydroSystem gas(c.hydro);
 	auto const length = c.mesh.upper - c.mesh.lower;
 	auto const center = (c.mesh.lower + c.mesh.upper) / 2.0;
 	auto const& rt = c.rayleighTaylor;

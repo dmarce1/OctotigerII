@@ -61,11 +61,16 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 
 	auto c = octotigerII::test::parseConfig({"--mesh.level=0", "--mesh.cells=4", "--runtime.stopTime=0", "--output.directory=" + root.string()});
 	c.verification.gravityReference = "continuum";
+	c.hydro.meanMolecularWeight = 0.6;
+	if (c.hydroEnabled() && build::massFractions) {
+		c.massFractions.enabled = true;
+		c.massFractions.species = composition::parseSpecies("fuel:0.7:He;ash:0.3:oxygen;dye:0.2:A=0,Z=0");
+	}
 	auto patch = initialSnapshot(c, {0, {}});
 	// Give every component a different value, including a nonzero analytic
 	// error, so component permutation or sign errors cannot pass unnoticed.
 	if constexpr (octotigerII::test::hydro) {
-		hydro::HydroSystem gas(c.hydro.gamma);
+		hydro::HydroSystem gas(c.hydro);
 		for (auto& state : patch.hydro.values()) {
 			auto primitive = gas.reconstructionVariables(state);
 			for (int axis = 0; axis < ndim; ++axis) {
@@ -123,6 +128,16 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 			++j;
 		});
 	};
+	for (std::size_t s = 0; s < patch.species.size(); ++s) {
+		auto const& species = c.massFractions.species[s];
+		field(((species.tracer() ? "tracerDensity_" : "partialDensity_") + species.name).c_str(), "g/cm^3",
+			[&](std::size_t i) { return patch.species[s].values()[i]; });
+		std::string name = (species.tracer() ? "tracer_" : "massFraction_") + species.name;
+		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> fraction(DBGetQuadvar(file.get(), ("block0/" + name).c_str()), &DBFreeQuadvar);
+		ASSERT_TRUE(fraction);
+		auto values = static_cast<double const*>(fraction->vals[0]);
+		for (int i = 0; i < fraction->nels; ++i) EXPECT_NEAR(values[i], species.initialFraction, 1e-14);
+	}
 	std::set<std::string> expectedExpressions;
 	auto vector = [&](char const* name, char const* units, auto expected) {
 		checkVectorExpression(file.get(), name, "", 1);
@@ -134,6 +149,12 @@ void check(std::string const& problem, int dimensions, std::filesystem::path con
 	if (patch.hydroEnabled) {
 		field("density", "g/cm^3", [&](std::size_t i) { return patch.hydro.values()[i].density(); });
 		field("gasEnergy", "erg/cm^3", [&](std::size_t i) { return patch.hydro.values()[i].totalEnergy(); });
+#if OCTOTIGERII_HYDRO
+		hydro::HydroSystem gas(c.hydro);
+		field("internalEnergy", "erg/cm^3", [&](std::size_t i) { return gas.internalEnergy(patch.hydro.values()[i]); });
+		field("temperature", "K", [&](std::size_t i) { return gas.temperature(patch.hydro.values()[i]); });
+		field("dualEnergy", "g/cm^3", [&](std::size_t i) { return patch.hydro.values()[i].auxiliary(); });
+#endif
 		vector("momentum", "g/(cm^2 s)", [&](std::size_t i, int axis) { return patch.hydro.values()[i].momentum(axis); });
 		vector("velocity", "cm/s", [&](std::size_t i, int axis) { return patch.hydro.values()[i].momentum(axis) / patch.hydro.values()[i].density(); });
 	}

@@ -256,7 +256,7 @@ TEST(Amr, EvolvedShadowDiffersFromFreshRestriction) {
 					q.density() = units::Density::from_value(wave);
 					q.pressure() = units::Pressure::from_value(1);
 					q.velocity(0) = units::Velocity::from_value(0.5);
-					block.hydro.values()[i] = hydro::HydroSystem(c.hydro.gamma).conservedState(q);
+					block.hydro.values()[i] = hydro::HydroSystem(c.hydro).conservedState(q);
 				}
 				if constexpr (test::radiation) {
 					block.radiation.values()[i].energy() = units::EnergyDensity::from_value(wave);

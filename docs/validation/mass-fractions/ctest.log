@@ -1,0 +1,1020 @@
+Internal ctest changing into directory: /workspace/scratch/cd9826d4503a/build
+Test project /workspace/scratch/cd9826d4503a/build
+        Start 503: 3d.polytropeChecks.Polytrope.SmallHydroGravityStepRemainsNearEquilibrium
+        Start 500: 3d.rayleighTaylorChecks.RayleighTaylor.PerturbationGrowsUnderGravity
+        Start 400: 3d.ewaldChecks.GravityImages.FmmMatchesDirectWithIndependentImageAcceptance
+        Start 480: 3d.amrChecks.Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages
+  1/504 Test #503: 3d.polytropeChecks.Polytrope.SmallHydroGravityStepRemainsNearEquilibrium .........................................................   Passed    0.84 sec
+        Start 409: 3d.gravityParallelChecks.PartitionedGravity.PeriodicAndReflectedImagesMatchSerialAcrossOwners
+  2/504 Test #409: 3d.gravityParallelChecks.PartitionedGravity.PeriodicAndReflectedImagesMatchSerialAcrossOwners ....................................   Passed    2.84 sec
+        Start 468: 3d.numericalChecks.GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum
+  3/504 Test #468: 3d.numericalChecks.GravityConvergence.MultipoleOrdersAgainstIndependentDirectSum .................................................   Passed    1.14 sec
+        Start 403: 3d.ewaldChecks.GravityImages.RootEwaldCorrectionSurvivesDownwardPropagation
+  4/504 Test #403: 3d.ewaldChecks.GravityImages.RootEwaldCorrectionSurvivesDownwardPropagation ......................................................   Passed    0.49 sec
+        Start 407: 3d.directGravityChecks.DirectReference.ImageFieldsAndContinuumAvailabilityFollowBoundaries
+  5/504 Test #407: 3d.directGravityChecks.DirectReference.ImageFieldsAndContinuumAvailabilityFollowBoundaries .......................................   Passed    0.51 sec
+        Start 365: 3d.gravityEnergyChecks.GravityEnergy.PeriodicUniformWithSpecies
+  6/504 Test #365: 3d.gravityEnergyChecks.GravityEnergy.PeriodicUniformWithSpecies ..................................................................   Passed    0.44 sec
+        Start 502: 3d.polytropeChecks.Polytrope.UnresolvedOffCenterStarTriggersRefinementAndFinalStateIsPhysical
+  7/504 Test #502: 3d.polytropeChecks.Polytrope.UnresolvedOffCenterStarTriggersRefinementAndFinalStateIsPhysical ....................................   Passed    0.43 sec
+        Start 486: 3d.conservationChecks.Conservation.RadiationBoundaryFluxBalancesUniformAndAdaptiveMeshes
+  8/504 Test #486: 3d.conservationChecks.Conservation.RadiationBoundaryFluxBalancesUniformAndAdaptiveMeshes .........................................   Passed    0.31 sec
+        Start 401: 3d.ewaldChecks.GravityImages.ClosedReflectingBoxAndPeriodicUniformLatticeHaveZeroForce
+  9/504 Test #401: 3d.ewaldChecks.GravityImages.ClosedReflectingBoxAndPeriodicUniformLatticeHaveZeroForce ...........................................   Passed    0.26 sec
+        Start 504: application.3d
+ 10/504 Test #504: application.3d ...................................................................................................................   Passed    0.24 sec
+        Start 363: 3d.gravityEnergyChecks.GravityEnergy.IsolatedUniformWithAndWithoutSpecies
+ 11/504 Test #363: 3d.gravityEnergyChecks.GravityEnergy.IsolatedUniformWithAndWithoutSpecies ........................................................   Passed    0.18 sec
+        Start 360: 3d.speciesChecks.Species.RuntimeAndAMRPreserveCompositionAndMaterialMass
+ 12/504 Test #360: 3d.speciesChecks.Species.RuntimeAndAMRPreserveCompositionAndMaterialMass .........................................................   Passed    0.20 sec
+        Start 311: application.2d
+ 13/504 Test #400: 3d.ewaldChecks.GravityImages.FmmMatchesDirectWithIndependentImageAcceptance ......................................................   Passed    7.90 sec
+        Start 351: 3d.dualEnergyChecks.DualEnergy.ColdPeriodicTransportConservesAuxiliaryWithoutSynchronization
+ 14/504 Test #480: 3d.amrChecks.Amr.AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages ..............................................................   Passed    7.91 sec
+        Start 156: application.1d
+ 15/504 Test #311: application.2d ...................................................................................................................   Passed    0.18 sec
+        Start 495: 3d.siloChecks.SiloOutput.AmrTimeSeriesRefreshesDomainsAndPreservesCoverage
+ 16/504 Test #156: application.1d ...................................................................................................................   Passed    0.16 sec
+        Start 481: 3d.amrChecks.Amr.StartupVisitsRootAndRefillsEveryNewLevel
+ 17/504 Test #351: 3d.dualEnergyChecks.DualEnergy.ColdPeriodicTransportConservesAuxiliaryWithoutSynchronization .....................................   Passed    0.19 sec
+        Start 484: 3d.conservationChecks.Conservation.HydroBoundaryFluxBalancesUniformAndAdaptiveMeshes
+ 18/504 Test #481: 3d.amrChecks.Amr.StartupVisitsRootAndRefillsEveryNewLevel ........................................................................   Passed    0.10 sec
+        Start 383: 3d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem>
+ 19/504 Test #484: 3d.conservationChecks.Conservation.HydroBoundaryFluxBalancesUniformAndAdaptiveMeshes .............................................   Passed    0.10 sec
+        Start 384: 3d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem>
+ 20/504 Test #495: 3d.siloChecks.SiloOutput.AmrTimeSeriesRefreshesDomainsAndPreservesCoverage .......................................................   Passed    0.15 sec
+        Start 397: 3d.ewaldChecks.EwaldKernel.HighestOrderAndLargeOpenDisplacementsConverge
+ 21/504 Test #383: 3d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem> ...............   Passed    0.07 sec
+        Start 408: 3d.gravityParallelChecks.PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible
+ 22/504 Test #384: 3d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem> ...   Passed    0.09 sec
+        Start 355: 3d.dualEnergyChecks.DualEnergy.RuntimeSynchronizesAfterRefluxAtEachTimestep
+ 23/504 Test #397: 3d.ewaldChecks.EwaldKernel.HighestOrderAndLargeOpenDisplacementsConverge .........................................................   Passed    0.10 sec
+        Start 310: 2d.siloChecks.SiloOutput.AmrTimeSeriesRefreshesDomainsAndPreservesCoverage
+ 24/504 Test #408: 3d.gravityParallelChecks.PartitionedGravity.WorkerAndBlockDecompositionAreBitwiseReproducible ....................................   Passed    0.08 sec
+        Start 465: 3d.numericalChecks.Transport.RadiationDecompositionConservationAndAdmissibility
+ 25/504 Test #355: 3d.dualEnergyChecks.DualEnergy.RuntimeSynchronizesAfterRefluxAtEachTimestep ......................................................   Passed    0.07 sec
+        Start 477: 3d.amrChecks.Amr.MixedLevelTransportConservesPeriodicIntegrals
+ 26/504 Test #310: 2d.siloChecks.SiloOutput.AmrTimeSeriesRefreshesDomainsAndPreservesCoverage .......................................................   Passed    0.05 sec
+        Start 494: 3d.siloChecks.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry
+ 27/504 Test #465: 3d.numericalChecks.Transport.RadiationDecompositionConservationAndAdmissibility ..................................................   Passed    0.05 sec
+        Start 474: 3d.amrChecks.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+ 28/504 Test #477: 3d.amrChecks.Amr.MixedLevelTransportConservesPeriodicIntegrals ...................................................................   Passed    0.05 sec
+        Start 155: 1d.siloChecks.SiloOutput.AmrTimeSeriesRefreshesDomainsAndPreservesCoverage
+ 29/504 Test #494: 3d.siloChecks.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry ......................................................   Passed    0.05 sec
+        Start 309: 2d.siloChecks.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry
+ 30/504 Test #474: 3d.amrChecks.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners ..............................................................   Passed    0.04 sec
+        Start 499: 3d.rayleighTaylorChecks.RayleighTaylor.EvolvingGravityAndWallsAgreeAcrossPartitions
+ 31/504 Test #155: 1d.siloChecks.SiloOutput.AmrTimeSeriesRefreshesDomainsAndPreservesCoverage .......................................................   Passed    0.03 sec
+        Start 379: 3d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem>
+ 32/504 Test #309: 2d.siloChecks.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry ......................................................   Passed    0.02 sec
+        Start 308: 2d.siloChecks.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+ 33/504 Test #308: 2d.siloChecks.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip .....................................................   Passed    0.02 sec
+        Start 493: 3d.siloChecks.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+ 34/504 Test #379: 3d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem> ...........   Passed    0.03 sec
+        Start 392: 3d.ewaldChecks.EwaldKernel.SplitAndQuadratureIndependenceIncludingHighDerivatives
+ 35/504 Test #499: 3d.rayleighTaylorChecks.RayleighTaylor.EvolvingGravityAndWallsAgreeAcrossPartitions ..............................................   Passed    0.04 sec
+        Start 378: 3d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem>
+ 36/504 Test #493: 3d.siloChecks.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip .....................................................   Passed    0.02 sec
+        Start 153: 1d.siloChecks.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip
+ 37/504 Test #392: 3d.ewaldChecks.EwaldKernel.SplitAndQuadratureIndependenceIncludingHighDerivatives ................................................   Passed    0.03 sec
+        Start 475: 3d.amrChecks.Amr.MassThresholdRespectsFinestLevel
+ 38/504 Test #378: 3d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem> .......................   Passed    0.02 sec
+        Start 466: 3d.numericalChecks.Transport.HydroDecompositionConservationAndAdmissibility
+ 39/504 Test #153: 1d.siloChecks.SiloOutput.GeometryFieldsUnitsExactErrorsAndOverwriteRoundTrip .....................................................   Passed    0.02 sec
+        Start 302: 2d.conservationChecks.Conservation.RadiationBoundaryFluxBalancesUniformAndAdaptiveMeshes
+ 40/504 Test #475: 3d.amrChecks.Amr.MassThresholdRespectsFinestLevel ................................................................................   Passed    0.02 sec
+        Start 129: 1d.numericalChecks.Transport.StreamingProfileAtFullAndReducedLightSpeed
+ 41/504 Test #466: 3d.numericalChecks.Transport.HydroDecompositionConservationAndAdmissibility ......................................................   Passed    0.02 sec
+        Start 472: 3d.amrChecks.Amr.MortonDestinationAndConservativeRefineCoarsen
+ 42/504 Test #129: 1d.numericalChecks.Transport.StreamingProfileAtFullAndReducedLightSpeed ..........................................................   Passed    0.02 sec
+        Start 478: 3d.amrChecks.Amr.RegridCadenceAndTravelBudget
+ 43/504 Test #302: 2d.conservationChecks.Conservation.RadiationBoundaryFluxBalancesUniformAndAdaptiveMeshes .........................................   Passed    0.02 sec
+        Start 482: 3d.amrChecks.Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution
+ 44/504 Test #472: 3d.amrChecks.Amr.MortonDestinationAndConservativeRefineCoarsen ...................................................................   Passed    0.02 sec
+        Start 196: 2d.dualEnergyChecks.DualEnergy.ColdPeriodicTransportConservesAuxiliaryWithoutSynchronization
+ 45/504 Test #482: 3d.amrChecks.Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution ...........................................................   Passed    0.01 sec
+        Start 485: 3d.conservationChecks.Conservation.ReflectingPressureTractionBalancesMomentum
+ 46/504 Test #478: 3d.amrChecks.Amr.RegridCadenceAndTravelBudget ....................................................................................   Passed    0.02 sec
+        Start 154: 1d.siloChecks.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry
+ 47/504 Test #196: 2d.dualEnergyChecks.DualEnergy.ColdPeriodicTransportConservesAuxiliaryWithoutSynchronization .....................................   Passed    0.02 sec
+        Start 205: 2d.speciesChecks.Species.RuntimeAndAMRPreserveCompositionAndMaterialMass
+ 48/504 Test #485: 3d.conservationChecks.Conservation.ReflectingPressureTractionBalancesMomentum ....................................................   Passed    0.01 sec
+        Start 487: 3d.conservationChecks.Conservation.PeriodicBoundaryTransportIsZero
+ 49/504 Test #205: 2d.speciesChecks.Species.RuntimeAndAMRPreserveCompositionAndMaterialMass .........................................................   Passed    0.01 sec
+        Start 398: 3d.ewaldChecks.EwaldM2L.TraceAndLocalLaplacianAgreeWithIndividualSources
+ 50/504 Test #154: 1d.siloChecks.SiloOutput.MixedLevelsContainOnlyLeavesAndReportTheirGeometry ......................................................   Passed    0.02 sec
+        Start 300: 2d.conservationChecks.Conservation.HydroBoundaryFluxBalancesUniformAndAdaptiveMeshes
+ 51/504 Test #487: 3d.conservationChecks.Conservation.PeriodicBoundaryTransportIsZero ...............................................................   Passed    0.01 sec
+        Start 402: 3d.ewaldChecks.GravityImages.ThreeSingleWallsMatchExplicitMirroredMasses
+ 52/504 Test #398: 3d.ewaldChecks.EwaldM2L.TraceAndLocalLaplacianAgreeWithIndividualSources .........................................................   Passed    0.01 sec
+        Start 393: 3d.ewaldChecks.EwaldKernel.GradientAndHessianArePotentialDerivatives
+ 53/504 Test #300: 2d.conservationChecks.Conservation.HydroBoundaryFluxBalancesUniformAndAdaptiveMeshes .............................................   Passed    0.01 sec
+        Start 387: 3d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem>
+ 54/504 Test #402: 3d.ewaldChecks.GravityImages.ThreeSingleWallsMatchExplicitMirroredMasses .........................................................   Passed    0.01 sec
+        Start 488: 3d.conservationChecks.Conservation.FileIsWrittenEveryStepWithoutSilo
+ 55/504 Test #393: 3d.ewaldChecks.EwaldKernel.GradientAndHessianArePotentialDerivatives .............................................................   Passed    0.01 sec
+        Start 352: 3d.dualEnergyChecks.DualEnergy.IndependentAuxiliarySurvivesAdvectionBetweenThresholds
+ 56/504 Test #387: 3d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem> ..........   Passed    0.01 sec
+        Start 470: 3d.storageChecks.Runtime.FailedStageRollsBackAndRetryPublishesOnce
+ 57/504 Test #488: 3d.conservationChecks.Conservation.FileIsWrittenEveryStepWithoutSilo .............................................................   Passed    0.01 sec
+        Start 489: 3d.conservationChecks.Conservation.SelfGravityEnergyHasHalfRhoPhi
+ 58/504 Test #352: 3d.dualEnergyChecks.DualEnergy.IndependentAuxiliarySurvivesAdvectionBetweenThresholds ............................................   Passed    0.01 sec
+        Start 225: 2d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem>
+ 59/504 Test #489: 3d.conservationChecks.Conservation.SelfGravityEnergyHasHalfRhoPhi ................................................................   Passed    0.01 sec
+        Start 145: 1d.conservationChecks.Conservation.HydroBoundaryFluxBalancesUniformAndAdaptiveMeshes
+ 60/504 Test #470: 3d.storageChecks.Runtime.FailedStageRollsBackAndRetryPublishesOnce ...............................................................   Passed    0.01 sec
+        Start 301: 2d.conservationChecks.Conservation.ReflectingPressureTractionBalancesMomentum
+ 61/504 Test #225: 2d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem> ...   Passed    0.01 sec
+        Start 305: 2d.conservationChecks.Conservation.L1NormSurvivesZeroNetMomentum
+ 62/504 Test #145: 1d.conservationChecks.Conservation.HydroBoundaryFluxBalancesUniformAndAdaptiveMeshes .............................................   Passed    0.01 sec
+        Start 396: 3d.ewaldChecks.EwaldKernel.PeriodicSeamsSelfLimitAndCubicMadelungConstant
+ 63/504 Test #301: 2d.conservationChecks.Conservation.ReflectingPressureTractionBalancesMomentum ....................................................   Passed    0.01 sec
+        Start 147: 1d.conservationChecks.Conservation.RadiationBoundaryFluxBalancesUniformAndAdaptiveMeshes
+ 64/504 Test #305: 2d.conservationChecks.Conservation.L1NormSurvivesZeroNetMomentum .................................................................   Passed    0.01 sec
+        Start 283: 2d.boundaryChecks.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition
+ 65/504 Test #396: 3d.ewaldChecks.EwaldKernel.PeriodicSeamsSelfLimitAndCubicMadelungConstant ........................................................   Passed    0.01 sec
+        Start 394: 3d.ewaldChecks.EwaldKernel.SinglePeriodicAxisMatchesLongDirectImageSum
+ 66/504 Test #147: 1d.conservationChecks.Conservation.RadiationBoundaryFluxBalancesUniformAndAdaptiveMeshes .........................................   Passed    0.01 sec
+        Start 380: 3d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem>
+ 67/504 Test #283: 2d.boundaryChecks.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition ........................................   Passed    0.01 sec
+        Start 224: 2d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem>
+ 68/504 Test #394: 3d.ewaldChecks.EwaldKernel.SinglePeriodicAxisMatchesLongDirectImageSum ...........................................................   Passed    0.00 sec
+        Start 304: 2d.conservationChecks.Conservation.FileIsWrittenEveryStepWithoutSilo
+ 69/504 Test #380: 3d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem> ..........................   Passed    0.00 sec
+        Start 458: 3d.boundaryChecks.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+ 70/504 Test #224: 2d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem> ...............   Passed    0.01 sec
+        Start 146: 1d.conservationChecks.Conservation.ReflectingPressureTractionBalancesMomentum
+ 71/504 Test #458: 3d.boundaryChecks.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated .....................................................   Passed    0.00 sec
+        Start 150: 1d.conservationChecks.Conservation.L1NormSurvivesZeroNetMomentum
+ 72/504 Test #304: 2d.conservationChecks.Conservation.FileIsWrittenEveryStepWithoutSilo .............................................................   Passed    0.01 sec
+        Start 149: 1d.conservationChecks.Conservation.FileIsWrittenEveryStepWithoutSilo
+ 73/504 Test #146: 1d.conservationChecks.Conservation.ReflectingPressureTractionBalancesMomentum ....................................................   Passed    0.01 sec
+        Start 303: 2d.conservationChecks.Conservation.PeriodicBoundaryTransportIsZero
+ 74/504 Test #150: 1d.conservationChecks.Conservation.L1NormSurvivesZeroNetMomentum .................................................................   Passed    0.01 sec
+        Start 490: 3d.conservationChecks.Conservation.L1NormSurvivesZeroNetMomentum
+ 75/504 Test #149: 1d.conservationChecks.Conservation.FileIsWrittenEveryStepWithoutSilo .............................................................   Passed    0.01 sec
+        Start 386: 3d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem>
+ 76/504 Test #303: 2d.conservationChecks.Conservation.PeriodicBoundaryTransportIsZero ...............................................................   Passed    0.01 sec
+        Start 200: 2d.dualEnergyChecks.DualEnergy.RuntimeSynchronizesAfterRefluxAtEachTimestep
+ 77/504 Test #490: 3d.conservationChecks.Conservation.L1NormSurvivesZeroNetMomentum .................................................................   Passed    0.01 sec
+        Start 294: 2d.amrChecks.Amr.MixedLevelTransportConservesPeriodicIntegrals
+ 78/504 Test #386: 3d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem> ........   Passed    0.01 sec
+        Start 148: 1d.conservationChecks.Conservation.PeriodicBoundaryTransportIsZero
+ 79/504 Test #294: 2d.amrChecks.Amr.MixedLevelTransportConservesPeriodicIntegrals ...................................................................   Passed    0.00 sec
+        Start 272: 2d.boundaryChecks.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+ 80/504 Test #200: 2d.dualEnergyChecks.DualEnergy.RuntimeSynchronizesAfterRefluxAtEachTimestep ......................................................   Passed    0.01 sec
+        Start 382: 3d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem>
+ 81/504 Test #148: 1d.conservationChecks.Conservation.PeriodicBoundaryTransportIsZero ...............................................................   Passed    0.01 sec
+        Start 284: 2d.numericalChecks.Transport.RadiationDecompositionConservationAndAdmissibility
+ 82/504 Test #272: 2d.boundaryChecks.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated .....................................................   Passed    0.00 sec
+        Start 498: 3d.rayleighTaylorChecks.RayleighTaylor.ExternalKickPreservesInternalEnergyAndRestrictsTimestep
+ 83/504 Test #382: 3d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem> ..................   Passed    0.00 sec
+        Start 473: 3d.amrChecks.Amr.FailedCriterionPreservesPublishedMeshAndState
+ 84/504 Test #284: 2d.numericalChecks.Transport.RadiationDecompositionConservationAndAdmissibility ..................................................   Passed    0.01 sec
+        Start 219: 2d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem>
+ 85/504 Test #498: 3d.rayleighTaylorChecks.RayleighTaylor.ExternalKickPreservesInternalEnergyAndRestrictsTimestep ...................................   Passed    0.01 sec
+        Start 220: 2d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem>
+ 86/504 Test #473: 3d.amrChecks.Amr.FailedCriterionPreservesPublishedMeshAndState ...................................................................   Passed    0.01 sec
+        Start 298: 2d.amrChecks.Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution
+ 87/504 Test #219: 2d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem> .......................   Passed    0.00 sec
+        Start 476: 3d.amrChecks.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+ 88/504 Test #298: 2d.amrChecks.Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution ...........................................................   Passed    0.00 sec
+        Start 297: 2d.amrChecks.Amr.StartupVisitsRootAndRefillsEveryNewLevel
+ 89/504 Test #220: 2d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem> ...........   Passed    0.01 sec
+        Start 459: 3d.boundaryChecks.BoundaryOptions.IniCliAndLegacyPrecedence
+ 90/504 Test #476: 3d.amrChecks.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon ............................................................   Passed    0.00 sec
+        Start 501: 3d.polytropeChecks.Polytrope.RadiusCenterAndPressureFollowIniAndCli
+ 91/504 Test #459: 3d.boundaryChecks.BoundaryOptions.IniCliAndLegacyPrecedence ......................................................................   Passed    0.00 sec
+        Start 496: 3d.rayleighTaylorChecks.RayleighTaylor.DefaultsAndPhysicalParameterValidation
+ 92/504 Test #297: 2d.amrChecks.Amr.StartupVisitsRootAndRefillsEveryNewLevel ........................................................................   Passed    0.01 sec
+        Start 381: 3d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem>
+ 93/504 Test #501: 3d.polytropeChecks.Polytrope.RadiusCenterAndPressureFollowIniAndCli ..............................................................   Passed    0.00 sec
+        Start 385: 3d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem>
+ 94/504 Test #496: 3d.rayleighTaylorChecks.RayleighTaylor.DefaultsAndPhysicalParameterValidation ....................................................   Passed    0.00 sec
+        Start 285: 2d.numericalChecks.Transport.HydroDecompositionConservationAndAdmissibility
+ 95/504 Test #385: 3d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem> ..................   Passed    0.00 sec
+        Start 359: 3d.speciesChecks.Species.NonuniformContactFluxesConserveEverySpecies
+ 96/504 Test #285: 2d.numericalChecks.Transport.HydroDecompositionConservationAndAdmissibility ......................................................   Passed    0.00 sec
+        Start 295: 2d.amrChecks.Amr.RegridCadenceAndTravelBudget
+ 97/504 Test #359: 3d.speciesChecks.Species.NonuniformContactFluxesConserveEverySpecies .............................................................   Passed    0.00 sec
+        Start 479: 3d.amrChecks.Amr.EvolvedShadowDiffersFromFreshRestriction
+ 98/504 Test #295: 2d.amrChecks.Amr.RegridCadenceAndTravelBudget ....................................................................................   Passed    0.00 sec
+        Start  49: 1d.speciesChecks.Species.RuntimeAndAMRPreserveCompositionAndMaterialMass
+ 99/504 Test #381: 3d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem> ................   Passed    0.01 sec
+        Start 292: 2d.amrChecks.Amr.MassThresholdRespectsFinestLevel
+100/504 Test #479: 3d.amrChecks.Amr.EvolvedShadowDiffersFromFreshRestriction ........................................................................   Passed    0.00 sec
+        Start 423: 3d.optionsChecks.Options.MissingAndMalformedIniAreRejected
+101/504 Test  #49: 1d.speciesChecks.Species.RuntimeAndAMRPreserveCompositionAndMaterialMass .........................................................   Passed    0.00 sec
+        Start 291: 2d.amrChecks.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+102/504 Test #292: 2d.amrChecks.Amr.MassThresholdRespectsFinestLevel ................................................................................   Passed    0.00 sec
+        Start 406: 3d.directGravityChecks.DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder
+103/504 Test #423: 3d.optionsChecks.Options.MissingAndMalformedIniAreRejected .......................................................................   Passed    0.01 sec
+        Start 117: 1d.boundaryChecks.BoundaryOptions.IniCliAndLegacyPrecedence
+104/504 Test #291: 2d.amrChecks.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners ..............................................................   Passed    0.01 sec
+        Start 353: 3d.dualEnergyChecks.DualEnergy.RefineAndRestrictPreserveIndependentAuxiliary
+105/504 Test #117: 1d.boundaryChecks.BoundaryOptions.IniCliAndLegacyPrecedence ......................................................................   Passed    0.00 sec
+        Start 273: 2d.boundaryChecks.BoundaryOptions.IniCliAndLegacyPrecedence
+106/504 Test #406: 3d.directGravityChecks.DirectReference.SingleMassSelfExclusionSamplingPolicyAndBlockOrder ........................................   Passed    0.01 sec
+        Start 427: 3d.optionsChecks.OptionValues.DualEnergyDefaultsAndValidation
+107/504 Test #353: 3d.dualEnergyChecks.DualEnergy.RefineAndRestrictPreserveIndependentAuxiliary .....................................................   Passed    0.00 sec
+        Start 128: 1d.numericalChecks.Transport.RadiationDecompositionConservationAndAdmissibility
+108/504 Test #273: 2d.boundaryChecks.BoundaryOptions.IniCliAndLegacyPrecedence ......................................................................   Passed    0.00 sec
+        Start 289: 2d.amrChecks.Amr.MortonDestinationAndConservativeRefineCoarsen
+109/504 Test #427: 3d.optionsChecks.OptionValues.DualEnergyDefaultsAndValidation ....................................................................   Passed    0.00 sec
+        Start 280: 2d.boundaryChecks.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::hydro::HydroSystem>
+110/504 Test #128: 1d.numericalChecks.Transport.RadiationDecompositionConservationAndAdmissibility ..................................................   Passed    0.00 sec
+        Start 127: 1d.boundaryChecks.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition
+111/504 Test #289: 2d.amrChecks.Amr.MortonDestinationAndConservativeRefineCoarsen ...................................................................   Passed    0.00 sec
+        Start  82: 1d.optionsChecks.Options.DualEnergyIniAndCliPrecedence
+112/504 Test #280: 2d.boundaryChecks.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::hydro::HydroSystem> .....   Passed    0.00 sec
+        Start 125: 1d.boundaryChecks.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::hydro::HydroSystem>
+113/504 Test #127: 1d.boundaryChecks.BoundaryRuntime.MixedAndAnalyticBoundariesAreIndependentOfDecomposition ........................................   Passed    0.00 sec
+        Start 104: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6"
+114/504 Test  #82: 1d.optionsChecks.Options.DualEnergyIniAndCliPrecedence ...........................................................................   Passed    0.00 sec
+        Start 235: 2d.optionsChecks.Options.LegacyAndCanonicalNamesSharePrecedence
+115/504 Test #125: 1d.boundaryChecks.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::hydro::HydroSystem> ...........   Passed    0.00 sec
+        Start 126: 1d.boundaryChecks.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::hydro::HydroSystem>
+116/504 Test #104: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6" .......................................   Passed    0.00 sec
+        Start 103: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0"
+117/504 Test #235: 2d.optionsChecks.Options.LegacyAndCanonicalNamesSharePrecedence ..................................................................   Passed    0.00 sec
+        Start 234: 2d.optionsChecks.Options.CliOverridesIniRegardlessOfArgumentOrder
+118/504 Test #126: 1d.boundaryChecks.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::hydro::HydroSystem> .........................   Passed    0.00 sec
+        Start 390: 3d.gravityChecks.Gravity.SuperpositionAndDensityScaling
+119/504 Test #103: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0" .........................................   Passed    0.00 sec
+        Start 464: 3d.boundaryChecks.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+120/504 Test #234: 2d.optionsChecks.Options.CliOverridesIniRegardlessOfArgumentOrder ................................................................   Passed    0.00 sec
+        Start  97: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=unknown"
+121/504 Test #464: 3d.boundaryChecks.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ..................................................   Passed    0.00 sec
+        Start 121: 1d.boundaryChecks.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes
+122/504 Test #390: 3d.gravityChecks.Gravity.SuperpositionAndDensityScaling ..........................................................................   Passed    0.00 sec
+        Start  81: 1d.optionsChecks.Options.MissingAndMalformedIniAreRejected
+123/504 Test  #97: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=unknown" ...........................................   Passed    0.00 sec
+        Start 114: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1"
+124/504 Test #121: 1d.boundaryChecks.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes ..............................................................   Passed    0.00 sec
+        Start 120: 1d.boundaryChecks.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported
+125/504 Test  #81: 1d.optionsChecks.Options.MissingAndMalformedIniAreRejected .......................................................................   Passed    0.00 sec
+        Start 113: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes"
+126/504 Test #114: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1" ............................................   Passed    0.00 sec
+        Start 460: 3d.boundaryChecks.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+127/504 Test #120: 1d.boundaryChecks.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported .....................................................   Passed    0.00 sec
+        Start 463: 3d.boundaryChecks.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes
+128/504 Test #113: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes" .......................................   Passed    0.00 sec
+        Start 119: 1d.boundaryChecks.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+129/504 Test #460: 3d.boundaryChecks.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ..............................................   Passed    0.00 sec
+        Start 124: 1d.boundaryChecks.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::hydro::HydroSystem>
+130/504 Test #463: 3d.boundaryChecks.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes ..............................................................   Passed    0.00 sec
+        Start  46: 1d.speciesChecks.Species.InvalidDefinitionsFail
+131/504 Test #119: 1d.boundaryChecks.BoundaryMapping.AsymmetricFacesAndInvalidEnums .................................................................   Passed    0.00 sec
+        Start 109: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid"
+132/504 Test #124: 1d.boundaryChecks.BoundaryTransport.DistributedHaloMatchesIndependentDonorValuesOnEveryFace<octotigerII::hydro::HydroSystem> .....   Passed    0.00 sec
+        Start 453: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0"
+133/504 Test  #46: 1d.speciesChecks.Species.InvalidDefinitionsFail ..................................................................................   Passed    0.00 sec
+        Start 108: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1"
+134/504 Test #109: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid" ..........................   Passed    0.00 sec
+        Start  48: 1d.speciesChecks.Species.NonuniformContactFluxesConserveEverySpecies
+135/504 Test #453: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0" ..................................   Passed    0.00 sec
+        Start 122: 1d.boundaryChecks.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+136/504 Test #108: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1" ..................................................   Passed    0.00 sec
+        Start  98: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3"
+137/504 Test  #48: 1d.speciesChecks.Species.NonuniformContactFluxesConserveEverySpecies .............................................................   Passed    0.00 sec
+        Start  87: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/2
+138/504 Test #122: 1d.boundaryChecks.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ..................................................   Passed    0.00 sec
+        Start 345: 3d.dualEnergyChecks.DualEnergy.ThresholdEqualityUsesAuxiliaryAndDoesNotSynchronize
+139/504 Test  #98: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3" ....................................................   Passed    0.00 sec
+        Start  96: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1"
+140/504 Test  #87: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/2 ...............................................................   Passed    0.00 sec
+        Start 123: 1d.boundaryChecks.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::hydro::HydroSystem>
+141/504 Test #345: 3d.dualEnergyChecks.DualEnergy.ThresholdEqualityUsesAuxiliaryAndDoesNotSynchronize ...............................................   Passed    0.00 sec
+        Start 233: 2d.optionsChecks.Options.HierarchicalIniSections
+142/504 Test  #96: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1" ................................................   Passed    0.00 sec
+        Start  72: 1d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem>
+143/504 Test #123: 1d.boundaryChecks.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::hydro::HydroSystem> .......   Passed    0.00 sec
+        Start  47: 1d.speciesChecks.Species.HydroDensityHasNoAllocatedColumn
+144/504 Test #233: 2d.optionsChecks.Options.HierarchicalIniSections .................................................................................   Passed    0.00 sec
+        Start  86: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/1
+145/504 Test  #72: 1d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem> ..........   Passed    0.00 sec
+        Start  83: 1d.optionsChecks.OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+146/504 Test  #47: 1d.speciesChecks.Species.HydroDensityHasNoAllocatedColumn ........................................................................   Passed    0.00 sec
+        Start  80: 1d.optionsChecks.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+147/504 Test  #86: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/1 ...............................................................   Passed    0.00 sec
+        Start 404: 3d.directGravityChecks.DirectReference.ReproducibleDistinctSampling
+148/504 Test  #83: 1d.optionsChecks.OptionValues.SplitArgumentsSamplingAndGeneratedHelp .............................................................   Passed    0.00 sec
+        Start  73: 1d.unitsChecks.Units.CgsConversionsAndConstants
+149/504 Test  #80: 1d.optionsChecks.Options.LaterIniOverridesEarlierAndCliOverridesBoth .............................................................   Passed    0.00 sec
+        Start 115: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0"
+150/504 Test #404: 3d.directGravityChecks.DirectReference.ReproducibleDistinctSampling ..............................................................   Passed    0.00 sec
+        Start 421: 3d.optionsChecks.Options.LegacyAndCanonicalNamesSharePrecedence
+151/504 Test  #73: 1d.unitsChecks.Units.CgsConversionsAndConstants ..................................................................................   Passed    0.00 sec
+        Start 106: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4"
+152/504 Test #115: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0" ....................................   Passed    0.00 sec
+        Start 376: 3d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1
+153/504 Test #421: 3d.optionsChecks.Options.LegacyAndCanonicalNamesSharePrecedence ..................................................................   Passed    0.00 sec
+        Start 497: 3d.rayleighTaylorChecks.RayleighTaylor.InitialLayersHaveHydrostaticPressureAndZeroMeanSeed
+154/504 Test #106: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4" ...........................................   Passed    0.00 sec
+        Start  71: 1d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem>
+155/504 Test #376: 3d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1 .......................................   Passed    0.00 sec
+        Start 415: 3d.unitsChecks.Units.CgsConversionsAndConstants
+156/504 Test #497: 3d.rayleighTaylorChecks.RayleighTaylor.InitialLayersHaveHydrostaticPressureAndZeroMeanSeed .......................................   Passed    0.00 sec
+        Start 105: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan"
+157/504 Test  #71: 1d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem> ........   Passed    0.00 sec
+        Start 344: 3d.dualEnergyChecks.DualEnergy.PressureTemperatureAndSynchronizationUseIndependentThresholds
+158/504 Test #415: 3d.unitsChecks.Units.CgsConversionsAndConstants ..................................................................................   Passed    0.00 sec
+        Start 116: 1d.boundaryChecks.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated
+159/504 Test #105: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan" .......................................   Passed    0.00 sec
+        Start  85: 1d.optionsChecks.OptionValues.DualEnergyDefaultsAndValidation
+160/504 Test #344: 3d.dualEnergyChecks.DualEnergy.PressureTemperatureAndSynchronizationUseIndependentThresholds .....................................   Passed    0.00 sec
+        Start  99: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3"
+161/504 Test #116: 1d.boundaryChecks.BoundaryOptions.EveryActiveFaceAndPeriodicPairAreValidated .....................................................   Passed    0.00 sec
+        Start 102: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11"
+162/504 Test  #85: 1d.optionsChecks.OptionValues.DualEnergyDefaultsAndValidation ....................................................................   Passed    0.00 sec
+        Start 107: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf"
+163/504 Test  #99: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3" ...................................................   Passed    0.00 sec
+        Start 111: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0"
+164/504 Test #102: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11" ......................................   Passed    0.00 sec
+        Start  88: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/3
+165/504 Test #107: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf" ................................................   Passed    0.00 sec
+        Start 110: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1"
+166/504 Test #111: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0" ..................................   Passed    0.00 sec
+        Start 112: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1"
+167/504 Test  #88: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/3 ...............................................................   Passed    0.00 sec
+        Start 424: 3d.optionsChecks.Options.DualEnergyIniAndCliPrecedence
+168/504 Test #110: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1" ..................................   Passed    0.00 sec
+        Start 287: 2d.storageChecks.Runtime.FailedStageRollsBackAndRetryPublishesOnce
+169/504 Test #112: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1" ..................................................   Passed    0.00 sec
+        Start  84: 1d.optionsChecks.OptionValues.DuplicateAliasIsRejected
+170/504 Test #424: 3d.optionsChecks.Options.DualEnergyIniAndCliPrecedence ...........................................................................   Passed    0.00 sec
+        Start  95: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/10
+171/504 Test #287: 2d.storageChecks.Runtime.FailedStageRollsBackAndRetryPublishesOnce ...............................................................   Passed    0.00 sec
+        Start 469: 3d.storageChecks.Storage.IndependentFieldsBanksViewsTypesAndRetirement
+172/504 Test  #84: 1d.optionsChecks.OptionValues.DuplicateAliasIsRejected ...........................................................................   Passed    0.00 sec
+        Start 290: 2d.amrChecks.Amr.FailedCriterionPreservesPublishedMeshAndState
+173/504 Test  #95: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/10 ..............................................................   Passed    0.00 sec
+        Start 483: 3d.amrChecks.Amr.DensityCriterionUsesDensityRatherThanCellMass
+174/504 Test #469: 3d.storageChecks.Storage.IndependentFieldsBanksViewsTypesAndRetirement ...........................................................   Passed    0.00 sec
+        Start  65: 1d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem>
+175/504 Test #290: 2d.amrChecks.Amr.FailedCriterionPreservesPublishedMeshAndState ...................................................................   Passed    0.00 sec
+        Start  74: 1d.unitsChecks.Units.PhysicalRadiationFluxAndReducedSpeed
+176/504 Test #483: 3d.amrChecks.Amr.DensityCriterionUsesDensityRatherThanCellMass ...................................................................   Passed    0.00 sec
+        Start 343: 3d.dualEnergyChecks.DualEnergy.ArbitraryNonzeroExponentAndAdiabaticCompression
+177/504 Test  #65: 1d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem> ..........................   Passed    0.00 sec
+        Start 451: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid"
+178/504 Test  #74: 1d.unitsChecks.Units.PhysicalRadiationFluxAndReducedSpeed ........................................................................   Passed    0.00 sec
+        Start  93: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/8
+179/504 Test #343: 3d.dualEnergyChecks.DualEnergy.ArbitraryNonzeroExponentAndAdiabaticCompression ...................................................   Passed    0.00 sec
+        Start  34: 1d.dualEnergyChecks.DualEnergy.ThresholdEqualityUsesAuxiliaryAndDoesNotSynchronize
+180/504 Test #451: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid" ..........................   Passed    0.00 sec
+        Start 101: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0"
+181/504 Test  #93: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/8 ...............................................................   Passed    0.00 sec
+        Start 319: 3d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+182/504 Test  #34: 1d.dualEnergyChecks.DualEnergy.ThresholdEqualityUsesAuxiliaryAndDoesNotSynchronize ...............................................   Passed    0.00 sec
+        Start 419: 3d.optionsChecks.Options.HierarchicalIniSections
+183/504 Test #101: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0" .......................................   Passed    0.00 sec
+        Start  92: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/7
+184/504 Test #319: 3d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 ........................................................   Passed    0.00 sec
+        Start  91: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/6
+185/504 Test #419: 3d.optionsChecks.Options.HierarchicalIniSections .................................................................................   Passed    0.00 sec
+        Start 152: 1d.analyticChecks.AnalyticReference.ErrorNormsAndAccuracyPolicy
+186/504 Test  #92: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/7 ...............................................................   Passed    0.00 sec
+        Start  70: 1d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem>
+187/504 Test  #91: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/6 ...............................................................   Passed    0.00 sec
+        Start  94: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/9
+188/504 Test #152: 1d.analyticChecks.AnalyticReference.ErrorNormsAndAccuracyPolicy ..................................................................   Passed    0.00 sec
+        Start 420: 3d.optionsChecks.Options.CliOverridesIniRegardlessOfArgumentOrder
+189/504 Test  #70: 1d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem> ..................   Passed    0.00 sec
+        Start 243: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/2
+190/504 Test  #94: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/9 ...............................................................   Passed    0.00 sec
+        Start  64: 1d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem>
+191/504 Test #420: 3d.optionsChecks.Options.CliOverridesIniRegardlessOfArgumentOrder ................................................................   Passed    0.00 sec
+        Start 133: 1d.amrChecks.Amr.OptionsValidateAndRoundTrip
+192/504 Test #243: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/2 ...............................................................   Passed    0.00 sec
+        Start 405: 3d.directGravityChecks.DirectReference.SamplingUncertaintyAndCensusLimits
+193/504 Test  #64: 1d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::hydro::HydroSystem> ...........   Passed    0.00 sec
+        Start 471: 3d.amrChecks.Amr.OptionsValidateAndRoundTrip
+194/504 Test #133: 1d.amrChecks.Amr.OptionsValidateAndRoundTrip .....................................................................................   Passed    0.00 sec
+        Start  41: 1d.dualEnergyChecks.DualEnergy.IndependentAuxiliarySurvivesAdvectionBetweenThresholds
+195/504 Test #405: 3d.directGravityChecks.DirectReference.SamplingUncertaintyAndCensusLimits ........................................................   Passed    0.00 sec
+        Start   4: 1d.meshChecks.BlockTopology.ChildBitsParentAndInvalidSlots
+196/504 Test #471: 3d.amrChecks.Amr.OptionsValidateAndRoundTrip .....................................................................................   Passed    0.00 sec
+        Start  53: 1d.radiationChecks.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux
+197/504 Test  #41: 1d.dualEnergyChecks.DualEnergy.IndependentAuxiliarySurvivesAdvectionBetweenThresholds ............................................   Passed    0.00 sec
+        Start 450: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1"
+198/504 Test   #4: 1d.meshChecks.BlockTopology.ChildBitsParentAndInvalidSlots .......................................................................   Passed    0.00 sec
+        Start  32: 1d.dualEnergyChecks.DualEnergy.ArbitraryNonzeroExponentAndAdiabaticCompression
+199/504 Test  #53: 1d.radiationChecks.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux ......................................   Passed    0.00 sec
+        Start  40: 1d.dualEnergyChecks.DualEnergy.ColdPeriodicTransportConservesAuxiliaryWithoutSynchronization
+200/504 Test #450: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1" ..................................................   Passed    0.00 sec
+        Start  66: 1d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem>
+201/504 Test  #32: 1d.dualEnergyChecks.DualEnergy.ArbitraryNonzeroExponentAndAdiabaticCompression ...................................................   Passed    0.00 sec
+        Start  60: 1d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25
+202/504 Test  #66: 1d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem> ................   Passed    0.00 sec
+        Start  39: 1d.dualEnergyChecks.DualEnergy.AuxiliaryFluxIsAdvectedThroughHllcContactAndReflection
+203/504 Test  #40: 1d.dualEnergyChecks.DualEnergy.ColdPeriodicTransportConservesAuxiliaryWithoutSynchronization .....................................   Passed    0.00 sec
+        Start 202: 2d.speciesChecks.Species.InvalidDefinitionsFail
+204/504 Test  #60: 1d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25 ..........................   Passed    0.00 sec
+        Start  79: 1d.optionsChecks.Options.LegacyAndCanonicalNamesSharePrecedence
+205/504 Test  #39: 1d.dualEnergyChecks.DualEnergy.AuxiliaryFluxIsAdvectedThroughHllcContactAndReflection ............................................   Passed    0.00 sec
+        Start  63: 1d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem>
+206/504 Test #202: 2d.speciesChecks.Species.InvalidDefinitionsFail ..................................................................................   Passed    0.00 sec
+        Start  33: 1d.dualEnergyChecks.DualEnergy.PressureTemperatureAndSynchronizationUseIndependentThresholds
+207/504 Test  #79: 1d.optionsChecks.Options.LegacyAndCanonicalNamesSharePrecedence ..................................................................   Passed    0.00 sec
+        Start  54: 1d.radiationChecks.Radiation.RoundoffRepairDoesNotHidePhysicalViolations
+208/504 Test  #63: 1d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::hydro::HydroSystem> .......................   Passed    0.00 sec
+        Start  59: 1d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1
+209/504 Test  #33: 1d.dualEnergyChecks.DualEnergy.PressureTemperatureAndSynchronizationUseIndependentThresholds .....................................   Passed    0.00 sec
+        Start  90: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/5
+210/504 Test  #54: 1d.radiationChecks.Radiation.RoundoffRepairDoesNotHidePhysicalViolations .........................................................   Passed    0.00 sec
+        Start 491: 3d.analyticChecks.AnalyticReference.IndependentSphereSodAndStreamingIdentities
+211/504 Test  #59: 1d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1 .............................   Passed    0.00 sec
+        Start  55: 1d.radiationChecks.Radiation.RejectsInvalidSpeedAndAxis
+212/504 Test  #90: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/5 ...............................................................   Passed    0.00 sec
+        Start  89: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/4
+213/504 Test #491: 3d.analyticChecks.AnalyticReference.IndependentSphereSodAndStreamingIdentities ...................................................   Passed    0.00 sec
+        Start 454: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1"
+214/504 Test  #55: 1d.radiationChecks.Radiation.RejectsInvalidSpeedAndAxis ..........................................................................   Passed    0.00 sec
+        Start 271: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0"
+215/504 Test  #89: 1d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/4 ...............................................................   Passed    0.00 sec
+        Start  58: 1d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25
+216/504 Test #454: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1" ..................................................   Passed    0.00 sec
+        Start 422: 3d.optionsChecks.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+217/504 Test #271: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0" ....................................   Passed    0.00 sec
+        Start  67: 1d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem>
+218/504 Test  #58: 1d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25 ...........................   Passed    0.00 sec
+        Start   3: 1d.meshChecks.Mesh.CgsGeometryAndPatchBounds
+219/504 Test #422: 3d.optionsChecks.Options.LaterIniOverridesEarlierAndCliOverridesBoth .............................................................   Passed    0.00 sec
+        Start  42: 1d.dualEnergyChecks.DualEnergy.RefineAndRestrictPreserveIndependentAuxiliary
+220/504 Test  #67: 1d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem> ..................   Passed    0.00 sec
+        Start  68: 1d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem>
+221/504 Test   #3: 1d.meshChecks.Mesh.CgsGeometryAndPatchBounds .....................................................................................   Passed    0.00 sec
+        Start  75: 1d.unitsChecks.Units.HydroEnergyAndFluxDimensions
+222/504 Test  #42: 1d.dualEnergyChecks.DualEnergy.RefineAndRestrictPreserveIndependentAuxiliary .....................................................   Passed    0.00 sec
+        Start  57: 1d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1
+223/504 Test  #68: 1d.finiteVolumeChecks.FiniteVolume.UniformStateIsPreservedForEveryLimiter<octotigerII::radiation::RadiationSystem> ...............   Passed    0.00 sec
+        Start  45: 1d.speciesChecks.Species.AllElementsAliasesAndMixtureMoments
+224/504 Test  #75: 1d.unitsChecks.Units.HydroEnergyAndFluxDimensions ................................................................................   Passed    0.00 sec
+        Start  43: 1d.dualEnergyChecks.DualEnergy.WarmOwningPatchSynchronizesAfterEveryStep
+225/504 Test  #57: 1d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1 ..............................   Passed    0.00 sec
+        Start 395: 3d.ewaldChecks.EwaldKernel.SlabMatchesIndependentFourierGreenFunctionAndSheetField
+226/504 Test  #45: 1d.speciesChecks.Species.AllElementsAliasesAndMixtureMoments .....................................................................   Passed    0.00 sec
+        Start  69: 1d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem>
+227/504 Test  #43: 1d.dualEnergyChecks.DualEnergy.WarmOwningPatchSynchronizesAfterEveryStep .........................................................   Passed    0.00 sec
+        Start  36: 1d.dualEnergyChecks.DualEnergy.NegativeOrCancelledTotalThermalEnergyStillHasPositivePressure
+228/504 Test #395: 3d.ewaldChecks.EwaldKernel.SlabMatchesIndependentFourierGreenFunctionAndSheetField ...............................................   Passed    0.00 sec
+        Start  31: 1d.hydroChecks.HydroValidation.RejectsInvalidEosAndFloors
+229/504 Test  #69: 1d.finiteVolumeChecks.FiniteVolume.NonuniformPeriodicEvolutionConservesEveryComponent<octotigerII::radiation::RadiationSystem> ...   Passed    0.00 sec
+        Start 333: 3d.laneEmdenChecks.LaneEmden.StandardPolytropeSurfaceAndInvalidIndices
+230/504 Test  #36: 1d.dualEnergyChecks.DualEnergy.NegativeOrCancelledTotalThermalEnergyStillHasPositivePressure .....................................   Passed    0.00 sec
+        Start  44: 1d.dualEnergyChecks.DualEnergy.RuntimeSynchronizesAfterRefluxAtEachTimestep
+231/504 Test  #31: 1d.hydroChecks.HydroValidation.RejectsInvalidEosAndFloors ........................................................................   Passed    0.00 sec
+        Start 367: 3d.radiationChecks.Radiation.VacuumFluxAndPhysicalFluxRoundTrip
+232/504 Test #333: 3d.laneEmdenChecks.LaneEmden.StandardPolytropeSurfaceAndInvalidIndices ...........................................................   Passed    0.00 sec
+        Start 347: 3d.dualEnergyChecks.DualEnergy.NegativeOrCancelledTotalThermalEnergyStillHasPositivePressure
+233/504 Test  #44: 1d.dualEnergyChecks.DualEnergy.RuntimeSynchronizesAfterRefluxAtEachTimestep ......................................................   Passed    0.00 sec
+        Start  78: 1d.optionsChecks.Options.CliOverridesIniRegardlessOfArgumentOrder
+234/504 Test #367: 3d.radiationChecks.Radiation.VacuumFluxAndPhysicalFluxRoundTrip ..................................................................   Passed    0.00 sec
+        Start  38: 1d.dualEnergyChecks.DualEnergy.InvalidAuxiliaryAndUnrepresentablePowersAreRejected
+235/504 Test #347: 3d.dualEnergyChecks.DualEnergy.NegativeOrCancelledTotalThermalEnergyStillHasPositivePressure .....................................   Passed    0.00 sec
+        Start  61: 1d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1
+236/504 Test  #78: 1d.optionsChecks.Options.CliOverridesIniRegardlessOfArgumentOrder ................................................................   Passed    0.00 sec
+        Start  62: 1d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25
+237/504 Test  #38: 1d.dualEnergyChecks.DualEnergy.InvalidAuxiliaryAndUnrepresentablePowersAreRejected ...............................................   Passed    0.00 sec
+        Start 188: 2d.dualEnergyChecks.DualEnergy.ArbitraryNonzeroExponentAndAdiabaticCompression
+238/504 Test  #61: 1d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1 .......................................   Passed    0.00 sec
+        Start 242: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/1
+239/504 Test  #62: 1d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25 ....................................   Passed    0.00 sec
+        Start 340: 3d.hydroChecks.Hydro.RejectsVacuumNegativePressureAndNonfiniteState
+240/504 Test #188: 2d.dualEnergyChecks.DualEnergy.ArbitraryNonzeroExponentAndAdiabaticCompression ...................................................   Passed    0.00 sec
+        Start  77: 1d.optionsChecks.Options.HierarchicalIniSections
+241/504 Test #242: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/1 ...............................................................   Passed    0.00 sec
+        Start  11: 1d.mathChecks.VectorMath.InitializationArithmeticAndDotProduct
+242/504 Test #340: 3d.hydroChecks.Hydro.RejectsVacuumNegativePressureAndNonfiniteState ..............................................................   Passed    0.00 sec
+        Start 100: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1"
+243/504 Test  #11: 1d.mathChecks.VectorMath.InitializationArithmeticAndDotProduct ...................................................................   Passed    0.00 sec
+        Start  76: 1d.unitsChecks.Units.DimensionalMeshAndChildTopology
+244/504 Test  #77: 1d.optionsChecks.Options.HierarchicalIniSections .................................................................................   Passed    0.00 sec
+        Start 229: 2d.unitsChecks.Units.CgsConversionsAndConstants
+245/504 Test #100: 1d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1" ..................................................   Passed    0.00 sec
+        Start  37: 1d.dualEnergyChecks.DualEnergy.DisabledModeUsesOnlyTotalEnergy
+246/504 Test  #76: 1d.unitsChecks.Units.DimensionalMeshAndChildTopology .............................................................................   Passed    0.00 sec
+        Start 447: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan"
+247/504 Test #229: 2d.unitsChecks.Units.CgsConversionsAndConstants ..................................................................................   Passed    0.00 sec
+        Start   8: 1d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+248/504 Test  #37: 1d.dualEnergyChecks.DualEnergy.DisabledModeUsesOnlyTotalEnergy ...................................................................   Passed    0.00 sec
+        Start 180: 2d.hydroChecks.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy
+249/504 Test #447: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan" .......................................   Passed    0.00 sec
+        Start 222: 2d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem>
+250/504 Test   #8: 1d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 ........................................................   Passed    0.00 sec
+        Start 341: 3d.hydroChecks.Hydro.FluxLimiterRepairsDestructiveFluxConservatively
+251/504 Test #180: 2d.hydroChecks.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy .................................................................   Passed    0.00 sec
+        Start 254: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3"
+252/504 Test #222: 2d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::hydro::HydroSystem> ................   Passed    0.00 sec
+        Start  23: 1d.laneEmdenChecks.LaneEmden.PhysicalScalingAndHydrostaticBalance
+253/504 Test #341: 3d.hydroChecks.Hydro.FluxLimiterRepairsDestructiveFluxConservatively .............................................................   Passed    0.01 sec
+        Start 368: 3d.radiationChecks.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux
+254/504 Test #254: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3" ....................................................   Passed    0.00 sec
+        Start   5: 1d.meshChecks.TimeMetadata.StepPublicationSynchronizationAndIntervals
+255/504 Test  #23: 1d.laneEmdenChecks.LaneEmden.PhysicalScalingAndHydrostaticBalance ................................................................   Passed    0.00 sec
+        Start  22: 1d.laneEmdenChecks.LaneEmden.StandardPolytropeSurfaceAndInvalidIndices
+256/504 Test #368: 3d.radiationChecks.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux ......................................   Passed    0.00 sec
+        Start 132: 1d.storageChecks.Runtime.FailedStageRollsBackAndRetryPublishesOnce
+257/504 Test   #5: 1d.meshChecks.TimeMetadata.StepPublicationSynchronizationAndIntervals ............................................................   Passed    0.00 sec
+        Start   9: 1d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+258/504 Test  #22: 1d.laneEmdenChecks.LaneEmden.StandardPolytropeSurfaceAndInvalidIndices ...........................................................   Passed    0.00 sec
+        Start   2: 1d.meshChecks.Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+259/504 Test #132: 1d.storageChecks.Runtime.FailedStageRollsBackAndRetryPublishesOnce ...............................................................   Passed    0.00 sec
+        Start 255: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3"
+260/504 Test   #9: 1d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 ........................................................   Passed    0.00 sec
+        Start  12: 1d.mathChecks.VectorMath.InPlaceScalarAliasingAndIntegerDivision
+261/504 Test   #2: 1d.meshChecks.Mesh.RejectsInvalidExtentsCoordinatesAndAxes .......................................................................   Passed    0.00 sec
+        Start 348: 3d.dualEnergyChecks.DualEnergy.DisabledModeUsesOnlyTotalEnergy
+262/504 Test #255: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3" ...................................................   Passed    0.00 sec
+        Start 131: 1d.storageChecks.Storage.IndependentFieldsBanksViewsTypesAndRetirement
+263/504 Test  #12: 1d.mathChecks.VectorMath.InPlaceScalarAliasingAndIntegerDivision .................................................................   Passed    0.00 sec
+        Start   6: 1d.meshChecks.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+264/504 Test #348: 3d.dualEnergyChecks.DualEnergy.DisabledModeUsesOnlyTotalEnergy ...................................................................   Passed    0.00 sec
+        Start 372: 3d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1
+265/504 Test #131: 1d.storageChecks.Storage.IndependentFieldsBanksViewsTypesAndRetirement ...........................................................   Passed    0.00 sec
+        Start  10: 1d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+266/504 Test   #6: 1d.meshChecks.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact .................................................   Passed    0.00 sec
+        Start  13: 1d.mathChecks.VectorMath.SplitConcatenateAndUnitVectors
+267/504 Test #372: 3d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1 ..............................   Passed    0.00 sec
+        Start 462: 3d.boundaryChecks.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported
+268/504 Test  #10: 1d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 ........................................................   Passed    0.00 sec
+        Start 434: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/7
+269/504 Test  #13: 1d.mathChecks.VectorMath.SplitConcatenateAndUnitVectors ..........................................................................   Passed    0.00 sec
+        Start  14: 1d.limiterChecks.SlopeValues.IndependentUnequalSlopeValues
+270/504 Test #462: 3d.boundaryChecks.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported .....................................................   Passed    0.00 sec
+        Start   7: 1d.meshChecks.StorageLayout.EmptyPartitionsOverflowAndSlices
+271/504 Test #434: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/7 ...............................................................   Passed    0.00 sec
+        Start 189: 2d.dualEnergyChecks.DualEnergy.PressureTemperatureAndSynchronizationUseIndependentThresholds
+272/504 Test  #14: 1d.limiterChecks.SlopeValues.IndependentUnequalSlopeValues .......................................................................   Passed    0.00 sec
+        Start 350: 3d.dualEnergyChecks.DualEnergy.AuxiliaryFluxIsAdvectedThroughHllcContactAndReflection
+273/504 Test   #7: 1d.meshChecks.StorageLayout.EmptyPartitionsOverflowAndSlices .....................................................................   Passed    0.00 sec
+        Start  56: 1d.radiationChecks.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation
+274/504 Test #189: 2d.dualEnergyChecks.DualEnergy.PressureTemperatureAndSynchronizationUseIndependentThresholds .....................................   Passed    0.00 sec
+        Start 467: 3d.numericalChecks.Transport.GravityKickPreservesInternalEnergy
+275/504 Test #350: 3d.dualEnergyChecks.DualEnergy.AuxiliaryFluxIsAdvectedThroughHllcContactAndReflection ............................................   Passed    0.00 sec
+        Start 349: 3d.dualEnergyChecks.DualEnergy.InvalidAuxiliaryAndUnrepresentablePowersAreRejected
+276/504 Test  #56: 1d.radiationChecks.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation ................................................   Passed    0.00 sec
+        Start 426: 3d.optionsChecks.OptionValues.DuplicateAliasIsRejected
+277/504 Test #467: 3d.numericalChecks.Transport.GravityKickPreservesInternalEnergy ..................................................................   Passed    0.00 sec
+        Start 440: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3"
+278/504 Test #349: 3d.dualEnergyChecks.DualEnergy.InvalidAuxiliaryAndUnrepresentablePowersAreRejected ...............................................   Passed    0.00 sec
+        Start 178: 2d.laneEmdenChecks.LaneEmden.StandardPolytropeSurfaceAndInvalidIndices
+279/504 Test #426: 3d.optionsChecks.OptionValues.DuplicateAliasIsRejected ...........................................................................   Passed    0.00 sec
+        Start 443: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0"
+280/504 Test #440: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.ndim=3" ....................................................   Passed    0.00 sec
+        Start  24: 1d.hydroChecks.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy
+281/504 Test #178: 2d.laneEmdenChecks.LaneEmden.StandardPolytropeSurfaceAndInvalidIndices ...........................................................   Passed    0.00 sec
+        Start  25: 1d.hydroChecks.Hydro.EulerFluxAndAcousticSpeedInEveryDirection
+282/504 Test #443: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0" .......................................   Passed    0.00 sec
+        Start 195: 2d.dualEnergyChecks.DualEnergy.AuxiliaryFluxIsAdvectedThroughHllcContactAndReflection
+283/504 Test  #24: 1d.hydroChecks.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy .................................................................   Passed    0.00 sec
+        Start  29: 1d.hydroChecks.Hydro.RejectsVacuumNegativePressureAndNonfiniteState
+284/504 Test  #25: 1d.hydroChecks.Hydro.EulerFluxAndAcousticSpeedInEveryDirection ...................................................................   Passed    0.00 sec
+        Start 241: 2d.optionsChecks.OptionValues.DualEnergyDefaultsAndValidation
+285/504 Test #195: 2d.dualEnergyChecks.DualEnergy.AuxiliaryFluxIsAdvectedThroughHllcContactAndReflection ............................................   Passed    0.00 sec
+        Start 461: 3d.boundaryChecks.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+286/504 Test  #29: 1d.hydroChecks.Hydro.RejectsVacuumNegativePressureAndNonfiniteState ..............................................................   Passed    0.00 sec
+        Start 134: 1d.amrChecks.Amr.MortonDestinationAndConservativeRefineCoarsen
+287/504 Test #241: 2d.optionsChecks.OptionValues.DualEnergyDefaultsAndValidation ....................................................................   Passed    0.00 sec
+        Start 444: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11"
+288/504 Test #461: 3d.boundaryChecks.BoundaryMapping.AsymmetricFacesAndInvalidEnums .................................................................   Passed    0.00 sec
+        Start 143: 1d.amrChecks.Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution
+289/504 Test #134: 1d.amrChecks.Amr.MortonDestinationAndConservativeRefineCoarsen ...................................................................   Passed    0.00 sec
+        Start  21: 1d.laneEmdenChecks.LaneEmden.IndexOneMatchesClosedForm
+290/504 Test #444: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11" ......................................   Passed    0.00 sec
+        Start 137: 1d.amrChecks.Amr.MassThresholdRespectsFinestLevel
+291/504 Test #143: 1d.amrChecks.Amr.StartupLeavesContainProblemValuesAtTheirOwnResolution ...........................................................   Passed    0.00 sec
+        Start 244: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/3
+292/504 Test  #21: 1d.laneEmdenChecks.LaneEmden.IndexOneMatchesClosedForm ...........................................................................   Passed    0.00 sec
+        Start 179: 2d.laneEmdenChecks.LaneEmden.PhysicalScalingAndHydrostaticBalance
+293/504 Test #137: 1d.amrChecks.Amr.MassThresholdRespectsFinestLevel ................................................................................   Passed    0.00 sec
+        Start 342: 3d.hydroChecks.HydroValidation.RejectsInvalidEosAndFloors
+294/504 Test #244: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/3 ...............................................................   Passed    0.00 sec
+        Start   1: 1d.meshChecks.Mesh.FaceIndicesCoverEachFaceExactlyOnce
+295/504 Test #179: 2d.laneEmdenChecks.LaneEmden.PhysicalScalingAndHydrostaticBalance ................................................................   Passed    0.00 sec
+        Start 425: 3d.optionsChecks.OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+296/504 Test #342: 3d.hydroChecks.HydroValidation.RejectsInvalidEosAndFloors ........................................................................   Passed    0.00 sec
+        Start  28: 1d.hydroChecks.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive
+297/504 Test   #1: 1d.meshChecks.Mesh.FaceIndicesCoverEachFaceExactlyOnce ...........................................................................   Passed    0.00 sec
+        Start 286: 2d.storageChecks.Storage.IndependentFieldsBanksViewsTypesAndRetirement
+298/504 Test #425: 3d.optionsChecks.OptionValues.SplitArgumentsSamplingAndGeneratedHelp .............................................................   Passed    0.00 sec
+        Start  30: 1d.hydroChecks.Hydro.FluxLimiterRepairsDestructiveFluxConservatively
+299/504 Test  #28: 1d.hydroChecks.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive ..........................................................   Passed    0.00 sec
+        Start 428: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/1
+300/504 Test #286: 2d.storageChecks.Storage.IndependentFieldsBanksViewsTypesAndRetirement ...........................................................   Passed    0.00 sec
+        Start  26: 1d.hydroChecks.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux
+301/504 Test  #30: 1d.hydroChecks.Hydro.FluxLimiterRepairsDestructiveFluxConservatively .............................................................   Passed    0.00 sec
+        Start 288: 2d.amrChecks.Amr.OptionsValidateAndRoundTrip
+302/504 Test #428: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/1 ...............................................................   Passed    0.00 sec
+        Start 377: 3d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25
+303/504 Test  #26: 1d.hydroChecks.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux ........................................................   Passed    0.00 sec
+        Start 135: 1d.amrChecks.Amr.FailedCriterionPreservesPublishedMeshAndState
+304/504 Test #288: 2d.amrChecks.Amr.OptionsValidateAndRoundTrip .....................................................................................   Passed    0.00 sec
+        Start  27: 1d.hydroChecks.Hydro.SupersonicRiemannFluxUsesUpwindState
+305/504 Test #377: 3d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25 ....................................   Passed    0.00 sec
+        Start 238: 2d.optionsChecks.Options.DualEnergyIniAndCliPrecedence
+306/504 Test #135: 1d.amrChecks.Amr.FailedCriterionPreservesPublishedMeshAndState ...................................................................   Passed    0.00 sec
+        Start 177: 2d.laneEmdenChecks.LaneEmden.IndexOneMatchesClosedForm
+307/504 Test  #27: 1d.hydroChecks.Hydro.SupersonicRiemannFluxUsesUpwindState ........................................................................   Passed    0.00 sec
+        Start 356: 3d.speciesChecks.Species.AllElementsAliasesAndMixtureMoments
+308/504 Test #238: 2d.optionsChecks.Options.DualEnergyIniAndCliPrecedence ...........................................................................   Passed    0.00 sec
+        Start 136: 1d.amrChecks.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners
+309/504 Test #177: 2d.laneEmdenChecks.LaneEmden.IndexOneMatchesClosedForm ...........................................................................   Passed    0.00 sec
+        Start 275: 2d.boundaryChecks.BoundaryMapping.AsymmetricFacesAndInvalidEnums
+310/504 Test #356: 3d.speciesChecks.Species.AllElementsAliasesAndMixtureMoments .....................................................................   Passed    0.00 sec
+        Start 262: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4"
+311/504 Test #136: 1d.amrChecks.Amr.DeepRefinementBalancesFacesEdgesAndPeriodicCorners ..............................................................   Passed    0.00 sec
+        Start 318: 3d.meshChecks.StorageLayout.EmptyPartitionsOverflowAndSlices
+312/504 Test #275: 2d.boundaryChecks.BoundaryMapping.AsymmetricFacesAndInvalidEnums .................................................................   Passed    0.00 sec
+        Start 237: 2d.optionsChecks.Options.MissingAndMalformedIniAreRejected
+313/504 Test #262: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4" ...........................................   Passed    0.00 sec
+        Start 239: 2d.optionsChecks.OptionValues.SplitArgumentsSamplingAndGeneratedHelp
+314/504 Test #318: 3d.meshChecks.StorageLayout.EmptyPartitionsOverflowAndSlices .....................................................................   Passed    0.00 sec
+        Start 391: 3d.gravityChecks.Gravity.RejectsInvalidGeometryOrderAngleAndDensity
+315/504 Test #237: 2d.optionsChecks.Options.MissingAndMalformedIniAreRejected .......................................................................   Passed    0.00 sec
+        Start 320: 3d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+316/504 Test #239: 2d.optionsChecks.OptionValues.SplitArgumentsSamplingAndGeneratedHelp .............................................................   Passed    0.00 sec
+        Start 354: 3d.dualEnergyChecks.DualEnergy.WarmOwningPatchSynchronizesAfterEveryStep
+317/504 Test #391: 3d.gravityChecks.Gravity.RejectsInvalidGeometryOrderAngleAndDensity ..............................................................   Passed    0.00 sec
+        Start 261: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan"
+318/504 Test #320: 3d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 ........................................................   Passed    0.00 sec
+        Start 270: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1"
+319/504 Test #354: 3d.dualEnergyChecks.DualEnergy.WarmOwningPatchSynchronizesAfterEveryStep .........................................................   Passed    0.00 sec
+        Start 279: 2d.boundaryChecks.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::hydro::HydroSystem>
+320/504 Test #261: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=nan" .......................................   Passed    0.00 sec
+        Start 492: 3d.analyticChecks.AnalyticReference.ErrorNormsAndAccuracyPolicy
+321/504 Test #270: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1" ............................................   Passed    0.00 sec
+        Start 276: 2d.boundaryChecks.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported
+322/504 Test #279: 2d.boundaryChecks.BoundaryTransport.OutflowClampsOnlyInwardNormalAndInflowCopiesBothSigns<octotigerII::hydro::HydroSystem> .......   Passed    0.00 sec
+        Start 144: 1d.amrChecks.Amr.DensityCriterionUsesDensityRatherThanCellMass
+323/504 Test #492: 3d.analyticChecks.AnalyticReference.ErrorNormsAndAccuracyPolicy ..................................................................   Passed    0.01 sec
+        Start 282: 2d.boundaryChecks.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::hydro::HydroSystem>
+324/504 Test #276: 2d.boundaryChecks.GravityBoundaries.OutflowPeriodicAndReflectingAreSupported .....................................................   Passed    0.01 sec
+        Start 187: 2d.hydroChecks.HydroValidation.RejectsInvalidEosAndFloors
+325/504 Test #144: 1d.amrChecks.Amr.DensityCriterionUsesDensityRatherThanCellMass ...................................................................   Passed    0.01 sec
+        Start 194: 2d.dualEnergyChecks.DualEnergy.InvalidAuxiliaryAndUnrepresentablePowersAreRejected
+326/504 Test #282: 2d.boundaryChecks.BoundaryTransport.ReflectingBoxConservesMassAndEnergy<octotigerII::hydro::HydroSystem> .........................   Passed    0.00 sec
+        Start 198: 2d.dualEnergyChecks.DualEnergy.RefineAndRestrictPreserveIndependentAuxiliary
+327/504 Test #187: 2d.hydroChecks.HydroValidation.RejectsInvalidEosAndFloors ........................................................................   Passed    0.00 sec
+        Start 375: 3d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25
+328/504 Test #194: 2d.dualEnergyChecks.DualEnergy.InvalidAuxiliaryAndUnrepresentablePowersAreRejected ...............................................   Passed    0.00 sec
+        Start 223: 2d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem>
+329/504 Test #198: 2d.dualEnergyChecks.DualEnergy.RefineAndRestrictPreserveIndependentAuxiliary .....................................................   Passed    0.00 sec
+        Start 266: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1"
+330/504 Test #375: 3d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25 ..........................   Passed    0.00 sec
+        Start 141: 1d.amrChecks.Amr.EvolvedShadowDiffersFromFreshRestriction
+331/504 Test #223: 2d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::hydro::HydroSystem> ..................   Passed    0.00 sec
+        Start 142: 1d.amrChecks.Amr.StartupVisitsRootAndRefillsEveryNewLevel
+332/504 Test #266: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1" ..................................   Passed    0.00 sec
+        Start 389: 3d.gravityChecks.Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce
+333/504 Test #141: 1d.amrChecks.Amr.EvolvedShadowDiffersFromFreshRestriction ........................................................................   Passed    0.00 sec
+        Start 253: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=unknown"
+334/504 Test #142: 1d.amrChecks.Amr.StartupVisitsRootAndRefillsEveryNewLevel ........................................................................   Passed    0.00 sec
+        Start 228: 2d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem>
+335/504 Test #389: 3d.gravityChecks.Gravity.SinglePointMassHasInverseRadiusPotentialAndInverseSquareForce ...........................................   Passed    0.00 sec
+        Start 236: 2d.optionsChecks.Options.LaterIniOverridesEarlierAndCliOverridesBoth
+336/504 Test #253: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=unknown" ...........................................   Passed    0.00 sec
+        Start 256: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1"
+337/504 Test #228: 2d.finiteVolumeChecks.FiniteVolume.BoundaryUpdaterReceivesBeginningAndEndTimes<octotigerII::radiation::RadiationSystem> ..........   Passed    0.00 sec
+        Start 260: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6"
+338/504 Test #236: 2d.optionsChecks.Options.LaterIniOverridesEarlierAndCliOverridesBoth .............................................................   Passed    0.00 sec
+        Start 267: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0"
+339/504 Test #256: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1" ..................................................   Passed    0.00 sec
+        Start 227: 2d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem>
+340/504 Test #260: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6" .......................................   Passed    0.00 sec
+        Start 190: 2d.dualEnergyChecks.DualEnergy.ThresholdEqualityUsesAuxiliaryAndDoesNotSynchronize
+341/504 Test #267: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directMaxPairs=0" ..................................   Passed    0.00 sec
+        Start 138: 1d.amrChecks.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+342/504 Test #227: 2d.finiteVolumeChecks.FiniteVolume.CflScalesWithCellWidthAndRejectsInvalidInputs<octotigerII::radiation::RadiationSystem> ........   Passed    0.01 sec
+        Start 130: 1d.numericalChecks.Transport.HydroDecompositionConservationAndAdmissibility
+343/504 Test #190: 2d.dualEnergyChecks.DualEnergy.ThresholdEqualityUsesAuxiliaryAndDoesNotSynchronize ...............................................   Passed    0.01 sec
+        Start 313: 3d.meshChecks.Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+344/504 Test #138: 1d.amrChecks.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon ............................................................   Passed    0.01 sec
+        Start 232: 2d.unitsChecks.Units.DimensionalMeshAndChildTopology
+345/504 Test #130: 1d.numericalChecks.Transport.HydroDecompositionConservationAndAdmissibility ......................................................   Passed    0.00 sec
+        Start 240: 2d.optionsChecks.OptionValues.DuplicateAliasIsRejected
+346/504 Test #313: 3d.meshChecks.Mesh.RejectsInvalidExtentsCoordinatesAndAxes .......................................................................   Passed    0.00 sec
+        Start 263: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf"
+347/504 Test #232: 2d.unitsChecks.Units.DimensionalMeshAndChildTopology .............................................................................   Passed    0.00 sec
+        Start 201: 2d.speciesChecks.Species.AllElementsAliasesAndMixtureMoments
+348/504 Test #240: 2d.optionsChecks.OptionValues.DuplicateAliasIsRejected ...........................................................................   Passed    0.00 sec
+        Start 245: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/4
+349/504 Test #263: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf" ................................................   Passed    0.01 sec
+        Start 433: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/6
+350/504 Test #201: 2d.speciesChecks.Species.AllElementsAliasesAndMixtureMoments .....................................................................   Passed    0.01 sec
+        Start 369: 3d.radiationChecks.Radiation.RoundoffRepairDoesNotHidePhysicalViolations
+351/504 Test #245: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/4 ...............................................................   Passed    0.01 sec
+        Start 181: 2d.hydroChecks.Hydro.EulerFluxAndAcousticSpeedInEveryDirection
+352/504 Test #433: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/6 ...............................................................   Passed    0.00 sec
+        Start 374: 3d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1
+353/504 Test #369: 3d.radiationChecks.Radiation.RoundoffRepairDoesNotHidePhysicalViolations .........................................................   Passed    0.00 sec
+        Start 139: 1d.amrChecks.Amr.MixedLevelTransportConservesPeriodicIntegrals
+354/504 Test #181: 2d.hydroChecks.Hydro.EulerFluxAndAcousticSpeedInEveryDirection ...................................................................   Passed    0.00 sec
+        Start 332: 3d.laneEmdenChecks.LaneEmden.IndexOneMatchesClosedForm
+355/504 Test #374: 3d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1 .............................   Passed    0.00 sec
+        Start 249: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/8
+356/504 Test #139: 1d.amrChecks.Amr.MixedLevelTransportConservesPeriodicIntegrals ...................................................................   Passed    0.00 sec
+        Start 293: 2d.amrChecks.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon
+357/504 Test #332: 3d.laneEmdenChecks.LaneEmden.IndexOneMatchesClosedForm ...........................................................................   Passed    0.01 sec
+        Start 250: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/9
+358/504 Test #249: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/8 ...............................................................   Passed    0.01 sec
+        Start 278: 2d.boundaryChecks.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice
+359/504 Test #293: 2d.amrChecks.Amr.SignalBufferWrapsPeriodicBoundaryAndGrowsWithHorizon ............................................................   Passed    0.01 sec
+        Start 259: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0"
+360/504 Test #250: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/9 ...............................................................   Passed    0.00 sec
+        Start 429: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/2
+361/504 Test #278: 2d.boundaryChecks.AnalyticBoundaries.ProblemReferencePolicyTracksBoundaryChoice ..................................................   Passed    0.00 sec
+        Start 334: 3d.laneEmdenChecks.LaneEmden.PhysicalScalingAndHydrostaticBalance
+362/504 Test #259: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0" .........................................   Passed    0.00 sec
+        Start 277: 2d.boundaryChecks.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes
+363/504 Test #429: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/2 ...............................................................   Passed    0.00 sec
+        Start 197: 2d.dualEnergyChecks.DualEnergy.IndependentAuxiliarySurvivesAdvectionBetweenThresholds
+364/504 Test #334: 3d.laneEmdenChecks.LaneEmden.PhysicalScalingAndHydrostaticBalance ................................................................   Passed    0.00 sec
+        Start 416: 3d.unitsChecks.Units.PhysicalRadiationFluxAndReducedSpeed
+365/504 Test #277: 2d.boundaryChecks.AnalyticBoundaries.StreamingWrapsOnlyPeriodicAxes ..............................................................   Passed    0.00 sec
+        Start 388: 3d.gravityChecks.Gravity.VacuumHasExactlyZeroPotentialAndForce
+366/504 Test #197: 2d.dualEnergyChecks.DualEnergy.IndependentAuxiliarySurvivesAdvectionBetweenThresholds ............................................   Passed    0.00 sec
+        Start 449: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf"
+367/504 Test #416: 3d.unitsChecks.Units.PhysicalRadiationFluxAndReducedSpeed ........................................................................   Passed    0.00 sec
+        Start 265: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid"
+368/504 Test #388: 3d.gravityChecks.Gravity.VacuumHasExactlyZeroPotentialAndForce ...................................................................   Passed    0.00 sec
+        Start 268: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1"
+369/504 Test #449: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=inf" ................................................   Passed    0.00 sec
+        Start 448: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4"
+370/504 Test #265: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.gravityReference=invalid" ..........................   Passed    0.00 sec
+        Start 312: 3d.meshChecks.Mesh.FaceIndicesCoverEachFaceExactlyOnce
+371/504 Test #268: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--randomSeed=-1" ..................................................   Passed    0.00 sec
+        Start 370: 3d.radiationChecks.Radiation.RejectsInvalidSpeedAndAxis
+372/504 Test #448: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleO=4" ...........................................   Passed    0.00 sec
+        Start 441: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3"
+373/504 Test #312: 3d.meshChecks.Mesh.FaceIndicesCoverEachFaceExactlyOnce ...........................................................................   Passed    0.00 sec
+        Start 264: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1"
+374/504 Test #370: 3d.radiationChecks.Radiation.RejectsInvalidSpeedAndAxis ..........................................................................   Passed    0.00 sec
+        Start 182: 2d.hydroChecks.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux
+375/504 Test #441: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.cells=3" ...................................................   Passed    0.00 sec
+        Start 193: 2d.dualEnergyChecks.DualEnergy.DisabledModeUsesOnlyTotalEnergy
+376/504 Test #264: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--hydro.gamma=1" ..................................................   Passed    0.00 sec
+        Start 456: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1"
+377/504 Test #182: 2d.hydroChecks.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux ........................................................   Passed    0.00 sec
+        Start 452: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1"
+378/504 Test #193: 2d.dualEnergyChecks.DualEnergy.DisabledModeUsesOnlyTotalEnergy ...................................................................   Passed    0.00 sec
+        Start 371: 3d.radiationChecks.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation
+379/504 Test #456: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.stopTime=-1" ............................................   Passed    0.00 sec
+        Start 231: 2d.unitsChecks.Units.HydroEnergyAndFluxDimensions
+380/504 Test #452: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--verification.directSamples=-1" ..................................   Passed    0.00 sec
+        Start 457: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0"
+381/504 Test #371: 3d.radiationChecks.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation ................................................   Passed    0.00 sec
+        Start 439: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=unknown"
+382/504 Test #231: 2d.unitsChecks.Units.HydroEnergyAndFluxDimensions ................................................................................   Passed    0.00 sec
+        Start 455: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes"
+383/504 Test #457: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--radiation.lightSpeedRatio=0" ....................................   Passed    0.00 sec
+        Start 186: 2d.hydroChecks.Hydro.FluxLimiterRepairsDestructiveFluxConservatively
+384/504 Test #439: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--problem.name=unknown" ...........................................   Passed    0.00 sec
+        Start 248: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/7
+385/504 Test #455: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes" .......................................   Passed    0.00 sec
+        Start 258: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11"
+386/504 Test #186: 2d.hydroChecks.Hydro.FluxLimiterRepairsDestructiveFluxConservatively .............................................................   Passed    0.00 sec
+        Start 306: 2d.analyticChecks.AnalyticReference.IndependentSphereSodAndStreamingIdentities
+387/504 Test #248: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/7 ...............................................................   Passed    0.00 sec
+        Start 432: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/5
+388/504 Test #258: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=11" ......................................   Passed    0.00 sec
+        Start 230: 2d.unitsChecks.Units.PhysicalRadiationFluxAndReducedSpeed
+389/504 Test #306: 2d.analyticChecks.AnalyticReference.IndependentSphereSodAndStreamingIdentities ...................................................   Passed    0.00 sec
+        Start 296: 2d.amrChecks.Amr.EvolvedShadowDiffersFromFreshRestriction
+390/504 Test #432: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/5 ...............................................................   Passed    0.00 sec
+        Start 435: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/8
+391/504 Test #230: 2d.unitsChecks.Units.PhysicalRadiationFluxAndReducedSpeed ........................................................................   Passed    0.00 sec
+        Start 118: 1d.boundaryChecks.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+392/504 Test #296: 2d.amrChecks.Amr.EvolvedShadowDiffersFromFreshRestriction ........................................................................   Passed    0.00 sec
+        Start 442: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1"
+393/504 Test #435: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/8 ...............................................................   Passed    0.00 sec
+        Start 192: 2d.dualEnergyChecks.DualEnergy.NegativeOrCancelledTotalThermalEnergyStillHasPositivePressure
+394/504 Test #118: 1d.boundaryChecks.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ..............................................   Passed    0.00 sec
+        Start 252: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1"
+395/504 Test #442: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--mesh.level=-1" ..................................................   Passed    0.00 sec
+        Start 446: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6"
+396/504 Test #192: 2d.dualEnergyChecks.DualEnergy.NegativeOrCancelledTotalThermalEnergyStillHasPositivePressure .....................................   Passed    0.00 sec
+        Start 184: 2d.hydroChecks.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive
+397/504 Test #252: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1" ................................................   Passed    0.00 sec
+        Start 315: 3d.meshChecks.BlockTopology.ChildBitsParentAndInvalidSlots
+398/504 Test #446: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0.6" .......................................   Passed    0.00 sec
+        Start 307: 2d.analyticChecks.AnalyticReference.ErrorNormsAndAccuracyPolicy
+399/504 Test #184: 2d.hydroChecks.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive ..........................................................   Passed    0.00 sec
+        Start 257: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0"
+400/504 Test #315: 3d.meshChecks.BlockTopology.ChildBitsParentAndInvalidSlots .......................................................................   Passed    0.00 sec
+        Start 204: 2d.speciesChecks.Species.NonuniformContactFluxesConserveEverySpecies
+401/504 Test #307: 2d.analyticChecks.AnalyticReference.ErrorNormsAndAccuracyPolicy ..................................................................   Passed    0.00 sec
+        Start 445: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0"
+402/504 Test #257: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.multipoleOrder=0" .......................................   Passed    0.00 sec
+        Start 399: 3d.ewaldChecks.GravityImages.GeometryAndReflectionParity
+403/504 Test #204: 2d.speciesChecks.Species.NonuniformContactFluxesConserveEverySpecies .............................................................   Passed    0.00 sec
+        Start 246: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/5
+404/504 Test #445: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--gravity.openingAngle=0" .........................................   Passed    0.00 sec
+        Start 140: 1d.amrChecks.Amr.RegridCadenceAndTravelBudget
+405/504 Test #399: 3d.ewaldChecks.GravityImages.GeometryAndReflectionParity .........................................................................   Passed    0.00 sec
+        Start 183: 2d.hydroChecks.Hydro.SupersonicRiemannFluxUsesUpwindState
+406/504 Test #246: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/5 ...............................................................   Passed    0.00 sec
+        Start 269: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes"
+407/504 Test #140: 1d.amrChecks.Amr.RegridCadenceAndTravelBudget ....................................................................................   Passed    0.00 sec
+        Start 157: 2d.meshChecks.Mesh.FaceIndicesCoverEachFaceExactlyOnce
+408/504 Test #183: 2d.hydroChecks.Hydro.SupersonicRiemannFluxUsesUpwindState ........................................................................   Passed    0.00 sec
+        Start 251: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/10
+409/504 Test #269: 2d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--runtime.workStealing=yes" .......................................   Passed    0.00 sec
+        Start 247: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/6
+410/504 Test #157: 2d.meshChecks.Mesh.FaceIndicesCoverEachFaceExactlyOnce ...........................................................................   Passed    0.00 sec
+        Start 185: 2d.hydroChecks.Hydro.RejectsVacuumNegativePressureAndNonfiniteState
+411/504 Test #251: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/10 ..............................................................   Passed    0.00 sec
+        Start 430: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/3
+412/504 Test #247: 2d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/6 ...............................................................   Passed    0.00 sec
+        Start 438: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1"
+413/504 Test #185: 2d.hydroChecks.Hydro.RejectsVacuumNegativePressureAndNonfiniteState ..............................................................   Passed    0.00 sec
+        Start 322: 3d.mathChecks.VectorMath.InitializationArithmeticAndDotProduct
+414/504 Test #430: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/3 ...............................................................   Passed    0.00 sec
+        Start 358: 3d.speciesChecks.Species.HydroDensityHasNoAllocatedColumn
+415/504 Test #438: 3d.optionsChecks.Validation/InvalidOption.RejectsInvalidValue/"--not.an.option=1" ................................................   Passed    0.00 sec
+        Start 431: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/4
+416/504 Test #322: 3d.mathChecks.VectorMath.InitializationArithmeticAndDotProduct ...................................................................   Passed    0.00 sec
+        Start 436: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/9
+417/504 Test #358: 3d.speciesChecks.Species.HydroDensityHasNoAllocatedColumn ........................................................................   Passed    0.00 sec
+        Start 323: 3d.mathChecks.VectorMath.InPlaceScalarAliasingAndIntegerDivision
+418/504 Test #431: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/4 ...............................................................   Passed    0.00 sec
+        Start 321: 3d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+419/504 Test #436: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/9 ...............................................................   Passed    0.00 sec
+        Start  52: 1d.radiationChecks.Radiation.VacuumFluxAndPhysicalFluxRoundTrip
+420/504 Test #323: 3d.mathChecks.VectorMath.InPlaceScalarAliasingAndIntegerDivision .................................................................   Passed    0.00 sec
+        Start 418: 3d.unitsChecks.Units.DimensionalMeshAndChildTopology
+421/504 Test #321: 3d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 ........................................................   Passed    0.00 sec
+        Start 151: 1d.analyticChecks.AnalyticReference.IndependentSphereSodAndStreamingIdentities
+422/504 Test  #52: 1d.radiationChecks.Radiation.VacuumFluxAndPhysicalFluxRoundTrip ..................................................................   Passed    0.00 sec
+        Start 215: 2d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1
+423/504 Test #418: 3d.unitsChecks.Units.DimensionalMeshAndChildTopology .............................................................................   Passed    0.00 sec
+        Start 214: 2d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25
+424/504 Test #151: 1d.analyticChecks.AnalyticReference.IndependentSphereSodAndStreamingIdentities ...................................................   Passed    0.00 sec
+        Start 203: 2d.speciesChecks.Species.HydroDensityHasNoAllocatedColumn
+425/504 Test #215: 2d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/1 .............................   Passed    0.00 sec
+        Start 335: 3d.hydroChecks.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy
+426/504 Test #214: 2d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25 ...........................   Passed    0.00 sec
+        Start 437: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/10
+427/504 Test #203: 2d.speciesChecks.Species.HydroDensityHasNoAllocatedColumn ........................................................................   Passed    0.00 sec
+        Start 357: 3d.speciesChecks.Species.InvalidDefinitionsFail
+428/504 Test #335: 3d.hydroChecks.Hydro.PrimitiveRoundTripAndIndependentTotalEnergy .................................................................   Passed    0.00 sec
+        Start 199: 2d.dualEnergyChecks.DualEnergy.WarmOwningPatchSynchronizesAfterEveryStep
+429/504 Test #437: 3d.optionsChecks.Orders/MultipoleOption.SupportedOrderIsAccepted/10 ..............................................................   Passed    0.00 sec
+        Start 158: 2d.meshChecks.Mesh.RejectsInvalidExtentsCoordinatesAndAxes
+430/504 Test #357: 3d.speciesChecks.Species.InvalidDefinitionsFail ..................................................................................   Passed    0.00 sec
+        Start 417: 3d.unitsChecks.Units.HydroEnergyAndFluxDimensions
+431/504 Test #199: 2d.dualEnergyChecks.DualEnergy.WarmOwningPatchSynchronizesAfterEveryStep .........................................................   Passed    0.00 sec
+        Start 317: 3d.meshChecks.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+432/504 Test #158: 2d.meshChecks.Mesh.RejectsInvalidExtentsCoordinatesAndAxes .......................................................................   Passed    0.00 sec
+        Start 209: 2d.radiationChecks.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux
+433/504 Test #417: 3d.unitsChecks.Units.HydroEnergyAndFluxDimensions ................................................................................   Passed    0.00 sec
+        Start 159: 2d.meshChecks.Mesh.CgsGeometryAndPatchBounds
+434/504 Test #317: 3d.meshChecks.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact .................................................   Passed    0.00 sec
+        Start 314: 3d.meshChecks.Mesh.CgsGeometryAndPatchBounds
+435/504 Test #209: 2d.radiationChecks.Radiation.RealizabilityRejectsNegativeEnergySuperluminalAndNonfiniteFlux ......................................   Passed    0.00 sec
+        Start 221: 2d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem>
+436/504 Test #159: 2d.meshChecks.Mesh.CgsGeometryAndPatchBounds .....................................................................................   Passed    0.00 sec
+        Start 226: 2d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem>
+437/504 Test #314: 3d.meshChecks.Mesh.CgsGeometryAndPatchBounds .....................................................................................   Passed    0.00 sec
+        Start 218: 2d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25
+438/504 Test #221: 2d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::hydro::HydroSystem> ..........................   Passed    0.00 sec
+        Start 281: 2d.boundaryChecks.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::hydro::HydroSystem>
+439/504 Test #226: 2d.finiteVolumeChecks.FiniteVolume.GhostRulesCoverFacesEdgesAndCorners<octotigerII::radiation::RadiationSystem> ..................   Passed    0.00 sec
+        Start 373: 3d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25
+440/504 Test #218: 2d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/0.25 ....................................   Passed    0.00 sec
+        Start 336: 3d.hydroChecks.Hydro.EulerFluxAndAcousticSpeedInEveryDirection
+441/504 Test #281: 2d.boundaryChecks.BoundaryTransport.AnalyticPatchUsesCurrentTimeAndRejectsInvalidData<octotigerII::hydro::HydroSystem> ...........   Passed    0.00 sec
+        Start 211: 2d.radiationChecks.Radiation.RejectsInvalidSpeedAndAxis
+442/504 Test #373: 3d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/0.25 ...........................   Passed    0.00 sec
+        Start 210: 2d.radiationChecks.Radiation.RoundoffRepairDoesNotHidePhysicalViolations
+443/504 Test #336: 3d.hydroChecks.Hydro.EulerFluxAndAcousticSpeedInEveryDirection ...................................................................   Passed    0.00 sec
+        Start 324: 3d.mathChecks.VectorMath.SplitConcatenateAndUnitVectors
+444/504 Test #211: 2d.radiationChecks.Radiation.RejectsInvalidSpeedAndAxis ..........................................................................   Passed    0.00 sec
+        Start 217: 2d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1
+445/504 Test #210: 2d.radiationChecks.Radiation.RoundoffRepairDoesNotHidePhysicalViolations .........................................................   Passed    0.00 sec
+        Start 316: 3d.meshChecks.TimeMetadata.StepPublicationSynchronizationAndIntervals
+446/504 Test #217: 2d.radiationChecks.TransportSpeeds/LightSpeed.ObliqueClosureIsSymmetricTraceOneAndCausal/1 .......................................   Passed    0.00 sec
+        Start 213: 2d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1
+447/504 Test #324: 3d.mathChecks.VectorMath.SplitConcatenateAndUnitVectors ..........................................................................   Passed    0.00 sec
+        Start 337: 3d.hydroChecks.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux
+448/504 Test #316: 3d.meshChecks.TimeMetadata.StepPublicationSynchronizationAndIntervals ............................................................   Passed    0.00 sec
+        Start 212: 2d.radiationChecks.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation
+449/504 Test #213: 2d.radiationChecks.TransportSpeeds/LightSpeed.IsotropicClosureHasPressureOneThirdAndAcousticWaves/1 ..............................   Passed    0.00 sec
+        Start 165: 2d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1
+450/504 Test #337: 3d.hydroChecks.Hydro.HllcResolvesStationaryContactWithoutMassOrEnergyFlux ........................................................   Passed    0.00 sec
+        Start 325: 3d.limiterChecks.SlopeValues.IndependentUnequalSlopeValues
+451/504 Test #212: 2d.radiationChecks.Radiation.FluxLimiterPreservesRealizabilityAndPairConservation ................................................   Passed    0.00 sec
+        Start 161: 2d.meshChecks.TimeMetadata.StepPublicationSynchronizationAndIntervals
+452/504 Test #165: 2d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/1 ........................................................   Passed    0.00 sec
+        Start 274: 2d.boundaryChecks.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents
+453/504 Test #325: 3d.limiterChecks.SlopeValues.IndependentUnequalSlopeValues .......................................................................   Passed    0.00 sec
+        Start 299: 2d.amrChecks.Amr.DensityCriterionUsesDensityRatherThanCellMass
+454/504 Test #161: 2d.meshChecks.TimeMetadata.StepPublicationSynchronizationAndIntervals ............................................................   Passed    0.00 sec
+        Start 160: 2d.meshChecks.BlockTopology.ChildBitsParentAndInvalidSlots
+455/504 Test #274: 2d.boundaryChecks.BoundaryMapping.ReflectionMirrorsBothLayersAndAllCornerComponents ..............................................   Passed    0.00 sec
+        Start 338: 3d.hydroChecks.Hydro.SupersonicRiemannFluxUsesUpwindState
+456/504 Test #299: 2d.amrChecks.Amr.DensityCriterionUsesDensityRatherThanCellMass ...................................................................   Passed    0.00 sec
+        Start 208: 2d.radiationChecks.Radiation.VacuumFluxAndPhysicalFluxRoundTrip
+457/504 Test #160: 2d.meshChecks.BlockTopology.ChildBitsParentAndInvalidSlots .......................................................................   Passed    0.00 sec
+        Start 164: 2d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0
+458/504 Test #338: 3d.hydroChecks.Hydro.SupersonicRiemannFluxUsesUpwindState ........................................................................   Passed    0.00 sec
+        Start 162: 2d.meshChecks.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact
+459/504 Test #208: 2d.radiationChecks.Radiation.VacuumFluxAndPhysicalFluxRoundTrip ..................................................................   Passed    0.00 sec
+        Start 216: 2d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25
+460/504 Test #164: 2d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/0 ........................................................   Passed    0.00 sec
+        Start 166: 2d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2
+461/504 Test #162: 2d.meshChecks.StorageLayout.RecordsAreContiguousNonoverlappingAndCapacityIsExact .................................................   Passed    0.00 sec
+        Start 339: 3d.hydroChecks.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive
+462/504 Test #216: 2d.radiationChecks.TransportSpeeds/LightSpeed.StreamingClosureAndHllUseCorrectPropagationDirection/0.25 ..........................   Passed    0.00 sec
+        Start 170: 2d.limiterChecks.SlopeValues.IndependentUnequalSlopeValues
+463/504 Test #166: 2d.meshChecks.Halos/MeshGhostWidth.InteriorStorageRoundTripAndTraversal/2 ........................................................   Passed    0.00 sec
+        Start 167: 2d.mathChecks.VectorMath.InitializationArithmeticAndDotProduct
+464/504 Test #339: 3d.hydroChecks.Hydro.ReflectionChangesOnlyNormalMomentumAndIsInvolutive ..........................................................   Passed    0.00 sec
+        Start 163: 2d.meshChecks.StorageLayout.EmptyPartitionsOverflowAndSlices
+465/504 Test #170: 2d.limiterChecks.SlopeValues.IndependentUnequalSlopeValues .......................................................................   Passed    0.00 sec
+        Start 169: 2d.mathChecks.VectorMath.SplitConcatenateAndUnitVectors
+466/504 Test #167: 2d.mathChecks.VectorMath.InitializationArithmeticAndDotProduct ...................................................................   Passed    0.00 sec
+        Start 168: 2d.mathChecks.VectorMath.InPlaceScalarAliasingAndIntegerDivision
+467/504 Test #163: 2d.meshChecks.StorageLayout.EmptyPartitionsOverflowAndSlices .....................................................................   Passed    0.00 sec
+        Start  15: 1d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00>
+468/504 Test #169: 2d.mathChecks.VectorMath.SplitConcatenateAndUnitVectors ..........................................................................   Passed    0.00 sec
+        Start  16: 1d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00>
+469/504 Test #168: 2d.mathChecks.VectorMath.InPlaceScalarAliasingAndIntegerDivision .................................................................   Passed    0.00 sec
+        Start  17: 1d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00>
+470/504 Test  #15: 1d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00> ..........................   Passed    0.00 sec
+        Start  18: 1d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00>
+471/504 Test  #16: 1d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00> ..........................   Passed    0.00 sec
+        Start  19: 1d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00>
+472/504 Test  #17: 1d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00> ..........................   Passed    0.00 sec
+        Start  20: 1d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00>
+473/504 Test  #18: 1d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00> .........................   Passed    0.00 sec
+        Start  35: 1d.dualEnergyChecks.DualEnergy.NonpositiveConservativeEnergyUsesAuxiliaryWithoutClipping
+474/504 Test  #19: 1d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00> .........................   Passed    0.00 sec
+        Start  50: 1d.speciesChecks.Species.IniMixturesAndCommandLineOverride
+475/504 Test  #20: 1d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00> .........................   Passed    0.00 sec
+        Start  51: 1d.speciesChecks.Species.NonuniformFractionsSurviveConservativeSplitAndMerge
+476/504 Test  #35: 1d.dualEnergyChecks.DualEnergy.NonpositiveConservativeEnergyUsesAuxiliaryWithoutClipping .........................................   Passed    0.00 sec
+        Start 171: 2d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00>
+477/504 Test  #51: 1d.speciesChecks.Species.NonuniformFractionsSurviveConservativeSplitAndMerge .....................................................   Passed    0.00 sec
+        Start 172: 2d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00>
+478/504 Test  #50: 1d.speciesChecks.Species.IniMixturesAndCommandLineOverride .......................................................................   Passed    0.00 sec
+        Start 173: 2d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00>
+479/504 Test #171: 2d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00> ..........................   Passed    0.00 sec
+        Start 174: 2d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00>
+480/504 Test #172: 2d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00> ..........................   Passed    0.00 sec
+        Start 175: 2d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00>
+481/504 Test #173: 2d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00> ..........................   Passed    0.00 sec
+        Start 176: 2d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00>
+482/504 Test #174: 2d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00> .........................   Passed    0.00 sec
+        Start 191: 2d.dualEnergyChecks.DualEnergy.NonpositiveConservativeEnergyUsesAuxiliaryWithoutClipping
+483/504 Test #175: 2d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00> .........................   Passed    0.00 sec
+        Start 206: 2d.speciesChecks.Species.IniMixturesAndCommandLineOverride
+484/504 Test #176: 2d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00> .........................   Passed    0.00 sec
+        Start 207: 2d.speciesChecks.Species.NonuniformFractionsSurviveConservativeSplitAndMerge
+485/504 Test #191: 2d.dualEnergyChecks.DualEnergy.NonpositiveConservativeEnergyUsesAuxiliaryWithoutClipping .........................................   Passed    0.00 sec
+        Start 326: 3d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00>
+486/504 Test #206: 2d.speciesChecks.Species.IniMixturesAndCommandLineOverride .......................................................................   Passed    0.00 sec
+        Start 327: 3d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00>
+487/504 Test #207: 2d.speciesChecks.Species.NonuniformFractionsSurviveConservativeSplitAndMerge .....................................................   Passed    0.00 sec
+        Start 328: 3d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00>
+488/504 Test #326: 3d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <00-00 00-00> ..........................   Passed    0.00 sec
+        Start 329: 3d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00>
+489/504 Test #327: 3d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <01-00 00-00> ..........................   Passed    0.00 sec
+        Start 330: 3d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00>
+490/504 Test #328: 3d.limiterChecks.Methods/SlopeLimiter.PreservesLinearDataAndFlattensExtrema/4-byte object <02-00 00-00> ..........................   Passed    0.00 sec
+        Start 331: 3d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00>
+491/504 Test #329: 3d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <00-00 00-00> .........................   Passed    0.00 sec
+        Start 346: 3d.dualEnergyChecks.DualEnergy.NonpositiveConservativeEnergyUsesAuxiliaryWithoutClipping
+492/504 Test #330: 3d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <01-00 00-00> .........................   Passed    0.00 sec
+        Start 361: 3d.speciesChecks.Species.IniMixturesAndCommandLineOverride
+493/504 Test #331: 3d.limiterChecks.Methods/SlopeLimiter.IsOddSymmetricAndDoesNotExceedTvdBound/4-byte object <02-00 00-00> .........................   Passed    0.00 sec
+        Start 362: 3d.speciesChecks.Species.NonuniformFractionsSurviveConservativeSplitAndMerge
+494/504 Test #346: 3d.dualEnergyChecks.DualEnergy.NonpositiveConservativeEnergyUsesAuxiliaryWithoutClipping .........................................   Passed    0.00 sec
+        Start 364: 3d.gravityEnergyChecks.GravityEnergy.IsolatedAdaptiveWithAndWithoutSpecies
+495/504 Test #361: 3d.speciesChecks.Species.IniMixturesAndCommandLineOverride .......................................................................   Passed    0.00 sec
+        Start 366: 3d.gravityEnergyChecks.GravityEnergy.PeriodicAdaptiveWithSpecies
+496/504 Test #362: 3d.speciesChecks.Species.NonuniformFractionsSurviveConservativeSplitAndMerge .....................................................   Passed    0.00 sec
+        Start 410: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 1, 0.57, 0)
+497/504 Test #410: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 1, 0.57, 0) ..........   Passed    0.02 sec
+        Start 411: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 10, 0.4, 0)
+498/504 Test #411: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(1, 10, 0.4, 0) ..........   Passed    0.82 sec
+        Start 412: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.1, 1)
+499/504 Test #412: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.1, 1) ...........   Passed    0.00 sec
+        Start 413: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.5, 2)
+500/504 Test #413: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(0, 3, 0.5, 2) ...........   Passed    0.00 sec
+        Start 414: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(2, 3, 0.5, 0)
+501/504 Test #414: 3d.gravityParallelChecks.Regimes/PartitionedGravityCase.FieldsInteractionsPublicationAndFailureRecovery/(2, 3, 0.5, 0) ...........   Passed    0.41 sec
+502/504 Test #364: 3d.gravityEnergyChecks.GravityEnergy.IsolatedAdaptiveWithAndWithoutSpecies .......................................................   Passed    2.19 sec
+503/504 Test #366: 3d.gravityEnergyChecks.GravityEnergy.PeriodicAdaptiveWithSpecies .................................................................   Passed   11.95 sec
+504/504 Test #500: 3d.rayleighTaylorChecks.RayleighTaylor.PerturbationGrowsUnderGravity .............................................................   Passed   29.42 sec
+
+100% tests passed, 0 tests failed out of 504
+
+Label Time Summary:
+application    =   0.59 sec*proc (3 tests)
+dual-energy    =   0.39 sec*proc (39 tests)
+integration    =  53.03 sec*proc (123 tests)
+unit           =  17.91 sec*proc (339 tests)
+
+Total Test time (real) =  29.61 sec

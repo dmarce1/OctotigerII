@@ -64,7 +64,14 @@ namespace {
 		options("runtime.workerTasks", po::value<int>(), "Maximum concurrent tasks; 0 uses worker count");
 		options("runtime.workStealing", po::value<std::string>(), "Remote work stealing: on/off");
 		options("timestep.cfl", po::value<Real>(), "Courant factor");
+		options("massFractions.enabled", po::value<std::string>(), "Material partial densities and massless tracers: on/off (default off)");
+		options("massFractions.species", po::value<std::string>(), "Semicolon-separated name:initialFraction:element, A=mass,Z=number, or He=70%,O=30% definitions");
 		options("hydro.gamma", po::value<Real>(), "Ideal-gas adiabatic index");
+		options("hydro.meanMolecularWeight", po::value<Real>(), "Mean particle mass in atomic mass units, for temperature (default 1)");
+		options("hydro.dualEnergy.enabled", po::value<std::string>(), "Dual energy: on/off (default on)");
+		options("hydro.dualEnergy.exponent", po::value<Real>(), "Nonzero auxiliary entropy exponent (default 1)");
+		options("hydro.dualEnergy.pressureThreshold", po::value<Real>(), "Use total-energy pressure when u/E exceeds this ratio (default 0.001)");
+		options("hydro.dualEnergy.syncThreshold", po::value<Real>(), "Reset auxiliary from total energy when u/E exceeds this ratio (default 0.1)");
 		for (int axis = 0; axis < ndim; ++axis) {
 				auto const key = std::string("hydro.acceleration.") + "xyz"[axis];
 				options(key.c_str(), po::value<Real>(), "Uniform external acceleration (cm/s^2)");
@@ -150,6 +157,8 @@ namespace {
 	void applySettings(Config& config, po::variables_map const& values) {
 
 
+		readBoolean(values, "massFractions.enabled", config.massFractions.enabled);
+		if (values.count("massFractions.species")) config.massFractions.species = composition::parseSpecies(values["massFractions.species"].as<std::string>());
 		readOption(values, "randomSeed", config.randomSeed);
 		readOption(values, "verification.analytic", config.verification.analytic);
 		readOption(values, "verification.gravityReference", config.verification.gravityReference);
@@ -198,6 +207,11 @@ namespace {
 
 		readNumber(values, "timestep.cfl", config.timestep.cfl);
 		readNumber(values, "hydro.gamma", config.hydro.gamma);
+		readNumber(values, "hydro.meanMolecularWeight", config.hydro.meanMolecularWeight);
+		readBoolean(values, "hydro.dualEnergy.enabled", config.hydro.dualEnergy.enabled);
+		readNumber(values, "hydro.dualEnergy.exponent", config.hydro.dualEnergy.exponent);
+		readNumber(values, "hydro.dualEnergy.pressureThreshold", config.hydro.dualEnergy.pressureThreshold);
+		readNumber(values, "hydro.dualEnergy.syncThreshold", config.hydro.dualEnergy.syncThreshold);
 		for (int axis = 0; axis < ndim; ++axis) {
 			auto const key = std::string("hydro.acceleration.") + "xyz"[axis];
 			readQuantity(values, key.c_str(), config.hydro.acceleration[axis]);
@@ -238,6 +252,12 @@ void Config::validate() const {
 		throw std::invalid_argument("verification.gravityReference must be direct or continuum");
 	if (verification.directMaxPairs < 1 || verification.directSamples < 0)
 		throw std::invalid_argument("Direct pair budget must be positive and directSamples nonnegative");
+	massFractions.validate();
+	if (massFractions.enabled && (!build::massFractions || !hydroEnabled()))
+		throw std::invalid_argument("massFractions requires a hydro problem and OCTOII_WITH_MASS_FRACTIONS=ON");
+	hydro.dualEnergy.validate();
+	if (!isfinite(hydro.gamma) || !isfinite(hydro.meanMolecularWeight) || !(hydro.meanMolecularWeight > 0))
+		throw std::invalid_argument("Hydro gamma must be finite and meanMolecularWeight finite and positive");
 	if (randomSeed < 0) throw std::invalid_argument("randomSeed must be nonnegative");
 	for (auto component : hydro.acceleration) {
 		if (!units::finite(component)) throw std::invalid_argument("External acceleration must be finite");

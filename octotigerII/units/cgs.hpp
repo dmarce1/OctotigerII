@@ -31,6 +31,7 @@ using Quantity = boost::units::quantity<
 								   DimensionTerm<boost::units::temperature_base_dimension, K, boost::units::dimensionless_type>>>>>::type,
 		System>,
 	Real>;
+using Dimensionless = Quantity<0, 0, 0>;
 using Length = Quantity<1, 0, 0>;
 using Mass = Quantity<0, 1, 0>;
 using Time = Quantity<0, 0, 1>;

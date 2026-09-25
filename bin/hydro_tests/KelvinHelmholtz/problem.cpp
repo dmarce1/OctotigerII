@@ -32,7 +32,7 @@ void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool re
 	using std::sin;
 	using std::tanh;
 
-	hydro::HydroSystem gas(c.hydro.gamma);
+	hydro::HydroSystem gas(c.hydro);
 	auto const length = c.mesh.upper - c.mesh.lower;
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 		auto const point = data.layout.cellCenter(data.lower, data.cellWidth, cell);

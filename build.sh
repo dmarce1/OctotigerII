@@ -9,7 +9,8 @@ Build octoII-1d, octoII-2d, octoII-3d and the octoII link in TYPE/.
 HYDRO, RADIATION and GRAVITY are all ON by default.
 Requires a C++20 compiler, CMake, and Git. Uses installed Boost and hwloc,
 tries environment modules when available, then lets HPX fetch missing ones.
-HPX also fetches Asio. No system packages are installed or changed.
+HPX also fetches Asio and APEX. HPX APEX support and Octo-II profiling
+are enabled by default. No system packages are installed or changed.
 Install Silo with HDF5; set CC, CXX, CMAKE_PREFIX_PATH, and Silo_ROOT as needed.
 On clusters, load your preferred compiler module first. To select particular
 dependency modules, set OCTOTIGERII_BOOST_MODULE and OCTOTIGERII_HWLOC_MODULE.
@@ -165,11 +166,23 @@ cmake -S "$hpx_src" -B "$hpx_build" \
     -DHPX_WITH_MALLOC=system \
     -DHPX_WITH_TESTS=OFF \
     -DHPX_WITH_EXAMPLES=OFF \
+    -DHPX_WITH_APEX=ON \
+    -DHPX_WITH_FETCH_APEX=ON \
     "-DHPX_WITH_FETCH_BOOST=$fetch_boost" \
     -DHPX_WITH_FETCH_ASIO=ON \
     "-DHPX_WITH_FETCH_HWLOC=$fetch_hwloc" \
     "-DCMAKE_PREFIX_PATH=$cmake_prefix_path" \
     "${compiler_args[@]}" "${dependency_args[@]}"
+# The APEX revision fetched by HPX 1.11.0 uses uint64_t in gzstream.hpp
+# without including <cstdint>. Apply the missing include after FetchContent
+# has populated the source, including on fresh builds.
+apex_gzstream="$hpx_build/_deps/apex-src/src/apex/gzstream.hpp"
+if [[ -f "$apex_gzstream" ]] &&
+    ! grep -Eq '^[[:space:]]*#[[:space:]]*include[[:space:]]*[<"](cstdint|stdint\.h)[>"]' "$apex_gzstream"; then
+    printf 'Adding missing <cstdint> include to APEX gzstream.hpp\n'
+    sed -i '1i#include <cstdint>' "$apex_gzstream"
+fi
+
 cmake --build "$hpx_build" --parallel "$jobs"
 cmake --install "$hpx_build"
 hpx_config="$(find "$hpx_install" -name HPXConfig.cmake -print -quit)"
@@ -198,6 +211,7 @@ cmake -S "$project_dir" -B "$octo_build" \
     "-DHPX_DIR=$(dirname "$hpx_config")" \
     "-DCMAKE_PREFIX_PATH=$hpx_install${cmake_prefix_path:+;$cmake_prefix_path}" \
     -DOCTOTIGERII_WITH_HPX=ON \
+    -DOCTOTIGERII_WITH_PROFILING=ON \
     -DOCTOTIGERII_BUILD_TESTS=ON \
     "${physics_args[@]}" \
     "${compiler_args[@]}" "${dependency_args[@]}"

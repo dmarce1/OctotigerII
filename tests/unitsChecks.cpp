@@ -34,7 +34,7 @@ static_assert(std::is_same_v<std::remove_cvref_t<decltype(radiation::RadiationSy
 #endif
 static_assert(sizeof(Density) == sizeof(Real));
 #if OCTOTIGERII_HYDRO
-static_assert(sizeof(hydro::ConservedState) == (ndim + 2) * sizeof(Real));
+static_assert(sizeof(hydro::ConservedState) == (ndim + 3) * sizeof(Real));
 #endif
 #if OCTOTIGERII_RADIATION
 static_assert(sizeof(radiation::RadiationSystem::State) == (ndim + 1) * sizeof(Real));

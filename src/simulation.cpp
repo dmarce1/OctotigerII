@@ -20,7 +20,7 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 		auto const volume = block.layout.cellMeasure(block.cellWidth);
 		block.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) {
 			if (build::hydro && c.hydroEnabled()) {
-				hydro::HydroSystem gas(c.hydro.gamma);
+				hydro::HydroSystem gas(c.hydro);
 				auto const& u = block.hydro.values()[i];
 				if (!gas.admissible(u)) throw std::runtime_error("Inadmissible gas state");
 				d.mass += volume * u.density();
@@ -31,7 +31,7 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 				for (int axis = 0; axis < ndim; ++axis)
 					kinetic += 0.5 * u.momentum(axis) * u.momentum(axis) / u.density();
 				d.kineticEnergy += volume * kinetic;
-				d.thermalEnergy += volume * (u.totalEnergy() - kinetic);
+				d.thermalEnergy += volume * gas.internalEnergy(u);
 				d.gasGravityNorm += volume * units::abs(u.totalEnergy());
 				if (build::gravity && c.gravityEnabled()) {
 					auto const potential = 0.5 * volume * u.density() * block.gravity.values()[i].potential();
@@ -110,10 +110,12 @@ RunResult run(Config const& c, Observer const& observer) {
 		}
 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
 			throw std::runtime_error("Timestep cannot advance physical time");
+		if (c.hydroEnabled() && c.gravityEnabled()) runtime.beginGravityEnergy();
 		if (kick) runtime.kickGravity(dt / 2.0);
 		runtime.advance(dt);
 		if (build::gravity && c.gravityEnabled()) solveGravity();
 		if (kick) runtime.kickGravity(dt / 2.0);
+		if (c.hydroEnabled() && c.gravityEnabled()) runtime.finishGravityEnergy(dt);
 		snapshots = runtime.snapshots();
 		++result.steps;
 		result.final = diagnose(snapshots, c);

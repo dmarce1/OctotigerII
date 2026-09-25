@@ -1,5 +1,13 @@
 # Validation of OctotigerII
 
+## Material fractions and mass-flux gravity energy (2026-09-24)
+
+All **504 serial tests passed** across 1D/2D/3D Release builds, including the
+new composition and energy-coupling tests and the existing polytrope/RT
+regressions. HPX was unavailable for this run. The detailed record, commands,
+conservation tolerances, and limitations are in
+[the composition/gravity validation record](docs/validation/mass-fractions/README.md).
+
 ## Adaptive Silo metadata, scalar components, and vector expressions (2026-09-23)
 
 All 18 Silo output checks passed across six serial/HPX problem and dimension
@@ -361,3 +369,25 @@ The Ewald/image implementation passed 101 serial and 111 HPX CTest cases, includ
 two- and three-locality checks and coupled collapse smoke runs. See
 [the validation record](docs/validation/gravity-images/README.md) for the logs and
 [the implementation notes](docs/gravity-images.md) for image geometry and kernels.
+
+
+## Dual energy — 2026-09-24
+
+Implemented the configurable entropy auxiliary described in
+[docs/dual-energy.md](docs/dual-energy.md), enabled by default with exponent 1
+and pressure/synchronization thresholds 0.001/0.1.
+
+- Release serial builds completed for `octoII-1d`, `octoII-2d`, and `octoII-3d`.
+- Full GoogleTest/application CTest suite: **476 passed, 0 failed**.
+- The suite includes 36 new dual-energy cases (12 per dimension), plus option
+  parsing and Silo-field checks. It covers positive and negative exponents,
+  thermal-energy cancellation, independent transport between the thresholds,
+  threshold equality, AMR transfer, and post-reflux synchronization.
+- A hydro-disabled, gravity-disabled radiation-only 1D build completed and ran
+  a streaming timestep.
+- A 1D Sod application run with `hydro.dualEnergy.enabled=off` completed.
+- `git diff --check` passed.
+
+HPX was unavailable in this execution environment. HPX configuration, state,
+and flux serialization were updated and their round-trip tests extended, but
+HPX builds and multiple-locality execution were not run here.

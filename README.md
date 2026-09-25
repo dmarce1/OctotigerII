@@ -194,10 +194,28 @@ point masses at their centers and self contributions are omitted. No old
 Cartesian Taylor gravity backend, torque correction, or alternate solver is
 included. Direct summation in the tests is only an independent reference.
 
-The collapse example uses a half gravity kick, a hydro transport step, a new
-gravity solve, and a second half kick. The kick updates momentum and gas
-kinetic energy while preserving internal energy. There are no gravitational
-energy fluxes, `dphi/dt` evolution, or exact total-energy conservation claims.
+Self-gravitating hydro retains the two endpoint momentum kicks. Its final
+energy update uses the actual numerical mass flux and endpoint-averaged
+potential, replacing the kicks' temporary self-gravity work. No `dphi/dt`
+evolution is needed. See [gravity energy](docs/gravity-energy.md) for the
+sequence, boundary accounting, and FMM/regridding conservation limits.
+
+## Material fractions
+
+The optional [composition module](docs/mass-fractions.md) stores material
+partial densities and massless tracers. Active hydro density is derived from
+the material sum, and all components use hydro's stored numerical mass flux.
+Definitions accept explicit A,Z or mixtures of all 118 elements by mass.
+The entropy auxiliary remains in hydro.
+
+## Dual energy
+
+[Dual-energy hydrodynamics](docs/dual-energy.md) is on by default. The auxiliary
+is `A = rho (u/rho^gamma)^alpha` in CGS, with `alpha=1` by default. Pressure and
+temperature use total-energy subtraction above a thermal fraction of `0.001`;
+A is reset from that subtraction only above `0.1`, after each timestep's AMR
+flux corrections. Set `hydro.dualEnergy.exponent` to any finite nonzero value
+or `hydro.dualEnergy.enabled=off` to use total energy alone.
 
 ## Scope of this first version
 
@@ -208,7 +226,7 @@ conservative prolongation/restriction and refluxing, Morton-ordered regridding,
 an independent adaptive FMM octree, and Silo output.
 
 Omitted: CUDA, HIP, Kokkos, Vc, CPPuddle, Unitiger, the old FMM, old problems
-and test harnesses, SCF, binary-star setup, rotating frames, species/degenerate
+and test harnesses, SCF, binary-star setup, rotating frames, composition-dependent/degenerate
 EOS, radiation opacities/coupling/subcycling, temporal AMR, checkpoints,
 and old command-line compatibility.
 

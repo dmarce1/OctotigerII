@@ -43,7 +43,7 @@ TEST(RayleighTaylor, InitialLayersHaveHydrostaticPressureAndZeroMeanSeed) {
 	auto c = test::parseConfig({"--mesh.cells=8", "--mesh.level=0", "--mesh.lower=-1", "--mesh.upper=1", "--rayleighTaylor.densityLower=1.25",
 		"--rayleighTaylor.densityUpper=2.75", "--rayleighTaylor.interfacePressure=3.5", "--rayleighTaylor.perturbation=0.02"});
 	auto block = initialSnapshot(c, {});
-	hydro::HydroSystem gas(c.hydro.gamma);
+	hydro::HydroSystem gas(c.hydro);
 	Real meanVelocity = 0, seedSquared = 0;
 	block.layout.forEachInterior([&](auto cell, auto i) {
 		auto const p = gas.reconstructionVariables(block.hydro.values()[i]);
@@ -68,7 +68,7 @@ TEST(RayleighTaylor, ExternalKickPreservesInternalEnergyAndRestrictsTimestep) {
 	Runtime runtime(c);
 	auto const before = flatten(runtime.snapshots(), 8);
 	auto const dt = units::Time::from_value(0.02);
-	hydro::HydroSystem gas(c.hydro.gamma);
+	hydro::HydroSystem gas(c.hydro);
 	runtime.kickGravity(dt);
 	auto const after = flatten(runtime.snapshots(), 8);
 	for (std::size_t i = 0; i < before.size(); ++i) {

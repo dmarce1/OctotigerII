@@ -83,6 +83,22 @@ void readHalo(storage::ColumnHandle<State> const& fields, HaloPlan const& plan, 
 	if (error) std::rethrow_exception(error);
 }
 
+/// Scalar counterpart for composition columns; all reads drain before return.
+template <typename T>
+void readHalo(storage::FieldHandle<T> const& field, HaloPlan const& plan, unsigned bank, std::vector<T>& ghosts) {
+	std::vector<storage::Future<storage::Buffer<T>>> pending;
+	for (auto const& read : plan.reads) pending.push_back(field.read(read.range, bank));
+	ghosts.assign(plan.valueCount ? plan.valueCount : plan.ghostCount, T{});
+	std::exception_ptr error;
+	for (std::size_t i = 0; i < pending.size(); ++i) {
+		try {
+			auto values = pending[i].get();
+			for (auto const& copy : plan.reads[i].copies) ghosts[copy.destination] += copy.weight * values.data()[copy.source];
+		} catch (...) { if (!error) error = std::current_exception(); }
+	}
+	if (error) std::rethrow_exception(error);
+}
+
 /// Complete physical boundary values after all donor reads have finished.
 /// Analytic corners use the original position and take precedence over other faces.
 template <typename System>
