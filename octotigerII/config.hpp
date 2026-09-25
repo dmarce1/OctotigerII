@@ -67,10 +67,11 @@ public:
 	class TimestepOptions {
 	public:
 		Real cfl = 0.4;
+		bool refinement = true;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & cfl;
+			archive & cfl & refinement;
 		}
 	} timestep;
 
@@ -128,10 +129,13 @@ public:
 	public:
 		int multipoleOrder = 5;
 		Real openingAngle = 0.5;
+		std::string timeIntegration = "hierarchical";
+		std::string energyTreatment = "mullen";
+		bool conserveRegridEnergy = true;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & multipoleOrder & openingAngle;
+			archive & multipoleOrder & openingAngle & timeIntegration & energyTreatment & conserveRegridEnergy;
 		}
 	} gravity;
 

@@ -178,15 +178,20 @@ field energy is reported.
 See [STORAGE.md](STORAGE.md) for ownership, stage safety, zero-copy behavior,
 and how another topology or particle field can use the same storage API.
 
-Hydro uses the existing modular unsplit MUSCL–Hancock integrator, primitive
-PLM reconstruction, HLLC with HLL fallback, and positivity limiting. M1 uses
+Hydro uses primitive PLM reconstruction, HLLC with HLL fallback, and positivity
+limiting. Global and transport-only stepping retain the modular unsplit
+MUSCL–Hancock integrator; coupled gravity uses an explicit midpoint stage built
+from the numerical-flux divergence and gravity sources. M1 uses
 the same finite-volume scaffold, the existing Skinner–Ostriker closure and
 HLL transport, and realizability limiting. Gas and radiation share machinery,
 but there is currently no gas–radiation exchange solver or combined example.
 
 Gravity uses a new cell-octree driver around the recovered compact Cartesian
-plane-wave FMM operators. Moments and locals retain `(p+1)²` real coefficients
-for `p=1..10`. An upward M2M pass, target-owned diagonal M2L interactions,
+plane-wave FMM operators. Source moments and scalar-potential locals retain
+`(p+1)²` real coefficients for `p=1..10`. Separate force locals extend through
+degree p+1 so their gradients retain the same degree p as the source expansion;
+see the [mutual-force proof](docs/parallel-fmm.md#scalar-reciprocity-and-mutual-force).
+An upward M2M pass, target-owned diagonal M2L interactions,
 and a downward L2L pass produce potential and acceleration. The opening test
 is `cell_width / separation < gravity.openingAngle`, with the angle strictly
 below `1/sqrt(3)`. Near leaf pairs use Newtonian direct summation. Cells are
@@ -194,11 +199,18 @@ point masses at their centers and self contributions are omitted. No old
 Cartesian Taylor gravity backend, torque correction, or alternate solver is
 included. Direct summation in the tests is only an independent reference.
 
-Self-gravitating hydro retains the two endpoint momentum kicks. Its final
-energy update uses the actual numerical mass flux and endpoint-averaged
-potential, replacing the kicks' temporary self-gravity work. No `dphi/dt`
-evolution is needed. See [gravity energy](docs/gravity-energy.md) for the
-sequence, boundary accounting, and FMM/regridding conservation limits.
+Self-gravitating AMR hydro supports hierarchical or conventional gravity time
+integration. The hierarchical default assigns each pair interaction to the
+slower level's cadence, using physical gas midpoint predictors and accepted HOLD
+endpoint impulses. Its energy update uses the actual numerical mass flux and each
+interaction shell's endpoint-averaged potential. Globally synchronized runs
+retain the two endpoint kicks and replace their temporary self-gravity work.
+No `dphi/dt` evolution is needed. See [gravity energy](docs/gravity-energy.md)
+for the sequences and boundary accounting. `gravity.energyTreatment=mullen` and
+`gravity.conserveRegridEnergy=on` are independent defaults. Select `naive` to
+retain kinetic-work kicks, or turn the regrid option off to transfer gas energy
+alone. The enabled regrid path transfers E+rho*phi/2 and recovers gas energy after
+the new gravity solve. The adaptive FMM uses a reciprocal interaction walk.
 
 ## Material fractions
 
@@ -220,7 +232,7 @@ or `hydro.dualEnergy.enabled=off` to use total energy alone.
 ## Scope of this first version
 
 Included: CPU numerics, 1D/2D/3D adaptive Cartesian meshes, per-face periodic/reflecting/outflow/inflow/analytic transport,
-3D gravity with periodic/reflecting images, uniform external acceleration, shared timesteps,
+3D gravity with periodic/reflecting images, uniform external acceleration, shared or level-refined timesteps,
 distributed field storage and locality work queues, evolved coarse shadows,
 conservative prolongation/restriction and refluxing, Morton-ordered regridding,
 an independent adaptive FMM octree, and Silo output.
@@ -303,3 +315,26 @@ transport, L1 norms and normalized drift, plus gas-plus-potential energy when
 hydro and gravity are active. See [docs/conservation.md](docs/conservation.md).
 
 Headers live directly under `octotigerII/`; the source root is the include path.
+
+### Level-wise time refinement
+
+AMR transport uses dyadic level subcycling by default. Every cell on a spatial
+level shares a timestep; the runtime selects 1/2, 1/4, 1/8, etc. from the CFL
+limit and rechecks it before each substep. Self-gravitating AMR runs use
+`gravity.timeIntegration=hierarchical` by default; select `conventional` for
+full-force updates at each active level's own cadence. Set
+`--timestep.refinement=off` to use the globally synchronized reference path.
+Runs with imposed uniform external acceleration still use global stepping,
+including when self-gravity is also enabled.
+
+The hierarchical option adapts HOLD's accepted interaction impulses to
+finite-volume gas transport; it does not claim a symplectic gas integrator.
+The implementation caches repeated nested endpoint fields but keeps an unpruned
+partial-force upward pass and central coordination of the gravity ledgers, so
+subcycling is not yet a performance guarantee. See [time refinement](docs/time-refinement.md) and the
+[coupling derivation](docs/gravity-time-coupling-derivation.md).
+
+Smooth fixed-mesh temporal tests observed orders approximately 2.04–2.09 in
+both gravity modes. The [validation report](docs/validation/gravity-time-integration.txt)
+records the tested scope; the result does not imply second-order behavior at
+shocks or arbitrary changes of timestep groups.

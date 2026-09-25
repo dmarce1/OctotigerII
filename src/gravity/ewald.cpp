@@ -101,7 +101,7 @@ namespace {
 		}
 	}
 
-	std::map<std::array<int, 7>, std::shared_ptr<Operator const>> cache;
+	std::map<std::array<int, 8>, std::shared_ptr<Operator const>> cache;
 	std::map<std::array<int, 6>, std::array<double, 4>> pointCache;
 #ifdef OCTOTIGERII_WITH_HPX
 	hpx::shared_mutex cacheMutex, pointMutex;
@@ -127,7 +127,7 @@ Derivatives derivatives(diagonal::Vector input, diagonal::Vector lengths, int de
 	using std::log;
 	using std::sin;
 	using std::sqrt;
-	if (degree < 0 || degree > 20 || points < 16 || points > 256 || !isfinite(alphaInput) || alphaInput < 0)
+	if (degree < 0 || degree > 21 || points < 16 || points > 256 || !isfinite(alphaInput) || alphaInput < 0)
 		throw std::invalid_argument("Invalid Ewald derivative controls");
 	int dimensions = 0, freeAxis = -1, periodicAxis = -1;
 	Scalar minimum = std::numeric_limits<Scalar>::infinity(), volume = 1;
@@ -286,8 +286,9 @@ Derivatives derivatives(diagonal::Vector input, diagonal::Vector lengths, int de
 	return result;
 }
 
-Operator::Operator(int p, diagonal::Offset r, diagonal::Offset periods)
-  : count_(diagonal::coefficientCount(p)) {
+Operator::Operator(int p, diagonal::Offset r, diagonal::Offset periods, bool forceLocal)
+  : sourceCount_(diagonal::coefficientCount(p))
+  , localCount_(diagonal::coefficientCount(p + int(forceLocal))) {
 	using std::pow;
 	profiling::Region profile("gravity.ewald.operator_setup");
 	double scale = std::numeric_limits<double>::infinity();
@@ -298,39 +299,40 @@ Operator::Operator(int p, diagonal::Offset r, diagonal::Offset periods)
 		x[d] = r[d] / scale;
 		lengths[d] = periods[d] / scale;
 	}
-	auto const kernel = derivatives(x, lengths, 2 * p);
+	auto const kernel = derivatives(x, lengths, 2 * p + int(forceLocal));
 	laplace_ = kernel.laplacian / pow(scale, 3);
-	matrix_.resize(std::size_t(count_) * count_);
-	auto const& ix = diagonal::indices(p);
-	for (int i = 0; i < count_; ++i)
-		for (int j = 0; j < count_; ++j) {
-			auto const a = ix[i], b = ix[j];
-			matrix_[std::size_t(i) * count_ + j] =
+	matrix_.resize(std::size_t(localCount_) * sourceCount_);
+	auto const& sourceIndices = diagonal::indices(p);
+	auto const& localIndices = diagonal::indices(p + int(forceLocal));
+	for (int i = 0; i < localCount_; ++i)
+		for (int j = 0; j < sourceCount_; ++j) {
+			auto const a = localIndices[i], b = sourceIndices[j];
+			matrix_[std::size_t(i) * sourceCount_ + j] =
 				((b.degree() & 1) ? -1 : 1) * kernel.at(a.x + b.x, a.y + b.y, a.z + b.z) / pow(scale, 1 + a.degree() + b.degree());
 		}
 }
 void Operator::add(diagonal::Coefficients& l, diagonal::Coefficients const& m, double h) const {
-	if (l.size() != std::size_t(count_ + 1) || (m.size() != 1 && m.size() != std::size_t(count_ + 1)) || !(h > 0))
+	if (l.size() != std::size_t(localCount_ + 1) || (m.size() != 1 && m.size() != std::size_t(sourceCount_ + 1)) || !(h > 0))
 		throw std::invalid_argument("Invalid Ewald M2L data");
-	std::size_t const count = m.size() == 1 ? 1 : std::size_t(count_);
-	for (int i = 0; i < count_; ++i) {
+	std::size_t const count = m.size() == 1 ? 1 : std::size_t(sourceCount_);
+	for (int i = 0; i < localCount_; ++i) {
 		double sum = 0;
 		for (std::size_t j = 0; j < count; ++j)
-			sum += matrix_[std::size_t(i) * count_ + j] * m[j];
+			sum += matrix_[std::size_t(i) * sourceCount_ + j] * m[j];
 		l[i] += sum / h;
 	}
 	if (m.size() > 1) l[0] += laplace_ * m.back() / h;
 	l.back() += laplace_ * m[0] / h;
 }
-std::shared_ptr<Operator const> getOperator(int p, diagonal::Offset r, diagonal::Offset periods) {
-	std::array<int, 7> const key{p, r[0], r[1], r[2], periods[0], periods[1], periods[2]};
+std::shared_ptr<Operator const> getOperator(int p, diagonal::Offset r, diagonal::Offset periods, bool forceLocal) {
+	std::array<int, 8> const key{p, r[0], r[1], r[2], periods[0], periods[1], periods[2], int(forceLocal)};
 	{
 		std::shared_lock lock(cacheMutex);
 		auto it = cache.find(key);
 		if (it != cache.end()) return it->second;
 	}
 	// Expensive setup must not hold a lock needed by other worker tasks.
-	auto op = std::make_shared<Operator const>(p, r, periods);
+	auto op = std::make_shared<Operator const>(p, r, periods, forceLocal);
 	std::unique_lock lock(cacheMutex);
 	return cache.emplace(key, std::move(op)).first->second;
 }

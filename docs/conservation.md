@@ -65,8 +65,8 @@ The potential-energy `in` and `out` columns record the signed split of
 `corrected`, `norm`, and `drift_scaled` columns; the corrected value adds both
 gas and potential outward transport and subtracts inward transport. It is the
 energy invariant for a fixed mesh and reciprocal self-potential operator.
-Imposed acceleration, approximate FMM reciprocity error, and changes of mesh
-can still cause drift. See [gravity-energy.md](gravity-energy.md) for the exact
+Imposed acceleration, a nonreciprocal gravity operator, and changes of mesh
+with `gravity.conserveRegridEnergy=off` can cause drift. See [gravity-energy.md](gravity-energy.md) for the exact
 work formula and the distinction between this coupling and momentum kicks.
 The factor 1/2 applies only to the on-grid self-potential integral, not the
 potential advected through a physical boundary.
@@ -90,3 +90,19 @@ The combined cell/block hierarchy uses binary cell locations with a level offset
 of `log2(mesh.cells)`. The gravity tree also repeatedly halves the grid. These
 implementation assumptions require changes before admitting 2-cell blocks or
 non-power-of-two block sizes; the finite-volume equations do not require them.
+
+## Separating energy error sources
+
+The cumulative columns `gravity_reciprocity_defect_erg` and
+`gravity_regrid_energy_change_erg` measure the endpoint potential-operator defect
+and actual total-energy changes during remapping, respectively.
+`gravity_energy_budget_residual_scaled` is the scaled combined-energy drift
+minus those two contributions. All use actual evolved fields, not a fit to the
+observed drift. The original physical-drift column remains unchanged in meaning;
+no measured error is removed from the cell solution or that column.
+
+These decompositions are filled by the normal `run()` driver. A custom caller
+that constructs `Diagnostics` directly must supply cumulative step and regrid
+measurements itself; `diagnose()` alone cannot infer temporal history.
+Compensated summation is used for global grid integrals and norms, reducing
+order-dependent summation noise. Boundary transport retains its existing ledger.

@@ -81,24 +81,28 @@ namespace {
 
 	class Level {
 	public:
-		Level(int count, Real width, int coefficients, std::size_t owner, std::size_t partitions, bool leaf)
+		Level(int count, Real width, int coefficients, int forceCoefficients, std::size_t owner, std::size_t partitions, bool leaf)
 		  : count(count)
 		  , width(width)
 		  , begin((cellCount(count) * owner + partitions - 1) / partitions)
 		  , end((cellCount(count) * (owner + 1) + partitions - 1) / partitions)
 		  , moments(end - begin, Coefficients(leaf ? 1 : coefficients))
-		  , locals(end - begin, Coefficients(coefficients)) {}
+		  , locals(end - begin, Coefficients(coefficients))
+		  , forceLocals(end - begin, Coefficients(forceCoefficients)) {}
 
 		int count;
 		Real width;
 		std::size_t begin, end;
-		std::vector<Coefficients> moments, locals;
+		// The auxiliary local has one extra degree: its gradient and the source
+		// moments then have the same order under interaction reversal.
+		std::vector<Coefficients> moments, locals, forceLocals;
 	};
 
 	class FieldRange {
 	public:
 		storage::Range range;
 		std::size_t leaf = 0;
+		std::size_t block = 0;
 	};
 
 	enum class Stage
@@ -126,15 +130,17 @@ public:
 	  , images_(config.mesh.boundary)
 	  , fields_(std::move(fields))
 	  , owner_(owner)
-	  , partitions_(partitions) {
+	  , partitions_(partitions)
+	  , blockCount_(blocks.size()) {
 		static_assert(ndim == 3);
 		config_.validate();
 		n_ = config_.mesh.cells * (1 << config_.mesh.level);
 		cellWidth_ = (config_.mesh.upper - config_.mesh.lower) / Real(n_);
 		Real const h = units::value(cellWidth_);
 		int const coefficients = diagonal::coefficientCount(config_.gravity.multipoleOrder) + (images_.active() ? 1 : 0);
+		int const forceCoefficients = diagonal::coefficientCount(config_.gravity.multipoleOrder + 1) + (images_.active() ? 1 : 0);
 		for (int count = 1; count <= n_; count *= 2)
-			levels_.emplace_back(count, h * (n_ / count), coefficients, owner_, partitions_, count == n_);
+			levels_.emplace_back(count, h * (n_ / count), coefficients, forceCoefficients, owner_, partitions_, count == n_);
 #ifdef OCTOTIGERII_WITH_HPX
 		workers_ = hpx::get_os_thread_count();
 		if (config_.runtime.workerTasks > 0) workers_ = std::size_t(config_.runtime.workerTasks);
@@ -150,12 +156,36 @@ public:
 				b[d] = c[d] / config_.mesh.cells;
 				c[d] %= config_.mesh.cells;
 			}
-			auto const& block = blocks.at(index(b, 1 << config_.mesh.level));
+			auto const blockId = index(b, 1 << config_.mesh.level);
+			auto const& block = blocks.at(blockId);
 			auto const offset = block.interior.offset + block.layout.index(c);
-			if (ranges_.empty() || ranges_.back().range.partition != block.interior.partition ||
+			if (ranges_.empty() || ranges_.back().block != blockId || ranges_.back().range.partition != block.interior.partition ||
 				ranges_.back().range.offset + ranges_.back().range.count != offset)
-				ranges_.push_back({{block.interior.partition, offset, 0}, id - leaves.begin});
+				ranges_.push_back({{block.interior.partition, offset, 0}, id - leaves.begin, blockId});
 			++ranges_.back().range.count;
+		}
+	}
+
+	void configure(FieldSolveRequest const& request, bool publishState) {
+		if ((!request.sources.empty() && request.sources.size() != blockCount_) ||
+			(!request.targets.empty() && request.targets.size() != blockCount_))
+			throw std::invalid_argument("Gravity selection must contain one entry per block");
+		for (auto const& source : request.sources)
+			if (!std::isfinite(source.weight) || !std::isfinite(source.secondWeight))
+				throw std::invalid_argument("Gravity density weights must be finite");
+		request_ = request;
+		publishState_ = publishState;
+		activeTargets_.clear();
+		if (!request.targets.empty()) {
+			for (auto const& level : levels_) activeTargets_.emplace_back(cellCount(level.count), 0);
+			for (std::size_t id = 0; id < cellCount(n_); ++id) {
+				auto c = coordinate(id, n_);
+				for (auto& value : c) value /= config_.mesh.cells;
+				activeTargets_.back()[id] = request.targets[index(c, 1 << config_.mesh.level)] != 0;
+			}
+			for (std::size_t depth = levels_.size() - 1; depth > 0; --depth)
+				for (std::size_t id = 0; id < activeTargets_[depth].size(); ++id)
+					if (activeTargets_[depth][id]) activeTargets_[depth - 1][index(parent(coordinate(id, levels_[depth].count)), levels_[depth - 1].count)] = 1;
 		}
 	}
 
@@ -173,10 +203,10 @@ public:
 		throw std::logic_error("Unknown FMM stage");
 	}
 
-	std::vector<Coefficients> read(unsigned depth, bool local, std::vector<std::size_t> const& ids) const {
+	std::vector<Coefficients> read(unsigned depth, unsigned field, std::vector<std::size_t> const& ids) const {
 		profiling::Region profile("gravity.exchange.pack");
 		auto const& level = levels_.at(depth);
-		auto const& data = local ? level.locals : level.moments;
+		auto const& data = field == 2 ? level.forceLocals : (field == 1 ? level.locals : level.moments);
 		std::vector<Coefficients> result;
 		result.reserve(ids.size());
 		for (auto id : ids) {
@@ -189,17 +219,19 @@ public:
 #ifdef OCTOTIGERII_WITH_HPX
 	HPX_DEFINE_COMPONENT_ACTION(FmmPartition, execute, ExecuteAction)
 	HPX_DEFINE_COMPONENT_ACTION(FmmPartition, read, ReadAction)
+	HPX_DEFINE_COMPONENT_ACTION(FmmPartition, configure, ConfigureAction)
 #endif
 
 private:
 	class Sources {
 	public:
 		Level const& level;
-		bool local;
+		unsigned field;
 		std::unordered_map<std::size_t, Coefficients> remote;
 
 		Coefficients const& at(std::size_t id) const {
-			if (id >= level.begin && id < level.end) return (local ? level.locals : level.moments)[id - level.begin];
+			if (id >= level.begin && id < level.end)
+				return (field == 2 ? level.forceLocals : (field == 1 ? level.locals : level.moments))[id - level.begin];
 			return remote.at(id);
 		}
 	};
@@ -208,10 +240,18 @@ private:
 	ImageGeometry images_;
 	FieldDirectory fields_;
 	std::size_t owner_ = 0, partitions_ = 1, workers_ = 1;
+	std::size_t blockCount_ = 0;
+	FieldSolveRequest request_;
+	bool publishState_ = true;
+	std::vector<std::vector<unsigned char>> activeTargets_;
 	int n_ = 0;
 	units::Length cellWidth_{};
 	std::vector<Level> levels_;
 	std::vector<FieldRange> ranges_;
+
+	bool targetActive(unsigned depth, std::size_t id) const {
+		return activeTargets_.empty() || activeTargets_[depth][id];
+	}
 
 	template <typename Function>
 	Statistics parallel(std::size_t count, char const* name, Function const& function) const {
@@ -262,6 +302,7 @@ private:
 	void interactions(unsigned depth, std::size_t target, Function const& function) const {
 		using std::ceil;
 		using std::hypot;
+		if (!targetActive(depth, target)) return;
 
 		auto const& level = levels_[depth];
 		auto const a = coordinate(target, level.count);
@@ -288,10 +329,10 @@ private:
 	// before waiting. Only requested source cells are retained in the halo.
 	template <typename Needs>
 	Sources fetch(
-		unsigned depth, bool local, std::size_t targets, Needs const& needs, std::vector<storage::Locality> const& peers, Statistics& statistics) const {
+		unsigned depth, unsigned field, std::size_t targets, Needs const& needs, std::vector<storage::Locality> const& peers, Statistics& statistics) const {
 		profiling::Elapsed profile("gravity.exchange.wall_ns");
 		auto const& level = levels_.at(depth);
-		Sources sources{level, local, {}};
+		Sources sources{level, field, {}};
 		if (partitions_ == 1) return sources;
 		std::vector<std::unordered_set<std::size_t>> requests(workers_);
 		accumulate(statistics, parallel(targets, "gravity.exchange.plan", [&](std::size_t i, std::size_t worker, Statistics&) {
@@ -308,7 +349,7 @@ private:
 		sources.remote.reserve(unique.size());
 #ifdef OCTOTIGERII_WITH_HPX
 		// Bound individual parcels, including the coefficient payload.
-		std::size_t const batchSize = std::max(std::size_t(1), std::size_t(65536) / diagonal::coefficientCount(config_.gravity.multipoleOrder));
+		std::size_t const batchSize = std::max(std::size_t(1), std::size_t(65536) / diagonal::coefficientCount(config_.gravity.multipoleOrder + (field == 2)));
 		std::vector<std::vector<std::size_t>> batches;
 		std::vector<hpx::future<std::vector<Coefficients>>> pending;
 		try {
@@ -316,7 +357,7 @@ private:
 				std::sort(ids[owner].begin(), ids[owner].end());
 				for (std::size_t begin = 0; begin < ids[owner].size(); begin += batchSize) {
 					batches.emplace_back(ids[owner].begin() + begin, ids[owner].begin() + std::min(ids[owner].size(), begin + batchSize));
-					pending.push_back(hpx::async<ReadAction>(peers.at(owner), depth, local, batches.back()));
+					pending.push_back(hpx::async<ReadAction>(peers.at(owner), depth, field, batches.back()));
 				}
 			}
 		} catch (...) {
@@ -350,6 +391,7 @@ private:
 			accumulate(result, parallel(level.moments.size(), "gravity.clear", [&](std::size_t i, std::size_t, Statistics&) {
 				std::fill(level.moments[i].begin(), level.moments[i].end(), 0);
 				std::fill(level.locals[i].begin(), level.locals[i].end(), 0);
+				std::fill(level.forceLocals[i].begin(), level.forceLocals[i].end(), 0);
 			}));
 		auto const volume = cellWidth_ * cellWidth_ * cellWidth_;
 		auto const gram = units::Mass::from_value(1);
@@ -358,18 +400,21 @@ private:
 			auto fill = [&](auto density) {
 				for (std::size_t i = 0; i < segment.range.count; ++i) {
 					auto const rho = density(i);
-					if (!(rho >= units::Density{}) || !units::finite(rho) || !units::finite(rho * volume))
-						throw std::invalid_argument("Gravity density/mass must be finite and nonnegative");
+					if ((!request_.allowSignedDensity && !(rho >= units::Density{})) || !units::finite(rho) || !units::finite(rho * volume))
+						throw std::invalid_argument("Gravity density/mass must be finite and nonnegative unless signed sources are enabled");
 					levels_.back().moments[segment.leaf + i][0] = rho * volume / gram;
 				}
 			};
-			if (build::hydro && config_.hydroEnabled()) {
-				auto input = std::get<0>(fields_.hydro.fields).read(segment.range, bank).get();
-				fill([&](std::size_t i) { return input.data()[i]; });
-			} else {
-				auto input = fields_.density.read(segment.range, bank).get();
-				fill([&](std::size_t i) { return input.data()[i]; });
-			}
+			auto const& handle = request_.density.id || !request_.density.sumSources.empty() ? request_.density :
+				(build::hydro && config_.hydroEnabled() ? std::get<0>(fields_.hydro.fields) : fields_.density);
+			auto const source = request_.sources.empty() ? DensitySelection{bank, 0, 1, 0} : request_.sources[segment.block];
+			storage::Buffer<units::Density> first, second;
+			if (source.weight != 0) first = handle.read(segment.range, source.bank).get();
+			if (source.secondWeight != 0) second = handle.read(segment.range, source.secondBank).get();
+			fill([&](std::size_t i) {
+				return (source.weight != 0 ? source.weight * first.data()[i] : units::Density{}) +
+					(source.secondWeight != 0 ? source.secondWeight * second.data()[i] : units::Density{});
+			});
 		}));
 		return result;
 	}
@@ -403,6 +448,7 @@ private:
 		bool const leaf = depth + 1 == levels_.size();
 		int const order = config_.gravity.multipoleOrder;
 		auto interactionsFor = [&](std::size_t target, auto const& f) {
+			if (!targetActive(depth, target)) return;
 			images_.interactions(depth, coordinate(target, level.count), leaf, config_.gravity.openingAngle,
 				[&](Coordinate b, auto r, unsigned mask, bool correction) { f(index(b, level.count), r, mask, correction); });
 		};
@@ -414,25 +460,37 @@ private:
 		auto parents = depth ?
 			fetch(
 				depth - 1, true, level.locals.size(),
-				[&](std::size_t i, auto need) { need(index(parent(coordinate(level.begin + i, level.count)), level.count / 2)); }, peers, result) :
+				[&](std::size_t i, auto need) { if (targetActive(depth, level.begin + i)) need(index(parent(coordinate(level.begin + i, level.count)), level.count / 2)); }, peers, result) :
 			Sources{level, true, {}};
+		auto forceParents = depth ?
+			fetch(depth - 1, 2, level.locals.size(),
+				[&](std::size_t i, auto need) { if (targetActive(depth, level.begin + i)) need(index(parent(coordinate(level.begin + i, level.count)), level.count / 2)); }, peers, result) :
+			Sources{level, 2, {}};
 		accumulate(result, parallel(level.locals.size(), "gravity.images.m2l_l2l", [&](std::size_t i, std::size_t, Statistics& statistics) {
+			if (!targetActive(depth, level.begin + i)) return;
 			auto& local = level.locals[i];
+			auto& forceLocal = level.forceLocals[i];
 			interactionsFor(level.begin + i, [&](std::size_t source, diagonal::Offset r, unsigned mask, bool correction) {
 				auto const& moment = sources.at(source);
-				if (moment[0] == 0) return;
+				if (std::all_of(moment.begin(), moment.end(), [](Real value) { return value == 0; })) return;
 				if (leaf) {
-					if (correction)
+					if (correction) {
 						ewald::addDirect(local, moment[0], r, images_.periods(level.count), level.width);
-					else
+						ewald::addDirect(forceLocal, moment[0], r, images_.periods(level.count), level.width);
+					} else {
 						diagonal::addDirect(local, moment[0], r, level.width);
+						diagonal::addDirect(forceLocal, moment[0], r, level.width);
+					}
 					++statistics.directPairs;
 				} else {
 					auto const reflected = reflectMultipole(moment, mask, order);
-					if (correction)
+					if (correction) {
 						ewald::getOperator(order, r, images_.periods(level.count))->add(local, reflected, level.width);
-					else
+						ewald::getOperator(order, r, images_.periods(level.count), true)->add(forceLocal, reflected, level.width);
+					} else {
 						diagonal::getOperator(order, r)->add(local, reflected, level.width);
+						diagonal::getOperator(order, r, true)->add(forceLocal, reflected, level.width);
+					}
 					++statistics.multipolePairs;
 				}
 				if (correction) ++statistics.ewaldPairs;
@@ -442,6 +500,7 @@ private:
 				auto const c = coordinate(level.begin + i, level.count);
 				int const slot = (c[0] & 1) + 2 * (c[1] & 1) + 4 * (c[2] & 1);
 				add(local, imageShiftLocal(parents.at(index(parent(c), level.count / 2)), childOffset(slot), 0.5, order));
+				add(forceLocal, imageShiftLocal(forceParents.at(index(parent(c), level.count / 2)), childOffset(slot), 0.5, order + 1));
 			}
 		}));
 		return result;
@@ -458,22 +517,31 @@ private:
 			[&](std::size_t i, auto need) { interactions(depth, level.begin + i, [&](std::size_t id, auto const&) { need(id); }); }, peers, result);
 		auto parents = fetch(
 			depth - 1, true, level.locals.size(),
-			[&](std::size_t i, auto need) { need(index(parent(coordinate(level.begin + i, level.count)), level.count / 2)); }, peers, result);
+			[&](std::size_t i, auto need) { if (targetActive(depth, level.begin + i)) need(index(parent(coordinate(level.begin + i, level.count)), level.count / 2)); }, peers, result);
+		auto forceParents = fetch(
+			depth - 1, 2, level.locals.size(),
+			[&](std::size_t i, auto need) { if (targetActive(depth, level.begin + i)) need(index(parent(coordinate(level.begin + i, level.count)), level.count / 2)); }, peers, result);
 		bool const leaf = depth + 1 == levels_.size();
 		accumulate(result, parallel(level.locals.size(), leaf ? "gravity.p2p_l2l" : "gravity.m2l_l2l", [&](std::size_t i, std::size_t, Statistics& statistics) {
 			auto const target = level.begin + i;
+			if (!targetActive(depth, target)) return;
 			interactions(depth, target, [&](std::size_t source, diagonal::Offset const& r) {
+				auto const& moment = sources.at(source);
+				if (!publishState_ && std::all_of(moment.begin(), moment.end(), [](Real value) { return value == 0; })) return;
 				if (leaf) {
-					diagonal::addDirect(level.locals[i], sources.at(source)[0], r, level.width);
-					if (target < source) ++statistics.directPairs;
+					diagonal::addDirect(level.locals[i], moment[0], r, level.width);
+					diagonal::addDirect(level.forceLocals[i], moment[0], r, level.width);
+					if (!publishState_ || target < source) ++statistics.directPairs;
 				} else {
-					diagonal::getOperator(config_.gravity.multipoleOrder, r)->add(level.locals[i], sources.at(source), level.width);
-					if (target < source) ++statistics.multipolePairs;
+					diagonal::getOperator(config_.gravity.multipoleOrder, r)->add(level.locals[i], moment, level.width);
+					diagonal::getOperator(config_.gravity.multipoleOrder, r, true)->add(level.forceLocals[i], moment, level.width);
+					if (!publishState_ || target < source) ++statistics.multipolePairs;
 				}
 			});
 			auto const c = coordinate(target, level.count);
 			int const slot = (c[0] & 1) + 2 * (c[1] & 1) + 4 * (c[2] & 1);
 			add(level.locals[i], diagonal::shiftLocal(parents.at(index(parent(c), level.count / 2)), childOffset(slot), 0.5, config_.gravity.multipoleOrder));
+			add(level.forceLocals[i], diagonal::shiftLocal(forceParents.at(index(parent(c), level.count / 2)), childOffset(slot), 0.5, config_.gravity.multipoleOrder + 1));
 		}));
 		return result;
 	}
@@ -491,21 +559,26 @@ private:
 		profiling::Elapsed profile("gravity.publish.wall_ns");
 		auto const gram = units::Mass::from_value(1);
 		auto const cm = units::Length::from_value(1);
+		auto const& destination = std::get<0>(request_.output.fields).id ? request_.output : fields_.gravity;
+		auto const outputBank = publishState_ ? bank ^ 1 : request_.outputBank;
 		auto result = parallel(ranges_.size(), "gravity.publish", [&](std::size_t r, std::size_t, Statistics&) {
 			auto const& segment = ranges_[r];
+			if (!request_.targets.empty() && !request_.targets[segment.block]) return;
 			auto const range = segment.range;
-			auto output = fields_.gravity.output(range, bank ^ 1);
+			auto output = destination.output(range, outputBank);
 			for (std::size_t i = 0; i < range.count; ++i) {
 				auto const& local = levels_.back().locals[segment.leaf + i];
+				auto const& forceLocal = levels_.back().forceLocals[segment.leaf + i];
 				State field;
 				field.potential() = constants::G * (gram / cm) * local[0];
-				field.acceleration(0) = -constants::G * (gram / cm) * diagonal::derivative(local, 1, 0, 0) / cellWidth_;
-				field.acceleration(1) = -constants::G * (gram / cm) * diagonal::derivative(local, 0, 1, 0) / cellWidth_;
-				field.acceleration(2) = -constants::G * (gram / cm) * diagonal::derivative(local, 0, 0, 1) / cellWidth_;
+				field.acceleration(0) = -constants::G * (gram / cm) * diagonal::derivative(forceLocal, 1, 0, 0) / cellWidth_;
+				field.acceleration(1) = -constants::G * (gram / cm) * diagonal::derivative(forceLocal, 0, 1, 0) / cellWidth_;
+				field.acceleration(2) = -constants::G * (gram / cm) * diagonal::derivative(forceLocal, 0, 0, 1) / cellWidth_;
 				if (!finite(field)) throw std::runtime_error("Nonfinite gravity solution");
 				output.put(i, field);
 			}
-			fields_.gravity.commit(range, bank ^ 1, output);
+			destination.commit(range, outputBank, output);
+			if (!publishState_) return;
 			if (build::hydro && config_.hydroEnabled())
 				copy(fields_.hydro, range, bank);
 			else {
@@ -522,7 +595,10 @@ private:
 				field.commit(range, bank ^ 1, output);
 			}
 		});
-		result.localityCells = {levels_.back().moments.size()};
+		std::uint64_t targets = 0;
+		for (auto const& segment : ranges_)
+			if (request_.targets.empty() || request_.targets[segment.block]) targets += segment.range.count;
+		result.localityCells = {targets};
 		return result;
 	}
 };
@@ -534,6 +610,7 @@ using FmmComponent = hpx::components::component<octotigerII::gravity::FmmPartiti
 HPX_REGISTER_COMPONENT(FmmComponent, octotigerII_fmm)
 HPX_REGISTER_ACTION(octotigerII::gravity::FmmPartition::ExecuteAction, octotigerII_fmm_execute)
 HPX_REGISTER_ACTION(octotigerII::gravity::FmmPartition::ReadAction, octotigerII_fmm_read)
+HPX_REGISTER_ACTION(octotigerII::gravity::FmmPartition::ConfigureAction, octotigerII_fmm_configure)
 #endif
 
 namespace octotigerII::gravity {
@@ -547,6 +624,24 @@ public:
 #else
 	std::unique_ptr<FmmPartition> partition;
 #endif
+	void configure(FieldSolveRequest const& request, bool publishState) {
+#ifdef OCTOTIGERII_WITH_HPX
+		std::vector<hpx::future<void>> pending;
+		std::exception_ptr error;
+		try {
+			for (auto const& id : partitions)
+				pending.push_back(hpx::async<FmmPartition::ConfigureAction>(id, request, publishState));
+		} catch (...) { error = std::current_exception(); }
+		for (auto& task : pending) {
+			try { task.get(); } catch (...) { if (!error) error = std::current_exception(); }
+		}
+		if (error) std::rethrow_exception(error);
+#else
+		partition->configure(request, publishState);
+#endif
+	}
+
+	Statistics solve(unsigned bank);
 
 	Statistics phase(Stage stage, unsigned depth, unsigned bank) {
 #ifdef OCTOTIGERII_WITH_HPX
@@ -613,13 +708,24 @@ FieldSolver::~FieldSolver() = default;
 
 Statistics FieldSolver::solve(unsigned bank) {
 	if (impl_->adaptive) return impl_->adaptive->solve(bank);
+	impl_->configure({}, true);
+	return impl_->solve(bank);
+}
+
+Statistics FieldSolver::solve(FieldSolveRequest const& request) {
+	if (impl_->adaptive) return impl_->adaptive->solve(request);
+	impl_->configure(request, false);
+	return impl_->solve(request.sourceBank);
+}
+
+Statistics FieldSolver::Impl::solve(unsigned bank) {
 	profiling::Elapsed profile("gravity.solve.wall_ns");
-	auto result = impl_->phase(Stage::Initialize, 0, bank);
-	for (unsigned depth = impl_->depths - 1; depth > 0; --depth)
-		accumulate(result, impl_->phase(Stage::Upward, depth - 1, bank));
-	for (unsigned depth = 0; depth < impl_->depths; ++depth)
-		accumulate(result, impl_->phase(Stage::Downward, depth, bank));
-	auto publication = impl_->phase(Stage::Publish, 0, bank);
+	auto result = phase(Stage::Initialize, 0, bank);
+	for (unsigned depth = depths - 1; depth > 0; --depth)
+		accumulate(result, phase(Stage::Upward, depth - 1, bank));
+	for (unsigned depth = 0; depth < depths; ++depth)
+		accumulate(result, phase(Stage::Downward, depth, bank));
+	auto publication = phase(Stage::Publish, 0, bank);
 	accumulate(result, publication);
 	result.localityCells = std::move(publication.localityCells);
 	profiling::sample("gravity.multipole_pairs", double(result.multipolePairs));

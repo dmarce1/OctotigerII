@@ -11,6 +11,7 @@ public:
 	AdaptiveFieldSolver(Config const&, std::vector<Subgrid> const&, FieldDirectory const&, std::vector<storage::Locality> const&);
 	~AdaptiveFieldSolver();
 	Statistics solve(unsigned bank);
+	Statistics solve(FieldSolveRequest const& request);
 
 private:
 	class Impl;

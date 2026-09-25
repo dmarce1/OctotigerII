@@ -87,8 +87,8 @@ public:
 template <typename... Q>
 class ColumnFields<units::State<Q...>> {
 public:
-    ColumnFields(Layout const& layout, PartitionSet const& store, std::string const& name, bool omitFirst = false)
-      : fields_(makeFields(layout, store, name, omitFirst, std::index_sequence_for<Q...>{})) {}
+    ColumnFields(Layout const& layout, PartitionSet const& store, std::string const& name, bool omitFirst = false, unsigned banks = 2)
+      : fields_(makeFields(layout, store, name, omitFirst, banks, std::index_sequence_for<Q...>{})) {}
 
     /// Return lightweight field identities and placement without copying values.
     ColumnHandle<units::State<Q...>> handle() const {
@@ -97,8 +97,8 @@ public:
 
 private:
     template <std::size_t... I>
-    static auto makeFields(Layout const& layout, PartitionSet const& store, std::string const& name, bool omitFirst, std::index_sequence<I...>) {
-        return std::tuple{(I == 0 && omitFirst ? std::unique_ptr<Field<Q>>{} : std::make_unique<Field<Q>>(layout, store, 2, name + "." + std::to_string(I)))...};
+    static auto makeFields(Layout const& layout, PartitionSet const& store, std::string const& name, bool omitFirst, unsigned banks, std::index_sequence<I...>) {
+        return std::tuple{(I == 0 && omitFirst ? std::unique_ptr<Field<Q>>{} : std::make_unique<Field<Q>>(layout, store, banks, name + "." + std::to_string(I)))...};
     }
 
     std::tuple<std::unique_ptr<Field<Q>>...> fields_;

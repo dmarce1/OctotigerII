@@ -18,11 +18,12 @@ class SchedulingStatistics {
 public:
 	std::uint64_t localTasks = 0;
 	std::uint64_t stolenTasks = 0;
+	std::vector<std::uint64_t> levelSteps; // Accepted transport steps, indexed by spatial level.
 
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & localTasks & stolenTasks;
+		archive & localTasks & stolenTasks & levelSteps;
 	}
 };
 
@@ -47,18 +48,33 @@ public:
 	/// Gather interior-only exports of the published bank under the stage lock.
 	std::vector<Snapshot> snapshots() const;
 
-	/// Reduce the per-block Courant limits after every locality finishes its tasks.
+	/// Return the next synchronization interval. With eligible mixed-level AMR
+	/// this is the coarsest active level's CFL limit; finer levels subcycle.
+	/// Runs with uniform external acceleration use the global minimum.
 	units::Time stableTimestep() const;
 
-	/// Publish one transport update only after all blocks and remote writebacks succeed.
+	/// Advance transport only; use advanceGravity for time-refined self-gravity.
+	/// Optional AMR time refinement
+	/// uses one dyadic step per spatial level and integrated flux correction.
+	/// Publish only after all blocks and remote writebacks succeed.
 	/// On failure, drain work and preserve the previously published state and time.
 	void advance(units::Time dt);
+
+	/// Complete a self-gravitating gas interval, including sources and energy work.
+	/// AMR levels subcycle when timestep.refinement is enabled. The hierarchical
+	/// mode reconciles provisional physical-state predictors to HOLD shell impulses.
+	/// Every refined source ledger closes before publication; failure in the refined
+	/// path restores the input. Global steps use the legacy stage sequence.
+	gravity::Statistics advanceGravity(units::Time dt);
 
 	/// Cumulative boundary transport from successfully published timesteps.
 	BoundaryTransport boundaryTransport() const;
 
 	/// Regrid at synchronization points. Predicted signal travel can exhaust
 	/// the buffer before amr.regridEvery. Returns whether leaves changed.
+	/// With conserveRegridEnergy, solveGravity() or setGravity() must follow a
+	/// changed mesh before a timestep or another regrid. The next field publication
+	/// recovers gas energy from conservatively remapped E+rho*phi/2.
 	bool regrid(units::Time nextStep, bool force = false);
 	std::size_t shadowCellCount() const;
 
@@ -75,7 +91,8 @@ public:
 
 	/// Retain endpoint gravity and start accounting for the two kinetic-work kicks.
 	void beginGravityEnergy();
-	/// Replace those kicks' self-gravity work with conservative mass-flux work.
+	/// In mullen mode replace kick work with conservative mass-flux work;
+	/// in naive mode retain kick work. Both modes account for boundary potential flux.
 	/// Call after transport, the new gravity solve, and the second momentum kick.
 	void finishGravityEnergy(units::Time dt);
 

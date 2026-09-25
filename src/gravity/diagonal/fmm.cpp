@@ -44,7 +44,7 @@ namespace {
 			reduce(a, x, y + 2, z - 2, -v);
 		}
 	}
-	std::map<std::array<int, 4>, std::shared_ptr<const Operator>> cache;
+	std::map<std::array<int, 5>, std::shared_ptr<const Operator>> cache;
 #ifdef OCTOTIGERII_WITH_HPX
 	hpx::shared_mutex cacheMutex;
 #else
@@ -102,15 +102,16 @@ namespace {
 }	 // namespace
 
 int coefficientCount(int p) {
-	if (p < 0 || p > 10) throw std::invalid_argument("diagonal FMM order must be 0..10");
+	// Public source orders stop at ten; force locals need one extra degree.
+	if (p < 0 || p > 11) throw std::invalid_argument("diagonal FMM coefficient order must be 0..11");
 	return (p + 1) * (p + 1);
 }
 
 const std::vector<Index>& indices(int p) {
 	coefficientCount(p);
 	static const auto tables = [] {
-		std::array<std::vector<Index>, 11> result;
-		for (int p = 0; p <= 10; ++p)
+		std::array<std::vector<Index>, 12> result;
+		for (int p = 0; p <= 11; ++p)
 			for (int n = 0; n <= p; ++n) {
 				for (int x = 0; x <= n; ++x)
 					result[p].push_back({x, n - x, 0});
@@ -174,15 +175,16 @@ std::array<double, 4> evaluate(const Coefficients& l, const Vector& s, int p) {
 	return {b[0], derivative(b, 1, 0, 0), derivative(b, 0, 1, 0), derivative(b, 0, 0, 1)};
 }
 
-Operator::Operator(int p, Offset r)
-  : count_(coefficientCount(p)) {
+Operator::Operator(int p, Offset r, bool forceLocal)
+  : sourceCount_(coefficientCount(p))
+  , localCount_(coefficientCount(p + int(forceLocal))) {
 	using std::abs;
 	using std::cos;
 	using std::hypot;
 	using std::sin;
 
 	profiling::Region profile("gravity.operator_setup");
-	if (p < 1) throw std::invalid_argument("diagonal FMM M2L order must be 1..10");
+	if (p < 1 || p > 10) throw std::invalid_argument("diagonal FMM M2L source order must be 1..10");
 	const double radius = hypot(double(r[0]), double(r[1]), double(r[2]));
 	if (radius == 0) throw std::invalid_argument("zero M2L separation");
 	Vector e{r[0] / radius, r[1] / radius, r[2] / radius};
@@ -198,9 +200,9 @@ Operator::Operator(int p, Offset r)
 	for (auto& v : u)
 		v /= norm;
 	Vector v{e[1] * u[2] - e[2] * u[1], e[2] * u[0] - e[0] * u[2], e[0] * u[1] - e[1] * u[0]};
-	// Source degree p + local derivative degree p: radial degree <=2p,
-	// angular Fourier degree <=2p. Both quadratures are exact at these sizes.
-	const int angles = 2 * p + 1;
+	// Scalar locals need total degree 2p. Auxiliary force locals need 2p+1;
+	// p+1 Laguerre points integrate either radial degree exactly.
+	const int angles = 2 * p + 1 + int(forceLocal);
 	for (auto [t, w] : laguerre(p + 1))
 		for (int j = 0; j < angles; ++j) {
 			const double angle = 2 * pi * j / angles;
@@ -210,7 +212,7 @@ Operator::Operator(int p, Offset r)
 			// exp(k.R)=exp(-t) is the diagonal translation. Its exp(-t)
 			// factor is already in the Gauss-Laguerre weight w.
 			diagonal_.push_back(-w / (radius * angles));
-			for (const auto b : indices(p)) {
+			for (const auto b : indices(p + int(forceLocal))) {
 				std::complex<double> z = 1;
 				for (int n = 0; n < b.x; ++n)
 					z *= k[0];
@@ -219,7 +221,7 @@ Operator::Operator(int p, Offset r)
 				for (int n = 0; n < b.z; ++n)
 					z *= k[2];
 				fromWave_.push_back(z);
-				toWave_.push_back((b.degree() % 2 ? -1.0 : 1.0) * z);
+				if (b.degree() <= p) toWave_.push_back((b.degree() % 2 ? -1.0 : 1.0) * z);
 			}
 		}
 }
@@ -227,22 +229,21 @@ Operator::Operator(int p, Offset r)
 void Operator::add(Coefficients& l, const Coefficients& m, double h) const {
 	using std::isfinite;
 
-	if (!(h > 0) || !isfinite(h) || (m.size() != 1 && m.size() != std::size_t(count_) && m.size() != std::size_t(count_ + 1)) ||
-		(l.size() != 4 && l.size() != std::size_t(count_) && l.size() != std::size_t(count_ + 1)))
+	if (!(h > 0) || !isfinite(h) || (m.size() != 1 && m.size() != std::size_t(sourceCount_) && m.size() != std::size_t(sourceCount_ + 1)) ||
+		(l.size() != 4 && l.size() != std::size_t(localCount_) && l.size() != std::size_t(localCount_ + 1)))
 		throw std::invalid_argument("invalid M2L data");
 	for (std::size_t q = 0; q < diagonal_.size(); ++q) {
 		std::complex<double> wave = 0;
-		const auto off = q * count_;
-		for (std::size_t i = 0; i < std::min(m.size(), std::size_t(count_)); ++i)
-			wave += toWave_[off + i] * m[i];
+		for (std::size_t i = 0; i < std::min(m.size(), std::size_t(sourceCount_)); ++i)
+			wave += toWave_[q * sourceCount_ + i] * m[i];
 		wave *= diagonal_[q] / h;
-		for (std::size_t i = 0; i < std::min(l.size(), std::size_t(count_)); ++i)
-			l[i] += (fromWave_[off + i] * wave).real();
+		for (std::size_t i = 0; i < std::min(l.size(), std::size_t(localCount_)); ++i)
+			l[i] += (fromWave_[q * localCount_ + i] * wave).real();
 	}
 }
 
-std::shared_ptr<const Operator> getOperator(int p, Offset r) {
-	const std::array<int, 4> key{p, r[0], r[1], r[2]};
+std::shared_ptr<const Operator> getOperator(int p, Offset r, bool forceLocal) {
+	const std::array<int, 5> key{p, r[0], r[1], r[2], int(forceLocal)};
 	{
 		std::shared_lock lock(cacheMutex);
 		const auto it = cache.find(key);
@@ -252,7 +253,7 @@ std::shared_ptr<const Operator> getOperator(int p, Offset r) {
 	std::unique_lock lock(cacheMutex);
 	auto it = cache.find(key);
 	if (it != cache.end()) return it->second;
-	auto op = std::make_shared<const Operator>(p, r);
+	auto op = std::make_shared<const Operator>(p, r, forceLocal);
 	cache.emplace(key, op);
 	return op;
 }

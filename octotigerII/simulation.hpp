@@ -23,6 +23,9 @@ public:
 	BoundaryTransport boundary;
 	ConservedTotals norm; ///< Sum of absolute cell contributions, component by component.
 	units::Energy gasGravityNorm{};
+	/// Cumulative measured gravity-operator defect and actual energy jumps at regrids.
+	/// Diagnostic only: neither quantity is removed from the reported physical drift.
+	units::Energy gravityReciprocityDefect{}, gravityRegridEnergyChange{};
 	units::Density minimumDensity{};
 	units::Pressure minimumPressure{};
 	units::EnergyDensity minimumRadiationEnergy{};

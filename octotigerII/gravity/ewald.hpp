@@ -26,16 +26,17 @@ Derivatives derivatives(diagonal::Vector r, diagonal::Vector periods, int degree
 /// Carries the additional trace/background terms explicitly in 3P.
 class Operator {
 public:
-	Operator(int order, diagonal::Offset separation, diagonal::Offset periods);
+	/// forceLocal retains one additional local degree for a mutual order-p force.
+	Operator(int order, diagonal::Offset separation, diagonal::Offset periods, bool forceLocal = false);
 	void add(diagonal::Coefficients& local, diagonal::Coefficients const& moment, double cellWidth) const;
 
 private:
-	int count_;
+	int sourceCount_, localCount_;
 	std::vector<double> matrix_;
 	double laplace_;
 };
 
-std::shared_ptr<Operator const> getOperator(int order, diagonal::Offset separation, diagonal::Offset periods);
+std::shared_ptr<Operator const> getOperator(int order, diagonal::Offset separation, diagonal::Offset periods, bool forceLocal = false);
 void addDirect(diagonal::Coefficients& local, double mass, diagonal::Offset separation, diagonal::Offset periods, double cellWidth);
 
 }	 // namespace octotigerII::gravity::ewald

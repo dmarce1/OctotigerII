@@ -151,6 +151,7 @@ HaloPlan makeHaloPlan(Config const& config, std::vector<Subgrid> const& blocks, 
 	plan.valueCount = plan.ghostCount;
 	using Address = std::pair<std::size_t, std::size_t>;
 	std::map<Address, std::vector<HaloCopy>> donors;
+	std::map<Address, int> donorLevels;
 	auto describe = [&](Location const& cell, std::size_t destination, bool interpolate) {
 		auto const mapped = config.mesh.boundary.map(cell.coordinates, 1 << cell.level);
 		plan.reflectionMasks.resize(std::max(plan.reflectionMasks.size(), destination + 1));
@@ -172,7 +173,9 @@ HaloPlan makeHaloPlan(Config const& config, std::vector<Subgrid> const& blocks, 
 			if (auto donor = directory.locate(source); donor && donor->level < source.level) return std::optional<Location>{source};
 		directory.average(source, 1, [&](CellAddress const& donor, Real weight) {
 			auto const& b = blocks[donor.block];
-			donors[{b.interior.partition, b.interior.offset + b.layout.index(donor.cell)}].push_back({0, destination, weight});
+			Address const address{b.interior.partition, b.interior.offset + b.layout.index(donor.cell)};
+			donors[address].push_back({0, destination, weight});
+			donorLevels[address] = b.location.level;
 		});
 		return std::optional<Location>{};
 	};
@@ -207,8 +210,9 @@ HaloPlan makeHaloPlan(Config const& config, std::vector<Subgrid> const& blocks, 
 	});
 	for (auto const& [address, copies] : donors) {
 		auto const [partition, offset] = address;
-		if (plan.reads.empty() || plan.reads.back().range.partition != partition || plan.reads.back().range.offset + plan.reads.back().range.count != offset)
-			plan.reads.push_back({{partition, offset, 0}, {}});
+		int const donorLevel = donorLevels.at(address);
+		if (plan.reads.empty() || plan.reads.back().level != donorLevel || plan.reads.back().range.partition != partition || plan.reads.back().range.offset + plan.reads.back().range.count != offset)
+			plan.reads.push_back({{partition, offset, 0}, {}, donorLevel});
 		auto& read = plan.reads.back();
 		for (auto copy : copies) {
 			copy.source = read.range.count;

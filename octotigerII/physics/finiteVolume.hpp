@@ -192,9 +192,26 @@ public:
 	/// publishes output only after all dependent work and transfers finish.
 	template <typename Patch, typename Writer>
 	void advanceInto(Patch const& patch, units::Time stepSize, Workspace& workspace, Writer&& write) const {
+		advanceInto(patch, stepSize, workspace, std::forward<Writer>(write),
+			[](State state, mesh::Coordinates const&) { return state; });
+	}
+
+	/// Transform the cell-centered states used for reconstruction and the Hancock
+	/// predictor, while retaining the original patch as the conservative update base.
+	/// predictorState(state, storageCell) returns a state by value and must cover
+	/// both interior and ghost cells. It must not modify the patch. A gravity driver
+	/// can use this to place all predictor velocities at the same physical time.
+	/// Flux limiting still tests positivity against the original update states.
+	/// Set hancock=false when predictorState already supplies a midpoint stage
+	/// from the numerical flux divergence: reconstruct it without a second time
+	/// prediction, while retaining stepSize for the conservative update/limiter.
+	template <typename Patch, typename Writer, typename PredictorState>
+	void advanceInto(Patch const& patch, units::Time stepSize, Workspace& workspace, Writer&& write, PredictorState&& predictorState,
+		bool hancock = true) const {
 		mesh::MeshLayout const& layout = patch.layout();
 		if (layout.ghostWidth() < 2) throw std::invalid_argument("MUSCL-Hancock needs two ghost cells");
-		if (!(stepSize > units::Time{}) || !units::finite(stepSize)) throw std::invalid_argument("MUSCL-Hancock timestep must be positive and finite");
+		// A zero interval evaluates instantaneous numerical fluxes for source predictors.
+		if (!(stepSize >= units::Time{}) || !units::finite(stepSize)) throw std::invalid_argument("MUSCL-Hancock timestep must be nonnegative and finite");
 		auto& minus = workspace.minus;
 		auto& plus = workspace.plus;
 		for (int axis = 0; axis < ndim; ++axis) {
@@ -203,7 +220,7 @@ public:
 		}
 		{
 			profiling::Region profile("transport.reconstruct_predict");
-			predictFaceStates(patch, stepSize, minus, plus);
+			predictFaceStates(patch, hancock ? stepSize : units::Time{}, minus, plus, predictorState);
 		}
 
 		auto& fluxes = workspace.fluxes;
@@ -255,9 +272,10 @@ private:
 
 	/// Limit directional slopes, predict with the half-step unsplit divergence, and
 	/// fall back to the cell center if a predicted face would be inadmissible.
-	template <typename Patch>
+	template <typename Patch, typename PredictorState>
 	void predictFaceStates(
-		Patch const& patch, units::Time stepSize, std::array<std::vector<State>, ndim>& minus, std::array<std::vector<State>, ndim>& plus) const {
+		Patch const& patch, units::Time stepSize, std::array<std::vector<State>, ndim>& minus, std::array<std::vector<State>, ndim>& plus,
+		PredictorState&& predictorState) const {
 		mesh::MeshLayout const& layout = patch.layout();
 		int const ghostWidth = layout.ghostWidth();
 		auto const begin = mesh::filledCoordinates(ghostWidth - 1);
@@ -265,7 +283,7 @@ private:
 
 		mesh::forEachCoordinate(begin, end, [&](mesh::Coordinates const& cell) {
 			std::size_t const cellIndex = layout.index(cell);
-			State const centerState = patch.atStorage(cell);
+			State const centerState = predictorState(patch.atStorage(cell), cell);
 			Reconstruction const center = system_.reconstructionVariables(centerState);
 			std::array<Reconstruction, ndim> slopes{};
 			for (int axis = 0; axis < ndim; ++axis) {
@@ -273,8 +291,8 @@ private:
 				mesh::Coordinates right = cell;
 				--left[axis];
 				++right[axis];
-				Reconstruction const leftState = system_.reconstructionVariables(patch.atStorage(left));
-				Reconstruction const rightState = system_.reconstructionVariables(patch.atStorage(right));
+				Reconstruction const leftState = system_.reconstructionVariables(predictorState(patch.atStorage(left), left));
+				Reconstruction const rightState = system_.reconstructionVariables(predictorState(patch.atStorage(right), right));
 				slopes[axis].forEach([&](auto field, auto& slope) {
 					slope = limitedSlope(center.template get<field>() - leftState.template get<field>(),
 						rightState.template get<field>() - center.template get<field>(), limiter_, theta_);

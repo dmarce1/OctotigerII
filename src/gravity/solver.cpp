@@ -37,13 +37,14 @@ namespace {
 	public:
 		int count;
 		Real width;
-		std::vector<Coefficients> moments, locals;
+		std::vector<Coefficients> moments, locals, forceLocals;
 
-		Level(int n, Real h, int coefficients)
+		Level(int n, Real h, int coefficients, int forceCoefficients)
 		  : count(n)
 		  , width(h)
 		  , moments(static_cast<std::size_t>(n) * n * n, Coefficients(coefficients))
-		  , locals(moments.size(), Coefficients(coefficients)) {}
+		  , locals(moments.size(), Coefficients(coefficients))
+		  , forceLocals(moments.size(), Coefficients(forceCoefficients)) {}
 	};
 
 }	 // namespace
@@ -67,7 +68,8 @@ Solution solve(
 	ImageGeometry const images(boundaries);
 	std::vector<Level> levels;
 	for (int count = 1; count <= n; count *= 2)
-		levels.emplace_back(count, h * (n / count), diagonal::coefficientCount(order) + (images.active() ? 1 : 0));
+		levels.emplace_back(count, h * (n / count), diagonal::coefficientCount(order) + (images.active() ? 1 : 0),
+			diagonal::coefficientCount(order + 1) + (images.active() ? 1 : 0));
 	auto& leaves = levels.back();
 	auto const volume = cellWidth * cellWidth * cellWidth;
 	for (std::size_t i = 0; i < density.size(); ++i) {
@@ -106,16 +108,20 @@ Solution solve(
 		bool const leaf = depth + 1 == static_cast<int>(levels.size());
 		if (!same && !leaf && distance * theta > 1) {
 			diagonal::getOperator(order, r)->add(level.locals[ia], level.moments[ib], level.width);
+			diagonal::getOperator(order, r, true)->add(level.forceLocals[ia], level.moments[ib], level.width);
 			for (auto& value : r)
 				value = -value;
 			diagonal::getOperator(order, r)->add(level.locals[ib], level.moments[ia], level.width);
+			diagonal::getOperator(order, r, true)->add(level.forceLocals[ib], level.moments[ia], level.width);
 			++result.statistics.multipolePairs;
 		} else if (leaf) {
 			if (same) return;
 			diagonal::addDirect(level.locals[ia], level.moments[ib][0], r, level.width);
+			diagonal::addDirect(level.forceLocals[ia], level.moments[ib][0], r, level.width);
 			for (auto& value : r)
 				value = -value;
 			diagonal::addDirect(level.locals[ib], level.moments[ia][0], r, level.width);
+			diagonal::addDirect(level.forceLocals[ib], level.moments[ia][0], r, level.width);
 			++result.statistics.directPairs;
 		} else {
 			for (int i = 0; i < 8; ++i)
@@ -136,21 +142,28 @@ Solution solve(
 						for (int x = 0; x < level.count; ++x) {
 							Coordinate const a{x, y, z};
 							auto& local = level.locals[index(a, level.count)];
+							auto& forceLocal = level.forceLocals[index(a, level.count)];
 							images.interactions(depth, a, leaf, theta, [&](Coordinate b, diagonal::Offset r, unsigned mask, bool correction) {
 								auto const& source = level.moments[index(b, level.count)];
 								if (source[0] == 0) return;
 								if (leaf) {
-									if (correction)
+									if (correction) {
 										ewald::addDirect(local, source[0], r, images.periods(level.count), level.width);
-									else
+										ewald::addDirect(forceLocal, source[0], r, images.periods(level.count), level.width);
+									} else {
 										diagonal::addDirect(local, source[0], r, level.width);
+										diagonal::addDirect(forceLocal, source[0], r, level.width);
+									}
 									++result.statistics.directPairs;
 								} else {
 									auto const moment = reflectMultipole(source, mask, order);
-									if (correction)
+									if (correction) {
 										ewald::getOperator(order, r, images.periods(level.count))->add(local, moment, level.width);
-									else
+										ewald::getOperator(order, r, images.periods(level.count), true)->add(forceLocal, moment, level.width);
+									} else {
 										diagonal::getOperator(order, r)->add(local, moment, level.width);
+										diagonal::getOperator(order, r, true)->add(forceLocal, moment, level.width);
+									}
 									++result.statistics.multipolePairs;
 								}
 								if (correction) ++result.statistics.ewaldPairs;
@@ -169,10 +182,14 @@ Solution solve(
 				for (int y = 0; y < parent.count; ++y)
 					for (int x = 0; x < parent.count; ++x) {
 						Coordinate const c{x, y, z};
-						for (int slot = 0; slot < 8; ++slot)
+						for (int slot = 0; slot < 8; ++slot) {
 							add(fine.locals[index(child(c, slot), fine.count)],
 								(images.active() ? imageShiftLocal : diagonal::shiftLocal)(
 									parent.locals[index(c, parent.count)], childOffset(slot), 0.5, order));
+							add(fine.forceLocals[index(child(c, slot), fine.count)],
+								(images.active() ? imageShiftLocal : diagonal::shiftLocal)(
+									parent.forceLocals[index(c, parent.count)], childOffset(slot), 0.5, order + 1));
+						}
 					}
 		}
 	}
@@ -181,10 +198,11 @@ Solution solve(
 	for (std::size_t i = 0; i < density.size(); ++i) {
 		auto& field = result.fields[i];
 		auto const& local = leaves.locals[i];
+		auto const& forceLocal = leaves.forceLocals[i];
 		field.potential() = constants::G * (gram / cm) * local[0];
-		field.acceleration(0) = -constants::G * (gram / cm) * diagonal::derivative(local, 1, 0, 0) / cellWidth;
-		field.acceleration(1) = -constants::G * (gram / cm) * diagonal::derivative(local, 0, 1, 0) / cellWidth;
-		field.acceleration(2) = -constants::G * (gram / cm) * diagonal::derivative(local, 0, 0, 1) / cellWidth;
+		field.acceleration(0) = -constants::G * (gram / cm) * diagonal::derivative(forceLocal, 1, 0, 0) / cellWidth;
+		field.acceleration(1) = -constants::G * (gram / cm) * diagonal::derivative(forceLocal, 0, 1, 0) / cellWidth;
+		field.acceleration(2) = -constants::G * (gram / cm) * diagonal::derivative(forceLocal, 0, 0, 1) / cellWidth;
 		if (!finite(field)) throw std::runtime_error("Nonfinite gravity solution");
 	}
 	return result;

@@ -41,6 +41,9 @@ public:
 // Newtonian gravity on a uniform cubic cell octree. Each leaf source
 // is a cell-centered mass, with its self term omitted. x is contiguous.
 // Newtonian images use diagonal plane waves; Ewald uses dense harmonic M2Ls.
+// Scalar potentials retain order-p source/local expansions. Accelerations use
+// a separate order-(p+1) local so the gradient has degree p in both endpoints;
+// source-target reversal then produces equal and opposite integrated forces.
 /// Solve image-boundary gravity for cell-centered masses, excluding only the physical self.
 /// Input and output are x-contiguous; cellsPerAxis must be a power of two.
 /// Far interactions use @ref ref_greengard1997 "Greengard and Rokhlin (1997)".

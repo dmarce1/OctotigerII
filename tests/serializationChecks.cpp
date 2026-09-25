@@ -29,6 +29,10 @@ void check() {
 	auto c = test::parseConfig({"--mesh.level=0", "--output.enabled=off"});
 	c.verification.analytic = "on";
 	c.randomSeed = 987654321;
+	c.timestep.refinement = false;
+	c.gravity.timeIntegration = "conventional";
+	c.gravity.energyTreatment = "naive";
+	c.gravity.conserveRegridEnergy = false;
 	c.hydro.dualEnergy = {true, -0.5, 0.003, 0.2};
 	c.hydro.meanMolecularWeight = 0.6;
 	if (c.hydroEnabled() && build::massFractions) {
@@ -92,6 +96,7 @@ void check() {
 		hpx::serialization::input_archive archive(buffer);
 		archive & restored & after & restoredGas & restoredRad;
 	}
+	EXPECT_EQ(restored.timestep.refinement, c.timestep.refinement);
 	EXPECT_TRUE(restored.mesh.lower == c.mesh.lower && restored.mesh.upper == c.mesh.upper && restored.runtime.stopTime == c.runtime.stopTime);
 	EXPECT_TRUE(restored.randomSeed == c.randomSeed && restored.verification.gravityReference == c.verification.gravityReference &&
 		restored.verification.directSamples == c.verification.directSamples && restored.verification.directMaxPairs == c.verification.directMaxPairs);
@@ -99,6 +104,9 @@ void check() {
 		restored.verification.absoluteTolerance == c.verification.absoluteTolerance);
 	EXPECT_TRUE(before.time == after.time && before.cellWidth == after.cellWidth && before.lower == after.lower);
 	EXPECT_EQ(restored.hydro.acceleration, c.hydro.acceleration);
+	EXPECT_EQ(restored.gravity.timeIntegration, c.gravity.timeIntegration);
+	EXPECT_EQ(restored.gravity.energyTreatment, c.gravity.energyTreatment);
+	EXPECT_EQ(restored.gravity.conserveRegridEnergy, c.gravity.conserveRegridEnergy);
 	EXPECT_EQ(restored.hydro.dualEnergy.enabled, c.hydro.dualEnergy.enabled);
 	EXPECT_EQ(restored.hydro.dualEnergy.exponent, c.hydro.dualEnergy.exponent);
 	EXPECT_EQ(restored.hydro.dualEnergy.pressureThreshold, c.hydro.dualEnergy.pressureThreshold);

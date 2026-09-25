@@ -18,6 +18,8 @@ public:
 		radiation::RadiationSystem::State radiation;
 		gravity::State gravity;
 		units::Density density{};
+		// Transfer-only scalar; never interpreted as gas energy by an EOS.
+		units::EnergyDensity gasGravityEnergy{};
 		std::vector<units::Density> species;
 		Values& operator+=(Values const& other);
 		Values operator*(Real weight) const;
@@ -29,8 +31,12 @@ public:
 	Values shadow(mesh::BlockLocation cell) const;
 	refinement::CellView sample(mesh::BlockLocation block, mesh::Coordinates const& cell) const;
 	Snapshot transfer(mesh::BlockLocation block) const;
+	std::vector<units::EnergyDensity> transferGasGravityEnergy(mesh::BlockLocation block) const;
 	/// Advance covered coarse states independently, without averaging leaves down.
 	void advance(units::Time dt);
+	/// Forecast the covered states with frozen gravity and CFL-limited KDK
+	/// substeps. The caller refreshes leaf states and gravity at synchronization.
+	void advanceGravity(units::Time dt);
 	void kick(units::Time dt);
 	void refreshLeaves(std::vector<Snapshot> const&);
 	void refreshGravity(std::vector<Snapshot> const&);
@@ -42,6 +48,7 @@ public:
 	}
 
 private:
+	void advanceOnce(units::Time dt);
 	Config config_;
 	units::Time time_{};
 	int blockBits_ = 0;
