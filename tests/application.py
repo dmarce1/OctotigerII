@@ -30,7 +30,7 @@ def run(*args, success=True, contains=None):
         assert contains in result.stdout + result.stderr, (args, result.stdout, result.stderr)
     return result
 
-run(success=False, contains='I have done everything you asked of me')
+run(success=False, contains='No problem specified')
 run('--problem.name=', success=False)
 run('--help', contains=f'octoII-{dimension}d')
 for option in ('--mesh.ndim=3', '--ndim=3', '--problem.name=unknown'):
@@ -64,7 +64,9 @@ with tempfile.TemporaryDirectory(prefix='octoII-application-') as directory:
         second = root / 'second.ini'
         first.write_text('[problem]\nname=sod\n[mesh]\ncells=8\n')
         second.write_text('[problem]\nname=streaming\n')
-        run(f'--config={first}', success=False, contains='No problem specified')
+        # The INI can choose the problem; a command-line name still wins.
+        run(f'--config={first}', '--mesh.cells=4', '--runtime.stopTime=0', '--output.enabled=off',
+            f'--output.directory={root / "ini-only"}', contains='sod')
         run('--problem.name=streaming', f'--config={first}', f'--config={second}', '--mesh.cells=4', '--runtime.stopTime=0',
             '--output.enabled=off', contains='streaming')
         run('--problem.name=sod', f'--config={second}', '--runtime.stopTime=0', '--output.enabled=off', contains='sod')
