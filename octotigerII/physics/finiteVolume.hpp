@@ -164,7 +164,10 @@ public:
 		Workspace workspace;
 		auto next = patch.values();
 		advanceInto(patch, stepSize, workspace,
-			[&](mesh::Coordinates const& cell, State const& value) { next[patch.layout().index(patch.layout().storageCoordinates(cell))] = value; });
+			[&](mesh::Coordinates const& cell, State value) {
+				if constexpr (requires { system_.synchronize(value); }) system_.synchronize(value);
+				next[patch.layout().index(patch.layout().storageCoordinates(cell))] = value;
+			});
 		patch.values().swap(next);
 		patch.timeState().completeStep(stepSize);
 		updateBoundaries(patch, interval.end);

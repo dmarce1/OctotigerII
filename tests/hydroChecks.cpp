@@ -32,6 +32,7 @@ TEST_F(Hydro, PrimitiveRoundTripAndIndependentTotalEnergy) {
 		EXPECT_DOUBLE_EQ(units::value(u.momentum(d)), 2 * (d + 1));
 	}
 	EXPECT_NEAR(units::value(u.totalEnergy()), 12.5 + speedSquared, 1e-13);
+	p.auxiliary() = u.auxiliary() / u.density();
 	test::expectStateNear(gas.reconstructionVariables(u), p);
 	EXPECT_TRUE(gas.admissible(u));
 }

@@ -47,20 +47,29 @@ Additional columns report kinetic and thermal energy, and when self gravity is
 active:
 
     potential_energy = sum(0.5 * rho * phi * V)
-    gas_gravity_energy = kinetic_energy + thermal_energy + potential_energy
+    gas_gravity_energy = gas_energy + potential_energy
+
+With dual energy enabled, `thermal_energy` integrates the internal energy chosen
+by the pressure threshold. It can differ from `gas_energy - kinetic_energy` in
+kinetically dominated cells. The independently conserved `gas_energy` is used
+for conservation and gas-gravity accounting. The entropy auxiliary is excluded
+from this ledger because synchronization is a source for it; see
+[dual-energy.md](dual-energy.md).
 
 The gas-gravity normalization is the larger of the initial and current values
 of `sum((abs(Egas) + abs(0.5*rho*phi)) * V)`. This avoids cancellation between
-positive gas energy and negative binding energy. Its normalized drift measures
-change of the on-grid gas-plus-gravity energy.
+positive gas energy and negative binding energy.
 
-The gas-gravity drift is deliberately an **on-grid** diagnostic. It is not an
-open-boundary corrected invariant: gas energy flux alone does not account for
-nonlocal gravitational energy transport or work by imposed acceleration. No
-boundary flux of gravitational energy is implemented here, and no exact energy
-conservation is imposed on the existing split gravity kicks or regridding. For
-an isolated closed system this diagnostic measures their energy error. The
-factor 1/2 applies to the self-gravitational potential stored by the solver.
+The potential-energy `in` and `out` columns record the signed split of
+`dt*A*F_out*phibar_face` on physical boundaries. Combined energy has `grid`,
+`corrected`, `norm`, and `drift_scaled` columns; the corrected value adds both
+gas and potential outward transport and subtracts inward transport. It is the
+energy invariant for a fixed mesh and reciprocal self-potential operator.
+Imposed acceleration, approximate FMM reciprocity error, and changes of mesh
+can still cause drift. See [gravity-energy.md](gravity-energy.md) for the exact
+work formula and the distinction between this coupling and momentum kicks.
+The factor 1/2 applies only to the on-grid self-potential integral, not the
+potential advected through a physical boundary.
 
 ## Existing AMR safeguards
 

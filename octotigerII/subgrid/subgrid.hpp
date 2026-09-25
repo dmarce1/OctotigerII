@@ -29,6 +29,7 @@ public:
 	units::Time time{};
 	bool hydroEnabled = false, radiationEnabled = false, gravityEnabled = false;
 	hydro::Fields hydro;
+	std::vector<mesh::PatchData<units::Density>> species;
 	radiation::Fields radiation;
 	gravity::Fields gravity;
 
@@ -39,7 +40,7 @@ public:
 		a & location & layout & cellWidth & time;
 		for (auto& coordinate : lower)
 			a & coordinate;
-		a & hydroEnabled & radiationEnabled & gravityEnabled & hydro & radiation & gravity & density;
+		a & hydroEnabled & radiationEnabled & gravityEnabled & hydro & radiation & gravity & density & species;
 	}
 };
 

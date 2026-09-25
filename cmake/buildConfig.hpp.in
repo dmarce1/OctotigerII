@@ -11,7 +11,9 @@
 namespace octotigerII {
 inline constexpr int ndim = OCTOTIGERII_NDIM;
 static_assert(ndim >= 1 && ndim <= 3);
+#define OCTOTIGERII_MASS_FRACTIONS @OCTOTIGERII_MASS_FRACTIONS@
 namespace build {
+inline constexpr bool massFractions = OCTOTIGERII_MASS_FRACTIONS;
 inline constexpr char executable[] = "@OCTOTIGERII_EXECUTABLE@";
 inline constexpr bool hydro = OCTOTIGERII_HYDRO;
 inline constexpr bool radiation = OCTOTIGERII_RADIATION;

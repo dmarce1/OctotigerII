@@ -67,6 +67,12 @@ namespace {
 	};
 }	 // namespace
 
+std::size_t allFaceCount(int cells) {
+	return ndim * mesh::MeshLayout(cells).faceCount(0);
+}
+std::size_t allFaceIndex(mesh::MeshLayout const& layout, int axis, mesh::Coordinates const& face) {
+	return axis * layout.faceCount(0) + layout.faceIndex(axis, face);
+}
 std::size_t boundaryFluxCount(int cells) {
 	std::size_t face = 1;
 	for (int d = 1; d < ndim; ++d)
@@ -123,9 +129,11 @@ CartesianTopology::CartesianTopology(Config const& config, std::size_t partition
 	}
 	layout_ = storage::Layout(std::vector<std::size_t>(blocks_.size(), cells.interiorCellCount()), partitions);
 	storage::Layout const fluxLayout(std::vector<std::size_t>(blocks_.size(), boundaryFluxCount(config.mesh.cells)), partitions);
+	storage::Layout const massFluxLayout(std::vector<std::size_t>(blocks_.size(), allFaceCount(config.mesh.cells)), partitions);
 	for (std::size_t i = 0; i < blocks_.size(); ++i) {
 		blocks_[i].interior = layout_.ranges()[i];
 		blocks_[i].boundaryFlux = fluxLayout.ranges()[i];
+		blocks_[i].massFlux = massFluxLayout.ranges()[i];
 	}
 }
 
@@ -244,6 +252,52 @@ std::vector<FluxCorrection> makeRefluxPlan(Config const& c, std::vector<Subgrid>
 				result.push_back(std::move(correction));
 			});
 		}
+	return result;
+}
+
+std::vector<GravityWorkFace> makeGravityWorkPlan(Config const& c, std::vector<Subgrid> const& blocks, std::size_t id) {
+	Directory const directory(c, blocks);
+	auto const& block = blocks.at(id);
+	int const level = block.location.level + directory.bits(), n = c.mesh.cells;
+	std::vector<GravityWorkFace> result;
+	for (int axis = 0; axis < ndim; ++axis) for (bool upper : {false, true}) {
+		auto extents = mesh::filledCoordinates(n); extents[axis] = 1;
+		mesh::forEachCoordinate(extents, [&](auto cell) {
+			cell[axis] = upper ? n - 1 : 0;
+			auto face = cell; if (upper) ++face[axis];
+			GravityWorkFace entry;
+			entry.cell = block.layout.index(cell); entry.axis = axis; entry.sign = upper ? 1 : -1;
+			entry.massFlux = block.massFlux.slice(allFaceIndex(block.layout, axis, face), 1);
+			Location neighbor{level, {}};
+			for (int d = 0; d < ndim; ++d) neighbor.coordinates[d] = block.location.coordinates[d] * n + cell[d];
+			neighbor.coordinates[axis] += entry.sign;
+			if ((neighbor.coordinates[axis] < 0 || neighbor.coordinates[axis] >= (1 << level)) && !c.mesh.boundary.periodic(axis)) {
+				entry.physical = true; result.push_back(entry); return;
+			}
+			neighbor.coordinates = c.mesh.boundary.map(neighbor.coordinates, 1 << level).source;
+			if (auto donor = directory.locate(neighbor)) {
+				auto const& source = blocks.at(donor->block);
+				entry.neighbor = source.interior.slice(source.layout.index(donor->cell), 1);
+				entry.potentialFraction = Real(block.cellWidth / (block.cellWidth + source.cellWidth));
+				result.push_back(entry);
+			} else {
+				for (int slot = 0; slot < (1 << ndim); ++slot) {
+					if (bool(slot & (1 << axis)) != !upper) continue;
+					auto const fine = neighbor.child(slot);
+					auto const donor = directory.locate(fine);
+					if (!donor || donor->level != fine.level) throw std::logic_error("Gravity work requires a 2:1 balanced mesh");
+					auto const& source = blocks.at(donor->block);
+					auto f = donor->cell; if (!upper) ++f[axis];
+					auto part = entry;
+					part.neighbor = source.interior.slice(source.layout.index(donor->cell), 1);
+					part.massFlux = source.massFlux.slice(allFaceIndex(source.layout, axis, f), 1);
+					part.areaFraction = Real(1) / (1 << (ndim - 1));
+					part.potentialFraction = Real(block.cellWidth / (block.cellWidth + source.cellWidth));
+					result.push_back(part);
+				}
+			}
+		});
+	}
 	return result;
 }
 

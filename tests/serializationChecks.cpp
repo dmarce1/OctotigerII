@@ -29,6 +29,12 @@ void check() {
 	auto c = test::parseConfig({"--mesh.level=0", "--output.enabled=off"});
 	c.verification.analytic = "on";
 	c.randomSeed = 987654321;
+	c.hydro.dualEnergy = {true, -0.5, 0.003, 0.2};
+	c.hydro.meanMolecularWeight = 0.6;
+	if (c.hydroEnabled() && build::massFractions) {
+		c.massFractions.enabled = true;
+		c.massFractions.species = composition::parseSpecies("gas:1:He=70%,O=30%;dye:2:A=0,Z=0");
+	}
 	c.amr.refineDensity = units::Density::from_value(0.03);
 	c.star.radius = units::Length::from_value(8e8);
 	c.star.center[0] = units::Length::from_value(2e8);
@@ -57,6 +63,7 @@ void check() {
 		before.gravity.values()[i].acceleration(0) = units::Acceleration::from_value(2);
 		before.hydro.values()[i].density() = units::Density::from_value(1);
 		before.hydro.values()[i].totalEnergy() = units::EnergyDensity::from_value(2.5);
+		before.hydro.values()[i].auxiliary() = units::Density::from_value(0.7);
 		before.density.values()[i] = units::Density::from_value(17);
 	});
 	FieldFluxPacket<hydro::ConservedFlux> gasFlux;
@@ -65,6 +72,7 @@ void check() {
 	gasFace.mass() = units::MassFlux::from_value(4);
 	gasFace.momentum(0) = units::MomentumFlux::from_value(7);
 	gasFace.energy() = units::EnergyFlux::from_value(9);
+	gasFace.auxiliary() = units::MassFlux::from_value(3);
 	gasFlux.fluxes = {{gasFace}};
 	FieldFluxPacket<radiation::RadiationSystem::Flux> radFlux;
 	radiation::RadiationSystem::Flux radFace{};
@@ -91,6 +99,11 @@ void check() {
 		restored.verification.absoluteTolerance == c.verification.absoluteTolerance);
 	EXPECT_TRUE(before.time == after.time && before.cellWidth == after.cellWidth && before.lower == after.lower);
 	EXPECT_EQ(restored.hydro.acceleration, c.hydro.acceleration);
+	EXPECT_EQ(restored.hydro.dualEnergy.enabled, c.hydro.dualEnergy.enabled);
+	EXPECT_EQ(restored.hydro.dualEnergy.exponent, c.hydro.dualEnergy.exponent);
+	EXPECT_EQ(restored.hydro.dualEnergy.pressureThreshold, c.hydro.dualEnergy.pressureThreshold);
+	EXPECT_EQ(restored.hydro.dualEnergy.syncThreshold, c.hydro.dualEnergy.syncThreshold);
+	EXPECT_EQ(restored.hydro.meanMolecularWeight, c.hydro.meanMolecularWeight);
 	EXPECT_EQ(restored.amr.refineDensity, c.amr.refineDensity);
 	EXPECT_EQ(restored.star.radius, c.star.radius);
 	EXPECT_EQ(restored.star.center, c.star.center);
@@ -101,6 +114,20 @@ void check() {
 	EXPECT_EQ(restored.rayleighTaylor.densityUpper, c.rayleighTaylor.densityUpper);
 	EXPECT_EQ(restored.rayleighTaylor.interfacePressure, c.rayleighTaylor.interfacePressure);
 	EXPECT_EQ(restored.rayleighTaylor.perturbation, c.rayleighTaylor.perturbation);
+	EXPECT_EQ(restored.massFractions.enabled, c.massFractions.enabled);
+	ASSERT_EQ(restored.massFractions.species.size(), c.massFractions.species.size());
+	ASSERT_EQ(before.species.size(), after.species.size());
+	for (std::size_t s = 0; s < c.massFractions.species.size(); ++s) {
+		auto const& a = c.massFractions.species[s]; auto const& b = restored.massFractions.species[s];
+		EXPECT_EQ(a.name, b.name); EXPECT_EQ(a.atomicMass, b.atomicMass); EXPECT_EQ(a.atomicNumber, b.atomicNumber);
+		EXPECT_EQ(a.initialFraction, b.initialFraction);
+		ASSERT_EQ(a.mixture.size(), b.mixture.size());
+		for (std::size_t i = 0; i < a.mixture.size(); ++i) {
+			EXPECT_EQ(a.mixture[i].atomicNumber, b.mixture[i].atomicNumber);
+			EXPECT_EQ(a.mixture[i].massFraction, b.mixture[i].massFraction);
+		}
+		EXPECT_EQ(before.species[s].values(), after.species[s].values());
+	}
 	samePatch(before.hydro, after.hydro);
 	samePatch(before.radiation, after.radiation);
 	samePatch(before.gravity, after.gravity);

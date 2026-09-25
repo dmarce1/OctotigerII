@@ -12,13 +12,14 @@ namespace octotigerII {
 class ConservedTotals {
 public:
 	units::Mass mass{};
-	units::Energy gasEnergy{}, radiationEnergy{};
+	units::Energy gasEnergy{}, radiationEnergy{}, potentialEnergy{};
 	std::array<units::Momentum, ndim> momentum{};
 	std::array<units::Quantity<3, 1, -3>, ndim> radiationFlux{};
 
 	ConservedTotals& operator+=(ConservedTotals const& other) {
 		mass += other.mass;
 		gasEnergy += other.gasEnergy;
+		potentialEnergy += other.potentialEnergy;
 		radiationEnergy += other.radiationEnergy;
 		for (int d = 0; d < ndim; ++d) {
 			momentum[d] += other.momentum[d];
@@ -29,7 +30,7 @@ public:
 
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & mass & gasEnergy & radiationEnergy & momentum & radiationFlux;
+		archive & mass & gasEnergy & radiationEnergy & potentialEnergy & momentum & radiationFlux;
 	}
 };
 

@@ -16,6 +16,12 @@ namespace octotigerII {
 class FieldDirectory {
 public:
 	storage::ColumnHandle<hydro::ConservedState> hydro;
+	std::vector<storage::FieldHandle<units::Density>> species;
+	std::vector<storage::FieldHandle<units::MassFlux>> speciesFlux;
+	storage::FieldHandle<units::MassFlux> massFlux;
+	storage::FieldHandle<units::VelocitySquared> oldPotential;
+	storage::ColumnHandle<gravity::State> oldGravity;
+	storage::FieldHandle<units::EnergyDensity> gravityKickWork;
 	storage::ColumnHandle<radiation::RadiationSystem::State> radiation;
 	storage::ColumnHandle<gravity::State> gravity;
 	storage::FieldHandle<units::Density> density;
@@ -25,6 +31,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
+		archive & species & speciesFlux & massFlux & oldPotential & oldGravity & gravityKickWork;
 		archive & hydro & radiation & gravity & density & hydroFlux & radiationFlux;
 	}
 };
@@ -36,8 +43,30 @@ class FieldRepository {
 public:
 	FieldRepository(Config const& config, storage::Layout const& layout, std::vector<storage::Locality> const& localities)
 	  : store_(localities) {
+		if (config.massFractions.enabled) {
+			for (auto const& s : config.massFractions.species) {
+				species_.push_back(std::make_unique<storage::Field<units::Density>>(layout, store_, 2, "massFractions." + s.name));
+				directory_.species.push_back(species_.back()->handle());
+			}
+		}
+		if (config.hydroEnabled() && (config.massFractions.enabled || config.gravityEnabled())) {
+			storage::Layout faceLayout(std::vector<std::size_t>(layout.ranges().size(), allFaceCount(config.mesh.cells)), localities.size());
+			massFlux_ = std::make_unique<storage::Field<units::MassFlux>>(faceLayout, store_, 1, "hydro.massFlux");
+			directory_.massFlux = massFlux_->handle();
+		}
+		if (config.hydroEnabled() && config.gravityEnabled()) {
+			oldGravity_ = std::make_unique<storage::ColumnFields<gravity::State>>(layout, store_, "gravity.old");
+			gravityKickWork_ = std::make_unique<storage::Field<units::EnergyDensity>>(layout, store_, 1, "gravity.kickWork");
+			directory_.oldGravity = oldGravity_->handle();
+			directory_.oldPotential = std::get<0>(directory_.oldGravity.fields);
+			directory_.gravityKickWork = gravityKickWork_->handle();
+		}
 		if (config.amr.enabled) {
 			storage::Layout fluxLayout(std::vector<std::size_t>(layout.ranges().size(), boundaryFluxCount(config.mesh.cells)), localities.size());
+			for (auto const& s : config.massFractions.species) if (config.massFractions.enabled) {
+				speciesFlux_.push_back(std::make_unique<storage::Field<units::MassFlux>>(fluxLayout, store_, 1, "massFractions.boundaryFlux." + s.name));
+				directory_.speciesFlux.push_back(speciesFlux_.back()->handle());
+			}
 			if (build::hydro && config.hydroEnabled()) {
 				hydroFlux_ = std::make_unique<storage::ColumnFields<hydro::ConservedFlux>>(fluxLayout, store_, "hydro.boundaryFlux");
 				directory_.hydroFlux = hydroFlux_->handle();
@@ -48,8 +77,11 @@ public:
 			}
 		}
 		if (build::hydro && config.hydroEnabled()) {
-			hydro_ = std::make_unique<storage::ColumnFields<hydro::ConservedState>>(layout, store_, "hydro");
+			hydro_ = std::make_unique<storage::ColumnFields<hydro::ConservedState>>(layout, store_, "hydro", config.massFractions.enabled);
 			directory_.hydro = hydro_->handle();
+			if (config.massFractions.enabled)
+				for (std::size_t s = 0; s < config.massFractions.species.size(); ++s)
+					if (!config.massFractions.species[s].tracer()) std::get<0>(directory_.hydro.fields).sumSources.push_back(directory_.species[s]);
 		}
 		if (build::radiation && config.radiationEnabled()) {
 			radiation_ = std::make_unique<storage::ColumnFields<radiation::RadiationSystem::State>>(layout, store_, "radiation");
@@ -71,6 +103,11 @@ public:
 	}
 
 private:
+	std::vector<std::unique_ptr<storage::Field<units::Density>>> species_;
+	std::vector<std::unique_ptr<storage::Field<units::MassFlux>>> speciesFlux_;
+	std::unique_ptr<storage::Field<units::MassFlux>> massFlux_;
+	std::unique_ptr<storage::ColumnFields<gravity::State>> oldGravity_;
+	std::unique_ptr<storage::Field<units::EnergyDensity>> gravityKickWork_;
 	storage::PartitionSet store_;
 	FieldDirectory directory_;
 	std::unique_ptr<storage::ColumnFields<hydro::ConservedState>> hydro_;

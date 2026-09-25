@@ -93,6 +93,9 @@ TYPED_TEST(FiniteVolume, NonuniformPeriodicEvolutionConservesEveryComponent) {
 			after += patch.atInterior(cell);
 		});
 		before.forEach([&](auto f, auto q) {
+			// Entropy is explicitly synchronized; Euler conserved fields still
+			// obey flux conservation. Separate dual-energy tests disable sync.
+			if constexpr (std::is_same_v<TypeParam, hydro::HydroSystem> && int(f) == ndim + 2) return;
 			EXPECT_LE(units::abs(after.template get<f>() - q), 2e-12 * norm.template get<f>()) << "component " << int(f);
 		});
 	}

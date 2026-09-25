@@ -22,7 +22,7 @@ void validateProblem(Config const&) {}
 
 void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool refinementProbe) {
 	if constexpr (build::hydro) {
-		hydro::HydroSystem gas(c.hydro.gamma);
+		hydro::HydroSystem gas(c.hydro);
 		hydro::PrimitiveState primitive{};
 		primitive.density() = units::Density::from_value(1e-10);
 		primitive.pressure() = units::Pressure::from_value(1e2);

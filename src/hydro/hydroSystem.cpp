@@ -11,14 +11,77 @@
 
 namespace octotigerII::hydro {
 
-HydroSystem::HydroSystem(Real adiabaticIndex, units::Density densityFloor, units::Pressure pressureFloor)
-  : adiabaticIndex_(adiabaticIndex)
+namespace {
+	// Logarithmic arithmetic avoids intermediate powers overflowing even when
+	// their final product is representable. Long double also handles tiny alpha.
+	Real positiveExp(long double logarithm) {
+		if (!std::isfinite(logarithm) || logarithm < std::log(static_cast<long double>(std::numeric_limits<Real>::min())) ||
+			logarithm > std::log(static_cast<long double>(std::numeric_limits<Real>::max())))
+			throw std::runtime_error("Dual-energy value outside the positive floating-point range; choose a less extreme exponent");
+		return static_cast<Real>(std::exp(logarithm));
+	}
+}
+
+HydroSystem::HydroSystem(Real adiabaticIndex, units::Density densityFloor, units::Pressure pressureFloor,
+	DualEnergyOptions dualEnergy, Real meanMolecularWeight)
+  : dualEnergy_(dualEnergy)
+  , meanMolecularWeight_(meanMolecularWeight)
+  , adiabaticIndex_(adiabaticIndex)
   , densityFloor_(densityFloor)
   , pressureFloor_(pressureFloor) {
+	dualEnergy_.validate();
+	if (!std::isfinite(meanMolecularWeight_) || !(meanMolecularWeight_ > 0))
+		throw std::invalid_argument("Mean molecular weight must be finite and positive");
 	if (!(adiabaticIndex_ > 1) || !std::isfinite(adiabaticIndex_) || !(densityFloor_ > units::Density{}) || !units::finite(densityFloor_) ||
 		!(pressureFloor_ > units::Pressure{}) || !units::finite(pressureFloor_)) {
 		throw std::invalid_argument("Hydro EOS must have finite gamma > 1 and finite positive floors");
 	}
+}
+
+HydroSystem::HydroSystem(Config::HydroOptions const& options)
+  : HydroSystem(options.gamma, units::Density::from_value(1e-14), units::Pressure::from_value(1e-14), options.dualEnergy, options.meanMolecularWeight) {}
+
+units::Density HydroSystem::auxiliaryFromInternalEnergy(units::Density rho, units::EnergyDensity u) const {
+	if (!(rho > units::Density{}) || !(u > units::EnergyDensity{}) || !units::finite(rho) || !units::finite(u))
+		throw std::invalid_argument("Dual energy requires finite positive density and internal energy");
+	long double const logRho = std::log(static_cast<long double>(units::value(rho)));
+	long double const logU = std::log(static_cast<long double>(units::value(u)));
+	return units::Density::from_value(positiveExp(logRho + static_cast<long double>(dualEnergy_.exponent) * (logU - adiabaticIndex_ * logRho)));
+}
+
+units::EnergyDensity HydroSystem::internalEnergyFromAuxiliary(State const& state) const {
+	if (!(state.density() > units::Density{}) || !(state.auxiliary() > units::Density{}) ||
+		!units::finite(state.density()) || !units::finite(state.auxiliary()))
+		throw std::invalid_argument("Dual energy requires finite positive density and auxiliary density");
+	long double const logRho = std::log(static_cast<long double>(units::value(state.density())));
+	long double const logA = std::log(static_cast<long double>(units::value(state.auxiliary())));
+	return units::EnergyDensity::from_value(positiveExp(adiabaticIndex_ * logRho + (logA - logRho) / dualEnergy_.exponent));
+}
+
+units::EnergyDensity HydroSystem::internalEnergy(State const& state) const {
+	auto const thermal = totalInternalEnergy(state);
+	if (!dualEnergy_.enabled || (state.totalEnergy() > units::EnergyDensity{} && thermal > dualEnergy_.pressureThreshold * state.totalEnergy()))
+		return thermal;
+	try {
+		return internalEnergyFromAuxiliary(state);
+	} catch (std::exception const&) {
+		// Trial states in slope/flux limiters must fail admissibility rather
+		// than aborting the search for a usable conservative update.
+		return units::EnergyDensity::from_value(-std::numeric_limits<Real>::infinity());
+	}
+}
+
+units::Temperature HydroSystem::temperature(State const& state) const {
+	if (!admissible(state)) throw std::runtime_error("Cannot compute temperature of an inadmissible hydro state");
+	return pressure(state) * (meanMolecularWeight_ * constants::atomicMassUnit) / (state.density() * constants::boltzmann);
+}
+
+void HydroSystem::synchronize(State& state) const {
+	if (!dualEnergy_.enabled) return;
+	auto const thermal = totalInternalEnergy(state);
+	if (state.totalEnergy() > units::EnergyDensity{} && units::finite(thermal) &&
+		thermal > dualEnergy_.syncThreshold * state.totalEnergy() && (adiabaticIndex_ - 1) * thermal >= pressureFloor_)
+		state.auxiliary() = auxiliaryFromInternalEnergy(state.density(), thermal);
 }
 
 Real HydroSystem::adiabaticIndex() const {
@@ -35,6 +98,7 @@ PrimitiveState HydroSystem::reconstructionVariables(ConservedState const& state)
 		result.setVelocity(axis, state.momentum(axis) / state.density());
 	}
 	result.setPressure(pressure(state));
+	result.auxiliary() = state.auxiliary() / state.density();
 	return result;
 }
 
@@ -53,6 +117,13 @@ ConservedState HydroSystem::conservedState(PrimitiveState const& state) const {
 		speedSquared += state.velocity(axis) * state.velocity(axis);
 	}
 	result.setTotalEnergy(state.pressure() / (adiabaticIndex_ - 1) + Real(0.5) * state.density() * speedSquared);
+	if (!units::finite(state.auxiliary()) || state.auxiliary() < units::Dimensionless{})
+		throw std::invalid_argument("Primitive auxiliary entropy must be finite and nonnegative");
+	// Zero is an initialization marker only in primitives, never in an enabled
+	// conserved state. Reconstruction retains A/rho independently of pressure.
+	if (dualEnergy_.enabled)
+		result.auxiliary() = state.auxiliary() == units::Dimensionless{} ?
+			auxiliaryFromInternalEnergy(state.density(), state.pressure() / (adiabaticIndex_ - 1)) : state.density() * state.auxiliary();
 	return result;
 }
 
@@ -61,6 +132,7 @@ ConservedFlux HydroSystem::physicalFlux(ConservedState const& state, int normal)
 	auto const normalVelocity = primitive.velocity(normal);
 	ConservedFlux result;
 	result.setMass(state.density() * normalVelocity);
+	result.auxiliary() = state.auxiliary() * normalVelocity;
 	for (int axis = 0; axis < ndim; ++axis) {
 		result.setMomentum(axis, state.momentum(axis) * normalVelocity + (axis == normal ? primitive.pressure() : units::Pressure{}));
 	}
@@ -108,6 +180,7 @@ ConservedFlux HydroSystem::riemann(ConservedState const& left, ConservedState co
 		}
 		ConservedState star;
 		star.setDensity(primitive.density() * waveDifference / starDifference);
+		star.auxiliary() = state.auxiliary() * (star.density() / state.density());
 		for (int axis = 0; axis < ndim; ++axis) {
 			auto const velocity = axis == normal ? contactSpeed : primitive.velocity(axis);
 			star.setMomentum(axis, star.density() * velocity);
@@ -150,7 +223,14 @@ units::Velocity HydroSystem::maximumSignalSpeed(ConservedState const& state, int
 
 bool HydroSystem::admissible(ConservedState const& state) const {
 	if (!finite(state)) return false;
-	return state.density() >= densityFloor_ && pressure(state) >= pressureFloor_;
+	if (!(state.density() >= densityFloor_)) return false;
+	// Conservative gravity work can undershoot E in a dilute atmosphere.
+	// With dual energy, thermodynamics comes from the positive entropy auxiliary
+	// in that regime; do not clip E and destroy the gas-plus-gravity balance.
+	if (!dualEnergy_.enabled && !(state.totalEnergy() > units::EnergyDensity{})) return false;
+	if (dualEnergy_.enabled && !(state.auxiliary() > units::Density{})) return false;
+	auto const p = pressure(state);
+	return units::finite(p) && p >= pressureFloor_;
 }
 
 ConservedState HydroSystem::correctRoundoff(ConservedState state, State const& updateScale) const {
@@ -191,6 +271,10 @@ ConservedFlux HydroSystem::limitFlux(
 }
 
 units::Pressure HydroSystem::pressure(ConservedState const& state) const {
+	return (adiabaticIndex_ - 1) * internalEnergy(state);
+}
+
+units::EnergyDensity HydroSystem::totalInternalEnergy(ConservedState const& state) const {
 	if (!(state.density() > units::Density{}) || !units::finite(state.density())) {
 		return units::Pressure::from_value(-std::numeric_limits<Real>::infinity());
 	}
@@ -198,7 +282,7 @@ units::Pressure HydroSystem::pressure(ConservedState const& state) const {
 	for (int axis = 0; axis < ndim; ++axis) {
 		momentumSquared += state.momentum(axis) * state.momentum(axis);
 	}
-	return (adiabaticIndex_ - 1) * (state.totalEnergy() - Real(0.5) * momentumSquared / state.density());
+	return state.totalEnergy() - Real(0.5) * momentumSquared / state.density();
 }
 
 ConservedFlux HydroSystem::hll(ConservedState const& left, ConservedState const& right, int normal) const {
@@ -226,6 +310,7 @@ ConservedFlux HydroSystem::advectiveFlux(ConservedState const& state, units::Vel
 	for (int axis = 0; axis < ndim; ++axis)
 		result.setMomentum(axis, state.momentum(axis) * speed);
 	result.setEnergy(state.totalEnergy() * speed);
+	result.auxiliary() = state.auxiliary() * speed;
 	return result;
 }
 
@@ -235,6 +320,7 @@ ConservedState HydroSystem::integratedFlux(ConservedFlux const& flux, units::Tim
 	for (int axis = 0; axis < ndim; ++axis)
 		result.setMomentum(axis, flux.momentum(axis) * factor);
 	result.setTotalEnergy(flux.energy() * factor);
+	result.auxiliary() = flux.auxiliary() * factor;
 	return result;
 }
 }	 // namespace octotigerII::hydro

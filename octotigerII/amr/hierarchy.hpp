@@ -18,6 +18,7 @@ public:
 		radiation::RadiationSystem::State radiation;
 		gravity::State gravity;
 		units::Density density{};
+		std::vector<units::Density> species;
 		Values& operator+=(Values const& other);
 		Values operator*(Real weight) const;
 	};

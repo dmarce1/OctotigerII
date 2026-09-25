@@ -464,6 +464,12 @@ private:
 				fields_.density.commit(segment.range, bank ^ 1, next);
 			}
 			if (build::radiation && config_.radiationEnabled()) copy(fields_.radiation, segment.range, bank);
+			for (auto const& field : fields_.species) {
+				auto input = field.read(segment.range, bank).get();
+				auto output = field.output(segment.range, bank ^ 1);
+				std::copy_n(input.data(), segment.range.count, output.data());
+				field.commit(segment.range, bank ^ 1, output);
+			}
 		});
 		std::uint64_t leaves = 0;
 		for (auto const& segment : segments_)

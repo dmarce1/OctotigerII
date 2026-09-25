@@ -73,6 +73,12 @@ public:
 	/// Internal energy is preserved; physical time is unchanged by this substep.
 	void kickGravity(units::Time dt);
 
+	/// Retain endpoint gravity and start accounting for the two kinetic-work kicks.
+	void beginGravityEnergy();
+	/// Replace those kicks' self-gravity work with conservative mass-flux work.
+	/// Call after transport, the new gravity solve, and the second momentum kick.
+	void finishGravityEnergy(units::Time dt);
+
 	/// Return the number of represented elements or blocks.
 	std::size_t size() const;
 

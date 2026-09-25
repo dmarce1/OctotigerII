@@ -24,11 +24,12 @@ public:
 	units::Length cellWidth{};
 	storage::Range interior;
 	storage::Range boundaryFlux;
+	storage::Range massFlux;
 
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & id & location & layout & cellWidth & interior & boundaryFlux;
+		archive & id & location & layout & cellWidth & interior & boundaryFlux & massFlux;
 		for (auto& coordinate : lower)
 			archive & coordinate;
 	}
@@ -144,8 +145,21 @@ private:
 	std::vector<Subgrid> blocks_;
 };
 
+std::size_t allFaceCount(int cells);
+std::size_t allFaceIndex(mesh::MeshLayout const&, int axis, mesh::Coordinates const& face);
 std::size_t boundaryFluxCount(int cells);
 std::size_t boundaryFluxIndex(int cells, int axis, bool upper, mesh::Coordinates const& cell);
+
+/// One boundary subface for conservative gravity work. Fine fluxes are used
+/// on both sides of an AMR interface; weight is area relative to this cell face.
+struct GravityWorkFace {
+	std::size_t cell = 0;
+	int axis = 0, sign = 1;
+	Real areaFraction = 1, potentialFraction = 0.5;
+	storage::Range neighbor, massFlux;
+	bool physical = false;
+};
+std::vector<GravityWorkFace> makeGravityWorkPlan(Config const&, std::vector<Subgrid> const&, std::size_t block);
 
 class FluxCorrection {
 public:

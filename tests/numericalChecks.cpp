@@ -65,9 +65,9 @@ State sum(std::vector<State> const& values) {
 	return total;
 }
 
-void reportScheduling(Runtime const& runtime) {
+void reportScheduling(Runtime const& runtime, bool hydro) {
 	auto const statistics = runtime.statistics();
-	EXPECT_TRUE(statistics.localTasks + statistics.stolenTasks == 2 * runtime.size() * runtime.generation()) << "Transport tasks missing or duplicated";
+	EXPECT_TRUE(statistics.localTasks + statistics.stolenTasks == (hydro ? 3 : 2) * runtime.size() * runtime.generation()) << "Transport tasks missing or duplicated";
 	std::cout << "  Scheduling: " << statistics.localTasks << " local, " << statistics.stolenTasks << " stolen tasks\n";
 }
 
@@ -153,7 +153,7 @@ void compareTransport(char const* problem, Select select, Admissible admissible)
 			final[i].forEach([&](auto f, auto q) { close(q, final[i % plane].template get<f>(), 3e-12, "Extruded problem developed transverse structure"); });
 	}
 	std::cout << fine.problem << ' ' << ndim << "D decomposition and admissibility passed\n";
-	reportScheduling(*a);
+	reportScheduling(*a, fine.hydroEnabled());
 }
 
 #if OCTOTIGERII_RADIATION
@@ -175,7 +175,7 @@ TEST(Transport, StreamingProfileAtFullAndReducedLightSpeed) {
 TEST(Transport, HydroDecompositionConservationAndAdmissibility) {
 	auto const c = test::parseConfig({});
 	compareTransport<hydro::ConservedState>("sod", [](Snapshot const& s, std::size_t i) { return s.hydro.values()[i]; },
-		[&](auto const& state) { return hydro::HydroSystem(c.hydro.gamma).admissible(state); });
+		[&](auto const& state) { return hydro::HydroSystem(c.hydro).admissible(state); });
 }
 #endif
 
@@ -197,8 +197,8 @@ TEST(Transport, GravityKickPreservesInternalEnergy) {
 			for (int axis = 0; axis < ndim; ++axis)
 				close(after.hydro.values()[i].momentum(axis),
 					before.hydro.values()[i].momentum(axis) + before.hydro.values()[i].density() * dt * gravity.acceleration(axis), 1e-14, "Gravity impulse");
-			close(hydro::HydroSystem(c.hydro.gamma).reconstructionVariables(after.hydro.values()[i]).pressure(),
-				hydro::HydroSystem(c.hydro.gamma).reconstructionVariables(before.hydro.values()[i]).pressure(), 1e-14, "Kick internal energy");
+			close(hydro::HydroSystem(c.hydro).reconstructionVariables(after.hydro.values()[i]).pressure(),
+				hydro::HydroSystem(c.hydro).reconstructionVariables(before.hydro.values()[i]).pressure(), 1e-14, "Kick internal energy");
 		});
 }
 #endif

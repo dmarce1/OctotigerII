@@ -112,7 +112,7 @@ void normsAndPolicy() {
 		auto const q = ref.evaluate(patch.layout.cellCenter(patch.lower, patch.cellWidth, cell), {});
 		if constexpr (test::gravity) patch.gravity.values()[i] = q.gravity;
 #if OCTOTIGERII_HYDRO
-		patch.hydro.values()[i] = hydro::HydroSystem(c.hydro.gamma).conservedState(q.hydro);
+		patch.hydro.values()[i] = hydro::HydroSystem(c.hydro).conservedState(q.hydro);
 #endif
 		if constexpr (test::radiation) patch.radiation.values()[i] = q.radiation;
 	});

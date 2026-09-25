@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 #include "octotigerII/buildConfig.hpp"
+#include "octotigerII/hydro/dualEnergy.hpp"
+#include "octotigerII/composition/species.hpp"
 #include "octotigerII/physics/boundary.hpp"
 #include "octotigerII/units/constants.hpp"
 
@@ -19,6 +21,7 @@ namespace octotigerII {
 /// @ingroup runtime
 class Config {
 public:
+	composition::Options massFractions;
 	std::string problem;
 	std::int64_t randomSeed = 5489;
 
@@ -74,11 +77,13 @@ public:
 	class HydroOptions {
 	public:
 		Real gamma = 1.4;
+		Real meanMolecularWeight = 1;
+		hydro::DualEnergyOptions dualEnergy;
 		std::array<units::Acceleration, ndim> acceleration{};
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & gamma;
+			archive & gamma & meanMolecularWeight & dualEnergy;
 			for (auto& component : acceleration)
 				archive & component;
 		}
@@ -171,7 +176,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & problem & randomSeed & mesh & amr & runtime & timestep & hydro & rayleighTaylor & star & radiation & gravity & output & verification;
+		archive & massFractions & problem & randomSeed & mesh & amr & runtime & timestep & hydro & rayleighTaylor & star & radiation & gravity & output & verification;
 	}
 };
 
