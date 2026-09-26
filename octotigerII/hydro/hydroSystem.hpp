@@ -55,20 +55,22 @@ public:
 	/// a positive value preserves independently reconstructed A/rho.
 	State conservedState(PrimitiveState const&) const;
 
-	/// Return the Euler flux normal to an axis in [0, ndim).
-	Flux physicalFlux(State const&, int normal) const;
+	/// Return the inertial Euler ALE flux F_n-w_n U, using components along the face axes.
+	Flux physicalFlux(State const&, int normal, units::Velocity faceSpeed = {}) const;
 
-	/// Return the HLLC face flux, falling back to HLL for degenerate or inadmissible star states.
-	Flux riemann(State const&, State const&, int normal) const;
+	/// Sample HLLC at the moving face, retaining inertial momentum and energy fluxes.
+	/// Falls back to HLL for degenerate or inadmissible star states.
+	Flux riemann(State const&, State const&, int normal, units::Velocity faceSpeed = {}) const;
 
 	/// Reverse normal momentum while preserving density, tangential momenta, and energy.
 	State reflected(State, int normal) const;
 
-	/// Zero inward normal momentum; copy density, total energy, and tangential momenta.
-	State outflow(State, int normal, bool lower) const;
+	/// Clip inward velocity relative to the face. A moving-face clip preserves internal
+	/// energy; the stationary-face overload retains the established boundary rule.
+	State outflow(State, int normal, bool lower, units::Velocity faceSpeed = {}) const;
 
-	/// Return |v_n| plus the adiabatic sound speed.
-	units::Velocity maximumSignalSpeed(State const&, int normal) const;
+	/// Return |v_n-w_n| plus the adiabatic sound speed.
+	units::Velocity maximumSignalSpeed(State const&, int normal, units::Velocity faceSpeed = {}) const;
 
 	/// Require finite state values and density/pressure at or above the configured floors.
 	bool admissible(State const&) const;
@@ -79,7 +81,7 @@ public:
 	/// Blend toward a first-order local Lax–Friedrichs flux when needed.
 	/// A common face coefficient preserves conservative flux sharing. Related idea:
 	/// @ref ref_hu2013 "Hu et al. (2013)"; this implementation selects it by bisection.
-	Flux limitFlux(State const&, State const&, Flux const&, int normal, units::TimePerLength stepOverCellWidth) const;
+	Flux limitFlux(State const&, State const&, Flux const&, int normal, units::TimePerLength stepOverCellWidth, units::Velocity faceSpeed = {}) const;
 
 	/// Multiply a face-flux difference by Δt/Δx to obtain a typed state increment.
 	static State integratedFlux(Flux const&, units::TimePerLength);

@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <string>
 #include "octotigerII/mesh.hpp"
+#include "octotigerII/physics/frame.hpp"
 
 
 namespace octotigerII::physics {
@@ -159,6 +160,29 @@ typename System::State transformBoundary(
 		if (outflowUpper & (1u << axis)) state = system.outflow(state, axis, false);
 	}
 	return reflectBoundary(state, reflections, system);
+}
+
+/// Free boundaries on a rotating grid. Gas leaves relative to the moving face.
+/// Radiation sees an exterior vacuum: the moving-face Riemann solver selects
+/// the incoming characteristics without violating the physical radiation cone.
+template <typename System>
+typename System::State transformBoundary(typename System::State state, unsigned reflections,
+	unsigned outflowLower, unsigned outflowUpper, System const& system, RotatingFrame const& frame,
+	mesh::PhysicalCoordinates const& position, units::Time time) {
+	if (!frame.active()) return transformBoundary(state, reflections, outflowLower, outflowUpper, system);
+	if (!(reflections | outflowLower | outflowUpper)) return state;
+	if (reflections) throw std::invalid_argument("Rotating grids support only free boundaries");
+	if constexpr (requires { system.adiabaticIndex(); }) {
+		state = frame.toGridState(state, time);
+		for (int axis = 0; axis < ndim; ++axis) {
+			auto const speed = frame.normalSpeed(position, axis);
+			if (outflowLower & (1u << axis)) state = system.outflow(state, axis, true, speed);
+			if (outflowUpper & (1u << axis)) state = system.outflow(state, axis, false, speed);
+		}
+		return frame.toInertialState(state, time);
+	} else {
+		return typename System::State{};
+	}
 }
 
 /// Sample prescribed data, rejecting missing functions and invalid physical states.

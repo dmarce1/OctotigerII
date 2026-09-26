@@ -24,7 +24,7 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 	for (auto const& block : snapshots) {
 		if (!units::finite(block.time) || d.time != block.time) throw std::runtime_error("Unsynchronized snapshots");
 		auto const volume = block.layout.cellMeasure(block.cellWidth);
-		block.layout.forEachInterior([&](mesh::Coordinates const&, std::size_t i) {
+		block.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 			if (build::hydro && c.hydroEnabled()) {
 				hydro::HydroSystem gas(c.hydro);
 				auto const& u = block.hydro.values()[i];
@@ -45,6 +45,11 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 					add(d.gasGravityNorm, compensation.gasGravityNorm, units::abs(potential));
 				}
 				d.minimumDensity = std::min(d.minimumDensity, u.density());
+				d.maximumDensity = std::max(d.maximumDensity, u.density());
+				if constexpr (ndim >= 2) {
+					auto const x = physics::RotatingFrame(c.frame.omega).toInertial(block.layout.cellCenter(block.lower, block.cellWidth, cell), d.time);
+					add(d.angularMomentumZ, compensation.angularMomentumZ, volume * (x[0] * u.momentum(1) - x[1] * u.momentum(0)));
+				}
 				d.minimumPressure = std::min(d.minimumPressure, gas.reconstructionVariables(u).pressure());
 				for (int axis = 0; axis < ndim; ++axis) {
 					add(d.momentum[axis], compensation.momentum[axis], volume * u.momentum(axis));
@@ -142,7 +147,7 @@ RunResult run(Config const& c, Observer const& observer) {
 		}
 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
 			throw std::runtime_error("Timestep cannot advance physical time");
-		if (c.hydroEnabled() && c.gravityEnabled() && c.amr.enabled && c.timestep.refinement) {
+		if (c.hydroEnabled() && c.gravityEnabled() && ((c.amr.enabled && c.timestep.refinement) || c.frame.omega != units::InverseTime{})) {
 			countGravity(runtime.advanceGravity(dt));
 		} else {
 			if (c.hydroEnabled() && c.gravityEnabled()) runtime.beginGravityEnergy();

@@ -1,0 +1,45 @@
+[==========] Running 5 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from RotatingGravityWork
+[ RUN      ] RotatingGravityWork.DirectAndMultipoleFullNestedAndRungWorkBalance
+rotation work adaptive=0 opening=0.01 component=0 raw residual=2.29908e-17 balanced residual=-1.00912e-17 local correction=3.86865e-16
+rotation work adaptive=0 opening=0.01 component=1 raw residual=-4.57917e-17 balanced residual=-3.25616e-17 local correction=2.72478e-16
+rotation work adaptive=0 opening=0.01 component=2 raw residual=4.87234e-17 balanced residual=6.53947e-18 local correction=4.72823e-16
+rotation work adaptive=0 opening=0.5 component=0 raw residual=-2.05296e-08 balanced residual=1.45145e-16 local correction=2.15653e-06
+rotation work adaptive=0 opening=0.5 component=1 raw residual=8.23179e-08 balanced residual=6.16985e-17 local correction=1.76606e-06
+rotation work adaptive=0 opening=0.5 component=2 raw residual=-7.05574e-08 balanced residual=1.41286e-16 local correction=2.30523e-06
+rotation work adaptive=1 opening=0.01 component=0 raw residual=-5.8286e-17 balanced residual=-1.95891e-17 local correction=4.09794e-16
+rotation work adaptive=1 opening=0.01 component=1 raw residual=4.30711e-18 balanced residual=1.21862e-17 local correction=2.43912e-16
+rotation work adaptive=1 opening=0.01 component=2 raw residual=-6.98215e-17 balanced residual=-2.4009e-17 local correction=4.5962e-16
+rotation work adaptive=1 opening=0.5 component=0 raw residual=-7.84697e-08 balanced residual=-2.13644e-18 local correction=2.74591e-06
+rotation work adaptive=1 opening=0.5 component=1 raw residual=2.12082e-07 balanced residual=1.75667e-18 local correction=3.43685e-06
+rotation work adaptive=1 opening=0.5 component=2 raw residual=-1.50348e-07 balanced residual=-1.05454e-18 local correction=2.88638e-06
+[       OK ] RotatingGravityWork.DirectAndMultipoleFullNestedAndRungWorkBalance (1887 ms)
+[----------] 1 test from RotatingGravityWork (1887 ms total)
+
+[----------] 4 tests from RotatingGravityIntegration
+[ RUN      ] RotatingGravityIntegration.GlobalAndRefinedModesConserveWithEitherRotationSign
+rotating gravity mode=global omega=-0.1
+rotating gravity mode=global omega=0.1
+rotating gravity mode=hierarchical omega=-0.1
+rotating gravity mode=hierarchical omega=0.1
+rotating gravity mode=conventional omega=-0.1
+rotating gravity mode=conventional omega=0.1
+[       OK ] RotatingGravityIntegration.GlobalAndRefinedModesConserveWithEitherRotationSign (60991 ms)
+[ RUN      ] RotatingGravityIntegration.RefineAndCoarsenPreserveEnergy
+[       OK ] RotatingGravityIntegration.RefineAndCoarsenPreserveEnergy (20719 ms)
+[ RUN      ] RotatingGravityIntegration.NaiveWorkRemainsIndependent
+[       OK ] RotatingGravityIntegration.NaiveWorkRemainsIndependent (4427 ms)
+[ RUN      ] RotatingGravityIntegration.TemporalConvergence
+rotating hierarchical temporal component=0 errors=7.56804e-07,1.83252e-07,4.31881e-08 orders=2.04609,2.08513
+rotating hierarchical temporal component=1 errors=0.000287242,6.93771e-05,1.63937e-05 orders=2.04974,2.08132
+rotating hierarchical temporal component=2 errors=1.26316e-06,3.05821e-07,7.2069e-08 orders=2.04627,2.08524
+rotating conventional temporal component=0 errors=7.56777e-07,1.83247e-07,4.31868e-08 orders=2.04608,2.08513
+rotating conventional temporal component=1 errors=0.000287156,6.93568e-05,1.63889e-05 orders=2.04973,2.08132
+rotating conventional temporal component=2 errors=1.26312e-06,3.05812e-07,7.20669e-08 orders=2.04627,2.08524
+[       OK ] RotatingGravityIntegration.TemporalConvergence (420181 ms)
+[----------] 4 tests from RotatingGravityIntegration (506319 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 2 test suites ran. (508207 ms total)
+[  PASSED  ] 5 tests.

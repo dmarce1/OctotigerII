@@ -31,12 +31,24 @@ RadiationSystem::State RadiationSystem::conservedState(Reconstruction const& sta
 	return fromCalculationState(state);
 }
 
-RadiationSystem::Flux RadiationSystem::physicalFlux(State const& state, int normal) const {
-	return fromCalculationFlux(Method::physicalFlux(toCalculationState(state), normal, reducedLightSpeed_).flux);
+RadiationSystem::Flux RadiationSystem::physicalFlux(State const& state, int normal, units::Velocity faceSpeed) const {
+	auto result = fromCalculationFlux(Method::physicalFlux(toCalculationState(state), normal, reducedLightSpeed_).flux);
+	if (faceSpeed != units::Velocity{}) result -= advectiveFlux(state, faceSpeed);
+	return result;
 }
 
-RadiationSystem::Flux RadiationSystem::riemann(State const& left, State const& right, int normal) const {
-	return fromCalculationFlux(Method::hll(toCalculationState(left), toCalculationState(right), normal, reducedLightSpeed_));
+RadiationSystem::Flux RadiationSystem::riemann(State const& left, State const& right, int normal, units::Velocity faceSpeed) const {
+	if (faceSpeed == units::Velocity{})
+		return fromCalculationFlux(Method::hll(toCalculationState(left), toCalculationState(right), normal, reducedLightSpeed_));
+	// Only the integration surface moves: E and F retain their inertial meaning.
+	auto const ul = Method::canonical(toCalculationState(left)), ur = Method::canonical(toCalculationState(right));
+	auto l = Method::physicalFlux(ul, normal, reducedLightSpeed_), r = Method::physicalFlux(ur, normal, reducedLightSpeed_);
+	auto const sm = std::min(l.minus, r.minus) - faceSpeed, sp = std::max(l.plus, r.plus) - faceSpeed;
+	l.flux -= faceSpeed * ul;
+	r.flux -= faceSpeed * ur;
+	if (sm >= units::Velocity{}) return fromCalculationFlux(l.flux);
+	if (sp <= units::Velocity{}) return fromCalculationFlux(r.flux);
+	return fromCalculationFlux(Real(sp / (sp - sm)) * (l.flux - sm * ul) - Real(sm / (sp - sm)) * (r.flux - sp * ur));
 }
 
 RadiationSystem::State RadiationSystem::reflected(State state, int normal) const {
@@ -50,9 +62,9 @@ RadiationSystem::State RadiationSystem::outflow(State state, int normal, bool lo
 	return state;
 }
 
-units::Velocity RadiationSystem::maximumSignalSpeed(State const& state, int normal) const {
+units::Velocity RadiationSystem::maximumSignalSpeed(State const& state, int normal, units::Velocity faceSpeed) const {
 	auto const waves = Method::physicalFlux(toCalculationState(state), normal, reducedLightSpeed_);
-	return std::max(units::abs(waves.minus), units::abs(waves.plus));
+	return std::max(units::abs(waves.minus - faceSpeed), units::abs(waves.plus - faceSpeed));
 }
 
 bool RadiationSystem::admissible(State const& state) const {
@@ -64,12 +76,12 @@ RadiationSystem::State RadiationSystem::correctRoundoff(State state, State const
 }
 
 RadiationSystem::Flux RadiationSystem::limitFlux(
-	State const& left, State const& right, Flux const& highOrderFlux, int normal, units::TimePerLength stepOverCellWidth) const {
+	State const& left, State const& right, Flux const& highOrderFlux, int normal, units::TimePerLength stepOverCellWidth, units::Velocity faceSpeed) const {
 	if (stepOverCellWidth == units::TimePerLength{}) {
 		return highOrderFlux;
 	}
-	Flux const leftPhysical = physicalFlux(left, normal);
-	Flux const rightPhysical = physicalFlux(right, normal);
+	Flux const leftPhysical = physicalFlux(left, normal, faceSpeed);
+	Flux const rightPhysical = physicalFlux(right, normal, faceSpeed);
 	auto const factor = Real(2 * ndim) * stepOverCellWidth;
 	auto const tolerance = Method::roundoff * (left.energy() + right.energy());
 	auto validState = [&](State const& physical) {
@@ -96,7 +108,7 @@ RadiationSystem::Flux RadiationSystem::limitFlux(
 		return highOrderFlux;
 	}
 
-	auto const speed = reducedLightSpeed_ * (Real(1) + Method::roundoff);
+	auto const speed = (reducedLightSpeed_ + units::abs(faceSpeed)) * (Real(1) + Method::roundoff);
 	Flux const lowOrderFlux = Flux(Real(0.5) * (leftPhysical + rightPhysical - advectiveFlux(right - left, speed)));
 	if (!validFlux(lowOrderFlux)) {
 		throw std::runtime_error("First-order M1 flux violates realizability at this timestep");

@@ -58,17 +58,6 @@ private:
 	Values reconstructFrom(mesh::BlockLocation coarse, mesh::BlockLocation fine) const;
 };
 
-class RegridResult {
-public:
-	std::vector<mesh::BlockLocation> leaves;
-	std::size_t refined = 0, coarsened = 0;
-	std::array<units::Velocity, ndim> signalSpeed{};
-	bool changed = false;
-};
-
-RegridResult selectMesh(Config const&, std::vector<Snapshot> const&, Hierarchy const&, units::Time horizon, refinement::Criteria const&,
-	bool allowCoarsening = true, Hierarchy const* restricted = nullptr, bool oneLevel = false);
-
 class InitialMesh {
 public:
 	std::vector<mesh::BlockLocation> leaves;

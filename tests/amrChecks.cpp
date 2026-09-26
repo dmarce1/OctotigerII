@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include <set>
 #include "octotigerII/amr/hierarchy.hpp"
+#include "octotigerII/amr/regridSelection.hpp"
 #include "octotigerII/runtime.hpp"
 #include "octotigerII/simulation.hpp"
 #include "octotigerII/subgrid/view.hpp"

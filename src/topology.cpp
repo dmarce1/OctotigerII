@@ -157,6 +157,10 @@ HaloPlan makeHaloPlan(Config const& config, std::vector<Subgrid> const& blocks, 
 		plan.reflectionMasks.resize(std::max(plan.reflectionMasks.size(), destination + 1));
 		plan.outflowLowerMasks.resize(plan.reflectionMasks.size());
 		plan.outflowUpperMasks.resize(plan.reflectionMasks.size());
+		plan.boundaryPositions.resize(plan.reflectionMasks.size());
+		auto const width = (config.mesh.upper - config.mesh.lower) / Real(1 << cell.level);
+		for (int d = 0; d < ndim; ++d)
+			plan.boundaryPositions[destination][d] = config.mesh.lower + (cell.coordinates[d] + 0.5) * width;
 		plan.reflectionMasks[destination] = mapped.analytic ? 0 : mapped.reflectionMask;
 		plan.outflowLowerMasks[destination] = mapped.analytic ? 0 : mapped.outflowLowerMask;
 		plan.outflowUpperMasks[destination] = mapped.analytic ? 0 : mapped.outflowUpperMask;

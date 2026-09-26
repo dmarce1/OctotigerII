@@ -53,6 +53,7 @@ namespace {
 		options("amr.radiation", po::value<std::string>(), "Use radiation fields for shadow refinement: on/off");
 		options("mesh.lower", po::value<Real>(), "Lower domain coordinate (cm)");
 		options("mesh.upper", po::value<Real>(), "Upper domain coordinate (cm)");
+		options("frame.omega", po::value<Real>(), "Constant grid rotation about z (rad/s; default 0; free boundaries only)");
 		options("mesh.periodic", po::value<std::string>(), "Legacy shorthand: on=all periodic, off=all outflow; per-face settings override");
 		for (int axis = 0; axis < ndim; ++axis)
 			for (auto side : {"Lower", "Upper"}) {
@@ -88,7 +89,7 @@ namespace {
 				auto const key = std::string("star.center.") + "xyz"[d];
 				options(key.c_str(), po::value<Real>(), "Star center coordinate (cm); default is box midpoint");
 			}
-			options("star.radius", po::value<Real>(), "Lane-Emden surface radius (cm)");
+			options("star.radius", po::value<Real>(), "Lane-Emden radius, or rotatingStar model length unit (cm)");
 			options("star.centralDensity", po::value<Real>(), "Central density (g/cm^3)");
 			options("star.polytropicIndex", po::value<Real>(), "Polytropic index: 0 < n < 5 (default 1.5)");
 			options("star.atmosphereFraction", po::value<Real>(), "Ambient density divided by central density (default 1e-8)");
@@ -201,6 +202,7 @@ namespace {
 		readNumber(values, "mesh.upper", upper);
 		config.mesh.lower = units::Length::from_value(lower);
 		config.mesh.upper = units::Length::from_value(upper);
+		readQuantity(values, "frame.omega", config.frame.omega);
 
 		Real stopTime = units::value(config.runtime.stopTime);
 		readNumber(values, "runtime.stopTime", stopTime, "runtime.stop_time");
@@ -277,6 +279,12 @@ void Config::validate() const {
 	if (!hydroEnabled() && hasExternalAcceleration()) throw std::invalid_argument("External acceleration requires hydro");
 	if (ndim != 3 && hasExternalAcceleration()) throw std::invalid_argument("Gravity requires a 3D build");
 	mesh.boundary.validate();
+	if (!units::finite(frame.omega)) throw std::invalid_argument("frame.omega must be finite");
+	if (frame.omega != units::InverseTime{}) {
+		if (ndim < 2) throw std::invalid_argument("Rotation about z requires at least two dimensions");
+		if (!mesh.boundary.all(physics::BoundaryCondition::Outflow))
+			throw std::invalid_argument("A rotating grid requires outflow (free) boundaries on every face");
+	}
 	if (gravityEnabled()) gravity::validateBoundaries(mesh.boundary);
 	validateProblem(*this);
 	if (mesh.cells < 4 || mesh.cells > 128 || (mesh.cells & (mesh.cells - 1)) || mesh.level < 0 || mesh.level > 6)
@@ -348,12 +356,12 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 	};
 	for (auto const& values : files) apply(values);
 	apply(commandValues);
-	if (config.problem == "polytrope") {
+	if (config.problem == "polytrope" || config.problem == "rotatingStar") {
 		if (!lowerSet) config.mesh.lower = -2.0 * config.star.radius;
 		if (!upperSet) config.mesh.upper = 2.0 * config.star.radius;
 		for (int d = 0; d < ndim; ++d)
 			if (!centerSet[d]) config.star.center[d] = (config.mesh.lower + config.mesh.upper) / 2.0;
-		if (!gammaSet) config.hydro.gamma = 1 + 1 / config.star.polytropicIndex;
+		if (!gammaSet) config.hydro.gamma = config.problem == "rotatingStar" ? Real(5) / 3 : 1 + 1 / config.star.polytropicIndex;
 		if (!densitySet) config.amr.refineDensity = 0.01 * config.star.centralDensity;
 	}
 	config.validate();

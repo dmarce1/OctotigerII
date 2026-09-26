@@ -2,7 +2,9 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include <unordered_set>
 #include <vector>
+#include "octotigerII/mesh.hpp"
 #include "octotigerII/output.hpp"
 #include "octotigerII/verification/analytic.hpp"
 #ifdef OCTOTIGERII_WITH_HPX
@@ -21,11 +23,38 @@ int application(std::vector<std::string> const& args) {
 		std::cout << "OctotigerII 0.1.0 | " << octotigerII::Runtime::backend() << " | " << config.problem << " | " << octotigerII::ndim << "D\n";
 		std::cout << std::scientific << std::setprecision(6);
 		octotigerII::Output output(config);
+		bool progressHeaderPrinted = false;
+		int const lastSubgridLevel = config.amr.enabled ? config.amr.maxLevel : config.mesh.level;
 		auto const result = octotigerII::run(config, [&](auto const& snapshots, int step, auto const& d) {
 			output(snapshots, step, d);
-			if (step == 0 || step % config.output.every == 0 || d.time >= config.runtime.stopTime)
-				std::cout << "step=" << step << " time=" << octotigerII::units::value(d.time)
-						  << '\n';
+			if (step == 0 || step % config.output.every == 0 || d.time >= config.runtime.stopTime) {
+				if (!progressHeaderPrinted) {
+					std::cout << std::left << std::setw(8) << "step" << std::setw(16) << "time[s]";
+					for (int level = 0; level <= lastSubgridLevel; ++level)
+						std::cout << std::setw(24) << ("subgrids_L" + std::to_string(level) + "(total/leaf)");
+					std::cout << '\n';
+					progressHeaderPrinted = true;
+				}
+				// Snapshots list active leaves. Add each leaf's ancestors to count all
+				// tree nodes once at their own level, including covered subgrids.
+				std::vector<std::size_t> leaves(static_cast<std::size_t>(lastSubgridLevel + 1));
+				std::vector<std::unordered_set<octotigerII::mesh::BlockLocation,
+					octotigerII::mesh::BlockLocationHash>> allSubgrids(static_cast<std::size_t>(lastSubgridLevel + 1));
+				for (auto const& block : snapshots) {
+					++leaves.at(static_cast<std::size_t>(block.location.level));
+					auto node = block.location;
+					for (;;) {
+						allSubgrids.at(static_cast<std::size_t>(node.level)).insert(node);
+						if (node.level == 0) break;
+						node = node.parent();
+					}
+				}
+				std::cout << std::right << std::setw(8) << step
+						  << std::setw(16) << octotigerII::units::value(d.time);
+				for (std::size_t level = 0; level < allSubgrids.size(); ++level)
+					std::cout << std::setw(24) << (std::to_string(allSubgrids[level].size()) + "/" + std::to_string(leaves[level]));
+				std::cout << '\n';
+			}
 		});
 		auto const comparison = octotigerII::verification::compare(result.snapshots, config);
 		comparison.print(std::cout);

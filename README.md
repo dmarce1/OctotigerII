@@ -10,8 +10,8 @@ The source archive includes the project's Git history.
 One CMake configuration builds `octoII-1d`, `octoII-2d`, and `octoII-3d`.
 `octoII` is a relative symbolic link to `octoII-3d`, in both the build and
 installation directories. Problems are selected at runtime with
-`--problem.name=sod` on the command line. There is no default problem; an input
-file alone does not select one.
+`problem.name=sod` in an INI file or `--problem.name=sod` on the command line.
+There is no default problem; command-line settings override the input file.
 Dimension is fixed by the executable; `--ndim` and `--mesh.ndim` are rejected.
 
 From HOME, with an existing HPX installation:
@@ -48,9 +48,14 @@ See [BUILDING.md](BUILDING.md) for module switches, manifests, dependencies, and
 | `gravity-gaussian` | `gravity_tests/Gaussian` | 3 |
 | `collapse` | `science/Collapse` | 3 |
 | `polytrope` | `science/Polytrope` | 3 |
+| `rotatingStar` | `science/RotatingStar` | 3 |
 
 [Polytrope](docs/polytrope.md) initializes an isolated Lane–Emden star with hydro,
 gravity, a configurable radius and center, and density-based AMR.
+
+[Rotating star](docs/rotating-star.md) imports the original Octo-Tiger oblate SCF
+equilibrium. [Rotating grids](docs/rotating-frame.md) use `frame.omega` in rad/s
+with free boundaries while evolving inertial conserved quantities.
 
 Each directory owns its `CMakeLists.txt`, `problem.cpp`, and `inputs`.
 Sod is planar along x in every dimension; Kelvin–Helmholtz uses x/y and is
@@ -177,6 +182,8 @@ field energy is reported.
 
 See [STORAGE.md](STORAGE.md) for ownership, stage safety, zero-copy behavior,
 and how another topology or particle field can use the same storage API.
+The [source inventory](docs/source-inventory.md) describes every maintained
+source file, including the runtime and AMR implementation boundaries.
 
 Hydro uses primitive PLM reconstruction, HLLC with HLL fallback, and positivity
 limiting. Global and transport-only stepping retain the modular unsplit
@@ -235,10 +242,11 @@ Included: CPU numerics, 1D/2D/3D adaptive Cartesian meshes, per-face periodic/re
 3D gravity with periodic/reflecting images, uniform external acceleration, shared or level-refined timesteps,
 distributed field storage and locality work queues, evolved coarse shadows,
 conservative prolongation/restriction and refluxing, Morton-ordered regridding,
-an independent adaptive FMM octree, and Silo output.
+an independent adaptive FMM octree, rigidly rotating grids with inertial conserved
+quantities, the original rotating-star equilibrium, and Silo output.
 
 Omitted: CUDA, HIP, Kokkos, Vc, CPPuddle, Unitiger, the old FMM, old problems
-and test harnesses, SCF, binary-star setup, rotating frames, composition-dependent/degenerate
+and test harnesses, an SCF equilibrium solver, binary-star setup, composition-dependent/degenerate
 EOS, radiation opacities/coupling/subcycling, temporal AMR, checkpoints,
 and old command-line compatibility.
 

@@ -127,7 +127,7 @@ ConservedState HydroSystem::conservedState(PrimitiveState const& state) const {
 	return result;
 }
 
-ConservedFlux HydroSystem::physicalFlux(ConservedState const& state, int normal) const {
+ConservedFlux HydroSystem::physicalFlux(ConservedState const& state, int normal, units::Velocity faceSpeed) const {
 	PrimitiveState const primitive = reconstructionVariables(state);
 	auto const normalVelocity = primitive.velocity(normal);
 	ConservedFlux result;
@@ -137,10 +137,24 @@ ConservedFlux HydroSystem::physicalFlux(ConservedState const& state, int normal)
 		result.setMomentum(axis, state.momentum(axis) * normalVelocity + (axis == normal ? primitive.pressure() : units::Pressure{}));
 	}
 	result.setEnergy((state.totalEnergy() + primitive.pressure()) * normalVelocity);
+	if (faceSpeed != units::Velocity{}) result -= advectiveFlux(state, faceSpeed);
 	return result;
 }
 
-ConservedFlux HydroSystem::riemann(ConservedState const& left, ConservedState const& right, int normal) const {
+ConservedFlux HydroSystem::riemann(ConservedState const& left, ConservedState const& right, int normal, units::Velocity faceSpeed) const {
+	if (faceSpeed != units::Velocity{}) {
+		// Solve in the face's translating normal frame, then transform the flux
+		// back to inertial momentum and energy. The pressure work is p*v_n.
+		auto boost = [&](ConservedState value) {
+			value.totalEnergy() += -faceSpeed * value.momentum(normal) + Real(0.5) * value.density() * faceSpeed * faceSpeed;
+			value.momentum(normal) -= value.density() * faceSpeed;
+			return value;
+		};
+		auto result = riemann(boost(left), boost(right), normal);
+		result.energy() += faceSpeed * result.momentum(normal) + Real(0.5) * faceSpeed * faceSpeed * result.mass();
+		result.momentum(normal) += faceSpeed * result.mass();
+		return result;
+	}
 	PrimitiveState const leftPrimitive = reconstructionVariables(left);
 	PrimitiveState const rightPrimitive = reconstructionVariables(right);
 	auto const leftSound = units::sqrt(adiabaticIndex_ * leftPrimitive.pressure() / leftPrimitive.density());
@@ -210,15 +224,20 @@ ConservedState HydroSystem::reflected(ConservedState state, int normal) const {
 	return state;
 }
 
-ConservedState HydroSystem::outflow(State state, int normal, bool lower) const {
+ConservedState HydroSystem::outflow(State state, int normal, bool lower, units::Velocity faceSpeed) const {
 	auto& momentum = state.momentum(normal);
-	if (lower ? momentum > units::MomentumDensity{} : momentum < units::MomentumDensity{}) momentum = {};
+	auto const meshMomentum = state.density() * faceSpeed;
+	if (lower ? momentum > meshMomentum : momentum < meshMomentum) {
+		if (faceSpeed != units::Velocity{})
+			state.totalEnergy() += Real(0.5) * (meshMomentum * meshMomentum - momentum * momentum) / state.density();
+		momentum = meshMomentum;
+	}
 	return state;
 }
 
-units::Velocity HydroSystem::maximumSignalSpeed(ConservedState const& state, int normal) const {
+units::Velocity HydroSystem::maximumSignalSpeed(ConservedState const& state, int normal, units::Velocity faceSpeed) const {
 	PrimitiveState const primitive = reconstructionVariables(state);
-	return units::abs(primitive.velocity(normal)) + units::sqrt(adiabaticIndex_ * primitive.pressure() / primitive.density());
+	return units::abs(primitive.velocity(normal) - faceSpeed) + units::sqrt(adiabaticIndex_ * primitive.pressure() / primitive.density());
 }
 
 bool HydroSystem::admissible(ConservedState const& state) const {
@@ -239,12 +258,12 @@ ConservedState HydroSystem::correctRoundoff(ConservedState state, State const& u
 }
 
 ConservedFlux HydroSystem::limitFlux(
-	ConservedState const& left, ConservedState const& right, ConservedFlux const& highOrderFlux, int normal, units::TimePerLength stepOverCellWidth) const {
+	ConservedState const& left, ConservedState const& right, ConservedFlux const& highOrderFlux, int normal, units::TimePerLength stepOverCellWidth, units::Velocity faceSpeed) const {
 	if (stepOverCellWidth == units::TimePerLength{}) {
 		return highOrderFlux;
 	}
-	ConservedFlux const leftPhysical = physicalFlux(left, normal);
-	ConservedFlux const rightPhysical = physicalFlux(right, normal);
+	ConservedFlux const leftPhysical = physicalFlux(left, normal, faceSpeed);
+	ConservedFlux const rightPhysical = physicalFlux(right, normal, faceSpeed);
 	auto const factor = Real(2 * ndim) * stepOverCellWidth;
 	auto validFlux = [&](ConservedFlux const& flux) {
 		return admissible(left - integratedFlux(flux - leftPhysical, factor)) && admissible(right + integratedFlux(flux - rightPhysical, factor));
@@ -252,7 +271,7 @@ ConservedFlux HydroSystem::limitFlux(
 	if (validFlux(highOrderFlux)) {
 		return highOrderFlux;
 	}
-	auto const speed = std::max(maximumSignalSpeed(left, normal), maximumSignalSpeed(right, normal));
+	auto const speed = std::max(maximumSignalSpeed(left, normal, faceSpeed), maximumSignalSpeed(right, normal, faceSpeed));
 	ConservedFlux const lowOrderFlux = Real(0.5) * (leftPhysical + rightPhysical - advectiveFlux(right - left, speed));
 	if (!validFlux(lowOrderFlux)) {
 		throw std::runtime_error("First-order hydro flux is not positivity preserving at this timestep");

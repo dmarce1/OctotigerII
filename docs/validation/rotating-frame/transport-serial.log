@@ -1,0 +1,27 @@
+[==========] Running 9 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 9 tests from RotatingTransport
+[ RUN      ] RotatingTransport.ZeroAngularVelocityMatchesExistingUpdateExactly
+[       OK ] RotatingTransport.ZeroAngularVelocityMatchesExistingUpdateExactly (2 ms)
+[ RUN      ] RotatingTransport.MovingHydroFaceRetainsInertialPressureWork
+[       OK ] RotatingTransport.MovingHydroFaceRetainsInertialPressureWork (0 ms)
+[ RUN      ] RotatingTransport.MovingHydroFaceSamplesTheCorrectSideOfContact
+[       OK ] RotatingTransport.MovingHydroFaceSamplesTheCorrectSideOfContact (0 ms)
+[ RUN      ] RotatingTransport.UniformInertialHydroSurvivesChangingNormals
+[       OK ] RotatingTransport.UniformInertialHydroSurvivesChangingNormals (8 ms)
+[ RUN      ] RotatingTransport.CorotatingGasUsesRelativeCharacteristicSpeeds
+[       OK ] RotatingTransport.CorotatingGasUsesRelativeCharacteristicSpeeds (0 ms)
+[ RUN      ] RotatingTransport.AdvectedEntropyPulseHasSecondOrderTemporalConvergence
+Rotating entropy pulse temporal density errors: 0.000108197, 2.65889e-05, 6.53127e-06; orders 2.02476, 2.02539; analytic error / evolved signal 0.370616
+[       OK ] RotatingTransport.AdvectedEntropyPulseHasSecondOrderTemporalConvergence (1945 ms)
+[ RUN      ] RotatingTransport.RadiationAleSubtractsStoredPhysicalMoments
+[       OK ] RotatingTransport.RadiationAleSubtractsStoredPhysicalMoments (0 ms)
+[ RUN      ] RotatingTransport.RadiationFaceFasterThanReducedLightUsesRightState
+[       OK ] RotatingTransport.RadiationFaceFasterThanReducedLightUsesRightState (0 ms)
+[ RUN      ] RotatingTransport.UniformInertialRadiationSurvivesChangingNormals
+[       OK ] RotatingTransport.UniformInertialRadiationSurvivesChangingNormals (23 ms)
+[----------] 9 tests from RotatingTransport (1980 ms total)
+
+[----------] Global test environment tear-down
+[==========] 9 tests from 1 test suite ran. (1981 ms total)
+[  PASSED  ] 9 tests.

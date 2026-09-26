@@ -37,6 +37,14 @@ public:
 		}
 	} mesh;
 
+	class FrameOptions {
+	public:
+		/// Constant angular velocity about the inertial z axis, in radians/s.
+		units::InverseTime omega{};
+		template <typename Archive>
+		void serialize(Archive& archive, unsigned) { archive & omega; }
+	} frame;
+
 	class AmrOptions {
 	public:
 		bool enabled = false, hydro = true, radiation = true;
@@ -180,7 +188,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & massFractions & problem & randomSeed & mesh & amr & runtime & timestep & hydro & rayleighTaylor & star & radiation & gravity & output & verification;
+		archive & massFractions & problem & randomSeed & mesh & frame & amr & runtime & timestep & hydro & rayleighTaylor & star & radiation & gravity & output & verification;
 	}
 };
 

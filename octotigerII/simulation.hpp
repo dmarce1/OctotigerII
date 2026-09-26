@@ -20,6 +20,8 @@ public:
 
 	units::Time time{};
 	units::Energy kineticEnergy{}, thermalEnergy{}, gasGravityEnergy{};
+	units::Action angularMomentumZ{}; ///< Inertial grid integral; excludes escaped angular momentum.
+	units::Density maximumDensity{};
 	BoundaryTransport boundary;
 	ConservedTotals norm; ///< Sum of absolute cell contributions, component by component.
 	units::Energy gasGravityNorm{};

@@ -157,6 +157,19 @@ TEST(OptionValues, DualEnergyDefaultsAndValidation) {
 		EXPECT_THROW(test::parseConfig({option}), std::exception);
 }
 
+TEST(OptionValues, RotationRequiresFreeBoundariesAndFiniteRate) {
+	EXPECT_EQ(test::parseConfig({}).frame.omega, units::InverseTime{});
+	EXPECT_THROW(test::parseConfig({"--frame.omega=nan"}), std::exception);
+	if constexpr (ndim >= 2) {
+		auto const c = test::parseConfig({"--frame.omega=-0.125", "--mesh.periodic=off"});
+		EXPECT_EQ(units::value(c.frame.omega), -0.125);
+		EXPECT_THROW(test::parseConfig({"--frame.omega=1", "--mesh.periodic=on"}), std::invalid_argument);
+		EXPECT_THROW(test::parseConfig({"--frame.omega=1", "--mesh.boundary.xLower=reflecting"}), std::invalid_argument);
+	} else {
+		EXPECT_THROW(test::parseConfig({"--frame.omega=1"}), std::invalid_argument);
+	}
+}
+
 TEST_F(Options, DualEnergyIniAndCliPrecedence) {
 	{ std::ofstream f(first); f << "[hydro.dualEnergy]\nenabled=off\nexponent=-2\npressureThreshold=0.002\nsyncThreshold=0.2\n"; }
 	auto c = test::parseConfig({"--config=" + first, "--hydro.dualEnergy.enabled=on", "--hydro.dualEnergy.exponent=0.5"});

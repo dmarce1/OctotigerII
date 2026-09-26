@@ -1,0 +1,27 @@
+problem.name=rotatingStar
+# star.radius sets the SCF model length unit in cm, not the equatorial radius.
+star.radius=1e9
+star.centralDensity=1e6
+star.center.x=0
+star.center.y=0
+star.center.z=0
+star.atmosphereFraction=1e-10
+frame.omega=0.13319147161856015
+mesh.cells=4
+mesh.level=1
+amr.enabled=on
+amr.minLevel=1
+amr.maxLevel=3
+amr.shadowTolerance=0
+amr.maxCellMass=0
+amr.refineDensity=1e4
+amr.regridEvery=1
+amr.bufferCells=1
+timestep.refinement=on
+gravity.timeIntegration=hierarchical
+gravity.energyTreatment=mullen
+gravity.conserveRegridEnergy=on
+runtime.stopTime=0.25
+verification.directSamples=32
+output.directory=output/rotating-star
+output.every=1

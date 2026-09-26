@@ -39,12 +39,13 @@ public:
 	/// Admissibility is checked separately so slope limiting can test candidate states.
 	State conservedState(Reconstruction const&) const;
 
-	/// Return the transport flux ((ĉ/c)F_n, cĉP_in) for physical (E, F).
+	/// Return ((ĉ/c)F_n, cĉP_in)-w_n(E,F), retaining physical inertial moments.
 	/// The second component transports radiative flux and has units erg/(cm s²).
-	Flux physicalFlux(State const&, int normal) const;
+	Flux physicalFlux(State const&, int normal, units::Velocity faceSpeed = {}) const;
 
-	/// Evaluate HLL in (E, F/c), then scale its vector flux components by physical c.
-	Flux riemann(State const&, State const&, int normal) const;
+	/// Evaluate HLL with characteristic speeds shifted by the face speed, then scale
+	/// its vector flux components by physical c. No radiation rest-frame boost is used.
+	Flux riemann(State const&, State const&, int normal, units::Velocity faceSpeed = {}) const;
 
 	/// Reverse only the physical flux component normal to the reflecting surface.
 	State reflected(State, int normal) const;
@@ -52,8 +53,8 @@ public:
 	/// Zero inward normal radiation flux; copy energy and tangential fluxes.
 	State outflow(State, int normal, bool lower) const;
 
-	/// Return the largest magnitude of the M1 normal characteristic speeds, using ĉ.
-	units::Velocity maximumSignalSpeed(State const&, int normal) const;
+	/// Return max |lambda-w_n| for M1 normal characteristic speeds computed with ĉ.
+	units::Velocity maximumSignalSpeed(State const&, int normal, units::Velocity faceSpeed = {}) const;
 
 	/// Check finite E≥0 and |F|≤cE, with the M1 roundoff tolerance.
 	bool admissible(State const&) const;
@@ -63,7 +64,7 @@ public:
 
 	/// Use a common face blend and test both adjacent contributions against the M1 cone.
 	/// The low-order flux must already be admissible at the supplied timestep.
-	Flux limitFlux(State const&, State const&, Flux const&, int normal, units::TimePerLength stepOverCellWidth) const;
+	Flux limitFlux(State const&, State const&, Flux const&, int normal, units::TimePerLength stepOverCellWidth, units::Velocity faceSpeed = {}) const;
 
 	/// Form (E, F/c) using physical c, independent of the configured transport speed.
 	static Method::State toCalculationState(State const&);

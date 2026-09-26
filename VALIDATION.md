@@ -429,3 +429,45 @@ tested temporal accuracy; they do not establish production accuracy or speedup.
 See the [derivation](docs/gravity-time-coupling-derivation.md) and
 [validation record](docs/validation/gravity-time-integration.txt) for numerical
 results, HPX execution scope, and limitations.
+
+## Rigidly rotating grids and the original rotating star — 2026-09-26
+
+Implemented moving-face hydro/radiation transport with inertial conserved
+quantities, constant `frame.omega`, and free boundaries. Gravity rotation work
+uses a reciprocal pair exchange evaluated with two signed coordinate-weighted
+field solves, including the hierarchical and conventional timestep rungs.
+The original Octo-Tiger oblate SCF table supplies the new `rotatingStar` problem.
+
+The five rotating-gravity tests passed in the serial build; the four cases
+excluding the long convergence reference also passed with two HPX localities.
+Both refined modes measured temporal orders 2.05–2.09 for density, momentum,
+and gas energy. Transport, boundary, configuration, Silo, stellar-model, and
+existing gravity/time-refinement regressions passed in the selections recorded
+below. Single-locality HPX star runs and a rotating radiation pulse completed.
+
+Short coarse star runs close the total energy budget at roundoff but show about
+3% peak-density change, also present with a stationary grid. They establish
+execution and conservation, not long-term stellar accuracy. Angular momentum
+is measured but is not conserved to roundoff.
+
+See the [derivation and implementation](docs/rotating-frame.md) and
+[validation record](docs/validation/rotating-frame/README.md) for exact commands,
+measurements, and test scope.
+
+## Source reorganization — 2026-09-26
+
+Separated runtime execution, stage dispatch, transport, gravity, and regridding;
+extracted AMR mesh selection; removed the unused duplicate exchange header.
+The numerical bodies, public Runtime API, HPX action identifiers, and stage
+publication/rollback order are preserved.
+
+All dimensional serial and HPX builds passed. Full suites passed 625 serial
+and 634 single-locality HPX cases, with three dimension-inapplicable 1D skips
+in each suite and no failures. Rotating-gravity temporal convergence passed
+in both. All four selected two-locality rotating-gravity cases passed. The
+HPX 3D build with profiling disabled and its star smoke also passed. Corotating
+and stationary star runs preserve the saved timesteps and mesh levels, with
+roundoff-scale diagnostic differences. See the
+[validation record](docs/validation/source-reorganization.md)
+for source-equivalence checks and rotating-star comparisons, and the
+[updated inventory](docs/source-inventory.md) for the completed layout.

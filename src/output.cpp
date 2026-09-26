@@ -66,7 +66,9 @@ namespace {
 		}
 		if (build::gravity && c.gravityEnabled()) {
 			field("potential", "cm^2/s^2", false, [&](std::size_t i, int) { return b.gravity.values()[i].potential(); });
-			field("acceleration", "cm/s^2", true, [&](std::size_t i, int axis) { return b.gravity.values()[i].acceleration(axis); });
+			field("acceleration", "cm/s^2", true, [&](std::size_t i, int axis) {
+				return physics::RotatingFrame(c.frame.omega).toInertialState(b.gravity.values()[i], b.time).acceleration(axis);
+			});
 		}
 
 		auto const reference = verification::reference(c, b.time);
@@ -128,9 +130,12 @@ namespace {
 				for (int i = 0; i < meshDims[d]; ++i) {
 					coords[d].push_back(units::value(patch.lower[d] + Real(i) * patch.cellWidth));
 				}
+			}
+			for (int d = 0; d < ndim; ++d) {
 				coordPointers[d] = coords[d].data();
 			}
-			status |= DBPutQuadmesh(file.get(), "mesh", nullptr, coordPointers, meshDims, ndim, DB_DOUBLE, DB_COLLINEAR, options.get());
+			status |= DBPutQuadmesh(file.get(), "mesh", nullptr, coordPointers, meshDims, ndim, DB_DOUBLE,
+				DB_COLLINEAR, options.get());
 			meshes.push_back(block + "/mesh");
 			auto const fields = variables(patch, c);
 			for (std::size_t f = 0; f < fields.size(); ++f) {
@@ -209,7 +214,7 @@ Output::Output(Config const& c)
 	if (c.hydroEnabled()) {
 		for (int d = 0; d < ndim; ++d) header(std::string("momentum_") + "xyz"[d] + "_g_cm_s");
 		header("gas_energy_erg");
-		conservation_ << ",kinetic_energy_erg_grid,thermal_energy_erg_grid";
+		conservation_ << ",kinetic_energy_erg_grid,thermal_energy_erg_grid,angular_momentum_z_g_cm2_s_grid,maximum_density_g_cm3";
 		if (c.gravityEnabled()) conservation_ << ",potential_energy_erg_grid,potential_energy_erg_in,potential_energy_erg_out,gas_gravity_energy_erg_grid,gas_gravity_energy_erg_corrected,gas_gravity_energy_erg_norm,gas_gravity_energy_drift_scaled,gravity_reciprocity_defect_erg,gravity_regrid_energy_change_erg,gravity_energy_budget_residual_scaled";
 	}
 	if (c.radiationEnabled()) {
@@ -238,7 +243,8 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 	if (config_.hydroEnabled()) {
 		for (int axis = 0; axis < ndim; ++axis) write(d.momentum[axis], in.momentum[axis], out.momentum[axis], d.norm.momentum[axis], initial_.momentum[axis], initial_.norm.momentum[axis]);
 		write(d.gasEnergy, in.gasEnergy, out.gasEnergy, d.norm.gasEnergy, initial_.gasEnergy, initial_.norm.gasEnergy);
-		conservation_ << ',' << units::value(d.kineticEnergy) << ',' << units::value(d.thermalEnergy);
+		conservation_ << ',' << units::value(d.kineticEnergy) << ',' << units::value(d.thermalEnergy)
+			<< ',' << units::value(d.angularMomentumZ) << ',' << units::value(d.maximumDensity);
 		if (config_.gravityEnabled()) {
 			auto const norm = std::max(initial_.gasGravityNorm, d.gasGravityNorm);
 			Real const drift = norm > units::Energy{} ? Real((d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy - initial_.gasGravityEnergy) / norm) : Real(0);

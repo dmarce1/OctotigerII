@@ -49,6 +49,9 @@ public:
 		return block_.cellWidth;
 	}
 
+	/// Logical lower corner; the rotating frame maps it to inertial coordinates.
+	mesh::PhysicalCoordinates const& lower() const { return block_.lower; }
+
 	/// Read a cell using interior coordinates without a ghost offset.
 	State atInterior(mesh::Coordinates const& cell) const {
 		return interior_.at(block_.layout.index(cell));
@@ -120,11 +123,14 @@ void readHalo(storage::FieldHandle<T> const& field, HaloPlan const& plan, unsign
 /// Analytic corners use the original position and take precedence over other faces.
 template <typename System>
 void applyHaloBoundaries(HaloPlan const& plan, std::vector<typename System::State>& ghosts, System const& system, units::Time time,
-	physics::AnalyticBoundary<typename System::State> const& analytic = {}) {
+	physics::AnalyticBoundary<typename System::State> const& analytic = {}, physics::RotatingFrame const& frame = physics::RotatingFrame{}) {
 	for (auto const& ghost : plan.analyticGhosts)
 		ghosts.at(ghost.destination) = physics::evaluateBoundary(analytic, ghost.position, time, system);
 	auto transform = [&](std::size_t i) {
-		ghosts.at(i) = physics::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i), system);
+		ghosts.at(i) = frame.active()
+			? physics::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i),
+				system, frame, plan.boundaryPositions.at(i), time)
+			: physics::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i), system);
 	};
 	for (std::size_t i = plan.ghostCount; i < plan.reflectionMasks.size(); ++i)
 		transform(i);

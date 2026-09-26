@@ -1,0 +1,906 @@
+--- a/octotigerII/config.hpp
++++ b/octotigerII/config.hpp
+@@ -128,10 +128,12 @@
+ 	public:
+ 		int multipoleOrder = 5;
+ 		Real openingAngle = 0.5;
++		std::string energyTreatment = "mullen";
++		bool conserveRegridEnergy = true;
+ 
+ 		template <typename Archive>
+ 		void serialize(Archive& archive, unsigned) {
+-			archive & multipoleOrder & openingAngle;
++			archive & multipoleOrder & openingAngle & energyTreatment & conserveRegridEnergy;
+ 		}
+ 	} gravity;
+ 
+--- a/octotigerII/amr/hierarchy.hpp
++++ b/octotigerII/amr/hierarchy.hpp
+@@ -18,6 +18,8 @@
+ 		radiation::RadiationSystem::State radiation;
+ 		gravity::State gravity;
+ 		units::Density density{};
++		// Transfer-only scalar; never interpreted as gas energy by an EOS.
++		units::EnergyDensity gasGravityEnergy{};
+ 		std::vector<units::Density> species;
+ 		Values& operator+=(Values const& other);
+ 		Values operator*(Real weight) const;
+@@ -29,6 +31,7 @@
+ 	Values shadow(mesh::BlockLocation cell) const;
+ 	refinement::CellView sample(mesh::BlockLocation block, mesh::Coordinates const& cell) const;
+ 	Snapshot transfer(mesh::BlockLocation block) const;
++	std::vector<units::EnergyDensity> transferGasGravityEnergy(mesh::BlockLocation block) const;
+ 	/// Advance covered coarse states independently, without averaging leaves down.
+ 	void advance(units::Time dt);
+ 	void kick(units::Time dt);
+--- a/octotigerII/runtime.hpp
++++ b/octotigerII/runtime.hpp
+@@ -59,6 +59,9 @@
+ 
+ 	/// Regrid at synchronization points. Predicted signal travel can exhaust
+ 	/// the buffer before amr.regridEvery. Returns whether leaves changed.
++	/// With conserveRegridEnergy, solveGravity() or setGravity() must follow a
++	/// changed mesh before a timestep or another regrid. The next field publication
++	/// recovers gas energy from conservatively remapped E+rho*phi/2.
+ 	bool regrid(units::Time nextStep, bool force = false);
+ 	std::size_t shadowCellCount() const;
+ 
+@@ -75,7 +78,8 @@
+ 
+ 	/// Retain endpoint gravity and start accounting for the two kinetic-work kicks.
+ 	void beginGravityEnergy();
+-	/// Replace those kicks' self-gravity work with conservative mass-flux work.
++	/// In mullen mode replace kick work with conservative mass-flux work;
++	/// in naive mode retain kick work. Both modes account for boundary potential flux.
+ 	/// Call after transport, the new gravity solve, and the second momentum kick.
+ 	void finishGravityEnergy(units::Time dt);
+ 
+--- a/octotigerII/simulation.hpp
++++ b/octotigerII/simulation.hpp
+@@ -23,6 +23,9 @@
+ 	BoundaryTransport boundary;
+ 	ConservedTotals norm; ///< Sum of absolute cell contributions, component by component.
+ 	units::Energy gasGravityNorm{};
++	/// Cumulative measured gravity-operator defect and actual energy jumps at regrids.
++	/// Diagnostic only: neither quantity is removed from the reported physical drift.
++	units::Energy gravityReciprocityDefect{}, gravityRegridEnergyChange{};
+ 	units::Density minimumDensity{};
+ 	units::Pressure minimumPressure{};
+ 	units::EnergyDensity minimumRadiationEnergy{};
+--- a/src/config.cpp
++++ b/src/config.cpp
+@@ -95,6 +95,8 @@
+ 		options("radiation.lightSpeedRatio", po::value<Real>(), "Radiation transport speed divided by c");
+ 		options("gravity.multipoleOrder", po::value<int>(), "Gravity expansion order (1..10)");
+ 		options("gravity.openingAngle", po::value<Real>(), "Gravity opening angle");
++		options("gravity.energyTreatment", po::value<std::string>(), "Self-gravity energy: mullen (default) or naive kinetic-work kicks");
++		options("gravity.conserveRegridEnergy", po::value<std::string>(), "Conserve gas plus gravitational energy during regridding: on (default)/off");
+ 		options("output.enabled", po::value<std::string>(), "Silo output: on/off");
+ 		options("output.every", po::value<int>(), "Output every N steps");
+ 		options("output.directory", po::value<std::string>(), "Silo output directory");
+@@ -231,6 +233,8 @@
+ 		readNumber(values, "radiation.lightSpeedRatio", config.radiation.lightSpeedRatio, "radiation.light_speed_ratio");
+ 		readOption(values, "gravity.multipoleOrder", config.gravity.multipoleOrder, "gravity.multipole_order");
+ 		readNumber(values, "gravity.openingAngle", config.gravity.openingAngle, "gravity.opening_angle");
++		readOption(values, "gravity.energyTreatment", config.gravity.energyTreatment);
++		readBoolean(values, "gravity.conserveRegridEnergy", config.gravity.conserveRegridEnergy);
+ 		readBoolean(values, "output.enabled", config.output.enabled);
+ 		readOption(values, "output.every", config.output.every);
+ 		readOption(values, "output.directory", config.output.directory);
+@@ -239,6 +243,8 @@
+ }	 // namespace
+ 
+ void Config::validate() const {
++	if (gravity.energyTreatment != "mullen" && gravity.energyTreatment != "naive")
++		throw std::invalid_argument("gravity.energyTreatment must be mullen or naive");
+ 	using std::isfinite;
+ 	using std::sqrt;
+ 
+--- a/src/amr/hierarchy.cpp
++++ b/src/amr/hierarchy.cpp
+@@ -15,6 +15,7 @@
+ 	radiation += other.radiation;
+ 	gravity += other.gravity;
+ 	density += other.density;
++	gasGravityEnergy += other.gasGravityEnergy;
+ 	if (species.empty()) species.resize(other.species.size());
+ 	if (species.size() != other.species.size()) throw std::logic_error("Shadow species size mismatch");
+ 	for (std::size_t s = 0; s < species.size(); ++s) species[s] += other.species[s];
+@@ -22,7 +23,7 @@
+ }
+ 
+ Hierarchy::Values Hierarchy::Values::operator*(Real weight) const {
+-	Values result{hydro * weight, radiation * weight, gravity * weight, density * weight, species};
++	Values result{hydro * weight, radiation * weight, gravity * weight, density * weight, gasGravityEnergy * weight, species};
+ 	for (auto& q : result.species) q *= weight;
+ 	return result;
+ }
+@@ -51,6 +52,8 @@
+ 				if (!config_.hydroEnabled()) value.density = block.density.values()[i];
+ 			}
+ 			if (build::hydro && config_.hydroEnabled()) value.density = value.hydro.density();
++			if (config_.hydroEnabled() && config_.gravityEnabled())
++				value.gasGravityEnergy = value.hydro.totalEnergy() + 0.5 * value.density * value.gravity.potential();
+ 			auto scale = [](auto& maximum, auto const& state) {
+ 				state.forEach([&](auto f, auto v) { maximum.template get<f>() = std::max(maximum.template get<f>(), units::abs(v)); });
+ 			};
+@@ -218,17 +221,21 @@
+ 	std::array<hydro::ConservedState, ndim> gasSlopes{};
+ 	std::array<radiation::RadiationSystem::State, ndim> radiationSlopes{};
+ 	std::array<Real, ndim> offset{};
++	std::array<units::EnergyDensity, ndim> energySlopes{};
+ 	Real const ratio = Real(1 << (fine.level - coarse.level));
+ 	for (int d = 0; d < ndim; ++d) {
+ 		auto left = coarse, right = coarse;
+ 		--left.coordinates[d];
+ 		++right.coordinates[d];
+ 		auto const a = average(left), b = average(right);
++		energySlopes[d] = physics::limitedSlope(center.gasGravityEnergy - a.gasGravityEnergy,
++			b.gasGravityEnergy - center.gasGravityEnergy, physics::Limiter::Minmod);
+ 		gasSlopes[d] = slope(a.hydro, center.hydro, b.hydro);
+ 		radiationSlopes[d] = slope(a.radiation, center.radiation, b.radiation);
+ 		offset[d] = (fine.coordinates[d] + 0.5) / ratio - (coarse.coordinates[d] + 0.5);
+ 	}
+ 	auto result = center;
++	for (int d = 0; d < ndim; ++d) result.gasGravityEnergy += offset[d] * energySlopes[d];
+ 	if (build::hydro && config_.hydroEnabled()) result.hydro = interpolate(center.hydro, gasSlopes, offset, hydro::HydroSystem(config_.hydro));
+ 	if (build::radiation && config_.radiationEnabled())
+ 		result.radiation = interpolate(center.radiation, radiationSlopes, offset, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c));
+@@ -292,6 +299,18 @@
+ 	return result;
+ }
+ 
++std::vector<units::EnergyDensity> Hierarchy::transferGasGravityEnergy(mesh::BlockLocation location) const {
++	mesh::MeshLayout const layout(config_.mesh.cells);
++	std::vector<units::EnergyDensity> result(layout.cellCount());
++	layout.forEachInterior([&](auto const& coordinate, std::size_t i) {
++		mesh::BlockLocation cell{cellLevel(location.level), {}};
++		for (int d = 0; d < ndim; ++d)
++			cell.coordinates[d] = location.coordinates[d] * config_.mesh.cells + coordinate[d];
++		result[i] = reconstruct(cell).gasGravityEnergy;
++	});
++	return result;
++}
++
+ Snapshot Hierarchy::transfer(mesh::BlockLocation location) const {
+ 	Snapshot result;
+ 	result.location = location;
+--- a/src/runtime.cpp
++++ b/src/runtime.cpp
+@@ -675,7 +675,7 @@
+ 		hydro::HydroSystem const gas(config_.hydro);
+ 		for (std::size_t i = 0; i < block.interior.count; ++i) {
+ 			auto state = input.at(i);
+-			state.totalEnergy() += work[i] - kicks.data()[i];
++			if (config_.gravity.energyTreatment == "mullen") state.totalEnergy() += work[i] - kicks.data()[i];
+ 			gas.synchronize(state);
+ 			if (!gas.admissible(state)) {
+ 				std::ostringstream message;
+@@ -766,6 +766,7 @@
+ 	mesh::TimeState time;
+ 	units::Time gravityTime{};
+ 	bool gravityReady = false, gravityEnergyActive = false;
++	bool regridEnergyPending = false;
+ 	units::Time gravityEnergyStart{};
+ 	SchedulingStatistics statistics;
+ 	BoundaryTransport boundary;
+@@ -794,6 +795,7 @@
+ 	}
+ 
+ 	void install(std::vector<mesh::BlockLocation> const& leaves, amr::Hierarchy const& source) {
++		bool const conserveEnergy = config.hydroEnabled() && config.gravityEnabled() && config.gravity.conserveRegridEnergy;
+ 		auto nextTopology = std::make_unique<CartesianTopology>(config, localities.size(), leaves);
+ 		auto nextFields = std::make_unique<FieldRepository>(config, nextTopology->storageLayout(), localities);
+ 		auto const& directory = nextFields->directory();
+@@ -801,6 +803,14 @@
+ 			auto const snapshot = source.transfer(block.location);
+ 			initializeSpecies(directory, block, snapshot);
+ 			if (build::hydro && config.hydroEnabled()) initializeFields(directory.hydro, block.interior, snapshot.hydro);
++			if (conserveEnergy) {
++				// Reuse the inactive kick register for conservatively transferred E+rho*phi/2.
++				// Hydro remains gas-only for mesh selection, EOS calls and shadow estimates.
++				auto const energy = source.transferGasGravityEnergy(block.location);
++				auto output = directory.gravityKickWork.output(block.interior, 0);
++				std::copy(energy.begin(), energy.end(), output.data());
++				directory.gravityKickWork.commit(block.interior, 0, output);
++			}
+ 			if (build::radiation && config.radiationEnabled()) initializeFields(directory.radiation, block.interior, snapshot.radiation);
+ 			if (build::gravity && config.gravityEnabled()) {
+ 				initializeFields(directory.gravity, block.interior, snapshot.gravity);
+@@ -829,6 +839,28 @@
+ 		bank = 0;
+ 		++generation;
+ 		gravityReady = false;
++		regridEnergyPending = conserveEnergy;
++	}
++
++	// Operates only on the unpublished bank produced by solveGravity/setGravity.
++	void recoverRegridEnergy(unsigned targetBank) {
++		if (!regridEnergyPending) return;
++		auto const& directory = fields->directory();
++		hydro::HydroSystem const gas(config.hydro);
++		for (auto const& block : topology->blocks()) {
++			auto const combined = directory.gravityKickWork.read(block.interior, 0).get();
++			auto const gravity = directory.gravity.read(block.interior, targetBank).get();
++			auto const input = directory.hydro.read(block.interior, targetBank).get();
++			auto output = directory.hydro.output(block.interior, targetBank);
++			for (std::size_t i = 0; i < block.interior.count; ++i) {
++				auto state = input.at(i);
++				state.totalEnergy() = combined.data()[i] - 0.5 * state.density() * gravity.at(i).potential();
++				gas.synchronize(state);
++				if (!gas.admissible(state)) throw std::runtime_error("Regrid gravity-energy recovery produced an inadmissible gas state");
++				output.put(i, state);
++			}
++			directory.hydro.commit(block.interior, targetBank, output);
++		}
+ 	}
+ 
+ 	/// Drain all locality results and require exactly one completed task per block.
+@@ -942,6 +974,7 @@
+ units::Time Runtime::stableTimestep() const {
+ 	profiling::Elapsed profile("runtime.timestep.wall_ns");
+ 	std::lock_guard guard(impl_->apiMutex);
++	if (impl_->regridEnergyPending) throw std::logic_error("Solve gravity after regridding before computing a timestep");
+ 	auto const result = impl_->phase(Operation::Timestep, {});
+ 	impl_->signalSpeed = result.signalSpeed;
+ 	return result.timestep;
+@@ -950,6 +983,7 @@
+ void Runtime::advance(units::Time dt) {
+ 	profiling::Elapsed profile("runtime.advance.wall_ns");
+ 	std::lock_guard guard(impl_->apiMutex);
++	if (impl_->regridEnergyPending) throw std::logic_error("Solve gravity after regridding before advancing");
+ 	if (!(dt > units::Time{}) || !units::finite(dt) || impl_->time.time + dt == impl_->time.time) throw std::invalid_argument("Invalid step size");
+ 	if (!impl_->config.hydroEnabled() && !impl_->config.radiationEnabled()) throw std::logic_error("No transport fields to advance");
+ 	std::unique_ptr<amr::Hierarchy> nextShadow;
+@@ -958,7 +992,8 @@
+ 		nextShadow->advance(dt);
+ 	}
+ 	auto const transport = impl_->phase(Operation::Advance, dt);
+-	if (impl_->config.amr.enabled || impl_->config.hydroEnabled()) impl_->phase(impl_->gravityEnergyActive ? Operation::RefluxTracked : Operation::Reflux, dt);
++	if (impl_->config.amr.enabled || impl_->config.hydroEnabled())
++		impl_->phase(impl_->gravityEnergyActive && impl_->config.gravity.energyTreatment == "mullen" ? Operation::RefluxTracked : Operation::Reflux, dt);
+ 	auto nextTime = impl_->time;
+ 	nextTime.completeStep(dt);
+ 	if (nextShadow) nextShadow->refreshLeaves(impl_->exportSnapshots(impl_->bank ^ 1, nextTime));
+@@ -986,6 +1021,7 @@
+ 	auto const& config = impl_->config;
+ 	if (!config.amr.enabled) return false;
+ 	if (impl_->gravityEnergyActive) throw std::logic_error("Cannot regrid inside a gravity energy step");
++	if (impl_->regridEnergyPending) throw std::logic_error("Solve gravity before regridding again");
+ 	if (!(nextStep >= units::Time{}) || !units::finite(nextStep)) throw std::invalid_argument("Invalid AMR lookahead timestep");
+ 	bool due = force || !impl_->regridInitialized || impl_->time.step - impl_->lastRegridStep >= std::uint64_t(config.amr.regridEvery);
+ 	for (int d = 0; d < ndim; ++d)
+@@ -1018,7 +1054,12 @@
+ 		changed = true;
+ 		if (pass == config.amr.maxLevel + 1) throw std::runtime_error("AMR refinement failed to settle");
+ 	}
+-	if (changed) impl_->install(leaves, source);
++	if (changed) {
++		if (config.hydroEnabled() && config.gravityEnabled() && config.gravity.conserveRegridEnergy &&
++			(!impl_->gravityReady || impl_->gravityTime != impl_->time.time))
++			throw std::logic_error("Energy-conserving regrid requires synchronized gravity on the old mesh");
++		impl_->install(leaves, source);
++	}
+ 	impl_->shadow = std::move(nextShadow);
+ 	impl_->lastRegridStep = impl_->time.step;
+ 	impl_->regridInitialized = true;
+@@ -1039,7 +1080,7 @@
+ 		nextShadow = std::make_unique<amr::Hierarchy>(*impl_->shadow);
+ 		nextShadow->kick(dt);
+ 	}
+-	impl_->phase(impl_->gravityEnergyActive ? Operation::KickTracked : Operation::Kick, dt);
++	impl_->phase(impl_->gravityEnergyActive && impl_->config.gravity.energyTreatment == "mullen" ? Operation::KickTracked : Operation::Kick, dt);
+ 	impl_->bank ^= 1;
+ 	++impl_->generation;
+ 	if (nextShadow) impl_->shadow = std::move(nextShadow);
+@@ -1081,15 +1122,21 @@
+ 	if (!impl_->gravitySolver)
+ 		impl_->gravitySolver = std::make_unique<gravity::FieldSolver>(impl_->config, impl_->topology->blocks(), impl_->fields->directory(), impl_->localities);
+ 	auto result = impl_->gravitySolver->solve(impl_->bank);
++	impl_->recoverRegridEnergy(impl_->bank ^ 1);
+ 	std::unique_ptr<amr::Hierarchy> nextShadow;
+ 	if (impl_->shadow) {
+-		nextShadow = std::make_unique<amr::Hierarchy>(*impl_->shadow);
+-		nextShadow->refreshGravity(impl_->exportSnapshots(impl_->bank ^ 1));
++		if (impl_->regridEnergyPending)
++			nextShadow = std::make_unique<amr::Hierarchy>(impl_->config, impl_->exportSnapshots(impl_->bank ^ 1));
++		else {
++			nextShadow = std::make_unique<amr::Hierarchy>(*impl_->shadow);
++			nextShadow->refreshGravity(impl_->exportSnapshots(impl_->bank ^ 1));
++		}
+ 	}
+ 	impl_->bank ^= 1;
+ 	++impl_->generation;
+ 	impl_->gravityTime = impl_->time.time;
+ 	impl_->gravityReady = true;
++	impl_->regridEnergyPending = false;
+ 	if (nextShadow) impl_->shadow = std::move(nextShadow);
+ 	return result;
+ #else
+@@ -1125,15 +1172,21 @@
+ 			output.put(i, fields[b][i]);
+ 		directory.gravity.commit(range, impl_->bank ^ 1, output);
+ 	}
++	impl_->recoverRegridEnergy(impl_->bank ^ 1);
+ 	std::unique_ptr<amr::Hierarchy> nextShadow;
+ 	if (impl_->shadow) {
+-		nextShadow = std::make_unique<amr::Hierarchy>(*impl_->shadow);
+-		nextShadow->refreshGravity(impl_->exportSnapshots(impl_->bank ^ 1));
++		if (impl_->regridEnergyPending)
++			nextShadow = std::make_unique<amr::Hierarchy>(impl_->config, impl_->exportSnapshots(impl_->bank ^ 1));
++		else {
++			nextShadow = std::make_unique<amr::Hierarchy>(*impl_->shadow);
++			nextShadow->refreshGravity(impl_->exportSnapshots(impl_->bank ^ 1));
++		}
+ 	}
+ 	impl_->bank ^= 1;
+ 	++impl_->generation;
+ 	impl_->gravityTime = impl_->time.time;
+ 	impl_->gravityReady = true;
++	impl_->regridEnergyPending = false;
+ 	if (nextShadow) impl_->shadow = std::move(nextShadow);
+ }
+ 
+--- a/src/simulation.cpp
++++ b/src/simulation.cpp
+@@ -11,7 +11,13 @@
+ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
+ 	profiling::Region profile("diagnostics");
+ 	if (snapshots.empty()) throw std::invalid_argument("Empty snapshot directory");
+-	Diagnostics d;
++	Diagnostics d, compensation;
++	auto add = [](auto& sum, auto& error, auto value) {
++		auto const y = value - error;
++		auto const next = sum + y;
++		error = (next - sum) - y;
++		sum = next;
++	};
+ 	d.time = snapshots.front().time;
+ 	d.minimumDensity = units::Density::from_value(std::numeric_limits<Real>::infinity());
+ 	d.minimumPressure = d.minimumRadiationEnergy = units::Pressure::from_value(std::numeric_limits<Real>::infinity());
+@@ -23,40 +29,40 @@
+ 				hydro::HydroSystem gas(c.hydro);
+ 				auto const& u = block.hydro.values()[i];
+ 				if (!gas.admissible(u)) throw std::runtime_error("Inadmissible gas state");
+-				d.mass += volume * u.density();
+-				d.norm.mass += volume * units::abs(u.density());
+-				d.norm.gasEnergy += volume * units::abs(u.totalEnergy());
+-				d.gasEnergy += volume * u.totalEnergy();
++				add(d.mass, compensation.mass, volume * u.density());
++				add(d.norm.mass, compensation.norm.mass, volume * units::abs(u.density()));
++				add(d.norm.gasEnergy, compensation.norm.gasEnergy, volume * units::abs(u.totalEnergy()));
++				add(d.gasEnergy, compensation.gasEnergy, volume * u.totalEnergy());
+ 				units::EnergyDensity kinetic{};
+ 				for (int axis = 0; axis < ndim; ++axis)
+ 					kinetic += 0.5 * u.momentum(axis) * u.momentum(axis) / u.density();
+-				d.kineticEnergy += volume * kinetic;
+-				d.thermalEnergy += volume * gas.internalEnergy(u);
+-				d.gasGravityNorm += volume * units::abs(u.totalEnergy());
++				add(d.kineticEnergy, compensation.kineticEnergy, volume * kinetic);
++				add(d.thermalEnergy, compensation.thermalEnergy, volume * gas.internalEnergy(u));
++				add(d.gasGravityNorm, compensation.gasGravityNorm, volume * units::abs(u.totalEnergy()));
+ 				if (build::gravity && c.gravityEnabled()) {
+ 					auto const potential = 0.5 * volume * u.density() * block.gravity.values()[i].potential();
+-					d.potentialEnergy += potential;
+-					d.gasGravityNorm += units::abs(potential);
++					add(d.potentialEnergy, compensation.potentialEnergy, potential);
++					add(d.gasGravityNorm, compensation.gasGravityNorm, units::abs(potential));
+ 				}
+ 				d.minimumDensity = std::min(d.minimumDensity, u.density());
+ 				d.minimumPressure = std::min(d.minimumPressure, gas.reconstructionVariables(u).pressure());
+ 				for (int axis = 0; axis < ndim; ++axis) {
+-					d.momentum[axis] += volume * u.momentum(axis);
+-					d.norm.momentum[axis] += volume * units::abs(u.momentum(axis));
++					add(d.momentum[axis], compensation.momentum[axis], volume * u.momentum(axis));
++					add(d.norm.momentum[axis], compensation.norm.momentum[axis], volume * units::abs(u.momentum(axis)));
+ 				}
+ 			} else if (build::gravity && c.gravityEnabled()) {
+-				d.mass += volume * block.density.values()[i];
+-				d.norm.mass += volume * units::abs(block.density.values()[i]);
++				add(d.mass, compensation.mass, volume * block.density.values()[i]);
++				add(d.norm.mass, compensation.norm.mass, volume * units::abs(block.density.values()[i]));
+ 			}
+ 			if (build::radiation && c.radiationEnabled()) {
+ 				radiation::RadiationSystem rad(c.radiation.lightSpeedRatio * constants::c);
+ 				auto const& u = block.radiation.values()[i];
+ 				if (!rad.admissible(u)) throw std::runtime_error("Inadmissible radiation state");
+-				d.radiationEnergy += volume * u.energy();
+-				d.norm.radiationEnergy += volume * units::abs(u.energy());
++				add(d.radiationEnergy, compensation.radiationEnergy, volume * u.energy());
++				add(d.norm.radiationEnergy, compensation.norm.radiationEnergy, volume * units::abs(u.energy()));
+ 				for (int axis = 0; axis < ndim; ++axis) {
+-					d.radiationFlux[axis] += volume * u.radiativeFlux(axis);
+-					d.norm.radiationFlux[axis] += volume * units::abs(u.radiativeFlux(axis));
++					add(d.radiationFlux[axis], compensation.radiationFlux[axis], volume * u.radiativeFlux(axis));
++					add(d.norm.radiationFlux[axis], compensation.norm.radiationFlux[axis], volume * units::abs(u.radiativeFlux(axis)));
+ 				}
+ 				d.minimumRadiationEnergy = std::min(d.minimumRadiationEnergy, u.energy());
+ 				units::EnergyFlux magnitude{};
+@@ -80,6 +86,28 @@
+ 	return d;
+ }
+ 
++namespace {
++units::Energy reciprocityDefect(std::vector<Snapshot> const& old, std::vector<Snapshot> const& now) {
++	if (old.size() != now.size()) throw std::logic_error("Gravity energy endpoints must use the same mesh");
++	units::Energy result{}, error{};
++	for (std::size_t b = 0; b < old.size(); ++b) {
++		if (old[b].location != now[b].location) throw std::logic_error("Gravity energy endpoint block mismatch");
++		auto const volume = old[b].layout.cellMeasure(old[b].cellWidth);
++		for (std::size_t i = 0; i < old[b].hydro.values().size(); ++i) {
++			auto const rho = old[b].hydro.values()[i].density();
++			auto const phi = old[b].gravity.values()[i].potential();
++			auto const delta = 0.5 * volume * (rho * (now[b].gravity.values()[i].potential() - phi)
++				- phi * (now[b].hydro.values()[i].density() - rho));
++			auto const y = delta - error;
++			auto const next = result + y;
++			error = (next - result) - y;
++			result = next;
++		}
++	}
++	return result;
++}
++}
++
+ RunResult run(Config const& c, Observer const& observer) {
+ 	profiling::Elapsed profile("simulation.wall_ns");
+ 	c.validate();
+@@ -101,11 +129,15 @@
+ 	result.initial = diagnose(snapshots, c);
+ 	result.final = result.initial;
+ 	if (observer) observer(snapshots, 0, result.initial);
++	units::Energy solverDefect{}, regridChange{};
+ 	while (result.final.time < c.runtime.stopTime) {
+ 		if (result.steps >= c.runtime.maxSteps) throw std::runtime_error("Maximum steps reached before requested stop time");
+ 		auto dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
+ 		if (runtime.regrid(dt)) {
+ 			if (build::gravity && c.gravityEnabled()) solveGravity();
++			snapshots = runtime.snapshots();
++			if (c.hydroEnabled() && c.gravityEnabled())
++				regridChange += diagnose(snapshots, c).gasGravityEnergy - result.final.gasGravityEnergy;
+ 			dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
+ 		}
+ 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
+@@ -116,10 +148,14 @@
+ 		if (build::gravity && c.gravityEnabled()) solveGravity();
+ 		if (kick) runtime.kickGravity(dt / 2.0);
+ 		if (c.hydroEnabled() && c.gravityEnabled()) runtime.finishGravityEnergy(dt);
+-		snapshots = runtime.snapshots();
++		auto nextSnapshots = runtime.snapshots();
++		if (c.hydroEnabled() && c.gravityEnabled()) solverDefect += reciprocityDefect(snapshots, nextSnapshots);
++		snapshots = std::move(nextSnapshots);
+ 		++result.steps;
+ 		result.final = diagnose(snapshots, c);
+ 		result.final.boundary = runtime.boundaryTransport();
++		result.final.gravityReciprocityDefect = solverDefect;
++		result.final.gravityRegridEnergyChange = regridChange;
+ 		if (observer) observer(snapshots, result.steps, result.final);
+ 	}
+ 	result.snapshots = std::move(snapshots);
+--- a/src/output.cpp
++++ b/src/output.cpp
+@@ -210,7 +210,7 @@
+ 		for (int d = 0; d < ndim; ++d) header(std::string("momentum_") + "xyz"[d] + "_g_cm_s");
+ 		header("gas_energy_erg");
+ 		conservation_ << ",kinetic_energy_erg_grid,thermal_energy_erg_grid";
+-		if (c.gravityEnabled()) conservation_ << ",potential_energy_erg_grid,potential_energy_erg_in,potential_energy_erg_out,gas_gravity_energy_erg_grid,gas_gravity_energy_erg_corrected,gas_gravity_energy_erg_norm,gas_gravity_energy_drift_scaled";
++		if (c.gravityEnabled()) conservation_ << ",potential_energy_erg_grid,potential_energy_erg_in,potential_energy_erg_out,gas_gravity_energy_erg_grid,gas_gravity_energy_erg_corrected,gas_gravity_energy_erg_norm,gas_gravity_energy_drift_scaled,gravity_reciprocity_defect_erg,gravity_regrid_energy_change_erg,gravity_energy_budget_residual_scaled";
+ 	}
+ 	if (c.radiationEnabled()) {
+ 		header("radiation_energy_erg");
+@@ -245,7 +245,9 @@
+ 			conservation_ << ',' << units::value(d.potentialEnergy) << ',' << units::value(in.potentialEnergy) << ',' << units::value(out.potentialEnergy)
+ 				<< ',' << units::value(d.gasGravityEnergy)
+ 				<< ',' << units::value(d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy)
+-				<< ',' << units::value(norm) << ',' << drift;
++				<< ',' << units::value(norm) << ',' << drift
++				<< ',' << units::value(d.gravityReciprocityDefect) << ',' << units::value(d.gravityRegridEnergyChange)
++				<< ',' << (norm > units::Energy{} ? drift - Real((d.gravityReciprocityDefect + d.gravityRegridEnergyChange) / norm) : Real(0));
+ 		}
+ 	}
+ 	if (config_.radiationEnabled()) {
+--- a/src/gravity/adaptiveFieldSolver.cpp
++++ b/src/gravity/adaptiveFieldSolver.cpp
+@@ -272,7 +272,15 @@
+ 			if (target >= begin_ && target < end_) interactions_[target - begin_].push_back(pair);
+ 			return;
+ 		}
+-		if (!a.leaf() && (b.leaf() || a.location.level <= b.location.level)) {
++		if (!a.leaf() && !b.leaf() && a.location.level == b.location.level) {
++			// Refine both equal-sized nodes together. Splitting only the target
++			// can accept (child(a), b) before b is split, while the reversed walk
++			// accepts (child(b), a). Those are different approximate kernels and
++			// violate volume-weighted potential reciprocity on an adaptive mesh.
++			for (auto targetChild : a.children)
++				for (auto sourceChild : b.children)
++					walk(targetChild, sourceChild, image, correction);
++		} else if (!a.leaf() && (b.leaf() || a.location.level < b.location.level)) {
+ 			for (auto child : a.children)
+ 				walk(child, source, image, correction);
+ 		} else {
+--- a/tests/gravityEnergyChecks.cpp
++++ b/tests/gravityEnergyChecks.cpp
+@@ -1,5 +1,11 @@
+ #include "testSupport.hpp"
+ #include "octotigerII/runtime.hpp"
++#include "octotigerII/amr/hierarchy.hpp"
++#include "octotigerII/gravity/fieldSolver.hpp"
++#include "octotigerII/subgrid/topology.hpp"
++#ifdef OCTOTIGERII_WITH_HPX
++#include <hpx/runtime_distributed/find_all_localities.hpp>
++#endif
+ #include "octotigerII/simulation.hpp"
+ using namespace octotigerII;
+ namespace {
+@@ -38,7 +44,7 @@
+ 		auto energy = final.gasGravityEnergy + b.outward.gasEnergy - b.inward.gasEnergy + b.outward.potentialEnergy - b.inward.potentialEnergy;
+ 		Real const drift = Real((energy - initial.gasGravityEnergy) / initial.gasGravityNorm);
+ 		EXPECT_NEAR(drift, Real(solverResidual / initial.gasGravityNorm), 4e-13) << "step=" << step << " species=" << species << " AMR=" << adaptive << " periodic=" << periodic;
+-		EXPECT_LT(std::abs(drift), adaptive ? 1e-9 : 4e-13);
++		EXPECT_LT(std::abs(drift), 4e-13);
+ 	}
+ }
+ }
+@@ -47,3 +53,135 @@
+ TEST(GravityEnergy, PeriodicUniformWithSpecies) { exercise(true, false, true); }
+ 
+ TEST(GravityEnergy, PeriodicAdaptiveWithSpecies) { exercise(true, true, true); }
++
++TEST(GravityEnergy, RegridRefineAndCoarsenIndependentOfTimeTreatment) {
++	for (auto const* treatment : {"mullen", "naive"}) for (bool conserve : {false, true}) for (bool species : {false, true}) {
++		auto c = parseConfig({"--problem.name=collapse", "--mesh.cells=4", "--mesh.level=1",
++			"--output.enabled=off", "--verification.analytic=off", "--amr.enabled=on", "--amr.minLevel=1",
++			"--amr.maxLevel=2", "--amr.shadowTolerance=0", "--amr.bufferCells=0", "--amr.signalBuffer=1"});
++		c.gravity.energyTreatment = treatment;
++		c.gravity.conserveRegridEnergy = conserve;
++		c.massFractions.enabled = species;
++		if (species) c.massFractions.species = composition::parseSpecies("gas:0.7:He;oxygen:0.3:O;dye:0.4:A=0,Z=0");
++		bool refine = false;
++		Runtime runtime(c, { [&refine](refinement::CellView const& cell) {
++			return refine && cell.center[0] < units::Length::from_value(-2e8) && cell.level < 2 ? Real(2) : Real(0);
++		} });
++		runtime.solveGravity();
++		for (bool refining : {true, false}) {
++			amr::Hierarchy const source(c, runtime.snapshots());
++			auto const old = diagnose(runtime.snapshots(), c);
++			auto const oldSize = runtime.size();
++			refine = refining;
++			ASSERT_TRUE(runtime.regrid(units::Time{}, true));
++			if (refining) EXPECT_GT(runtime.size(), oldSize);
++			else EXPECT_LT(runtime.size(), oldSize);
++			if (conserve) {
++				EXPECT_THROW(runtime.stableTimestep(), std::logic_error);
++				EXPECT_THROW(runtime.advance(units::Time::from_value(1e-4)), std::logic_error);
++				EXPECT_THROW(runtime.regrid(units::Time{}, true), std::logic_error);
++			}
++			runtime.solveGravity();
++			auto const now = diagnose(runtime.snapshots(), c);
++			if (conserve) for (auto const& block : runtime.snapshots()) {
++				auto const expected = source.transferGasGravityEnergy(block.location);
++				for (std::size_t i = 0; i < expected.size(); ++i) {
++					auto const& gas = block.hydro.values()[i];
++					auto const potential = 0.5 * gas.density() * block.gravity.values()[i].potential();
++					auto const recovered = gas.totalEnergy() + potential;
++					auto const scale = units::abs(gas.totalEnergy()) + units::abs(potential);
++					EXPECT_NEAR(Real((recovered - expected[i]) / scale), 0, 8e-16);
++				}
++			}
++			EXPECT_NEAR(Real((now.mass - old.mass) / old.mass), 0, 2e-14);
++			auto const drift = Real((now.gasGravityEnergy - old.gasGravityEnergy) / old.gasGravityNorm);
++			if (conserve) EXPECT_NEAR(drift, 0, 2e-14) << treatment << " refining=" << refining;
++			else {
++				EXPECT_NEAR(Real((now.gasEnergy - old.gasEnergy) / old.gasGravityNorm), 0, 2e-14);
++				EXPECT_GT(std::abs(drift), 1e-8);
++			}
++			// No double subtraction on a repeated field solve.
++			runtime.solveGravity();
++			auto const repeated = diagnose(runtime.snapshots(), c);
++			EXPECT_EQ(now.gasEnergy, repeated.gasEnergy);
++		}
++	}
++}
++
++TEST(GravityEnergy, NaiveMatchesUnbracketedLegacyKicks) {
++	auto c = parseConfig({"--problem.name=collapse", "--mesh.cells=4", "--mesh.level=1",
++		"--gravity.energyTreatment=naive", "--output.enabled=off", "--verification.analytic=off"});
++	Runtime legacy(c), selected(c);
++	legacy.solveGravity(); selected.solveGravity();
++	auto const dt = units::Time::from_value(0.01);
++	for (int step = 0; step < 3; ++step) {
++		selected.beginGravityEnergy();
++		for (auto* runtime : {&legacy, &selected}) {
++			runtime->kickGravity(dt / 2.0);
++			runtime->advance(dt);
++			runtime->solveGravity();
++			runtime->kickGravity(dt / 2.0);
++		}
++		selected.finishGravityEnergy(dt);
++		auto const a = legacy.snapshots(), b = selected.snapshots();
++		for (std::size_t block = 0; block < a.size(); ++block)
++			for (std::size_t i = 0; i < a[block].hydro.values().size(); ++i)
++				a[block].hydro.values()[i].forEach([&](auto f, auto value) { EXPECT_EQ(value, b[block].hydro.values()[i].template get<f>()); });
++	}
++	EXPECT_GT(selected.boundaryTransport().outward.potentialEnergy + selected.boundaryTransport().inward.potentialEnergy, units::Energy{});
++}
++
++TEST(GravityEnergy, AdaptivePotentialOperatorIsReciprocal) {
++	// Independent bilinear test using two unrelated mass distributions. No gas
++	// evolution or energy correction can conceal an asymmetric gravity operator.
++	for (int order : {2, 5}) {
++		auto c = parseConfig({"--problem.name=collapse", "--mesh.cells=4", "--mesh.level=1", "--amr.enabled=on",
++			"--output.enabled=off", "--verification.analytic=off"});
++		c.gravity.multipoleOrder = order;
++		std::vector<mesh::BlockLocation> leaves;
++		mesh::BlockLocation const root{};
++		for (int slot = 0; slot < 8; ++slot) {
++			auto const child = root.child(slot);
++			if (slot == 0) for (int sub = 0; sub < 8; ++sub) leaves.push_back(child.child(sub));
++			else leaves.push_back(child);
++		}
++#ifdef OCTOTIGERII_WITH_HPX
++		auto owners = hpx::find_all_localities();
++#else
++		std::vector<storage::Locality> owners{0};
++#endif
++		CartesianTopology topology(c, owners.size(), leaves);
++		FieldRepository repository(c, topology.storageLayout(), owners);
++		auto const& fields = repository.directory();
++		gravity::FieldSolver solver(c, topology.blocks(), fields, owners);
++		std::array<std::vector<long double>, 2> masses, potentials;
++		for (int pattern = 0; pattern < 2; ++pattern) {
++			std::size_t index = 0;
++			for (auto const& block : topology.blocks()) {
++				auto gas = fields.hydro.output(block.interior, 0);
++				auto gravity = fields.gravity.output(block.interior, 0);
++				for (std::size_t i = 0; i < block.interior.count; ++i, ++index) {
++					hydro::PrimitiveState primitive{};
++					primitive.density() = units::Density::from_value(1 + Real((index * (pattern ? 43 : 17) + 31) % 127) / 53);
++					primitive.pressure() = units::Pressure::from_value(1e12);
++					gas.put(i, hydro::HydroSystem(c.hydro).conservedState(primitive));
++					gravity.put(i, {});
++					masses[pattern].push_back(units::value(primitive.density() * block.layout.cellMeasure(block.cellWidth)));
++				}
++				fields.hydro.commit(block.interior, 0, gas);
++				fields.gravity.commit(block.interior, 0, gravity);
++			}
++			solver.solve(0);
++			for (auto const& block : topology.blocks()) {
++				auto const field = fields.gravity.read(block.interior, 1).get();
++				for (std::size_t i = 0; i < block.interior.count; ++i) potentials[pattern].push_back(units::value(field.at(i).potential()));
++			}
++		}
++		long double ab = 0, ba = 0;
++		for (std::size_t i = 0; i < masses[0].size(); ++i) {
++			ab += masses[0][i] * potentials[1][i];
++			ba += masses[1][i] * potentials[0][i];
++		}
++		EXPECT_LT(std::abs((ab - ba) / ab), 3e-14L) << "order=" << order;
++	}
++}
+--- a/tests/optionsChecks.cpp
++++ b/tests/optionsChecks.cpp
+@@ -31,6 +31,23 @@
+ 	EXPECT_EQ(c.mesh.cells, 8);
+ 	EXPECT_EQ(c.runtime.workerTasks, 2);
+ 	EXPECT_FALSE(c.runtime.workStealing);
++}
++
++TEST_F(Options, IndependentGravityEnergyControls) {
++	auto const defaults = test::parseConfig({});
++	EXPECT_EQ(defaults.gravity.energyTreatment, "mullen");
++	EXPECT_TRUE(defaults.gravity.conserveRegridEnergy);
++	{ std::ofstream out(first); out << "[gravity]\nenergyTreatment=naive\nconserveRegridEnergy=off\n"; }
++	auto const legacy = test::parseConfig({"--config=" + first});
++	EXPECT_EQ(legacy.gravity.energyTreatment, "naive");
++	EXPECT_FALSE(legacy.gravity.conserveRegridEnergy);
++	auto const mixed = test::parseConfig({"--config=" + first, "--gravity.conserveRegridEnergy=on"});
++	EXPECT_EQ(mixed.gravity.energyTreatment, "naive");
++	EXPECT_TRUE(mixed.gravity.conserveRegridEnergy);
++	auto const other = test::parseConfig({"--config=" + first, "--gravity.energyTreatment=mullen"});
++	EXPECT_EQ(other.gravity.energyTreatment, "mullen");
++	EXPECT_FALSE(other.gravity.conserveRegridEnergy);
++	EXPECT_THROW(test::parseConfig({"--gravity.energyTreatment=unknown"}), std::invalid_argument);
+ }
+ 
+ 
+--- a/tests/serializationChecks.cpp
++++ b/tests/serializationChecks.cpp
+@@ -29,6 +29,8 @@
+ 	auto c = test::parseConfig({"--mesh.level=0", "--output.enabled=off"});
+ 	c.verification.analytic = "on";
+ 	c.randomSeed = 987654321;
++	c.gravity.energyTreatment = "naive";
++	c.gravity.conserveRegridEnergy = false;
+ 	c.hydro.dualEnergy = {true, -0.5, 0.003, 0.2};
+ 	c.hydro.meanMolecularWeight = 0.6;
+ 	if (c.hydroEnabled() && build::massFractions) {
+@@ -99,6 +101,8 @@
+ 		restored.verification.absoluteTolerance == c.verification.absoluteTolerance);
+ 	EXPECT_TRUE(before.time == after.time && before.cellWidth == after.cellWidth && before.lower == after.lower);
+ 	EXPECT_EQ(restored.hydro.acceleration, c.hydro.acceleration);
++	EXPECT_EQ(restored.gravity.energyTreatment, c.gravity.energyTreatment);
++	EXPECT_EQ(restored.gravity.conserveRegridEnergy, c.gravity.conserveRegridEnergy);
+ 	EXPECT_EQ(restored.hydro.dualEnergy.enabled, c.hydro.dualEnergy.enabled);
+ 	EXPECT_EQ(restored.hydro.dualEnergy.exponent, c.hydro.dualEnergy.exponent);
+ 	EXPECT_EQ(restored.hydro.dualEnergy.pressureThreshold, c.hydro.dualEnergy.pressureThreshold);
+--- a/docs/gravity-energy.md
++++ b/docs/gravity-energy.md
+@@ -1,4 +1,23 @@
+ # Gravity energy from the numerical mass flux
++
++## Independent controls (both enabled by default)
++
++```ini
++[gravity]
++energyTreatment = mullen
++conserveRegridEnergy = on
++```
++
++`energyTreatment=mullen|naive` selects the timestep energy source.
++`conserveRegridEnergy=on|off` independently selects the regridding invariant.
++All four combinations are supported; neither option changes the momentum kicks.
++The naive mode retains the old kinetic-work increments and their original entropy
++synchronization. It still records the same endpoint potential boundary flux, so
++its combined-energy diagnostic is directly comparable to the Mullen mode.
++
++For example, append `--gravity.energyTreatment=naive` to an existing run to
++change only the timestep treatment. Append `--gravity.conserveRegridEnergy=off`
++to change only remapping. Use separate `output.directory` values for comparisons.
+ 
+ The momentum integrator retains its existing endpoint kicks:
+ 
+@@ -7,8 +26,9 @@
+ 3. Advance hydro and species, storing the actual numerical density flux; reflux.
+ 4. Solve gravity for the updated density at n+1.
+ 5. Apply the second half momentum kick with the field at n+1.
+-6. Replace accumulated self-gravity kick work with endpoint-averaged mass-flux
+-   work, then synchronize hydro's entropy auxiliary.
++6. In Mullen mode, replace accumulated self-gravity kick work with endpoint-averaged
++   mass-flux work, then synchronize hydro's entropy auxiliary. Naive mode retains
++   the kick work.
+ 
+ Potential and acceleration remain synchronized at each endpoint. There is no
+ midpoint-density gravity solve and no separately evolved dphi/dt field.
+@@ -57,7 +77,55 @@
+ undone. Work by an imposed external acceleration remains in the energy update.
+ The correction changes only gas energy and the final entropy synchronization.
+ 
+-## Conservation limits
++## Conservative regridding
++
++With `conserveRegridEnergy=on`, construct the scalar
++
++    Q = Egas + rho*phi/2
++
++on the old synchronized mesh. Restrict Q by volume averaging and prolong Q
++with conservative minmod slopes. Once density has been transferred and gravity
++has been solved on the destination mesh, recover
++
++    Egas_new = Q_transferred - rho_new*phi_new/2.
++
++Q is held in a transfer register, separate from the gas-energy field, so a
++negative binding-plus-gas energy is never passed to an EOS as thermal/gas energy.
++Mesh selection and its shadow estimates continue to use actual gas states.
++The sum of Q and the mass are preserved through both refinement and coarsening;
++the correction is local to the remapped cells, not a global energy redistribution.
++Entropy remains in hydro and is synchronized after recovery. Dual energy can
++supply pressure if the recovered conservative gas energy is locally inadmissible;
++without that fallback an inadmissible state fails rather than clipping energy.
++
++Manual Runtime callers must have synchronized old gravity before a changed
++energy-conserving regrid. After `regrid()` returns true, call `solveGravity()` (or
++`setGravity()` for prescribed test fields) before another timestep or regrid.
++The next successful field publication recovers gas energy once and rebuilds the
++shadow hierarchy from the recovered leaves. An unchanged mesh does not apply
++any correction. The ordinary simulation driver performs this sequence.
++
++With the option off, gas energy itself is conservatively transferred, reproducing
++the former remap. The resulting change in binding energy remains visible as a
++jump in total energy.
++
++## Adaptive gravity reciprocity
++
++The previous adaptive tree walk split the target first when two equal-size nodes
++failed the opening test. Reversing source and target could then accept different
++child/parent groups, so the two directions used different approximate kernels.
++The walk now descends both equal-sized nonleaf nodes together, and otherwise
++descends the larger nonleaf node (or the available nonleaf when its partner is a
++leaf). This is traversal of the existing gravity tree, not AMR mesh refinement.
++It makes the interaction partition symmetric under exchange of source and target.
++No multipole order increase or global energy correction is needed for this fix.
++
++The independent bilinear regression uses unrelated densities on a mixed-level
++mesh at orders 2 and 5; the potential must satisfy
++`sum(m_a*phi_b) = sum(m_b*phi_a)` to roundoff. Isolated and periodic mass-flux
++energy regressions also require roundoff conservation on fixed adaptive meshes.
++
++## Conservation diagnostics and limits
+ 
+ On a fixed mesh, the coupling balances gas energy against `sum(rho*phi*V/2)`
+ to roundoff when the potential operator is reciprocal under volume weighting.
+@@ -67,11 +135,19 @@
+     R = sum[V*(rho^n*phi^(n+1) - rho^(n+1)*phi^n)/2].
+ 
+ Tests separate this FMM reciprocity defect from the work discretization error;
+-no global energy redistribution is used to hide it. The current adaptive FMM
+-can produce a nonzero R. Regridding conserves gas and species integrals but
+-changes the discrete gravitational binding energy; this patch does not apply
+-a compensating thermal adjustment at a mesh change. External imposed forces
+-can also change the self-gravity energy invariant.
++no global energy redistribution is used to hide it. The corrected adaptive walk
++reduces R to roundoff in the tested cases. A higher multipole order improves
++field accuracy but is not a substitute for reciprocity. External imposed forces
++can change the self-gravity energy invariant.
++
++`conservation.csv` now includes cumulative `gravity_reciprocity_defect_erg`,
++`gravity_regrid_energy_change_erg`, and `gravity_energy_budget_residual_scaled`.
++The last is the boundary-corrected total-energy drift minus these two measured
++contributions, divided by the usual energy norm. These are explanatory columns;
++the physical `gas_gravity_energy_drift_scaled` column still includes all errors.
++For naive mode the residual also contains its nonconservative timestep work.
++Global diagnostic integrals use compensated summation to reduce accumulation
++roundoff; neither the cell solution nor the physical drift is forced to zero.
+ 
+ In dilute atmospheres, conservative work can make E or E-K nonpositive even
+ when the entropy auxiliary gives valid pressure. Dual energy then retains
+--- a/docs/conservation.md
++++ b/docs/conservation.md
+@@ -65,8 +65,8 @@
+ `corrected`, `norm`, and `drift_scaled` columns; the corrected value adds both
+ gas and potential outward transport and subtracts inward transport. It is the
+ energy invariant for a fixed mesh and reciprocal self-potential operator.
+-Imposed acceleration, approximate FMM reciprocity error, and changes of mesh
+-can still cause drift. See [gravity-energy.md](gravity-energy.md) for the exact
++Imposed acceleration, a nonreciprocal gravity operator, and changes of mesh
++with `gravity.conserveRegridEnergy=off` can cause drift. See [gravity-energy.md](gravity-energy.md) for the exact
+ work formula and the distinction between this coupling and momentum kicks.
+ The factor 1/2 applies only to the on-grid self-potential integral, not the
+ potential advected through a physical boundary.
+@@ -90,3 +90,19 @@
+ of `log2(mesh.cells)`. The gravity tree also repeatedly halves the grid. These
+ implementation assumptions require changes before admitting 2-cell blocks or
+ non-power-of-two block sizes; the finite-volume equations do not require them.
++
++## Separating energy error sources
++
++The cumulative columns `gravity_reciprocity_defect_erg` and
++`gravity_regrid_energy_change_erg` measure the endpoint potential-operator defect
++and actual total-energy changes during remapping, respectively.
++`gravity_energy_budget_residual_scaled` is the scaled combined-energy drift
++minus those two contributions. All use actual evolved fields, not a fit to the
++observed drift. The original physical-drift column remains unchanged in meaning;
++no measured error is removed from the cell solution or that column.
++
++These decompositions are filled by the normal `run()` driver. A custom caller
++that constructs `Diagnostics` directly must supply cumulative step and regrid
++measurements itself; `diagnose()` alone cannot infer temporal history.
++Compensated summation is used for global grid integrals and norms, reducing
++order-dependent summation noise. Boundary transport retains its existing ledger.
+--- a/README.md
++++ b/README.md
+@@ -198,7 +198,11 @@
+ energy update uses the actual numerical mass flux and endpoint-averaged
+ potential, replacing the kicks' temporary self-gravity work. No `dphi/dt`
+ evolution is needed. See [gravity energy](docs/gravity-energy.md) for the
+-sequence, boundary accounting, and FMM/regridding conservation limits.
++sequence and boundary accounting. `gravity.energyTreatment=mullen` and
++`gravity.conserveRegridEnergy=on` are independent defaults. Select `naive` to
++retain kinetic-work kicks, or turn the regrid option off to transfer gas energy
++alone. The enabled regrid path transfers E+rho*phi/2 and recovers gas energy after
++the new gravity solve. The adaptive FMM uses a reciprocal interaction walk.
+ 
+ ## Material fractions
+ 
+--- a/VALIDATION.md
++++ b/VALIDATION.md
+@@ -391,3 +391,10 @@
+ HPX was unavailable in this execution environment. HPX configuration, state,
+ and flux serialization were updated and their round-trip tests extended, but
+ HPX builds and multiple-locality execution were not run here.
++
++## Gravity energy audit and selectable treatments — 2026-09-24
++
++510/510 serial tests pass. See [audit and comparison results](docs/validation/gravity-energy-audit/README.md)
++for the adaptive FMM reciprocity fix, independent timestep/regrid controls,
++conservative combined-energy remapping, and physical/AMR boundary checks.
++HPX/distributed execution remains unverified here.

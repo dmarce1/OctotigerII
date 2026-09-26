@@ -3,12 +3,32 @@
 #include "octotigerII/amr/hierarchy.hpp"
 #include <bit>
 #include "octotigerII/composition/transport.hpp"
-#include <set>
 #include "octotigerII/amr/interpolation.hpp"
 #include "octotigerII/problems.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
 namespace octotigerII::amr {
+namespace {
+mesh::PhysicalCoordinates logicalCenter(Config const& config, mesh::BlockLocation const& cell) {
+	mesh::PhysicalCoordinates x{};
+	auto const width = (config.mesh.upper - config.mesh.lower) / Real(std::uint64_t(1) << cell.level);
+	for (int d = 0; d < ndim; ++d) x[d] = config.mesh.lower + (cell.coordinates[d] + 0.5) * width;
+	return x;
+}
+template <typename System>
+units::Velocity meshSignalSpeed(System const& system, typename System::State const& state, int axis,
+	Config const& config, mesh::BlockLocation const& cell, units::Time time) {
+	physics::RotatingFrame const frame(config.frame.omega);
+	auto const meshSpeed = frame.normalSpeed(logicalCenter(config, cell), axis);
+	auto result = system.maximumSignalSpeed(frame.toGridState(state, time), axis, meshSpeed);
+	if (frame.active() && axis < 2) {
+		auto const width = (config.mesh.upper - config.mesh.lower) / Real(std::uint64_t(1) << cell.level);
+		result += 0.5 * units::abs(frame.omega()) * width;
+	}
+	return result;
+}
+}
+
 
 Hierarchy::Values& Hierarchy::Values::operator+=(Values const& other) {
 	hydro += other.hydro;
@@ -91,14 +111,14 @@ void Hierarchy::advance(units::Time dt) {
 		for (auto const& [cell, value] : cells_) {
 			width = std::min(width, (config_.mesh.upper - config_.mesh.lower) / Real(std::uint64_t(1) << cell.level));
 			for (int d = 0; d < ndim; ++d) {
-				if (build::hydro && config_.hydroEnabled()) speed[d] = std::max(speed[d], hydro::HydroSystem(config_.hydro).maximumSignalSpeed(value.hydro, d));
-				if (build::radiation && config_.radiationEnabled()) speed[d] = std::max(speed[d], radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c).maximumSignalSpeed(value.radiation, d));
+				if (build::hydro && config_.hydroEnabled()) speed[d] = std::max(speed[d], meshSignalSpeed(hydro::HydroSystem(config_.hydro), value.hydro, d, config_, cell, time_));
+				if (build::radiation && config_.radiationEnabled()) speed[d] = std::max(speed[d], meshSignalSpeed(radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), value.radiation, d, config_, cell, time_));
 			}
 		}
 		units::InverseTime rate{};
 		for (auto v : speed) rate += v / width;
 		if (!(rate > units::InverseTime{}) || !units::finite(rate)) throw std::runtime_error("Invalid shadow CFL rate");
-		auto const limit = config_.timestep.cfl / rate;
+		auto const limit = std::min(config_.timestep.cfl / rate, physics::RotatingFrame(config_.frame.omega).maximumTimestep());
 		while (step > limit || step > remaining) step /= 2;
 		if (!(step > units::Time{}) || time_ + step == time_) throw std::runtime_error("Shadow timestep cannot advance time");
 		advanceOnce(step);
@@ -117,24 +137,25 @@ void Hierarchy::advanceGravity(units::Time dt) {
 		std::array<units::Velocity, ndim> speed{};
 		auto width = config_.mesh.upper - config_.mesh.lower;
 		units::Acceleration maximumAcceleration{};
+		auto const external = physics::RotatingFrame(config_.frame.omega).toGrid(config_.hydro.acceleration, time_);
 		for (auto const& [cell, value] : cells_) {
 			width = std::min(width, (config_.mesh.upper - config_.mesh.lower) / Real(std::uint64_t(1) << cell.level));
 			units::Acceleration acceleration{};
 			for (int d = 0; d < ndim; ++d) {
 				if (build::hydro && config_.hydroEnabled()) {
-					speed[d] = std::max(speed[d], hydro::HydroSystem(config_.hydro).maximumSignalSpeed(value.hydro, d));
-					acceleration += units::abs(config_.hydro.acceleration[d]
+					speed[d] = std::max(speed[d], meshSignalSpeed(hydro::HydroSystem(config_.hydro), value.hydro, d, config_, cell, time_));
+					acceleration += units::abs(external[d]
 						+ (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{}));
 				}
 				if (build::radiation && config_.radiationEnabled())
-					speed[d] = std::max(speed[d], radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c).maximumSignalSpeed(value.radiation, d));
+					speed[d] = std::max(speed[d], meshSignalSpeed(radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), value.radiation, d, config_, cell, time_));
 			}
 			maximumAcceleration = std::max(maximumAcceleration, acceleration);
 		}
 		units::InverseTime rate{};
 		for (auto v : speed) rate += v / width;
 		if (!(rate > units::InverseTime{}) || !units::finite(rate)) throw std::runtime_error("Invalid shadow CFL rate");
-		auto limit = config_.timestep.cfl / rate;
+		auto limit = std::min(config_.timestep.cfl / rate, physics::RotatingFrame(config_.frame.omega).maximumTimestep());
 		if (maximumAcceleration > units::Acceleration{}) {
 			// Include the speed gained during the source step, using the same
 			// displacement and acceleration constraints as the physical cells.
@@ -188,7 +209,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 		};
 		if constexpr (build::hydro) if (config_.hydroEnabled()) {
 			hydro::Solver::Workspace work;
-			hydro::Solver(hydro::HydroSystem(config_.hydro)).advanceInto(gas, dt, work, [&](auto const& cell, auto const& value) {
+			hydro::Solver(hydro::HydroSystem(config_.hydro), physics::RotatingFrame(config_.frame.omega), time_).advanceInto(gas, dt, work, [&](auto const& cell, auto const& value) {
 				auto& target = destination(cell);
 				target.hydro = value;
 				hydro::HydroSystem(config_.hydro).synchronize(target.hydro);
@@ -212,7 +233,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 		}
 		if constexpr (build::radiation) if (config_.radiationEnabled()) {
 			radiation::Solver::Workspace work;
-			radiation::Solver(radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c))
+			radiation::Solver(radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), physics::RotatingFrame(config_.frame.omega), time_)
 				.advanceInto(radiation, dt, work, [&](auto const& cell, auto const& value) { destination(cell).radiation = value; });
 		}
 	}
@@ -225,8 +246,9 @@ void Hierarchy::kick(units::Time dt) {
 	if (build::hydro && config_.hydroEnabled())
 		for (auto& [cell, value] : cells_) {
 			(void) cell;
+			auto const gravity = physics::RotatingFrame(config_.frame.omega).toInertialState(value.gravity, time_);
 			for (int d = 0; d < ndim; ++d) {
-				auto const acceleration = config_.hydro.acceleration[d] + (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{});
+				auto const acceleration = config_.hydro.acceleration[d] + (config_.gravityEnabled() ? gravity.acceleration(d) : units::Acceleration{});
 				auto const impulse = dt * value.hydro.density() * acceleration;
 				value.hydro.totalEnergy() += impulse * (value.hydro.momentum(d) + 0.5 * impulse) / value.hydro.density();
 				value.hydro.momentum(d) += impulse;
@@ -266,6 +288,8 @@ void Hierarchy::refreshGravity(std::vector<Snapshot> const& leaves) {
 }
 
 Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
+	auto const position = logicalCenter(config_, cell);
+	physics::RotatingFrame const frame(config_.frame.omega);
 	auto const mapped = config_.mesh.boundary.map(cell.coordinates, 1 << cell.level);
 	if (mapped.analytic) {
 		mesh::PhysicalCoordinates position{};
@@ -290,10 +314,10 @@ Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
 	auto result = found->second;
 	if (build::hydro && config_.hydroEnabled())
 		result.hydro = physics::transformBoundary(
-			result.hydro, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, hydro::HydroSystem(config_.hydro));
+			result.hydro, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, hydro::HydroSystem(config_.hydro), frame, position, time_);
 	if (build::radiation && config_.radiationEnabled())
 		result.radiation = physics::transformBoundary(result.radiation, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask,
-			radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c));
+			radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), frame, position, time_);
 	return result;
 }
 
@@ -372,10 +396,15 @@ refinement::CellView Hierarchy::sample(mesh::BlockLocation block, mesh::Coordina
 		auto const a = average(left), b = average(right);
 		result.hydro.gradient[d] = (b.hydro - a.hydro) / (2.0 * result.width);
 		result.radiation.gradient[d] = (b.radiation - a.radiation) / (2.0 * result.width);
-		if (build::hydro && config_.hydroEnabled()) result.signalSpeed[d] = hydro::HydroSystem(config_.hydro).maximumSignalSpeed(value.hydro, d);
+		if (build::hydro && config_.hydroEnabled()) result.signalSpeed[d] = meshSignalSpeed(hydro::HydroSystem(config_.hydro), value.hydro, d, config_, cell, time_);
 		if (build::hydro && config_.hydroEnabled())
-			result.acceleration[d] = config_.hydro.acceleration[d] + (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{});
-		if (build::radiation && config_.radiationEnabled()) result.signalSpeed[d] = std::max(result.signalSpeed[d], config_.radiation.lightSpeedRatio * constants::c);
+			result.acceleration[d] = physics::RotatingFrame(config_.frame.omega).toGrid(config_.hydro.acceleration, time_)[d] + (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{});
+		if (build::radiation && config_.radiationEnabled()) {
+			auto speed = config_.radiation.lightSpeedRatio * constants::c
+				+ units::abs(physics::RotatingFrame(config_.frame.omega).normalSpeed(logicalCenter(config_, cell), d));
+			if (d < 2) speed += 0.5 * units::abs(config_.frame.omega) * result.width;
+			result.signalSpeed[d] = std::max(result.signalSpeed[d], speed);
+		}
 	}
 	return result;
 }
@@ -427,160 +456,5 @@ Snapshot Hierarchy::transfer(mesh::BlockLocation location) const {
 	return result;
 }
 
-namespace {
-	using Location = mesh::BlockLocation;
-	class LocationLess {
-	public:
-		bool operator()(Location const& a, Location const& b) const {
-			auto const x = mesh::mortonKey(a), y = mesh::mortonKey(b);
-			return x != y ? x < y : a.level < b.level;
-		}
-	};
-	class Box {
-	public:
-		std::array<Real, ndim> lower{}, upper{};
-		int level = 0;
-	};
-	Box bounds(Location const& location) {
-		Box box;
-		box.level = location.level;
-		for (int d = 0; d < ndim; ++d) {
-			box.lower[d] = Real(location.coordinates[d]) / Real(1 << location.level);
-			box.upper[d] = Real(location.coordinates[d] + 1) / Real(1 << location.level);
-		}
-		return box;
-	}
-	bool overlaps(Box const& a, Box const& b, physics::BoundaryConditions const& bc, bool touching = false) {
-		for (int d = 0; d < ndim; ++d) {
-			bool hit = false;
-			for (int shift = bc.periodic(d) ? -1 : 0; shift <= (bc.periodic(d) ? 1 : 0); ++shift) {
-				if (touching ? a.lower[d] <= b.upper[d] + shift && b.lower[d] + shift <= a.upper[d] :
-							   a.lower[d] < b.upper[d] + shift && b.lower[d] + shift < a.upper[d])
-					hit = true;
-			}
-			if (!hit) return false;
-		}
-		return true;
-	}
-}	 // namespace
-
-RegridResult selectMesh(Config const& c, std::vector<Snapshot> const& snapshots, Hierarchy const& hierarchy, units::Time horizon,
-	refinement::Criteria const& criteria, bool allowCoarsening, Hierarchy const* restricted, bool oneLevel) {
-	std::vector<Box> seeds;
-	std::array<units::Velocity, ndim> speed{};
-	std::unordered_map<Location, Real, mesh::BlockLocationHash> scores;
-	std::set<Location, LocationLess> leaves;
-	auto const length = c.mesh.upper - c.mesh.lower;
-	for (auto const& block : snapshots) {
-		leaves.insert(block.location);
-		Real maximum = 0;
-		Box seed;
-		seed.lower.fill(1);
-		seed.upper.fill(0);
-		seed.level = std::min(c.amr.maxLevel, block.location.level + 1);
-		bool flagged = false;
-		block.layout.forEachInterior([&](auto const& cell, std::size_t) {
-			auto const view = hierarchy.sample(block.location, cell);
-			auto const value = refinement::score(view, criteria);
-			maximum = std::max(maximum, value);
-			for (int d = 0; d < ndim; ++d)
-				speed[d] = std::max(speed[d], view.signalSpeed[d] + units::abs(view.acceleration[d]) * horizon);
-			if (value <= 1) return;
-			flagged = true;
-			for (int d = 0; d < ndim; ++d) {
-				Real const center = Real((view.center[d] - c.mesh.lower) / length);
-				Real const radius = (Real(c.amr.bufferCells) + 0.5) * Real(view.width / length);
-				seed.lower[d] = std::min(seed.lower[d], center - radius);
-				seed.upper[d] = std::max(seed.upper[d], center + radius);
-			}
-		});
-		scores[block.location] = maximum;
-		if (flagged) seeds.push_back(seed);
-	}
-	for (auto& seed : seeds)
-		for (int d = 0; d < ndim; ++d) {
-			Real const travel = Real(c.amr.signalBuffer * speed[d] * horizon / length);
-			seed.lower[d] -= travel;
-			seed.upper[d] += travel;
-		}
-	auto desired = [&](Location const& leaf) {
-		int level = c.amr.minLevel < 0 ? c.mesh.level : c.amr.minLevel;
-		auto const box = bounds(leaf);
-		for (auto const& seed : seeds)
-			if (overlaps(box, seed, c.mesh.boundary)) level = std::max(level, seed.level);
-		return level;
-	};
-	RegridResult result;
-	result.signalSpeed = speed;
-	int const minimum = c.amr.minLevel < 0 ? c.mesh.level : c.amr.minLevel;
-	if (allowCoarsening) {
-		std::set<Location, LocationLess> parents;
-		for (auto const& leaf : leaves)
-			if (leaf.level > minimum) parents.insert(leaf.parent());
-		for (auto const& parent : parents) {
-			bool safe = desired(parent) <= parent.level;
-			for (int slot = 0; slot < (1 << ndim); ++slot)
-				safe = safe && leaves.contains(parent.child(slot)) && scores.at(parent.child(slot)) < c.amr.coarsenFactor;
-			if (!safe) continue;
-			// Test the proposed coarse cells too: summing children can violate
-			// the mass limit even when every child is below the threshold.
-			mesh::forEachCoordinate(mesh::filledCoordinates(c.mesh.cells), [&](auto const& cell) {
-				if (refinement::score((restricted ? *restricted : hierarchy).sample(parent, cell), criteria) >= c.amr.coarsenFactor) safe = false;
-			});
-			if (!safe) continue;
-			for (int slot = 0; slot < (1 << ndim); ++slot)
-				leaves.erase(parent.child(slot));
-			leaves.insert(parent);
-			++result.coarsened;
-		}
-	}
-	bool changed = true;
-	while (changed) {
-		changed = false;
-		std::vector<Location> split;
-		for (auto const& leaf : leaves)
-			if (leaf.level < desired(leaf)) split.push_back(leaf);
-		for (auto const& leaf : split) {
-			leaves.erase(leaf);
-			for (int slot = 0; slot < (1 << ndim); ++slot)
-				leaves.insert(leaf.child(slot));
-			++result.refined;
-			changed = true;
-		}
-		if (oneLevel) break;
-	}
-	// Full 2:1 balance includes edges, corners, and periodic neighbors, because
-	// multidimensional reconstruction uses all of those ghost dependencies.
-	changed = true;
-	while (changed) {
-		changed = false;
-		std::set<Location, LocationLess> split;
-		for (auto const& fine : leaves)
-			mesh::forEachCoordinate(mesh::filledCoordinates(3), [&](auto const& direction) {
-				Location neighbor = fine;
-				for (int d = 0; d < ndim; ++d) {
-					neighbor.coordinates[d] += direction[d] - 1;
-					if ((neighbor.coordinates[d] < 0 || neighbor.coordinates[d] >= (1 << fine.level)) && !c.mesh.boundary.periodic(d)) return;
-				}
-				neighbor.coordinates = c.mesh.boundary.map(neighbor.coordinates, 1 << fine.level).source;
-				while (!leaves.contains(neighbor) && !neighbor.isRoot())
-					neighbor = neighbor.parent();
-				if (leaves.contains(neighbor) && neighbor.level + 1 < fine.level) split.insert(neighbor);
-			});
-		for (auto const& leaf : split) {
-			leaves.erase(leaf);
-			for (int slot = 0; slot < (1 << ndim); ++slot)
-				leaves.insert(leaf.child(slot));
-			++result.refined;
-			changed = true;
-		}
-	}
-	result.leaves.assign(leaves.begin(), leaves.end());
-	result.changed = result.leaves.size() != snapshots.size();
-	if (!result.changed)
-		for (auto const& block : snapshots)
-			if (!leaves.contains(block.location)) result.changed = true;
-	return result;
-}
 
 }	 // namespace octotigerII::amr

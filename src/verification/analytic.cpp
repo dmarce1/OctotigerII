@@ -77,7 +77,10 @@ std::vector<Field> sample(Snapshot const& b, [[maybe_unused]] Config const& c, R
 	if (b.time > ref.validUntil) throw std::invalid_argument("Analytic reference sampled after its validity interval");
 	std::vector<ExactState> exact;
 	b.layout.forEachInterior(
-		[&](mesh::Coordinates const& cell, std::size_t) { exact.push_back(ref.evaluate(b.layout.cellCenter(b.lower, b.cellWidth, cell), b.time)); });
+		[&](mesh::Coordinates const& cell, std::size_t) {
+			auto const position = physics::RotatingFrame(c.frame.omega).toInertial(b.layout.cellCenter(b.lower, b.cellWidth, cell), b.time);
+			exact.push_back(ref.evaluate(position, b.time));
+		});
 	auto field = [&](std::string name, std::string units, auto numerical, auto expected) {
 		Field f{std::move(name), std::move(units), {}, {}};
 		std::size_t j = 0;
@@ -114,7 +117,9 @@ std::vector<Field> sample(Snapshot const& b, [[maybe_unused]] Config const& c, R
 		field("potential", "cm^2/s^2", [&](std::size_t i) { return b.gravity.values()[i].potential(); }, [](auto const& q) { return q.gravity.potential(); });
 		for (int axis = 0; axis < ndim; ++axis)
 			field(
-				std::string("acceleration") + "XYZ"[axis], "cm/s^2", [&](std::size_t i) { return b.gravity.values()[i].acceleration(axis); },
+				std::string("acceleration") + "XYZ"[axis], "cm/s^2", [&](std::size_t i) {
+					return physics::RotatingFrame(c.frame.omega).toInertialState(b.gravity.values()[i], b.time).acceleration(axis);
+				},
 				[axis](auto const& q) { return q.gravity.acceleration(axis); });
 	}
 	if (build::radiation && c.radiationEnabled()) {

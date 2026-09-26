@@ -104,6 +104,7 @@ public:
 	std::size_t ghostCount = 0;
 	std::vector<unsigned> reflectionMasks;
 	std::vector<unsigned> outflowLowerMasks, outflowUpperMasks;
+	std::vector<mesh::PhysicalCoordinates> boundaryPositions;
 	std::vector<AnalyticGhost> analyticGhosts;
 	std::vector<Prolongation> prolongations;
 	std::size_t valueCount = 0;
@@ -112,7 +113,7 @@ public:
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
 		archive & reads & ghostIndices & ghostCount & reflectionMasks & outflowLowerMasks & outflowUpperMasks & analyticGhosts;
-		archive & prolongations & valueCount;
+		archive & prolongations & valueCount & boundaryPositions;
 	}
 };
 

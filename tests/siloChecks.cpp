@@ -352,3 +352,42 @@ TEST(SiloOutput, AmrTimeSeriesRefreshesDomainsAndPreservesCoverage) {
 		}
 	}
 }
+
+TEST(Silo, RotatingMeshStaysInGridCoordinatesAndPreservesVectors) {
+	if constexpr (ndim < 2) GTEST_SKIP() << "Rotation requires two dimensions";
+	test::TemporaryDirectory directory;
+	auto c = test::parseConfig({"--mesh.level=0", "--mesh.cells=4", "--mesh.periodic=off", "--frame.omega=1",
+		"--verification.analytic=off", "--runtime.stopTime=1", "--output.directory=" + directory.path.string()});
+	auto patch = initialSnapshot(c, {0, {}});
+	patch.time = units::Time::from_value(0.5 * std::acos(-1.0));
+	if constexpr (test::hydro) {
+		hydro::HydroSystem gas(c.hydro);
+		for (auto& u : patch.hydro.values()) {
+			auto p = gas.reconstructionVariables(u);
+			p.velocity(0) = units::Velocity::from_value(2);
+			p.velocity(1) = units::Velocity::from_value(3);
+			u = gas.conservedState(p);
+		}
+	}
+	std::vector<Snapshot> patches{patch};
+	{ Output output(c); output(patches, 0, diagnose(patches, c)); }
+	std::unique_ptr<DBfile, decltype(&DBClose)> file(DBOpen((directory.path / "frame_000000.silo").c_str(), DB_HDF5, DB_READ), &DBClose);
+	ASSERT_TRUE(file);
+	std::unique_ptr<DBmultimesh, decltype(&DBFreeMultimesh)> multi(DBGetMultimesh(file.get(), "mesh"), &DBFreeMultimesh);
+	ASSERT_TRUE(multi);
+	EXPECT_EQ(multi->meshtypes[0], DB_QUAD_RECT);
+	std::unique_ptr<DBquadmesh, decltype(&DBFreeQuadmesh)> grid(DBGetQuadmesh(file.get(), "block0/mesh"), &DBFreeQuadmesh);
+	ASSERT_TRUE(grid);
+	EXPECT_EQ(grid->coordtype, DB_COLLINEAR);
+	auto const* x = static_cast<double const*>(grid->coords[0]);
+	auto const* y = static_cast<double const*>(grid->coords[1]);
+	EXPECT_NEAR(x[0], units::value(patch.lower[0]), 1e-12);
+	EXPECT_NEAR(y[0], units::value(patch.lower[1]), 1e-12);
+	EXPECT_NEAR(x[1] - x[0], units::value(patch.cellWidth), 1e-12);
+	EXPECT_NEAR(y[1], y[0], 1e-12);
+	if constexpr (test::hydro) {
+		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> vx(DBGetQuadvar(file.get(), "block0/velocityX"), &DBFreeQuadvar);
+		ASSERT_TRUE(vx);
+		EXPECT_NEAR(static_cast<double const*>(vx->vals[0])[0], 2, 1e-12);
+	}
+}

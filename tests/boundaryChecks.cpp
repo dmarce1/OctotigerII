@@ -394,3 +394,40 @@ TEST(BoundaryRuntime, MixedAndAnalyticBoundariesAreIndependentOfDecomposition) {
 #endif
 
 }	 // namespace
+
+#if OCTOTIGERII_HYDRO
+TEST(RotatingBoundary, GasDiodeUsesMovingNormalAndPreservesInternalEnergy) {
+	if constexpr (ndim < 2) GTEST_SKIP();
+	hydro::HydroSystem gas;
+	hydro::PrimitiveState primitive{};
+	primitive.density() = units::Density::from_value(1);
+	primitive.pressure() = units::Pressure::from_value(2);
+	auto const initial = gas.conservedState(primitive);
+	physics::RotatingFrame frame(units::InverseTime::from_value(1));
+	mesh::PhysicalCoordinates x{};
+	x[0] = units::Length::from_value(1);
+	x[1] = units::Length::from_value(-2);
+	auto const at = units::Time::from_value(0.7);
+	auto const ghost = physics::transformBoundary(initial, 0, 0, 1, gas, frame, x, at);
+	auto const logical = frame.toGridState(ghost, at);
+	EXPECT_NEAR(units::value(logical.momentum(0) / logical.density()), 2, 1e-13);
+	EXPECT_NEAR(units::value(gas.internalEnergy(ghost)), units::value(gas.internalEnergy(initial)), 1e-13);
+	EXPECT_TRUE(gas.admissible(ghost));
+}
+#endif
+#if OCTOTIGERII_RADIATION
+TEST(RotatingBoundary, VacuumExteriorRemainsRealizableAtFastMovingFace) {
+	if constexpr (ndim < 2) GTEST_SKIP();
+	radiation::RadiationSystem rad(units::Velocity::from_value(1));
+	radiation::RadiationSystem::State initial{};
+	initial.energy() = units::EnergyDensity::from_value(1);
+	physics::RotatingFrame frame(units::InverseTime::from_value(10));
+	mesh::PhysicalCoordinates x{};
+	x[1] = units::Length::from_value(-2);
+	auto const ghost = physics::transformBoundary(initial, 0, 0, 1, rad, frame, x, units::Time{});
+	EXPECT_TRUE(rad.admissible(ghost));
+	EXPECT_EQ(ghost.energy(), units::EnergyDensity{});
+	auto const flux = rad.riemann(initial, ghost, 0, frame.normalSpeed(x, 0));
+	EXPECT_EQ(flux.energy(), units::EnergyFlux{});
+}
+#endif

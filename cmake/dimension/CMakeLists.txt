@@ -58,9 +58,13 @@ if(OCTOTIGERII_GRAVITY)
 endif()
 octo_library(octotigerIIRefinement${suffix} ${PROJECT_SOURCE_DIR}/src/refinement/criteria.cpp)
 target_link_libraries(octotigerIIRefinement${suffix} PUBLIC octotigerIIMesh${suffix})
-octo_library(octotigerIIAmr${suffix} ${PROJECT_SOURCE_DIR}/src/amr/hierarchy.cpp ${PROJECT_SOURCE_DIR}/src/amr/initialization.cpp)
+octo_library(octotigerIIAmr${suffix} ${PROJECT_SOURCE_DIR}/src/amr/hierarchy.cpp ${PROJECT_SOURCE_DIR}/src/amr/initialization.cpp
+  ${PROJECT_SOURCE_DIR}/src/amr/regridSelection.cpp)
 target_link_libraries(octotigerIIAmr${suffix} PUBLIC octotigerIISubgrid${suffix} octotigerIIRefinement${suffix})
-octo_library(octotigerIIApplication${suffix} ${PROJECT_SOURCE_DIR}/src/runtime.cpp ${PROJECT_SOURCE_DIR}/src/simulation.cpp ${PROJECT_SOURCE_DIR}/src/output.cpp
+octo_library(octotigerIIApplication${suffix} ${PROJECT_SOURCE_DIR}/src/runtime.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/localExecutor.cpp ${PROJECT_SOURCE_DIR}/src/runtime/stages.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/transport.cpp ${PROJECT_SOURCE_DIR}/src/runtime/gravity.cpp ${PROJECT_SOURCE_DIR}/src/runtime/regrid.cpp
+  ${PROJECT_SOURCE_DIR}/src/simulation.cpp ${PROJECT_SOURCE_DIR}/src/output.cpp
   ${PROJECT_SOURCE_DIR}/src/storage.cpp ${PROJECT_SOURCE_DIR}/src/verification/analytic.cpp)
 target_link_libraries(octotigerIIApplication${suffix} PUBLIC octotigerIISubgrid${suffix} octotigerIIAmr${suffix})
 if(OCTOTIGERII_GRAVITY)
@@ -124,4 +128,3 @@ if(OCTOTIGERII_BUILD_TESTS)
   enable_testing()
   add_subdirectory("${PROJECT_SOURCE_DIR}/tests" "${CMAKE_CURRENT_BINARY_DIR}/tests")
 endif()
-

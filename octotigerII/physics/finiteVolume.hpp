@@ -8,6 +8,7 @@
 
 #include "octotigerII/mesh.hpp"
 #include "octotigerII/physics/boundary.hpp"
+#include "octotigerII/physics/frame.hpp"
 #include "octotigerII/profiling.hpp"
 
 #include <algorithm>
@@ -60,7 +61,7 @@ Q limitedSlope(Q leftDifference, Q rightDifference, Limiter limiter, Real theta 
 /// The distributed runtime instead obtains its temporary halos from the mesh adapter.
 template <typename System>
 void fillGhostCells(mesh::PatchData<typename System::State>& patch, BoundaryConditions const& boundaries, System const& system,
-	AnalyticBoundary<typename System::State> const& analytic = {}) {
+	AnalyticBoundary<typename System::State> const& analytic = {}, RotatingFrame const& frame = RotatingFrame{}) {
 	boundaries.validate();
 	if (boundaries.contains(BoundaryCondition::Analytic) && !analytic)
 		throw std::invalid_argument("Analytic boundary requires a problem evaluator");
@@ -71,14 +72,14 @@ void fillGhostCells(mesh::PatchData<typename System::State>& patch, BoundaryCond
 		for (int axis = 0; axis < ndim; ++axis)
 			cell[axis] -= layout.ghostWidth();
 		auto const mapped = boundaries.map(cell, layout.cellsPerActiveDimension());
+		mesh::PhysicalCoordinates position{};
+		for (int axis = 0; axis < ndim; ++axis)
+			position[axis] = patch.lower()[axis] + (Real(cell[axis]) + 0.5) * patch.cellWidth();
 		if (mapped.analytic) {
-			mesh::PhysicalCoordinates position{};
-			for (int axis = 0; axis < ndim; ++axis)
-				position[axis] = patch.lower()[axis] + (Real(cell[axis]) + 0.5) * patch.cellWidth();
-			patch.atStorage(destination) = evaluateBoundary(analytic, position, patch.timeState().time, system);
+			patch.atStorage(destination) = evaluateBoundary(analytic, frame.toInertial(position, patch.timeState().time), patch.timeState().time, system);
 		} else {
-			patch.atStorage(destination) =
-				transformBoundary(patch.atInterior(mapped.source), mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, system);
+			patch.atStorage(destination) = transformBoundary(patch.atInterior(mapped.source), mapped.reflectionMask,
+				mapped.outflowLowerMask, mapped.outflowUpperMask, system, frame, position, patch.timeState().time);
 		}
 	});
 }
@@ -121,6 +122,14 @@ public:
 		}
 	}
 
+	/// The geometry time is the beginning of this transport stage. Conserved
+	/// vector components remain inertial throughout prediction and publication.
+	MusclHancock(System system, RotatingFrame frame, units::Time stageBegin = {}, Limiter limiter = Limiter::VanLeer, Real theta = Real(1.5))
+	  : MusclHancock(std::move(system), limiter, theta) {
+		frame_ = frame;
+		stageBegin_ = stageBegin;
+	}
+
 	/// Return CFL divided by the sum of maximum directional speeds divided by cell width.
 	/// Requires a positive finite speed and 0<CFL≤0.5.
 	template <typename Patch>
@@ -129,10 +138,25 @@ public:
 			throw std::invalid_argument("Invalid MUSCL-Hancock layout or Courant number");
 		}
 		std::array<units::Velocity, ndim> maximumSpeed{};
+		units::Time at = stageBegin_;
+		if constexpr (requires { patch.timeState(); }) at = patch.timeState().time;
 		patch.layout().forEachInterior([&](mesh::Coordinates const& cell, std::size_t) {
 			State const state = patch.atInterior(cell);
+			if (!frame_.active()) {
+				for (int axis = 0; axis < ndim; ++axis)
+					maximumSpeed[axis] = std::max(maximumSpeed[axis], system_.maximumSignalSpeed(state, axis));
+				return;
+			}
+			auto const gridState = frame_.toGridState(state, at);
+			mesh::PhysicalCoordinates center{};
+			for (int axis = 0; axis < ndim; ++axis)
+				center[axis] = patch.lower()[axis] + (Real(cell[axis]) + 0.5) * patch.cellWidth();
 			for (int axis = 0; axis < ndim; ++axis) {
-				maximumSpeed[axis] = std::max(maximumSpeed[axis], system_.maximumSignalSpeed(state, axis));
+				// The speed changes linearly across a rotating face. Include its
+				// extrema, rather than checking only the cell/face center.
+				auto speed = system_.maximumSignalSpeed(gridState, axis, frame_.normalSpeed(center, axis));
+				if (axis < 2) speed += Real(0.5) * units::abs(frame_.omega()) * patch.cellWidth();
+				maximumSpeed[axis] = std::max(maximumSpeed[axis], speed);
 			}
 		});
 		units::InverseTime inverseStep{};
@@ -142,14 +166,14 @@ public:
 		if (!(inverseStep > units::InverseTime{}) || !units::finite(inverseStep)) {
 			throw std::runtime_error("No finite positive signal speed in finite-volume patch");
 		}
-		return courantNumber / inverseStep;
+		return std::min(courantNumber / inverseStep, frame_.maximumTimestep());
 	}
 
 	/// Advance an owning test patch using the supplied physical boundary conditions.
 	StepResult advance(mesh::PatchData<State>& patch, units::Time stepSize, BoundaryConditions const& boundaries,
 		AnalyticBoundary<State> const& analytic = {}) const {
 		return advanceWithBoundaryUpdater(
-			patch, stepSize, [&](mesh::PatchData<State>& boundaryPatch, units::Time) { fillGhostCells(boundaryPatch, boundaries, system_, analytic); });
+			patch, stepSize, [&](mesh::PatchData<State>& boundaryPatch, units::Time) { fillGhostCells(boundaryPatch, boundaries, system_, analytic, frame_); });
 	}
 
 	// AMR drivers can supply same-level, coarse/fine, or physical boundary
@@ -163,7 +187,9 @@ public:
 		updateBoundaries(patch, interval.begin);
 		Workspace workspace;
 		auto next = patch.values();
-		advanceInto(patch, stepSize, workspace,
+		auto stage = *this;
+		stage.stageBegin_ = interval.begin;
+		stage.advanceInto(patch, stepSize, workspace,
 			[&](mesh::Coordinates const& cell, State value) {
 				if constexpr (requires { system_.synchronize(value); }) system_.synchronize(value);
 				next[patch.layout().index(patch.layout().storageCoordinates(cell))] = value;
@@ -239,8 +265,19 @@ public:
 					right[axis] = layout.ghostWidth() + face[axis];
 					State const& leftState = plus[axis][layout.index(left)];
 					State const& rightState = minus[axis][layout.index(right)];
-					Flux highOrderFlux = system_.riemann(leftState, rightState, axis);
-					highOrderFlux = system_.limitFlux(patch.atStorage(left), patch.atStorage(right), highOrderFlux, axis, stepSize / patch.cellWidth());
+					Flux highOrderFlux;
+					if (!frame_.active()) {
+						highOrderFlux = system_.riemann(leftState, rightState, axis);
+						highOrderFlux = system_.limitFlux(patch.atStorage(left), patch.atStorage(right), highOrderFlux, axis, stepSize / patch.cellWidth());
+					} else {
+						auto const at = stageBegin_ + Real(0.5) * stepSize;
+						auto const speed = frame_.normalSpeed(facePosition(patch, face, axis), axis);
+						auto const l = frame_.toGridState(leftState, at), r = frame_.toGridState(rightState, at);
+						highOrderFlux = system_.riemann(l, r, axis, speed);
+						highOrderFlux = system_.limitFlux(frame_.toGridState(patch.atStorage(left), at),
+							frame_.toGridState(patch.atStorage(right), at), highOrderFlux, axis, stepSize / patch.cellWidth(), speed);
+						highOrderFlux = frame_.toInertialState(highOrderFlux, at);
+					}
 					fluxes[axis][layout.faceIndex(axis, face)] = highOrderFlux;
 				});
 			}
@@ -269,6 +306,16 @@ private:
 	System system_;
 	Limiter limiter_;
 	Real theta_;
+	RotatingFrame frame_;
+	units::Time stageBegin_{};
+
+	template <typename Patch>
+	mesh::PhysicalCoordinates facePosition(Patch const& patch, mesh::Coordinates const& face, int axis) const {
+		mesh::PhysicalCoordinates position{};
+		for (int d = 0; d < ndim; ++d)
+			position[d] = patch.lower()[d] + (Real(face[d]) + (d == axis ? Real(0) : Real(0.5))) * patch.cellWidth();
+		return position;
+	}
 
 	/// Limit directional slopes, predict with the half-step unsplit divergence, and
 	/// fall back to the cell center if a predicted face would be inadmissible.
@@ -328,7 +375,19 @@ private:
 			for (int axis = 0; axis < ndim; ++axis) {
 				minus[axis][cellIndex] = system_.conservedState(center - Real(0.5) * slopeFraction * slopes[axis]);
 				plus[axis][cellIndex] = system_.conservedState(center + Real(0.5) * slopeFraction * slopes[axis]);
-				predictorFlux += system_.physicalFlux(minus[axis][cellIndex], axis) - system_.physicalFlux(plus[axis][cellIndex], axis);
+				if (!frame_.active()) {
+					predictorFlux += system_.physicalFlux(minus[axis][cellIndex], axis) - system_.physicalFlux(plus[axis][cellIndex], axis);
+				} else {
+					auto lowerFace = cell;
+					for (int d = 0; d < ndim; ++d) lowerFace[d] -= ghostWidth;
+					auto upperFace = lowerFace;
+					++upperFace[axis];
+					auto const lowerSpeed = frame_.normalSpeed(facePosition(patch, lowerFace, axis), axis);
+					auto const upperSpeed = frame_.normalSpeed(facePosition(patch, upperFace, axis), axis);
+					auto const lowerFlux = system_.physicalFlux(frame_.toGridState(minus[axis][cellIndex], stageBegin_), axis, lowerSpeed);
+					auto const upperFlux = system_.physicalFlux(frame_.toGridState(plus[axis][cellIndex], stageBegin_), axis, upperSpeed);
+					predictorFlux += frame_.toInertialState(lowerFlux - upperFlux, stageBegin_);
+				}
 			}
 			State const predictor = (Real(0.5) * stepSize / patch.cellWidth()) * predictorFlux;
 			bool validPrediction = true;
