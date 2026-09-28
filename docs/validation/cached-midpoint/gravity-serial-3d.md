@@ -4,7 +4,7 @@ Date: 2026-09-28. Working-tree build based on commit
 `c45735658a684ab5c3dc4c7fe716e5d8ede46d22`.
 
 Build directory: `/tmp/octoii-gravity-local-serial`. Configuration: Release,
-`/usr/bin/c++`, HPX disabled, profiling enabled. The existing second-order
+`/usr/problem/c++`, HPX disabled, profiling enabled. The existing second-order
 gravity and rotating-gravity assertions are unchanged.
 
 ## Reproduction

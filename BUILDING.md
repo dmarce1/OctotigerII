@@ -16,7 +16,7 @@ cmake -S ~/workspace/OctotigerII -B ~/workspace/OctotigerII/release \
 cmake --build ~/workspace/OctotigerII/release -j 12
 ctest --test-dir ~/workspace/OctotigerII/release --output-on-failure -j 2
 ~/workspace/OctotigerII/release/octoII-1d \
-  --problem.name=sod --config="$HOME/workspace/OctotigerII/bin/hydro_tests/Sod/inputs" --hpx:threads=12
+  --problem.name=sod --config="$HOME/workspace/OctotigerII/problem/hydro_tests/Sod/inputs" --hpx:threads=12
 ~/workspace/OctotigerII/release/octoII --problem.name=gravity-sphere --hpx:threads=12
 ```
 
@@ -53,7 +53,7 @@ Config for HPX localities. All localities must run the same dimensional binary.
 
 ## Problem manifests and implementation
 
-CMake discovers `bin/*/*/CMakeLists.txt`, for example:
+CMake discovers `problem/*/*/CMakeLists.txt`, for example:
 
 ```cmake
 octo_problem(sod DIMENSIONS 1 2 3 DEFAULT_DIMENSION 1 HYDRO)

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/problem/env bash
 set -euo pipefail
 
 usage() {

@@ -30,7 +30,7 @@ approximately 0.1681244461473046. There are 51 SCF iterations.
 To reproduce the include file from an already downloaded original binary:
 
 ```bash
-python3 bin/science/RotatingStar/import_equilibrium.py /path/to/rotating_star.bin
+python3 problem/science/RotatingStar/import_equilibrium.py /path/to/rotating_star.bin
 ```
 
 The original data generator and initializer are Copyright (c) 2019 AUTHORS,

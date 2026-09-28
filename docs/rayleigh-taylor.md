@@ -6,7 +6,7 @@ Rayleigh–Taylor requires hydro and is available only in 3D, with z vertical.
 ```sh
 cmake -S . -B release -DCMAKE_BUILD_TYPE=Release -DOCTOTIGERII_WITH_HPX=OFF
 cmake --build release -j 8
-./release/octoII-3d --problem.name=rayleigh-taylor --config=bin/hydro_tests/RayleighTaylor/inputs
+./release/octoII-3d --problem.name=rayleigh-taylor --config=problem/hydro_tests/RayleighTaylor/inputs
 ```
 
 The default 3D box is `[-0.5,0.5]` cm on each axis. Both x faces and both y

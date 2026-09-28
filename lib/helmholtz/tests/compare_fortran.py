@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/problem/env python3
 """Compare with untouched Timmes routines from explicitly supplied source directories.
 Requires gfortran. No downloads. Does not modify the reference sources.
 """

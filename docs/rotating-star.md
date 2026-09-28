@@ -7,7 +7,7 @@ approximately a 2/3 polar-to-equatorial radius ratio and uses an ideal gas with
 gamma=5/3. Both hydrodynamics and self-gravity are enabled; radiation is absent.
 
 The table is compiled into the executable. There is no runtime input-data file
-to find or download. [Data provenance and reproducible extraction](../bin/science/RotatingStar/DATA.md)
+to find or download. [Data provenance and reproducible extraction](../problem/science/RotatingStar/DATA.md)
 record the original revision, binary hash, generator, and license. The source
 benchmark is described in [section 3.7 of the Octo-Tiger paper](https://doi.org/10.1093/mnras/stab937).
 

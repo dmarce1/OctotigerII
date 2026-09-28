@@ -507,7 +507,7 @@ std::string helpText() {
 	addSettings(settings);
 	std::ostringstream output;
 	output << build::executable << " (CGS, " << ndim << "D)\n"
-		   << "Usage: " << build::executable << " [--config=/path/to/bin/problem/inputs] [--problem.name=<name>] [--key=value ...]\n"
+		   << "Usage: " << build::executable << " [--config=/path/to/problem/problem/inputs] [--problem.name=<name>] [--key=value ...]\n"
 		   << "A problem name is required in an INI file or on the command line; dimension is fixed by the executable. CLI values override INI files.\n"
 		   << "Settings use dotted groups; snake_case names remain supported as aliases.\n"
 		   << "Booleans: on/off. mesh.cells is cells per block per active axis.\n"

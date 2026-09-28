@@ -2,7 +2,7 @@
 
 This is a map of the maintained program source as of 2026-09-26, after the
 source reorganization and radiation-coupling work. It covers maintained
-C++/Python/shell/CMake source files in the root, `bin/`, `cmake/`,
+C++/Python/shell/CMake source files in the root, `problem/`, `cmake/`,
 `octotigerII/`, `src/`, and `tests/`, plus build/documentation configuration
 and runnable input files. It excludes prose documentation, generated build trees, vendored
 packages, output, caches, and binaries. Paths are relative to the repository
@@ -39,30 +39,30 @@ conditions, boundary state, and analytic reference. Each adjacent
 
 | File | Contents |
 |---|---|
-| [`bin/gravity_tests/Gaussian/CMakeLists.txt`](../bin/gravity_tests/Gaussian/CMakeLists.txt) | Registers the 3D gravity Gaussian problem. |
-| [`bin/gravity_tests/Gaussian/problem.cpp`](../bin/gravity_tests/Gaussian/problem.cpp) | Initializes a smooth Gaussian density for gravity accuracy tests. |
-| [`bin/gravity_tests/Sphere/CMakeLists.txt`](../bin/gravity_tests/Sphere/CMakeLists.txt) | Registers the 3D gravity sphere problem. |
-| [`bin/gravity_tests/Sphere/problem.cpp`](../bin/gravity_tests/Sphere/problem.cpp) | Initializes an isolated uniform sphere and its gravity reference. |
-| [`bin/hydro_tests/KelvinHelmholtz/CMakeLists.txt`](../bin/hydro_tests/KelvinHelmholtz/CMakeLists.txt) | Registers the 2D/3D Kelvin–Helmholtz problem. |
-| [`bin/hydro_tests/KelvinHelmholtz/problem.cpp`](../bin/hydro_tests/KelvinHelmholtz/problem.cpp) | Initializes shearing layers and their perturbation. |
-| [`bin/hydro_tests/RayleighTaylor/CMakeLists.txt`](../bin/hydro_tests/RayleighTaylor/CMakeLists.txt) | Registers the 3D Rayleigh–Taylor problem. |
-| [`bin/hydro_tests/RayleighTaylor/problem.cpp`](../bin/hydro_tests/RayleighTaylor/problem.cpp) | Initializes stratified layers under constant external acceleration. |
-| [`bin/hydro_tests/Sod/CMakeLists.txt`](../bin/hydro_tests/Sod/CMakeLists.txt) | Registers the 1D/2D/3D Sod problem. |
-| [`bin/hydro_tests/Sod/problem.cpp`](../bin/hydro_tests/Sod/problem.cpp) | Initializes the planar shock tube and reference data. |
-| [`bin/radiation_tests/RadiationPulse/CMakeLists.txt`](../bin/radiation_tests/RadiationPulse/CMakeLists.txt) | Registers the 1D/2D/3D radiation pulse. |
-| [`bin/radiation_tests/MatterCoupling/CMakeLists.txt`](../bin/radiation_tests/MatterCoupling/CMakeLists.txt) | Registers the combined gas/radiation relaxation fixture. |
-| [`bin/radiation_tests/MatterCoupling/problem.cpp`](../bin/radiation_tests/MatterCoupling/problem.cpp) | Initializes smooth moving gas with radiation supplied by the selected source equilibrium. |
-| [`bin/radiation_tests/RadiationPulse/problem.cpp`](../bin/radiation_tests/RadiationPulse/problem.cpp) | Initializes a localized radiation pulse. |
-| [`bin/radiation_tests/Streaming/CMakeLists.txt`](../bin/radiation_tests/Streaming/CMakeLists.txt) | Registers the 1D/2D/3D radiation streaming problem. |
-| [`bin/radiation_tests/Streaming/problem.cpp`](../bin/radiation_tests/Streaming/problem.cpp) | Initializes directed radiation transport and reference state. |
-| [`bin/science/Collapse/CMakeLists.txt`](../bin/science/Collapse/CMakeLists.txt) | Registers 3D self-gravitating collapse. |
-| [`bin/science/Collapse/problem.cpp`](../bin/science/Collapse/problem.cpp) | Initializes a collapsing gas sphere. |
-| [`bin/science/Polytrope/CMakeLists.txt`](../bin/science/Polytrope/CMakeLists.txt) | Registers the 3D self-gravitating polytrope. |
-| [`bin/science/Polytrope/problem.cpp`](../bin/science/Polytrope/problem.cpp) | Scales a Lane–Emden sphere into hydrostatic initial data. |
-| [`bin/science/RotatingStar/CMakeLists.txt`](../bin/science/RotatingStar/CMakeLists.txt) | Registers the 3D rotating star. |
-| [`bin/science/RotatingStar/problem.cpp`](../bin/science/RotatingStar/problem.cpp) | Scales and interpolates the original oblate SCF equilibrium into conserved fields. |
-| [`bin/science/RotatingStar/equilibrium.inc`](../bin/science/RotatingStar/equilibrium.inc) | Embedded 100×100 positive-quadrant density and internal-energy table. |
-| [`bin/science/RotatingStar/import_equilibrium.py`](../bin/science/RotatingStar/import_equilibrium.py) | Recreates and checks the embedded table from the pinned source dataset. |
+| [`problem/gravity_tests/Gaussian/CMakeLists.txt`](../problem/gravity_tests/Gaussian/CMakeLists.txt) | Registers the 3D gravity Gaussian problem. |
+| [`problem/gravity_tests/Gaussian/problem.cpp`](../problem/gravity_tests/Gaussian/problem.cpp) | Initializes a smooth Gaussian density for gravity accuracy tests. |
+| [`problem/gravity_tests/Sphere/CMakeLists.txt`](../problem/gravity_tests/Sphere/CMakeLists.txt) | Registers the 3D gravity sphere problem. |
+| [`problem/gravity_tests/Sphere/problem.cpp`](../problem/gravity_tests/Sphere/problem.cpp) | Initializes an isolated uniform sphere and its gravity reference. |
+| [`problem/hydro_tests/KelvinHelmholtz/CMakeLists.txt`](../problem/hydro_tests/KelvinHelmholtz/CMakeLists.txt) | Registers the 2D/3D Kelvin–Helmholtz problem. |
+| [`problem/hydro_tests/KelvinHelmholtz/problem.cpp`](../problem/hydro_tests/KelvinHelmholtz/problem.cpp) | Initializes shearing layers and their perturbation. |
+| [`problem/hydro_tests/RayleighTaylor/CMakeLists.txt`](../problem/hydro_tests/RayleighTaylor/CMakeLists.txt) | Registers the 3D Rayleigh–Taylor problem. |
+| [`problem/hydro_tests/RayleighTaylor/problem.cpp`](../problem/hydro_tests/RayleighTaylor/problem.cpp) | Initializes stratified layers under constant external acceleration. |
+| [`problem/hydro_tests/Sod/CMakeLists.txt`](../problem/hydro_tests/Sod/CMakeLists.txt) | Registers the 1D/2D/3D Sod problem. |
+| [`problem/hydro_tests/Sod/problem.cpp`](../problem/hydro_tests/Sod/problem.cpp) | Initializes the planar shock tube and reference data. |
+| [`problem/radiation_tests/RadiationPulse/CMakeLists.txt`](../problem/radiation_tests/RadiationPulse/CMakeLists.txt) | Registers the 1D/2D/3D radiation pulse. |
+| [`problem/radiation_tests/MatterCoupling/CMakeLists.txt`](../problem/radiation_tests/MatterCoupling/CMakeLists.txt) | Registers the combined gas/radiation relaxation fixture. |
+| [`problem/radiation_tests/MatterCoupling/problem.cpp`](../problem/radiation_tests/MatterCoupling/problem.cpp) | Initializes smooth moving gas with radiation supplied by the selected source equilibrium. |
+| [`problem/radiation_tests/RadiationPulse/problem.cpp`](../problem/radiation_tests/RadiationPulse/problem.cpp) | Initializes a localized radiation pulse. |
+| [`problem/radiation_tests/Streaming/CMakeLists.txt`](../problem/radiation_tests/Streaming/CMakeLists.txt) | Registers the 1D/2D/3D radiation streaming problem. |
+| [`problem/radiation_tests/Streaming/problem.cpp`](../problem/radiation_tests/Streaming/problem.cpp) | Initializes directed radiation transport and reference state. |
+| [`problem/science/Collapse/CMakeLists.txt`](../problem/science/Collapse/CMakeLists.txt) | Registers 3D self-gravitating collapse. |
+| [`problem/science/Collapse/problem.cpp`](../problem/science/Collapse/problem.cpp) | Initializes a collapsing gas sphere. |
+| [`problem/science/Polytrope/CMakeLists.txt`](../problem/science/Polytrope/CMakeLists.txt) | Registers the 3D self-gravitating polytrope. |
+| [`problem/science/Polytrope/problem.cpp`](../problem/science/Polytrope/problem.cpp) | Scales a Lane–Emden sphere into hydrostatic initial data. |
+| [`problem/science/RotatingStar/CMakeLists.txt`](../problem/science/RotatingStar/CMakeLists.txt) | Registers the 3D rotating star. |
+| [`problem/science/RotatingStar/problem.cpp`](../problem/science/RotatingStar/problem.cpp) | Scales and interpolates the original oblate SCF equilibrium into conserved fields. |
+| [`problem/science/RotatingStar/equilibrium.inc`](../problem/science/RotatingStar/equilibrium.inc) | Embedded 100×100 positive-quadrant density and internal-energy table. |
+| [`problem/science/RotatingStar/import_equilibrium.py`](../problem/science/RotatingStar/import_equilibrium.py) | Recreates and checks the embedded table from the pinned source dataset. |
 
 ## Public headers: geometry, units, and configuration
 
@@ -249,17 +249,17 @@ above and set their runnable defaults:
 
 | File | Contents |
 |---|---|
-| [`bin/gravity_tests/Gaussian/inputs`](../bin/gravity_tests/Gaussian/inputs) | Gravity Gaussian defaults. |
-| [`bin/gravity_tests/Sphere/inputs`](../bin/gravity_tests/Sphere/inputs) | Uniform gravity sphere defaults. |
-| [`bin/hydro_tests/KelvinHelmholtz/inputs`](../bin/hydro_tests/KelvinHelmholtz/inputs) | Kelvin–Helmholtz setup. |
-| [`bin/hydro_tests/RayleighTaylor/inputs`](../bin/hydro_tests/RayleighTaylor/inputs) | Rayleigh–Taylor setup. |
-| [`bin/hydro_tests/Sod/inputs`](../bin/hydro_tests/Sod/inputs) | Sod shock tube setup. |
-| [`bin/radiation_tests/RadiationPulse/inputs`](../bin/radiation_tests/RadiationPulse/inputs) | Radiation pulse setup. |
-| [`bin/radiation_tests/MatterCoupling/inputs`](../bin/radiation_tests/MatterCoupling/inputs) | Combined gas/radiation relaxation setup. |
-| [`bin/radiation_tests/Streaming/inputs`](../bin/radiation_tests/Streaming/inputs) | Radiation streaming setup. |
-| [`bin/science/Collapse/inputs`](../bin/science/Collapse/inputs) | Collapse setup. |
-| [`bin/science/Polytrope/inputs`](../bin/science/Polytrope/inputs) | Polytrope setup. |
-| [`bin/science/RotatingStar/inputs`](../bin/science/RotatingStar/inputs) | Oblate rotating-star setup. |
+| [`problem/gravity_tests/Gaussian/inputs`](../problem/gravity_tests/Gaussian/inputs) | Gravity Gaussian defaults. |
+| [`problem/gravity_tests/Sphere/inputs`](../problem/gravity_tests/Sphere/inputs) | Uniform gravity sphere defaults. |
+| [`problem/hydro_tests/KelvinHelmholtz/inputs`](../problem/hydro_tests/KelvinHelmholtz/inputs) | Kelvin–Helmholtz setup. |
+| [`problem/hydro_tests/RayleighTaylor/inputs`](../problem/hydro_tests/RayleighTaylor/inputs) | Rayleigh–Taylor setup. |
+| [`problem/hydro_tests/Sod/inputs`](../problem/hydro_tests/Sod/inputs) | Sod shock tube setup. |
+| [`problem/radiation_tests/RadiationPulse/inputs`](../problem/radiation_tests/RadiationPulse/inputs) | Radiation pulse setup. |
+| [`problem/radiation_tests/MatterCoupling/inputs`](../problem/radiation_tests/MatterCoupling/inputs) | Combined gas/radiation relaxation setup. |
+| [`problem/radiation_tests/Streaming/inputs`](../problem/radiation_tests/Streaming/inputs) | Radiation streaming setup. |
+| [`problem/science/Collapse/inputs`](../problem/science/Collapse/inputs) | Collapse setup. |
+| [`problem/science/Polytrope/inputs`](../problem/science/Polytrope/inputs) | Polytrope setup. |
+| [`problem/science/RotatingStar/inputs`](../problem/science/RotatingStar/inputs) | Oblate rotating-star setup. |
 | [`tests/test_problem/inputs`](../tests/test_problem/inputs) | Small combined-physics application test setup. |
 | [`examples/collapse.ini`](../examples/collapse.ini) | User-facing collapse run. |
 | [`examples/gravity-gaussian.ini`](../examples/gravity-gaussian.ini) | User-facing Gaussian gravity run. |

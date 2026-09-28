@@ -246,7 +246,7 @@ Evidence required before calling the benchmark successful:
 The `radiating-sphere` problem implements a full-M1 nonrotating control, with
 the source and opacity supplied through the same spatial material callback as
 the evolving radiation solver. See its
-[problem notes](../../../bin/science/RadiatingSphere/README.md) and
+[problem notes](../../../problem/science/RadiatingSphere/README.md) and
 [example configuration](../../../examples/radiating-sphere.ini).
 
 The chosen finite-surface construction has a transparent gas envelope. During

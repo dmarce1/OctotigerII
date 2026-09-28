@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/problem/env python3
 """Exercise every registered problem and the fixed-dimension/module CLI contract."""
 import csv
 import json

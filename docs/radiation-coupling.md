@@ -161,7 +161,7 @@ local fields `radiationOpacity` (Planck absorption),
 `radiationFluxOpacity` (their sum), and `photonHeating`, with
 `photonHeating` showing physical `H` before reduced-speed scaling.
 
-The [`photon-source` verification problem](../bin/radiation_tests/PhotonSource/README.md)
+The [`photon-source` verification problem](../problem/radiation_tests/PhotonSource/README.md)
 uses uniform, fixed `H=1 erg/(cm^3 s)`. Its transparent solution is analytic;
 positive-opacity cases test the accepted source ledger across coupling, AMR
 subcycling, regridding, and rollback. These checks validate the source

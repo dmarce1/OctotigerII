@@ -35,7 +35,7 @@ Commands below start from HOME, assuming the checkout is in `~/workspace/Octotig
 cd ~/workspace/OctotigerII
 ./build.sh release  -j 12
 ./profile.sh ./release/octoII-3d --problem.name=gravity-sphere \
-  --problem.name=gravity-sphere --config=bin/gravity_tests/Sphere/inputs \
+  --problem.name=gravity-sphere --config=problem/gravity_tests/Sphere/inputs \
   --mesh.cells=4 --mesh.level=1 --output.enabled=off \
   --hpx:threads=12
 ```

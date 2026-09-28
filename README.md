@@ -29,7 +29,7 @@ cmake -S ~/workspace/OctotigerII -B ~/workspace/OctotigerII/release \
 cmake --build ~/workspace/OctotigerII/release -j 12
 ctest --test-dir ~/workspace/OctotigerII/release --output-on-failure -j 2
 ~/workspace/OctotigerII/release/octoII-1d \
-  --problem.name=sod --config="$HOME/workspace/OctotigerII/bin/hydro_tests/Sod/inputs" --hpx:threads=12
+  --problem.name=sod --config="$HOME/workspace/OctotigerII/problem/hydro_tests/Sod/inputs" --hpx:threads=12
 ~/workspace/OctotigerII/release/octoII --problem.name=gravity-sphere --hpx:threads=12
 ```
 
@@ -43,7 +43,7 @@ See [BUILDING.md](BUILDING.md) for module switches, manifests, dependencies, and
 
 ## Problems
 
-| Runtime problem | Directory under `bin/` | Supported `ndim` |
+| Runtime problem | Directory under `problem/` | Supported `ndim` |
 | --- | --- | --- |
 | `sod` | `hydro_tests/Sod` | 1, 2, 3 |
 | `kelvin-helmholtz` | `hydro_tests/KelvinHelmholtz` | 2, 3 |
@@ -66,7 +66,7 @@ gravity, a configurable radius and center, and density-based AMR.
 equilibrium. [Rotating grids](docs/rotating-frame.md) use `frame.omega` in rad/s
 with free boundaries while evolving inertial conserved quantities.
 
-[Radiating sphere](bin/science/RadiatingSphere/README.md) is a nonrotating
+[Radiating sphere](problem/science/RadiatingSphere/README.md) is a nonrotating
 full-M1 equilibrium control with coupled gas and gravity, a fixed positive
 photon heater, and a prescribed opacity that vanishes in a transparent outer
 gas envelope. The [rotating radiative-star design](docs/radiating-star-design.md)
@@ -191,7 +191,7 @@ field energy is reported.
 - Local kernels view field interiors directly. Worker buffers and a locality
   halo pool reuse temporary storage. HPX handles remote transfers and coalescing.
 - `simulation.cpp` coordinates timesteps and compiled physics; the selected
-  `bin/.../problem.cpp` supplies initialization and problem-local configuration.
+  `problem/.../problem.cpp` supplies initialization and problem-local configuration.
 - `runtime.workerTasks=0` selects the HPX worker count. A positive value bounds
   active block tasks per locality. `runtime.workStealing=on/off` controls remote
   task execution; persistent ownership does not move when a task is stolen.

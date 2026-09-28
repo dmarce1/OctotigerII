@@ -36,7 +36,7 @@ cmake -S . -B release \
   -DCMAKE_BUILD_TYPE=Release
 cmake --build release -j
 ./release/octoII-1d --problem.name=sod \
-  --problem.name=sod --config=bin/hydro_tests/Sod/inputs \
+  --problem.name=sod --config=problem/hydro_tests/Sod/inputs \
   --verification.analytic=on \
   --mesh.cells=32 --mesh.level=2 \
   --output.directory=output/sod-analytic
@@ -46,8 +46,8 @@ ctest --test-dir release --output-on-failure
 Supply the normal HPX dependency paths for your installation, or configure with
 `-DOCTOTIGERII_WITH_HPX=OFF` for the serial backend. Gravity builds use
 `--problem.name=gravity-sphere` or `--problem.name=gravity-gaussian` with `octoII-3d`.
-Their input files are `bin/gravity_tests/Sphere/inputs` and
-`bin/gravity_tests/Gaussian/inputs`. Gravity tests require `runtime.stopTime=0`.
+Their input files are `problem/gravity_tests/Sphere/inputs` and
+`problem/gravity_tests/Gaussian/inputs`. Gravity tests require `runtime.stopTime=0`.
 
 | Option | Default | Meaning |
 | --- | --- | --- |

@@ -95,7 +95,7 @@ The example uses the original Octo-Tiger SCF table, not a spun-up spherical
 polytrope. Its independent density-quadrature Bernoulli check has spread
 `2.23e-4` in the original code units (test tolerance `2e-3`). The table's source
 revision, checksum, and reproducible importer are recorded in
-[DATA.md](../../../bin/science/RotatingStar/DATA.md).
+[DATA.md](../../../problem/science/RotatingStar/DATA.md).
 
 The matched cases use the default example: box `[-2e9,2e9]` cm, 4 cells per
 subgrid direction, maximum level 3, and a final time of 0.25 s. They begin with

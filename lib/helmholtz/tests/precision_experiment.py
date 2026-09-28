@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/problem/env python3
 """Reproduce the precision/quadrature experiment without changing the EOS library.
 
 C++17 compiler required; mpmath required only for orders other than 20.

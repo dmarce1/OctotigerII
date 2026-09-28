@@ -35,7 +35,7 @@ add_custom_target(octoII ALL
   COMMAND ${CMAKE_COMMAND} -E create_symlink octoII-3d "${PROJECT_BINARY_DIR}/octoII"
   DEPENDS octoII-3d VERBATIM)
 install(CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink octoII-3d \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/octoII\")")
-install(DIRECTORY bin/ DESTINATION ${CMAKE_INSTALL_DATADIR}/OctotigerII
+install(DIRECTORY problem/ DESTINATION ${CMAKE_INSTALL_DATADIR}/OctotigerII
   FILES_MATCHING PATTERN inputs)
 
 # Documentation stays optional for the application build. The standalone

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/problem/env python3
 """Build/test all dimensions, optionally across all eight module combinations."""
 import argparse
 import itertools

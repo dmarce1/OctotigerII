@@ -83,7 +83,7 @@ Implemented evaluators:
 
 Kelvin–Helmholtz, Rayleigh–Taylor, radiation-pulse, and the gravity problems do not currently
 provide analytic boundary data. They reject analytic faces during configuration.
-Add a callback in the selected `bin/.../problem.cpp` to support another problem;
+Add a callback in the selected `problem/.../problem.cpp` to support another problem;
 an analytic boundary prescription does not require a full-domain exact solution.
 
 Callbacks are constructed independently on each locality from the serialized

@@ -36,7 +36,7 @@ The coupled gravity smoke used:
 
 ```bash
 BUILD_DIRECTORY/release/octoII-3d --problem.name=collapse \
-  --problem.name=collapse --config=bin/science/Collapse/inputs \
+  --problem.name=collapse --config=problem/science/Collapse/inputs \
   --amr.enabled=on --amr.minLevel=1 --amr.maxLevel=3 \
   --amr.maxCellMass=1e28 --amr.shadowTolerance=0.1 --amr.regridEvery=2 \
   --runtime.stopTime=0.5 --output.enabled=off \

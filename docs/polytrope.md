@@ -13,7 +13,7 @@ From HOME:
 cd ~/workspace/OctotigerII
 ./build.sh release  -j 12
 ./release/octoII-3d --problem.name=polytrope \
-  --problem.name=polytrope --config=bin/science/Polytrope/inputs \
+  --problem.name=polytrope --config=problem/science/Polytrope/inputs \
   --hpx:threads=12 --hpx:bind=none
 ```
 
