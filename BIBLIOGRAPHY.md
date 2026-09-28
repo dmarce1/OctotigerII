@@ -90,6 +90,20 @@ Scope: G, c, atomic mass unit, Boltzmann constant, and Planck constant, converte
 to CGS. The radiation constant is derived as 8π⁵k_B⁴/(15h³c³). The reference year
 is 2025; “2022” identifies the adjustment.
 
+## Pelupessy et al. (2012) {#ref_pelupessy2012}
+
+Pelupessy, F. I., Jänes, J., & Portegies Zwart, S. F. 2012,
+“N-body Integrators with Individual Time Steps from Hierarchical Splitting,”
+*New Astronomy*, **17**, 711–719.
+[doi:10.1016/j.newast.2012.05.009](https://doi.org/10.1016/j.newast.2012.05.009).
+[arXiv:1205.5668](https://arxiv.org/abs/1205.5668).
+
+Scope: the HOLD hierarchical Hamiltonian-splitting interaction schedule and
+paired impulses for particle dynamics. OctotigerII adapts the accepted impulse
+quadrature to Eulerian mass fields. Its intermediate fluid states and hydro
+map are not the particle HOLD composition; see
+[gravity–time coupling](docs/gravity-time-coupling-derivation.md).
+
 ## Skinner and Ostriker (2013) {#ref_skinner2013}
 
 Skinner, M. A., & Ostriker, E. C. 2013,

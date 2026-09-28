@@ -25,7 +25,8 @@ those binding-energy components.
 
 References:
 
-- [Pelupessy, Janes & Portegies Zwart (2012), section 2.1](https://arxiv.org/html/1205.5668):
+- @ref ref_pelupessy2012 "Pelupessy et al. (2012)", section 2.1
+  ([paper](https://arxiv.org/abs/1205.5668)):
   recursive slow/fast interaction splitting.
 - [GADGET-4 code paper, sections 4.1-4.2](https://wwwmpa.mpa-garching.mpg.de/gadget4/gadget4-code-paper.pdf):
   conventional and hierarchical gravity schedules.
