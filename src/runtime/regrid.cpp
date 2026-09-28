@@ -58,7 +58,7 @@ void Runtime::Impl::recoverRegridEnergy(unsigned targetBank) {
 	if (!regridEnergyPending) return;
 #if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
 	auto const& directory = fields->directory();
-	hydro::HydroSystem const gas(config.hydro);
+	hydro::HydroSystem const gas(config);
 	for (auto const& block : topology->blocks()) {
 		auto const combined = directory.gravityKickWork.read(block.interior, 0).get();
 		auto const gravity = directory.gravity.read(block.interior, targetBank).get();

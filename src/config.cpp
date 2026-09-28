@@ -9,6 +9,7 @@
 #include "octotigerII/problems.hpp"
 #include "octotigerII/problems/laneEmden.hpp"
 #include "octotigerII/problems/radiatingStarStructure.hpp"
+#include "octotigerII/problems/whiteDwarfStructure.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
 #ifdef OCTOTIGERII_WITH_HPX
@@ -72,6 +73,10 @@ namespace {
 		options("massFractions.species", po::value<std::string>(), "Semicolon-separated name:initialFraction:element, A=mass,Z=number, or He=70%,O=30% definitions");
 		options("hydro.gamma", po::value<Real>(), "Ideal-gas adiabatic index");
 		options("hydro.meanMolecularWeight", po::value<Real>(), "Mean particle mass in atomic mass units, for temperature (default 1)");
+		options("hydro.eos", po::value<std::string>(), "Hydro EOS: ideal, white-dwarf, or helmholtz");
+		options("hydro.helmholtzTable", po::value<std::string>(), "Timmes table path (default bundled table)");
+		options("hydro.temperatureFloor", po::value<Real>(), "Helmholtz temperature floor in K (default 1000)");
+		options("hydro.meanMassPerElectron", po::value<Real>(), "Mass per electron in atomic mass units for white-dwarf EOS (default 2)");
 		options("hydro.dualEnergy.enabled", po::value<std::string>(), "Dual energy: on/off (default on)");
 		options("hydro.dualEnergy.exponent", po::value<Real>(), "Nonzero auxiliary entropy exponent (default 1)");
 		options("hydro.dualEnergy.pressureThreshold", po::value<Real>(), "Use total-energy pressure when u/E exceeds this ratio (default 0.001)");
@@ -103,6 +108,12 @@ namespace {
 		options("radiatingStar.radialCells", po::value<int>(), "Radial resolution of the stellar reference solve (default 256)");
 		options("radiatingStar.angularPoints", po::value<int>(), "Angular quadrature points of the stellar reference solve (default 32)");
 		options("radiatingStar.multipoles", po::value<int>(), "Highest angular multipole of the stellar reference solve (default 12)");
+		options("whiteDwarf.thermalPressureFraction", po::value<Real>(), "Reference ion pressure / cold electron pressure (default 1e-4)");
+		options("whiteDwarf.rotationFraction", po::value<Real>(), "WD spin / spherical-reference breakup spin (default 0.2)");
+		options("whiteDwarf.radialCells", po::value<int>(), "Radial resolution of the WD SCF solve (default 256)");
+		options("whiteDwarf.angularPoints", po::value<int>(), "Angular quadrature points of the WD SCF solve (default 32)");
+		options("whiteDwarf.multipoles", po::value<int>(), "Highest angular multipole of the WD SCF solve (default 12)");
+		options("whiteDwarf.structureTolerance", po::value<Real>(), "Maximum SCF density residual (default 1e-9)");
 		options("radiatingStar.structureTolerance", po::value<Real>(), "Iteration tolerance of the stellar reference solve (default 1e-9)");
 		options("radiation.lightSpeedRatio", po::value<Real>(), "Radiation transport speed divided by c");
 		options("radiation.enabled", po::value<std::string>(), "Add radiation to a hydro problem: on/off (default off)");
@@ -230,6 +241,10 @@ namespace {
 		readBoolean(values, "timestep.refinement", config.timestep.refinement);
 		readNumber(values, "hydro.gamma", config.hydro.gamma);
 		readNumber(values, "hydro.meanMolecularWeight", config.hydro.meanMolecularWeight);
+		readOption(values, "hydro.eos", config.hydro.eos);
+		readOption(values, "hydro.helmholtzTable", config.hydro.helmholtzTable);
+		readNumber(values, "hydro.temperatureFloor", config.hydro.temperatureFloor);
+		readNumber(values, "hydro.meanMassPerElectron", config.hydro.meanMassPerElectron);
 		readBoolean(values, "hydro.dualEnergy.enabled", config.hydro.dualEnergy.enabled);
 		readNumber(values, "hydro.dualEnergy.exponent", config.hydro.dualEnergy.exponent);
 		readNumber(values, "hydro.dualEnergy.pressureThreshold", config.hydro.dualEnergy.pressureThreshold);
@@ -258,6 +273,12 @@ namespace {
 		readOption(values, "radiatingStar.angularPoints", config.radiatingStar.angularPoints);
 		readOption(values, "radiatingStar.multipoles", config.radiatingStar.multipoles);
 		readNumber(values, "radiatingStar.structureTolerance", config.radiatingStar.structureTolerance);
+		readNumber(values, "whiteDwarf.thermalPressureFraction", config.whiteDwarf.thermalPressureFraction);
+		readNumber(values, "whiteDwarf.rotationFraction", config.whiteDwarf.rotationFraction);
+		readOption(values, "whiteDwarf.radialCells", config.whiteDwarf.radialCells);
+		readOption(values, "whiteDwarf.angularPoints", config.whiteDwarf.angularPoints);
+		readOption(values, "whiteDwarf.multipoles", config.whiteDwarf.multipoles);
+		readNumber(values, "whiteDwarf.structureTolerance", config.whiteDwarf.structureTolerance);
 		readNumber(values, "radiation.lightSpeedRatio", config.radiation.lightSpeedRatio, "radiation.light_speed_ratio");
 		readBoolean(values, "radiation.enabled", config.radiation.enabled);
 		readBoolean(values, "radiation.closedBoundary", config.radiation.closedBoundary);
@@ -308,6 +329,13 @@ void Config::validate() const {
 	hydro.dualEnergy.validate();
 	if (!isfinite(hydro.gamma) || !isfinite(hydro.meanMolecularWeight) || !(hydro.meanMolecularWeight > 0))
 		throw std::invalid_argument("Hydro gamma must be finite and meanMolecularWeight finite and positive");
+	if ((hydro.eos != "ideal" && hydro.eos != "white-dwarf" && hydro.eos != "helmholtz") ||
+		!isfinite(hydro.meanMassPerElectron) || !(hydro.meanMassPerElectron > 0))
+		throw std::invalid_argument("hydro.eos must be ideal, white-dwarf or helmholtz with positive meanMassPerElectron");
+	if (hydro.eos == "helmholtz" && (!massFractions.enabled || !isfinite(hydro.temperatureFloor) || hydro.temperatureFloor < 1000 || hydro.temperatureFloor >= 1e13))
+		throw std::invalid_argument("Helmholtz requires advected material species and a temperature floor in [1000,1e13) K");
+	if (hydro.eos == "helmholtz" && hydro.dualEnergy.exponent != 1)
+		throw std::invalid_argument("Helmholtz advects EOS entropy directly; dualEnergy.exponent must be 1");
 	if (randomSeed < 0) throw std::invalid_argument("randomSeed must be nonnegative");
 	for (auto component : hydro.acceleration) {
 		if (!units::finite(component)) throw std::invalid_argument("External acceleration must be finite");
@@ -426,6 +454,29 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		} else if (!opacitySet) config.radiation.opacity=config.radiatingStar.opticalDepthScale
 			/(units::value(config.star.centralDensity)*units::value(eos.scaleLength()));
 		if (!stopTimeSet) config.runtime.stopTime=0.1/units::sqrt(constants::G*config.star.centralDensity);
+	}
+	if (config.problem == "radiatingWhiteDwarf") {
+		if (radiusSet) throw std::invalid_argument("The WD radius is derived from its central density and EOS");
+		problems::WhiteDwarfStructure::Parameters p;
+		p.centralDensity=config.star.centralDensity;
+		p.meanMassPerElectron=config.hydro.meanMassPerElectron;
+		p.meanMassPerIon=config.hydro.meanMolecularWeight;
+		p.thermalPressureFraction=config.whiteDwarf.thermalPressureFraction;
+		p.spinFractionOfSphericalBreakup=config.whiteDwarf.rotationFraction;
+		p.radialCells=config.whiteDwarf.radialCells;
+		p.angularPoints=config.whiteDwarf.angularPoints;
+		p.maxMultipole=config.whiteDwarf.multipoles;
+		p.tolerance=config.whiteDwarf.structureTolerance;
+		problems::WhiteDwarfStructure const star(p);
+		config.star.radius=star.sphericalRadius();
+		if (!lowerSet) config.mesh.lower=-1.2*config.star.radius;
+		if (!upperSet) config.mesh.upper=1.2*config.star.radius;
+		for(int d=0;d<ndim;++d)if(!centerSet[d])config.star.center[d]=(config.mesh.lower+config.mesh.upper)/Real(2);
+		if (!gammaSet) config.hydro.gamma=Real(5)/3;
+		if (!densitySet) config.amr.refineDensity=0.001*config.star.centralDensity;
+		if (!opacitySet) config.radiation.opacity=0.2;
+		if (!stopTimeSet) config.runtime.stopTime=0.1*units::sqrt(
+			star.sphericalRadius()*star.sphericalRadius()*star.sphericalRadius()/(constants::G*star.mass()));
 	}
 	config.validate();
 	return config;

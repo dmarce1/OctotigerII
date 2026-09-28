@@ -29,7 +29,7 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 		auto const volume = block.layout.cellMeasure(block.cellWidth);
 		block.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 			if (build::hydro && c.hydroEnabled()) {
-				hydro::HydroSystem gas(c.hydro);
+				hydro::HydroSystem gas(c);
 				auto const& u = block.hydro.values()[i];
 				if (!gas.admissible(u)) throw std::runtime_error("Inadmissible gas state");
 				add(d.mass, compensation.mass, volume * u.density());
@@ -196,6 +196,8 @@ RunResult run(Config const& c, Observer const& observer) {
 		result.final = diagnose(snapshots, c);
 		result.final.boundary = runtime.boundaryTransport();
 		result.final.radiationSourceEnergy = runtime.radiationSourceEnergy();
+		result.final.eosFloorEnergy=runtime.eosFloorEnergy();
+		result.final.eosFloorCells=runtime.eosFloorCells();
 		result.final.gravityReciprocityDefect = solverDefect;
 		result.final.gravityRegridEnergyChange = regridChange;
 		if (observer) observer(snapshots, result.steps, result.final);

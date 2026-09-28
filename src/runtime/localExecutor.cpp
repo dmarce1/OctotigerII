@@ -67,7 +67,7 @@ LocalExecutor::LocalExecutor(Config config, std::vector<Subgrid> blocks, FieldDi
 	if (config_.mesh.boundary.contains(physics::BoundaryCondition::Analytic)) {
 		auto evaluator = problemBoundary(config_);
 		if (build::hydro && config_.hydroEnabled()) {
-			hydroBoundary_ = [evaluator, gas = hydro::HydroSystem(config_.hydro)](
+			hydroBoundary_ = [evaluator, gas = hydro::HydroSystem(config_)](
 								 auto const& position, auto time) { return gas.conservedState(evaluator(position, time).hydro); };
 		}
 		if (build::radiation && config_.radiationEnabled()) {
@@ -239,7 +239,7 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 			if (stolen) temporary = makeHaloPlan(config_, blocks_, id);
 			auto const& plan = stolen ? *temporary : plans_.at(id);
 			if constexpr (build::hydro) if (config_.hydroEnabled()) {
-				workspace.hydro.advance(block, fields_.hydro, plan, hydro::HydroSystem(config_.hydro), bank_, dt, time_, hydroBoundary_,
+				workspace.hydro.advance(block, fields_.hydro, plan, hydro::HydroSystem(config_), bank_, dt, time_, hydroBoundary_,
 					fields_.hydroFlux, config_.amr.enabled, times_, source_.increment, source_.referenceStep, physics::RotatingFrame(config_.frame.omega),
 					source_.radiation.gas, nullptr, {}, 0, {}, source_.radiation.limiterInterval);
 				if (config_.massFractions.enabled || config_.gravityEnabled()) {
@@ -282,7 +282,7 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 			auto const plan = !config_.amr.enabled ? std::vector<FluxCorrection>{} :
 				(stolen ? makeRefluxPlan(config_, blocks_, id) : refluxPlans_.at(id));
 			if (config_.massFractions.enabled) refluxSpecies(block, plan, dt);
-			if (build::hydro && config_.hydroEnabled()) reflux(block, plan, fields_.hydro, fields_.hydroFlux, hydro::HydroSystem(config_.hydro), dt, operation != Operation::RefluxTracked);
+			if (build::hydro && config_.hydroEnabled()) reflux(block, plan, fields_.hydro, fields_.hydroFlux, hydro::HydroSystem(config_), dt, operation != Operation::RefluxTracked);
 			if (build::radiation && config_.radiationEnabled())
 				reflux(block, plan, fields_.radiation, fields_.radiationFlux, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c),
 					dt);
@@ -463,7 +463,7 @@ units::Time LocalExecutor::timestep(Subgrid const& block, std::array<units::Velo
 	if (build::hydro && config_.hydroEnabled()) {
 		for (int d = 0; d < ndim; ++d)
 			maximumAcceleration[d] = units::abs(external[d]);
-		result = fieldStep(fields_.hydro, hydro::HydroSystem(config_.hydro));
+		result = fieldStep(fields_.hydro, hydro::HydroSystem(config_));
 		units::Acceleration acceleration{};
 		for (auto component : external)
 			acceleration += units::abs(component);
@@ -541,7 +541,7 @@ BoundaryTransport LocalExecutor::finishGravityEnergy(Subgrid const& block, std::
 	}
 	auto input = fields_.hydro.read(block.interior, bank_).get();
 	auto output = fields_.hydro.output(block.interior, bank_ ^ 1);
-	hydro::HydroSystem const gas(config_.hydro);
+	hydro::HydroSystem const gas(config_);
 	for (std::size_t i = 0; i < block.interior.count; ++i) {
 		auto state = input.at(i);
 		if (config_.gravity.energyTreatment == "mullen") state.totalEnergy() += work[i] - kicks.data()[i] + (rotation ? rotation->data()[i] : units::EnergyDensity{});
@@ -610,9 +610,9 @@ void LocalExecutor::kick(Subgrid const& block, units::Time dt, bool trackWork) {
 				if (trackWork) kickWork.data()[i] += dt * self[d] * (old + 0.5 * impulse);
 			}
 			state.totalEnergy() += work;
-			addRadiationForceWork(state, sourceWork, hydro::HydroSystem(config_.hydro), config_.hydro.dualEnergy.enabled);
-			if (!trackWork) hydro::HydroSystem(config_.hydro).synchronize(state);
-			if (!hydro::HydroSystem(config_.hydro).admissible(state)) throw std::runtime_error("Invalid gravity kick state");
+			addRadiationForceWork(state, sourceWork, hydro::HydroSystem(config_), config_.hydro.dualEnergy.enabled);
+			if (!trackWork) hydro::HydroSystem(config_).synchronize(state);
+			if (!hydro::HydroSystem(config_).admissible(state)) throw std::runtime_error("Invalid gravity kick state");
 			output.put(i, state);
 		}
 		if (trackWork) fields_.gravityKickWork.commit(block.interior, 0, kickWork);

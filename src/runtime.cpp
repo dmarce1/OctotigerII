@@ -108,6 +108,45 @@ units::Energy Runtime::radiationSourceEnergy() const {
 	return impl_->radiationSourceEnergy;
 }
 
+units::Energy Runtime::eosFloorEnergy() const {
+    std::lock_guard guard(impl_->apiMutex); return impl_->eosFloorEnergy;
+}
+std::uint64_t Runtime::eosFloorCells() const {
+    std::lock_guard guard(impl_->apiMutex); return impl_->eosFloorCells;
+}
+void Runtime::Impl::applyEosFloor() {
+#if OCTOTIGERII_HYDRO
+    if (!config.hydroEnabled() || config.hydro.eos != "helmholtz") return;
+    hydro::HydroSystem const gas(config);
+    // Accepted leaf states only. Preflight the entire pass before any writes;
+    // predictor/shadow evaluations never contribute to this ledger.
+    std::vector<std::vector<hydro::ConservedState>> repaired;
+    units::Energy added{};
+    std::uint64_t count=0;
+    for (auto const& block : topology->blocks()) {
+        auto input=fields->directory().hydro.read(block.interior,bank).get();
+        auto& values=repaired.emplace_back();
+        for (std::size_t i=0;i<block.interior.count;++i) {
+            auto state=input.at(i);
+            auto const change=gas.applyTemperatureFloor(state);
+            if (change > units::EnergyDensity{}) { added += block.layout.cellMeasure(block.cellWidth)*change; ++count; }
+            gas.synchronize(state);
+            if (!gas.admissible(state)) throw std::runtime_error("Inadmissible Helmholtz state after temperature floor");
+            values.push_back(state);
+        }
+    }
+    std::size_t blockIndex=0;
+    for (auto const& block : topology->blocks()) {
+        auto output=fields->directory().hydro.output(block.interior,bank);
+        auto const& values=repaired[blockIndex++];
+        for (std::size_t i=0;i<values.size();++i) output.put(i,values[i]);
+        fields->directory().hydro.commit(block.interior,bank,output);
+    }
+    eosFloorEnergy += added; eosFloorCells += count;
+    if (shadow) shadow->refreshLeaves(exportSnapshots());
+#endif
+}
+
 std::size_t Runtime::shadowCellCount() const {
 	std::lock_guard guard(impl_->apiMutex);
 	return impl_->shadow ? impl_->shadow->size() : 0;

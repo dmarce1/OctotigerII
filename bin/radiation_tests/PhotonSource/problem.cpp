@@ -35,7 +35,7 @@ ProblemRadiationMaterial problemRadiationMaterial(Config const& config) {
 }
 
 void initializeProblem(Snapshot& data, Config const& config, bool) {
-	hydro::HydroSystem const system(config.hydro);
+	hydro::HydroSystem const system(config);
 	hydro::PrimitiveState primitive;
 	primitive.density() = units::Density::from_value(1e-10);
 	auto const temperature = units::Temperature::from_value(1e4);

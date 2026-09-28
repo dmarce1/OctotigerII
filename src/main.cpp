@@ -31,7 +31,10 @@ int application(std::vector<std::string> const& args) {
 				if (!progressHeaderPrinted) {
 					std::cout << std::left << std::setw(8) << "step" << std::setw(16) << "time[s]";
 					for (int level = 0; level <= lastSubgridLevel; ++level)
-						std::cout << std::setw(24) << ("subgrids_L" + std::to_string(level) + "(total/leaf)");
+						std::cout << std::setw(24) << ("level " + std::to_string(level));
+					std::cout << '\n' << std::setw(8) << "" << std::setw(16) << "";
+					for (int level = 0; level <= lastSubgridLevel; ++level)
+						std::cout << std::setw(24) << "(total/leafs)";
 					std::cout << '\n';
 					progressHeaderPrinted = true;
 				}

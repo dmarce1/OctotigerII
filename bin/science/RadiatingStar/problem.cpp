@@ -176,7 +176,7 @@ void initializeProblem(Snapshot& data, Config const& config, bool refinementProb
 	auto star = model(config);
 	Real const scale = refinementProbe ? Real(initialFeatureWidth(star->eos().scaleLength(), data.cellWidth)
 		/ star->eos().scaleLength()) : 1;
-	hydro::HydroSystem const gas(config.hydro);
+	hydro::HydroSystem const gas(config);
 	data.layout.forEachInterior([&](auto const& cell, std::size_t index) {
 		auto const position = data.layout.cellCenter(data.lower, data.cellWidth, cell);
 		auto const value = state(config, *star, position, scale);

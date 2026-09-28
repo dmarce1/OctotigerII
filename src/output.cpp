@@ -49,12 +49,12 @@ namespace {
 			field("momentum", "g/(cm^2 s)", true, [&](std::size_t i, int axis) { return b.hydro.values()[i].momentum(axis); });
 			field("velocity", "cm/s", true, [&](std::size_t i, int axis) { return b.hydro.values()[i].momentum(axis) / b.hydro.values()[i].density(); });
 			field("gasEnergy", "erg/cm^3", false, [&](std::size_t i, int) { return b.hydro.values()[i].totalEnergy(); });
-			field("internalEnergy", "erg/cm^3", false, [&](std::size_t i, int) { return hydro::HydroSystem(c.hydro).internalEnergy(b.hydro.values()[i]); });
-			field("temperature", "K", false, [&](std::size_t i, int) { return hydro::HydroSystem(c.hydro).temperature(b.hydro.values()[i]); });
+			field("internalEnergy", "erg/cm^3", false, [&](std::size_t i, int) { return hydro::HydroSystem(c).internalEnergy(b.hydro.values()[i]); });
+			field("temperature", "K", false, [&](std::size_t i, int) { return hydro::HydroSystem(c).temperature(b.hydro.values()[i]); });
 			if (c.hydro.dualEnergy.enabled)
 				field("dualEnergy", "g/cm^3", false, [&](std::size_t i, int) { return b.hydro.values()[i].auxiliary(); });
 			field("pressure", "dyn/cm^2", false,
-				[&](std::size_t i, int) { return hydro::HydroSystem(c.hydro).reconstructionVariables(b.hydro.values()[i]).pressure(); });
+				[&](std::size_t i, int) { return hydro::HydroSystem(c).reconstructionVariables(b.hydro.values()[i]).pressure(); });
 		}
 #endif
 #if OCTOTIGERII_GRAVITY
@@ -252,6 +252,7 @@ Output::Output(Config const& c)
 		conservation_ << ",radiation_angular_momentum_z_g_cm2_s_grid,physical_total_angular_momentum_z_g_cm2_s_grid,rsla_total_angular_momentum_z_g_cm2_s_grid";
 		conservation_ << ",maximum_cell_optical_depth,maximum_radiation_trapping_parameter,maximum_rsla_criterion";
 	}
+	if (c.hydro.eos == "helmholtz") conservation_ << ",eos_floor_energy_erg,eos_floor_cell_corrections";
 	if (c.radiationEnabled()) conservation_ << ",radiation_source_energy_erg,rsla_source_energy_erg";
 	conservation_ << '\n';
 	if (!c.output.enabled) return;
@@ -275,15 +276,15 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 	if (config_.hydroEnabled() || config_.gravityEnabled()) write(d.mass, in.mass, out.mass, d.norm.mass, initial_.mass, initial_.norm.mass);
 	if (config_.hydroEnabled()) {
 		for (int axis = 0; axis < ndim; ++axis) write(d.momentum[axis], in.momentum[axis], out.momentum[axis], d.norm.momentum[axis], initial_.momentum[axis], initial_.norm.momentum[axis]);
-		write(d.gasEnergy, in.gasEnergy, out.gasEnergy, d.norm.gasEnergy, initial_.gasEnergy, initial_.norm.gasEnergy);
+		write(d.gasEnergy, in.gasEnergy, out.gasEnergy, d.norm.gasEnergy, initial_.gasEnergy, initial_.norm.gasEnergy, d.eosFloorEnergy, initial_.eosFloorEnergy);
 		conservation_ << ',' << units::value(d.kineticEnergy) << ',' << units::value(d.thermalEnergy)
 			<< ',' << units::value(d.angularMomentumZ) << ',' << units::value(d.maximumDensity);
 		if (config_.gravityEnabled()) {
 			auto const norm = std::max(initial_.gasGravityNorm, d.gasGravityNorm);
-			Real const drift = norm > units::Energy{} ? Real((d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy - initial_.gasGravityEnergy) / norm) : Real(0);
+			Real const drift = norm > units::Energy{} ? Real((d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy - d.eosFloorEnergy - initial_.gasGravityEnergy + initial_.eosFloorEnergy) / norm) : Real(0);
 			conservation_ << ',' << units::value(d.potentialEnergy) << ',' << units::value(in.potentialEnergy) << ',' << units::value(out.potentialEnergy)
 				<< ',' << units::value(d.gasGravityEnergy)
-				<< ',' << units::value(d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy)
+				<< ',' << units::value(d.gasGravityEnergy + out.gasEnergy - in.gasEnergy + out.potentialEnergy - in.potentialEnergy - d.eosFloorEnergy)
 				<< ',' << units::value(norm) << ',' << drift
 				<< ',' << units::value(d.gravityReciprocityDefect) << ',' << units::value(d.gravityRegridEnergyChange)
 				<< ',' << (norm > units::Energy{} ? drift - Real((d.gravityReciprocityDefect + d.gravityRegridEnergyChange) / norm) : Real(0));
@@ -299,10 +300,10 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 		auto const cSquared = constants::c * constants::c;
 		write(d.physicalTotalEnergy, in.gasEnergy + in.potentialEnergy + in.radiationEnergy,
 			out.gasEnergy + out.potentialEnergy + out.radiationEnergy, d.physicalTotalEnergyNorm,
-			initial_.physicalTotalEnergy, initial_.physicalTotalEnergyNorm, d.radiationSourceEnergy, initial_.radiationSourceEnergy);
+			initial_.physicalTotalEnergy, initial_.physicalTotalEnergyNorm, d.radiationSourceEnergy+d.eosFloorEnergy, initial_.radiationSourceEnergy+initial_.eosFloorEnergy);
 		write(d.rslaTotalEnergy, in.gasEnergy + in.potentialEnergy + weight * in.radiationEnergy,
 			out.gasEnergy + out.potentialEnergy + weight * out.radiationEnergy, d.rslaTotalEnergyNorm,
-			initial_.rslaTotalEnergy, initial_.rslaTotalEnergyNorm, weight * d.radiationSourceEnergy, weight * initial_.radiationSourceEnergy);
+			initial_.rslaTotalEnergy, initial_.rslaTotalEnergyNorm, weight * d.radiationSourceEnergy+d.eosFloorEnergy, weight * initial_.radiationSourceEnergy+initial_.eosFloorEnergy);
 		for (int axis = 0; axis < ndim; ++axis) {
 			write(d.physicalTotalMomentum[axis], in.momentum[axis] + in.radiationFlux[axis] / cSquared,
 				out.momentum[axis] + out.radiationFlux[axis] / cSquared, d.physicalTotalMomentumNorm[axis],
@@ -315,6 +316,7 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 			<< ',' << units::value(d.rslaTotalAngularMomentumZ);
 		conservation_ << ',' << d.maximumCellOpticalDepth << ',' << d.maximumTrappingParameter << ',' << d.maximumRslaCriterion;
 	}
+	if (config_.hydro.eos == "helmholtz") conservation_ << ',' << units::value(d.eosFloorEnergy) << ',' << d.eosFloorCells;
 	if (config_.radiationEnabled()) conservation_ << ',' << units::value(d.radiationSourceEnergy)
 		<< ',' << units::value(d.radiationSourceEnergy / config_.radiation.lightSpeedRatio);
 	conservation_ << '\n';

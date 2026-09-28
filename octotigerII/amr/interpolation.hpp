@@ -24,6 +24,7 @@ typename System::State interpolate(
 			auto candidate = center;
 			for (int d = 0; d < ndim; ++d)
 				candidate += (slot & (1 << d) ? 0.5 : -0.5) * fraction * slopes[d];
+			if constexpr (requires { system.constrainComposition(candidate,center); }) system.constrainComposition(candidate,center);
 			// A system can require its exact invariant domain here. Accepting a
 			// full roundoff allowance in a slope trial can leave no margin for
 			// later component rotations. Keep one fraction for every child.
@@ -50,6 +51,7 @@ typename System::State interpolate(
 	auto result = center;
 	for (int d = 0; d < ndim; ++d)
 		result += fraction * offset[d] * slopes[d];
+	if constexpr (requires { system.constrainComposition(result,center); }) system.constrainComposition(result,center);
 	return result;
 }
 

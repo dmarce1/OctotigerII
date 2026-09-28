@@ -194,6 +194,12 @@ public:
 	constexpr auto& auxiliary() { return get<ndim + 2>(); }
 	constexpr auto const& auxiliary() const { return get<ndim + 2>(); }
 
+	/// Nuclear and electron number per atomic mass unit, or specific fractions.
+	constexpr auto& nuclei() { return get<ndim + 3>(); }
+	constexpr auto const& nuclei() const { return get<ndim + 3>(); }
+	constexpr auto& electrons() { return get<ndim + 4>(); }
+	constexpr auto const& electrons() const { return get<ndim + 4>(); }
+
 	/// Access component ndim+1 for a hydro state, otherwise component 0.
 	constexpr auto& energy() {
 		if constexpr (sizeof...(Q) >= ndim + 2)

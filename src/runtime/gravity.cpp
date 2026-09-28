@@ -218,7 +218,7 @@ void Runtime::Impl::provisionalGravity(GravityInterval& interval, GravityFrame& 
 				sourceWork += step * acceleration[d] * sourceImpulse[d];
 			}
 			if (config.gravity.energyTreatment == "mullen") value.totalEnergy() += heat[i];
-			hydro::HydroSystem const system(config.hydro);
+			hydro::HydroSystem const system(config);
 			addRadiationForceWork(value, sourceWork, system, config.hydro.dualEnergy.enabled);
 			system.synchronize(value);
 			if (!system.admissible(value)) throw std::runtime_error("Provisional gravity source produced an inadmissible state");
@@ -271,7 +271,7 @@ void Runtime::Impl::closeGravityFrame(GravityInterval& interval, GravityFrame& f
 			}
 			if (config.gravity.energyTreatment == "mullen") value.totalEnergy() += work.work[i] - applied.data()[i]
 				+ (b.location.level == frame.level ? deferred.data()[i] : units::EnergyDensity{});
-			hydro::HydroSystem const gas(config.hydro);
+			hydro::HydroSystem const gas(config);
 			gas.synchronize(value);
 			if (!gas.admissible(value)) throw std::runtime_error("Gravity shell correction produced an inadmissible state");
 			output.put(i, value);
@@ -340,7 +340,7 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 			for (std::size_t i = 0; i < b.interior.count; ++i) {
 				auto value = old.at(i) + (step / interval.duration) * rate.at(i);
 				if (!coupledStep) predictorKineticRemainder(old.at(i), value);
-				if (!hydro::HydroSystem(config.hydro).admissible(value)) throw std::runtime_error("Coarse gravity halo predictor is inadmissible");
+				if (!hydro::HydroSystem(config).admissible(value)) throw std::runtime_error("Coarse gravity halo predictor is inadmissible");
 				density[i] = value.density(); out.put(i, value);
 			}
 			for (auto const& species : fields->directory().species) {
@@ -386,7 +386,9 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 
 gravity::Statistics Runtime::advanceGravity(units::Time dt) {
 	std::lock_guard guard(impl_->apiMutex);
-	return advanceGravityUnlocked(dt);
+	auto result = advanceGravityUnlocked(dt);
+	impl_->applyEosFloor();
+	return result;
 }
 
 gravity::Statistics Runtime::advanceGravityUnlocked(units::Time dt) {
@@ -524,6 +526,7 @@ void Runtime::beginGravityEnergyUnlocked() {
 void Runtime::finishGravityEnergy(units::Time dt) {
 	std::lock_guard guard(impl_->apiMutex);
 	finishGravityEnergyUnlocked(dt);
+	impl_->applyEosFloor();
 }
 
 void Runtime::finishGravityEnergyUnlocked(units::Time dt) {

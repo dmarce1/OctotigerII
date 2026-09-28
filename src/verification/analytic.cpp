@@ -55,6 +55,10 @@ Reference reference(Config const& c, units::Time time) {
 		return result;
 	}
 	result = problemReference(c);
+	if (c.hydro.eos == "helmholtz" && c.hydroEnabled()) {
+		result.evaluate = {};
+		result.reason = "Existing analytic references assume a different EOS";
+	}
 	if (c.hasExternalAcceleration() && result.evaluate) {
 		result.evaluate = {};
 		result.reason = "This analytic reference does not include external acceleration";
@@ -94,7 +98,7 @@ std::vector<Field> sample(Snapshot const& b, [[maybe_unused]] Config const& c, R
 	};
 #if OCTOTIGERII_HYDRO
 	if (c.hydroEnabled()) {
-		hydro::HydroSystem const gas(c.hydro);
+		hydro::HydroSystem const gas(c);
 		field("density", "g/cm^3", [&](std::size_t i) { return b.hydro.values()[i].density(); }, [](auto const& q) { return q.hydro.density(); });
 		field(
 			"pressure", "dyn/cm^2", [&](std::size_t i) { return gas.reconstructionVariables(b.hydro.values()[i]).pressure(); },

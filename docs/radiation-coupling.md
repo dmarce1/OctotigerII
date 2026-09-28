@@ -294,3 +294,12 @@ independently of the paired exchange identities, along with transparent
 transport, LTE equilibrium, moving-medium work, and temporal convergence.
 Passing a global conservation test alone cannot establish the accuracy of a
 diffusion solution or justify a reduced light speed.
+
+## Helmholtz material thermodynamics
+
+With `hydro.eos=helmholtz`, hydro and the local exchange solver use the gas-only
+EOS, excluding equilibrium photons. The nonlinear source evaluates the EOS
+temperature and heat capacity with the advected composition. Emission derivatives
+use `1/(rho*cv)` rather than the ideal-gas proportionality. See
+[Helmholtz hydro](helmholtz-hydro.md) for inversion, entropy transport and the
+explicit floor source that must be subtracted from conservation budgets.

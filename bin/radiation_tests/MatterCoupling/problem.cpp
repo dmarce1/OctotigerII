@@ -26,7 +26,7 @@ void problemDefaults(Config& c) {
 }
 
 void initializeProblem(Snapshot& data, Config const& c, bool) {
-	hydro::HydroSystem const system(c.hydro);
+	hydro::HydroSystem const system(c);
 	auto const length = c.mesh.upper - c.mesh.lower;
 	data.layout.forEachInterior([&](auto const& cell, std::size_t i) {
 		auto const x = data.layout.cellCenter(data.lower, data.cellWidth, cell);

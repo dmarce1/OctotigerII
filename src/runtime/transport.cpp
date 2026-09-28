@@ -83,6 +83,7 @@ units::Time Runtime::stableTimestep() const {
 void Runtime::advance(units::Time dt) {
 	std::lock_guard guard(impl_->apiMutex);
 	advanceUnlocked(dt);
+	if (!impl_->gravityEnergyActive && !impl_->coupledStep) impl_->applyEosFloor();
 }
 
 void Runtime::advanceUnlocked(units::Time dt) {

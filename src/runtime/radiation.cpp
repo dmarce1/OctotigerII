@@ -65,7 +65,7 @@ units::Energy LocalExecutor::radiationSource(Subgrid const& block, Operation ope
 		copySpecies(false, bank_);
 		return {};
 	}
-	hydro::HydroSystem const system(config_.hydro);
+	hydro::HydroSystem const system(config_);
 	// These positions are the problem's reference grid coordinates, the same
 	// coordinates used for its initialized material and photon source profile.
 	auto evaluationTime = time_;
@@ -183,6 +183,7 @@ void Runtime::coupleRadiation(units::Time dt) {
 	impl_->bank ^= 1;
 	++impl_->generation;
 	if (nextShadow) impl_->shadow = std::move(nextShadow);
+	impl_->applyEosFloor();
 }
 
 gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
@@ -196,10 +197,11 @@ gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
 	if (dt > physics::RotatingFrame(config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
 		throw std::invalid_argument("Rotating-grid step exceeds the angular-phase limit");
 	if (config.radiation.opacity == 0 && !problemHasRadiationMaterial(config)) {
-		if (config.gravityEnabled()) return advanceGravityUnlocked(dt);
+		if (config.gravityEnabled()) { auto result=advanceGravityUnlocked(dt); impl_->applyEosFloor(); return result; }
 		if (config.hasExternalAcceleration()) kickGravityUnlocked(dt / 2.0);
 		advanceUnlocked(dt);
 		if (config.hasExternalAcceleration()) kickGravityUnlocked(dt / 2.0);
+		impl_->applyEosFloor();
 		return {};
 	}
 	profiling::Elapsed profile("runtime.radiation_coupled.wall_ns");
@@ -209,6 +211,8 @@ gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
 	auto const savedStatistics = impl_->statistics;
 	auto const savedBoundary = impl_->boundary;
 	auto const savedSourceEnergy = impl_->radiationSourceEnergy;
+	auto const savedFloorEnergy=impl_->eosFloorEnergy;
+	auto const savedFloorCells=impl_->eosFloorCells;
 	auto const savedSpeed = impl_->signalSpeed;
 	auto const savedTravel = impl_->travel;
 	auto const savedGravityTime = impl_->gravityTime;
@@ -252,6 +256,7 @@ gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
 			impl_->bank ^= 1;
 			++impl_->generation;
 		}
+		impl_->applyEosFloor();
 		if (impl_->shadow) impl_->shadow->refreshLeaves(impl_->exportSnapshots());
 		impl_->coupledStep.reset();
 		return gravityWork;
@@ -266,6 +271,7 @@ gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
 		impl_->statistics = savedStatistics;
 		impl_->boundary = savedBoundary;
 		impl_->radiationSourceEnergy = savedSourceEnergy;
+		impl_->eosFloorEnergy=savedFloorEnergy; impl_->eosFloorCells=savedFloorCells;
 		impl_->signalSpeed = savedSpeed;
 		impl_->travel = savedTravel;
 		impl_->gravityTime = savedGravityTime;

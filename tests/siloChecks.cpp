@@ -353,8 +353,8 @@ TEST(SiloOutput, AmrTimeSeriesRefreshesDomainsAndPreservesCoverage) {
 	}
 }
 
+#if OCTOTIGERII_NDIM >= 2
 TEST(Silo, RotatingMeshStaysInGridCoordinatesAndPreservesVectors) {
-	if constexpr (ndim < 2) GTEST_SKIP() << "Rotation requires two dimensions";
 	test::TemporaryDirectory directory;
 	auto c = test::parseConfig({"--mesh.level=0", "--mesh.cells=4", "--mesh.periodic=off", "--frame.omega=1",
 		"--verification.analytic=off", "--runtime.stopTime=1", "--output.directory=" + directory.path.string()});
@@ -384,10 +384,11 @@ TEST(Silo, RotatingMeshStaysInGridCoordinatesAndPreservesVectors) {
 	EXPECT_NEAR(x[0], units::value(patch.lower[0]), 1e-12);
 	EXPECT_NEAR(y[0], units::value(patch.lower[1]), 1e-12);
 	EXPECT_NEAR(x[1] - x[0], units::value(patch.cellWidth), 1e-12);
-	EXPECT_NEAR(y[1], y[0], 1e-12);
+	EXPECT_NEAR(y[1] - y[0], units::value(patch.cellWidth), 1e-12);
 	if constexpr (test::hydro) {
 		std::unique_ptr<DBquadvar, decltype(&DBFreeQuadvar)> vx(DBGetQuadvar(file.get(), "block0/velocityX"), &DBFreeQuadvar);
 		ASSERT_TRUE(vx);
 		EXPECT_NEAR(static_cast<double const*>(vx->vals[0])[0], 2, 1e-12);
 	}
 }
+#endif

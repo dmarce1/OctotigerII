@@ -87,12 +87,16 @@ public:
 	public:
 		Real gamma = 1.4;
 		Real meanMolecularWeight = 1;
+		std::string eos = "ideal";
+		Real meanMassPerElectron = 2;
+		std::string helmholtzTable;
+		Real temperatureFloor = 1000;
 		hydro::DualEnergyOptions dualEnergy;
 		std::array<units::Acceleration, ndim> acceleration{};
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & gamma & meanMolecularWeight & dualEnergy;
+			archive & gamma & meanMolecularWeight & eos & meanMassPerElectron & dualEnergy & helmholtzTable & temperatureFloor;
 			for (auto& component : acceleration)
 				archive & component;
 		}
@@ -143,6 +147,19 @@ public:
 				& radialCells & angularPoints & multipoles & structureTolerance;
 		}
 	} radiatingStar;
+
+	class WhiteDwarfOptions {
+	public:
+		Real thermalPressureFraction = 1e-4;
+		Real rotationFraction = 0.2;
+		int radialCells = 256, angularPoints = 32, multipoles = 12;
+		Real structureTolerance = 1e-9;
+		template <typename Archive>
+		void serialize(Archive& archive, unsigned) {
+			archive & thermalPressureFraction & rotationFraction & radialCells & angularPoints
+				& multipoles & structureTolerance;
+		}
+	} whiteDwarf;
 
 	class RadiationOptions {
 	public:

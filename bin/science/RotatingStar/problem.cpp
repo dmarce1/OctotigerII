@@ -118,7 +118,7 @@ void initializeProblem(Snapshot& data, Config const& c, bool refinementProbe) {
 		auto const width = initialFeatureWidth(star.coreLength(), data.cellWidth);
 		star = problems::RotatingStar(c.star.radius * Real(width / star.coreLength()), c.star.centralDensity, c.star.atmosphereFraction);
 	}
-	hydro::HydroSystem const gas(c.hydro);
+	hydro::HydroSystem const gas(c);
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 		auto relative = data.layout.cellCenter(data.lower, data.cellWidth, cell);
 		for (int d = 0; d < ndim; ++d) relative[d] -= c.star.center[d];

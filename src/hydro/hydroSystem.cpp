@@ -38,10 +38,105 @@ HydroSystem::HydroSystem(Real adiabaticIndex, units::Density densityFloor, units
 	}
 }
 
-HydroSystem::HydroSystem(Config::HydroOptions const& options)
-  : HydroSystem(options.gamma, units::Density::from_value(1e-14), units::Pressure::from_value(1e-14), options.dualEnergy, options.meanMolecularWeight) {}
+HydroSystem::HydroSystem(Config::HydroOptions const& options, bool separateRadiation)
+  : HydroSystem(options.gamma, units::Density::from_value(1e-14), units::Pressure::from_value(1e-14), options.dualEnergy, options.meanMolecularWeight) {
+	if (options.eos != "ideal" && options.eos != "white-dwarf" && options.eos != "helmholtz")
+		throw std::invalid_argument("Unsupported hydro EOS");
+	if (options.eos == "helmholtz") helmholtz_ = std::make_shared<HelmholtzClosure>(options.helmholtzTable, separateRadiation, options.temperatureFloor);
+	degenerate_ = options.eos == "white-dwarf";
+	whiteDwarfEos_ = WhiteDwarfEos(options.meanMassPerElectron);
+}
+
+std::pair<Real, Real> HydroSystem::composition(State const& state) const {
+    if (state.nuclei() == units::Density{} && state.electrons() == units::Density{})
+        return {defaultAbar_, defaultZbar_};
+    if (!(state.density()>units::Density{}) || !(state.nuclei()>units::Density{}) || !(state.electrons()>units::Density{}))
+        throw std::invalid_argument("Invalid Helmholtz composition moments");
+    Real const a = Real(state.density() / state.nuclei());
+    Real const z = Real(state.electrons() / state.nuclei());
+    if (!std::isfinite(a) || !std::isfinite(z) || !(a > 0 && z > 0 && z <= a))
+        throw std::invalid_argument("Invalid Helmholtz material composition");
+    return {a,z};
+}
+void HydroSystem::setComposition(State& state, std::vector<units::Density> const& species, composition::Options const& options) const {
+    if (!helmholtz_) return;
+    if (species.size() != options.species.size()) throw std::invalid_argument("Composition field count mismatch");
+    state.density() = {}; state.nuclei() = {}; state.electrons() = {};
+    for (std::size_t i=0; i<species.size(); ++i) {
+        auto const& s = options.species[i];
+        if (s.tracer()) continue;
+        if (!units::finite(species[i]) || species[i] < units::Density{}) throw std::invalid_argument("Invalid material partial density");
+        state.density() += species[i];
+        state.nuclei() += species[i] / s.atomicMass;
+        state.electrons() += species[i] * (s.atomicNumber / s.atomicMass);
+    }
+    (void) composition(state);
+}
+HelmholtzClosure::Point HydroSystem::minimum(State const& state) const {
+    auto const [a,z] = composition(state);
+    return helmholtz_->at(units::value(state.density()), helmholtz_->temperatureFloor(), a,z);
+}
+HelmholtzClosure::Point HydroSystem::thermodynamics(State const& state, units::EnergyDensity energy) const {
+    if (!helmholtz_) throw std::logic_error("Helmholtz thermodynamics requested for another EOS");
+    auto const [a,z] = composition(state);
+    auto const q = helmholtz_->invert(units::value(state.density()), units::value(energy / state.density()), a,z, HelmholtzClosure::Variable::Energy);
+    if (!(q.cv > 0 && q.pressure > 0 && q.soundSquared > 0) || !std::isfinite(q.cv) || !std::isfinite(q.soundSquared))
+        throw std::runtime_error("Helmholtz state has nonpositive/nonfinite heat capacity, pressure or sound speed squared");
+    return q;
+}
+HydroSystem::State HydroSystem::stateFromTemperature(units::Density rho, units::Temperature temperature, Real a, Real z) const {
+    if (!helmholtz_) throw std::logic_error("Temperature initialization requires Helmholtz");
+    auto const q = helmholtz_->at(units::value(rho), units::value(temperature), a,z);
+    State state;
+    state.density() = rho; state.nuclei() = rho/a; state.electrons() = rho*(z/a);
+    state.totalEnergy() = rho*units::VelocitySquared::from_value(q.energy);
+    if (dualEnergy_.enabled) state.auxiliary() = rho*(q.entropy / 1e8);
+    return state;
+}
+units::Density HydroSystem::auxiliaryFromInternalEnergy(State const& state, units::EnergyDensity u) const {
+    if (!helmholtz_) return auxiliaryFromInternalEnergy(state.density(),u);
+    return state.density() * (thermodynamics(state,u).entropy / 1e8);
+}
+units::EnergyDensity HydroSystem::applyTemperatureFloor(State& state) const {
+    if (!helmholtz_) return {};
+    auto const low = minimum(state);
+    auto const floor = state.density()*units::VelocitySquared::from_value(low.energy);
+    auto const fromTotal = totalInternalEnergy(state);
+    bool const usableAuxiliary = dualEnergy_.enabled && units::finite(state.auxiliary()) &&
+        Real(state.auxiliary()/state.density())*1e8 > low.entropy + 1e-12*std::max(Real(1),std::abs(low.entropy));
+    // Prefer an independently advected entropy if E-K has lost thermal accuracy.
+    if (fromTotal >= floor) {
+        if (dualEnergy_.enabled && !usableAuxiliary) state.auxiliary()=auxiliaryFromInternalEnergy(state,fromTotal);
+        return {};
+    }
+    if (usableAuxiliary) return {};
+    auto const old = state.totalEnergy();
+    state.totalEnergy() += floor-fromTotal;
+    if (dualEnergy_.enabled) state.auxiliary() = state.density()*(low.entropy/1e8);
+    return state.totalEnergy()-old;
+}
+void HydroSystem::constrainComposition(State& candidate, State const& donor) const {
+    if (!helmholtz_) return;
+    candidate.nuclei()=donor.nuclei()*Real(candidate.density()/donor.density());
+    candidate.electrons()=donor.electrons()*Real(candidate.density()/donor.density());
+}
+HydroSystem::Flux HydroSystem::compositionFlux(Flux flux, State const& left, State const& right) {
+    auto const& donor = flux.mass() >= units::MassFlux{} ? left : right;
+    flux.nuclei() = flux.mass()*Real(donor.nuclei()/donor.density());
+    flux.electrons() = flux.mass()*Real(donor.electrons()/donor.density());
+    return flux;
+}
+
+units::EnergyDensity HydroSystem::degenerateEnergy(units::Density rho) const {
+	return degenerate_ ? whiteDwarfEos_.internalEnergy(rho) : units::EnergyDensity{};
+}
+
+units::Pressure HydroSystem::degeneratePressure(units::Density rho) const {
+	return degenerate_ ? whiteDwarfEos_.pressure(rho) : units::Pressure{};
+}
 
 units::Density HydroSystem::auxiliaryFromInternalEnergy(units::Density rho, units::EnergyDensity u) const {
+	if (helmholtz_) { State state; state.density()=rho; return auxiliaryFromInternalEnergy(state,u); }
 	if (!(rho > units::Density{}) || !(u > units::EnergyDensity{}) || !units::finite(rho) || !units::finite(u))
 		throw std::invalid_argument("Dual energy requires finite positive density and internal energy");
 	long double const logRho = std::log(static_cast<long double>(units::value(rho)));
@@ -50,6 +145,11 @@ units::Density HydroSystem::auxiliaryFromInternalEnergy(units::Density rho, unit
 }
 
 units::EnergyDensity HydroSystem::internalEnergyFromAuxiliary(State const& state) const {
+    if (helmholtz_) {
+        auto const [a,z] = composition(state);
+        auto const q = helmholtz_->invert(units::value(state.density()), Real(state.auxiliary()/state.density())*1e8, a,z, HelmholtzClosure::Variable::Entropy);
+        return state.density()*units::VelocitySquared::from_value(q.energy);
+    }
 	if (!(state.density() > units::Density{}) || !(state.auxiliary() > units::Density{}) ||
 		!units::finite(state.density()) || !units::finite(state.auxiliary()))
 		throw std::invalid_argument("Dual energy requires finite positive density and auxiliary density");
@@ -59,8 +159,10 @@ units::EnergyDensity HydroSystem::internalEnergyFromAuxiliary(State const& state
 }
 
 units::EnergyDensity HydroSystem::internalEnergy(State const& state) const {
-	auto const thermal = totalInternalEnergy(state);
-	if (!dualEnergy_.enabled || (state.totalEnergy() > units::EnergyDensity{} && thermal > dualEnergy_.pressureThreshold * state.totalEnergy()))
+	auto const thermal = totalInternalEnergy(state) - degenerateEnergy(state.density());
+	auto const resolved = helmholtz_ ? thermal-state.density()*units::VelocitySquared::from_value(minimum(state).energy) : thermal;
+	if (!dualEnergy_.enabled || (state.totalEnergy() > units::EnergyDensity{} && resolved > dualEnergy_.pressureThreshold * state.totalEnergy() &&
+        (!helmholtz_ || thermal >= state.density()*units::VelocitySquared::from_value(minimum(state).energy))))
 		return thermal;
 	try {
 		return internalEnergyFromAuxiliary(state);
@@ -73,14 +175,25 @@ units::EnergyDensity HydroSystem::internalEnergy(State const& state) const {
 
 units::Temperature HydroSystem::temperature(State const& state) const {
 	if (!admissible(state)) throw std::runtime_error("Cannot compute temperature of an inadmissible hydro state");
-	return pressure(state) * (meanMolecularWeight_ * constants::atomicMassUnit) / (state.density() * constants::boltzmann);
+	if (helmholtz_) return units::Temperature::from_value(thermodynamics(state,internalEnergy(state)).temperature);
+	return (adiabaticIndex_ - 1) * internalEnergy(state) *
+		(meanMolecularWeight_ * constants::atomicMassUnit) / (state.density() * constants::boltzmann);
 }
 
 void HydroSystem::synchronize(State& state) const {
+    if (helmholtz_) {
+        if (!dualEnergy_.enabled) return;
+        auto const u = totalInternalEnergy(state);
+        if (state.totalEnergy() > units::EnergyDensity{} && u-state.density()*units::VelocitySquared::from_value(minimum(state).energy) > dualEnergy_.syncThreshold*state.totalEnergy() &&
+            u >= state.density()*units::VelocitySquared::from_value(minimum(state).energy))
+            state.auxiliary()=auxiliaryFromInternalEnergy(state,u);
+        return;
+    }
 	if (!dualEnergy_.enabled) return;
-	auto const thermal = totalInternalEnergy(state);
+	auto const thermal = totalInternalEnergy(state) - degenerateEnergy(state.density());
 	if (state.totalEnergy() > units::EnergyDensity{} && units::finite(thermal) &&
-		thermal > dualEnergy_.syncThreshold * state.totalEnergy() && (adiabaticIndex_ - 1) * thermal >= pressureFloor_)
+		thermal > dualEnergy_.syncThreshold * state.totalEnergy() &&
+		degeneratePressure(state.density()) + (adiabaticIndex_ - 1) * thermal >= pressureFloor_)
 		state.auxiliary() = auxiliaryFromInternalEnergy(state.density(), thermal);
 }
 
@@ -99,11 +212,13 @@ PrimitiveState HydroSystem::reconstructionVariables(ConservedState const& state)
 	}
 	result.setPressure(pressure(state));
 	result.auxiliary() = state.auxiliary() / state.density();
+	result.nuclei() = state.nuclei()/state.density();
+	result.electrons() = state.electrons()/state.density();
 	return result;
 }
 
 ConservedState HydroSystem::conservedState(PrimitiveState const& state) const {
-	if (!(state.density() >= densityFloor_) || !(state.pressure() >= pressureFloor_) || !units::finite(state.density()) || !units::finite(state.pressure())) {
+	if (!finite(state) || !(state.density() >= densityFloor_) || !(state.pressure() >= pressureFloor_) || !units::finite(state.density()) || !units::finite(state.pressure())) {
 		throw std::invalid_argument("Cannot convert an inadmissible hydro primitive state");
 	}
 	ConservedState result;
@@ -116,14 +231,29 @@ ConservedState HydroSystem::conservedState(PrimitiveState const& state) const {
 		result.setMomentum(axis, state.density() * state.velocity(axis));
 		speedSquared += state.velocity(axis) * state.velocity(axis);
 	}
-	result.setTotalEnergy(state.pressure() / (adiabaticIndex_ - 1) + Real(0.5) * state.density() * speedSquared);
+    result.nuclei() = state.density()*state.nuclei();
+    result.electrons() = state.density()*state.electrons();
+    if (helmholtz_) {
+        auto const [a,z] = composition(result);
+        result.nuclei() = result.density()/a; result.electrons() = result.density()*(z/a);
+        auto const q = helmholtz_->invert(units::value(state.density()), units::value(state.pressure()), a,z, HelmholtzClosure::Variable::Pressure, false);
+        result.totalEnergy() = result.density()*units::VelocitySquared::from_value(q.energy) + Real(0.5)*state.density()*speedSquared;
+        if (dualEnergy_.enabled) result.auxiliary() = state.auxiliary() == units::Dimensionless{} ?
+            result.density()*(q.entropy/1e8) : state.density()*state.auxiliary();
+        return result;
+    }
+	auto const thermalPressure = state.pressure() - degeneratePressure(state.density());
+	if (!(thermalPressure > units::Pressure{}))
+		throw std::invalid_argument("Hydro primitive pressure must exceed cold degeneracy pressure");
+	auto const thermal = thermalPressure / (adiabaticIndex_ - 1);
+	result.setTotalEnergy(degenerateEnergy(state.density()) + thermal + Real(0.5) * state.density() * speedSquared);
 	if (!units::finite(state.auxiliary()) || state.auxiliary() < units::Dimensionless{})
 		throw std::invalid_argument("Primitive auxiliary entropy must be finite and nonnegative");
 	// Zero is an initialization marker only in primitives, never in an enabled
 	// conserved state. Reconstruction retains A/rho independently of pressure.
 	if (dualEnergy_.enabled)
 		result.auxiliary() = state.auxiliary() == units::Dimensionless{} ?
-			auxiliaryFromInternalEnergy(state.density(), state.pressure() / (adiabaticIndex_ - 1)) : state.density() * state.auxiliary();
+			auxiliaryFromInternalEnergy(state.density(), thermal) : state.density() * state.auxiliary();
 	return result;
 }
 
@@ -133,6 +263,8 @@ ConservedFlux HydroSystem::physicalFlux(ConservedState const& state, int normal,
 	ConservedFlux result;
 	result.setMass(state.density() * normalVelocity);
 	result.auxiliary() = state.auxiliary() * normalVelocity;
+	result.nuclei() = state.nuclei()*normalVelocity;
+	result.electrons() = state.electrons()*normalVelocity;
 	for (int axis = 0; axis < ndim; ++axis) {
 		result.setMomentum(axis, state.momentum(axis) * normalVelocity + (axis == normal ? primitive.pressure() : units::Pressure{}));
 	}
@@ -157,8 +289,8 @@ ConservedFlux HydroSystem::riemann(ConservedState const& left, ConservedState co
 	}
 	PrimitiveState const leftPrimitive = reconstructionVariables(left);
 	PrimitiveState const rightPrimitive = reconstructionVariables(right);
-	auto const leftSound = units::sqrt(adiabaticIndex_ * leftPrimitive.pressure() / leftPrimitive.density());
-	auto const rightSound = units::sqrt(adiabaticIndex_ * rightPrimitive.pressure() / rightPrimitive.density());
+	auto const leftSound = soundSpeed(leftPrimitive);
+	auto const rightSound = soundSpeed(rightPrimitive);
 	auto const leftSpeed = std::min(leftPrimitive.velocity(normal) - leftSound, rightPrimitive.velocity(normal) - rightSound);
 	auto const rightSpeed = std::max(leftPrimitive.velocity(normal) + leftSound, rightPrimitive.velocity(normal) + rightSound);
 	ConservedFlux const leftFlux = physicalFlux(left, normal);
@@ -195,6 +327,8 @@ ConservedFlux HydroSystem::riemann(ConservedState const& left, ConservedState co
 		ConservedState star;
 		star.setDensity(primitive.density() * waveDifference / starDifference);
 		star.auxiliary() = state.auxiliary() * (star.density() / state.density());
+		star.nuclei() = state.nuclei()*(star.density()/state.density());
+		star.electrons() = state.electrons()*(star.density()/state.density());
 		for (int axis = 0; axis < ndim; ++axis) {
 			auto const velocity = axis == normal ? contactSpeed : primitive.velocity(axis);
 			star.setMomentum(axis, star.density() * velocity);
@@ -237,10 +371,33 @@ ConservedState HydroSystem::outflow(State state, int normal, bool lower, units::
 
 units::Velocity HydroSystem::maximumSignalSpeed(ConservedState const& state, int normal, units::Velocity faceSpeed) const {
 	PrimitiveState const primitive = reconstructionVariables(state);
-	return units::abs(primitive.velocity(normal) - faceSpeed) + units::sqrt(adiabaticIndex_ * primitive.pressure() / primitive.density());
+	return units::abs(primitive.velocity(normal) - faceSpeed) + soundSpeed(primitive);
+}
+
+units::Velocity HydroSystem::adiabaticSoundSpeed(ConservedState const& state) const {
+	return soundSpeed(reconstructionVariables(state));
+}
+
+units::Velocity HydroSystem::soundSpeed(PrimitiveState const& primitive) const {
+    if (helmholtz_) {
+        State state; state.density()=primitive.density();
+        state.nuclei()=primitive.density()*primitive.nuclei(); state.electrons()=primitive.density()*primitive.electrons();
+        auto const [a,z] = composition(state);
+        auto const q = helmholtz_->invert(units::value(primitive.density()),units::value(primitive.pressure()),a,z,HelmholtzClosure::Variable::Pressure);
+        if (!(q.soundSquared>0) || !std::isfinite(q.soundSquared)) throw std::runtime_error("Invalid Helmholtz sound speed");
+        return units::Velocity::from_value(std::sqrt(q.soundSquared));
+    }
+	auto const thermalPressure = primitive.pressure() - degeneratePressure(primitive.density());
+	auto const coldDerivative = degenerate_ ? whiteDwarfEos_.pressureDerivative(primitive.density()) : units::VelocitySquared{};
+	return units::sqrt(coldDerivative + adiabaticIndex_*thermalPressure/primitive.density());
 }
 
 bool HydroSystem::admissible(ConservedState const& state) const {
+    if (helmholtz_) {
+        if (!finite(state) || !(state.density()>=densityFloor_)) return false;
+        try { (void)thermodynamics(state,internalEnergy(state)); return true; }
+        catch (std::exception const&) { return false; }
+    }
 	if (!finite(state)) return false;
 	if (!(state.density() >= densityFloor_)) return false;
 	// Conservative gravity work can undershoot E in a dilute atmosphere.
@@ -248,6 +405,7 @@ bool HydroSystem::admissible(ConservedState const& state) const {
 	// in that regime; do not clip E and destroy the gas-plus-gravity balance.
 	if (!dualEnergy_.enabled && !(state.totalEnergy() > units::EnergyDensity{})) return false;
 	if (dualEnergy_.enabled && !(state.auxiliary() > units::Density{})) return false;
+	if (!(internalEnergy(state) > units::EnergyDensity{})) return false;
 	auto const p = pressure(state);
 	return units::finite(p) && p >= pressureFloor_;
 }
@@ -266,7 +424,8 @@ ConservedFlux HydroSystem::limitFlux(
 	ConservedFlux const rightPhysical = physicalFlux(right, normal, faceSpeed);
 	auto const factor = Real(2 * ndim) * stepOverCellWidth;
 	auto validFlux = [&](ConservedFlux const& flux) {
-		return admissible(left - integratedFlux(flux - leftPhysical, factor)) && admissible(right + integratedFlux(flux - rightPhysical, factor));
+		auto const consistent = compositionFlux(flux,left,right);
+		return admissible(left - integratedFlux(consistent - leftPhysical, factor)) && admissible(right + integratedFlux(consistent - rightPhysical, factor));
 	};
 	if (validFlux(highOrderFlux)) {
 		return highOrderFlux;
@@ -290,7 +449,8 @@ ConservedFlux HydroSystem::limitFlux(
 }
 
 units::Pressure HydroSystem::pressure(ConservedState const& state) const {
-	return (adiabaticIndex_ - 1) * internalEnergy(state);
+	if (helmholtz_) return units::Pressure::from_value(thermodynamics(state,internalEnergy(state)).pressure);
+	return degeneratePressure(state.density()) + (adiabaticIndex_ - 1) * internalEnergy(state);
 }
 
 units::EnergyDensity HydroSystem::totalInternalEnergy(ConservedState const& state) const {
@@ -307,8 +467,8 @@ units::EnergyDensity HydroSystem::totalInternalEnergy(ConservedState const& stat
 ConservedFlux HydroSystem::hll(ConservedState const& left, ConservedState const& right, int normal) const {
 	PrimitiveState const leftPrimitive = reconstructionVariables(left);
 	PrimitiveState const rightPrimitive = reconstructionVariables(right);
-	auto const leftSound = units::sqrt(adiabaticIndex_ * leftPrimitive.pressure() / leftPrimitive.density());
-	auto const rightSound = units::sqrt(adiabaticIndex_ * rightPrimitive.pressure() / rightPrimitive.density());
+	auto const leftSound = soundSpeed(leftPrimitive);
+	auto const rightSound = soundSpeed(rightPrimitive);
 	auto const leftSpeed = std::min(leftPrimitive.velocity(normal) - leftSound, rightPrimitive.velocity(normal) - rightSound);
 	auto const rightSpeed = std::max(leftPrimitive.velocity(normal) + leftSound, rightPrimitive.velocity(normal) + rightSound);
 	ConservedFlux const leftFlux = physicalFlux(left, normal);
@@ -330,6 +490,8 @@ ConservedFlux HydroSystem::advectiveFlux(ConservedState const& state, units::Vel
 		result.setMomentum(axis, state.momentum(axis) * speed);
 	result.setEnergy(state.totalEnergy() * speed);
 	result.auxiliary() = state.auxiliary() * speed;
+	result.nuclei() = state.nuclei()*speed;
+	result.electrons() = state.electrons()*speed;
 	return result;
 }
 
@@ -340,6 +502,8 @@ ConservedState HydroSystem::integratedFlux(ConservedFlux const& flux, units::Tim
 		result.setMomentum(axis, flux.momentum(axis) * factor);
 	result.setTotalEnergy(flux.energy() * factor);
 	result.auxiliary() = flux.auxiliary() * factor;
+	result.nuclei() = flux.nuclei()*factor;
+	result.electrons() = flux.electrons()*factor;
 	return result;
 }
 }	 // namespace octotigerII::hydro

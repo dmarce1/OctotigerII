@@ -83,6 +83,8 @@ public:
 	/// Divide by chat/c for the corresponding source in the RSLA energy budget.
 	/// Predictor/forecast evaluations and failed intervals are excluded.
 	units::Energy radiationSourceEnergy() const;
+	units::Energy eosFloorEnergy() const;
+	std::uint64_t eosFloorCells() const;
 
 	/// Regrid at synchronization points. Predicted signal travel can exhaust
 	/// the buffer before amr.regridEvery. Returns whether leaves changed.

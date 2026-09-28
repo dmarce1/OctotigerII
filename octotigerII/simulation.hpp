@@ -25,6 +25,8 @@ public:
 	BoundaryTransport boundary;
 	/// Cumulative prescribed energy added to Er; divide by chat/c for RSLA budgets.
 	units::Energy radiationSourceEnergy{};
+	units::Energy eosFloorEnergy{};
+	std::uint64_t eosFloorCells = 0;
 	ConservedTotals norm; ///< Sum of absolute cell contributions, component by component.
 	units::Energy gasGravityNorm{};
 	/// Gas plus radiation plus self-binding energy. RSLA weights radiation by c/chat.

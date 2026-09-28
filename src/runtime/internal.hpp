@@ -139,7 +139,7 @@ namespace runtime_detail {
 	inline void addRadiationForceWork(hydro::ConservedState& state, units::EnergyDensity work,
 		hydro::HydroSystem const& system, bool dualEnergy) {
 		if (work == units::EnergyDensity{}) return;
-		if (dualEnergy) state.auxiliary() = system.auxiliaryFromInternalEnergy(state.density(), system.internalEnergy(state) + work);
+		if (dualEnergy) state.auxiliary() = system.auxiliaryFromInternalEnergy(state, system.internalEnergy(state) + work);
 		state.totalEnergy() += work;
 	}
 
@@ -189,7 +189,7 @@ namespace runtime_detail {
 							std::vector<hydro::ConservedState> gasGhosts;
 							readHalo(material, plan, materialBank, gasGhosts,
 								std::get<0>(midpoint.fields).id && dt > units::Time{} ? std::vector<HaloTime>{} : times);
-							applyHaloBoundaries(plan, gasGhosts, hydro::HydroSystem(couplingConfig->hydro), time + dt / 2.0, materialBoundary, frame);
+							applyHaloBoundaries(plan, gasGhosts, hydro::HydroSystem(*couplingConfig), time + dt / 2.0, materialBoundary, frame);
 							PatchView<hydro::ConservedState> gasInput(block, std::move(gasInterior), plan, gasGhosts);
 							Solver(system, frame, time).advanceInto(input, dt, work, writer, predictor, hancock,
 								[&](auto const& flux, auto const& centerLeft, auto const& centerRight, auto const& faceLeft, auto const& faceRight,
@@ -492,6 +492,9 @@ public:
 	SchedulingStatistics statistics;
 	BoundaryTransport boundary;
 	units::Energy radiationSourceEnergy{};
+	units::Energy eosFloorEnergy{};
+	std::uint64_t eosFloorCells = 0;
+	void applyEosFloor();
 	refinement::Criteria criteria;
 	std::unique_ptr<amr::Hierarchy> shadow;
 	std::uint64_t lastRegridStep = 0;

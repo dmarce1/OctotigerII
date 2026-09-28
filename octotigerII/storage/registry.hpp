@@ -84,7 +84,16 @@ public:
 			directory_.hydro = hydro_->handle();
 			if (config.massFractions.enabled)
 				for (std::size_t s = 0; s < config.massFractions.species.size(); ++s)
-					if (!config.massFractions.species[s].tracer()) std::get<0>(directory_.hydro.fields).sumSources.push_back(directory_.species[s]);
+					if (!config.massFractions.species[s].tracer()) {
+                        auto const& material = config.massFractions.species[s];
+                        std::get<0>(directory_.hydro.fields).sumSources.push_back(directory_.species[s]);
+                        if (config.hydro.eos == "helmholtz") {
+                            auto& nuclei = std::get<ndim+3>(directory_.hydro.fields);
+                            auto& electrons = std::get<ndim+4>(directory_.hydro.fields);
+                            nuclei.sumSources.push_back(directory_.species[s]); nuclei.sumWeights.push_back(1/material.atomicMass);
+                            electrons.sumSources.push_back(directory_.species[s]); electrons.sumWeights.push_back(material.atomicNumber/material.atomicMass);
+                        }
+                    }
 		}
 		if (build::radiation && config.radiationEnabled()) {
 			radiation_ = std::make_unique<storage::ColumnFields<radiation::RadiationSystem::State>>(layout, store_, "radiation", false, banks);

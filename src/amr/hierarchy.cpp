@@ -113,7 +113,7 @@ void Hierarchy::advance(units::Time dt) {
 		for (auto const& [cell, value] : cells_) {
 			width = std::min(width, (config_.mesh.upper - config_.mesh.lower) / Real(std::uint64_t(1) << cell.level));
 			for (int d = 0; d < ndim; ++d) {
-				if (build::hydro && config_.hydroEnabled()) speed[d] = std::max(speed[d], meshSignalSpeed(hydro::HydroSystem(config_.hydro), value.hydro, d, config_, cell, time_));
+				if (build::hydro && config_.hydroEnabled()) speed[d] = std::max(speed[d], meshSignalSpeed(hydro::HydroSystem(config_), value.hydro, d, config_, cell, time_));
 				if (build::radiation && config_.radiationEnabled()) speed[d] = std::max(speed[d], meshSignalSpeed(radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), value.radiation, d, config_, cell, time_));
 			}
 		}
@@ -145,7 +145,7 @@ void Hierarchy::advanceGravity(units::Time dt) {
 			units::Acceleration acceleration{};
 			for (int d = 0; d < ndim; ++d) {
 				if (build::hydro && config_.hydroEnabled()) {
-					speed[d] = std::max(speed[d], meshSignalSpeed(hydro::HydroSystem(config_.hydro), value.hydro, d, config_, cell, time_));
+					speed[d] = std::max(speed[d], meshSignalSpeed(hydro::HydroSystem(config_), value.hydro, d, config_, cell, time_));
 					acceleration += units::abs(external[d]
 						+ (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{}));
 				}
@@ -219,7 +219,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 				auto const oldGas = midGas;
 				auto const oldRad = midRad;
 				physics::RotatingFrame const frame(config_.frame.omega);
-				hydro::HydroSystem const gasSystem(config_.hydro);
+				hydro::HydroSystem const gasSystem(config_);
 				radiation::RadiationSystem const radSystem(config_.radiation.lightSpeedRatio * constants::c,
 					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper});
 				mesh::forEachCoordinate(layout.extents(), [&](auto const& cell) {
@@ -246,7 +246,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 						mapped.outflowLowerMask, mapped.outflowUpperMask, radSystem, frame, position, at);
 				});
 			};
-			radiation::advanceCoupledPatch(gas, radiation, hydro::HydroSystem(config_.hydro),
+			radiation::advanceCoupledPatch(gas, radiation, hydro::HydroSystem(config_),
 				radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
 					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}),
 				radiation::Opacity::from_value(config_.radiation.opacity), dt, work,
@@ -260,10 +260,10 @@ void Hierarchy::advanceOnce(units::Time dt) {
 		}
 		if constexpr (build::hydro) if (config_.hydroEnabled()) {
 			if (!coupled) {
-				hydro::Solver(hydro::HydroSystem(config_.hydro), physics::RotatingFrame(config_.frame.omega), time_).advanceInto(gas, dt, gasWork, [&](auto const& cell, auto const& value) {
+				hydro::Solver(hydro::HydroSystem(config_), physics::RotatingFrame(config_.frame.omega), time_).advanceInto(gas, dt, gasWork, [&](auto const& cell, auto const& value) {
 					auto& target = destination(cell);
 					target.hydro = value;
-					hydro::HydroSystem(config_.hydro).synchronize(target.hydro);
+					hydro::HydroSystem(config_).synchronize(target.hydro);
 					target.density = value.density();
 				});
 			}
@@ -280,6 +280,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 					for (std::size_t s = 0; s < flux.size(); ++s)
 						target.species[s] = composition::update(read(s, cell), flux[s], layout, cell, dt / width);
 					target.density = target.hydro.density() = composition::totalDensity(config_.massFractions, target.species);
+					if constexpr (build::hydro) hydro::HydroSystem(config_).setComposition(target.hydro,target.species,config_.massFractions);
 				});
 			}
 		}
@@ -306,7 +307,7 @@ void Hierarchy::kick(units::Time dt) {
 				value.hydro.totalEnergy() += impulse * (value.hydro.momentum(d) + 0.5 * impulse) / value.hydro.density();
 				value.hydro.momentum(d) += impulse;
 			}
-			hydro::HydroSystem(config_.hydro).synchronize(value.hydro);
+			hydro::HydroSystem(config_).synchronize(value.hydro);
 		}
 }
 
@@ -351,7 +352,7 @@ Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
 			position[d] = config_.mesh.lower + (cell.coordinates[d] + 0.5) * h;
 		auto const sample = problemBoundary(config_)(position, time_);
 		Values result;
-		if (build::hydro && config_.hydroEnabled()) result.hydro = hydro::HydroSystem(config_.hydro).conservedState(sample.hydro);
+		if (build::hydro && config_.hydroEnabled()) result.hydro = hydro::HydroSystem(config_).conservedState(sample.hydro);
 		if (build::radiation && config_.radiationEnabled()) result.radiation = sample.radiation;
 		if (build::hydro && config_.hydroEnabled()) result.density = result.hydro.density();
 		if (config_.massFractions.enabled) result.species = composition::initialDensities(config_.massFractions, result.density);
@@ -367,7 +368,7 @@ Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
 	auto result = found->second;
 	if (build::hydro && config_.hydroEnabled())
 		result.hydro = physics::transformBoundary(
-			result.hydro, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, hydro::HydroSystem(config_.hydro), frame, position, time_);
+			result.hydro, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, hydro::HydroSystem(config_), frame, position, time_);
 	if (build::radiation && config_.radiationEnabled())
 		result.radiation = physics::transformBoundary(result.radiation, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask,
 			radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
@@ -395,7 +396,7 @@ Hierarchy::Values Hierarchy::reconstructFrom(mesh::BlockLocation coarse, mesh::B
 	}
 	auto result = center;
 	for (int d = 0; d < ndim; ++d) result.gasGravityEnergy += offset[d] * energySlopes[d];
-	if (build::hydro && config_.hydroEnabled()) result.hydro = interpolate(center.hydro, gasSlopes, offset, hydro::HydroSystem(config_.hydro));
+	if (build::hydro && config_.hydroEnabled()) result.hydro = interpolate(center.hydro, gasSlopes, offset, hydro::HydroSystem(config_));
 	if (build::radiation && config_.radiationEnabled())
 		result.radiation = interpolate(center.radiation, radiationSlopes, offset, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c));
 	if (build::hydro && config_.hydroEnabled()) result.density = result.hydro.density();
@@ -405,6 +406,7 @@ Hierarchy::Values Hierarchy::reconstructFrom(mesh::BlockLocation coarse, mesh::B
 		for (std::size_t s = 0; s < result.species.size(); ++s)
 			result.species[s] = center.species[s] * Real(result.density / center.density);
 		result.density = result.hydro.density() = composition::totalDensity(config_.massFractions, result.species);
+		if constexpr (build::hydro) hydro::HydroSystem(config_).setComposition(result.hydro,result.species,config_.massFractions);
 	}
 	// Prescribed gravity-only densities use conservative, positive injection.
 	return result;
@@ -450,7 +452,7 @@ refinement::CellView Hierarchy::sample(mesh::BlockLocation block, mesh::Coordina
 		auto const a = average(left), b = average(right);
 		result.hydro.gradient[d] = (b.hydro - a.hydro) / (2.0 * result.width);
 		result.radiation.gradient[d] = (b.radiation - a.radiation) / (2.0 * result.width);
-		if (build::hydro && config_.hydroEnabled()) result.signalSpeed[d] = meshSignalSpeed(hydro::HydroSystem(config_.hydro), value.hydro, d, config_, cell, time_);
+		if (build::hydro && config_.hydroEnabled()) result.signalSpeed[d] = meshSignalSpeed(hydro::HydroSystem(config_), value.hydro, d, config_, cell, time_);
 		if (build::hydro && config_.hydroEnabled())
 			result.acceleration[d] = physics::RotatingFrame(config_.frame.omega).toGrid(config_.hydro.acceleration, time_)[d] + (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{});
 		if (build::radiation && config_.radiationEnabled()) {

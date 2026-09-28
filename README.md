@@ -44,11 +44,14 @@ See [BUILDING.md](BUILDING.md) for module switches, manifests, dependencies, and
 | `rayleigh-taylor` | `hydro_tests/RayleighTaylor` | 3 |
 | `streaming` | `radiation_tests/Streaming` | 1, 2, 3 |
 | `radiation-pulse` | `radiation_tests/RadiationPulse` | 1, 2, 3 |
+| `radiation-matter` | `radiation_tests/MatterCoupling` | 1, 2, 3 |
+| `photon-source` | `radiation_tests/PhotonSource` | 1, 2, 3 |
 | `gravity-sphere` | `gravity_tests/Sphere` | 3 |
 | `gravity-gaussian` | `gravity_tests/Gaussian` | 3 |
 | `collapse` | `science/Collapse` | 3 |
 | `polytrope` | `science/Polytrope` | 3 |
 | `rotatingStar` | `science/RotatingStar` | 3 |
+| `radiating-sphere` | `science/RadiatingSphere` | 3 |
 
 [Polytrope](docs/polytrope.md) initializes an isolated Lane–Emden star with hydro,
 gravity, a configurable radius and center, and density-based AMR.
@@ -56,6 +59,12 @@ gravity, a configurable radius and center, and density-based AMR.
 [Rotating star](docs/rotating-star.md) imports the original Octo-Tiger oblate SCF
 equilibrium. [Rotating grids](docs/rotating-frame.md) use `frame.omega` in rad/s
 with free boundaries while evolving inertial conserved quantities.
+
+[Radiating sphere](bin/science/RadiatingSphere/README.md) is a nonrotating
+full-M1 equilibrium control with coupled gas and gravity, a fixed positive
+photon heater, and a prescribed opacity that vanishes in a transparent outer
+gas envelope. The [rotating radiative-star design](docs/radiating-star-design.md)
+records the governing balances and the outstanding rotating-model validation.
 
 Each directory owns its `CMakeLists.txt`, `problem.cpp`, and `inputs`.
 Sod is planar along x in every dimension; Kelvin–Helmholtz uses x/y and is
@@ -94,7 +103,8 @@ erg/cm³, cm²/s² for potential, and cm/s² for acceleration. Hydro momentum is
 momentum density. Radiation flux is erg/(cm² s). The numerical radiation state
 stores physical `F` in erg/(cm² s); calculations temporarily form `Q=F/c`
 using physical `c=2.99792458e10 cm/s`.
-`radiation.lightSpeedRatio` changes transport speed only.
+`radiation.lightSpeedRatio` changes transport and exchange timescales, without
+changing these stored physical units.
 Physical constants live in `octotigerII::constants`, declared in
 `octotigerII/units/constants.hpp`: `G`, `c`, `atomicMassUnit` (`m_u`),
 `boltzmann` (`k_B`), and `radiation` (`a_r`). Their values follow CODATA 2022;
@@ -190,8 +200,12 @@ limiting. Global and transport-only stepping retain the modular unsplit
 MUSCL–Hancock integrator; coupled gravity uses an explicit midpoint stage built
 from the numerical-flux divergence and gravity sources. M1 uses
 the same finite-volume scaffold, the existing Skinner–Ostriker closure and
-HLL transport, and realizability limiting. Gas and radiation share machinery,
-but there is currently no gas–radiation exchange solver or combined example.
+HLL transport, and realizability limiting. Gray gas–radiation energy and
+momentum exchange uses a local implicit solve driven by accepted transport
+increments, with a thick-cell diffusion flux correction. The
+[coupling equations and diagnostics](docs/radiation-coupling.md) distinguish
+physical conservation from the weighted invariants of reduced light speed.
+The `radiation-matter` example exercises relaxation of moving gas and radiation.
 
 Gravity uses a new cell-octree driver around the recovered compact Cartesian
 plane-wave FMM operators. Source moments and scalar-potential locals retain
@@ -247,7 +261,8 @@ quantities, the original rotating-star equilibrium, and Silo output.
 
 Omitted: CUDA, HIP, Kokkos, Vc, CPPuddle, Unitiger, the old FMM, old problems
 and test harnesses, an SCF equilibrium solver, binary-star setup, composition-dependent/degenerate
-EOS, radiation opacities/coupling/subcycling, temporal AMR, checkpoints,
+EOS, variable/multigroup radiation opacities, separate radiation subcycling,
+temporal AMR, checkpoints,
 and old command-line compatibility.
 
 Transport fetches only the required halo ranges. The application FMM partitions
@@ -346,3 +361,15 @@ Smooth fixed-mesh temporal tests observed orders approximately 2.04–2.09 in
 both gravity modes. The [validation report](docs/validation/gravity-time-integration.txt)
 records the tested scope; the result does not imply second-order behavior at
 shocks or arbitrary changes of timestep groups.
+
+## Standalone Helmholtz EOS library
+
+`lib/helmholtz` contains the separate C++ library translated from F. X. Timmes's
+Fortran, with the original statements preserved in comments. It defaults to
+Timmes's unchanged precomputed table; the offline table builder remains experimental. See its
+[build and usage guide](lib/helmholtz/README.md),
+[validation results and full-grid limitations](lib/helmholtz/VALIDATION.md), and
+[attribution](lib/helmholtz/NOTICE.md). Select `hydro.eos=helmholtz` to use the
+[species-dependent hydro closure](docs/helmholtz-hydro.md), with gas-only
+thermodynamics when radiation is evolved separately. A runnable fixture is
+[examples/helmholtz-advection.ini](examples/helmholtz-advection.ini).

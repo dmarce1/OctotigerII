@@ -32,6 +32,16 @@ struct Problem {
 	Number rho, finalRho, c, chat, scale, thermal, finalThermal, temperaturePerEnergy, opticalInterval;
 	std::array<Number, ndim> velocity, finalVelocity;
 	Vector initial, drive;
+    hydro::HydroSystem const* system = nullptr;
+    hydro::ConservedState material, finalMaterial;
+    hydro::ConservedState materialAt(Number time) const {
+        auto q = material;
+        q.density() = units::Density::from_value(Real(density(time)));
+        q.nuclei() = material.nuclei() + Real(time)*(finalMaterial.nuclei()-material.nuclei());
+        q.electrons() = material.electrons() + Real(time)*(finalMaterial.electrons()-material.electrons());
+        return q;
+    }
+    Number tolerance() const { return system->helmholtz() ? 2e-12L : 256 * std::numeric_limits<Number>::epsilon(); }
 
 	Number density(Number time) const { return rho + time * (finalRho - rho); }
 	Number baselineVelocity(int d, Number time) const {
@@ -56,7 +66,11 @@ struct Problem {
 
 	bool admissible(Vector const& x, Number time) const {
 		for (auto v : x) if (!std::isfinite(v)) return false;
-		if (!(x[0] >= 0) || !(thermalEnergy(x, time) > 0)) return false;
+		if (!(x[0] >= 0)) return false;
+        if (system->helmholtz()) {
+            try { (void)system->thermodynamics(materialAt(time),units::EnergyDensity::from_value(Real(thermalEnergy(x,time)))); }
+            catch (std::exception const&) { return false; }
+        } else if (!(thermalEnergy(x,time)>0)) return false;
 		Number magnitude = 0;
 		for (int d = 1; d < count; ++d) magnitude = std::hypot(magnitude, x[d]);
 		return magnitude <= x[0] * (1 + 64 * std::numeric_limits<Real>::epsilon());
@@ -77,7 +91,16 @@ struct Problem {
 		Number const isotropic = x[0] * (1 - f2) / (root + 1);
 		Number const directed = x[0] * 3 / (root + 2);
 		Number const internal = thermalEnergy(x, time);
-		Number const temperature = internal * temperaturePerEnergy * rho / density(time);
+		Number temperature = internal * temperaturePerEnergy * rho / density(time);
+        Number temperatureDerivative = temperaturePerEnergy * rho / density(time);
+        if (system->helmholtz()) {
+            auto const q = system->thermodynamics(materialAt(time), units::EnergyDensity::from_value(Real(internal)));
+            temperature = q.temperature;
+            temperatureDerivative = 1 / (density(time)*q.cv);
+            // Clamped trial states emit at the floor. The accepted floor pass
+            // accounts for any energy added; the radiation exchange stays paired.
+            if (q.temperature == system->temperatureFloor() && internal < density(time)*q.energy) temperatureDerivative = 0;
+        }
 		Number const temperature2 = temperature * temperature;
 		Number const emission = Number(units::value(constants::radiation)) * temperature2 * temperature2 / scale;
 		Vector result{};
@@ -97,7 +120,7 @@ struct Problem {
 			for (int column = 0; column < count; ++column) {
 				Number const dEnergy = column == 0 ? 1 : 0;
 				Number const dInternal = column == 0 ? -energyConversion : energyConversion * beta[column - 1];
-				Number const dEmission = internal == 0 ? 0 : 4 * emission * (dInternal / internal);
+				Number const dEmission = 4 * emission * temperatureDerivative * dInternal / temperature;
 				std::array<Number, ndim> dBeta{}, dFluxFactor{};
 				Number dFluxSquared = 0, dBetaFluxFactor = 0, dBetaFlux = 0;
 				for (int d = 0; d < ndim; ++d) {
@@ -167,6 +190,7 @@ bool implicitStage(Problem const& problem, Vector const& base, Number duration, 
 	for (int j = 0; j < count; ++j) transported[j] += duration * problem.drive[j];
 	if (problem.admissible(transported, time) && (!problem.admissible(state, time)
 		|| norm(residual(transported)) < norm(residual(state)))) state = transported;
+	if (!problem.admissible(state,time)) return false;
 	for (int iteration = 0; iteration < 64; ++iteration) {
 		Vector source{};
 		auto const r = residual(state, &source);
@@ -179,7 +203,7 @@ bool implicitStage(Problem const& problem, Vector const& base, Number duration, 
 		// not demand precision beyond the represented radiation state.
 		Number const residualScale = inverse * (norm(state) + norm(base) + duration * norm(problem.drive))
 			+ weight * (problem.density(time) / problem.rho * norm(state) + norm(source));
-		if (error <= 256 * std::numeric_limits<Number>::epsilon() * residualScale) return problem.admissible(state, time);
+		if (error <= problem.tolerance() * residualScale) return problem.admissible(state, time);
 		Matrix jacobian{};
 		problem.rate(state, time, &jacobian);
 		for (int i = 0; i < count; ++i) for (int j = 0; j < count; ++j)
@@ -191,7 +215,7 @@ bool implicitStage(Problem const& problem, Vector const& base, Number duration, 
 		// conserved energy makes the residual sensitive to tiny radiation
 		// roundoff. Also accept a resolved Newton correction; its scale is the
 		// radiation state itself, so this introduces no gas-relative floor.
-		if (norm(update) <= 256 * std::numeric_limits<Number>::epsilon() * norm(state)
+		if (norm(update) <= problem.tolerance() * norm(state)
 			&& problem.admissible(state, time)) return true;
 		bool accepted = false;
 		for (Number fraction = 1; fraction >= std::ldexp(Number(1), -40); fraction /= 2) {
@@ -246,6 +270,8 @@ void coupleForced(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 	}
 	FpeGuard guard;
 	Problem problem{};
+	if (!system.gasOnly()) throw std::invalid_argument("Radiation coupling requires the gas-only Helmholtz closure");
+	problem.system = &system; problem.material = gas; problem.finalMaterial = drivenGas;
 	problem.rho = units::value(gas.density());
 	problem.finalRho = units::value(drivenGas.density());
 	problem.c = units::value(constants::c);
@@ -299,8 +325,8 @@ void coupleForced(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 		Number const dp = units::value(impulse);
 		thermal -= dp * (problem.finalVelocity[d] + dp / (2 * problem.finalRho));
 	}
-	if (!(thermal > 0) || !std::isfinite(thermal)) throw std::runtime_error("Radiation matter exchange exhausted gas thermal energy");
-	nextGas.auxiliary() = system.auxiliaryFromInternalEnergy(nextGas.density(), units::EnergyDensity::from_value(Real(thermal)));
+	if ((!system.helmholtz() && !(thermal > 0)) || !std::isfinite(thermal)) throw std::runtime_error("Radiation matter exchange exhausted gas thermal energy");
+	nextGas.auxiliary() = system.auxiliaryFromInternalEnergy(nextGas, units::EnergyDensity::from_value(Real(thermal)));
 	if (!system.admissible(nextGas) || !transport.admissible(nextRadiation)) throw std::runtime_error("Radiation matter exchange produced an inadmissible state");
 	gas = nextGas;
 	radiation = nextRadiation;

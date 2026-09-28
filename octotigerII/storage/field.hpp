@@ -99,6 +99,7 @@ public:
 	unsigned banks = 0;
 	/// Read-only sum, evaluated into temporary buffers on demand. No backing allocation.
 	std::vector<FieldHandle<T>> sumSources;
+	std::vector<Real> sumWeights; // Empty means unit weights.
 
 	/// Report whether a range belongs to the current locality.
 	bool local(Range const& range) const {
@@ -116,15 +117,17 @@ public:
 		if (!sumSources.empty()) {
 			std::vector<Future<Buffer<T>>> pending;
 			for (auto const& source : sumSources) pending.push_back(source.read(range, bank));
-			auto sum = [range](auto reads) {
+			auto sum = [range, weights = sumWeights](auto reads) {
 				Buffer<T> result(range.count);
 				std::fill_n(result.data(), range.count, T{});
 				std::exception_ptr error;
+				std::size_t sourceIndex = 0;
 				for (auto& read : reads) {
 					try {
 						auto values = read.get();
-						for (std::size_t i = 0; i < range.count; ++i) result.data()[i] += values.data()[i];
+						for (std::size_t i = 0; i < range.count; ++i) result.data()[i] += values.data()[i] * (weights.empty() ? Real(1) : weights.at(sourceIndex));
 					} catch (...) { if (!error) error = std::current_exception(); }
+					++sourceIndex;
 				}
 				if (error) std::rethrow_exception(error);
 				return result;
@@ -176,7 +179,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & layout & owners & partitions & id & banks & sumSources;
+		archive & layout & owners & partitions & id & banks & sumSources & sumWeights;
 	}
 
 private:

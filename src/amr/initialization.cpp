@@ -21,7 +21,7 @@ InitialMesh initializeMesh(Config const& config, refinement::Criteria const& cri
 		auto dt = units::Time::from_value(std::numeric_limits<Real>::infinity());
 		for (auto const& block : candidate) {
 			if (build::hydro && config.hydroEnabled())
-				dt = std::min(dt, hydro::Solver(hydro::HydroSystem(config.hydro), physics::RotatingFrame(config.frame.omega), block.time)
+				dt = std::min(dt, hydro::Solver(hydro::HydroSystem(config), physics::RotatingFrame(config.frame.omega), block.time)
 					.stableTimestep(block.hydro, config.timestep.cfl));
 			if (build::radiation && config.radiationEnabled())
 				dt = std::min(dt, radiation::Solver(radiation::RadiationSystem(config.radiation.lightSpeedRatio * constants::c), physics::RotatingFrame(config.frame.omega), block.time)

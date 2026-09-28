@@ -201,3 +201,7 @@ if(Python3_Interpreter_FOUND)
     ${OCTOII_WITH_HYDRO} ${OCTOII_WITH_RADIATION} ${OCTOII_WITH_GRAVITY} ${testRuntimeArgs})
   set_tests_properties(application.${suffix} PROPERTIES TIMEOUT 300 LABELS application)
 endif()
+
+if(OCTOTIGERII_HYDRO AND OCTOTIGERII_RADIATION AND OCTOTIGERII_MASS_FRACTIONS)
+  octo_test(helmholtzHydroChecks Application "unit;helmholtz")
+endif()

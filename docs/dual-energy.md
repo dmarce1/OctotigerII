@@ -9,7 +9,7 @@ reflux machinery as the Euler fields.
 
 Let rho be mass density, u internal energy **density**, gamma the constant
 ideal-gas adiabatic index, and alpha a finite, nonzero configurable exponent.
-The requested variable is
+For the ideal/white-dwarf closures, the requested variable is
 
     A = rho (u / rho^gamma)^alpha
     u = rho^gamma (A / rho)^(1/alpha).
@@ -28,9 +28,9 @@ not give identical finite-volume errors, mixing, or shock profiles.
 
 At shocks the passive equation alone does not generate the physical entropy
 increase. The reliable total-energy solution resets A using the upper
-threshold below. Additional nonadiabatic heating/cooling would require its own
-consistent auxiliary update; the current code has no gas-radiation exchange
-solver.
+threshold below. Radiation heating/cooling updates the auxiliary consistently with its paired
+energy and momentum exchange. Helmholtz instead advects the EOS entropy; see
+[Helmholtz hydro](helmholtz-hydro.md) for its reliability threshold and floor ledger.
 
 Because both gamma and alpha are runtime values, the implementation takes powers
 of a dimensionless ratio using fixed references rho0=1 g/cm^3 and u0=1 erg/cm^3:

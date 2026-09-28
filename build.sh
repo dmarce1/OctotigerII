@@ -7,6 +7,7 @@ Usage: ./build.sh [release|debug|relwithdebinfo] [-j JOBS] [-DOCTOII_WITH_HYDRO=
 
 Build octoII-1d, octoII-2d, octoII-3d and the octoII link in TYPE/.
 HYDRO, RADIATION and GRAVITY are all ON by default.
+All C and C++ targets are optimized for the build host with -march=native.
 Requires a C++20 compiler, CMake, and Git. Uses installed Boost and hwloc,
 tries environment modules when available, then lets HPX fetch missing ones.
 HPX also fetches Asio and APEX. HPX APEX support and Octo-II profiling
@@ -61,6 +62,14 @@ refresh_prefix_path() {
 compiler_args=()
 [[ -z "${CC:-}" ]] || compiler_args+=("-DCMAKE_C_COMPILER=$CC")
 [[ -z "${CXX:-}" ]] || compiler_args+=("-DCMAKE_CXX_COMPILER=$CXX")
+
+# OctotigerII is an HPC application built for the machine where it will run.
+# Apply the native ISA to HPX/APEX and the application so the compiler can use
+# the host's vector width and fused operations consistently.
+native_arch_args=(
+    "-DCMAKE_C_FLAGS=${CFLAGS:+$CFLAGS }-march=native"
+    "-DCMAKE_CXX_FLAGS=${CXXFLAGS:+$CXXFLAGS }-march=native"
+)
 
 # A tiny separate CMake project checks the *same* discovery paths that the
 # real builds will use. Module systems need not be installed on a workstation.
@@ -172,6 +181,7 @@ cmake -S "$hpx_src" -B "$hpx_build" \
     -DHPX_WITH_FETCH_ASIO=ON \
     "-DHPX_WITH_FETCH_HWLOC=$fetch_hwloc" \
     "-DCMAKE_PREFIX_PATH=$cmake_prefix_path" \
+    "${native_arch_args[@]}" \
     "${compiler_args[@]}" "${dependency_args[@]}"
 # The APEX revision fetched by HPX 1.11.0 uses uint64_t in gzstream.hpp
 # without including <cstdint>. Apply the missing include after FetchContent
@@ -214,6 +224,7 @@ cmake -S "$project_dir" -B "$octo_build" \
     -DOCTOTIGERII_WITH_PROFILING=ON \
     -DOCTOTIGERII_BUILD_TESTS=ON \
     "${physics_args[@]}" \
+    "${native_arch_args[@]}" \
     "${compiler_args[@]}" "${dependency_args[@]}"
 cmake --build "$octo_build" --parallel "$jobs"
 printf 'Executables: %s/octoII-{1d,2d,3d}; octoII -> octoII-3d\n' "$octo_build"

@@ -110,6 +110,8 @@ public:
 
 		mesh::TimeInterval timeInterval;
 		FaceFluxes faceFluxes;
+		units::Energy eosFloorEnergy{};
+		std::size_t eosFloorCells=0;
 	};
 
 
@@ -189,15 +191,22 @@ public:
 		auto next = patch.values();
 		auto stage = *this;
 		stage.stageBegin_ = interval.begin;
+		units::Energy floorEnergy{};
+		std::size_t floorCells=0;
 		stage.advanceInto(patch, stepSize, workspace,
 			[&](mesh::Coordinates const& cell, State value) {
+                if constexpr (requires { system_.applyTemperatureFloor(value); }) {
+                    auto const change=system_.applyTemperatureFloor(value);
+                    floorEnergy += patch.layout().cellMeasure(patch.cellWidth())*change;
+                    if (change > units::EnergyDensity{}) ++floorCells;
+                }
 				if constexpr (requires { system_.synchronize(value); }) system_.synchronize(value);
 				next[patch.layout().index(patch.layout().storageCoordinates(cell))] = value;
 			});
 		patch.values().swap(next);
 		patch.timeState().completeStep(stepSize);
 		updateBoundaries(patch, interval.end);
-		return StepResult{interval, std::move(workspace.fluxes)};
+		return StepResult{interval, std::move(workspace.fluxes), floorEnergy, floorCells};
 	}
 
 	/// Reusable predictor and face-flux arrays for one concurrently executing worker.
@@ -323,6 +332,8 @@ public:
 							frame_.toGridState(predictorState(patch.atStorage(right), right), at), l, r, speed);
 						highOrderFlux = frame_.toInertialState(highOrderFlux, at);
 					}
+					if constexpr (requires { system_.compositionFlux(highOrderFlux, patch.atStorage(left), patch.atStorage(right)); })
+						highOrderFlux = system_.compositionFlux(highOrderFlux, patch.atStorage(left), patch.atStorage(right));
 					fluxes[axis][layout.faceIndex(axis, face)] = highOrderFlux;
 				});
 			}
@@ -402,12 +413,15 @@ private:
 
 			Real slopeFraction = 1;
 			auto validFaces = [&](Real fraction) {
-				for (int axis = 0; axis < ndim; ++axis) {
-					State const lower = system_.conservedState(center - Real(0.5) * fraction * slopes[axis]);
-					State const upper = system_.conservedState(center + Real(0.5) * fraction * slopes[axis]);
-					if (!admissibleFace(lower) || !admissibleFace(upper)) {
-						return false;
+				try {
+					for (int axis = 0; axis < ndim; ++axis) {
+						State const lower = system_.conservedState(center - Real(0.5) * fraction * slopes[axis]);
+						State const upper = system_.conservedState(center + Real(0.5) * fraction * slopes[axis]);
+						if (!admissibleFace(lower) || !admissibleFace(upper)) return false;
 					}
+				} catch (std::invalid_argument const&) {
+					// A trial primitive may cross a density-dependent EOS boundary.
+					return false;
 				}
 				return true;
 			};

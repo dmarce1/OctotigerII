@@ -98,11 +98,14 @@ Skinner, M. A., & Ostriker, E. C. 2013,
 [doi:10.1088/0067-0049/206/2/21](https://doi.org/10.1088/0067-0049/206/2/21).
 [arXiv:1306.0010](https://arxiv.org/abs/1306.0010).
 
-Scope: M1 closure, characteristic speeds, explicit transport, and the reduced
-speed of light convention. Persistent radiation fields here are (E, F); the
-calculation adapter converts to (E, F/c) using physical c. This project currently
-implements uncoupled transport, not the paper's full implicit coupling or
-radiation subcycling machinery.
+Scope: M1 closure, characteristic speeds, explicit transport, reduced light
+speed, and the equal-opacity mixed-frame matter source equations. Persistent
+radiation fields here are (E, F); the calculation adapter converts to (E, F/c)
+using physical c. The local SDIRK source integration, source-aware midpoint
+transport, and thick-cell face interpolation are application choices, not a
+reproduction of the paper's time integration or radiation subcycling machinery.
+See [radiation coupling](docs/radiation-coupling.md) for the retained terms,
+conservation weights, and diffusion-limit treatment.
 
 ## Sod (1978) {#ref_sod1978}
 
@@ -143,3 +146,27 @@ van Leer, B. 1979,
 Scope: piecewise-linear conservative reconstruction and limiting. The present
 unsplit MUSCL–Hancock predictor combines all active directional divergences;
 it is not the directionally split Lagrangian/remap algorithm of this paper.
+
+## Timmes and Arnett (1999) {#ref_timmes1999}
+
+Timmes, F. X., & Arnett, D. 1999,
+“The Accuracy, Consistency, and Speed of Five Equations of State for Stellar Hydrodynamics,”
+*The Astrophysical Journal Supplement Series*, **125**, 277–294.
+[doi:10.1086/313271](https://doi.org/10.1086/313271).
+
+Scope: Timmes's direct electron–positron EOS routines, translated into the
+standalone Helmholtz library for table generation. Original Fortran and credit
+are retained. See `lib/helmholtz/NOTICE.md` and its validation record.
+
+## Timmes and Swesty (2000) {#ref_timmes2000}
+
+Timmes, F. X., & Swesty, F. D. 2000,
+“The Accuracy, Consistency, and Speed of an Electron–Positron Equation of State
+Based on Table Interpolation of the Helmholtz Free Energy,”
+*The Astrophysical Journal Supplement Series*, **126**, 501–516.
+[doi:10.1086/313304](https://doi.org/10.1086/313304).
+
+Scope: the biquintic free-energy interpolation and thermodynamic construction
+in the standalone Helmholtz library. The original table-generation driver was
+not supplied; the new driver's derivative completion and validation limits are
+explicitly documented separately from the translated method.
