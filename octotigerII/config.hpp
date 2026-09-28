@@ -171,6 +171,12 @@ public:
 		Real lightSpeedRatio = 1;
 		/// Equal gray absorption/emission opacity in cm^2/g; zero disables exchange.
 		Real opacity = 0;
+		/// constant or ionized-gas (analytic free-free absorption plus Thomson scattering).
+		std::string opacityModel = "constant";
+		/// Constant elastic scattering in cm^2/g, used only by the constant model.
+		Real scatteringOpacity = 0;
+		/// Uniform H and metal mass fractions for the analytic ionized-gas model.
+		Real hydrogenFraction = 0.7, metalFraction = 0.02;
 		/// Fixed physical length in cm for nonfatal RSLA diagnostics; zero uses box width.
 		Real diagnosticLength = 0;
 		/// Initial comoving radiation energy relative to a*T^4 for added radiation.
@@ -178,7 +184,8 @@ public:
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & enabled & lightSpeedRatio & opacity & diagnosticLength & initialEnergyRatio & closedBoundary;
+			archive & enabled & lightSpeedRatio & opacity & opacityModel & scatteringOpacity
+				& hydrogenFraction & metalFraction & diagnosticLength & initialEnergyRatio & closedBoundary;
 		}
 	} radiation;
 

@@ -85,7 +85,9 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 				}
 				if constexpr (build::hydro && build::radiation) if (c.hydroEnabled()) {
 					auto const prescribed = checkedRadiationMaterial(material, block.layout.cellCenter(block.lower, block.cellWidth, cell), d.time);
-					auto const indicators = radiation::couplingDiagnostics(block.hydro.values()[i], u, block.cellWidth, c, prescribed.opacity);
+					auto const fluxOpacity = radiation::opacityLaw(c, prescribed.opacity)
+						.evaluate(block.hydro.values()[i], hydro::HydroSystem(c)).fluxExtinction;
+					auto const indicators = radiation::couplingDiagnostics(block.hydro.values()[i], u, block.cellWidth, c, fluxOpacity);
 					d.maximumCellOpticalDepth = std::max(d.maximumCellOpticalDepth, indicators.cellOpticalDepth);
 					d.maximumTrappingParameter = std::max(d.maximumTrappingParameter, indicators.trappingParameter);
 					d.maximumRslaCriterion = std::max(d.maximumRslaCriterion, indicators.rslaCriterion);
@@ -177,7 +179,7 @@ RunResult run(Config const& c, Observer const& observer) {
 		}
 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
 			throw std::runtime_error("Timestep cannot advance physical time");
-		if (c.radiation.opacity > 0 || problemHasRadiationMaterial(c)) {
+		if (radiation::radiationCouplingEnabled(c) || problemHasRadiationMaterial(c)) {
 			countGravity(runtime.advanceCoupled(dt));
 		} else if (c.hydroEnabled() && c.gravityEnabled() && ((c.amr.enabled && c.timestep.refinement) || c.frame.omega != units::InverseTime{})) {
 			countGravity(runtime.advanceGravity(dt));

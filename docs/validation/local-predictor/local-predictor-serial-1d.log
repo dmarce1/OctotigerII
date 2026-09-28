@@ -1,0 +1,25 @@
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from LocalPredictor
+[ RUN      ] LocalPredictor.TwoGhostLayersMatchPaddedPatchWithPoisonedOuterLayers
+[       OK ] LocalPredictor.TwoGhostLayersMatchPaddedPatchWithPoisonedOuterLayers (0 ms)
+[ RUN      ] LocalPredictor.HomogeneousRelaxationMatchesOneConservativeSourceSolve
+[       OK ] LocalPredictor.HomogeneousRelaxationMatchesOneConservativeSourceSolve (0 ms)
+[ RUN      ] LocalPredictor.InadmissibleLocalDensityDriveReducesSpatialSlopes
+[       OK ] LocalPredictor.InadmissibleLocalDensityDriveReducesSpatialSlopes (0 ms)
+[ RUN      ] LocalPredictor.SharpOpacityTransitionKeepsTwoLayerUpdateAdmissibleAndConservative
+[       OK ] LocalPredictor.SharpOpacityTransitionKeepsTwoLayerUpdateAdmissibleAndConservative (0 ms)
+[ RUN      ] LocalPredictor.AnalyticExteriorSamplesCentersAndFacesAtHalfTime
+[       OK ] LocalPredictor.AnalyticExteriorSamplesCentersAndFacesAtHalfTime (0 ms)
+[ RUN      ] LocalPredictor.PhysicalExteriorMapsPredictedNormalAndTangentialTraces
+[       OK ] LocalPredictor.PhysicalExteriorMapsPredictedNormalAndTangentialTraces (0 ms)
+[ RUN      ] LocalPredictor.SplittingPeriodicDomainPreservesSharedFluxAndUpdate
+[       OK ] LocalPredictor.SplittingPeriodicDomainPreservesSharedFluxAndUpdate (0 ms)
+[ RUN      ] LocalPredictor.ScatteringWaveConvergesUnderJointSpaceTimeRefinement
+local predictor scattering-wave relative errors: 0.0280237 0.00673455 0.00154647
+[       OK ] LocalPredictor.ScatteringWaveConvergesUnderJointSpaceTimeRefinement (204 ms)
+[----------] 8 tests from LocalPredictor (207 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (207 ms total)
+[  PASSED  ] 8 tests.

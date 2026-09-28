@@ -1,0 +1,38 @@
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from RadiationDiffusion
+[ RUN      ] RadiationDiffusion.ZeroExtinctionPreservesEveryThinFluxComponentExactly
+[       OK ] RadiationDiffusion.ZeroExtinctionPreservesEveryThinFluxComponentExactly (0 ms)
+[ RUN      ] RadiationDiffusion.MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated
+[       OK ] RadiationDiffusion.MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated (0 ms)
+[ RUN      ] RadiationDiffusion.OpaquePressureIgnoresTransientHancockAnisotropy
+[       OK ] RadiationDiffusion.OpaquePressureIgnoresTransientHancockAnisotropy (0 ms)
+[ RUN      ] RadiationDiffusion.ThinLimitPerturbationIsQuadraticInCellWidth
+[       OK ] RadiationDiffusion.ThinLimitPerturbationIsQuadraticInCellWidth (0 ms)
+[ RUN      ] RadiationDiffusion.FixedMeshFourierDiffusionCoefficientHasCorrectOpaqueLimit
+diffusion spatial tau=10 ratio=1 Dmeasured/Dexact=1.01521
+diffusion spatial tau=100 ratio=1 Dmeasured/Dexact=1.00244
+diffusion spatial tau=1000 ratio=1 Dmeasured/Dexact=1.00025
+diffusion spatial tau=10000 ratio=1 Dmeasured/Dexact=1.00003
+diffusion spatial tau=10 ratio=0.1 Dmeasured/Dexact=1.01521
+diffusion spatial tau=100 ratio=0.1 Dmeasured/Dexact=1.00244
+diffusion spatial tau=1000 ratio=0.1 Dmeasured/Dexact=1.00025
+diffusion spatial tau=10000 ratio=0.1 Dmeasured/Dexact=1.00003
+[       OK ] RadiationDiffusion.FixedMeshFourierDiffusionCoefficientHasCorrectOpaqueLimit (0 ms)
+[ RUN      ] RadiationDiffusion.InstantaneousProbeLimitsSharpOpticalTransitionOverPredictorInterval
+[       OK ] RadiationDiffusion.InstantaneousProbeLimitsSharpOpticalTransitionOverPredictorInterval (0 ms)
+[ RUN      ] RadiationDiffusion.TransitionOpticalDepthsRemainAdmissibleWithVaryingDensityAndTemperature
+[       OK ] RadiationDiffusion.TransitionOpticalDepthsRemainAdmissibleWithVaryingDensityAndTemperature (109 ms)
+[ RUN      ] RadiationDiffusion.CoupledFourierModeDecaysAtThePhysicalEquilibriumDiffusionRate
+coupled Fourier tau=10 ratio=1 decay/exact=1.00607
+coupled Fourier tau=100 ratio=1 decay/exact=1.00067
+coupled Fourier tau=1000 ratio=1 decay/exact=1.00009
+coupled Fourier tau=10 ratio=0.1 decay/exact=1.00608
+coupled Fourier tau=100 ratio=0.1 decay/exact=1.00067
+coupled Fourier tau=1000 ratio=0.1 decay/exact=1.00009
+[       OK ] RadiationDiffusion.CoupledFourierModeDecaysAtThePhysicalEquilibriumDiffusionRate (16 ms)
+[----------] 8 tests from RadiationDiffusion (127 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (127 ms total)
+[  PASSED  ] 8 tests.

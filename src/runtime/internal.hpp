@@ -21,6 +21,7 @@
 #include "octotigerII/storage/registry.hpp"
 #include "octotigerII/subgrid/view.hpp"
 #include "octotigerII/verification/analytic.hpp"
+#include "haloCache.hpp"
 #if OCTOTIGERII_GRAVITY
 #include "octotigerII/gravity/fieldSolver.hpp"
 #include "octotigerII/gravity/fluxWork.hpp"
@@ -148,6 +149,8 @@ namespace runtime_detail {
 	public:
 		using State = typename System::State;
 		std::vector<State> ghosts;
+		std::vector<State> midpointGhosts, rawInitial, rateGhosts;
+		std::vector<hydro::ConservedState> materialGhosts;
 		using Solver = physics::MusclHancock<System>;
 		typename Solver::Workspace work;
 
@@ -158,17 +161,21 @@ namespace runtime_detail {
 			storage::ColumnHandle<State> const& midpoint = {}, Config const* couplingConfig = nullptr,
 			storage::ColumnHandle<hydro::ConservedState> const& material = {}, unsigned materialBank = 0,
 			physics::AnalyticBoundary<hydro::ConservedState> const& materialBoundary = {}, units::Time limiterInterval = {},
-			ProblemRadiationMaterial const& radiationMaterial = {}) {
+			ProblemRadiationMaterial const& radiationMaterial = {}, InitialHalo<State> const* cachedInitial = nullptr,
+			bool captureRawInitial = false, std::vector<hydro::ConservedState> const* sharedMaterialGhosts = nullptr) {
 			auto interior = fields.read(block.interior, bank).get();
-			readHalo(fields, plan, bank, ghosts, times);
-			std::vector<State> midpointGhosts;
+			if (cachedInitial) cachedInitial->restore(block, plan, ghosts);
+			else readHalo(fields, plan, bank, ghosts, times);
+			if (captureRawInitial) rawInitial = ghosts;
+			midpointGhosts.clear();
 			if constexpr (std::is_same_v<System, hydro::HydroSystem>) {
 				if (!std::get<0>(midpoint.fields).id && referenceStep > units::Time{} && dt > units::Time{}) {
-					std::vector<State> rates;
-					readHalo(increment, plan, 0, rates);
+					if (cachedInitial && cachedInitial->compact)
+						throw std::logic_error("Gravity rate prediction requires a raw initial halo");
+					readHalo(increment, plan, 0, rateGhosts);
 					midpointGhosts = ghosts;
 					for (std::size_t i = 0; i < midpointGhosts.size(); ++i) {
-						midpointGhosts[i] += (dt / (2.0 * referenceStep)) * rates[i];
+						midpointGhosts[i] += (dt / (2.0 * referenceStep)) * rateGhosts[i];
 						predictorKineticRemainder(ghosts[i], midpointGhosts[i]);
 					}
 					// Prolong the midpoint donors themselves: prolongation of a rate
@@ -176,7 +183,8 @@ namespace runtime_detail {
 					applyHaloBoundaries(plan, midpointGhosts, system, time + dt / 2.0, analytic, frame);
 				}
 			}
-			applyHaloBoundaries(plan, ghosts, system, time, analytic, frame);
+			if (!cachedInitial || !cachedInitial->compact)
+				applyHaloBoundaries(plan, ghosts, system, time, analytic, frame);
 			PatchView<State> input(block, std::move(interior), plan, ghosts);
 			auto output = fields.output(block.interior, bank ^ 1);
 			{
@@ -186,11 +194,15 @@ namespace runtime_detail {
 					if constexpr (build::hydro && std::is_same_v<System, radiation::RadiationSystem>) {
 						if (couplingConfig && radiationMaterial) {
 							auto gasInterior = material.read(block.interior, materialBank).get();
-							std::vector<hydro::ConservedState> gasGhosts;
-							readHalo(material, plan, materialBank, gasGhosts,
-								std::get<0>(midpoint.fields).id && dt > units::Time{} ? std::vector<HaloTime>{} : times);
-							applyHaloBoundaries(plan, gasGhosts, hydro::HydroSystem(*couplingConfig), time + dt / 2.0, materialBoundary, frame);
-							PatchView<hydro::ConservedState> gasInput(block, std::move(gasInterior), plan, gasGhosts);
+							hydro::HydroSystem const gasSystem(*couplingConfig);
+							auto const* gasGhosts = sharedMaterialGhosts;
+							if (!gasGhosts) {
+								readHalo(material, plan, materialBank, materialGhosts,
+									std::get<0>(midpoint.fields).id && dt > units::Time{} ? std::vector<HaloTime>{} : times);
+								applyHaloBoundaries(plan, materialGhosts, gasSystem, time + dt / 2.0, materialBoundary, frame);
+								gasGhosts = &materialGhosts;
+							}
+							PatchView<hydro::ConservedState> gasInput(block, std::move(gasInterior), plan, *gasGhosts);
 							Solver(system, frame, time).advanceInto(input, dt, work, writer, predictor, hancock,
 								[&](auto const& flux, auto const& centerLeft, auto const& centerRight, auto const& faceLeft, auto const& faceRight,
 									auto const& left, auto const& right, int axis, units::Length width, units::Velocity speed) {
@@ -198,14 +210,15 @@ namespace runtime_detail {
 									auto const r = frame.toGridState(gasInput.atStorage(right), time + dt / 2.0);
 									radiation::MaterialVelocity vl{}, vr{};
 									for (int d = 0; d < ndim; ++d) { vl[d] = l.momentum(d) / l.density(); vr[d] = r.momentum(d) / r.density(); }
-									auto opacityAt = [&](mesh::Coordinates const& cell) {
+									auto extinctionAt = [&](mesh::Coordinates const& cell, hydro::ConservedState const& state) {
 										auto position = block.lower;
 										for (int d = 0; d < ndim; ++d)
 											position[d] += (cell[d] - input.layout().ghostWidth() + Real(0.5)) * block.cellWidth;
-										return checkedRadiationMaterial(radiationMaterial, position, time + dt / 2.0).opacity;
+										auto const opacity = checkedRadiationMaterial(radiationMaterial, position, time + dt / 2.0).opacity;
+										return state.density() * radiation::opacityLaw(*couplingConfig, opacity).evaluate(state, gasSystem).fluxExtinction;
 									};
 									return radiation::diffusionCorrectedFlux(system, flux, centerLeft, centerRight, faceLeft, faceRight,
-										l.density() * opacityAt(left), r.density() * opacityAt(right), vl, vr, axis, width, speed);
+										extinctionAt(left, l), extinctionAt(right, r), vl, vr, axis, width, speed);
 								}, limiterInterval);
 							return;
 						}
@@ -215,12 +228,11 @@ namespace runtime_detail {
 				};
 				if (std::get<0>(midpoint.fields).id && dt > units::Time{}) {
 					auto centers = midpoint.read(block.interior, 1).get();
-					std::vector<State> midGhosts;
-					readHalo(midpoint, plan, 1, midGhosts);
-					applyHaloBoundaries(plan, midGhosts, system, time + dt / 2.0, analytic, frame);
+					readHalo(midpoint, plan, 1, midpointGhosts);
+					applyHaloBoundaries(plan, midpointGhosts, system, time + dt / 2.0, analytic, frame);
 					advanceWith([&](State, mesh::Coordinates const& cell) {
 						return input.layout().isInterior(cell) ? centers.at(block.layout.index(input.layout().interiorCoordinates(cell))) :
-							midGhosts.at(plan.ghostIndices.at(input.layout().index(cell)));
+							midpointGhosts.at(plan.ghostIndices.at(input.layout().index(cell)));
 					}, false);
 				} else if constexpr (std::is_same_v<System, hydro::HydroSystem>) {
 					if (referenceStep > units::Time{} && dt > units::Time{}) {
@@ -310,7 +322,8 @@ namespace runtime_detail {
 		units::Time referenceStep{};
 		units::Time limiterInterval{};
 		bool gravityInRate = false;
-		template <typename Archive> void serialize(Archive& ar, unsigned) { ar & gas & radiation & gasRate & radiationRate & gravity & species & referenceStep & limiterInterval & gravityInRate; }
+		bool cacheInitialGasInvalid = false;
+		template <typename Archive> void serialize(Archive& ar, unsigned) { ar & gas & radiation & gasRate & radiationRate & gravity & species & referenceStep & limiterInterval & gravityInRate & cacheInitialGasInvalid; }
 	};
 
 	// All source predictor fields use bank zero. increment stores the RHS integrated
@@ -339,10 +352,11 @@ namespace runtime_detail {
 		units::Time timestep = units::Time::from_value(std::numeric_limits<Real>::infinity());
 		std::array<units::Velocity, ndim> signalSpeed{};
 		std::map<int, units::Time> levelTimestep;
+		std::vector<std::uint64_t> cachedBlocks;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & tasks & timestep & signalSpeed & boundary & levelTimestep & radiationSourceEnergy;
+			archive & tasks & timestep & signalSpeed & boundary & levelTimestep & radiationSourceEnergy & cachedBlocks;
 		}
 	};
 
@@ -383,7 +397,8 @@ public:
 
 	void initialize();
 
-	void begin(std::uint64_t generation, unsigned bank, units::Time time, int level, std::vector<HaloTime> times, Real fluxWeight, SourcePredictor source = {});
+	void begin(std::uint64_t generation, unsigned bank, units::Time time, int level, std::vector<HaloTime> times, Real fluxWeight,
+		SourcePredictor source, Operation operation, std::vector<std::uint64_t> cachedWork);
 
 	std::vector<std::uint64_t> claim(std::uint64_t generation);
 
@@ -415,6 +430,14 @@ private:
 	std::map<std::uint64_t, std::vector<FluxCorrection>> refluxPlans_;
 	std::map<std::uint64_t, std::vector<GravityWorkFace>> gravityWorkPlans_;
 	std::vector<Workspace> workspaces_;
+	// One slot per block; only its assigned task touches the slot during a phase.
+	// Empty slots borrow reusable buffers from this locality's pool.
+	std::vector<std::unique_ptr<BlockHaloCache>> blockCaches_, cachePool_;
+	std::size_t gasCacheCapacity_ = 0, radiationCacheCapacity_ = 0;
+	bool allowStealing_ = true;
+	std::unique_ptr<BlockHaloCache> makeCache() const;
+	std::unique_ptr<BlockHaloCache> acquireCache();
+	void releaseCache(std::unique_ptr<BlockHaloCache>& cache);
 #ifdef OCTOTIGERII_WITH_HPX
 	hpx::mutex queueMutex_;
 #else
@@ -484,6 +507,7 @@ public:
 	unsigned bank = 0;
 	std::uint64_t generation = 0;
 	std::uint64_t dispatch = 0;
+	std::vector<std::size_t> cacheOwners;
 	mesh::TimeState time;
 	units::Time gravityTime{};
 	bool gravityReady = false, gravityEnergyActive = false;

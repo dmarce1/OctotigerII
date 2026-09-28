@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "octotigerII/hydro/hydroSystem.hpp"
 #include "octotigerII/radiation/radiationTransport.hpp"
+#include "octotigerII/radiation/opacity.hpp"
 
 namespace octotigerII::radiation {
 
@@ -35,7 +36,9 @@ inline CouplingDiagnostics couplingDiagnostics(hydro::ConservedState const& gas,
 
 inline CouplingDiagnostics couplingDiagnostics(hydro::ConservedState const& gas,
 	RadiationSystem::State const& radiation, units::Length cellWidth, Config const& config) {
-	return couplingDiagnostics(gas, radiation, cellWidth, config, units::Quantity<2, -1, 0>::from_value(config.radiation.opacity));
+	return couplingDiagnostics(gas, radiation, cellWidth, config,
+		opacityLaw(config, Opacity::from_value(config.radiation.opacity))
+			.evaluate(gas, hydro::HydroSystem(config)).fluxExtinction);
 }
 
 } // namespace octotigerII::radiation

@@ -1,0 +1,198 @@
+Local gravity predictor migration evidence, 2026-09-28
+
+Serial Release build with HPX disabled. These logs preserve the initial local
+predictor run against the historical numerical-midpoint second-order gates.
+They intentionally contain failures and preceded the final midpoint boundary
+trace correction. Current regression names and first-order fixed-mesh bounds
+are documented in gravity-time-coupling-derivation.md. The independent exact
+accelerated-wave joint-refinement second-order gate is unchanged.
+
+GravityTimeIntegration, historical assertions
+============================================
+[==========] Running 12 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 12 tests from GravityTimeIntegration
+[ RUN      ] GravityTimeIntegration.HierarchicalSubcyclesAndConserves
+Gravity integration case: hierarchical without species
+Gravity integration case: hierarchical with species
+[       OK ] GravityTimeIntegration.HierarchicalSubcyclesAndConserves (4570 ms)
+[ RUN      ] GravityTimeIntegration.ConventionalSubcyclesAndConserves
+Gravity integration case: conventional without species
+Gravity integration case: conventional with species
+[       OK ] GravityTimeIntegration.ConventionalSubcyclesAndConserves (12434 ms)
+[ RUN      ] GravityTimeIntegration.PeriodicAndReflectingShellWorkConserves
+Gravity integration case: hierarchical periodic
+Gravity integration case: hierarchical reflecting
+Gravity integration case: conventional periodic
+Gravity integration case: conventional reflecting
+[       OK ] GravityTimeIntegration.PeriodicAndReflectingShellWorkConserves (51321 ms)
+[ RUN      ] GravityTimeIntegration.HierarchicalForcesBalanceMomentumAfterSubcycling
+Gravity integration case: hierarchical openingAngle=0.5
+Gravity integration case: hierarchical openingAngle=1e-08
+[       OK ] GravityTimeIntegration.HierarchicalForcesBalanceMomentumAfterSubcycling (4202 ms)
+[ RUN      ] GravityTimeIntegration.RegridAfterCoupledSubcyclesClosesAllBudgets
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.RegridAfterCoupledSubcyclesClosesAllBudgets (6410 ms)
+[ RUN      ] GravityTimeIntegration.InvalidIntervalPreservesPublishedState
+[       OK ] GravityTimeIntegration.InvalidIntervalPreservesPublishedState (3097 ms)
+[ RUN      ] GravityTimeIntegration.DisabledTimeRefinementMatchesGlobalComposition
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.DisabledTimeRefinementMatchesGlobalComposition (2827 ms)
+[ RUN      ] GravityTimeIntegration.NaiveSubcyclesAndRegridEnergyOptionRemainsIndependent
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.NaiveSubcyclesAndRegridEnergyOptionRemainsIndependent (5909 ms)
+[ RUN      ] GravityTimeIntegration.NestedThreeLevelShellAndFluxRegistersConserve
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.NestedThreeLevelShellAndFluxRegistersConserve (10100 ms)
+[ RUN      ] GravityTimeIntegration.FineCflCanRequireMoreThanTwoSubsteps
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.FineCflCanRequireMoreThanTwoSubsteps (4366 ms)
+[ RUN      ] GravityTimeIntegration.HierarchicalSmoothTemporalConvergence
+hierarchical temporal L1 density: 4.39769e-05, 2.02596e-05, 8.62967e-06; orders 1.11814, 1.23123
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:143: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 2.0259638136908536e-05 vs 1.5391904448299402e-05
+
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:144: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 8.6296730548452148e-06 vs 7.0908733479179873e-06
+
+hierarchical temporal L1 momentum: 0.00848392, 0.00386991, 0.00163992; orders 1.13243, 1.23868
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:143: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 0.0038699082988984616 vs 0.0029693735102289294
+
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:144: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 0.001639915059194768 vs 0.0013544679046144615
+
+hierarchical temporal L1 gas energy: 7.33185e-05, 3.37765e-05, 1.43908e-05; orders 1.11816, 1.23088
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:143: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 3.3776454122665934e-05 vs 2.5661477573226354e-05
+
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:144: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 1.4390758273311953e-05 vs 1.1821758942933077e-05
+
+[  FAILED  ] GravityTimeIntegration.HierarchicalSmoothTemporalConvergence (32214 ms)
+[ RUN      ] GravityTimeIntegration.ConventionalSmoothTemporalConvergence
+conventional temporal L1 density: 4.39769e-05, 2.02596e-05, 8.62967e-06; orders 1.11814, 1.23123
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:143: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 2.0259626698301219e-05 vs 1.5391899402699478e-05
+
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:144: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 8.6296688660004617e-06 vs 7.0908693444054263e-06
+
+conventional temporal L1 momentum: 0.00848518, 0.00387056, 0.00164021; orders 1.1324, 1.23866
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:143: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 0.0038705626707263353 vs 0.0029698141407050859
+
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:144: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 0.0016402133234220499 vs 0.0013546969347542172
+
+conventional temporal L1 gas energy: 7.33185e-05, 3.37764e-05, 1.43908e-05; orders 1.11816, 1.23088
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:143: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 3.3776442711850377e-05 vs 2.566147275804113e-05
+
+/home/dmarce1/workspace/OctotigerII/tests/gravityTimeIntegrationChecks.cpp:144: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 1.4390755407143288e-05 vs 1.1821754949147631e-05
+
+[  FAILED  ] GravityTimeIntegration.ConventionalSmoothTemporalConvergence (94096 ms)
+[----------] 12 tests from GravityTimeIntegration (231553 ms total)
+
+[----------] Global test environment tear-down
+[==========] 12 tests from 1 test suite ran. (231553 ms total)
+[  PASSED  ] 10 tests.
+[  FAILED  ] 2 tests, listed below:
+[  FAILED  ] GravityTimeIntegration.HierarchicalSmoothTemporalConvergence
+[  FAILED  ] GravityTimeIntegration.ConventionalSmoothTemporalConvergence
+
+ 2 FAILED TESTS
+
+RotatingGravityIntegration, historical assertions
+===============================================
+[==========] Running 5 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from RotatingGravityWork
+[ RUN      ] RotatingGravityWork.DirectAndMultipoleFullNestedAndRungWorkBalance
+rotation work adaptive=0 opening=0.01 component=0 raw residual=2.29908e-17 balanced residual=-1.00912e-17 local correction=3.86865e-16
+rotation work adaptive=0 opening=0.01 component=1 raw residual=-4.57917e-17 balanced residual=-3.25616e-17 local correction=2.72478e-16
+rotation work adaptive=0 opening=0.01 component=2 raw residual=4.87234e-17 balanced residual=6.53947e-18 local correction=4.72823e-16
+rotation work adaptive=0 opening=0.5 component=0 raw residual=-2.05296e-08 balanced residual=1.45145e-16 local correction=2.15653e-06
+rotation work adaptive=0 opening=0.5 component=1 raw residual=8.23179e-08 balanced residual=6.16985e-17 local correction=1.76606e-06
+rotation work adaptive=0 opening=0.5 component=2 raw residual=-7.05574e-08 balanced residual=1.41286e-16 local correction=2.30523e-06
+rotation work adaptive=1 opening=0.01 component=0 raw residual=-5.8286e-17 balanced residual=-1.95891e-17 local correction=4.09794e-16
+rotation work adaptive=1 opening=0.01 component=1 raw residual=4.30711e-18 balanced residual=1.21862e-17 local correction=2.43912e-16
+rotation work adaptive=1 opening=0.01 component=2 raw residual=-6.98215e-17 balanced residual=-2.4009e-17 local correction=4.5962e-16
+rotation work adaptive=1 opening=0.5 component=0 raw residual=-7.84697e-08 balanced residual=-2.13644e-18 local correction=2.74591e-06
+rotation work adaptive=1 opening=0.5 component=1 raw residual=2.12082e-07 balanced residual=1.75667e-18 local correction=3.43685e-06
+rotation work adaptive=1 opening=0.5 component=2 raw residual=-1.50348e-07 balanced residual=-1.05454e-18 local correction=2.88638e-06
+[       OK ] RotatingGravityWork.DirectAndMultipoleFullNestedAndRungWorkBalance (2013 ms)
+[----------] 1 test from RotatingGravityWork (2014 ms total)
+
+[----------] 4 tests from RotatingGravityIntegration
+[ RUN      ] RotatingGravityIntegration.GlobalAndRefinedModesConserveWithEitherRotationSign
+rotating gravity mode=global omega=-0.1
+rotating gravity mode=global omega=0.1
+rotating gravity mode=hierarchical omega=-0.1
+rotating gravity mode=hierarchical omega=0.1
+rotating gravity mode=conventional omega=-0.1
+rotating gravity mode=conventional omega=0.1
+[       OK ] RotatingGravityIntegration.GlobalAndRefinedModesConserveWithEitherRotationSign (57564 ms)
+[ RUN      ] RotatingGravityIntegration.RefineAndCoarsenPreserveEnergy
+[       OK ] RotatingGravityIntegration.RefineAndCoarsenPreserveEnergy (17047 ms)
+[ RUN      ] RotatingGravityIntegration.NaiveWorkRemainsIndependent
+[       OK ] RotatingGravityIntegration.NaiveWorkRemainsIndependent (3638 ms)
+[ RUN      ] RotatingGravityIntegration.TemporalConvergence
+rotating hierarchical temporal component=0 errors=3.48626e-05,1.6127e-05,6.88232e-06 orders=1.11221,1.22851
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:212: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 1.6126963375453241e-05 vs 1.2201911915915175e-05
+
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:213: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 6.8823178557129741e-06 vs 5.6444371814086339e-06
+
+rotating hierarchical temporal component=1 errors=0.0133598,0.00617957,0.00263691 orders=1.11232,1.22866
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:212: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 0.0061795720720609982 vs 0.0046759271710282565
+
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:213: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 0.0026369105480360941 vs 0.0021628502252213494
+
+rotating hierarchical temporal component=2 errors=5.70407e-05,2.63765e-05,1.12546e-05 orders=1.11274,1.22873
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:212: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 2.6376488734571459e-05 vs 1.996425857710355e-05
+
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:213: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 1.1254644840859279e-05 vs 9.2317710571000098e-06
+
+rotating conventional temporal component=0 errors=3.48627e-05,1.6127e-05,6.88235e-06 orders=1.1122,1.22851
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:212: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 1.612702897766123e-05 vs 1.2201939583527085e-05
+
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:213: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 6.8823521431895932e-06 vs 5.6444601421814298e-06
+
+rotating conventional temporal component=1 errors=0.0133606,0.00618,0.0026371 orders=1.11231,1.22865
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:212: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 0.0061799956396933302 vs 0.004676218236888954
+
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:213: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 0.0026371019898764991 vs 0.0021629984738926653
+
+rotating conventional temporal component=2 errors=5.70409e-05,2.63766e-05,1.12547e-05 orders=1.11274,1.22873
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:212: Failure
+Expected: (errors[1][component]) < (0.35 * errors[0][component]), actual: 2.6376620424801862e-05 vs 1.9964316374810461e-05
+
+/home/dmarce1/workspace/OctotigerII/tests/rotatingGravityChecks.cpp:213: Failure
+Expected: (errors[2][component]) < (0.35 * errors[1][component]), actual: 1.1254713302728782e-05 vs 9.2318171486806505e-06
+
+[  FAILED  ] RotatingGravityIntegration.TemporalConvergence (371691 ms)
+[----------] 4 tests from RotatingGravityIntegration (449941 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 2 test suites ran. (451955 ms total)
+[  PASSED  ] 4 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] RotatingGravityIntegration.TemporalConvergence
+
+ 1 FAILED TEST

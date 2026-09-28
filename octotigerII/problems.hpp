@@ -24,7 +24,8 @@ ProblemBoundary problemBoundary(Config const& config);
 /// Prescribed material and isotropic photon heating in physical grid coordinates,
 /// matching the problem initializer. Photon power is physical erg/(cm^3 s): the
 /// reduced-speed radiation equation receives (chat/c)*photonPower. It supplies
-/// neither gas energy nor momentum directly. Opacity is absorption in cm^2/g.
+/// neither gas energy nor momentum directly. Opacity is true absorption in cm^2/g;
+/// configured scattering is applied separately by the gray opacity law.
 struct RadiationMaterial {
 	units::Quantity<2, -1, 0> opacity{};
 	units::Quantity<-1, 1, -3> photonPower{};
@@ -33,7 +34,8 @@ using ProblemRadiationMaterial = std::function<RadiationMaterial(mesh::PhysicalC
 
 /// Construct once and share the immutable problem model across cell evaluations.
 /// Problems without this optional hook return config.radiation.opacity and zero
-/// heating. Custom material hooks may contain transparent cells with heating.
+/// heating. The analytic model evaluates its state-dependent coefficients
+/// separately. Custom material hooks may contain transparent cells with heating.
 ProblemRadiationMaterial problemRadiationMaterial(Config const& config);
 bool problemHasRadiationMaterial(Config const& config);
 

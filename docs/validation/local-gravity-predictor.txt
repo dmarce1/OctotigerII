@@ -1,0 +1,208 @@
+Local gravity predictor serial validation, 2026-09-28
+===================================================
+
+Build: Release, GCC 13.3, OCTOTIGERII_WITH_HPX=OFF; all physics enabled.
+Build directory: /tmp/octoii-gravity-local-serial.
+GoogleTest source reused from release/_deps/googletest-src.
+No performance or distributed-communication measurement is claimed here.
+
+Reproduction:
+  cmake -S . -B /tmp/octoii-gravity-local-serial -DCMAKE_BUILD_TYPE=Release \
+    -DOCTOTIGERII_WITH_HPX=OFF \
+    -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=<existing GoogleTest source>
+  cmake --build /tmp/octoii-gravity-local-serial --target \
+    gravityTimeIntegrationChecks-3d rotatingGravityChecks-3d \
+    localGravityPredictorChecks-1d localGravityPredictorChecks-3d -j 3
+  /tmp/octoii-gravity-local-serial/3d/tests/gravityTimeIntegrationChecks-3d
+  /tmp/octoii-gravity-local-serial/3d/tests/rotatingGravityChecks-3d
+  /tmp/octoii-gravity-local-serial/1d/tests/localGravityPredictorChecks-1d
+  /tmp/octoii-gravity-local-serial/3d/tests/localGravityPredictorChecks-3d
+
+Accuracy contracts:
+- The original fixed-mesh temporal experiments failed their historical
+  second-order gate, as retained in local-gravity-predictor-migration.txt.
+- The identical experiments now carry explicit LocalPredictorFixedMeshTemporal
+  Convergence names and require observed order >0.9. Initial conditions, mesh,
+  2/4/8 step sequence, 32-step reference and error norms are unchanged.
+- The independent exact accelerated Euler wave retains the second-order
+  joint space/time gate (successive error ratio <0.35). This is a prescribed
+  uniform acceleration test, not a self-gravity or AMR convergence theorem.
+- With the 32-step reference a leading first-order error has apparent orders
+  log2(15/7)=1.10 and log2(7/3)=1.22. The measured fixed-mesh orders below
+  are consistent with that limitation.
+
+Snapshot scope:
+The full gravity and rotating suites include the midpoint physical-boundary
+trace correction. After their builds, dead predictor storage was removed and
+predictGravityFaces was tightened to validate the doubled coarse forecast
+using the same slope trial. These changes were followed by rebuilding all
+runtime objects against the final internal schema, rerunning the helper tests,
+and the short hierarchical conservation test shown last. No additional long
+suite repeat was done for those final changes.
+
+Gravity subcycling: 12 passed
+-----------------------------
+[==========] Running 12 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 12 tests from GravityTimeIntegration
+[ RUN      ] GravityTimeIntegration.HierarchicalSubcyclesAndConserves
+Gravity integration case: hierarchical without species
+Gravity integration case: hierarchical with species
+[       OK ] GravityTimeIntegration.HierarchicalSubcyclesAndConserves (4696 ms)
+[ RUN      ] GravityTimeIntegration.ConventionalSubcyclesAndConserves
+Gravity integration case: conventional without species
+Gravity integration case: conventional with species
+[       OK ] GravityTimeIntegration.ConventionalSubcyclesAndConserves (12463 ms)
+[ RUN      ] GravityTimeIntegration.PeriodicAndReflectingShellWorkConserves
+Gravity integration case: hierarchical periodic
+Gravity integration case: hierarchical reflecting
+Gravity integration case: conventional periodic
+Gravity integration case: conventional reflecting
+[       OK ] GravityTimeIntegration.PeriodicAndReflectingShellWorkConserves (52280 ms)
+[ RUN      ] GravityTimeIntegration.HierarchicalForcesBalanceMomentumAfterSubcycling
+Gravity integration case: hierarchical openingAngle=0.5
+Gravity integration case: hierarchical openingAngle=1e-08
+[       OK ] GravityTimeIntegration.HierarchicalForcesBalanceMomentumAfterSubcycling (4554 ms)
+[ RUN      ] GravityTimeIntegration.RegridAfterCoupledSubcyclesClosesAllBudgets
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.RegridAfterCoupledSubcyclesClosesAllBudgets (6935 ms)
+[ RUN      ] GravityTimeIntegration.InvalidIntervalPreservesPublishedState
+[       OK ] GravityTimeIntegration.InvalidIntervalPreservesPublishedState (3666 ms)
+[ RUN      ] GravityTimeIntegration.DisabledTimeRefinementMatchesGlobalComposition
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.DisabledTimeRefinementMatchesGlobalComposition (3150 ms)
+[ RUN      ] GravityTimeIntegration.NaiveSubcyclesAndRegridEnergyOptionRemainsIndependent
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.NaiveSubcyclesAndRegridEnergyOptionRemainsIndependent (6536 ms)
+[ RUN      ] GravityTimeIntegration.NestedThreeLevelShellAndFluxRegistersConserve
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.NestedThreeLevelShellAndFluxRegistersConserve (11436 ms)
+[ RUN      ] GravityTimeIntegration.FineCflCanRequireMoreThanTwoSubsteps
+Gravity integration case: hierarchical
+Gravity integration case: conventional
+[       OK ] GravityTimeIntegration.FineCflCanRequireMoreThanTwoSubsteps (5014 ms)
+[ RUN      ] GravityTimeIntegration.HierarchicalLocalPredictorFixedMeshTemporalConvergence
+hierarchical temporal L1 density: 2.54574e-05, 1.1646e-05, 4.94387e-06; orders 1.12826, 1.23612
+hierarchical temporal L1 momentum: 0.012707, 0.00584075, 0.00248474; orders 1.1214, 1.23306
+hierarchical temporal L1 gas energy: 4.26108e-05, 1.9491e-05, 8.27394e-06; orders 1.12841, 1.23616
+[       OK ] GravityTimeIntegration.HierarchicalLocalPredictorFixedMeshTemporalConvergence (34599 ms)
+[ RUN      ] GravityTimeIntegration.ConventionalLocalPredictorFixedMeshTemporalConvergence
+conventional temporal L1 density: 2.54574e-05, 1.1646e-05, 4.94388e-06; orders 1.12826, 1.23612
+conventional temporal L1 momentum: 0.0127061, 0.00584038, 0.0024846; orders 1.12139, 1.23305
+conventional temporal L1 gas energy: 4.26108e-05, 1.94911e-05, 8.27395e-06; orders 1.12841, 1.23616
+[       OK ] GravityTimeIntegration.ConventionalLocalPredictorFixedMeshTemporalConvergence (95371 ms)
+[----------] 12 tests from GravityTimeIntegration (240706 ms total)
+
+[----------] Global test environment tear-down
+[==========] 12 tests from 1 test suite ran. (240706 ms total)
+[  PASSED  ] 12 tests.
+
+Rotating gravity: 5 passed
+--------------------------
+[==========] Running 5 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from RotatingGravityWork
+[ RUN      ] RotatingGravityWork.DirectAndMultipoleFullNestedAndRungWorkBalance
+rotation work adaptive=0 opening=0.01 component=0 raw residual=2.29908e-17 balanced residual=-1.00912e-17 local correction=3.86865e-16
+rotation work adaptive=0 opening=0.01 component=1 raw residual=-4.57917e-17 balanced residual=-3.25616e-17 local correction=2.72478e-16
+rotation work adaptive=0 opening=0.01 component=2 raw residual=4.87234e-17 balanced residual=6.53947e-18 local correction=4.72823e-16
+rotation work adaptive=0 opening=0.5 component=0 raw residual=-2.05296e-08 balanced residual=1.45145e-16 local correction=2.15653e-06
+rotation work adaptive=0 opening=0.5 component=1 raw residual=8.23179e-08 balanced residual=6.16985e-17 local correction=1.76606e-06
+rotation work adaptive=0 opening=0.5 component=2 raw residual=-7.05574e-08 balanced residual=1.41286e-16 local correction=2.30523e-06
+rotation work adaptive=1 opening=0.01 component=0 raw residual=-5.8286e-17 balanced residual=-1.95891e-17 local correction=4.09794e-16
+rotation work adaptive=1 opening=0.01 component=1 raw residual=4.30711e-18 balanced residual=1.21862e-17 local correction=2.43912e-16
+rotation work adaptive=1 opening=0.01 component=2 raw residual=-6.98215e-17 balanced residual=-2.4009e-17 local correction=4.5962e-16
+rotation work adaptive=1 opening=0.5 component=0 raw residual=-7.84697e-08 balanced residual=-2.13644e-18 local correction=2.74591e-06
+rotation work adaptive=1 opening=0.5 component=1 raw residual=2.12082e-07 balanced residual=1.75667e-18 local correction=3.43685e-06
+rotation work adaptive=1 opening=0.5 component=2 raw residual=-1.50348e-07 balanced residual=-1.05454e-18 local correction=2.88638e-06
+[       OK ] RotatingGravityWork.DirectAndMultipoleFullNestedAndRungWorkBalance (1833 ms)
+[----------] 1 test from RotatingGravityWork (1833 ms total)
+
+[----------] 4 tests from RotatingGravityIntegration
+[ RUN      ] RotatingGravityIntegration.GlobalAndRefinedModesConserveWithEitherRotationSign
+rotating gravity mode=global omega=-0.1
+rotating gravity mode=global omega=0.1
+rotating gravity mode=hierarchical omega=-0.1
+rotating gravity mode=hierarchical omega=0.1
+rotating gravity mode=conventional omega=-0.1
+rotating gravity mode=conventional omega=0.1
+[       OK ] RotatingGravityIntegration.GlobalAndRefinedModesConserveWithEitherRotationSign (55164 ms)
+[ RUN      ] RotatingGravityIntegration.RefineAndCoarsenPreserveEnergy
+[       OK ] RotatingGravityIntegration.RefineAndCoarsenPreserveEnergy (17326 ms)
+[ RUN      ] RotatingGravityIntegration.NaiveWorkRemainsIndependent
+[       OK ] RotatingGravityIntegration.NaiveWorkRemainsIndependent (3839 ms)
+[ RUN      ] RotatingGravityIntegration.LocalPredictorFixedMeshTemporalConvergence
+rotating hierarchical temporal component=0 errors=2.79055e-05,1.2907e-05,5.5086e-06 orders=1.1124,1.22839
+rotating hierarchical temporal component=1 errors=0.0167584,0.00775318,0.00330862 orders=1.11202,1.22856
+rotating hierarchical temporal component=2 errors=4.56955e-05,2.11231e-05,9.01241e-06 orders=1.11323,1.22884
+rotating conventional temporal component=0 errors=2.79056e-05,1.29071e-05,5.50866e-06 orders=1.11239,1.22839
+rotating conventional temporal component=1 errors=0.0167561,0.00775216,0.0033082 orders=1.11201,1.22855
+rotating conventional temporal component=2 errors=4.56957e-05,2.11233e-05,9.01251e-06 orders=1.11323,1.22883
+[       OK ] RotatingGravityIntegration.LocalPredictorFixedMeshTemporalConvergence (372533 ms)
+[----------] 4 tests from RotatingGravityIntegration (448864 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 2 test suites ran. (450697 ms total)
+[  PASSED  ] 5 tests.
+
+Local helper, 1D: 3 passed
+--------------------------
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from LocalGravityPredictor
+[ RUN      ] LocalGravityPredictor.AcceleratedDensityWaveConvergesUnderJointRefinement
+Local gravity wave component 0 L1 errors 0.00211522, 0.000581361, 0.000144505; orders 1.8633, 2.00831
+Local gravity wave component 1 L1 errors 0.00101581, 0.000279279, 6.94263e-05; orders 1.86286, 2.00815
+Local gravity wave component 2 L1 errors 0.000243959, 6.72814e-05, 1.67378e-05; orders 1.85836, 2.0071
+[       OK ] LocalGravityPredictor.AcceleratedDensityWaveConvergesUnderJointRefinement (29 ms)
+[ RUN      ] LocalGravityPredictor.HomogeneousAccelerationUsesTwoGhostLayers
+[       OK ] LocalGravityPredictor.HomogeneousAccelerationUsesTwoGhostLayers (0 ms)
+[ RUN      ] LocalGravityPredictor.AdmissibleMidpointCannotPublishNegativeDensityForecast
+[       OK ] LocalGravityPredictor.AdmissibleMidpointCannotPublishNegativeDensityForecast (0 ms)
+[----------] 3 tests from LocalGravityPredictor (29 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (29 ms total)
+[  PASSED  ] 3 tests.
+
+Local helper, 3D: 2 passed, 1 intentional dimensional skip
+----------------------------------------------------------
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from LocalGravityPredictor
+[ RUN      ] LocalGravityPredictor.AcceleratedDensityWaveConvergesUnderJointRefinement
+/home/dmarce1/workspace/OctotigerII/tests/localGravityPredictorChecks.cpp:90: Skipped
+The one-dimensional exact wave supplies the joint convergence sequence
+
+[  SKIPPED ] LocalGravityPredictor.AcceleratedDensityWaveConvergesUnderJointRefinement (0 ms)
+[ RUN      ] LocalGravityPredictor.HomogeneousAccelerationUsesTwoGhostLayers
+[       OK ] LocalGravityPredictor.HomogeneousAccelerationUsesTwoGhostLayers (2 ms)
+[ RUN      ] LocalGravityPredictor.AdmissibleMidpointCannotPublishNegativeDensityForecast
+[       OK ] LocalGravityPredictor.AdmissibleMidpointCannotPublishNegativeDensityForecast (1 ms)
+[----------] 3 tests from LocalGravityPredictor (3 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (3 ms total)
+[  PASSED  ] 2 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] LocalGravityPredictor.AcceleratedDensityWaveConvergesUnderJointRefinement
+
+Final-schema hierarchical conservation smoke: passed
+----------------------------------------------------
+Note: Google Test filter = GravityTimeIntegration.HierarchicalSubcyclesAndConserves
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GravityTimeIntegration
+[ RUN      ] GravityTimeIntegration.HierarchicalSubcyclesAndConserves
+Gravity integration case: hierarchical without species
+Gravity integration case: hierarchical with species
+[       OK ] GravityTimeIntegration.HierarchicalSubcyclesAndConserves (4676 ms)
+[----------] 1 test from GravityTimeIntegration (4676 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (4676 ms total)
+[  PASSED  ] 1 test.

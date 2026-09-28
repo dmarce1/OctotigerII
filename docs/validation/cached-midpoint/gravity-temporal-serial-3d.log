@@ -1,0 +1,19 @@
+Note: Google Test filter = GravityTimeIntegration.*SmoothTemporalConvergence
+[==========] Running 2 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 2 tests from GravityTimeIntegration
+[ RUN      ] GravityTimeIntegration.HierarchicalSmoothTemporalConvergence
+hierarchical temporal L1 density: 1.32542e-06, 3.19505e-07, 7.51757e-08; orders 2.05254, 2.0875
+hierarchical temporal L1 momentum: 0.000361859, 8.78751e-05, 2.07881e-05; orders 2.0419, 2.07969
+hierarchical temporal L1 gas energy: 2.21564e-06, 5.34066e-07, 1.25649e-07; orders 2.05264, 2.08761
+[       OK ] GravityTimeIntegration.HierarchicalSmoothTemporalConvergence (34030 ms)
+[ RUN      ] GravityTimeIntegration.ConventionalSmoothTemporalConvergence
+conventional temporal L1 density: 1.32539e-06, 3.19498e-07, 7.51745e-08; orders 2.05254, 2.08749
+conventional temporal L1 momentum: 0.000361596, 8.78167e-05, 2.07745e-05; orders 2.04181, 2.07968
+conventional temporal L1 gas energy: 2.2156e-06, 5.34054e-07, 1.25647e-07; orders 2.05264, 2.0876
+[       OK ] GravityTimeIntegration.ConventionalSmoothTemporalConvergence (96779 ms)
+[----------] 2 tests from GravityTimeIntegration (130809 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test suite ran. (130809 ms total)
+[  PASSED  ] 2 tests.

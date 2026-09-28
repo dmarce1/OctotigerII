@@ -6,6 +6,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
 
+#include <atomic>
 #include <optional>
 #include "octotigerII/profiling.hpp"
 
@@ -22,6 +23,104 @@ struct HaloTime {
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) { archive & bank & fraction & nextBank; }
 };
+
+/// Cumulative donor requests issued by readHalo on this locality. Values count
+/// scalar field elements, including repeated requests and AMR time endpoints.
+/// Remote payload bytes count numerical buffers only, excluding parcel metadata,
+/// requests, reflux, gravity solves, migration, and all non-halo field reads.
+/// Failed asynchronous reads remain requests and are included in these totals.
+struct HaloReadStatistics {
+	std::uint64_t haloCalls = 0;
+	std::uint64_t fieldReads = 0;
+	std::uint64_t values = 0;
+	std::uint64_t remoteFieldReads = 0;
+	std::uint64_t remoteValues = 0;
+	std::uint64_t remotePayloadBytes = 0;
+
+	HaloReadStatistics& operator+=(HaloReadStatistics const& other) {
+		haloCalls += other.haloCalls;
+		fieldReads += other.fieldReads;
+		values += other.values;
+		remoteFieldReads += other.remoteFieldReads;
+		remoteValues += other.remoteValues;
+		remotePayloadBytes += other.remotePayloadBytes;
+		return *this;
+	}
+
+	friend HaloReadStatistics operator-(HaloReadStatistics const& after, HaloReadStatistics const& before) {
+		return {after.haloCalls - before.haloCalls, after.fieldReads - before.fieldReads, after.values - before.values,
+			after.remoteFieldReads - before.remoteFieldReads, after.remoteValues - before.remoteValues,
+			after.remotePayloadBytes - before.remotePayloadBytes};
+	}
+
+	template <typename Archive>
+	void serialize(Archive& archive, unsigned) {
+		archive & haloCalls & fieldReads & values & remoteFieldReads & remoteValues & remotePayloadBytes;
+	}
+};
+
+namespace detail {
+struct HaloReadCounters {
+	std::atomic<std::uint64_t> haloCalls{0}, fieldReads{0}, values{0};
+	std::atomic<std::uint64_t> remoteFieldReads{0}, remoteValues{0}, remotePayloadBytes{0};
+};
+inline HaloReadCounters haloReadCounters;
+
+/// Expand derived columns into the scalar buffers that their reads request.
+template <typename T>
+HaloReadStatistics haloReadPayload(storage::FieldHandle<T> const& field, storage::Range const& range) {
+	HaloReadStatistics result;
+	if (!field.sumSources.empty()) {
+		for (auto const& source : field.sumSources) result += haloReadPayload(source, range);
+	} else {
+		result.fieldReads = 1;
+		result.values = range.count;
+		if (!field.local(range)) {
+			result.remoteFieldReads = 1;
+			result.remoteValues = range.count;
+			result.remotePayloadBytes = range.count * sizeof(T);
+		}
+	}
+	return result;
+}
+
+template <typename State>
+HaloReadStatistics haloReadPayload(storage::ColumnHandle<State> const& fields, storage::Range const& range) {
+	HaloReadStatistics result;
+	std::apply([&](auto const&... field) { ((result += haloReadPayload(field, range)), ...); }, fields.fields);
+	return result;
+}
+
+// Aggregate per halo call, so scalar reads do not each contend on atomics.
+class HaloReadMeter {
+public:
+	HaloReadStatistics counts{1};
+	~HaloReadMeter() {
+		haloReadCounters.haloCalls.fetch_add(counts.haloCalls, std::memory_order_relaxed);
+		haloReadCounters.fieldReads.fetch_add(counts.fieldReads, std::memory_order_relaxed);
+		haloReadCounters.values.fetch_add(counts.values, std::memory_order_relaxed);
+		haloReadCounters.remoteFieldReads.fetch_add(counts.remoteFieldReads, std::memory_order_relaxed);
+		haloReadCounters.remoteValues.fetch_add(counts.remoteValues, std::memory_order_relaxed);
+		haloReadCounters.remotePayloadBytes.fetch_add(counts.remotePayloadBytes, std::memory_order_relaxed);
+		profiling::sample("transport.halo.calls", counts.haloCalls);
+		profiling::sample("transport.halo.field_reads", counts.fieldReads);
+		profiling::sample("transport.halo.values", counts.values);
+		profiling::sample("transport.halo.remote_field_reads", counts.remoteFieldReads);
+		profiling::sample("transport.halo.remote_values", counts.remoteValues);
+		profiling::sample("transport.halo.remote_payload_bytes", counts.remotePayloadBytes);
+	}
+};
+} // namespace detail
+
+/// Take differences around completed operations; readings during active halo
+/// calls need not form a coherent snapshot. Counters are never reset, so one
+/// measurement cannot erase another. Distributed totals require all localities.
+inline HaloReadStatistics haloReadStatistics() {
+	auto const& c = detail::haloReadCounters;
+	return {c.haloCalls.load(std::memory_order_relaxed), c.fieldReads.load(std::memory_order_relaxed),
+		c.values.load(std::memory_order_relaxed), c.remoteFieldReads.load(std::memory_order_relaxed),
+		c.remoteValues.load(std::memory_order_relaxed), c.remotePayloadBytes.load(std::memory_order_relaxed)};
+}
 
 // An execution-time patch: interior columns are direct local storage views
 // (or received buffers for stolen work). Only ghost values occupy workspace.
@@ -77,6 +176,7 @@ template <typename Field, typename State, typename Access>
 void readTimedHalo(Field const& field, HaloPlan const& plan, unsigned bank, std::vector<State>& ghosts,
 	std::vector<HaloTime> const& times, Access access) {
 	profiling::Elapsed profile("transport.halo.wall_ns");
+	detail::HaloReadMeter meter;
 	using Pending = decltype(field.read(storage::Range{}, bank));
 	std::vector<Pending> old, next;
 	std::vector<HaloTime> selected;
@@ -84,8 +184,12 @@ void readTimedHalo(Field const& field, HaloPlan const& plan, unsigned bank, std:
 		auto const t = times.empty() ? HaloTime{bank, 0} : times.at(read.level);
 		selected.push_back(t);
 		old.push_back(field.read(read.range, t.bank));
+		meter.counts += detail::haloReadPayload(field, read.range);
 		// A zero fraction needs no new endpoint, which may still be unwritten.
-		if (t.fraction != 0) next.push_back(field.read(read.range, t.nextBank == ~0u ? (t.bank ^ 1) : t.nextBank));
+		if (t.fraction != 0) {
+			next.push_back(field.read(read.range, t.nextBank == ~0u ? (t.bank ^ 1) : t.nextBank));
+			meter.counts += detail::haloReadPayload(field, read.range);
+		}
 	}
 	ghosts.assign(plan.valueCount ? plan.valueCount : plan.ghostCount, State{});
 	std::exception_ptr error;

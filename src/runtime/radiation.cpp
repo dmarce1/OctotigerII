@@ -117,7 +117,8 @@ units::Energy LocalExecutor::radiationSource(Subgrid const& block, Operation ope
 					dg.totalEnergy() += (dt / 2.0) * g.momentum(d) * acceleration[d];
 				}
 			}
-			radiation::coupleForced(g, r, dg, dr, system, material[i].opacity, config_.radiation.lightSpeedRatio, dt / 2.0);
+			radiation::coupleForcedWithOpacityLaw(g, r, dg, dr, system, radiation::opacityLaw(config_, material[i].opacity),
+				config_.radiation.lightSpeedRatio, dt / 2.0);
 			gasOutput.put(i, g); radOutput.put(i, r);
 		}
 		scratch.gas.commit(block.interior, 1, gasOutput);
@@ -145,15 +146,15 @@ units::Energy LocalExecutor::radiationSource(Subgrid const& block, Operation ope
 			auto radiationDrive = radiation::RadiationSystem::State(currentRad.at(i) - rad);
 			auto const photons = config_.radiation.lightSpeedRatio * material[i].photonPower * dt;
 			radiationDrive.energy() += photons;
-			radiation::coupleForced(gas, rad, currentGas.at(i) - gas, radiationDrive,
-				system, material[i].opacity, config_.radiation.lightSpeedRatio, dt);
+			radiation::coupleForcedWithOpacityLaw(gas, rad, currentGas.at(i) - gas, radiationDrive,
+				system, radiation::opacityLaw(config_, material[i].opacity), config_.radiation.lightSpeedRatio, dt);
 			if (operation == Operation::FinishRadiationStep) {
 				auto const corrected = volume * photons - compensation;
 				auto const sum = injected + corrected;
 				compensation = (sum - injected) - corrected;
 				injected = sum;
 			}
-		} else radiation::couple(gas, rad, system, material[i].opacity, config_.radiation.lightSpeedRatio, dt);
+		} else radiation::coupleWithOpacityLaw(gas, rad, system, radiation::opacityLaw(config_, material[i].opacity), config_.radiation.lightSpeedRatio, dt);
 		gasOutput.put(i, gas); radOutput.put(i, rad);
 	}
 	fields_.hydro.commit(block.interior, outputBank, gasOutput);
@@ -173,7 +174,7 @@ void Runtime::coupleRadiation(units::Time dt) {
 		throw std::invalid_argument("Local radiation exchange requires hydro, radiation, and a finite nonnegative interval");
 	if (impl_->gravityEnergyActive || impl_->regridEnergyPending || !impl_->levels.empty())
 		throw std::logic_error("Local radiation exchange requires a synchronized closed interval");
-	if (dt == units::Time{} || (impl_->config.radiation.opacity == 0 && !problemHasRadiationMaterial(impl_->config))) return;
+	if (dt == units::Time{} || (!radiation::radiationCouplingEnabled(impl_->config) && !problemHasRadiationMaterial(impl_->config))) return;
 	impl_->phase(Operation::CoupleRadiation, dt);
 	std::unique_ptr<amr::Hierarchy> nextShadow;
 	if (impl_->shadow) {
@@ -196,7 +197,7 @@ gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
 		throw std::logic_error("Coupled advance requires a synchronized closed interval");
 	if (dt > physics::RotatingFrame(config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
 		throw std::invalid_argument("Rotating-grid step exceeds the angular-phase limit");
-	if (config.radiation.opacity == 0 && !problemHasRadiationMaterial(config)) {
+	if (!radiation::radiationCouplingEnabled(config) && !problemHasRadiationMaterial(config)) {
 		if (config.gravityEnabled()) { auto result=advanceGravityUnlocked(dt); impl_->applyEosFloor(); return result; }
 		if (config.hasExternalAcceleration()) kickGravityUnlocked(dt / 2.0);
 		advanceUnlocked(dt);
@@ -242,7 +243,12 @@ gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
 			impl_->phase(Operation::PredictRadiationStep, dt);
 			if (config.gravityEnabled()) beginGravityEnergyUnlocked();
 			bool const kick = config.gravityEnabled() || config.hasExternalAcceleration();
-			if (kick) kickGravityUnlocked(dt / 2.0);
+			if (kick) {
+				kickGravityUnlocked(dt / 2.0);
+				// The predictor probe predates the accepted opening gas kick.
+				// Radiation is unchanged, but the conservative gas base needs fresh halos.
+				impl_->coupledStep->cacheInitialGasInvalid = true;
+			}
 			advanceUnlocked(dt);
 			if (config.gravityEnabled()) gravityWork = solveGravityUnlocked();
 			if (kick) kickGravityUnlocked(dt / 2.0);

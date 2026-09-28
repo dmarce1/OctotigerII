@@ -29,7 +29,8 @@ Number norm(Vector const& x) {
 // All numerical variables below are dimensionless (E,F/c)/scale. Conversion
 // from/to physical CGS quantities is confined to the public interface.
 struct Problem {
-	Number rho, finalRho, c, chat, scale, thermal, finalThermal, temperaturePerEnergy, opticalInterval;
+	Number rho, finalRho, c, chat, scale, thermal, finalThermal, temperaturePerEnergy, opticalInterval, referenceOpacity;
+	OpacityLaw opacities;
 	std::array<Number, ndim> velocity, finalVelocity;
 	Vector initial, drive;
     hydro::HydroSystem const* system = nullptr;
@@ -103,13 +104,28 @@ struct Problem {
         }
 		Number const temperature2 = temperature * temperature;
 		Number const emission = Number(units::value(constants::radiation)) * temperature2 * temperature2 / scale;
+		auto const state = materialAt(time);
+		Real const ye = state.electrons() > units::Density{} ? Real(state.electrons() / state.density()) : -1;
+		auto const coefficients = opacities.evaluate(Real(density(time)), Real(temperature), ye);
+		Number const absorption = units::value(coefficients.planckAbsorption) / referenceOpacity;
+		Number const diffusionExtinction = units::value(coefficients.fluxExtinction) / referenceOpacity;
+		Number const streamingCorrection = std::max(Number(0), absorption - diffusionExtinction);
+		// The Rosseland flux mean applies in diffusion. At a free-streaming
+		// cone, using it with a much larger Planck energy mean would remove
+		// energy faster than momentum and drive |F| beyond cE. Recover the
+		// Planck flux scale continuously as the reduced flux approaches one.
+		Number const extinction = diffusionExtinction + streamingCorrection * f2;
+		Number const temperatureSlope = opacities.ionizedGas ? -3.5L / temperature : 0;
+		Number const absorptionSlope = temperatureSlope * absorption;
+		Number const diffusionSlope = temperatureSlope * Number(units::value(coefficients.rosselandAbsorption)) / referenceOpacity;
 		Vector result{};
-		result[0] = emission - x[0] + betaQ;
-		// Retain all first-order equal-opacity terms of the mixed-frame force.
-		// Emission carries material momentum; replacing it by E (the additional
-		// approximation in S&O Eq. 8) loses cone invariance for a moving cold beam.
+		result[0] = absorption * (emission - x[0]) + (2 * absorption - extinction) * betaQ;
+		// Mixed-frame first-order force with kappa_E approximated by the
+		// Planck absorption mean and kappa_F by the total flux extinction.
 		for (int d = 0; d < ndim; ++d)
-			result[d + 1] = -x[d + 1] + (emission + isotropic) * beta[d] + directed * f[d] * betaF;
+			result[d + 1] = -extinction * x[d + 1]
+				+ ((extinction - absorption) * x[0] + absorption * emission + extinction * isotropic) * beta[d]
+				+ extinction * directed * f[d] * betaF;
 		for (auto& value : result) value *= density(time) / rho;
 		if (derivative) {
 			// Analytic derivatives keep Newton directions tangent to a cold
@@ -121,6 +137,8 @@ struct Problem {
 				Number const dEnergy = column == 0 ? 1 : 0;
 				Number const dInternal = column == 0 ? -energyConversion : energyConversion * beta[column - 1];
 				Number const dEmission = 4 * emission * temperatureDerivative * dInternal / temperature;
+				Number const dAbsorption = absorptionSlope * temperatureDerivative * dInternal;
+				Number const dDiffusion = diffusionSlope * temperatureDerivative * dInternal;
 				std::array<Number, ndim> dBeta{}, dFluxFactor{};
 				Number dFluxSquared = 0, dBetaFluxFactor = 0, dBetaFlux = 0;
 				for (int d = 0; d < ndim; ++d) {
@@ -131,15 +149,25 @@ struct Problem {
 					dBetaFluxFactor += dBeta[d] * f[d] + beta[d] * dFluxFactor[d];
 					dBetaFlux += dBeta[d] * x[d + 1] + beta[d] * dFlux;
 				}
+				Number const dExtinction = dDiffusion + (streamingCorrection > 0
+					? (dAbsorption - dDiffusion) * f2 + streamingCorrection * dFluxSquared : 0);
 				Number const dRoot = -1.5L * dFluxSquared / root;
 				Number const dIsotropic = (dEnergy * (1 - f2) - x[0] * dFluxSquared - isotropic * dRoot) / (root + 1);
 				Number const dDirected = (3 * dEnergy - directed * dRoot) / (root + 2);
-				(*derivative)[0][column] = dEmission - dEnergy + dBetaFlux;
+				(*derivative)[0][column] = dAbsorption * (emission - x[0])
+					+ absorption * (dEmission - dEnergy)
+					+ (2 * dAbsorption - dExtinction) * betaQ
+					+ (2 * absorption - extinction) * dBetaFlux;
 				for (int d = 0; d < ndim; ++d) {
 					Number const dFlux = column == d + 1 ? 1 : 0;
-					(*derivative)[d + 1][column] = -dFlux + (dEmission + dIsotropic) * beta[d]
-						+ (emission + isotropic) * dBeta[d] + dDirected * f[d] * betaF
-						+ directed * (dFluxFactor[d] * betaF + f[d] * dBetaFluxFactor);
+					Number const carried = (extinction - absorption) * x[0] + absorption * emission + extinction * isotropic;
+					Number const dCarried = (dExtinction - dAbsorption) * x[0]
+						+ (extinction - absorption) * dEnergy + dAbsorption * emission
+						+ absorption * dEmission + dExtinction * isotropic + extinction * dIsotropic;
+					(*derivative)[d + 1][column] = -dExtinction * x[d + 1] - extinction * dFlux
+						+ dCarried * beta[d] + carried * dBeta[d]
+						+ (dExtinction * directed + extinction * dDirected) * f[d] * betaF
+						+ extinction * directed * (dFluxFactor[d] * betaF + f[d] * dBetaFluxFactor);
 				}
 				for (int row = 0; row < count; ++row) (*derivative)[row][column] *= density(time) / rho;
 			}
@@ -249,13 +277,26 @@ Vector advance(Problem const& problem, Vector const& old, Number time, Number in
 
 void couple(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 	hydro::HydroSystem const& system, Opacity opacity, Real ratio, units::Time interval) {
-	coupleForced(gas, radiation, {}, {}, system, opacity, ratio, interval);
+	coupleForcedWithOpacityLaw(gas, radiation, {}, {}, system, OpacityLaw{false, opacity}, ratio, interval);
+}
+
+void coupleWithOpacityLaw(hydro::ConservedState& gas, RadiationSystem::State& radiation,
+	hydro::HydroSystem const& system, OpacityLaw const& opacities, Real ratio, units::Time interval) {
+	coupleForcedWithOpacityLaw(gas, radiation, {}, {}, system, opacities, ratio, interval);
 }
 
 void coupleForced(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 	hydro::ConservedState const& gasIncrement, RadiationSystem::State const& radiationIncrement,
 	hydro::HydroSystem const& system, Opacity opacity, Real ratio, units::Time interval) {
-	if (!units::finite(opacity) || opacity < Opacity{} || !std::isfinite(ratio) || !(ratio > 0 && ratio <= 1)
+	coupleForcedWithOpacityLaw(gas, radiation, gasIncrement, radiationIncrement, system, OpacityLaw{false, opacity}, ratio, interval);
+}
+
+void coupleForcedWithOpacityLaw(hydro::ConservedState& gas, RadiationSystem::State& radiation,
+	hydro::ConservedState const& gasIncrement, RadiationSystem::State const& radiationIncrement,
+	hydro::HydroSystem const& system, OpacityLaw const& opacities, Real ratio, units::Time interval) {
+	if (!units::finite(opacities.constantAbsorption) || opacities.constantAbsorption < Opacity{}
+		|| !units::finite(opacities.constantScattering) || opacities.constantScattering < Opacity{}
+		|| !std::isfinite(ratio) || !(ratio > 0 && ratio <= 1)
 		|| !units::finite(interval) || interval < units::Time{}) throw std::invalid_argument("Invalid radiation matter-exchange parameters");
 	if (interval == units::Time{}) return;
 	RadiationSystem transport(ratio * constants::c);
@@ -264,7 +305,7 @@ void coupleForced(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 	auto const drivenRadiation = RadiationSystem::State(radiation + radiationIncrement);
 	if (!finite(gasIncrement) || !finite(radiationIncrement) || !(drivenGas.density() > units::Density{}))
 		throw std::invalid_argument("Invalid radiation matter-exchange transport drive");
-	if (opacity == Opacity{}) {
+	if (!opacities.ionizedGas && opacities.constantAbsorption == Opacity{} && opacities.constantScattering == Opacity{}) {
 		if (!system.admissible(drivenGas) || !transport.admissible(drivenRadiation)) throw std::runtime_error("Inadmissible uncoupled transport drive");
 		gas = drivenGas; radiation = drivenRadiation; return;
 	}
@@ -272,6 +313,7 @@ void coupleForced(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 	Problem problem{};
 	if (!system.gasOnly()) throw std::invalid_argument("Radiation coupling requires the gas-only Helmholtz closure");
 	problem.system = &system; problem.material = gas; problem.finalMaterial = drivenGas;
+	problem.opacities = opacities;
 	problem.rho = units::value(gas.density());
 	problem.finalRho = units::value(drivenGas.density());
 	problem.c = units::value(constants::c);
@@ -290,7 +332,11 @@ void coupleForced(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 		problem.initial[d + 1] = units::value(radiation.radiativeFlux(d)) / (problem.c * problem.scale);
 		problem.drive[d + 1] = units::value(radiationIncrement.radiativeFlux(d)) / (problem.c * problem.scale);
 	}
-	problem.opticalInterval = Number(units::value(interval)) * problem.chat * problem.rho * units::value(opacity);
+	auto const initialOpacity = opacities.evaluate(gas, system);
+	problem.referenceOpacity = std::max(Number(units::value(initialOpacity.planckAbsorption)),
+		Number(units::value(initialOpacity.fluxExtinction)));
+	if (!(problem.referenceOpacity > 0)) throw std::runtime_error("Analytic radiation opacity vanished at the input state");
+	problem.opticalInterval = Number(units::value(interval)) * problem.chat * problem.rho * problem.referenceOpacity;
 	if (!std::isfinite(problem.opticalInterval)) throw std::runtime_error("Unrepresentable radiation matter-exchange interval");
 	unsigned attempts = 0;
 	Vector result;
@@ -299,7 +345,8 @@ void coupleForced(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 	} catch (std::runtime_error const& error) {
 		std::ostringstream details;
 		details.precision(17);
-		details << error.what() << ": dt=" << units::value(interval) << " opacity=" << units::value(opacity) << " ratio=" << ratio;
+		details << error.what() << ": dt=" << units::value(interval) << " absorption="
+			<< units::value(initialOpacity.planckAbsorption) << " extinction=" << units::value(initialOpacity.fluxExtinction) << " ratio=" << ratio;
 		auto append = [&](char const* name, auto const& state) {
 			details << ' ' << name << "=[";
 			bool first = true;

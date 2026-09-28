@@ -1,0 +1,77 @@
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0/BoostConfig.cmake (found suitable version "1.83.0", minimum required is "1.71")
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0/BoostConfig.cmake (found suitable version "1.83.0", minimum required is "1.71") found components: program_options
+-- Configuring done (1.3s)
+-- Generating done (0.3s)
+-- Build files have been written to: /tmp/octoii-gravity-local-serial
+[  7%] Built target octotigerII_helmholtz
+[  7%] Built target octotigerIIMesh3d
+[  7%] Built target gtest
+[  7%] Built target octotigerIIComposition3d
+[  7%] Built target octotigerIIPhysics3d
+[ 15%] Built target octotigerIIGravity3d
+[ 23%] Built target octotigerIIHydro3d
+[ 23%] Built target octotigerIIRefinement3d
+[ 23%] Built target octotigerIIRadiation3d
+[ 61%] Built target octotigerIISubgrid3d
+[ 61%] Building CXX object 3d/CMakeFiles/octotigerIIAmr3d.dir/__/__/src/amr/hierarchy.cpp.o
+[ 69%] Linking CXX static library liboctotigerIIAmr3d.a
+[ 69%] Built target octotigerIIAmr3d
+[ 69%] Building CXX object 3d/CMakeFiles/octotigerIIApplication3d.dir/__/__/src/runtime.cpp.o
+[ 76%] Building CXX object 3d/CMakeFiles/octotigerIIApplication3d.dir/__/__/src/runtime/localExecutor.cpp.o
+[ 76%] Building CXX object 3d/CMakeFiles/octotigerIIApplication3d.dir/__/__/src/runtime/stages.cpp.o
+[ 76%] Building CXX object 3d/CMakeFiles/octotigerIIApplication3d.dir/__/__/src/runtime/transport.cpp.o
+[ 76%] Building CXX object 3d/CMakeFiles/octotigerIIApplication3d.dir/__/__/src/runtime/gravity.cpp.o
+[ 76%] Building CXX object 3d/CMakeFiles/octotigerIIApplication3d.dir/__/__/src/runtime/regrid.cpp.o
+[ 84%] Building CXX object 3d/CMakeFiles/octotigerIIApplication3d.dir/__/__/src/runtime/radiation.cpp.o
+[ 84%] Linking CXX static library liboctotigerIIApplication3d.a
+[ 92%] Built target octotigerIIApplication3d
+[100%] Building CXX object 3d/tests/CMakeFiles/gravityTimeIntegrationChecks-3d.dir/gravityTimeIntegrationChecks.cpp.o
+[100%] Linking CXX executable gravityTimeIntegrationChecks-3d
+[100%] Built target gravityTimeIntegrationChecks-3d
+[  8%] Built target octotigerII_helmholtz
+[  8%] Built target octotigerIIMesh3d
+[  8%] Built target gtest
+[  8%] Built target octotigerIIComposition3d
+[ 16%] Built target octotigerIIGravity3d
+[ 16%] Built target octotigerIIPhysics3d
+[ 25%] Built target octotigerIIHydro3d
+[ 25%] Built target octotigerIIRefinement3d
+[ 25%] Built target octotigerIIRadiation3d
+[ 66%] Built target octotigerIISubgrid3d
+[ 75%] Built target octotigerIIAmr3d
+[100%] Built target octotigerIIApplication3d
+[100%] Building CXX object 3d/tests/CMakeFiles/rotatingGravityChecks-3d.dir/rotatingGravityChecks.cpp.o
+[100%] Linking CXX executable rotatingGravityChecks-3d
+[100%] Built target rotatingGravityChecks-3d
+[  7%] Built target octotigerII_helmholtz
+[  7%] Built target octotigerIIMesh3d
+[  7%] Built target gtest
+[  7%] Built target octotigerIIComposition3d
+[ 15%] Built target octotigerIIGravity3d
+[ 15%] Built target octotigerIIPhysics3d
+[ 23%] Built target octotigerIIHydro3d
+[ 23%] Built target octotigerIIRefinement3d
+[ 23%] Built target octotigerIIRadiation3d
+[ 61%] Built target octotigerIISubgrid3d
+[ 69%] Built target octotigerIIAmr3d
+[ 92%] Built target octotigerIIApplication3d
+[ 92%] Building CXX object 3d/tests/CMakeFiles/haloTrafficChecks-3d.dir/haloTrafficChecks.cpp.o
+[ 92%] Building CXX object 3d/tests/CMakeFiles/haloTrafficChecks-3d.dir/googleTestMain.cpp.o
+[100%] Linking CXX executable haloTrafficChecks-3d
+[100%] Built target haloTrafficChecks-3d
+[  8%] Built target octotigerII_helmholtz
+[  8%] Built target octotigerIIMesh3d
+[  8%] Built target gtest
+[  8%] Built target octotigerIIComposition3d
+[  8%] Built target octotigerIIPhysics3d
+[ 16%] Built target octotigerIIGravity3d
+[ 25%] Built target octotigerIIHydro3d
+[ 25%] Built target octotigerIIRefinement3d
+[ 25%] Built target octotigerIIRadiation3d
+[ 66%] Built target octotigerIISubgrid3d
+[ 75%] Built target octotigerIIAmr3d
+[100%] Built target octotigerIIApplication3d
+[100%] Building CXX object 3d/tests/CMakeFiles/radiationIntegrationChecks-3d.dir/googleTestMain.cpp.o
+[100%] Building CXX object 3d/tests/CMakeFiles/radiationIntegrationChecks-3d.dir/radiationIntegrationChecks.cpp.o
+[100%] Linking CXX executable radiationIntegrationChecks-3d
+[100%] Built target radiationIntegrationChecks-3d

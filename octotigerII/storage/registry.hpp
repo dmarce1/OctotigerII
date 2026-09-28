@@ -7,6 +7,7 @@
 #include "octotigerII/storage/columns.hpp"
 #include "octotigerII/subgrid/subgrid.hpp"
 #include "octotigerII/problems.hpp"
+#include "octotigerII/radiation/opacity.hpp"
 
 namespace octotigerII {
 
@@ -45,7 +46,7 @@ public:
 	FieldRepository(Config const& config, storage::Layout const& layout, std::vector<storage::Locality> const& localities)
 	  : store_(localities) {
 		unsigned const banks = config.amr.enabled && config.timestep.refinement
-			? (config.gravityEnabled() || config.radiation.opacity > 0 || problemHasRadiationMaterial(config) ? 4 : 3) : 2;
+			? (config.gravityEnabled() || radiation::radiationCouplingEnabled(config) || problemHasRadiationMaterial(config) ? 4 : 3) : 2;
 		if (config.massFractions.enabled) {
 			for (auto const& s : config.massFractions.species) {
 				species_.push_back(std::make_unique<storage::Field<units::Density>>(layout, store_, banks, "massFractions." + s.name));

@@ -1,0 +1,57 @@
+Enabling memory tracking!
+          (            )
+   (      )\ )      ( /(
+   )\    (()/( (    )\())
+((((_)(   /(_)))\  ((_)\
+ )\ _ )\ (_)) ((_) __((_)
+ (_)_\(_)| _ \| __|\ \/ /
+  / _ \  |  _/| _|  >  <
+ /_/ \_\ |_|  |___|/_/\_\
+APEX Version: v1.11.0-c9b81b4-HEAD
+Built on: 17:54:25 Sep 26 2026 (Release)
+C++ Language Standard version : 202002
+GCC Compiler version : 13.3.0
+Configured features: Pthread, PLUGINS
+
+Note: Google Test filter = -RadiationIntegration.RotatingGridConservesInertialCombinedBudgets
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from RadiationIntegration
+[ RUN      ] RadiationIntegration.PhysicalAndReducedSpeedConserveOnPeriodicGrid
+coupled budget residuals: energy=0 mass=0 momentum(max)=0
+coupled budget residuals: energy=1.95697e-16 mass=0 momentum(max)=1.86264e-16
+[       OK ] RadiationIntegration.PhysicalAndReducedSpeedConserveOnPeriodicGrid (73 ms)
+[ RUN      ] RadiationIntegration.CoupledTransportConvergesAtSecondOrderInTime
+coupled temporal case adaptive=0
+coupled temporal errors adaptive=0: 0.01847 0.000446321 0.000104215
+coupled temporal case adaptive=1
+coupled temporal errors adaptive=1: 0.00486368 0.000717563 0.000164506
+[       OK ] RadiationIntegration.CoupledTransportConvergesAtSecondOrderInTime (500 ms)
+[ RUN      ] RadiationIntegration.ExternalAccelerationIncludesRadiationMomentumInItsWork
+external-work case ratio=1
+external-work temporal errors ratio=1: 6.0595e-11 1.52834e-11 3.8489e-12
+external-work case ratio=0.2
+external-work temporal errors ratio=0.2: 2.81648e-10 7.11946e-11 1.81117e-11
+[       OK ] RadiationIntegration.ExternalAccelerationIncludesRadiationMomentumInItsWork (144 ms)
+[ RUN      ] RadiationIntegration.MixedLevelSubcyclingAndRegriddingConserve
+coupled budget residuals: energy=1.86493e-16 mass=0 momentum(max)=1.86381e-16
+coupled budget residuals: energy=1.86493e-16 mass=0 momentum(max)=1.86381e-16
+coupled budget residuals: energy=1.86493e-16 mass=0 momentum(max)=0
+coupled budget residuals: energy=0 mass=0 momentum(max)=1.86381e-16
+coupled budget residuals: energy=0 mass=0 momentum(max)=0
+coupled budget residuals: energy=0 mass=1.77747e-16 momentum(max)=1.86381e-16
+[       OK ] RadiationIntegration.MixedLevelSubcyclingAndRegriddingConserve (37 ms)
+[ RUN      ] RadiationIntegration.ZeroOpacityMatchesUncoupledTransportExactly
+[       OK ] RadiationIntegration.ZeroOpacityMatchesUncoupledTransportExactly (1 ms)
+[ RUN      ] RadiationIntegration.InvalidIntervalLeavesPublishedStateUnchanged
+[       OK ] RadiationIntegration.InvalidIntervalLeavesPublishedStateUnchanged (0 ms)
+[ RUN      ] RadiationIntegration.NumericalFailureRollsBackAndNextStepMatchesCleanRun
+coupled budget residuals: energy=0 mass=0 momentum(max)=0
+[       OK ] RadiationIntegration.NumericalFailureRollsBackAndNextStepMatchesCleanRun (3 ms)
+[ RUN      ] RadiationIntegration.AddedEquilibriumRadiationHasNoLocalExchange
+[       OK ] RadiationIntegration.AddedEquilibriumRadiationHasNoLocalExchange (0 ms)
+[----------] 8 tests from RadiationIntegration (762 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (762 ms total)
+[  PASSED  ] 8 tests.

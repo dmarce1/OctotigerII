@@ -1,0 +1,16 @@
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from RadiationBoundary
+[ RUN      ] RadiationBoundary.OptionIsExplicitAndRejectsUnsupportedGeometry
+[       OK ] RadiationBoundary.OptionIsExplicitAndRejectsUnsupportedGeometry (0 ms)
+[ RUN      ] RadiationBoundary.InsulationOverridesApAdvectionAndPreservesPressureFluxInProbes
+[       OK ] RadiationBoundary.InsulationOverridesApAdvectionAndPreservesPressureFluxInProbes (9 ms)
+[ RUN      ] RadiationBoundary.RealizabilityFallbackCannotReintroduceEnergyLeakage
+[       OK ] RadiationBoundary.RealizabilityFallbackCannotReintroduceEnergyLeakage (0 ms)
+[ RUN      ] RadiationBoundary.CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasBoundaries
+[       OK ] RadiationBoundary.CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasBoundaries (9201 ms)
+[----------] 4 tests from RadiationBoundary (9212 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (9212 ms total)
+[  PASSED  ] 4 tests.

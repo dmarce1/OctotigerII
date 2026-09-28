@@ -4,11 +4,11 @@
 #pragma once
 #include "octotigerII/hydro/hydroSystem.hpp"
 #include "octotigerII/radiation/radiationTransport.hpp"
+#include "octotigerII/radiation/opacity.hpp"
 
 namespace octotigerII::radiation {
 
-/// Gray absorption opacity per unit mass, in cm^2/g. Scattering is not included.
-using Opacity = units::Quantity<2, -1, 0>;
+/// Opacity is measured per unit mass in cm^2/g.
 
 /// Integrate the equal-opacity first-order mixed-frame terms from
 /// Skinner--Ostriker (2013), equations (5), retaining the full M1 tensor.
@@ -28,6 +28,10 @@ using Opacity = units::Quantity<2, -1, 0>;
 /// Both arguments are unchanged on failure. Zero opacity/interval is a no-op.
 void couple(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 	hydro::HydroSystem const& system, Opacity opacity, Real lightSpeedRatio, units::Time interval);
+/// Separate Planck absorption and flux extinction; the analytic law is
+/// reevaluated inside each implicit stage at the trial gas temperature.
+void coupleWithOpacityLaw(hydro::ConservedState& gas, RadiationSystem::State& radiation,
+	hydro::HydroSystem const& system, OpacityLaw const& opacities, Real lightSpeedRatio, units::Time interval);
 
 /// Integrate the same sources together with constant transport/gravity driving.
 /// The increments are the accepted finite-volume changes over interval, not
@@ -39,5 +43,9 @@ void couple(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 void coupleForced(hydro::ConservedState& gas, RadiationSystem::State& radiation,
 	hydro::ConservedState const& gasIncrement, RadiationSystem::State const& radiationIncrement,
 	hydro::HydroSystem const& system, Opacity opacity, Real lightSpeedRatio, units::Time interval);
+/// Forced counterpart using distinct thermal and flux opacities.
+void coupleForcedWithOpacityLaw(hydro::ConservedState& gas, RadiationSystem::State& radiation,
+	hydro::ConservedState const& gasIncrement, RadiationSystem::State const& radiationIncrement,
+	hydro::HydroSystem const& system, OpacityLaw const& opacities, Real lightSpeedRatio, units::Time interval);
 
 } // namespace octotigerII::radiation

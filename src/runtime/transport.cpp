@@ -71,7 +71,7 @@ units::Time Runtime::stableTimestep() const {
 	if (!impl_->timeRefinement()) return result.timestep;
 	auto interval = result.levelTimestep.at(impl_->coarsestLevel());
 	if (impl_->config.hydroEnabled() && impl_->config.radiationEnabled() &&
-		(impl_->config.radiation.opacity > 0 || problemHasRadiationMaterial(impl_->config))) {
+		(radiation::radiationCouplingEnabled(impl_->config) || problemHasRadiationMaterial(impl_->config))) {
 		// Every leaf supplies source-aware midpoint data for coarse ghost
 		// averages, including fine leaves beyond immediate face neighbors.
 		// Their half-interval transport drives must respect their own CFL.

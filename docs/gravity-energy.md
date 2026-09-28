@@ -64,6 +64,14 @@ intermediate gas map accounts for Eulerian mass transport and is not claimed to
 be symplectic. Conventional mode uses each active level's full-force endpoint
 impulse instead.
 
+The communication optimization retains this numerical midpoint construction.
+Each reconstruction uses two ghost layers. Reusing the initial halo from its
+flux probe avoids fetching those same donor values again for the corrector;
+the midpoint still requires exchanged stage data. Cached values must retain
+the raw donor stencil before boundary transforms and AMR prolongation, and
+must match the field, bank, physical time, and donor time interpolation. A
+gravity kick that changes the update base invalidates that initial gas cache.
+
 Fine halos and conventional inactive-source densities use a separate coarse
 forecast: the old state plus the coarse duration times the initial full
 numerical derivative, with canonical fine fluxes in its probe-time reflux.
@@ -91,6 +99,17 @@ regressions observed second-order temporal convergence in both modes; see the
 [validation report](validation/gravity-time-integration.txt) for scope and
 results. No performance or general shock-convergence claim follows from the
 energy identity.
+
+The tested local physical-flux predictor was rejected after its fixed-mesh
+temporal errors converged at approximately first order. Its conservation and
+joint-refinement results do not replace the required second-order temporal
+gates. The [local-predictor report](validation/local-gravity-predictor.txt) and
+[original failed assertions](validation/local-gravity-predictor-migration.txt)
+are historical evidence for that rejected implementation. The cached numerical
+midpoint passes the original gravity and rotating-gravity second-order
+assertions in the [3D serial validation](validation/cached-midpoint/gravity-serial-3d.md),
+with observed component orders approximately 2.04–2.09. The older midpoint
+results alone were not treated as validation of the cache implementation.
 
 ## Discrete energy source
 

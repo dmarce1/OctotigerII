@@ -5,6 +5,12 @@ numerical kernels and the separate diagonal Cartesian FMM. This is a new
 application and CMake project, not a compatibility mode inside Octo-TIGER.
 The source archive includes the project's Git history.
 
+## License
+
+OctotigerII is distributed under the [Boost Software License, Version 1.0](LICENSE),
+following Octo-Tiger. Third-party components may have their own licenses; see
+their accompanying license and notice files.
+
 ## Build and run
 
 One CMake configuration builds `octoII-1d`, `octoII-2d`, and `octoII-3d`.
@@ -182,8 +188,8 @@ field energy is reported.
   shadows and supplies conservative transfers during regridding.
 - `Runtime` owns the field repository and one work scheduler per locality.
   Stages read immutable inputs and publish disjoint outputs after completion.
-- Local kernels view field interiors directly. Only halos and solver work arrays
-  occupy temporary worker storage. HPX handles remote transfers and coalescing.
+- Local kernels view field interiors directly. Worker buffers and a locality
+  halo pool reuse temporary storage. HPX handles remote transfers and coalescing.
 - `simulation.cpp` coordinates timesteps and compiled physics; the selected
   `bin/.../problem.cpp` supplies initialization and problem-local configuration.
 - `runtime.workerTasks=0` selects the HPX worker count. A positive value bounds
@@ -197,8 +203,13 @@ source file, including the runtime and AMR implementation boundaries.
 
 Hydro uses primitive PLM reconstruction, HLLC with HLL fallback, and positivity
 limiting. Global and transport-only stepping retain the modular unsplit
-MUSCL–Hancock integrator; coupled gravity uses an explicit midpoint stage built
-from the numerical-flux divergence and gravity sources. M1 uses
+MUSCL–Hancock integrator. Coupled radiation and subcycled gravity use a
+numerical-flux midpoint predictor. The runtime caches initial halo data between
+the probe and corrector and shares fetched gas data with radiation. Initial and
+midpoint reconstruction each use two ghost layers. The probe may execute on a
+stealing locality; its corrector returns to that locality to reuse the cache.
+See [halo accounting](docs/halo-communication-accounting.md) for the requested
+payload counts and their measurement limits. M1 uses
 the same finite-volume scaffold, the existing Skinner–Ostriker closure and
 HLL transport, and realizability limiting. Gray gas–radiation energy and
 momentum exchange uses a local implicit solve driven by accepted transport
@@ -357,10 +368,13 @@ partial-force upward pass and central coordination of the gravity ledgers, so
 subcycling is not yet a performance guarantee. See [time refinement](docs/time-refinement.md) and the
 [coupling derivation](docs/gravity-time-coupling-derivation.md).
 
-Smooth fixed-mesh temporal tests observed orders approximately 2.04–2.09 in
-both gravity modes. The [validation report](docs/validation/gravity-time-integration.txt)
-records the tested scope; the result does not imply second-order behavior at
-shocks or arbitrary changes of timestep groups.
+The [cached midpoint validation](docs/validation/cached-midpoint/gravity-serial-3d.md)
+passes the original fixed-mesh temporal gates, with gravity orders 2.04–2.09,
+and checks coupled conservation, AMR, regridding, and rollback. The coupled
+fixture requests 55.56% fewer halo values in 1D and 53.85% fewer in 3D than the
+original numerical-midpoint baseline (the 3D baseline is calculated). These
+request counts do not establish whole-application bandwidth or speedup; see
+[halo accounting](docs/halo-communication-accounting.md).
 
 ## Standalone Helmholtz EOS library
 

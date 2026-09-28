@@ -1,0 +1,16 @@
+[==========] Running 2 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 2 tests from RadiationDepth
+[ RUN      ] RadiationDepth.SmoothMatterUsesReportedCflWithThreeLevels
+Three-level coupled radiation-matter step=0 dt=9.62898e-05
+Three-level coupled radiation-matter step=1 dt=9.60901e-05
+[       OK ] RadiationDepth.SmoothMatterUsesReportedCflWithThreeLevels (11771 ms)
+[ RUN      ] RadiationDepth.StellarSurfaceUsesReportedCflWithThreeLevels
+Three-level coupled polytrope step=0 dt=0.00385167
+Three-level coupled polytrope step=1 dt=0.00309615
+[       OK ] RadiationDepth.StellarSurfaceUsesReportedCflWithThreeLevels (22148 ms)
+[----------] 2 tests from RadiationDepth (33919 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test suite ran. (33919 ms total)
+[  PASSED  ] 2 tests.

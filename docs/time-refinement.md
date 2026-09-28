@@ -125,6 +125,15 @@ consistent with the conditional second-order argument in the
 canonical probe-time derivative described above. The reconstruction, Riemann
 solver, and flux limiters remain shared with the global transport path.
 
+The communication optimization caches the initial two-layer halo from the
+probe for reuse by the corrector. Midpoint stage data still cross block
+boundaries, also using two ghost layers. Reuse requires the same physical
+snapshot, donor time interpolation, and field version; a kick or other change
+to the conservative update base requires fresh data. Raw AMR donor values
+are cached before prolongation and physical-boundary transforms, so the
+midpoint donors can be formed and limited at their own time. This changes
+data reuse without replacing the numerical midpoint derivative.
+
 Each hierarchical shell keeps its opening field while descendants advance,
 recording provisional impulses. After reflux, its endpoint solve replaces those
 impulses by the paired opening/closing quadrature. This accepts the same HOLD
@@ -164,6 +173,16 @@ extend the claim to shocks, changing masks, or unbounded step ratios. The
 coupled checks also exercise conservation, nested level registers, CFL ratios,
 global-step compatibility, and synchronized regridding. Results and execution
 scope are recorded in the [gravity integration validation report](validation/gravity-time-integration.txt).
+
+The local physical-flux predictor experiment did not meet these fixed-mesh
+second-order requirements. Its approximately first-order temporal results are
+preserved as [historical evidence](validation/local-gravity-predictor.txt),
+with the [original failed assertions](validation/local-gravity-predictor-migration.txt).
+The original second-order gates have been restored. The
+[cached-midpoint 3D serial validation](validation/cached-midpoint/gravity-serial-3d.md)
+passes the nonrotating and rotating temporal gates with component orders
+approximately 2.04–2.09. The report distinguishes these new runs from historical
+midpoint results and scopes the separate halo request measurements.
 
 ## Initial hydro/radiation validation
 

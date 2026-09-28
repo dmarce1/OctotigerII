@@ -119,6 +119,10 @@ namespace {
 		options("radiation.enabled", po::value<std::string>(), "Add radiation to a hydro problem: on/off (default off)");
 		options("radiation.closedBoundary", po::value<std::string>(), "Insulate radiation energy at a fixed free box boundary: on/off (default off)");
 		options("radiation.opacity", po::value<Real>(), "Equal gray absorption/emission opacity (cm^2/g); 0 disables exchange");
+		options("radiation.opacityModel", po::value<std::string>(), "constant (default) or ionized-gas analytic gray opacities");
+		options("radiation.scatteringOpacity", po::value<Real>(), "Constant elastic scattering opacity (cm^2/g; default 0)");
+		options("radiation.hydrogenFraction", po::value<Real>(), "Hydrogen mass fraction for ionized-gas opacity (default 0.7)");
+		options("radiation.metalFraction", po::value<Real>(), "Metal mass fraction for ionized-gas opacity (default 0.02)");
 		options("radiation.diagnosticLength", po::value<Real>(), "Physical length for nonfatal RSLA diagnostics (cm); 0 uses box width");
 		options("radiation.initialEnergyRatio", po::value<Real>(), "Added radiation energy divided by local source-equilibrium energy (default 1)");
 		options("gravity.multipoleOrder", po::value<int>(), "Gravity expansion order (1..10)");
@@ -283,6 +287,10 @@ namespace {
 		readBoolean(values, "radiation.enabled", config.radiation.enabled);
 		readBoolean(values, "radiation.closedBoundary", config.radiation.closedBoundary);
 		readNumber(values, "radiation.opacity", config.radiation.opacity);
+		readOption(values, "radiation.opacityModel", config.radiation.opacityModel);
+		readNumber(values, "radiation.scatteringOpacity", config.radiation.scatteringOpacity);
+		readNumber(values, "radiation.hydrogenFraction", config.radiation.hydrogenFraction);
+		readNumber(values, "radiation.metalFraction", config.radiation.metalFraction);
 		readNumber(values, "radiation.diagnosticLength", config.radiation.diagnosticLength);
 		readNumber(values, "radiation.initialEnergyRatio", config.radiation.initialEnergyRatio);
 		readOption(values, "gravity.multipoleOrder", config.gravity.multipoleOrder, "gravity.multipole_order");
@@ -299,12 +307,23 @@ namespace {
 
 void Config::validate() const {
 	if (!std::isfinite(radiation.opacity) || radiation.opacity < 0 ||
+		!std::isfinite(radiation.scatteringOpacity) || radiation.scatteringOpacity < 0 ||
+		!std::isfinite(radiation.hydrogenFraction) || radiation.hydrogenFraction < 0 || radiation.hydrogenFraction > 1 ||
+		!std::isfinite(radiation.metalFraction) || radiation.metalFraction < 0 ||
+		radiation.hydrogenFraction + radiation.metalFraction > 1 ||
 		!std::isfinite(radiation.diagnosticLength) || radiation.diagnosticLength < 0 ||
 		!std::isfinite(radiation.initialEnergyRatio) || radiation.initialEnergyRatio < 0)
-		throw std::invalid_argument("Radiation opacity, diagnosticLength, and initialEnergyRatio must be finite and nonnegative");
+		throw std::invalid_argument("Invalid radiation opacity or composition options");
+	if (radiation.opacityModel != "constant" && radiation.opacityModel != "ionized-gas")
+		throw std::invalid_argument("radiation.opacityModel must be constant or ionized-gas");
+	if (radiation.opacityModel == "ionized-gas" && (radiation.opacity != 0 || radiation.scatteringOpacity != 0))
+		throw std::invalid_argument("ionized-gas opacity cannot be combined with constant opacity settings");
+	if (radiation.opacityModel == "ionized-gas" && problemHasRadiationMaterial(*this))
+		throw std::invalid_argument("ionized-gas opacity cannot be combined with a prescribed radiation material profile");
 	if (radiation.enabled && (!build::radiation || !hydroEnabled()))
 		throw std::invalid_argument("Adding radiation requires a hydro problem and OCTOII_WITH_RADIATION=ON");
-	if (radiation.opacity > 0 && (!hydroEnabled() || !radiationEnabled()))
+	if ((radiation.opacity > 0 || radiation.scatteringOpacity > 0 || radiation.opacityModel == "ionized-gas")
+		&& (!hydroEnabled() || !radiationEnabled()))
 		throw std::invalid_argument("Radiation matter exchange requires both hydro and radiation");
 	if (gravity.timeIntegration != "hierarchical" && gravity.timeIntegration != "conventional")
 		throw std::invalid_argument("gravity.timeIntegration must be hierarchical or conventional");
@@ -427,6 +446,7 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 	};
 	for (auto const& values : files) apply(values);
 	apply(commandValues);
+	if (config.radiation.opacityModel == "ionized-gas" && !opacitySet) config.radiation.opacity = 0;
 	if (config.problem == "polytrope" || config.problem == "rotatingStar") {
 		if (!lowerSet) config.mesh.lower = -2.0 * config.star.radius;
 		if (!upperSet) config.mesh.upper = 2.0 * config.star.radius;
@@ -450,8 +470,8 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		if (!densitySet) config.amr.refineDensity=0.001*config.star.centralDensity;
 		if (config.problem == "radiatingStar") {
 			if (opacityProfileSet) throw std::invalid_argument("radiatingStar uses constant radiation.opacity; the opacity profile controls belong to radiating-sphere");
-			if (!opacitySet) config.radiation.opacity = 0.34;
-		} else if (!opacitySet) config.radiation.opacity=config.radiatingStar.opticalDepthScale
+			if (!opacitySet && config.radiation.opacityModel == "constant") config.radiation.opacity = 0.34;
+		} else if (!opacitySet && config.radiation.opacityModel == "constant") config.radiation.opacity=config.radiatingStar.opticalDepthScale
 			/(units::value(config.star.centralDensity)*units::value(eos.scaleLength()));
 		if (!stopTimeSet) config.runtime.stopTime=0.1/units::sqrt(constants::G*config.star.centralDensity);
 	}
@@ -474,7 +494,7 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		for(int d=0;d<ndim;++d)if(!centerSet[d])config.star.center[d]=(config.mesh.lower+config.mesh.upper)/Real(2);
 		if (!gammaSet) config.hydro.gamma=Real(5)/3;
 		if (!densitySet) config.amr.refineDensity=0.001*config.star.centralDensity;
-		if (!opacitySet) config.radiation.opacity=0.2;
+		if (!opacitySet && config.radiation.opacityModel == "constant") config.radiation.opacity=0.2;
 		if (!stopTimeSet) config.runtime.stopTime=0.1*units::sqrt(
 			star.sphericalRadius()*star.sphericalRadius()*star.sphericalRadius()/(constants::G*star.mass()));
 	}

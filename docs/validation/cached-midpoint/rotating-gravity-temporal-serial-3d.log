@@ -1,0 +1,17 @@
+Note: Google Test filter = RotatingGravityIntegration.TemporalConvergence
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RotatingGravityIntegration
+[ RUN      ] RotatingGravityIntegration.TemporalConvergence
+rotating hierarchical temporal component=0 errors=7.56804e-07,1.83252e-07,4.31881e-08 orders=2.04609,2.08513
+rotating hierarchical temporal component=1 errors=0.000287242,6.93771e-05,1.63937e-05 orders=2.04974,2.08132
+rotating hierarchical temporal component=2 errors=1.26316e-06,3.05821e-07,7.2069e-08 orders=2.04627,2.08524
+rotating conventional temporal component=0 errors=7.56777e-07,1.83247e-07,4.31868e-08 orders=2.04608,2.08513
+rotating conventional temporal component=1 errors=0.000287156,6.93568e-05,1.63889e-05 orders=2.04973,2.08132
+rotating conventional temporal component=2 errors=1.26312e-06,3.05812e-07,7.20669e-08 orders=2.04627,2.08524
+[       OK ] RotatingGravityIntegration.TemporalConvergence (401573 ms)
+[----------] 1 test from RotatingGravityIntegration (401573 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (401573 ms total)
+[  PASSED  ] 1 test.

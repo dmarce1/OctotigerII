@@ -1,0 +1,75 @@
+[==========] Running 10 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 10 tests from RadiationIntegration
+[ RUN      ] RadiationIntegration.PhysicalAndReducedSpeedConserveOnPeriodicGrid
+coupled budget residuals: energy=1.66654e-16 mass=0 momentum(max)=1.67772e-16
+coupled budget residuals: energy=0 mass=-1.6e-16 momentum(max)=1.67772e-16
+[       OK ] RadiationIntegration.PhysicalAndReducedSpeedConserveOnPeriodicGrid (1359 ms)
+[ RUN      ] RadiationIntegration.CoupledTransportConvergesAtSecondOrderInTime
+coupled temporal case adaptive=0
+coupled temporal errors adaptive=0: 0.00788578 0.00136858 0.000312252
+coupled temporal case adaptive=1
+coupled temporal errors adaptive=1: 0.00079268 0.000184844 4.51919e-05
+[       OK ] RadiationIntegration.CoupledTransportConvergesAtSecondOrderInTime (128495 ms)
+[ RUN      ] RadiationIntegration.ExternalAccelerationIncludesRadiationMomentumInItsWork
+external-work case ratio=1
+external-work temporal errors ratio=1: 6.05889e-11 1.53102e-11 3.85271e-12
+external-work case ratio=0.2
+external-work temporal errors ratio=0.2: 2.81648e-10 7.11936e-11 1.81129e-11
+[       OK ] RadiationIntegration.ExternalAccelerationIncludesRadiationMomentumInItsWork (3249 ms)
+[ RUN      ] RadiationIntegration.MixedLevelSubcyclingAndRegriddingConserve
+coupled budget residuals: energy=0 mass=0 momentum(max)=0
+coupled budget residuals: energy=0 mass=0 momentum(max)=1.67877e-16
+coupled budget residuals: energy=0 mass=0 momentum(max)=0
+coupled budget residuals: energy=0 mass=0 momentum(max)=1.67878e-16
+coupled budget residuals: energy=0 mass=0 momentum(max)=1.67878e-16
+coupled budget residuals: energy=0 mass=0 momentum(max)=1.67878e-16
+[       OK ] RadiationIntegration.MixedLevelSubcyclingAndRegriddingConserve (16492 ms)
+[ RUN      ] RadiationIntegration.RotatingGridConservesInertialCombinedBudgets
+coupled budget residuals: energy=1.66654e-16 mass=-1.6e-16 momentum(max)=1.67772e-16
+coupled budget residuals: energy=1.66654e-16 mass=0 momentum(max)=9.43187e-19
+[       OK ] RadiationIntegration.RotatingGridConservesInertialCombinedBudgets (1337 ms)
+[ RUN      ] RadiationIntegration.ZeroOpacityMatchesUncoupledTransportExactly
+[       OK ] RadiationIntegration.ZeroOpacityMatchesUncoupledTransportExactly (30 ms)
+[ RUN      ] RadiationIntegration.InvalidIntervalLeavesPublishedStateUnchanged
+[       OK ] RadiationIntegration.InvalidIntervalLeavesPublishedStateUnchanged (1 ms)
+[ RUN      ] RadiationIntegration.NumericalFailureRollsBackAndNextStepMatchesCleanRun
+coupled budget residuals: energy=0 mass=0 momentum(max)=0
+[       OK ] RadiationIntegration.NumericalFailureRollsBackAndNextStepMatchesCleanRun (468 ms)
+[ RUN      ] RadiationIntegration.AddedEquilibriumRadiationHasNoLocalExchange
+[       OK ] RadiationIntegration.AddedEquilibriumRadiationHasNoLocalExchange (0 ms)
+[ RUN      ] RadiationIntegration.GasRadiationGravityConserveAcrossAllSchedules
+coupled gravity case ratio=1 method=global
+coupled budget residuals: energy=1.93607e-16 mass=0
+coupled budget residuals: energy=1.29071e-16 mass=0
+coupled budget residuals: energy=-3.22678e-16 mass=0
+coupled gravity case ratio=1 method=hierarchical
+coupled budget residuals: energy=1.93607e-16 mass=0
+coupled budget residuals: energy=1.93607e-16 mass=0
+coupled budget residuals: energy=-3.87213e-16 mass=0
+coupled gravity case ratio=1 method=conventional
+coupled budget residuals: energy=1.93607e-16 mass=0
+coupled budget residuals: energy=1.93607e-16 mass=0
+coupled budget residuals: energy=-3.87213e-16 mass=0
+coupled gravity case ratio=1 method=rotating-hierarchical
+coupled budget residuals: energy=-6.45356e-17 mass=0
+coupled budget residuals: energy=-6.45356e-17 mass=2.06274e-16
+coupled budget residuals: energy=-1.93607e-16 mass=0
+coupled gravity case ratio=0.2 method=global
+coupled budget residuals: energy=0 mass=0
+coupled budget residuals: energy=-6.4496e-17 mass=-2.06274e-16
+coupled budget residuals: energy=1.93488e-16 mass=-2.06274e-16
+coupled gravity case ratio=0.2 method=hierarchical
+coupled budget residuals: energy=0 mass=0
+coupled budget residuals: energy=-6.4496e-17 mass=-2.06274e-16
+coupled budget residuals: energy=-6.4496e-17 mass=0
+coupled gravity case ratio=0.2 method=conventional
+coupled budget residuals: energy=0 mass=0
+coupled budget residuals: energy=-6.4496e-17 mass=-2.06274e-16
+coupled budget residuals: energy=0 mass=0
+[       OK ] RadiationIntegration.GasRadiationGravityConserveAcrossAllSchedules (119525 ms)
+[----------] 10 tests from RadiationIntegration (270961 ms total)
+
+[----------] Global test environment tear-down
+[==========] 10 tests from 1 test suite ran. (270961 ms total)
+[  PASSED  ] 10 tests.

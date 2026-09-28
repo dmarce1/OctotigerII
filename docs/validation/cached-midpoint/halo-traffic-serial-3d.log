@@ -1,0 +1,33 @@
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from HaloTraffic
+[ RUN      ] HaloTraffic.CountsRequestedRangesAndTimeEndpoints
+halo endpoint requests: values=16 remote_values=0 remote_payload_bytes=0
+[       OK ] HaloTraffic.CountsRequestedRangesAndTimeEndpoints (0 ms)
+[ RUN      ] HaloTraffic.ExpandsDerivedColumnsIntoTheirActualSourceReads
+[       OK ] HaloTraffic.ExpandsDerivedColumnsIntoTheirActualSourceReads (0 ms)
+[ RUN      ] HaloTraffic.AnalyticBoundariesRequestNoDonorValues
+[       OK ] HaloTraffic.AnalyticBoundariesRequestNoDonorValues (0 ms)
+[ RUN      ] HaloTraffic.CoupledStepReusesInitialAndMidpointHalosAcrossWorkerSchedules
+cached midpoint halo step=0 dimensions=3 localities=1 workers=1 stealing=0 opening_kick=0 calls=32 field_reads=336 values=86016 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=86016 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=1 dimensions=3 localities=1 workers=1 stealing=0 opening_kick=0 calls=32 field_reads=336 values=86016 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=86016 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=0 dimensions=3 localities=1 workers=2 stealing=0 opening_kick=0 calls=32 field_reads=336 values=86016 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=86016 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=1 dimensions=3 localities=1 workers=2 stealing=0 opening_kick=0 calls=32 field_reads=336 values=86016 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=86016 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=0 dimensions=3 localities=1 workers=2 stealing=1 opening_kick=0 calls=32 field_reads=336 values=86016 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=86016 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=1 dimensions=3 localities=1 workers=2 stealing=1 opening_kick=0 calls=32 field_reads=336 values=86016 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=86016 legacy_5gas_3rad_calculated_values=186368
+[       OK ] HaloTraffic.CoupledStepReusesInitialAndMidpointHalosAcrossWorkerSchedules (220 ms)
+[ RUN      ] HaloTraffic.OpeningKickRefreshesGasHaloAndPreservesCombinedMomentum
+cached midpoint halo step=0 dimensions=3 localities=1 workers=1 stealing=0 opening_kick=1 calls=40 field_reads=448 values=114688 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=114688 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=1 dimensions=3 localities=1 workers=1 stealing=0 opening_kick=1 calls=40 field_reads=448 values=114688 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=114688 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=0 dimensions=3 localities=1 workers=2 stealing=0 opening_kick=1 calls=40 field_reads=448 values=114688 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=114688 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=1 dimensions=3 localities=1 workers=2 stealing=0 opening_kick=1 calls=40 field_reads=448 values=114688 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=114688 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=0 dimensions=3 localities=1 workers=2 stealing=1 opening_kick=1 calls=40 field_reads=448 values=114688 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=114688 legacy_5gas_3rad_calculated_values=186368
+cached midpoint halo step=1 dimensions=3 localities=1 workers=2 stealing=1 opening_kick=1 calls=40 field_reads=448 values=114688 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_and_midpoint_expected_values=114688 legacy_5gas_3rad_calculated_values=186368
+[       OK ] HaloTraffic.OpeningKickRefreshesGasHaloAndPreservesCombinedMomentum (235 ms)
+[ RUN      ] HaloTraffic.CompactInitialHaloMatchesFullMidpointCorrectorOnMixedLevelsAndPhysicalBoundaries
+[       OK ] HaloTraffic.CompactInitialHaloMatchesFullMidpointCorrectorOnMixedLevelsAndPhysicalBoundaries (135 ms)
+[----------] 6 tests from HaloTraffic (592 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (592 ms total)
+[  PASSED  ] 6 tests.

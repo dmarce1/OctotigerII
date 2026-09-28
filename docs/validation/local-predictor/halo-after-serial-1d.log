@@ -1,0 +1,19 @@
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from HaloTraffic
+[ RUN      ] HaloTraffic.CountsRequestedRangesAndTimeEndpoints
+halo endpoint requests: values=16 remote_values=0 remote_payload_bytes=0
+[       OK ] HaloTraffic.CountsRequestedRangesAndTimeEndpoints (0 ms)
+[ RUN      ] HaloTraffic.ExpandsDerivedColumnsIntoTheirActualSourceReads
+[       OK ] HaloTraffic.ExpandsDerivedColumnsIntoTheirActualSourceReads (0 ms)
+[ RUN      ] HaloTraffic.AnalyticBoundariesRequestNoDonorValues
+[       OK ] HaloTraffic.AnalyticBoundariesRequestNoDonorValues (0 ms)
+[ RUN      ] HaloTraffic.CoupledStepReadsOneInitialGasAndRadiationHalo
+coupled halo step=0 dimensions=1 localities=1 calls=4 field_reads=16 values=64 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_only_expected_values=64 legacy_5gas_3rad_calculated_values=288
+coupled halo step=1 dimensions=1 localities=1 calls=4 field_reads=16 values=64 remote_field_reads=0 remote_values=0 remote_payload_bytes=0 initial_only_expected_values=64 legacy_5gas_3rad_calculated_values=288
+[       OK ] HaloTraffic.CoupledStepReadsOneInitialGasAndRadiationHalo (0 ms)
+[----------] 4 tests from HaloTraffic (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 4 tests.

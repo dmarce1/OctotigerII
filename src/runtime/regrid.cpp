@@ -48,6 +48,7 @@ void Runtime::Impl::install(std::vector<mesh::BlockLocation> const& leaves, amr:
 #endif
 	topology.swap(nextTopology);
 	fields.swap(nextFields);
+	cacheOwners.clear();
 	bank = 0;
 	++generation;
 	gravityReady = false;

@@ -1,0 +1,24 @@
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from TimeRefinement
+[ RUN      ] TimeRefinement.DefaultOnAndExplicitOff
+[       OK ] TimeRefinement.DefaultOnAndExplicitOff (0 ms)
+[ RUN      ] TimeRefinement.HydroUsesFourOrMoreFineStepsAndConserves
+[       OK ] TimeRefinement.HydroUsesFourOrMoreFineStepsAndConserves (4404 ms)
+[ RUN      ] TimeRefinement.DisabledPathUsesFineCflAndNoSubcycles
+[       OK ] TimeRefinement.DisabledPathUsesFineCflAndNoSubcycles (493 ms)
+[ RUN      ] TimeRefinement.RadiationSubcyclesAndConserves
+[       OK ] TimeRefinement.RadiationSubcyclesAndConserves (3633 ms)
+[ RUN      ] TimeRefinement.RegridAfterSubcyclingPreservesSynchronizedState
+[       OK ] TimeRefinement.RegridAfterSubcyclingPreservesSynchronizedState (551 ms)
+[ RUN      ] TimeRefinement.HaloUsesEachDonorBankAndCoarseTimeFraction
+[       OK ] TimeRefinement.HaloUsesEachDonorBankAndCoarseTimeFraction (0 ms)
+[ RUN      ] TimeRefinement.NestedThreeLevelRegistersConserve
+[       OK ] TimeRefinement.NestedThreeLevelRegistersConserve (2591 ms)
+[ RUN      ] TimeRefinement.OutflowBoundaryLedgerCoversEverySubstep
+[       OK ] TimeRefinement.OutflowBoundaryLedgerCoversEverySubstep (900 ms)
+[----------] 8 tests from TimeRefinement (12575 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (12575 ms total)
+[  PASSED  ] 8 tests.

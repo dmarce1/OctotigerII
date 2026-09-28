@@ -1,6 +1,7 @@
 # Gravity time refinement: finite-volume coupling derivation
 
-Derivation and implementation design, 2026-09-25. This document describes the
+Derivation and implementation design, 2026-09-25; cached-midpoint revision,
+2026-09-28. This document describes the
 finite-volume adaptation implemented here. Identities below are exact where
 stated; temporal-accuracy claims have explicit smoothness and stage-accuracy
 assumptions. Smooth fixed-mesh regressions support second-order convergence
@@ -350,6 +351,24 @@ interval; masks remain fixed while the corresponding interval is open.
    derivative may be old by O(H); its O(H) error is multiplied by half a substep,
    giving the O(H^2) midpoint-state error allowed below.
 
+   Both initial and midpoint reconstructions use two ghost layers. The cache
+   optimization reuses the probe's initial donor values when the corrector
+   would read them again. It retains the numerical derivative and midpoint
+   exchange. Store the complete raw halo, including prolongation donors,
+   before physical-boundary transforms. Build a separate midpoint copy by
+   adding the derivative and kinetic remainder, then prolong and transform
+   that copy at its own physical time. Reusing a transformed initial halo here
+   would change the method: reflection is not applied twice, and limiting a
+   midpoint donor differs from independently limiting its state and rate.
+
+   Cache reuse requires matching block topology, field identity, bank/content
+   version, physical time, and donor banks and interpolation fractions. The
+   source-rate field identifies the predictor interval. A new probe replaces
+   the block's cached snapshot; rollback and interval completion invalidate
+   it. Opening gravity kicks change the conservative update base and require
+   a fresh gas halo. Cache placement or work stealing must not alter which
+   physical snapshot supplies a stage.
+
    The coarse forecast used by fine halos and conventional inactive-source
    interpolation is a separate value,
 
@@ -513,6 +532,31 @@ results are in the [validation report](validation/gravity-time-integration.txt).
 This evidence supports the conditional smooth-case argument; it is not a
 general stability theorem. No symplectic property is claimed for this
 finite-volume map.
+
+**Rejected local-predictor experiment.** The alternative that evolved initial
+faces using only within-cell physical fluxes failed the required fixed-mesh
+second-order checks. Besides the difference between physical and numerical
+flux derivatives, it omitted the time evolution of reconstructed slopes.
+Writing Q(U) for the face reconstruction and R_h(U) for the full numerical
+cell derivative, the required face tangent is Q'(U) R_h(U). Evolving faces
+with a different tangent gives a generally nonzero O(H^2) local transport
+defect at fixed spatial resolution. Endpoint gravity conservation does not
+cancel it. Replacing discrete Mullen predictor work by p.g adds another
+finite-mesh discrepancy.
+
+The [migration logs](validation/local-gravity-predictor-migration.txt) preserve
+the original failed second-order assertions. The subsequent
+[local-predictor report](validation/local-gravity-predictor.txt) records
+approximately first-order fixed-mesh convergence and an independent analytic
+joint-refinement result. Those results describe the rejected method. Its
+temporarily relaxed temporal assertions have been removed; the original
+second-order thresholds are the acceptance gates for the cached numerical
+midpoint. The [cached-midpoint 3D serial validation](validation/cached-midpoint/gravity-serial-3d.md)
+reruns the original nonrotating and rotating temporal gates unchanged and
+recovers component orders approximately 2.04–2.09 in both schedules. Neither
+the earlier midpoint results nor the cache design alone establish a measured
+bandwidth or runtime improvement; request counts and their scope are recorded
+separately in that report.
 
 There is an accuracy limitation in using (11) over the whole root interval:
 it can underresolve rapidly changing fast-fast work even when momentum is

@@ -1,0 +1,41 @@
+[==========] Running 13 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 6 tests from FiniteVolume/0, where TypeParam = octotigerII::hydro::HydroSystem
+[ RUN      ] FiniteVolume/0.UniformStateIsPreservedForEveryLimiter
+[       OK ] FiniteVolume/0.UniformStateIsPreservedForEveryLimiter (35 ms)
+[ RUN      ] FiniteVolume/0.PredictorTransformationUsesCellCentersAndPreservesUpdateBase
+[       OK ] FiniteVolume/0.PredictorTransformationUsesCellCentersAndPreservesUpdateBase (6 ms)
+[ RUN      ] FiniteVolume/0.NonuniformPeriodicEvolutionConservesEveryComponent
+[       OK ] FiniteVolume/0.NonuniformPeriodicEvolutionConservesEveryComponent (44 ms)
+[ RUN      ] FiniteVolume/0.GhostRulesCoverFacesEdgesAndCorners
+[       OK ] FiniteVolume/0.GhostRulesCoverFacesEdgesAndCorners (1 ms)
+[ RUN      ] FiniteVolume/0.CflScalesWithCellWidthAndRejectsInvalidInputs
+[       OK ] FiniteVolume/0.CflScalesWithCellWidthAndRejectsInvalidInputs (3 ms)
+[ RUN      ] FiniteVolume/0.BoundaryUpdaterReceivesBeginningAndEndTimes
+[       OK ] FiniteVolume/0.BoundaryUpdaterReceivesBeginningAndEndTimes (3 ms)
+[----------] 6 tests from FiniteVolume/0 (95 ms total)
+
+[----------] 6 tests from FiniteVolume/1, where TypeParam = octotigerII::radiation::RadiationSystem
+[ RUN      ] FiniteVolume/1.UniformStateIsPreservedForEveryLimiter
+[       OK ] FiniteVolume/1.UniformStateIsPreservedForEveryLimiter (83 ms)
+[ RUN      ] FiniteVolume/1.PredictorTransformationUsesCellCentersAndPreservesUpdateBase
+[       OK ] FiniteVolume/1.PredictorTransformationUsesCellCentersAndPreservesUpdateBase (14 ms)
+[ RUN      ] FiniteVolume/1.NonuniformPeriodicEvolutionConservesEveryComponent
+[       OK ] FiniteVolume/1.NonuniformPeriodicEvolutionConservesEveryComponent (89 ms)
+[ RUN      ] FiniteVolume/1.GhostRulesCoverFacesEdgesAndCorners
+[       OK ] FiniteVolume/1.GhostRulesCoverFacesEdgesAndCorners (0 ms)
+[ RUN      ] FiniteVolume/1.CflScalesWithCellWidthAndRejectsInvalidInputs
+[       OK ] FiniteVolume/1.CflScalesWithCellWidthAndRejectsInvalidInputs (7 ms)
+[ RUN      ] FiniteVolume/1.BoundaryUpdaterReceivesBeginningAndEndTimes
+[       OK ] FiniteVolume/1.BoundaryUpdaterReceivesBeginningAndEndTimes (7 ms)
+[----------] 6 tests from FiniteVolume/1 (203 ms total)
+
+[----------] 1 test from FiniteVolumeMidpoint
+[ RUN      ] FiniteVolumeMidpoint.NumericalFluxPredictorHasSecondOrderAtFixedMesh
+Fixed-mesh explicit-midpoint density errors: 6.97462e-05, 1.72907e-05, 4.29353e-06; orders 2.01212, 2.00976
+[       OK ] FiniteVolumeMidpoint.NumericalFluxPredictorHasSecondOrderAtFixedMesh (738 ms)
+[----------] 1 test from FiniteVolumeMidpoint (738 ms total)
+
+[----------] Global test environment tear-down
+[==========] 13 tests from 3 test suites ran. (1037 ms total)
+[  PASSED  ] 13 tests.

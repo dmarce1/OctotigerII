@@ -1,0 +1,20 @@
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from LocalPredictor
+[ RUN      ] LocalPredictor.TwoGhostLayersMatchPaddedPatchWithPoisonedOuterLayers
+[       OK ] LocalPredictor.TwoGhostLayersMatchPaddedPatchWithPoisonedOuterLayers (49 ms)
+[ RUN      ] LocalPredictor.HomogeneousRelaxationMatchesOneConservativeSourceSolve
+[       OK ] LocalPredictor.HomogeneousRelaxationMatchesOneConservativeSourceSolve (48 ms)
+[ RUN      ] LocalPredictor.InadmissibleLocalDensityDriveReducesSpatialSlopes
+[       OK ] LocalPredictor.InadmissibleLocalDensityDriveReducesSpatialSlopes (1 ms)
+[ RUN      ] LocalPredictor.SharpOpacityTransitionKeepsTwoLayerUpdateAdmissibleAndConservative
+[       OK ] LocalPredictor.SharpOpacityTransitionKeepsTwoLayerUpdateAdmissibleAndConservative (70 ms)
+[ RUN      ] LocalPredictor.AnalyticExteriorSamplesCentersAndFacesAtHalfTime
+[       OK ] LocalPredictor.AnalyticExteriorSamplesCentersAndFacesAtHalfTime (0 ms)
+[ RUN      ] LocalPredictor.PhysicalExteriorMapsPredictedNormalAndTangentialTraces
+[       OK ] LocalPredictor.PhysicalExteriorMapsPredictedNormalAndTangentialTraces (0 ms)
+[----------] 6 tests from LocalPredictor (170 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (170 ms total)
+[  PASSED  ] 6 tests.

@@ -29,7 +29,7 @@ void advanceCoupledPatch(hydro::Fields const& gas, radiation::Fields const& rad,
 	units::Time dt, CoupledPatchWorkspace& workspace, Writer&& write,
 	physics::RotatingFrame const& frame = physics::RotatingFrame{}, units::Time time = {},
 	std::function<void(hydro::Fields&, radiation::Fields&, units::Time)> const& midpointBoundary = {},
-	ProblemRadiationMaterial const& prescribedMaterial = {}) {
+	ProblemRadiationMaterial const& prescribedMaterial = {}, OpacityLaw const& configuredLaw = {}) {
 	auto const& layout = gas.layout();
 	if (layout.ghostWidth() != 4 || rad.layout().ghostWidth() != 4 ||
 		layout.extents() != rad.layout().extents() || gas.cellWidth() != rad.cellWidth() || gas.lower() != rad.lower())
@@ -52,6 +52,11 @@ void advanceCoupledPatch(hydro::Fields const& gas, radiation::Fields const& rad,
 			position[d] += (storageCell[d] - patch.layout().ghostWidth() + Real(0.5)) * patch.cellWidth();
 		return prescribedMaterial ? checkedRadiationMaterial(prescribedMaterial, position, at) : RadiationMaterial{opacity, {}};
 	};
+	auto lawAt = [&](RadiationMaterial const& material) {
+		auto law = configuredLaw;
+		law.constantAbsorption = material.opacity;
+		return law;
+	};
 	auto correction = [&](hydro::Fields const& material, units::Time at) {
 		return [&, at, materialPtr = &material](RadiationSystem::Flux const& flux,
 			RadiationSystem::State const& centerLeft, RadiationSystem::State const& centerRight,
@@ -62,7 +67,8 @@ void advanceCoupledPatch(hydro::Fields const& gas, radiation::Fields const& rad,
 			MaterialVelocity lv{}, rv{};
 			for (int d = 0; d < ndim; ++d) { lv[d] = l.momentum(d) / l.density(); rv[d] = r.momentum(d) / r.density(); }
 			return diffusionCorrectedFlux(radSystem, flux, centerLeft, centerRight, faceLeft, faceRight,
-				materialAt(*materialPtr, left, at).opacity * l.density(), materialAt(*materialPtr, right, at).opacity * r.density(), lv, rv, axis, width, speed);
+				lawAt(materialAt(*materialPtr, left, at)).evaluate(l, gasSystem).fluxExtinction * l.density(),
+				lawAt(materialAt(*materialPtr, right, at)).evaluate(r, gasSystem).fluxExtinction * r.density(), lv, rv, axis, width, speed);
 		};
 	};
 	hydro::Solver::Workspace initialGasWork;
@@ -91,8 +97,8 @@ void advanceCoupledPatch(hydro::Fields const& gas, radiation::Fields const& rad,
 		auto const material = materialAt(extendedGas, extendedLayout.storageCoordinates(cell), time + dt / 4.0);
 		auto radiationDrive = RadiationSystem::integratedFlux(radDivergence, dt / (2.0 * rad.cellWidth()));
 		radiationDrive.energy() += ratio * material.photonPower * (dt / 2.0);
-		coupleForced(g, r, hydro::HydroSystem::integratedFlux(gasDivergence, dt / (2.0 * gas.cellWidth())),
-			radiationDrive, gasSystem, material.opacity, ratio, dt / 2.0);
+		coupleForcedWithOpacityLaw(g, r, hydro::HydroSystem::integratedFlux(gasDivergence, dt / (2.0 * gas.cellWidth())),
+			radiationDrive, gasSystem, lawAt(material), ratio, dt / 2.0);
 		midpointGas.values()[i] = g;
 		midpointRad.values()[i] = r;
 	});
@@ -112,7 +118,7 @@ void advanceCoupledPatch(hydro::Fields const& gas, radiation::Fields const& rad,
 		auto dr = RadiationSystem::State(transportedRad.atInterior(cell) - r);
 		auto const material = materialAt(gas, layout.storageCoordinates(cell), time + dt / 2.0);
 		dr.energy() += ratio * material.photonPower * dt;
-		coupleForced(g, r, dg, dr, gasSystem, material.opacity, ratio, dt);
+		coupleForcedWithOpacityLaw(g, r, dg, dr, gasSystem, lawAt(material), ratio, dt);
 		write(cell, g, r);
 	});
 }

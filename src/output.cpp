@@ -69,15 +69,27 @@ namespace {
 			b.layout.forEachInterior([&](auto const& cell, std::size_t i) {
 				prescribed[i] = checkedRadiationMaterial(material, b.layout.cellCenter(b.lower, b.cellWidth, cell), b.time);
 			});
-			field("radiationOpacity", "cm^2/g", false, [&](std::size_t i, int) { return prescribed[i].opacity; });
+			std::vector<radiation::GrayOpacities> opacities(prescribed.size());
+			if (c.hydroEnabled()) {
+				hydro::HydroSystem const gasSystem(c);
+				for (std::size_t i = 0; i < prescribed.size(); ++i)
+					opacities[i] = radiation::opacityLaw(c, prescribed[i].opacity).evaluate(b.hydro.values()[i], gasSystem);
+			}
+			field("radiationOpacity", "cm^2/g", false, [&](std::size_t i, int) { return opacities[i].planckAbsorption; });
+			field("radiationRosselandAbsorption", "cm^2/g", false, [&](std::size_t i, int) { return opacities[i].rosselandAbsorption; });
+			field("radiationScatteringOpacity", "cm^2/g", false, [&](std::size_t i, int) { return opacities[i].scattering; });
+			field("radiationFluxOpacity", "cm^2/g", false, [&](std::size_t i, int) { return opacities[i].fluxExtinction; });
 			field("photonHeating", "erg/(cm^3 s)", false, [&](std::size_t i, int) { return prescribed[i].photonPower; });
 		}
 		if (build::hydro && build::radiation && c.hydroEnabled() && c.radiationEnabled()) {
 			std::vector<radiation::CouplingDiagnostics> estimates;
 			estimates.reserve(b.layout.interiorCellCount());
+			hydro::HydroSystem const gasSystem(c);
 			b.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
 				auto const prescribed = checkedRadiationMaterial(material, b.layout.cellCenter(b.lower, b.cellWidth, cell), b.time);
-				estimates.push_back(radiation::couplingDiagnostics(b.hydro.values()[i], b.radiation.values()[i], b.cellWidth, c, prescribed.opacity));
+				auto const fluxOpacity = radiation::opacityLaw(c, prescribed.opacity)
+					.evaluate(b.hydro.values()[i], gasSystem).fluxExtinction;
+				estimates.push_back(radiation::couplingDiagnostics(b.hydro.values()[i], b.radiation.values()[i], b.cellWidth, c, fluxOpacity));
 			});
 			field("cellOpticalDepth", "", false, [&](std::size_t i, int) { return units::Dimensionless::from_value(estimates[i].cellOpticalDepth); });
 			field("radiationTrappingParameter", "", false, [&](std::size_t i, int) { return units::Dimensionless::from_value(estimates[i].trappingParameter); });

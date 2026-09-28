@@ -187,7 +187,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 	std::unordered_map<mesh::BlockLocation, Values, mesh::BlockLocationHash> next;
 	int const n = config_.mesh.cells / 2;
 	bool const coupled = build::hydro && build::radiation && config_.hydroEnabled() && config_.radiationEnabled()
-		&& (config_.radiation.opacity > 0 || problemHasRadiationMaterial(config_));
+		&& (radiation::radiationCouplingEnabled(config_) || problemHasRadiationMaterial(config_));
 	int const ghosts = coupled ? 4 : 2;
 	for (auto const& block : shadowBlocks_) {
 		int const level = cellLevel(block.level) - 1;
@@ -255,7 +255,8 @@ void Hierarchy::advanceOnce(units::Time dt) {
 					target.hydro = g;
 					target.radiation = r;
 					target.density = g.density();
-				}, physics::RotatingFrame(config_.frame.omega), time_, midpointBoundary, radiationMaterial_);
+				}, physics::RotatingFrame(config_.frame.omega), time_, midpointBoundary, radiationMaterial_,
+				radiation::opacityLaw(config_, radiation::Opacity::from_value(config_.radiation.opacity)));
 			gasWork = std::move(work.hydro);
 		}
 		if constexpr (build::hydro) if (config_.hydroEnabled()) {

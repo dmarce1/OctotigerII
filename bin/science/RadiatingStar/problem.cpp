@@ -3,6 +3,7 @@
  */
 #include "octotigerII/problems.hpp"
 #include "octotigerII/problems/radiatingStarStructure.hpp"
+#include "octotigerII/radiation/opacity.hpp"
 #include "octotigerII/verification/analytic.hpp"
 #include <array>
 #include <cmath>
@@ -69,7 +70,9 @@ verification::ExactState state(Config const& config, Model const& star,
 	Real const nx = R > units::Length{} ? Real(position[0] / R) : 0;
 	Real const ny = R > units::Length{} ? Real(position[1] / R) : 0;
 	if (profile.thermodynamics.density > floor.density) {
-		auto const diffusion = star.diffusion(profile, config.radiation.opacity);
+		auto const fluxOpacity = radiation::opacityLaw(config, radiation::Opacity::from_value(config.radiation.opacity))
+			.evaluate(units::value(profile.thermodynamics.density), units::value(profile.thermodynamics.temperature)).fluxExtinction;
+		auto const diffusion = star.diffusion(profile, units::value(fluxOpacity));
 		comovingFlux[0] = nx * diffusion.flux[0];
 		comovingFlux[1] = ny * diffusion.flux[0];
 		comovingFlux[2] = diffusion.flux[1];
@@ -150,8 +153,8 @@ void validateProblem(Config const& config) {
 		throw std::invalid_argument("The opaque rotating star requires gas gamma=5/3 and its explicit radiation initializer");
 	if (config.radiation.lightSpeedRatio != 1 || !config.radiation.closedBoundary)
 		throw std::invalid_argument("The opaque rotating star requires physical light speed and radiation.closedBoundary=on");
-	if (!(config.radiation.opacity > 0) || !std::isfinite(config.radiation.opacity))
-		throw std::invalid_argument("The opaque rotating star requires positive constant radiation.opacity");
+	if (config.radiation.opacityModel == "constant" && !(config.radiation.opacity + config.radiation.scatteringOpacity > 0))
+		throw std::invalid_argument("The opaque rotating star requires positive flux opacity");
 	if (config.frame.omega != units::InverseTime{}
 		|| !config.mesh.boundary.all(physics::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The insulating rotating-star benchmark requires a fixed grid with outflow gas boundaries and isolated gravity");

@@ -92,7 +92,7 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`octotigerII/hydro/dualEnergy.hpp`](../octotigerII/hydro/dualEnergy.hpp) | Entropy auxiliary conversion and synchronization rules. |
 | [`octotigerII/radiation/m1.hpp`](../octotigerII/radiation/m1.hpp) | M1 closure and HLL radiation solver in scaled calculation variables. |
 | [`octotigerII/radiation/matterCoupling.hpp`](../octotigerII/radiation/matterCoupling.hpp) | Typed local and transport-forced matter exchange interfaces. |
-| [`octotigerII/radiation/coupledPatch.hpp`](../octotigerII/radiation/coupledPatch.hpp) | Source-aware midpoint patch update used by shadows and diffusion regressions. |
+| [`octotigerII/radiation/coupledPatch.hpp`](../octotigerII/radiation/coupledPatch.hpp) | Numerical midpoint prediction and conservative coupled patch update with four supplied ghost layers for shadows and diffusion regressions. |
 | [`octotigerII/radiation/diffusionFlux.hpp`](../octotigerII/radiation/diffusionFlux.hpp) | Thick-cell face flux interpolation and moving material source equilibrium. |
 | [`octotigerII/radiation/couplingDiagnostics.hpp`](../octotigerII/radiation/couplingDiagnostics.hpp) | Nonfatal optical-depth, trapping, and reduced-speed estimates. |
 | [`octotigerII/radiation/radiationTransport.hpp`](../octotigerII/radiation/radiationTransport.hpp) | Physical radiation state, moving-face flux adapter, and timestep estimate. |
@@ -120,7 +120,7 @@ conditions, boundary state, and analytic reference. Each adjacent
 |---|---|
 | [`octotigerII/subgrid/subgrid.hpp`](../octotigerII/subgrid/subgrid.hpp) | Temporary interior snapshots for initialization, diagnostics, and output. |
 | [`octotigerII/subgrid/topology.hpp`](../octotigerII/subgrid/topology.hpp) | Block geometry, halo plans, reflux plans, and gravity-work face plans. |
-| [`octotigerII/subgrid/view.hpp`](../octotigerII/subgrid/view.hpp) | Non-owning patch views joining interiors with compact halo data. |
+| [`octotigerII/subgrid/view.hpp`](../octotigerII/subgrid/view.hpp) | Non-owning patch views, compact halo assembly, and locality halo-request counters. |
 | [`octotigerII/subgrid/fluxPacket.hpp`](../octotigerII/subgrid/fluxPacket.hpp) | Time-tagged face-flux packet values and the sole FieldFluxPacket definition. |
 | [`octotigerII/refinement/criteria.hpp`](../octotigerII/refinement/criteria.hpp) | AMR criteria inputs, thresholds, and callback interface. |
 | [`octotigerII/amr/hierarchy.hpp`](../octotigerII/amr/hierarchy.hpp) | Covered coarse-state evolution, reconstruction, conservative transfer, and startup mesh API. |
@@ -156,7 +156,7 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`src/hydro/hydroSystem.cpp`](../src/hydro/hydroSystem.cpp) | Hydro state conversions, HLLC fluxes, characteristic speeds, and limiting. |
 | [`src/radiation/radiationTransport.cpp`](../src/radiation/radiationTransport.cpp) | Radiation M1 fluxes, HLL transport, and realizability limiting. |
 | [`src/radiation/matterCoupling.cpp`](../src/radiation/matterCoupling.cpp) | Conservative implicit gray source integration with safeguarded nonlinear solves. |
-| [`src/runtime/radiation.cpp`](../src/runtime/radiation.cpp) | Distributed coupled midpoint/source stages and interval rollback. |
+| [`src/runtime/radiation.cpp`](../src/runtime/radiation.cpp) | Numerical midpoint source prediction, coupled source updates, opening-kick cache invalidation, and interval rollback. |
 | [`src/composition/species.cpp`](../src/composition/species.cpp) | Periodic-table data, species parser, validation, and initial fractions. |
 | [`src/problems/laneEmden.cpp`](../src/problems/laneEmden.cpp) | Numerical Lane–Emden integration and interpolation. |
 | [`src/subgrid.cpp`](../src/subgrid.cpp) | Snapshot allocation and initialization support. |
@@ -175,8 +175,9 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`src/storage.cpp`](../src/storage.cpp) | Storage component registration and typed HPX actions. |
 | [`src/runtime.cpp`](../src/runtime.cpp) | Runtime construction/destruction, snapshot gathering, backend identity, and public bookkeeping queries. |
 | [`src/runtime/internal.hpp`](../src/runtime/internal.hpp) | Shared private stage types, Runtime implementation state, LocalExecutor declarations, numerical/storage templates, and HPX action declarations. |
-| [`src/runtime/localExecutor.cpp`](../src/runtime/localExecutor.cpp) | Locality worker queues, halo assembly, block transport and source operations, and HPX component/action registration. |
-| [`src/runtime/stages.cpp`](../src/runtime/stages.cpp) | Stage dispatch, draining of task results and errors, completion checks, and scheduling statistics. |
+| [`src/runtime/haloCache.hpp`](../src/runtime/haloCache.hpp) | Initial halo cache formats and identity checks: first-layer physical coupled states or complete raw gravity-only donors. |
+| [`src/runtime/localExecutor.cpp`](../src/runtime/localExecutor.cpp) | Worker queues, reusable locality halo pool, probe/corrector cache affinity, transport and source operations, and HPX actions. |
+| [`src/runtime/stages.cpp`](../src/runtime/stages.cpp) | Stage dispatch and cache locality assignment, task/error draining, completion checks, and scheduling statistics. |
 | [`src/runtime/transport.cpp`](../src/runtime/transport.cpp) | Transport timestep selection, AMR subcycling, accepted-bank publication, and failed-step restoration. |
 | [`src/runtime/gravity.cpp`](../src/runtime/gravity.cpp) | Gravity rungs, force stages, endpoint energy work, gravity-field publication, and coupled-step rollback. |
 | [`src/runtime/regrid.cpp`](../src/runtime/regrid.cpp) | Mesh-selection loop, replacement of topology/field directories and executors, and combined-energy recovery after regridding. |
@@ -226,6 +227,7 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`tests/radiationDiffusionChecks.cpp`](../tests/radiationDiffusionChecks.cpp) | Transparent/thick flux limits and evolved Fourier diffusion. |
 | [`tests/radiationConservationChecks.cpp`](../tests/radiationConservationChecks.cpp) | Combined physical/weighted budgets, CSV ledgers, and diagnostic Silo roundtrip. |
 | [`tests/radiationIntegrationChecks.cpp`](../tests/radiationIntegrationChecks.cpp) | Production coupling, temporal order, rotating/AMR/gravity conservation, and atomic failure checks. |
+| [`tests/haloTrafficChecks.cpp`](../tests/haloTrafficChecks.cpp) | Halo request accounting, initial/midpoint cache reuse across worker schedules, and opening-kick invalidation. |
 | [`tests/radiationDepthChecks.cpp`](../tests/radiationDepthChecks.cpp) | Coupled predictor stability and conservation on three refinement levels. |
 | [`tests/rayleighTaylorChecks.cpp`](../tests/rayleighTaylorChecks.cpp) | Rayleigh–Taylor setup and evolution properties. |
 | [`tests/rotatingGravityChecks.cpp`](../tests/rotatingGravityChecks.cpp) | Balanced rotation work, mode conservation, AMR transitions, and temporal order. |

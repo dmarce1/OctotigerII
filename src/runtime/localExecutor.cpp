@@ -90,6 +90,47 @@ LocalExecutor::LocalExecutor(Config config, std::vector<Subgrid> blocks, FieldDi
 	if (config_.runtime.workerTasks > 0) workers = std::size_t(config_.runtime.workerTasks);
 	workers = std::max(std::size_t(1), std::min(workers, blocks_.size()));
 	workspaces_.resize(workers);
+	blockCaches_.resize(blocks_.size());
+	if (config_.hydroEnabled() && (config_.gravityEnabled() ||
+		radiation::radiationCouplingEnabled(config_) || problemHasRadiationMaterial(config_))) {
+		bool const coupled = config_.radiationEnabled() &&
+			(radiation::radiationCouplingEnabled(config_) || problemHasRadiationMaterial(config_));
+		auto const shell = mesh::MeshLayout(config_.mesh.cells, 1).cellCount() -
+			mesh::MeshLayout(config_.mesh.cells, 0).cellCount();
+		if (coupled) gasCacheCapacity_ = radiationCacheCapacity_ = shell;
+		else for (auto const& [id, plan] : plans_)
+			gasCacheCapacity_ = std::max(gasCacheCapacity_, plan.valueCount ? plan.valueCount : plan.ghostCount);
+		cachePool_.reserve(owned_.size() + workers);
+		for (std::size_t i = 0; i < owned_.size() + workers; ++i) cachePool_.push_back(makeCache());
+	}
+}
+
+std::unique_ptr<BlockHaloCache> LocalExecutor::makeCache() const {
+	auto cache = std::make_unique<BlockHaloCache>();
+	cache->gas.values.reserve(gasCacheCapacity_);
+	cache->radiation.values.reserve(radiationCacheCapacity_);
+	cache->donors.reserve(config_.amr.maxLevel + 1);
+	return cache;
+}
+
+std::unique_ptr<BlockHaloCache> LocalExecutor::acquireCache() {
+	{
+		std::lock_guard guard(queueMutex_);
+		if (!cachePool_.empty()) {
+			auto cache = std::move(cachePool_.back());
+			cachePool_.pop_back();
+			return cache;
+		}
+	}
+	// A locality can steal more probes than its initial reserve. Retain the
+	// additional buffer after use so subsequent steps reuse that capacity.
+	return makeCache();
+}
+
+void LocalExecutor::releaseCache(std::unique_ptr<BlockHaloCache>& cache) {
+	if (!cache) return;
+	std::lock_guard guard(queueMutex_);
+	cachePool_.push_back(std::move(cache));
 }
 
 void LocalExecutor::initialize() {
@@ -111,7 +152,8 @@ void LocalExecutor::initialize() {
 	}
 }
 
-void LocalExecutor::begin(std::uint64_t generation, unsigned bank, units::Time time, int level, std::vector<HaloTime> times, Real fluxWeight, SourcePredictor source) {
+void LocalExecutor::begin(std::uint64_t generation, unsigned bank, units::Time time, int level, std::vector<HaloTime> times, Real fluxWeight,
+	SourcePredictor source, Operation operation, std::vector<std::uint64_t> cachedWork) {
 	std::lock_guard guard(queueMutex_);
 	generation_ = generation;
 	bank_ = bank;
@@ -119,8 +161,17 @@ void LocalExecutor::begin(std::uint64_t generation, unsigned bank, units::Time t
 	times_ = std::move(times);
 	fluxWeight_ = fluxWeight;
 	source_ = std::move(source);
+	bool const cachedAdvance = operation == Operation::Advance && source_.referenceStep > units::Time{};
+	allowStealing_ = !cachedAdvance;
 	active_.clear();
-	for (auto id : owned_) if (level < 0 || blocks_[id].location.level == level) active_.push_back(id);
+	if (cachedAdvance) active_ = std::move(cachedWork);
+	else for (auto id : owned_) if (level < 0 || blocks_[id].location.level == level) active_.push_back(id);
+	// Phases have drained before begin. Invalidate on rollback and before a
+	// replacement probe, including caches held here for remotely owned blocks.
+	if (operation == Operation::Probe || operation == Operation::Backup || operation == Operation::Restore ||
+		operation == Operation::RestoreRadiationStep || operation == Operation::Normalize)
+		for (auto const& block : blocks_) if (level < 0 || block.location.level == level)
+			if (blockCaches_[block.id]) cachePool_.push_back(std::move(blockCaches_[block.id]));
 	next_ = 0;
 }
 
@@ -149,6 +200,7 @@ PhaseResult LocalExecutor::run(Operation operation, units::Time dt, std::uint64_
 #endif
 	PhaseResult result;
 	for (auto const& part : results) {
+		result.cachedBlocks.insert(result.cachedBlocks.end(), part.cachedBlocks.begin(), part.cachedBlocks.end());
 		result.boundary += part.boundary;
 		result.radiationSourceEnergy += part.radiationSourceEnergy;
 		result.tasks.localTasks += part.tasks.localTasks;
@@ -236,12 +288,19 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 			// Owned plans are immutable. Stolen plans have only metadata and
 			// are temporary, keeping persistent topology caches bounded.
 			std::optional<HaloPlan> temporary;
-			if (stolen) temporary = makeHaloPlan(config_, blocks_, id);
-			auto const& plan = stolen ? *temporary : plans_.at(id);
+			auto const ownedPlan = plans_.find(id);
+			if (ownedPlan == plans_.end()) temporary = makeHaloPlan(config_, blocks_, id);
+			auto const& plan = temporary ? *temporary : ownedPlan->second;
+			bool const probe = operation == Operation::Probe;
+			bool const coupled = std::get<0>(source_.radiation.gas.fields).id != 0;
+			auto& cache = blockCaches_[id];
+			bool const reuse = !probe && cache && cache->matches(time_, source_.referenceStep,
+				std::get<0>(source_.increment.fields).id, bank_, times_, source_.radiation.cacheInitialGasInvalid);
 			if constexpr (build::hydro) if (config_.hydroEnabled()) {
 				workspace.hydro.advance(block, fields_.hydro, plan, hydro::HydroSystem(config_), bank_, dt, time_, hydroBoundary_,
 					fields_.hydroFlux, config_.amr.enabled, times_, source_.increment, source_.referenceStep, physics::RotatingFrame(config_.frame.omega),
-					source_.radiation.gas, nullptr, {}, 0, {}, source_.radiation.limiterInterval);
+					source_.radiation.gas, nullptr, {}, 0, {}, source_.radiation.limiterInterval, {},
+					reuse && !source_.radiation.cacheInitialGasInvalid ? &cache->gas : nullptr, probe && !coupled);
 				if (config_.massFractions.enabled || config_.gravityEnabled()) {
 					auto stored = fields_.massFlux.output(block.massFlux, 0);
 					for (int d = 0; d < ndim; ++d)
@@ -253,14 +312,15 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 				if (config_.massFractions.enabled && operation != Operation::Probe) advanceSpecies(block, plan, dt, workspace.hydro.ghosts);
 				result.boundary += workspace.hydro.boundaryTransport(block, config_.mesh.boundary, dt);
 			}
-			bool const coupled = std::get<0>(source_.radiation.gas.fields).id != 0;
 			if constexpr (build::radiation) if (config_.radiationEnabled() && (operation != Operation::Probe || coupled)) {
 				workspace.radiation.advance(block, fields_.radiation, plan, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
 					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}),
 					bank_, dt, time_, radiationBoundary_, fields_.radiationFlux, config_.amr.enabled, times_, {}, {}, physics::RotatingFrame(config_.frame.omega),
 					source_.radiation.radiation, coupled ? &config_ : nullptr,
 					coupled && dt > units::Time{} ? source_.radiation.gas : fields_.hydro,
-					coupled && dt > units::Time{} ? 1 : bank_, hydroBoundary_, source_.radiation.limiterInterval, radiationMaterial_);
+					coupled && dt > units::Time{} ? 1 : bank_, hydroBoundary_, source_.radiation.limiterInterval, radiationMaterial_,
+					reuse && coupled ? &cache->radiation : nullptr, false,
+					coupled ? (probe ? &workspace.hydro.ghosts : &workspace.hydro.midpointGhosts) : nullptr);
 				result.boundary += workspace.radiation.boundaryTransport(block, config_.mesh.boundary, dt);
 				if (operation == Operation::Probe && coupled) {
 					auto rate = source_.radiation.radiationRate.output(block.interior, 0);
@@ -278,6 +338,15 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 			}
 			if (build::gravity && config_.gravityEnabled()) copyFields(fields_.gravity, block.interior, bank_);
 			if (fluxWeight_ > 0 && operation != Operation::Probe) accumulateFlux(block);
+			if (probe) {
+				cache = acquireCache();
+				cache->time = time_; cache->referenceStep = source_.referenceStep;
+				cache->rateId = std::get<0>(source_.increment.fields).id;
+				cache->bank = bank_; cache->donors = times_;
+				cache->gas.save(block, plan, coupled ? workspace.hydro.ghosts : workspace.hydro.rawInitial, coupled);
+				if (coupled) cache->radiation.save(block, plan, workspace.radiation.ghosts, true);
+				result.cachedBlocks.push_back(id);
+			} else releaseCache(cache);
 		} else if (operation == Operation::Reflux || operation == Operation::RefluxTracked) {
 			auto const plan = !config_.amr.enabled ? std::vector<FluxCorrection>{} :
 				(stolen ? makeRefluxPlan(config_, blocks_, id) : refluxPlans_.at(id));
@@ -307,7 +376,9 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 		} else {
 			throw std::logic_error("Gravity kicks are not part of this executable");
 		}
-		if (stolen)
+		// A cached corrector can be assigned here after its probe was stolen.
+		// Statistics describe execution locality, including that affinity work.
+		if (block.interior.partition != owner_)
 			++result.tasks.stolenTasks;
 		else
 			++result.tasks.localTasks;
@@ -330,7 +401,7 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 		processWithContext(work.front(), false);
 	}
 #ifdef OCTOTIGERII_WITH_HPX
-	if (config_.runtime.workStealing)
+	if (config_.runtime.workStealing && allowStealing_)
 		for (std::size_t distance = 1; distance < executors.size(); ++distance) {
 			auto const donor = (owner_ + distance) % executors.size();
 			for (;;) {

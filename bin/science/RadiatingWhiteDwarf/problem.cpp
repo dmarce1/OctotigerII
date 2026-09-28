@@ -78,7 +78,7 @@ verification::ExactState state(Config const& config,Model const& star,
 	Real const nx=R>units::Length{}?Real(position[0]/R):0;
 	Real const ny=R>units::Length{}?Real(position[1]/R):0;
 	if(profile.density>floorDensity){
-		auto const diffusion=star.diffusionFlux(profile,config.radiation.opacity);
+		auto const diffusion=star.diffusionFlux(profile,config.radiation.opacity+config.radiation.scatteringOpacity);
 		comovingFlux[0]=nx*diffusion[0];
 		comovingFlux[1]=ny*diffusion[0];
 		comovingFlux[2]=diffusion[1];
@@ -152,8 +152,9 @@ void validateProblem(Config const& config) {
 		|| !config.hydro.dualEnergy.enabled || config.radiation.enabled)
 		throw std::invalid_argument("The rotating WD requires cold-electron/ideal-ion EOS, gamma=5/3, dual energy, and explicit M1 moments");
 	if(config.radiation.lightSpeedRatio!=1 || !config.radiation.closedBoundary ||
-		!(config.radiation.opacity>0) || !std::isfinite(config.radiation.opacity))
-		throw std::invalid_argument("The rotating WD requires full light speed and positive gray absorption with a closed radiation boundary");
+		config.radiation.opacityModel != "constant" ||
+		!(config.radiation.opacity + config.radiation.scatteringOpacity > 0))
+		throw std::invalid_argument("The rotating WD requires full light speed, positive constant flux opacity, and a closed radiation boundary");
 	if(config.frame.omega!=units::InverseTime{} ||
 		!config.mesh.boundary.all(physics::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The rotating WD uses an inertial grid and outflow gas boundaries");

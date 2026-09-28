@@ -1,0 +1,162 @@
+Locality 0:
+Enabling memory tracking!
+          (            )
+   (      )\ )      ( /(
+   )\    (()/( (    )\())
+((((_)(   /(_)))\  ((_)\
+ )\ _ )\ (_)) ((_) __((_)
+ (_)_\(_)| _ \| __|\ \/ /
+  / _ \  |  _/| _|  >  <
+ /_/ \_\ |_|  |___|/_/\_\
+APEX Version: v1.11.0-c9b81b4-HEAD
+Built on: 17:54:25 Sep 26 2026 (Release)
+C++ Language Standard version : 202002
+GCC Compiler version : 13.3.0
+Configured features: Pthread, PLUGINS
+
+[==========] Running 5 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 5 tests from HaloTraffic
+[ RUN      ] HaloTraffic.CountsRequestedRangesAndTimeEndpoints
+halo endpoint requests: values=24 remote_values=8 remote_payload_bytes=64
+[       OK ] HaloTraffic.CountsRequestedRangesAndTimeEndpoints (1 ms)
+[ RUN      ] HaloTraffic.ExpandsDerivedColumnsIntoTheirActualSourceReads
+[       OK ] HaloTraffic.ExpandsDerivedColumnsIntoTheirActualSourceReads (3 ms)
+[ RUN      ] HaloTraffic.AnalyticBoundariesRequestNoDonorValues
+[       OK ] HaloTraffic.AnalyticBoundariesRequestNoDonorValues (0 ms)
+[ RUN      ] HaloTraffic.CoupledStepReusesInitialAndMidpointHalosAcrossWorkerSchedules
+cached midpoint halo step=0 dimensions=1 localities=2 workers=1 stealing=0 opening_kick=0 calls=8 field_reads=32 values=128 remote_field_reads=32 remote_values=128 remote_payload_bytes=1024 initial_and_midpoint_expected_values=128 legacy_5gas_3rad_calculated_values=288
+cached midpoint halo step=1 dimensions=1 localities=2 workers=1 stealing=0 opening_kick=0 calls=8 field_reads=32 values=128 remote_field_reads=32 remote_values=128 remote_payload_bytes=1024 initial_and_midpoint_expected_values=128 legacy_5gas_3rad_calculated_values=288
+{config}:
+Core library:
+  HPX_AGAS_LOCAL_CACHE_SIZE=4096
+  HPX_HAVE_MALLOC=system
+  HPX_PARCEL_MAX_CONNECTIONS=512
+  HPX_PARCEL_MAX_CONNECTIONS_PER_LOCALITY=4
+  HPX_PREFIX (configured)=
+  HPX_PREFIX=
+
+  HPX_FILESYSTEM_WITH_BOOST_FILESYSTEM_COMPATIBILITY=OFF
+  HPX_ITERATOR_SUPPORT_WITH_BOOST_ITERATOR_TRAVERSAL_TAG_COMPATIBILITY=OFF
+  HPX_WITH_AGAS_DUMP_REFCNT_ENTRIES=OFF
+  HPX_WITH_APEX=ON
+  HPX_WITH_APEX_NO_UPDATE=OFF
+  HPX_WITH_ASYNC_MPI=OFF
+  HPX_WITH_ATTACH_DEBUGGER_ON_TEST_FAILURE=OFF
+  HPX_WITH_AUTOMATIC_SERIALIZATION_REGISTRATION=ON
+  HPX_WITH_COROUTINE_COUNTERS=OFF
+  HPX_WITH_DISTRIBUTED_RUNTIME=ON
+  HPX_WITH_DYNAMIC_HPX_MAIN=ON
+  HPX_WITH_FETCH_STDEXEC=OFF
+  HPX_WITH_IO_COUNTERS=ON
+  HPX_WITH_IO_POOL=ON
+  HPX_WITH_ITTNOTIFY=OFF
+  HPX_WITH_LOGGING=ON
+  HPX_WITH_NETWORKING=ON
+  HPX_WITH_PAPI=OFF
+  HPX_WITH_PARALLEL_TESTS_BIND_NONE=OFF
+  HPX_WITH_PARCELPORT_ACTION_COUNTERS=OFF
+  HPX_WITH_PARCELPORT_COUNTERS=OFF
+  HPX_WITH_PARCELPORT_GASNET=OFF
+  HPX_WITH_PARCELPORT_LCI=OFF
+  HPX_WITH_PARCELPORT_LIBFABRIC=OFF
+  HPX_WITH_PARCELPORT_MPI=OFF
+  HPX_WITH_PARCELPORT_TCP=ON
+  HPX_WITH_PARCEL_COALESCING=ON
+  HPX_WITH_PARCEL_PROFILING=ON
+  HPX_WITH_SANITIZERS=OFF
+  HPX_WITH_SCHEDULER_LOCAL_STORAGE=OFF
+  HPX_WITH_SPINLOCK_DEADLOCK_DETECTION=OFF
+  HPX_WITH_STACKTRACES=ON
+  HPX_WITH_STACKTRACES_DEMANGLE_SYMBOLS=ON
+  HPX_WITH_STACKTRACES_STATIC_SYMBOLS=OFF
+  HPX_WITH_STDEXEC=OFF
+  HPX_WITH_TESTS_DEBUG_LOG=OFF
+  HPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION=OFF
+  HPX_WITH_THREAD_CREATION_AND_CLEANUP_RATES=OFF
+  HPX_WITH_THREAD_CUMULATIVE_COUNTS=ON
+  HPX_WITH_THREAD_DEBUG_INFO=OFF
+  HPX_WITH_THREAD_DESCRIPTION_FULL=OFF
+  HPX_WITH_THREAD_GUARD_PAGE=ON
+  HPX_WITH_THREAD_IDLE_RATES=OFF
+  HPX_WITH_THREAD_LOCAL_STORAGE=OFF
+  HPX_WITH_THREAD_MANAGER_IDLE_BACKOFF=ON
+  HPX_WITH_THREAD_QUEUE_WAITTIME=OFF
+  HPX_WITH_THREAD_STACK_MMAP=ON
+  HPX_WITH_THREAD_STEALING_COUNTS=OFF
+  HPX_WITH_THREAD_TARGET_ADDRESS=OFF
+  HPX_WITH_TIMER_POOL=ON
+  HPX_WITH_TUPLE_RVALUE_SWAP=ON
+  HPX_WITH_VALGRIND=OFF
+  HPX_WITH_VERIFY_LOCKS=OFF
+  HPX_WITH_VERIFY_LOCKS_BACKTRACE=OFF
+  HPX_WITH_WORK_REQUESTING_SCHEDULERS=ON
+
+Module allocator_support:
+  HPX_ALLOCATOR_SUPPORT_WITH_CACHING=ON
+
+Module command_line_handling_local:
+  HPX_COMMAND_LINE_HANDLING_LOCAL_WITH_JSON_CONFIGURATION_FILES=OFF
+
+Module coroutines:
+  HPX_COROUTINES_WITH_SWAP_CONTEXT_EMULATION=OFF
+  HPX_COROUTINES_WITH_THREAD_SCHEDULE_HINT_RUNS_AS_CHILD=OFF
+
+Module datastructures:
+  HPX_DATASTRUCTURES_WITH_ADAPT_STD_TUPLE=ON
+  HPX_DATASTRUCTURES_WITH_ADAPT_STD_VARIANT=OFF
+
+Module logging:
+  HPX_LOGGING_WITH_SEPARATE_DESTINATIONS=ON
+
+Module serialization:
+  HPX_SERIALIZATION_WITH_ALLOW_CONST_TUPLE_MEMBERS=OFF
+  HPX_SERIALIZATION_WITH_ALLOW_RAW_POINTER_SERIALIZATION=OFF
+  HPX_SERIALIZATION_WITH_ALL_TYPES_ARE_BITWISE_SERIALIZABLE=OFF
+  HPX_SERIALIZATION_WITH_BOOST_TYPES=OFF
+  HPX_SERIALIZATION_WITH_SUPPORTS_ENDIANESS=OFF
+
+Module topology:
+  HPX_TOPOLOGY_WITH_ADDITIONAL_HWLOC_TESTING=OFF
+
+{version}: V1.11.0 (AGAS: V3.0), Git: c9b81b401f
+{boost}: V1.83.0
+{build-type}: release
+{date}: Sep 26 2026 17:51:21
+{platform}: linux
+{compiler}: GNU C++ version 13.3.0
+{stdlib}: GNU libstdc++ version 20240904
+
+{stack-trace}: 19 frames:
+0x72afad645330  : /lib/x86_64-linux-gnu/libc.so.6(+0x45330) [0x72afad645330] in /lib/x86_64-linux-gnu/libc.so.6
+0x61cd8ac1fe76  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x35ee76) [0x61cd8ac1fe76] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8a9613e0  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0xa03e0) [0x61cd8a9613e0] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8ac36a41  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x375a41) [0x61cd8ac36a41] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8ac254aa  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x3644aa) [0x61cd8ac254aa] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8ac2587a  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x36487a) [0x61cd8ac2587a] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8ac25e51  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x364e51) [0x61cd8ac25e51] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8ac2d77f  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x36c77f) [0x61cd8ac2d77f] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8ac2601c  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x36501c) [0x61cd8ac2601c] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8a9e6eaa  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x125eaa) [0x61cd8a9e6eaa] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x61cd8a9e6ad8  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x125ad8) [0x61cd8a9e6ad8] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x72afaeb909b9  : hpx::detail::init_helper(hpx::program_options::variables_map&, hpx::function<int (int, char**), false> const&) [0x389] in /home/dmarce1/workspace/OctotigerII/packages/release/hpx/install/lib/libhpx_core.so
+0x61cd8a9e7036  : /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d(+0x126036) [0x61cd8a9e7036] in /tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d
+0x72afaec31e8b  : hpx::runtime::run_helper(hpx::function<int (), false> const&, int&, bool, void (*)(unsigned long)) [0xeb] in /home/dmarce1/workspace/OctotigerII/packages/release/hpx/install/lib/libhpx_core.so
+0x72afaf4dc848  : hpx::runtime_distributed::run_helper(hpx::function<int (), false> const&, int&) [0x198] in /home/dmarce1/workspace/OctotigerII/packages/release/hpx/install/lib/libhpx.so.1
+0x72afaf4e4e36  : /home/dmarce1/workspace/OctotigerII/packages/release/hpx/install/lib/libhpx.so.1(+0x6e4e36) [0x72afaf4e4e36] in /home/dmarce1/workspace/OctotigerII/packages/release/hpx/install/lib/libhpx.so.1
+0x72afaeb33465  : hpx::threads::coroutines::detail::coroutine_impl::operator()() [0x105] in /home/dmarce1/workspace/OctotigerII/packages/release/hpx/install/lib/libhpx_core.so
+0x72afaeb3240f  : /home/dmarce1/workspace/OctotigerII/packages/release/hpx/install/lib/libhpx_core.so(+0x13240f) [0x72afaeb3240f] in /home/dmarce1/workspace/OctotigerII/packages/release/hpx/install/lib/libhpx_core.so
+{what}: Segmentation fault
+Locality 1:
+Traceback (most recent call last):
+  File "/home/dmarce1/workspace/OctotigerII/tests/distributed.py", line 55, in <module>
+    run(sys.argv[1], sys.argv[2:], count)
+  File "/home/dmarce1/workspace/OctotigerII/tests/distributed.py", line 39, in run
+    statuses = [process.wait(timeout=300) for process in processes]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2045, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['/tmp/octoii-radiation-hpx/1d/tests/haloTrafficChecks-1d', '--hpx:localities=2', '--hpx:threads=2', '--hpx:bind=none', '--hpx:agas=127.0.0.1:60589', '--hpx:ini=hpx.parcel.message_handlers=1', '--hpx:ini=hpx.parcel.zero_copy_serialization_threshold=1', '--hpx:hpx=127.0.0.1:48785', '--hpx:worker']' timed out after 300 seconds

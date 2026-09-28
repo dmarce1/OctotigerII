@@ -257,6 +257,31 @@ public:
 	template <typename Patch, typename Writer, typename PredictorState, typename FaceCorrector>
 	void advanceInto(Patch const& patch, units::Time stepSize, Workspace& workspace, Writer&& write,
 		PredictorState&& predictorState, bool hancock, FaceCorrector&& correctFaceFlux, units::Time limiterInterval = {}) const {
+		reconstructInto(patch, hancock ? stepSize : units::Time{}, workspace, predictorState);
+		advancePredictedInto(patch, stepSize, workspace, std::forward<Writer>(write), predictorState,
+			std::forward<FaceCorrector>(correctFaceFlux), limiterInterval);
+	}
+
+	/// Reconstruct once using two ghost layers. A local source predictor may
+	/// subsequently evolve these face states without reconstructing midpoint cells.
+	template <typename Patch, typename PredictorState>
+	void reconstructInto(Patch const& patch, units::Time stepSize, Workspace& workspace, PredictorState&& predictorState) const {
+		if (patch.layout().ghostWidth() < 2) throw std::invalid_argument("MUSCL-Hancock needs two ghost cells");
+		if (!(stepSize >= units::Time{}) || !units::finite(stepSize)) throw std::invalid_argument("Invalid predictor interval");
+		for (int axis = 0; axis < ndim; ++axis) {
+			workspace.minus[axis].resize(patch.layout().cellCount());
+			workspace.plus[axis].resize(patch.layout().cellCount());
+		}
+		profiling::Region profile("transport.reconstruct_predict");
+		predictFaceStates(patch, stepSize, workspace.minus, workspace.plus, predictorState);
+	}
+
+	/// Conservative shared-face update from already predicted face states.
+	/// The supplied center states are used only by face corrections; the original
+	/// patch remains the update/positivity base. This performs no reconstruction.
+	template <typename Patch, typename Writer, typename PredictorState, typename FaceCorrector>
+	void advancePredictedInto(Patch const& patch, units::Time stepSize, Workspace& workspace, Writer&& write,
+		PredictorState&& predictorState, FaceCorrector&& correctFaceFlux, units::Time limiterInterval = {}) const {
 		mesh::MeshLayout const& layout = patch.layout();
 		if (layout.ghostWidth() < 2) throw std::invalid_argument("MUSCL-Hancock needs two ghost cells");
 		// A zero interval evaluates instantaneous numerical fluxes for source predictors.
@@ -265,14 +290,9 @@ public:
 		auto const limiterStep = stepSize > units::Time{} ? stepSize : limiterInterval;
 		auto& minus = workspace.minus;
 		auto& plus = workspace.plus;
-		for (int axis = 0; axis < ndim; ++axis) {
-			minus[axis].resize(layout.cellCount());
-			plus[axis].resize(layout.cellCount());
-		}
-		{
-			profiling::Region profile("transport.reconstruct_predict");
-			predictFaceStates(patch, hancock ? stepSize : units::Time{}, minus, plus, predictorState);
-		}
+		for (int axis = 0; axis < ndim; ++axis)
+			if (minus[axis].size() != layout.cellCount() || plus[axis].size() != layout.cellCount())
+				throw std::invalid_argument("Missing local face prediction");
 
 		auto& fluxes = workspace.fluxes;
 		{
@@ -355,6 +375,30 @@ public:
 			}
 			write(cell, candidate);
 		});
+	}
+
+	/// Within-cell physical flux difference from the initial reconstructed faces.
+	/// Unlike a numerical flux divergence, this has no additional neighbor stencil.
+	template <typename Patch>
+	Flux localFluxDifference(Patch const& patch, mesh::Coordinates const& cell, Workspace const& workspace) const {
+		auto const index = patch.layout().index(cell);
+		Flux result{};
+		for (int axis = 0; axis < ndim; ++axis) {
+			auto const& lower = workspace.minus[axis][index];
+			auto const& upper = workspace.plus[axis][index];
+			if (!frame_.active()) result += system_.physicalFlux(lower, axis) - system_.physicalFlux(upper, axis);
+			else {
+				auto face = cell;
+				for (int d = 0; d < ndim; ++d) face[d] -= patch.layout().ghostWidth();
+				auto const lowerSpeed = frame_.normalSpeed(facePosition(patch, face, axis), axis);
+				++face[axis];
+				auto const upperSpeed = frame_.normalSpeed(facePosition(patch, face, axis), axis);
+				auto const flux = system_.physicalFlux(frame_.toGridState(lower, stageBegin_), axis, lowerSpeed)
+					- system_.physicalFlux(frame_.toGridState(upper, stageBegin_), axis, upperSpeed);
+				result += frame_.toInertialState(flux, stageBegin_);
+			}
+		}
+		return result;
 	}
 
 private:

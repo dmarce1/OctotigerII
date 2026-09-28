@@ -1,0 +1,35 @@
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from PhotonHeating
+[ RUN      ] PhotonHeating.ExistingProblemsKeepConstantOpacityAndNoPhotonSource
+[       OK ] PhotonHeating.ExistingProblemsKeepConstantOpacityAndNoPhotonSource (0 ms)
+[ RUN      ] PhotonHeating.PrescribedPhotonDriveHasCorrectReducedSpeedEnergyAndNoDirectMomentum
+[       OK ] PhotonHeating.PrescribedPhotonDriveHasCorrectReducedSpeedEnergyAndNoDirectMomentum (74 ms)
+[ RUN      ] PhotonHeating.NegativePrescribedHeatingOrOpacityIsRejected
+[       OK ] PhotonHeating.NegativePrescribedHeatingOrOpacityIsRejected (0 ms)
+[ RUN      ] PhotonHeating.CsvSeparatesPrescribedSourceFromBoundaryTransport
+[       OK ] PhotonHeating.CsvSeparatesPrescribedSourceFromBoundaryTransport (0 ms)
+[ RUN      ] PhotonHeating.OpticalDepthDiagnosticUsesPrescribedLocalOpacity
+[       OK ] PhotonHeating.OpticalDepthDiagnosticUsesPrescribedLocalOpacity (0 ms)
+[ RUN      ] PhotonHeating.TransparentRuntimeInjectsAtZeroOpacityAndRunReportsItsLedger
+photon-source energy residual ratio=1 opacity=0 residual=1.88542e-16
+photon-source energy residual ratio=0.2 opacity=0 residual=0
+[       OK ] PhotonHeating.TransparentRuntimeInjectsAtZeroOpacityAndRunReportsItsLedger (21 ms)
+[ RUN      ] PhotonHeating.AcceptedSourceLedgerSurvivesSubcyclingAndRegridding
+photon-source energy residual ratio=1 opacity=1 residual=0
+photon-source energy residual ratio=1 opacity=1 residual=0
+photon-source energy residual ratio=1 opacity=1 residual=1.88542e-16
+photon-source energy residual ratio=0.2 opacity=1 residual=1.50213e-16
+photon-source energy residual ratio=0.2 opacity=1 residual=1.50213e-16
+photon-source energy residual ratio=0.2 opacity=1 residual=1.50213e-16
+photon-source energy residual ratio=0.2 opacity=0 residual=1.50213e-16
+photon-source energy residual ratio=0.2 opacity=0 residual=1.50213e-16
+photon-source energy residual ratio=0.2 opacity=0 residual=1.50213e-16
+[       OK ] PhotonHeating.AcceptedSourceLedgerSurvivesSubcyclingAndRegridding (7660 ms)
+[ RUN      ] PhotonHeating.FailedNumericalIntervalRestoresPhotonLedgerAndState
+[       OK ] PhotonHeating.FailedNumericalIntervalRestoresPhotonLedgerAndState (9293 ms)
+[----------] 8 tests from PhotonHeating (17050 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (17050 ms total)
+[  PASSED  ] 8 tests.

@@ -53,6 +53,58 @@ TEST(RadiationCoupling, ThermalEquilibriumRemainsStationaryForStiffSteps) {
 	}
 }
 
+TEST(RadiationCoupling, AnalyticMeansSeparateThermalAbsorptionAndFluxExtinction) {
+	OpacityLaw law;
+	law.ionizedGas = true;
+	law.hydrogenFraction = 0.7;
+	law.metalFraction = 0.02;
+	auto const means = law.evaluate(1e-7, 1e5);
+	Real const rosseland = 3.68e22 * 1.7 * 0.98 * 1e-7 * std::pow(1e5, -3.5);
+	EXPECT_NEAR(units::value(means.planckAbsorption), 37 * rosseland, 1e-13 * 37 * rosseland);
+	EXPECT_NEAR(units::value(means.fluxExtinction), rosseland + 0.34, 1e-13);
+	EXPECT_NEAR(units::value(means.rosselandAbsorption), rosseland, 1e-13 * rosseland);
+	EXPECT_NEAR(units::value(means.scattering), 0.34, 1e-13);
+	EXPECT_NEAR(units::value(law.evaluate(2e-7, 1e5).planckAbsorption),
+		2 * units::value(means.planckAbsorption), 1e-13 * units::value(means.planckAbsorption));
+	EXPECT_NEAR(units::value(law.evaluate(1e-7, 2e5).planckAbsorption),
+		std::pow(2, -3.5) * units::value(means.planckAbsorption), 1e-13 * units::value(means.planckAbsorption));
+	EXPECT_NEAR(units::value(law.evaluate(1e-7, 1e5, 0.5).fluxExtinction), rosseland + 0.2, 1e-13);
+}
+
+TEST(RadiationCoupling, ElasticScatteringTransfersMomentumWithoutStationaryHeating) {
+	hydro::HydroSystem system;
+	auto gas = gasState(system);
+	auto rad = radiationState(0.5);
+	rad.radiativeFlux(0) = 0.1 * constants::c * rad.energy();
+	auto const beforeGas = gas;
+	auto const beforeRad = rad;
+	OpacityLaw law;
+	law.constantScattering = Opacity::from_value(opacityValue);
+	coupleWithOpacityLaw(gas, rad, system, law, 1, interval(0.2));
+	EXPECT_NEAR(units::value(rad.energy() / beforeRad.energy()), 1, 1e-9);
+	EXPECT_NEAR(units::value(rad.radiativeFlux(0) / beforeRad.radiativeFlux(0)), std::exp(-0.2), 5e-4);
+	EXPECT_GT(gas.momentum(0), beforeGas.momentum(0));
+	invariants(beforeGas, beforeRad, gas, rad, 1);
+}
+
+TEST(RadiationCoupling, AnalyticOpacityPreservesStreamingConeWithLargePlanckMean) {
+	hydro::HydroSystem system;
+	auto gas = gasState(system);
+	auto rad = radiationState(100);
+	rad.radiativeFlux(0) = 0.9999 * constants::c * rad.energy();
+	auto const beforeGas = gas;
+	auto const beforeRad = rad;
+	OpacityLaw law;
+	law.ionizedGas = true;
+	auto const means = law.evaluate(gas, system);
+	ASSERT_GT(means.planckAbsorption, means.fluxExtinction);
+	auto const step = units::Time::from_value(0.01 /
+		(units::value(constants::c) * density * units::value(means.planckAbsorption)));
+	ASSERT_NO_THROW(coupleWithOpacityLaw(gas, rad, system, law, 1, step));
+	EXPECT_TRUE(RadiationSystem(constants::c).admissible(rad));
+	invariants(beforeGas, beforeRad, gas, rad, 1);
+}
+
 TEST(RadiationCoupling, LorentzBoostedLteRemainsStationaryForStiffSteps) {
 	hydro::HydroSystem system;
 	for (Real ratio : {1.0, 0.125}) for (Real beta : {0.001, 0.05}) for (Real depth : {1e-6, 1.0, 1e9}) {

@@ -1,0 +1,39 @@
+[==========] Running 2 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 2 tests from RadiationDepth
+[ RUN      ] RadiationDepth.SmoothMatterUsesReportedCflWithThreeLevels
+/home/dmarce1/workspace/OctotigerII/tests/radiationDepthChecks.cpp:44: Failure
+Expected: (dt) <= (2.0 * finest * (1 + 64 * epsilonR)), actual: 8-byte object <D2-57 42-44 E6-3D 19-3F> vs 8-byte object <37-58 42-44 E6-3D 09-3F>
+
+/home/dmarce1/workspace/OctotigerII/tests/radiationDepthChecks.cpp:45: Failure
+Expected: (dt) < (coarsest), actual: 8-byte object <D2-57 42-44 E6-3D 19-3F> vs 8-byte object <D2-57 42-44 E6-3D 19-3F>
+
+Three-level coupled radiation-matter step=0 dt=9.62898e-05
+/home/dmarce1/workspace/OctotigerII/tests/radiationDepthChecks.cpp:44: Failure
+Expected: (dt) <= (2.0 * finest * (1 + 64 * epsilonR)), actual: 8-byte object <65-C3 C9-E4 7E-30 19-3F> vs 8-byte object <50-2A 57-96 50-32 09-3F>
+
+Three-level coupled radiation-matter step=1 dt=9.60901e-05
+[  FAILED  ] RadiationDepth.SmoothMatterUsesReportedCflWithThreeLevels (12084 ms)
+[ RUN      ] RadiationDepth.StellarSurfaceUsesReportedCflWithThreeLevels
+/home/dmarce1/workspace/OctotigerII/tests/radiationDepthChecks.cpp:44: Failure
+Expected: (dt) <= (2.0 * finest * (1 + 64 * epsilonR)), actual: 8-byte object <A8-79 90-A7 87-8D 6F-3F> vs 8-byte object <26-7A 90-A7 87-8D 5F-3F>
+
+/home/dmarce1/workspace/OctotigerII/tests/radiationDepthChecks.cpp:45: Failure
+Expected: (dt) < (coarsest), actual: 8-byte object <A8-79 90-A7 87-8D 6F-3F> vs 8-byte object <A8-79 90-A7 87-8D 6F-3F>
+
+Three-level coupled polytrope step=0 dt=0.00385167
+/home/dmarce1/workspace/OctotigerII/tests/radiationDepthChecks.cpp:44: Failure
+Expected: (dt) <= (2.0 * finest * (1 + 64 * epsilonR)), actual: 8-byte object <45-46 29-53 1A-5D 69-3F> vs 8-byte object <EE-6D E6-E1 7A-73 5F-3F>
+
+Three-level coupled polytrope step=1 dt=0.00309615
+[  FAILED  ] RadiationDepth.StellarSurfaceUsesReportedCflWithThreeLevels (22047 ms)
+[----------] 2 tests from RadiationDepth (34132 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test suite ran. (34132 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 2 tests, listed below:
+[  FAILED  ] RadiationDepth.SmoothMatterUsesReportedCflWithThreeLevels
+[  FAILED  ] RadiationDepth.StellarSurfaceUsesReportedCflWithThreeLevels
+
+ 2 FAILED TESTS

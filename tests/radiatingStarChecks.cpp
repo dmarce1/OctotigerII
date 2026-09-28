@@ -2,6 +2,7 @@
 #include "octotigerII/problems.hpp"
 #include "octotigerII/problems/radiatingStarStructure.hpp"
 #include "octotigerII/radiation/m1.hpp"
+#include "octotigerII/radiation/opacity.hpp"
 #include "octotigerII/runtime.hpp"
 #include "octotigerII/simulation.hpp"
 #include "octotigerII/verification/analytic.hpp"
@@ -51,6 +52,27 @@ TEST(RadiatingStar, DefaultsUseFullLightSpeedUniformOpacityAndNoPhotonSource) {
 			EXPECT_EQ(value(m.photonPower), 0);
 		}
 	}
+}
+
+TEST(RadiatingStar, AnalyticOpacitySelectsStateDependentModelWithoutDefaultConstant) {
+	auto const c = test::parseConfig({"--radiation.opacityModel=ionized-gas", "--mesh.cells=4",
+		"--amr.enabled=off", "--output.enabled=off", "--runtime.stopTime=0"});
+	EXPECT_EQ(c.radiation.opacity, 0);
+	EXPECT_EQ(c.radiation.opacityModel, "ionized-gas");
+	EXPECT_TRUE(radiation::radiationCouplingEnabled(c));
+	EXPECT_THROW(test::parseConfig({"--radiation.opacityModel=ionized-gas", "--radiation.opacity=0.34"}), std::invalid_argument);
+	auto const fixed = configuration();
+	mesh::PhysicalCoordinates x{};
+	x[0] = 0.3 * fixed.star.radius;
+	auto const fixedState = problemBoundary(fixed)(x, {});
+	auto const analyticState = problemBoundary(c)(x, {});
+	auto const gasTemperature = analyticState.hydro.pressure() * c.hydro.meanMolecularWeight * constants::atomicMassUnit
+		/ (analyticState.hydro.density() * constants::boltzmann);
+	auto const extinction = radiation::opacityLaw(c, {}).evaluate(value(analyticState.hydro.density()),
+		value(gasTemperature)).fluxExtinction;
+	ASSERT_NE(fixedState.radiation.radiativeFlux(0), units::EnergyFlux{});
+	EXPECT_NEAR(value(analyticState.radiation.radiativeFlux(0) / fixedState.radiation.radiativeFlux(0)),
+		0.34 / value(extinction), 1e-10);
 }
 
 TEST(RadiatingStar, BoostedDiffusionMomentsHaveConsistentThermalAndMechanicalForces) {
