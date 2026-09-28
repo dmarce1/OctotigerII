@@ -41,7 +41,7 @@ ctest --test-dir ~/workspace/OctotigerII/release --output-on-failure -j 2
 
 To build HPX locally first, use `~/workspace/OctotigerII/build.sh release -j 12`.
 The helper shares dependencies under `packages/TYPE` and builds all dimensions
-in `TYPE/`. `--problem`, `--ndim`, and `` are no longer build options.
+in `TYPE/`. `--problem`, `--ndim`, and `--tests-only` are no longer build options.
 Use a fresh directory when migrating from an old problem-specific build.
 The old `OCTOTIGERII_PROBLEM` and `OCTOTIGERII_NDIM` cache choices are rejected.
 
@@ -169,11 +169,12 @@ AMR frames declare changing metadata and connectivity so VisIt refreshes its
 domain list after regridding.
 
 Each example has its own relative `output.directory`; paths are relative to
-the working directory. Frame zero and the final frame are always written;
-`output.every` selects the intervening step cadence. Step summaries appear
+the working directory. With Silo output enabled, frame zero and the final
+frame are written; `output.every` selects the intervening step cadence. Step summaries appear
 on the terminal. Rerunning in the same directory overwrites matching filenames;
-choose a new directory to retain an earlier run. Output is visualization,
-not a restart checkpoint. `output.enabled=off` creates no output files.
+choose a new directory to retain an earlier run. Silo output is visualization,
+not a restart checkpoint. `output.enabled=off` suppresses Silo output, while
+conservation diagnostics still write `conservation.csv`.
 
 The 1D/2D integrated diagnostics use a unit transverse measure: 1D totals
 describe a 1 cm² area, and 2D totals describe a 1 cm thickness. There are no
@@ -182,7 +183,7 @@ in every dimension. Numerical totals match the previous per-unit convention.
 Open boundaries can change integrated quantities. No conserved gravitational
 field energy is reported.
 
-## Small architecture
+## Architecture
 
 - `storage::StoragePartition` owns typed columns shared by all enabled physics.
   `Field<T>` allocates a scalar column with configurable banks; transport uses two.
@@ -260,27 +261,35 @@ The entropy auxiliary remains in hydro.
 
 ## Dual energy
 
-[Dual-energy hydrodynamics](docs/dual-energy.md) is on by default. The auxiliary
-is `A = rho (u/rho^gamma)^alpha` in CGS, with `alpha=1` by default. Pressure and
-temperature use total-energy subtraction above a thermal fraction of `0.001`;
-A is reset from that subtraction only above `0.1`, after each timestep's AMR
-flux corrections. Set `hydro.dualEnergy.exponent` to any finite nonzero value
-or `hydro.dualEnergy.enabled=off` to use total energy alone.
+[Dual-energy hydrodynamics](docs/dual-energy.md) is on by default. The ideal
+and white-dwarf closures advect `A = rho (u/rho^gamma)^alpha` in CGS, with
+`alpha=1` by default; `hydro.dualEnergy.exponent` accepts any finite nonzero
+value for these closures. Helmholtz instead advects EOS entropy as
+`A = rho s/s0`, with `s0=1e8 erg/(g K)`, and requires `alpha=1`.
+The default pressure-selection and auxiliary-sync thresholds are `0.001`
+and `0.1`. Helmholtz measures resolved thermal energy above its configured
+temperature-floor energy. Synchronization follows accepted AMR flux corrections.
+Set `hydro.dualEnergy.enabled=off` to use total energy alone.
 
-## Scope of this first version
+## Current scope
 
-Included: CPU numerics, 1D/2D/3D adaptive Cartesian meshes, per-face periodic/reflecting/outflow/inflow/analytic transport,
-3D gravity with periodic/reflecting images, uniform external acceleration, shared or level-refined timesteps,
-distributed field storage and locality work queues, evolved coarse shadows,
-conservative prolongation/restriction and refluxing, Morton-ordered regridding,
-an independent adaptive FMM octree, rigidly rotating grids with inertial conserved
-quantities, the original rotating-star equilibrium, and Silo output.
+Included: CPU numerics; 1D/2D/3D adaptive Cartesian meshes; per-face
+periodic/reflecting/outflow/inflow/analytic transport; 3D gravity with
+periodic/reflecting images; uniform external acceleration; globally synchronized
+or dyadic AMR level timesteps; distributed field storage and locality work
+queues; evolved coarse shadows; conservative prolongation/restriction and
+refluxing; Morton-ordered regridding; an independent adaptive FMM octree;
+rigidly rotating grids with inertial conserved quantities; the imported
+rotating-star equilibrium; ideal, white-dwarf, and opt-in composition-dependent
+Helmholtz EOS closures; constant and analytic state-dependent gray opacities;
+and Silo output.
 
-Omitted: CUDA, HIP, Kokkos, Vc, CPPuddle, Unitiger, the old FMM, old problems
-and test harnesses, an SCF equilibrium solver, binary-star setup, composition-dependent/degenerate
-EOS, variable/multigroup radiation opacities, separate radiation subcycling,
-temporal AMR, checkpoints,
-and old command-line compatibility.
+Omitted: CUDA, HIP, Kokkos, Vc, CPPuddle, Unitiger, the old Cartesian Taylor
+gravity backend, the full legacy problem and test suite, an SCF equilibrium
+solver, binary-star setup, tabulated stellar opacities, multigroup radiation
+transport, independent gas/radiation substeps within one spatial level,
+independent per-cell timesteps, checkpoint/restart, and full legacy CLI/build
+compatibility. The documented legacy option aliases remain accepted.
 
 Transport fetches only the required halo ranges. The application FMM partitions
 moments and local expansions at every tree level across HPX localities. Bounded
@@ -356,7 +365,7 @@ hydro and gravity are active. See [docs/conservation.md](docs/conservation.md).
 
 Headers live directly under `octotigerII/`; the source root is the include path.
 
-### Level-wise time refinement
+## Level-wise time refinement
 
 AMR transport uses dyadic level subcycling by default. Every cell on a spatial
 level shares a timestep; the runtime selects 1/2, 1/4, 1/8, etc. from the CFL
@@ -382,7 +391,7 @@ original numerical-midpoint baseline (the 3D baseline is calculated). These
 request counts do not establish whole-application bandwidth or speedup; see
 [halo accounting](docs/halo-communication-accounting.md).
 
-## Standalone Helmholtz EOS library
+## Helmholtz EOS library and hydro closure
 
 `lib/helmholtz` contains the separate C++ library translated from F. X. Timmes's
 Fortran, with the original statements preserved in comments. It defaults to

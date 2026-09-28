@@ -17,7 +17,7 @@ Reduced-dimensional cell masses retain the existing unit transverse measure.
 | `mesh.level` | problem default | Required base block level during startup |
 | `amr.minLevel` | `-1` | Minimum level; `-1` uses `mesh.level` |
 | `amr.maxLevel` | `6` | Maximum block level, at most 16 |
-| `amr.regridEvery` | `4` | Maximum timesteps between refinement checks |
+| `amr.regridEvery` | `4` | Maximum synchronization intervals between refinement checks |
 | `amr.refineDensity` | `0` | Density threshold in g/cm³; zero disables density refinement |
 | `amr.maxCellMass` | `0` | Maximum cell mass in grams; zero disables this criterion |
 | `amr.shadowTolerance` | `0.05` | Relative fine/shadow difference; zero disables this criterion |
@@ -46,7 +46,7 @@ The complete input is `examples/rayleigh-taylor-amr.ini`. After building:
 
 ```bash
 release/octoII-3d --problem.name=rayleigh-taylor \
-  --problem.name=rayleigh-taylor --config=examples/rayleigh-taylor-amr.ini
+  --config=examples/rayleigh-taylor-amr.ini
 ```
 
 Open `output/rayleigh-taylor-amr/frames.visit` in VisIt. Rayleigh–Taylor requires
@@ -118,8 +118,10 @@ calibrated Richardson estimate with a guaranteed error constant.
 ## Independently evolved shadows
 
 The hierarchy starts with conservative volume averages of active cells.
-Coarse states used by the refinement estimator are advanced independently with the same hydro/radiation
-MUSCL–Hancock kernels and synchronized physical timestep. Shadow patches exist
+Coarse states used by the refinement estimator are advanced independently with
+the same hydro/radiation kernels. With time refinement, shadow states are
+CFL-subcycled over each synchronization interval; global runs use a shared
+physical timestep. Shadow patches exist
 on leaf blocks and their ancestors, with half as many cells per axis; this also
 provides a coarse comparison inside an unrefined root block. Neighboring shadow
 states supply their boundaries. Where that level has no shadow coverage,
@@ -127,8 +129,8 @@ active/coarser states supply boundary data.
 
 Gravity kicks also act on shadow hydro states. Their acceleration comes from
 the restricted physical gravity field plus the configured external acceleration.
-Active leaf entries are refreshed after a transport step, while covered coarse
-states retain their independent evolution. Refinement checks compare against
+Active leaf entries are refreshed after an accepted synchronization interval,
+while covered coarse states retain their independent evolution. Refinement checks compare against
 those evolved states **before** replacing them with fresh conservative averages
 for the next comparison interval. Shadows are never additional gravity masses,
 physical transport cells, or contributions to output integrals.
@@ -154,11 +156,13 @@ ignore a depleted travel budget.
 
 ## Conservative transport and transactional regridding
 
-The transport timestep is shared by all spatial levels. Fine-to-coarse ghost
-values are volume averages. Coarse-to-fine ghosts use limited linear
-reconstruction in conserved variables with a common admissibility limiter.
-Fine boundary fluxes replace the corresponding coarse flux by an area-weighted
-reflux correction before the output bank is published. The correction preserves
+With AMR, transport uses dyadic level subcycling by default; cells at the same
+spatial level share a timestep. `timestep.refinement=off` or imposed external
+acceleration selects globally synchronized steps. Fine-to-coarse ghost values
+are volume averages. Coarse-to-fine ghosts use limited linear reconstruction
+in conserved variables with a common admissibility limiter. Fine substep flux
+integrals accumulate in registers; area-weighted reflux corrects the coarse
+state after its finer levels reach the same endpoint. The correction preserves
 mass, momentum, gas energy, radiation energy, and radiation flux integrals to
 roundoff for closed/periodic transport. Physical boundary fluxes and gravity
 source terms retain their usual effects.
@@ -195,12 +199,15 @@ continuum norms; the continuum comparison remains volume-weighted.
 
 ## Current limits
 
-There is no time subcycling or restart format. Refinement decisions, transfer
-planning, and shadow storage use the coordinating locality and temporary
-snapshots; they are not yet a distributed persistent mesh directory. Active
-transport, flux reconciliation, and gravity run through the distributed field
-store. Hydro self gravity retains the existing kinetic-energy kick and is not
-an exactly energy-conserving gravity discretization.
+Level subcycling does not provide an independent timestep for every cell;
+there is no restart format. Refinement decisions, transfer planning, and
+shadow storage use the coordinating locality and temporary snapshots; they
+are not yet a distributed persistent mesh directory. Active transport, flux
+reconciliation, and gravity run through the distributed field store.
+Self-gravity defaults to the mass-flux energy treatment; kinetic-work kicks
+remain available with `gravity.energyTreatment=naive`. See
+[time refinement](time-refinement.md) and [gravity energy](gravity-energy.md)
+for their schedules and accounting limits.
 
 VisIt files contain active leaves only and include `refinementLevel` when AMR
 is enabled. This supports mixed cell widths without overlapping coarse output.
