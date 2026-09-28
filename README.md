@@ -1,9 +1,15 @@
 # OctotigerII
 
-A new, deliberately small CPU project built from the modular Octo-TIGER
-numerical kernels and the separate diagonal Cartesian FMM. This is a new
-application and CMake project, not a compatibility mode inside Octo-TIGER.
-The source archive includes the project's Git history.
+<p align="center">
+  <img src="docs/images/octotigerII-logo.png" alt="OctotigerII logo" width="400">
+</p>
+
+A standalone, multidimensional astrophysics application built from modular
+Octo-TIGER numerical kernels and a separate diagonal Cartesian FMM. It has
+grown well beyond its initial small-project scope, with 1D, 2D, and 3D builds
+and a broad set of hydrodynamics, radiation, gravity, and stellar-problem
+modules. It is a distinct application and CMake project, not a compatibility
+mode inside Octo-TIGER. The source archive includes the project's Git history.
 
 ## License
 
