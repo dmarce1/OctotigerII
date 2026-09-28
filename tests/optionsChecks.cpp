@@ -184,8 +184,9 @@ TEST(OptionValues, RadiationMatterControlsValidateAndPreserveUncoupledDefaults) 
 	EXPECT_FALSE(baseline.radiation.enabled);
 	EXPECT_EQ(baseline.radiation.opacity, 0);
 	for (auto const* option : {"--radiation.opacity=-1", "--radiation.diagnosticLength=-1", "--radiation.initialEnergyRatio=-1",
-		"--radiation.opacity=nan", "--radiation.diagnosticLength=inf"})
+		"--radiation.opacity=nan", "--radiation.diagnosticLength=inf"}) {
 		EXPECT_THROW(test::parseConfig({option}), std::exception);
+	}
 	if constexpr (build::hydro && build::radiation) {
 		auto c = octotigerII::parseConfig({"--problem.name=sod", "--radiation.enabled=on", "--radiation.opacity=0.4",
 			"--radiation.diagnosticLength=1e8", "--radiation.initialEnergyRatio=0.5"});

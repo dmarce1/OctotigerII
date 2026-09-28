@@ -35,25 +35,27 @@ Snapshot initialSnapshot(Config const& c, mesh::BlockLocation location, bool ref
 	if constexpr (build::hydro) if (c.massFractions.enabled) {
 		if (data_.species.empty()) for (auto const& species : c.massFractions.species) {
 			data_.species.emplace_back(data_.layout, data_.cellWidth, data_.lower);
-			for (std::size_t i = 0; i < data_.hydro.values().size(); ++i)
+			for (std::size_t i = 0; i < data_.hydro.values().size(); ++i) {
 				data_.species.back().values()[i] = species.initialFraction * data_.hydro.values()[i].density();
+			}
 		}
 		if (data_.species.size() != c.massFractions.species.size()) throw std::invalid_argument("Problem species field count mismatch");
 		for (auto const& species : data_.species) {
 			if (species.values().size() != data_.hydro.values().size()) throw std::invalid_argument("Problem species field size mismatch");
-			for (auto value : species.values())
+			for (auto value : species.values()) {
 				if (!units::finite(value) || value < units::Density{}) throw std::invalid_argument("Problem species density must be finite and nonnegative");
+			}
 		}
 		for (std::size_t i = 0; i < data_.hydro.values().size(); ++i) {
 			units::Density rho{};
-			for (std::size_t s = 0; s < data_.species.size(); ++s) if (!c.massFractions.species[s].tracer()) rho += data_.species[s].values()[i];
+			for (std::size_t s = 0; s < data_.species.size(); ++s) { if (!c.massFractions.species[s].tracer()) rho += data_.species[s].values()[i]; }
 			if (!(rho > units::Density{})) throw std::invalid_argument("Problem material density must be positive");
             auto& state = data_.hydro.values()[i];
             hydro::HydroSystem const gas(c);
             auto const original = gas.helmholtz() ? gas.reconstructionVariables(state) : hydro::PrimitiveState{};
             state.density() = rho;
             std::vector<units::Density> species;
-            for (auto const& field : data_.species) species.push_back(field.values()[i]);
+            for (auto const& field : data_.species) { species.push_back(field.values()[i]); }
             gas.setComposition(state,species,c.massFractions);
             if (gas.helmholtz()) {
                 auto primitive = original;
@@ -70,14 +72,15 @@ Snapshot initialSnapshot(Config const& c, mesh::BlockLocation location, bool ref
 			auto const temperature = gas.temperature(material);
 			auto const thermalEnergy = c.radiation.initialEnergyRatio * constants::radiation * boost::units::pow<4>(temperature);
 			radiation::MaterialVelocity velocity{};
-			for (int d = 0; d < ndim; ++d) velocity[d] = material.momentum(d) / material.density();
+			for (int d = 0; d < ndim; ++d) { velocity[d] = material.momentum(d) / material.density(); }
 			// Match the retained mixed-frame source equations. At ratio one both
 			// local exchange rates vanish; this does not imply spatial equilibrium.
 			auto const unitEnergy = units::EnergyDensity::from_value(1);
 			auto const unit = radiation::materialEquilibriumMoments(unitEnergy, velocity);
 			Real workFraction = 0;
-			for (int d = 0; d < ndim; ++d)
+			for (int d = 0; d < ndim; ++d) {
 				workFraction += Real(velocity[d] * unit.radiativeFlux(d) / (constants::c * constants::c * unitEnergy));
+			}
 			data_.radiation.values()[i] = radiation::materialEquilibriumMoments(thermalEnergy / (1 - workFraction), velocity);
 		}
 	}

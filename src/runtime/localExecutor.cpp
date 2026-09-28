@@ -98,10 +98,11 @@ LocalExecutor::LocalExecutor(Config config, std::vector<Subgrid> blocks, FieldDi
 		auto const shell = mesh::MeshLayout(config_.mesh.cells, 1).cellCount() -
 			mesh::MeshLayout(config_.mesh.cells, 0).cellCount();
 		if (coupled) gasCacheCapacity_ = radiationCacheCapacity_ = shell;
-		else for (auto const& [id, plan] : plans_)
+		else for (auto const& [id, plan] : plans_) {
 			gasCacheCapacity_ = std::max(gasCacheCapacity_, plan.valueCount ? plan.valueCount : plan.ghostCount);
+		}
 		cachePool_.reserve(owned_.size() + workers);
-		for (std::size_t i = 0; i < owned_.size() + workers; ++i) cachePool_.push_back(makeCache());
+		for (std::size_t i = 0; i < owned_.size() + workers; ++i) { cachePool_.push_back(makeCache()); }
 	}
 }
 
@@ -165,13 +166,14 @@ void LocalExecutor::begin(std::uint64_t generation, unsigned bank, units::Time t
 	allowStealing_ = !cachedAdvance;
 	active_.clear();
 	if (cachedAdvance) active_ = std::move(cachedWork);
-	else for (auto id : owned_) if (level < 0 || blocks_[id].location.level == level) active_.push_back(id);
+	else for (auto id : owned_) { if (level < 0 || blocks_[id].location.level == level) active_.push_back(id); }
 	// Phases have drained before begin. Invalidate on rollback and before a
 	// replacement probe, including caches held here for remotely owned blocks.
 	if (operation == Operation::Probe || operation == Operation::Backup || operation == Operation::Restore ||
 		operation == Operation::RestoreRadiationStep || operation == Operation::Normalize)
-		for (auto const& block : blocks_) if (level < 0 || block.location.level == level)
+		for (auto const& block : blocks_) { if (level < 0 || block.location.level == level)
 			if (blockCaches_[block.id]) cachePool_.push_back(std::move(blockCaches_[block.id]));
+		}
 	next_ = 0;
 }
 

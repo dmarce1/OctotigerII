@@ -48,7 +48,7 @@ std::shared_ptr<Model const> model(Config const& config) {
 }
 
 mesh::PhysicalCoordinates relativePosition(Config const& config, mesh::PhysicalCoordinates position) {
-	for (int axis = 0; axis < ndim; ++axis) position[axis] -= config.star.center[axis];
+	for (int axis = 0; axis < ndim; ++axis) { position[axis] -= config.star.center[axis]; }
 	return position;
 }
 
@@ -136,8 +136,9 @@ void validateProblem(Config const& config) {
 		throw std::invalid_argument("Invalid radiating-star numerical atmosphere fraction");
 	if (!config.mesh.boundary.all(physics::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The rotating radiating star requires outflow transport boundaries and isolated gravity");
-	for (auto center : config.star.center)
+	for (auto center : config.star.center) {
 		if (!units::finite(center)) throw std::invalid_argument("Nonfinite stellar center");
+	}
 	if (config.frame.omega != units::InverseTime{}
 		&& (config.star.center[0] != units::Length{} || config.star.center[1] != units::Length{}))
 		throw std::invalid_argument("The prescribed rotating-star material must be centered on the grid rotation axis");
@@ -160,12 +161,13 @@ void validateProblem(Config const& config) {
 	}
 	if (farthest > star->maximumRadius())
 		throw std::invalid_argument("The rotating reference table must cover every corner of the simulation box");
-	for (int axis = 0; axis < ndim; ++axis) for (auto face : {config.mesh.lower, config.mesh.upper}) {
+	for (int axis = 0; axis < ndim; ++axis) { for (auto face : {config.mesh.lower, config.mesh.upper}) {
 		auto point = config.star.center;
 		point[axis] = face;
 		auto const x = relativePosition(config, point);
 		if (star->sample(units::hypot(x[0], x[1]), x[2]).density > units::Density{})
 			throw std::invalid_argument("The complete rotating star must fit inside the domain");
+	}
 	}
 	if (config.star.atmosphereFraction * config.star.centralDensity < units::Density::from_value(1e-14))
 		throw std::invalid_argument("The stellar numerical atmosphere falls below the hydro density floor");

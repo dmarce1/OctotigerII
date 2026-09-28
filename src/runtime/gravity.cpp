@@ -332,7 +332,7 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 		// The halo forecast uses the accepted initial numerical RHS. The raw
 		// coarse transport endpoint has not been refluxed and is only O(H)
 		// accurate at a refinement boundary, even with a midpoint flux.
-		for (auto const& b : topology->blocks()) if (!coupledStep && b.location.level == level) {
+		for (auto const& b : topology->blocks()) { if (!coupledStep && b.location.level == level) {
 			auto old = fields->directory().hydro.read(b.interior, state.bank).get();
 			auto rate = interval.rate.handle().read(b.interior, 0).get();
 			auto out = fields->directory().hydro.output(b.interior, 3);
@@ -351,6 +351,7 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 			}
 			fields->directory().hydro.commit(b.interior, 3, out);
 			if (build::radiation && config.radiationEnabled()) copyFields(fields->directory().radiation, b.interior, state.bank ^ 1, 3);
+		}
 		}
 		if (coupledStep) phase(Operation::ForecastRadiationStep, step, level, now);
 		state.predictorBank = 3;

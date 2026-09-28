@@ -19,7 +19,7 @@ TEST_P(LightSpeed, IsotropicClosureHasPressureOneThirdAndAcousticWaves) {
 	for (int normal = 0; normal < ndim; ++normal) {
 		auto const waves = M1::physicalFlux(u, normal, chat);
 		EXPECT_EQ(waves.flux[0], units::EnergyFlux{});
-		for (int d = 0; d < ndim; ++d) EXPECT_NEAR(units::value(waves.flux[d + 1] / chat), d == normal ? 1 : 0, 1e-14);
+		for (int d = 0; d < ndim; ++d) { EXPECT_NEAR(units::value(waves.flux[d + 1] / chat), d == normal ? 1 : 0, 1e-14); }
 		EXPECT_NEAR(Real(waves.minus / chat), -1 / std::sqrt(3.0), 1e-14);
 		EXPECT_NEAR(Real(waves.plus / chat), 1 / std::sqrt(3.0), 1e-14);
 	}
@@ -29,7 +29,7 @@ TEST_P(LightSpeed, IsotropicClosureHasPressureOneThirdAndAcousticWaves) {
 TEST_P(LightSpeed, StreamingClosureAndHllUseCorrectPropagationDirection) {
 	auto const chat = GetParam() * constants::c;
 	RadiationSystem system(chat);
-	for (int normal = 0; normal < ndim; ++normal) for (Real sign : {-1.0, 1.0}) {
+	for (int normal = 0; normal < ndim; ++normal) { for (Real sign : {-1.0, 1.0}) {
 		RadiationSystem::State u;
 		u.energy() = units::EnergyDensity::from_value(2);
 		u.radiativeFlux(normal) = sign * constants::c * u.energy();
@@ -41,6 +41,7 @@ TEST_P(LightSpeed, StreamingClosureAndHllUseCorrectPropagationDirection) {
 		EXPECT_NEAR(units::value(flux.radiativeFlux(normal) / (chat * constants::c)), 2, 1e-14);
 		test::expectStateNear(system.riemann(u, 3.0 * u, normal), system.physicalFlux(sign > 0 ? u : RadiationSystem::State(3.0 * u), normal));
 	}
+	}
 }
 
 
@@ -50,8 +51,8 @@ TEST_P(LightSpeed, ObliqueClosureIsSymmetricTraceOneAndCausal) {
 		M1::State u;
 		u[0] = units::EnergyDensity::from_value(7);
 		Real norm = 0;
-		for (int d = 0; d < ndim; ++d) norm += (d + 1) * (d + 1);
-		for (int d = 0; d < ndim; ++d) u[d + 1] = u[0] * (reduced * (d + 1) / std::sqrt(norm));
+		for (int d = 0; d < ndim; ++d) { norm += (d + 1) * (d + 1); }
+		for (int d = 0; d < ndim; ++d) { u[d + 1] = u[0] * (reduced * (d + 1) / std::sqrt(norm)); }
 		Real trace = 0;
 		for (int a = 0; a < ndim; ++a) {
 			auto const f = M1::physicalFlux(u, a, chat);
@@ -89,7 +90,7 @@ TEST(Radiation, VacuumFluxAndPhysicalFluxRoundTrip) {
 	for (int axis = 0; axis < ndim; ++axis) {
 		auto const reflected = system.reflected(u, axis);
 		EXPECT_EQ(reflected.energy(), u.energy());
-		for (int d = 0; d < ndim; ++d) EXPECT_EQ(reflected.radiativeFlux(d), (d == axis ? -1.0 : 1.0) * u.radiativeFlux(d));
+		for (int d = 0; d < ndim; ++d) { EXPECT_EQ(reflected.radiativeFlux(d), (d == axis ? -1.0 : 1.0) * u.radiativeFlux(d)); }
 		test::expectStateNear(system.reflected(reflected, axis), u, 0);
 	}
 }
@@ -129,9 +130,10 @@ TEST(Radiation, RoundoffRepairDoesNotHidePhysicalViolations) {
 
 
 TEST(Radiation, RejectsInvalidSpeedAndAxis) {
-	for (Real speed : {Real(0), Real(-1), std::numeric_limits<Real>::infinity(), std::numeric_limits<Real>::quiet_NaN()})
+	for (Real speed : {Real(0), Real(-1), std::numeric_limits<Real>::infinity(), std::numeric_limits<Real>::quiet_NaN()}) {
 		EXPECT_THROW(RadiationSystem{units::Velocity::from_value(speed)}, std::invalid_argument);
-	for (int axis : {-1, ndim}) EXPECT_THROW(M1::physicalFlux({}, axis, constants::c), std::invalid_argument);
+	}
+	for (int axis : {-1, ndim}) { EXPECT_THROW(M1::physicalFlux({}, axis, constants::c), std::invalid_argument); }
 }
 
 } // namespace
@@ -202,14 +204,14 @@ TEST(Radiation, ConservativeInterpolationKeepsConeMarginForRotatedHalos) {
 		RadiationSystem::State sum{};
 		for (int slot = 0; slot < (1 << ndim); ++slot) {
 			std::array<Real, ndim> offset{};
-			for (int d = 0; d < ndim; ++d) offset[d] = slot & (1 << d) ? radius : -radius;
+			for (int d = 0; d < ndim; ++d) { offset[d] = slot & (1 << d) ? radius : -radius; }
 			auto const child = amr::interpolate(center, slopes, offset, system);
 			EXPECT_TRUE(system.admissibleInterpolation(child));
 			sum += child;
 			if constexpr (ndim >= 2) {
 				physics::RotatingFrame const frame(units::InverseTime::from_value(.3));
 				auto const rotated = frame.toGridState(child, units::Time::from_value(.7));
-				for (int axis = 0; axis < ndim; ++axis) EXPECT_NO_THROW(system.physicalFlux(rotated, axis));
+				for (int axis = 0; axis < ndim; ++axis) { EXPECT_NO_THROW(system.physicalFlux(rotated, axis)); }
 			}
 		}
 		test::expectStateNear(sum / Real(1 << ndim), center, 0);

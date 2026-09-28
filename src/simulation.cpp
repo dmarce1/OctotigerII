@@ -37,8 +37,9 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 				add(d.norm.gasEnergy, compensation.norm.gasEnergy, volume * units::abs(u.totalEnergy()));
 				add(d.gasEnergy, compensation.gasEnergy, volume * u.totalEnergy());
 				units::EnergyDensity kinetic{};
-				for (int axis = 0; axis < ndim; ++axis)
+				for (int axis = 0; axis < ndim; ++axis) {
 					kinetic += 0.5 * u.momentum(axis) * u.momentum(axis) / u.density();
+				}
 				add(d.kineticEnergy, compensation.kineticEnergy, volume * kinetic);
 				add(d.thermalEnergy, compensation.thermalEnergy, volume * gas.internalEnergy(u));
 				add(d.gasGravityNorm, compensation.gasGravityNorm, volume * units::abs(u.totalEnergy()));
@@ -74,8 +75,9 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 				}
 				d.minimumRadiationEnergy = std::min(d.minimumRadiationEnergy, u.energy());
 				units::EnergyFlux magnitude{};
-				for (int axis = 0; axis < ndim; ++axis)
+				for (int axis = 0; axis < ndim; ++axis) {
 					magnitude = units::hypot(magnitude, u.radiativeFlux(axis));
+				}
 				Real const f = u.energy() > units::EnergyDensity{} ? Real(magnitude / (constants::c * u.energy())) : 0;
 				d.maximumReducedFlux = std::max(d.maximumReducedFlux, f);
 				if constexpr (ndim >= 2) {

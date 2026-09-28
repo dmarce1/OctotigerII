@@ -91,7 +91,7 @@ TEST(RadiatingStar, BoostedDiffusionMomentsHaveConsistentThermalAndMechanicalFor
 		Real const B = value(constants::radiation * boost::units::pow<4>(T));
 		Real const E = value(q.radiation.energy()), light = value(constants::c);
 		Real vF = 0;
-		for (int d = 0; d < ndim; ++d) vF += value(q.hydro.velocity(d)) * value(q.radiation.radiativeFlux(d));
+		for (int d = 0; d < ndim; ++d) { vF += value(q.hydro.velocity(d)) * value(q.radiation.radiativeFlux(d)); }
 		EXPECT_NEAR((E - B - vF / (light * light)) / E, 0, 3e-14);
 		if (fraction < .9) {
 			EXPECT_NEAR(Real(q.hydro.velocity(0) / (-star.angularVelocity() * x[1])), 1, 3e-14);
@@ -112,7 +112,7 @@ TEST(RadiatingStar, BoostedDiffusionMomentsHaveConsistentThermalAndMechanicalFor
 	for (int axis = 0; axis < ndim; ++axis) {
 		auto const pressure = radiation::M1::physicalFlux(calc, axis, constants::c).flux;
 		Real Pv = 0;
-		for (int d = 0; d < ndim; ++d) Pv += value(pressure[d+1] / constants::c) * value(q.hydro.velocity(d));
+		for (int d = 0; d < ndim; ++d) { Pv += value(pressure[d+1] / constants::c) * value(q.hydro.velocity(d)); }
 		Real const force = c.radiation.opacity * rho / light
 			* (value(q.radiation.radiativeFlux(axis)) - Pv - B * value(q.hydro.velocity(axis)));
 		auto low = x, high = x; low[axis] -= spacing; high[axis] += spacing;

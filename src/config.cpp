@@ -465,7 +465,7 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		Real const halfWidth = config.problem == "radiatingStar" ? 1.2 : 2.0;
 		if (!lowerSet) config.mesh.lower = -halfWidth * config.star.radius;
 		if (!upperSet) config.mesh.upper = halfWidth * config.star.radius;
-		for (int d=0;d<ndim;++d) if (!centerSet[d]) config.star.center[d]=(config.mesh.lower+config.mesh.upper)/2.0;
+		for (int d=0;d<ndim;++d) { if (!centerSet[d]) config.star.center[d]=(config.mesh.lower+config.mesh.upper)/2.0; }
 		if (!gammaSet) config.hydro.gamma=Real(5)/3;
 		if (!densitySet) config.amr.refineDensity=0.001*config.star.centralDensity;
 		if (config.problem == "radiatingStar") {
@@ -491,7 +491,7 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		config.star.radius=star.sphericalRadius();
 		if (!lowerSet) config.mesh.lower=-1.2*config.star.radius;
 		if (!upperSet) config.mesh.upper=1.2*config.star.radius;
-		for(int d=0;d<ndim;++d)if(!centerSet[d])config.star.center[d]=(config.mesh.lower+config.mesh.upper)/Real(2);
+		for(int d=0;d<ndim;++d) {if(!centerSet[d])config.star.center[d]=(config.mesh.lower+config.mesh.upper)/Real(2); }
 		if (!gammaSet) config.hydro.gamma=Real(5)/3;
 		if (!densitySet) config.amr.refineDensity=0.001*config.star.centralDensity;
 		if (!opacitySet && config.radiation.opacityModel == "constant") config.radiation.opacity=0.2;

@@ -73,10 +73,10 @@ RadiatingStarAtmosphere::RadiatingStarAtmosphere(Parameters p) : parameters_(p),
 	auto integrate=[&](std::vector<Node>& nodes, std::array<Real,3> initial, Real initialRadius, Real target, bool core) {
 		auto rhs=[&](Vector const& x,Vector& dx,Real r) {
 			auto const result=core?coreRhs(r,{x[0],x[1],x[2]}):envelopeRhs(r,{x[0],x[1],x[2]});
-			for(int k=0;k<3;++k)dx[k]=result[k];
+			for(int k=0;k<3;++k) {dx[k]=result[k]; }
 		};
 		auto jacobian=[&](Vector const& x,Matrix& jac,Real r,Vector& dr) {
-			for(int i=0;i<3;++i)for(int j=0;j<3;++j)jac(i,j)=0;
+			for(int i=0;i<3;++i) {for(int j=0;j<3;++j) {jac(i,j)=0; } }
 			Real const n1=p.eos.index+1;
 			if(core){
 				Real const rho=x[0],m=x[1],f=x[2],chi=opacity(rho)*rho;
@@ -112,20 +112,20 @@ RadiatingStarAtmosphere::RadiatingStarAtmosphere(Parameters p) : parameters_(p),
 				rhs(z,f,r);jacobian(z,j,r,dr);
 				Real a[3][4]{};
 				for(int row=0;row<3;++row){
-					for(int col=0;col<3;++col)a[row][col]=(row==col?1:0)-h*j(row,col);
+					for(int col=0;col<3;++col) {a[row][col]=(row==col?1:0)-h*j(row,col); }
 					a[row][3]=base[row]+h*f[row]-z[row];
 				}
 				for(int k=0;k<3;++k){
-					int pivot=k;for(int row=k+1;row<3;++row)if(std::abs(a[row][k])>std::abs(a[pivot][k]))pivot=row;
-					for(int col=k;col<4;++col)std::swap(a[k][col],a[pivot][col]);
+					int pivot=k;for(int row=k+1;row<3;++row) {if(std::abs(a[row][k])>std::abs(a[pivot][k]))pivot=row; }
+					for(int col=k;col<4;++col) {std::swap(a[k][col],a[pivot][col]); }
 					if(!(std::abs(a[k][k])>0))throw std::runtime_error("Singular radiating-star radial Newton stage");
-					for(int row=k+1;row<3;++row){Real const ratio=a[row][k]/a[k][k];for(int col=k;col<4;++col)a[row][col]-=ratio*a[k][col];}
+					for(int row=k+1;row<3;++row){Real const ratio=a[row][k]/a[k][k];for(int col=k;col<4;++col) {a[row][col]-=ratio*a[k][col]; }}
 				}
-				Real change[3]{};for(int k=2;k>=0;--k){Real q=a[k][3];for(int col=k+1;col<3;++col)q-=a[k][col]*change[col];change[k]=q/a[k][k];}
+				Real change[3]{};for(int k=2;k>=0;--k){Real q=a[k][3];for(int col=k+1;col<3;++col) {q-=a[k][col]*change[col]; }change[k]=q/a[k][k];}
 				Real norm=0,factor=1;
-				for(int k=0;k<3;++k)norm=std::max(norm,std::abs(change[k])/(p.tolerance*std::max(std::abs(z[k]),Real(1e-8))));
+				for(int k=0;k<3;++k) {norm=std::max(norm,std::abs(change[k])/(p.tolerance*std::max(std::abs(z[k]),Real(1e-8)))); }
 				if(core)for(int tries=0;tries<32;++tries){if(z[0]+factor*change[0]>0 && z[2]+factor*change[2]>0 && z[2]+factor*change[2]<1.05)break;factor*=.5;}
-				for(int k=0;k<3;++k)z[k]+=factor*change[k];
+				for(int k=0;k<3;++k) {z[k]+=factor*change[k]; }
 				if(norm<.02)return z;
 			}
 			throw std::runtime_error("Radiating-star radial Newton stage did not converge");
@@ -133,18 +133,18 @@ RadiatingStarAtmosphere::RadiatingStarAtmosphere(Parameters p) : parameters_(p),
 		auto step=[&](Vector const& x,Real r,Real h){
 			Real const gamma=1-1/std::sqrt(Real(2));
 			Vector first=stage(x,x,r+gamma*h,gamma*h),f(3),base=x;
-			rhs(first,f,r+gamma*h);for(int k=0;k<3;++k)base[k]+=h*(1-gamma)*f[k];
+			rhs(first,f,r+gamma*h);for(int k=0;k<3;++k) {base[k]+=h*(1-gamma)*f[k]; }
 			return stage(base,first,r+h,gamma*h);
 		};
 		auto fineStep=[&](Vector const& x,Real r,Real h){return step(step(x,r,h/2),r+h/2,h/2);};
-		Vector x(3);for(int k=0;k<3;++k)x[k]=initial[k];
+		Vector x(3);for(int k=0;k<3;++k) {x[k]=initial[k]; }
 		Real r=initialRadius,h=std::min(rstart,p.maximumRadialStep);
 		nodes.push_back({r,0,initial,core?coreRhs(r,initial):envelopeRhs(r,initial)});
 		for(int iteration=0;iteration<p.maximumSteps;++iteration){
 			Vector next(3),coarse(3);Real error=0;
 			try{coarse=step(x,r,h);next=fineStep(x,r,h);}
 			catch(std::runtime_error const&){h*=.5;if(h<1e-14*std::max(Real(1),r))throw;continue;}
-			for(int k=0;k<3;++k)error=std::max(error,std::abs(next[k]-coarse[k])/(3*p.tolerance*std::max({std::abs(next[k]),std::abs(x[k]),Real(1e-8)})));
+			for(int k=0;k<3;++k) {error=std::max(error,std::abs(next[k]-coarse[k])/(3*p.tolerance*std::max({std::abs(next[k]),std::abs(x[k]),Real(1e-8)}))); }
 			if(!(error<=1)){h*=std::max(Real(.2),Real(.85)*std::pow(error,Real(-1)/3));continue;}
 			bool const finished=next[0]<=target;
 			if(finished){
@@ -233,7 +233,7 @@ std::array<Real,3> RadiatingStarAtmosphere::interpolate(std::vector<Node> const&
 	if(b==nodes.begin())return b->value;
 	if(b==nodes.end())return nodes.back().value;
 	auto const& a=*(b-1);Real const h=b->radius-a.radius,t=(r-a.radius)/h;
-	std::array<Real,3> y{};for(int k=0;k<3;++k)y[k]=hermite(a.value[k],a.derivative[k],b->value[k],b->derivative[k],h,t);
+	std::array<Real,3> y{};for(int k=0;k<3;++k) {y[k]=hermite(a.value[k],a.derivative[k],b->value[k],b->derivative[k],h,t); }
 	return y;
 }
 
@@ -243,8 +243,9 @@ std::array<Real,3> RadiatingStarAtmosphere::interpolateDerivative(std::vector<No
 	if(b==nodes.end())return nodes.back().derivative;
 	auto const& a=*(b-1);Real const h=b->radius-a.radius,t=(r-a.radius)/h;
 	std::array<Real,3> derivative{};
-	for(int k=0;k<3;++k)derivative[k]=6*t*(1-t)*(b->value[k]-a.value[k])/h
+	for(int k=0;k<3;++k) {derivative[k]=6*t*(1-t)*(b->value[k]-a.value[k])/h
 		+(1-4*t+3*t*t)*a.derivative[k]+(3*t*t-2*t)*b->derivative[k];
+	}
 	return derivative;
 }
 

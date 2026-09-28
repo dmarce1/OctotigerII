@@ -72,8 +72,9 @@ namespace {
 			std::vector<radiation::GrayOpacities> opacities(prescribed.size());
 			if (c.hydroEnabled()) {
 				hydro::HydroSystem const gasSystem(c);
-				for (std::size_t i = 0; i < prescribed.size(); ++i)
+				for (std::size_t i = 0; i < prescribed.size(); ++i) {
 					opacities[i] = radiation::opacityLaw(c, prescribed[i].opacity).evaluate(b.hydro.values()[i], gasSystem);
+				}
 			}
 			field("radiationOpacity", "cm^2/g", false, [&](std::size_t i, int) { return opacities[i].planckAbsorption; });
 			field("radiationRosselandAbsorption", "cm^2/g", false, [&](std::size_t i, int) { return opacities[i].rosselandAbsorption; });

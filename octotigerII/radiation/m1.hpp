@@ -43,8 +43,9 @@ public:
 	/// Return |F|/c from the temporary homogeneous energy-density state.
 	static units::EnergyDensity magnitude(State const& u) {
 		units::EnergyDensity result{};
-		for (int axis = 0; axis < ndim; ++axis)
+		for (int axis = 0; axis < ndim; ++axis) {
 			result = units::hypot(result, u[axis + 1]);
+		}
 		return result;
 	}
 
@@ -60,8 +61,9 @@ public:
 		if (!admissible(u)) {
 			std::ostringstream error;
 			error << std::setprecision(17) << "M1 requires finite E>=0 and |F|<=cE: E=" << units::value(u[0]) << ", F/c=(";
-			for (int axis = 0; axis < ndim; ++axis)
+			for (int axis = 0; axis < ndim; ++axis) {
 				error << (axis ? "," : "") << units::value(u[axis + 1]);
+			}
 			auto const norm = magnitude(u);
 			error << "), |F|/c=" << units::value(norm) << ", excess=" << units::value(norm - u[0])
 				<< ", caller=" << caller.function_name();
@@ -74,8 +76,9 @@ public:
 		checkState(u);
 		auto norm = magnitude(u);
 		if (norm > u[0])
-			for (int i = 1; i < State::size(); ++i)
+			for (int i = 1; i < State::size(); ++i) {
 				u[i] *= Real(u[0] / norm);
+			}
 		return u;
 	}
 
@@ -89,14 +92,17 @@ public:
 		if (normal < 0 || normal >= ndim || (!(chat > units::Velocity{}) || !units::finite(chat))) throw std::invalid_argument("Invalid M1 normal or speed");
 		std::array<Real, ndim> f{};
 		if (u[0] > units::EnergyDensity{})
-			for (int i = 0; i < ndim; ++i)
+			for (int i = 0; i < ndim; ++i) {
 				f[i] = u[i + 1] / u[0];
+			}
 		Real f2 = 0;
-		for (auto component : f)
+		for (auto component : f) {
 			f2 += component * component;
+		}
 		if (f2 > 1) {
-			for (auto& x : f)
+			for (auto& x : f) {
 				x /= sqrt(f2);
+			}
 			f2 = 1;
 		}
 		Real fn = f[normal], mu2 = f2 > 0 ? std::min(Real(1), fn * fn / f2) : 0;
@@ -108,8 +114,9 @@ public:
 		out.minus = chat * ((fn - radical) / s);
 		out.plus = chat * ((fn + radical) / s);
 		out.flux[0] = chat * u[0] * fn;
-		for (int i = 0; i < ndim; ++i)
+		for (int i = 0; i < ndim; ++i) {
 			out.flux[i + 1] = chat * (directed * fn * f[i] + (normal == i ? isotropic : units::Pressure{}));
+		}
 		return out;
 	}
 
@@ -129,13 +136,15 @@ public:
 	/// Use the component update scale to repair tiny negative energy or cone overshoot.
 	static State roundoffState(State u, State const& updateScale) {
 		auto scale = updateScale[0];
-		for (int i = 1; i < State::size(); ++i)
+		for (int i = 1; i < State::size(); ++i) {
 			scale = std::max(scale, updateScale[i]);
+		}
 		auto tolerance = roundoff * scale, norm = magnitude(u);
 		if (u[0] < units::EnergyDensity{} && -u[0] <= tolerance && norm <= tolerance) return {};
 		if (u[0] >= units::EnergyDensity{} && norm > u[0] && norm - u[0] <= tolerance)
-			for (int i = 1; i < State::size(); ++i)
+			for (int i = 1; i < State::size(); ++i) {
 				u[i] *= Real(u[0] / norm);
+			}
 		checkState(u);
 		return u;
 	}

@@ -33,8 +33,9 @@ int application(std::vector<std::string> const& args) {
 					for (int level = 0; level <= lastSubgridLevel; ++level)
 						std::cout << std::setw(24) << ("level " + std::to_string(level));
 					std::cout << '\n' << std::setw(8) << "" << std::setw(16) << "";
-					for (int level = 0; level <= lastSubgridLevel; ++level)
+					for (int level = 0; level <= lastSubgridLevel; ++level) {
 						std::cout << std::setw(24) << "(total/leafs)";
+					}
 					std::cout << '\n';
 					progressHeaderPrinted = true;
 				}

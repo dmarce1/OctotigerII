@@ -27,7 +27,7 @@ inline CouplingDiagnostics couplingDiagnostics(hydro::ConservedState const& gas,
 	Real const cellDepth = units::value(inverseMeanFreePath * cellWidth);
 	Real const scaleDepth = units::value(inverseMeanFreePath * length);
 	units::Velocity speed{};
-	for (int d = 0; d < ndim; ++d) speed = units::hypot(speed, gas.momentum(d) / gas.density());
+	for (int d = 0; d < ndim; ++d) { speed = units::hypot(speed, gas.momentum(d) / gas.density()); }
 	auto const gasSoundSpeed = hydro::HydroSystem(config).adiabaticSoundSpeed(gas);
 	auto const soundSpeed = units::sqrt(gasSoundSpeed*gasSoundSpeed + (Real(4) / 9) * radiation.energy() / gas.density());
 	return {cellDepth, Real(speed / constants::c) * scaleDepth,

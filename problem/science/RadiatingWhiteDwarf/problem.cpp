@@ -52,7 +52,7 @@ std::shared_ptr<Model const> model(Config const& config) {
 
 verification::ExactState state(Config const& config,Model const& star,
 	mesh::PhysicalCoordinates position,Real probeScale=1) {
-	for(int axis=0;axis<ndim;++axis)position[axis]-=config.star.center[axis];
+	for(int axis=0;axis<ndim;++axis) {position[axis]-=config.star.center[axis]; }
 	auto const R=units::hypot(position[0],position[1]);
 	auto const profile=star.sample(R/probeScale,position[2]/probeScale);
 	auto const floorDensity=config.star.atmosphereFraction*config.star.centralDensity;
@@ -84,10 +84,10 @@ verification::ExactState state(Config const& config,Model const& star,
 		comovingFlux[2]=diffusion[1];
 	}
 	units::EnergyFlux norm{};
-	for(auto flux:comovingFlux)norm=units::hypot(norm,flux);
+	for(auto flux:comovingFlux) {norm=units::hypot(norm,flux); }
 	auto const maximumFlux=(1-32*epsilonR)*constants::c*E0;
 	if(norm>maximumFlux){
-		for(auto& flux:comovingFlux)flux*=Real(maximumFlux/norm);
+		for(auto& flux:comovingFlux) {flux*=Real(maximumFlux/norm); }
 		norm=maximumFlux;
 	}
 	Real const f=Real(norm/(constants::c*E0));
@@ -101,9 +101,10 @@ verification::ExactState state(Config const& config,Model const& star,
 	if(!(beta2<1))throw std::invalid_argument("White-dwarf rotation must be subluminal");
 	Real const boost2=1/(1-beta2),boost=std::sqrt(boost2);
 	result.radiation.energy()=boost2*(E0+beta2*transversePressure);
-	for(int axis=0;axis<ndim;++axis)
+	for(int axis=0;axis<ndim;++axis) {
 		result.radiation.radiativeFlux(axis)=boost*comovingFlux[axis]+
 			boost2*(E0+transversePressure)*result.hydro.velocity(axis);
+	}
 	result.gravity.potential()=profile.potential;
 	result.gravity.acceleration(0)=-nx*profile.potentialGradient[0];
 	result.gravity.acceleration(1)=-ny*profile.potentialGradient[0];
@@ -160,8 +161,9 @@ void validateProblem(Config const& config) {
 		throw std::invalid_argument("The rotating WD uses an inertial grid and outflow gas boundaries");
 	if(!(config.star.atmosphereFraction>0 && config.star.atmosphereFraction<1e-3))
 		throw std::invalid_argument("Invalid WD numerical atmosphere fraction");
-	for(auto center:config.star.center)if(!units::finite(center))
+	for(auto center:config.star.center) {if(!units::finite(center))
 		throw std::invalid_argument("Nonfinite WD center");
+	}
 	auto const star=model(config);
 	for(int axis=0;axis<ndim;++axis){
 		auto const radius=axis==2?star->polarRadius():star->equatorialRadius();

@@ -44,8 +44,8 @@ void initializeProblem(Snapshot& data, Config const& config, bool) {
 	auto const gas = system.conservedState(primitive);
 	radiation::RadiationSystem::State rad;
 	rad.energy() = config.radiation.initialEnergyRatio * constants::radiation * boost::units::pow<4>(temperature);
-	for (auto& state : data.hydro.values()) state = gas;
-	for (auto& state : data.radiation.values()) state = rad;
+	for (auto& state : data.hydro.values()) { state = gas; }
+	for (auto& state : data.radiation.values()) { state = rad; }
 }
 
 } // namespace octotigerII::photon_source

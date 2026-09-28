@@ -21,7 +21,7 @@ Real independentIntegral(RadiatingStarGasBarotrope const& gas, units::Density de
 		return value(gas.eos().atDensity(rho).gasPressure/rho);
 	};
 	long double integral=0;
-	for (int i=0;i<=intervals;++i) integral+=(i==0 || i==intervals?1:i%2?4:2)*thermal(lower+i*step);
+	for (int i=0;i<=intervals;++i) { integral+=(i==0 || i==intervals?1:i%2?4:2)*thermal(lower+i*step); }
 	return value(gas.cutoffIntegralH())+thermal(upper)-thermal(lower)+Real(integral*step/3);
 }
 }

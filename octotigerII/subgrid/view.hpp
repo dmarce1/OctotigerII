@@ -71,7 +71,7 @@ template <typename T>
 HaloReadStatistics haloReadPayload(storage::FieldHandle<T> const& field, storage::Range const& range) {
 	HaloReadStatistics result;
 	if (!field.sumSources.empty()) {
-		for (auto const& source : field.sumSources) result += haloReadPayload(source, range);
+		for (auto const& source : field.sumSources) { result += haloReadPayload(source, range); }
 	} else {
 		result.fieldReads = 1;
 		result.values = range.count;

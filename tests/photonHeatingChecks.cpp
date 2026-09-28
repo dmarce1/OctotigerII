@@ -18,7 +18,7 @@ TEST(PhotonHeating, ExistingProblemsKeepConstantOpacityAndNoPhotonSource) {
 	EXPECT_FALSE(problemHasRadiationMaterial(config));
 	auto const material = problemRadiationMaterial(config);
 	mesh::PhysicalCoordinates position{};
-	for (int d = 0; d < ndim; ++d) position[d] = units::Length::from_value(Real(d + 1) * 1e8);
+	for (int d = 0; d < ndim; ++d) { position[d] = units::Length::from_value(Real(d + 1) * 1e8); }
 	auto const value = checkedRadiationMaterial(material, position, units::Time::from_value(4));
 	EXPECT_EQ(units::value(value.opacity), 1.25);
 	EXPECT_EQ(units::value(value.photonPower), 0);
@@ -39,7 +39,7 @@ TEST(PhotonHeating, PrescribedPhotonDriveHasCorrectReducedSpeedEnergyAndNoDirect
 	auto const interval = units::Time::from_value(0.01);
 	auto const scale = units::Time::from_value(0.04);
 	auto const power = PowerDensity::from_value(1e8);
-	for (Real ratio : {Real(1), Real(0.2)}) for (Real opacity : {Real(0), Real(1)}) {
+	for (Real ratio : {Real(1), Real(0.2)}) { for (Real opacity : {Real(0), Real(1)}) {
 		radiation::RadiationSystem radSystem(ratio * constants::c);
 		hydro::Fields gas(layout, units::Length::from_value(1e11));
 		radiation::Fields rad(layout, gas.cellWidth());
@@ -70,6 +70,7 @@ TEST(PhotonHeating, PrescribedPhotonDriveHasCorrectReducedSpeedEnergyAndNoDirect
 				}
 			}, physics::RotatingFrame{}, time, {}, material);
 	}
+	}
 }
 
 TEST(PhotonHeating, NegativePrescribedHeatingOrOpacityIsRejected) {
@@ -92,7 +93,7 @@ TEST(PhotonHeating, CsvSeparatesPrescribedSourceFromBoundaryTransport) {
 	{
 		Output output(config);
 		output({block}, 0, before);
-		for (auto& rad : block.radiation.values()) rad.energy() *= 1.2;
+		for (auto& rad : block.radiation.values()) { rad.energy() *= 1.2; }
 		block.time = units::Time::from_value(1);
 		auto after = diagnose({block}, config);
 		after.radiationSourceEnergy = 0.2 * before.radiationEnergy;
@@ -153,7 +154,7 @@ Config sourceConfiguration(Real ratio, Real opacity, bool adaptive = false) {
 
 units::Volume volumeOf(std::vector<Snapshot> const& blocks) {
 	units::Volume result{};
-	for (auto const& block : blocks) result += Real(block.layout.interiorCellCount()) * block.layout.cellMeasure(block.cellWidth);
+	for (auto const& block : blocks) { result += Real(block.layout.interiorCellCount()) * block.layout.cellMeasure(block.cellWidth); }
 	return result;
 }
 
@@ -186,7 +187,7 @@ TEST(PhotonHeating, TransparentRuntimeInjectsAtZeroOpacityAndRunReportsItsLedger
 		// The explicit local-exchange API does not advance time or add photons.
 		runtime.coupleRadiation(step);
 		EXPECT_EQ(runtime.radiationSourceEnergy(), units::Energy{});
-		for (int i = 0; i < 3; ++i) runtime.advanceCoupled(step);
+		for (int i = 0; i < 3; ++i) { runtime.advanceCoupled(step); }
 		sourceBudget(runtime, before, volume, config);
 		auto const actual = runtime.snapshots();
 		auto const injection = ratio * units::Quantity<-1, 1, -3>::from_value(1) * (3.0 * step);
@@ -194,7 +195,7 @@ TEST(PhotonHeating, TransparentRuntimeInjectsAtZeroOpacityAndRunReportsItsLedger
 			test::expectStateNear(actual[0].hydro.values()[cell], initial[0].hydro.values()[cell]);
 			EXPECT_NEAR(units::value(actual[0].radiation.values()[cell].energy() - initial[0].radiation.values()[cell].energy() - injection),
 				0, 32 * epsilonR * units::value(actual[0].radiation.values()[cell].energy()));
-			for (int d = 0; d < ndim; ++d) EXPECT_EQ(actual[0].radiation.values()[cell].radiativeFlux(d), units::EnergyFlux{});
+			for (int d = 0; d < ndim; ++d) { EXPECT_EQ(actual[0].radiation.values()[cell].radiativeFlux(d), units::EnergyFlux{}); }
 		}
 		config.runtime.stopTime = step;
 		auto const result = run(config);
@@ -213,7 +214,7 @@ TEST(PhotonHeating, AcceptedSourceLedgerSurvivesSubcyclingAndRegridding) {
 		Runtime runtime(config, criteria);
 		auto const initial = runtime.snapshots();
 		std::set<int> levels;
-		for (auto const& block : initial) levels.insert(block.location.level);
+		for (auto const& block : initial) { levels.insert(block.location.level); }
 		ASSERT_EQ(levels, (std::set<int>{1, 2}));
 		auto const before = diagnose(initial, config);
 		auto const volume = volumeOf(initial);

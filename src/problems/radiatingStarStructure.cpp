@@ -126,12 +126,12 @@ RadiatingStarStructure::RadiatingStarStructure(Parameters parameters) : paramete
 	std::vector<Real> p;
 	for (int k = 0; k < angles; ++k) {
 		legendre(mu_[k], parameters.maxMultipole, p);
-		for (int l = 0; l < modes; ++l) legendre_[k*modes+l] = p[2*l];
+		for (int l = 0; l < modes; ++l) { legendre_[k*modes+l] = p[2*l]; }
 	}
 	std::vector<Real> density(count*angles), next(density.size());
 	for (int j = 0; j < count; ++j) {
 		Real const initial = std::pow(spherical(j*step_).theta, parameters.eos.index);
-		for (int k = 0; k < angles; ++k) density[j*angles+k] = initial;
+		for (int k = 0; k < angles; ++k) { density[j*angles+k] = initial; }
 	}
 	bool converged = false;
 	for (int iteration = 0; iteration < parameters.maxIterations; ++iteration) {
@@ -142,7 +142,7 @@ RadiatingStarStructure::RadiatingStarStructure(Parameters parameters) : paramete
 			bool outside = false;
 			for (int j = 0; j < count; ++j) {
 				Real phi = 0;
-				for (int l = 0; l < modes; ++l) phi += coefficients_[j*modes+l]*legendre_[k*modes+l];
+				for (int l = 0; l < modes; ++l) { phi += coefficients_[j*modes+l]*legendre_[k*modes+l]; }
 				Real const r = j*step_, h = 1+centralPotential_-phi+0.5*omegaSquared_*r*r*(1-mu_[k]*mu_[k]);
 				if (h <= 0) outside = true;
 				Real const predicted = outside ? 0 : std::pow(h, parameters.eos.index);
@@ -164,7 +164,7 @@ RadiatingStarStructure::RadiatingStarStructure(Parameters parameters) : paramete
 		Real const r = j*step_, radialWeight = (j == 0 || j == count-1 ? 0.5 : 1)*step_*r*r;
 		for (int k = 0; k < angles; ++k) {
 			Real phi = 0;
-			for (int l = 0; l < modes; ++l) phi += coefficients_[j*modes+l]*legendre_[k*modes+l];
+			for (int l = 0; l < modes; ++l) { phi += coefficients_[j*modes+l]*legendre_[k*modes+l]; }
 			Real const rho = density[j*angles+k], rotation = omegaSquared_*r*r*(1-mu_[k]*mu_[k]);
 			if (rho > 1e-12) diagnostics_.bernoulliResidual = std::max(diagnostics_.bernoulliResidual,
 				std::abs(std::pow(rho,1/parameters.eos.index)+phi-0.5*rotation-1-centralPotential_));
@@ -185,7 +185,7 @@ void RadiatingStarStructure::poisson(std::vector<Real> const& density) {
 		int const l = 2*mode;
 		for (int j = 0; j < count; ++j) {
 			q[j] = 0;
-			for (int k = 0; k < angles; ++k) q[j] += angularWeights_[k]*density[j*angles+k]*legendre_[k*modes+mode];
+			for (int k = 0; k < angles; ++k) { q[j] += angularWeights_[k]*density[j*angles+k]*legendre_[k*modes+mode]; }
 		}
 		if (l > 0) q[0] = 0;
 		interior[0] = 0;
@@ -238,13 +238,14 @@ RadiatingStarStructure::Potential RadiatingStarStructure::potential(Real r, Real
 
 Real RadiatingStarStructure::surface(Real mu) const {
 	auto h = [&](Real r) { return 1+centralPotential_-potential(r,mu).value+0.5*omegaSquared_*r*r*(1-mu*mu); };
-	for (int j = 1; j <= parameters_.radialCells; ++j) if (h(j*step_) <= 0) {
+	for (int j = 1; j <= parameters_.radialCells; ++j) { if (h(j*step_) <= 0) {
 		Real lower = (j-1)*step_, upper = j*step_;
 		for (int iteration = 0; iteration < 64; ++iteration) {
 			Real const mid = (lower+upper)/2;
 			if (h(mid) > 0) lower = mid; else upper = mid;
 		}
 		return (lower+upper)/2;
+	}
 	}
 	throw std::runtime_error("Rotating SCF has no closed surface in the reference domain");
 }

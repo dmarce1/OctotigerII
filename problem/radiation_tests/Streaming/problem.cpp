@@ -47,8 +47,9 @@ void initializeProblem(Snapshot& data, Config const& c, [[maybe_unused]] bool re
 		}
 		auto& state = data.radiation.values()[i];
 		state.energy() = units::EnergyDensity::from_value(1e-6 + exp(-0.5 * distance2));
-		for (int axis = 0; axis < ndim; ++axis)
+		for (int axis = 0; axis < ndim; ++axis) {
 			state.radiativeFlux(axis) = constants::c * state.energy() / sqrt(Real(ndim));
+		}
 	});
 }
 }	 // namespace octotigerII

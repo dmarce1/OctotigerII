@@ -66,14 +66,14 @@ struct Problem {
 	}
 
 	bool admissible(Vector const& x, Number time) const {
-		for (auto v : x) if (!std::isfinite(v)) return false;
+		for (auto v : x) { if (!std::isfinite(v)) return false; }
 		if (!(x[0] >= 0)) return false;
         if (system->helmholtz()) {
             try { (void)system->thermodynamics(materialAt(time),units::EnergyDensity::from_value(Real(thermalEnergy(x,time)))); }
             catch (std::exception const&) { return false; }
         } else if (!(thermalEnergy(x,time)>0)) return false;
 		Number magnitude = 0;
-		for (int d = 1; d < count; ++d) magnitude = std::hypot(magnitude, x[d]);
+		for (int d = 1; d < count; ++d) { magnitude = std::hypot(magnitude, x[d]); }
 		return magnitude <= x[0] * (1 + 64 * std::numeric_limits<Real>::epsilon());
 	}
 
@@ -122,11 +122,12 @@ struct Problem {
 		result[0] = absorption * (emission - x[0]) + (2 * absorption - extinction) * betaQ;
 		// Mixed-frame first-order force with kappa_E approximated by the
 		// Planck absorption mean and kappa_F by the total flux extinction.
-		for (int d = 0; d < ndim; ++d)
+		for (int d = 0; d < ndim; ++d) {
 			result[d + 1] = -extinction * x[d + 1]
 				+ ((extinction - absorption) * x[0] + absorption * emission + extinction * isotropic) * beta[d]
 				+ extinction * directed * f[d] * betaF;
-		for (auto& value : result) value *= density(time) / rho;
+		}
+		for (auto& value : result) { value *= density(time) / rho; }
 		if (derivative) {
 			// Analytic derivatives keep Newton directions tangent to a cold
 			// streaming beam. A finite-difference closure derivative can point
@@ -169,7 +170,7 @@ struct Problem {
 						+ (dExtinction * directed + extinction * dDirected) * f[d] * betaF
 						+ extinction * directed * (dFluxFactor[d] * betaF + f[d] * dBetaFluxFactor);
 				}
-				for (int row = 0; row < count; ++row) (*derivative)[row][column] *= density(time) / rho;
+				for (int row = 0; row < count; ++row) { (*derivative)[row][column] *= density(time) / rho; }
 			}
 		}
 		return result;
@@ -179,19 +180,19 @@ struct Problem {
 bool solveLinear(Matrix a, Vector b, Vector& x) {
 	for (int k = 0; k < count; ++k) {
 		int pivot = k;
-		for (int i = k + 1; i < count; ++i) if (std::abs(a[i][k]) > std::abs(a[pivot][k])) pivot = i;
+		for (int i = k + 1; i < count; ++i) { if (std::abs(a[i][k]) > std::abs(a[pivot][k])) pivot = i; }
 		if (!(std::abs(a[pivot][k]) > std::numeric_limits<Number>::min()) || !std::isfinite(a[pivot][k])) return false;
 		std::swap(a[pivot], a[k]);
 		std::swap(b[pivot], b[k]);
 		for (int i = k + 1; i < count; ++i) {
 			Number const factor = a[i][k] / a[k][k];
-			for (int j = k + 1; j < count; ++j) a[i][j] -= factor * a[k][j];
+			for (int j = k + 1; j < count; ++j) { a[i][j] -= factor * a[k][j]; }
 			b[i] -= factor * b[k];
 		}
 	}
 	for (int i = count - 1; i >= 0; --i) {
 		Number rhs = b[i];
-		for (int j = i + 1; j < count; ++j) rhs -= a[i][j] * x[j];
+		for (int j = i + 1; j < count; ++j) { rhs -= a[i][j] * x[j]; }
 		x[i] = rhs / a[i][i];
 		if (!std::isfinite(x[i])) return false;
 	}
@@ -205,7 +206,7 @@ bool implicitStage(Problem const& problem, Vector const& base, Number duration, 
 		auto const rhs = problem.rate(value, time);
 		if (source) *source = rhs;
 		Vector result{};
-		for (int j = 0; j < count; ++j) result[j] = inverse * (value[j] - base[j] - duration * problem.drive[j]) - weight * rhs[j];
+		for (int j = 0; j < count; ++j) { result[j] = inverse * (value[j] - base[j] - duration * problem.drive[j]) - weight * rhs[j]; }
 		return result;
 	};
 	// Holding radiation at its old value after a large incoming transport drive
@@ -215,7 +216,7 @@ bool implicitStage(Problem const& problem, Vector const& base, Number duration, 
 	// with a smaller residual, including its accurately represented tiny fluxes.
 	// This changes only the initial iterate, never the implicit stage equation.
 	auto transported = base;
-	for (int j = 0; j < count; ++j) transported[j] += duration * problem.drive[j];
+	for (int j = 0; j < count; ++j) { transported[j] += duration * problem.drive[j]; }
 	if (problem.admissible(transported, time) && (!problem.admissible(state, time)
 		|| norm(residual(transported)) < norm(residual(state)))) state = transported;
 	if (!problem.admissible(state,time)) return false;
@@ -234,10 +235,12 @@ bool implicitStage(Problem const& problem, Vector const& base, Number duration, 
 		if (error <= problem.tolerance() * residualScale) return problem.admissible(state, time);
 		Matrix jacobian{};
 		problem.rate(state, time, &jacobian);
-		for (int i = 0; i < count; ++i) for (int j = 0; j < count; ++j)
+		for (int i = 0; i < count; ++i) { for (int j = 0; j < count; ++j) {
 			jacobian[i][j] = (i == j ? inverse : 0) - weight * jacobian[i][j];
+		}
+		}
 		Vector rhs{}, update{};
-		for (int j = 0; j < count; ++j) rhs[j] = -r[j];
+		for (int j = 0; j < count; ++j) { rhs[j] = -r[j]; }
 		if (!solveLinear(jacobian, rhs, update)) return false;
 		// In a radiation-dominated equilibrium, reconstructing gas heat from
 		// conserved energy makes the residual sensitive to tiny radiation
@@ -248,7 +251,7 @@ bool implicitStage(Problem const& problem, Vector const& base, Number duration, 
 		bool accepted = false;
 		for (Number fraction = 1; fraction >= std::ldexp(Number(1), -40); fraction /= 2) {
 			auto candidate = state;
-			for (int j = 0; j < count; ++j) candidate[j] += fraction * update[j];
+			for (int j = 0; j < count; ++j) { candidate[j] += fraction * update[j]; }
 			if (!problem.admissible(candidate, time)) continue;
 			Number const nextError = norm(residual(candidate));
 			if (std::isfinite(nextError) && nextError < error) { state = candidate; accepted = true; break; }
@@ -265,7 +268,7 @@ Vector advance(Problem const& problem, Vector const& old, Number time, Number in
 		Vector base{};
 		// Stage-one identity avoids multiplying a cancellation-sized residual
 		// by a very large opacity in a stiff second stage.
-		for (int j = 0; j < count; ++j) base[j] = old[j] + ((1 - gamma) / gamma) * (stage[j] - old[j]);
+		for (int j = 0; j < count; ++j) { base[j] = old[j] + ((1 - gamma) / gamma) * (stage[j] - old[j]); }
 		auto result = stage;
 		if (implicitStage(problem, base, gamma * interval, time + interval, result)) return result;
 	}

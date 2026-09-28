@@ -290,9 +290,10 @@ public:
 		auto const limiterStep = stepSize > units::Time{} ? stepSize : limiterInterval;
 		auto& minus = workspace.minus;
 		auto& plus = workspace.plus;
-		for (int axis = 0; axis < ndim; ++axis)
+		for (int axis = 0; axis < ndim; ++axis) {
 			if (minus[axis].size() != layout.cellCount() || plus[axis].size() != layout.cellCount())
 				throw std::invalid_argument("Missing local face prediction");
+		}
 
 		auto& fluxes = workspace.fluxes;
 		{
@@ -389,7 +390,7 @@ public:
 			if (!frame_.active()) result += system_.physicalFlux(lower, axis) - system_.physicalFlux(upper, axis);
 			else {
 				auto face = cell;
-				for (int d = 0; d < ndim; ++d) face[d] -= patch.layout().ghostWidth();
+				for (int d = 0; d < ndim; ++d) { face[d] -= patch.layout().ghostWidth(); }
 				auto const lowerSpeed = frame_.normalSpeed(facePosition(patch, face, axis), axis);
 				++face[axis];
 				auto const upperSpeed = frame_.normalSpeed(facePosition(patch, face, axis), axis);
