@@ -4,6 +4,7 @@
 #include <limits>
 #include <stdexcept>
 #include "octotigerII/problems.hpp"
+#include "octotigerII/radiation/diffusionFlux.hpp"
 
 namespace octotigerII {
 Snapshot initialSnapshot(Config const& c, mesh::BlockLocation location, bool refinementProbe) {
@@ -31,6 +32,24 @@ Snapshot initialSnapshot(Config const& c, mesh::BlockLocation location, bool ref
 		if (!data_.hydroEnabled) data_.density = mesh::PatchData<units::Density>(data_.layout, data_.cellWidth, data_.lower);
 	}
 	initializeProblem(data_, c, refinementProbe);
+	if constexpr (build::hydro && build::radiation) if (c.radiation.enabled) {
+		hydro::HydroSystem const gas(c.hydro);
+		for (std::size_t i = 0; i < data_.hydro.values().size(); ++i) {
+			auto const& material = data_.hydro.values()[i];
+			auto const temperature = gas.temperature(material);
+			auto const thermalEnergy = c.radiation.initialEnergyRatio * constants::radiation * boost::units::pow<4>(temperature);
+			radiation::MaterialVelocity velocity{};
+			for (int d = 0; d < ndim; ++d) velocity[d] = material.momentum(d) / material.density();
+			// Match the retained mixed-frame source equations. At ratio one both
+			// local exchange rates vanish; this does not imply spatial equilibrium.
+			auto const unitEnergy = units::EnergyDensity::from_value(1);
+			auto const unit = radiation::materialEquilibriumMoments(unitEnergy, velocity);
+			Real workFraction = 0;
+			for (int d = 0; d < ndim; ++d)
+				workFraction += Real(velocity[d] * unit.radiativeFlux(d) / (constants::c * constants::c * unitEnergy));
+			data_.radiation.values()[i] = radiation::materialEquilibriumMoments(thermalEnergy / (1 - workFraction), velocity);
+		}
+	}
 	if (c.massFractions.enabled) {
 		if (data_.species.empty()) for (auto const& species : c.massFractions.species) {
 			data_.species.emplace_back(data_.layout, data_.cellWidth, data_.lower);

@@ -9,7 +9,9 @@
 #include <sstream>
 #include <stdexcept>
 #include "octotigerII/profiling.hpp"
+#include "octotigerII/radiation/couplingDiagnostics.hpp"
 #include "octotigerII/verification/analytic.hpp"
+#include "octotigerII/problems.hpp"
 
 namespace octotigerII {
 
@@ -23,7 +25,7 @@ namespace {
 		std::vector<double> values;
 	};
 
-	std::vector<Variable> variables(Snapshot const& b, [[maybe_unused]] Config const& c) {
+	std::vector<Variable> variables(Snapshot const& b, [[maybe_unused]] Config const& c, ProblemRadiationMaterial const& material) {
 		std::vector<Variable> result;
 		if (c.amr.enabled) result.push_back({"refinementLevel", "", "", std::vector<double>(b.layout.interiorCellCount(), b.location.level)});
 		auto field = [&](std::string name, std::string units, bool isVector, auto value) {
@@ -63,6 +65,23 @@ namespace {
 		if (build::radiation && c.radiationEnabled()) {
 			field("radiationEnergy", "erg/cm^3", false, [&](std::size_t i, int) { return b.radiation.values()[i].energy(); });
 			field("radiationFlux", "erg/(cm^2 s)", true, [&](std::size_t i, int axis) { return b.radiation.values()[i].radiativeFlux(axis); });
+			std::vector<RadiationMaterial> prescribed(b.layout.interiorCellCount());
+			b.layout.forEachInterior([&](auto const& cell, std::size_t i) {
+				prescribed[i] = checkedRadiationMaterial(material, b.layout.cellCenter(b.lower, b.cellWidth, cell), b.time);
+			});
+			field("radiationOpacity", "cm^2/g", false, [&](std::size_t i, int) { return prescribed[i].opacity; });
+			field("photonHeating", "erg/(cm^3 s)", false, [&](std::size_t i, int) { return prescribed[i].photonPower; });
+		}
+		if (build::hydro && build::radiation && c.hydroEnabled() && c.radiationEnabled()) {
+			std::vector<radiation::CouplingDiagnostics> estimates;
+			estimates.reserve(b.layout.interiorCellCount());
+			b.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {
+				auto const prescribed = checkedRadiationMaterial(material, b.layout.cellCenter(b.lower, b.cellWidth, cell), b.time);
+				estimates.push_back(radiation::couplingDiagnostics(b.hydro.values()[i], b.radiation.values()[i], b.cellWidth, c, prescribed.opacity));
+			});
+			field("cellOpticalDepth", "", false, [&](std::size_t i, int) { return units::Dimensionless::from_value(estimates[i].cellOpticalDepth); });
+			field("radiationTrappingParameter", "", false, [&](std::size_t i, int) { return units::Dimensionless::from_value(estimates[i].trappingParameter); });
+			field("rslaCriterion", "", false, [&](std::size_t i, int) { return units::Dimensionless::from_value(estimates[i].rslaCriterion); });
 		}
 		if (build::gravity && c.gravityEnabled()) {
 			field("potential", "cm^2/s^2", false, [&](std::size_t i, int) { return b.gravity.values()[i].potential(); });
@@ -91,6 +110,7 @@ namespace {
 	}
 
 	void writeSilo(std::vector<Snapshot> const& patches, Config const& c, std::string const& filename, int cycle, units::Time time) {
+		auto const material = problemRadiationMaterial(c);
 		profiling::Region profile("output.silo");
 		std::unique_ptr<DBfile, decltype(&DBClose)> file(DBCreate(filename.c_str(), DB_CLOBBER, DB_LOCAL, "OctotigerII (cgs)", DB_HDF5), &DBClose);
 		if (!file) throw std::runtime_error("Cannot create Silo file: " + filename);
@@ -114,7 +134,7 @@ namespace {
 			status |= DBAddOption(options.get(), coordinateUnits[axis], centimeters);
 		}
 		std::vector<std::string> meshes;
-		auto const fieldList = variables(patches.front(), c);
+		auto const fieldList = variables(patches.front(), c, material);
 		std::vector<std::vector<std::string>> names(fieldList.size());
 		for (std::size_t b = 0; b < patches.size(); ++b) {
 			auto const& patch = patches[b];
@@ -137,7 +157,7 @@ namespace {
 			status |= DBPutQuadmesh(file.get(), "mesh", nullptr, coordPointers, meshDims, ndim, DB_DOUBLE,
 				DB_COLLINEAR, options.get());
 			meshes.push_back(block + "/mesh");
-			auto const fields = variables(patch, c);
+			auto const fields = variables(patch, c, material);
 			for (std::size_t f = 0; f < fields.size(); ++f) {
 				status |= DBAddOption(options.get(), DBOPT_UNITS, const_cast<char*>(fields[f].units.c_str()));
 				status |= DBPutQuadvar1(file.get(), fields[f].name.c_str(), "mesh", fields[f].values.data(), zoneDims, ndim, nullptr, 0,
@@ -221,6 +241,18 @@ Output::Output(Config const& c)
 		header("radiation_energy_erg");
 		for (int d = 0; d < ndim; ++d) header(std::string("radiation_flux_integral_") + "xyz"[d] + "_erg_cm_s");
 	}
+	if (c.hydroEnabled() && c.radiationEnabled()) {
+		// Append combined budgets without changing the legacy column order.
+		header("physical_total_energy_erg");
+		header("rsla_total_energy_erg");
+		for (int d = 0; d < ndim; ++d) {
+			header(std::string("physical_total_momentum_") + "xyz"[d] + "_g_cm_s");
+			header(std::string("rsla_total_momentum_") + "xyz"[d] + "_g_cm_s");
+		}
+		conservation_ << ",radiation_angular_momentum_z_g_cm2_s_grid,physical_total_angular_momentum_z_g_cm2_s_grid,rsla_total_angular_momentum_z_g_cm2_s_grid";
+		conservation_ << ",maximum_cell_optical_depth,maximum_radiation_trapping_parameter,maximum_rsla_criterion";
+	}
+	if (c.radiationEnabled()) conservation_ << ",radiation_source_energy_erg,rsla_source_energy_erg";
 	conservation_ << '\n';
 	if (!c.output.enabled) return;
 	series_.open(std::filesystem::path(c.output.directory) / "frames.visit");
@@ -230,10 +262,11 @@ Output::Output(Config const& c)
 void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnostics const& d) {
 	if (!haveInitial_) { initial_ = d; haveInitial_ = true; }
 	conservation_ << step << ',' << units::value(d.time);
-	auto write = [&](auto grid, auto inward, auto outward, auto l1, auto initial, auto initialL1) {
-		auto const corrected = grid + outward - inward;
-		auto const norm = std::max({initialL1, l1, inward + outward});
-		Real const drift = norm > decltype(norm){} ? Real((corrected - initial) / norm) : Real(0);
+	auto write = [&](auto grid, auto inward, auto outward, auto l1, auto initial, auto initialL1,
+		decltype(grid) source = {}, decltype(grid) initialSource = {}) {
+		auto const corrected = grid + outward - inward - source;
+		auto const norm = std::max({initialL1, l1, inward + outward + units::abs(source)});
+		Real const drift = norm > decltype(norm){} ? Real((corrected - initial + initialSource) / norm) : Real(0);
 		conservation_ << ',' << units::value(grid) << ',' << units::value(inward) << ',' << units::value(outward)
 			<< ',' << units::value(corrected) << ',' << units::value(l1) << ',' << units::value(norm) << ',' << drift;
 	};
@@ -257,9 +290,33 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 		}
 	}
 	if (config_.radiationEnabled()) {
-		write(d.radiationEnergy, in.radiationEnergy, out.radiationEnergy, d.norm.radiationEnergy, initial_.radiationEnergy, initial_.norm.radiationEnergy);
+		write(d.radiationEnergy, in.radiationEnergy, out.radiationEnergy, d.norm.radiationEnergy, initial_.radiationEnergy, initial_.norm.radiationEnergy,
+			d.radiationSourceEnergy, initial_.radiationSourceEnergy);
 		for (int axis = 0; axis < ndim; ++axis) write(d.radiationFlux[axis], in.radiationFlux[axis], out.radiationFlux[axis], d.norm.radiationFlux[axis], initial_.radiationFlux[axis], initial_.norm.radiationFlux[axis]);
 	}
+	if (config_.hydroEnabled() && config_.radiationEnabled()) {
+		Real const weight = Real(1) / config_.radiation.lightSpeedRatio;
+		auto const cSquared = constants::c * constants::c;
+		write(d.physicalTotalEnergy, in.gasEnergy + in.potentialEnergy + in.radiationEnergy,
+			out.gasEnergy + out.potentialEnergy + out.radiationEnergy, d.physicalTotalEnergyNorm,
+			initial_.physicalTotalEnergy, initial_.physicalTotalEnergyNorm, d.radiationSourceEnergy, initial_.radiationSourceEnergy);
+		write(d.rslaTotalEnergy, in.gasEnergy + in.potentialEnergy + weight * in.radiationEnergy,
+			out.gasEnergy + out.potentialEnergy + weight * out.radiationEnergy, d.rslaTotalEnergyNorm,
+			initial_.rslaTotalEnergy, initial_.rslaTotalEnergyNorm, weight * d.radiationSourceEnergy, weight * initial_.radiationSourceEnergy);
+		for (int axis = 0; axis < ndim; ++axis) {
+			write(d.physicalTotalMomentum[axis], in.momentum[axis] + in.radiationFlux[axis] / cSquared,
+				out.momentum[axis] + out.radiationFlux[axis] / cSquared, d.physicalTotalMomentumNorm[axis],
+				initial_.physicalTotalMomentum[axis], initial_.physicalTotalMomentumNorm[axis]);
+			write(d.rslaTotalMomentum[axis], in.momentum[axis] + weight * in.radiationFlux[axis] / cSquared,
+				out.momentum[axis] + weight * out.radiationFlux[axis] / cSquared, d.rslaTotalMomentumNorm[axis],
+				initial_.rslaTotalMomentum[axis], initial_.rslaTotalMomentumNorm[axis]);
+		}
+		conservation_ << ',' << units::value(d.radiationAngularMomentumZ) << ',' << units::value(d.physicalTotalAngularMomentumZ)
+			<< ',' << units::value(d.rslaTotalAngularMomentumZ);
+		conservation_ << ',' << d.maximumCellOpticalDepth << ',' << d.maximumTrappingParameter << ',' << d.maximumRslaCriterion;
+	}
+	if (config_.radiationEnabled()) conservation_ << ',' << units::value(d.radiationSourceEnergy)
+		<< ',' << units::value(d.radiationSourceEnergy / config_.radiation.lightSpeedRatio);
 	conservation_ << '\n';
 	conservation_.flush();
 	if (!config_.output.enabled) return;

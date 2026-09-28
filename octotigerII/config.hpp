@@ -123,13 +123,45 @@ public:
 		}
 	} star;
 
-	class RadiationOptions {
+	/// Controls of the constructed gas+radiation stellar reference. The gas EOS
+	/// remains gamma=5/3; star.polytropicIndex describes only the structure.
+	class RadiatingStarOptions {
 	public:
-		Real lightSpeedRatio = 1;
+		Real centralGasFraction = 0.8;
+		/// Omega / sqrt(G M_spherical / R_spherical^3).
+		Real rotationFraction = 0.2;
+		/// kappa*rho_c*alpha when radiation.opacity is not explicitly supplied.
+		Real opticalDepthScale = 240;
+		/// Reference density / rho_c below which the benchmark envelope is transparent.
+		Real opacityCutoffFraction = 0.016;
+		int radialCells = 256, angularPoints = 32, multipoles = 12;
+		Real structureTolerance = 1e-9;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & lightSpeedRatio;
+			archive & centralGasFraction & rotationFraction & opticalDepthScale & opacityCutoffFraction
+				& radialCells & angularPoints & multipoles & structureTolerance;
+		}
+	} radiatingStar;
+
+	class RadiationOptions {
+	public:
+		/// Add radiation to a hydro problem; radiation-only problems enable it themselves.
+		bool enabled = false;
+		/// Zero radiation energy transport at a fixed, otherwise free box boundary.
+		/// This is an insulating numerical constraint, not a moving mirror.
+		bool closedBoundary = false;
+		Real lightSpeedRatio = 1;
+		/// Equal gray absorption/emission opacity in cm^2/g; zero disables exchange.
+		Real opacity = 0;
+		/// Fixed physical length in cm for nonfatal RSLA diagnostics; zero uses box width.
+		Real diagnosticLength = 0;
+		/// Initial comoving radiation energy relative to a*T^4 for added radiation.
+		Real initialEnergyRatio = 1;
+
+		template <typename Archive>
+		void serialize(Archive& archive, unsigned) {
+			archive & enabled & lightSpeedRatio & opacity & diagnosticLength & initialEnergyRatio & closedBoundary;
 		}
 	} radiation;
 
@@ -188,7 +220,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & massFractions & problem & randomSeed & mesh & frame & amr & runtime & timestep & hydro & rayleighTaylor & star & radiation & gravity & output & verification;
+		archive & massFractions & problem & randomSeed & mesh & frame & amr & runtime & timestep & hydro & rayleighTaylor & star & radiatingStar & radiation & gravity & output & verification;
 	}
 };
 

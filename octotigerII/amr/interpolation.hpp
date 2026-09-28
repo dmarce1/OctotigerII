@@ -24,7 +24,14 @@ typename System::State interpolate(
 			auto candidate = center;
 			for (int d = 0; d < ndim; ++d)
 				candidate += (slot & (1 << d) ? 0.5 : -0.5) * fraction * slopes[d];
-			if (!system.admissible(candidate)) return false;
+			// A system can require its exact invariant domain here. Accepting a
+			// full roundoff allowance in a slope trial can leave no margin for
+			// later component rotations. Keep one fraction for every child.
+			if constexpr (requires { system.admissibleInterpolation(candidate); }) {
+				if (!system.admissibleInterpolation(candidate)) return false;
+			} else {
+				if (!system.admissible(candidate)) return false;
+			}
 		}
 		return true;
 	};

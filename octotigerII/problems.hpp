@@ -5,6 +5,7 @@
 #pragma once
 #include <algorithm>
 #include <functional>
+#include <stdexcept>
 #include "octotigerII/config.hpp"
 
 namespace octotigerII {
@@ -19,6 +20,31 @@ namespace verification {
 using ProblemBoundary = std::function<verification::ExactState(mesh::PhysicalCoordinates const&, units::Time)>;
 
 ProblemBoundary problemBoundary(Config const& config);
+
+/// Prescribed material and isotropic photon heating in physical grid coordinates,
+/// matching the problem initializer. Photon power is physical erg/(cm^3 s): the
+/// reduced-speed radiation equation receives (chat/c)*photonPower. It supplies
+/// neither gas energy nor momentum directly. Opacity is absorption in cm^2/g.
+struct RadiationMaterial {
+	units::Quantity<2, -1, 0> opacity{};
+	units::Quantity<-1, 1, -3> photonPower{};
+};
+using ProblemRadiationMaterial = std::function<RadiationMaterial(mesh::PhysicalCoordinates const&, units::Time)>;
+
+/// Construct once and share the immutable problem model across cell evaluations.
+/// Problems without this optional hook return config.radiation.opacity and zero
+/// heating. Custom material hooks may contain transparent cells with heating.
+ProblemRadiationMaterial problemRadiationMaterial(Config const& config);
+bool problemHasRadiationMaterial(Config const& config);
+
+inline RadiationMaterial checkedRadiationMaterial(ProblemRadiationMaterial const& material,
+	mesh::PhysicalCoordinates const& position, units::Time time) {
+	auto const value = material(position, time);
+	if (!units::finite(value.opacity) || value.opacity < decltype(value.opacity){} ||
+		!units::finite(value.photonPower) || value.photonPower < decltype(value.photonPower){})
+		throw std::invalid_argument("Prescribed radiation opacity and photon heating must be finite and nonnegative");
+	return value;
+}
 
 
 /// Every problem declares its exact solution or explicitly returns unavailable.

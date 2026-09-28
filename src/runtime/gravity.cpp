@@ -162,6 +162,12 @@ void Runtime::Impl::provisionalGravity(GravityInterval& interval, GravityFrame& 
 		auto const next = directory.hydro.read(b.interior, bank ^ 1).get();
 		auto const force = interval.predictor.handle().read(b.interior, 0).get();
 		auto const mass = directory.massFlux.read(b.massFlux, 0).get();
+		std::optional<storage::Columns<radiation::RadiationSystem::State>> radiationInitial, radiationMidpoint, radiationRate;
+		if (coupledStep && config.gravity.energyTreatment == "naive") {
+			radiationInitial = coupledStep->radiation.read(b.interior, 0).get();
+			radiationMidpoint = coupledStep->radiation.read(b.interior, 1).get();
+			radiationRate = coupledStep->radiationRate.read(b.interior, 0).get();
+		}
 		std::vector<units::EnergyDensity> heat(b.interior.count);
 		for (auto* f : interval.stack) {
 			// On the level being forecast, the nested field also forecasts the
@@ -199,15 +205,21 @@ void Runtime::Impl::provisionalGravity(GravityInterval& interval, GravityFrame& 
 		auto output = directory.hydro.output(b.interior, bank ^ 1);
 		for (std::size_t i = 0; i < b.interior.count; ++i) {
 			auto value = next.at(i);
+			auto const sourceImpulse = radiationInitial ? radiationMidpointImpulse(radiationInitial->at(i), radiationMidpoint->at(i),
+				radiationRate->at(i), step / (2.0 * coupledStep->referenceStep), config.radiation.lightSpeedRatio) :
+				std::array<units::MomentumDensity, ndim>{};
+			units::EnergyDensity sourceWork{};
 			std::array<units::Acceleration, ndim> acceleration;
 			for (int d = 0; d < ndim; ++d) acceleration[d] = force.at(i).acceleration(d);
 			acceleration = physics::RotatingFrame(config.frame.omega).toInertial(acceleration, frame.begin + step / 2.0);
 			for (int d = 0; d < ndim; ++d) {
 				value.momentum(d) += (step / 2.0) * (old.at(i).density() + value.density()) * acceleration[d];
 				if (config.gravity.energyTreatment == "naive") value.totalEnergy() += (step / 2.0) * acceleration[d] * (old.at(i).momentum(d) + value.momentum(d));
+				sourceWork += step * acceleration[d] * sourceImpulse[d];
 			}
 			if (config.gravity.energyTreatment == "mullen") value.totalEnergy() += heat[i];
 			hydro::HydroSystem const system(config.hydro);
+			addRadiationForceWork(value, sourceWork, system, config.hydro.dualEnergy.enabled);
 			system.synchronize(value);
 			if (!system.admissible(value)) throw std::runtime_error("Provisional gravity source produced an inadmissible state");
 			output.put(i, value);
@@ -304,9 +316,14 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 		}
 		interval.stack.push_back(&frame);
 		assemblePredictor(interval, frame);
+		if (coupledStep) {
+			coupledStep->limiterInterval = step / 2.0;
+			phase(Operation::SaveRadiationStep, {}, level, now);
+		}
 		for (std::size_t j = index; j < occupied.size(); ++j)
 			phase(Operation::Probe, {}, occupied[j], now, 0, {interval.rate.handle(), interval.duration});
 		gravitySourceRate(interval, level);
+		if (coupledStep) phase(Operation::PredictRadiationStep, step, -1, now, 0, {interval.rate.handle(), interval.duration});
 		auto& state = levels.at(level);
 		state.begin = now; state.end = now + step;
 		interval.boundary += phase(Operation::Advance, step, level, now, step / duration,
@@ -315,14 +332,14 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 		// The halo forecast uses the accepted initial numerical RHS. The raw
 		// coarse transport endpoint has not been refluxed and is only O(H)
 		// accurate at a refinement boundary, even with a midpoint flux.
-		for (auto const& b : topology->blocks()) if (b.location.level == level) {
+		for (auto const& b : topology->blocks()) if (!coupledStep && b.location.level == level) {
 			auto old = fields->directory().hydro.read(b.interior, state.bank).get();
 			auto rate = interval.rate.handle().read(b.interior, 0).get();
 			auto out = fields->directory().hydro.output(b.interior, 3);
 			std::vector<units::Density> density(b.interior.count);
 			for (std::size_t i = 0; i < b.interior.count; ++i) {
 				auto value = old.at(i) + (step / interval.duration) * rate.at(i);
-				predictorKineticRemainder(old.at(i), value);
+				if (!coupledStep) predictorKineticRemainder(old.at(i), value);
 				if (!hydro::HydroSystem(config.hydro).admissible(value)) throw std::runtime_error("Coarse gravity halo predictor is inadmissible");
 				density[i] = value.density(); out.put(i, value);
 			}
@@ -335,6 +352,7 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 			fields->directory().hydro.commit(b.interior, 3, out);
 			if (build::radiation && config.radiationEnabled()) copyFields(fields->directory().radiation, b.interior, state.bank ^ 1, 3);
 		}
+		if (coupledStep) phase(Operation::ForecastRadiationStep, step, level, now);
 		state.predictorBank = 3;
 		state.pending = true;
 		if (nextLevel >= 0) advanceGravityLevel(interval, occupied, index + 1, now, step);
@@ -344,6 +362,10 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 		if (config.gravity.timeIntegration == "conventional") partialGravity(interval, frame.force.handle(), 1, 0, now + step, true,
 			frame.rotation ? frame.rotation->force.handle() : storage::FieldHandle<units::VelocitySquared>{});
 		closeGravityFrame(interval, frame);
+		if (coupledStep) {
+			phase(Operation::FinishRadiationStep, step, level, now + step);
+			state.bank ^= 1;
+		}
 		interval.stack.pop_back();
 		// A physical full field is retained for the next local CFL estimate.
 		for (auto const& b : topology->blocks()) if (b.location.level >= level) {
@@ -363,19 +385,23 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 #endif
 
 gravity::Statistics Runtime::advanceGravity(units::Time dt) {
+	std::lock_guard guard(impl_->apiMutex);
+	return advanceGravityUnlocked(dt);
+}
+
+gravity::Statistics Runtime::advanceGravityUnlocked(units::Time dt) {
 	if (!impl_->config.hydroEnabled() || !impl_->config.gravityEnabled()) throw std::logic_error("Coupled gravity requires self-gravitating gas");
 	if (!(dt > units::Time{}) || !units::finite(dt) || impl_->time.time + dt == impl_->time.time) throw std::invalid_argument("Invalid step size");
 	if (dt > physics::RotatingFrame(impl_->config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
 		throw std::invalid_argument("Rotating-grid step exceeds the angular-phase limit; use stableTimestep()");
 	if (!impl_->config.amr.enabled || !impl_->config.timestep.refinement || impl_->config.hasExternalAcceleration()) {
-		beginGravityEnergy(); kickGravity(dt / 2.0); advance(dt);
-		auto work = solveGravity(); kickGravity(dt / 2.0); finishGravityEnergy(dt);
+		beginGravityEnergyUnlocked(); kickGravityUnlocked(dt / 2.0); advanceUnlocked(dt);
+		auto work = solveGravityUnlocked(); kickGravityUnlocked(dt / 2.0); finishGravityEnergyUnlocked(dt);
 #if OCTOTIGERII_GRAVITY
 		impl_->addGravityWork(work, impl_->rotationStatistics);
 #endif
 		return work;
 	}
-	std::lock_guard guard(impl_->apiMutex);
 	if (impl_->regridEnergyPending || impl_->gravityEnergyActive || !impl_->gravityReady || impl_->gravityTime != impl_->time.time)
 		throw std::logic_error("Coupled gravity requires a closed, synchronized gravity field");
 #if OCTOTIGERII_GRAVITY
@@ -441,8 +467,12 @@ gravity::Statistics Runtime::advanceGravity(units::Time dt) {
 }
 
 void Runtime::kickGravity(units::Time dt) {
-	profiling::Elapsed profile("runtime.gravity_kick.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
+	kickGravityUnlocked(dt);
+}
+
+void Runtime::kickGravityUnlocked(units::Time dt) {
+	profiling::Elapsed profile("runtime.gravity_kick.wall_ns");
 	if (!impl_->config.hydroEnabled() || (!impl_->config.gravityEnabled() && !impl_->config.hasExternalAcceleration()) ||
 		(impl_->config.gravityEnabled() && (!impl_->gravityReady || impl_->gravityTime != impl_->time.time)) || !(dt > units::Time{}) || !units::finite(dt))
 		throw std::logic_error("Gravity kick requires synchronized gas and gravity");
@@ -459,6 +489,10 @@ void Runtime::kickGravity(units::Time dt) {
 
 void Runtime::beginGravityEnergy() {
 	std::lock_guard guard(impl_->apiMutex);
+	beginGravityEnergyUnlocked();
+}
+
+void Runtime::beginGravityEnergyUnlocked() {
 	if (impl_->gravityEnergyActive || !impl_->config.hydroEnabled() || !impl_->config.gravityEnabled() ||
 		!impl_->gravityReady || impl_->gravityTime != impl_->time.time)
 		throw std::logic_error("Conservative gravity step needs synchronized gas and gravity");
@@ -489,6 +523,10 @@ void Runtime::beginGravityEnergy() {
 
 void Runtime::finishGravityEnergy(units::Time dt) {
 	std::lock_guard guard(impl_->apiMutex);
+	finishGravityEnergyUnlocked(dt);
+}
+
+void Runtime::finishGravityEnergyUnlocked(units::Time dt) {
 	if (!impl_->gravityEnergyActive || !(dt > units::Time{}) || !units::finite(dt) ||
 		impl_->gravityEnergyStart + dt != impl_->time.time || impl_->gravityTime != impl_->time.time)
 		throw std::logic_error("Conservative gravity work requires the completed transport interval and endpoint gravity");
@@ -531,9 +569,13 @@ void Runtime::finishGravityEnergy(units::Time dt) {
 }
 
 gravity::Statistics Runtime::solveGravity() {
+	std::lock_guard guard(impl_->apiMutex);
+	return solveGravityUnlocked();
+}
+
+gravity::Statistics Runtime::solveGravityUnlocked() {
 	if (!impl_->config.gravityEnabled()) throw std::logic_error("Selected problem does not enable gravity");
 	profiling::Elapsed profile("runtime.gravity.wall_ns");
-	std::lock_guard guard(impl_->apiMutex);
 #if OCTOTIGERII_GRAVITY
 	if (!impl_->gravitySolver)
 		impl_->gravitySolver = std::make_unique<gravity::FieldSolver>(impl_->config, impl_->topology->blocks(), impl_->fields->directory(), impl_->localities);

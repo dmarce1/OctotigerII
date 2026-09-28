@@ -16,6 +16,7 @@ public:
  void (*initialize)(Snapshot&, Config const&, bool);
  ProblemBoundary (*boundary)(Config const&);
  verification::Reference (*reference)(Config const&);
+ ProblemRadiationMaterial (*radiationMaterial)(Config const&);
 };
 const Problem problems[] = {
 @entries@
@@ -29,13 +30,26 @@ Problem const& selected(Config const& c) {
 }
 }
 bool Config::hydroEnabled() const { return build::hydro && selected(*this).hydro; }
-bool Config::radiationEnabled() const { return build::radiation && selected(*this).radiation; }
+bool Config::radiationEnabled() const { return build::radiation && (selected(*this).radiation || radiation.enabled); }
 bool Config::gravityEnabled() const { return build::gravity && selected(*this).gravity; }
 void problemDefaults(Config& c) { selected(c).defaults(c); }
 void validateProblem(Config const& c) { selected(c).validate(c); }
 void initializeProblem(Snapshot& s, Config const& c, bool probe) { selected(c).initialize(s, c, probe); }
 ProblemBoundary problemBoundary(Config const& c) { return selected(c).boundary(c); }
-verification::Reference problemReference(Config const& c) { return selected(c).reference(c); }
+bool problemHasRadiationMaterial(Config const& c) { return selected(c).radiationMaterial != nullptr; }
+ProblemRadiationMaterial problemRadiationMaterial(Config const& c) {
+ if (auto factory = selected(c).radiationMaterial) return factory(c);
+ auto const opacity = units::Quantity<2,-1,0>::from_value(c.radiation.opacity);
+ return [opacity](mesh::PhysicalCoordinates const&, units::Time) { return RadiationMaterial{opacity, {}}; };
+}
+verification::Reference problemReference(Config const& c) {
+ auto reference = selected(c).reference(c);
+ if (c.radiation.enabled && !selected(c).radiation) {
+  reference.evaluate = {};
+  reference.reason = "The original gas-only reference does not include added radiation";
+ }
+ return reference;
+}
 std::string problemHelp() {
  std::string result;
  for (auto const& p : problems) {

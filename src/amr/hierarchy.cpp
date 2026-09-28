@@ -6,6 +6,7 @@
 #include "octotigerII/amr/interpolation.hpp"
 #include "octotigerII/problems.hpp"
 #include "octotigerII/verification/analytic.hpp"
+#include "octotigerII/radiation/coupledPatch.hpp"
 
 namespace octotigerII::amr {
 namespace {
@@ -50,6 +51,7 @@ Hierarchy::Values Hierarchy::Values::operator*(Real weight) const {
 
 Hierarchy::Hierarchy(Config const& config, std::vector<Snapshot> const& leaves)
   : config_(config)
+  , radiationMaterial_(problemRadiationMaterial(config))
   , blockBits_(std::countr_zero(unsigned(config.mesh.cells))) {
 	if (leaves.empty()) throw std::invalid_argument("Cannot build an empty shadow hierarchy");
 	time_ = leaves.front().time;
@@ -184,19 +186,22 @@ void Hierarchy::advanceOnce(units::Time dt) {
 	// All stencils read the immutable old hierarchy; publication follows all work.
 	std::unordered_map<mesh::BlockLocation, Values, mesh::BlockLocationHash> next;
 	int const n = config_.mesh.cells / 2;
+	bool const coupled = build::hydro && build::radiation && config_.hydroEnabled() && config_.radiationEnabled()
+		&& (config_.radiation.opacity > 0 || problemHasRadiationMaterial(config_));
+	int const ghosts = coupled ? 4 : 2;
 	for (auto const& block : shadowBlocks_) {
 		int const level = cellLevel(block.level) - 1;
 		auto const width = (config_.mesh.upper - config_.mesh.lower) / Real(1 << level);
 		mesh::PhysicalCoordinates lower{};
 		for (int d = 0; d < ndim; ++d)
 			lower[d] = config_.mesh.lower + Real(block.coordinates[d] * n) * width;
-		mesh::MeshLayout layout(n, 2);
+		mesh::MeshLayout layout(n, ghosts);
 		mesh::PatchData<hydro::ConservedState> gas(layout, width, lower);
 		mesh::PatchData<radiation::RadiationSystem::State> radiation(layout, width, lower);
 		mesh::forEachCoordinate(layout.extents(), [&](auto const& cell) {
 			mesh::BlockLocation global{level, {}};
 			for (int d = 0; d < ndim; ++d)
-				global.coordinates[d] = block.coordinates[d] * n + cell[d] - 2;
+				global.coordinates[d] = block.coordinates[d] * n + cell[d] - ghosts;
 			auto const value = average(global);
 			if (build::hydro && config_.hydroEnabled()) gas.atStorage(cell) = value.hydro;
 			if (build::radiation && config_.radiationEnabled()) radiation.atStorage(cell) = value.radiation;
@@ -207,14 +212,61 @@ void Hierarchy::advanceOnce(units::Time dt) {
 				global.coordinates[d] = block.coordinates[d] * n + cell[d];
 			return next.try_emplace(global, average(global)).first->second;
 		};
+		hydro::Solver::Workspace gasWork;
+		if constexpr (build::hydro && build::radiation) if (coupled) {
+			radiation::CoupledPatchWorkspace work;
+			auto midpointBoundary = [&](hydro::Fields& midGas, radiation::Fields& midRad, units::Time at) {
+				auto const oldGas = midGas;
+				auto const oldRad = midRad;
+				physics::RotatingFrame const frame(config_.frame.omega);
+				hydro::HydroSystem const gasSystem(config_.hydro);
+				radiation::RadiationSystem const radSystem(config_.radiation.lightSpeedRatio * constants::c,
+					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper});
+				mesh::forEachCoordinate(layout.extents(), [&](auto const& cell) {
+					mesh::BlockLocation global{level, {}};
+					for (int d = 0; d < ndim; ++d) global.coordinates[d] = block.coordinates[d] * n + cell[d] - ghosts;
+					auto const mapped = config_.mesh.boundary.map(global.coordinates, 1 << level);
+					bool exterior = false;
+					for (int d = 0; d < ndim; ++d) exterior = exterior || (!config_.mesh.boundary.periodic(d) &&
+						(global.coordinates[d] < 0 || global.coordinates[d] >= (1 << level)));
+					if (!exterior) return;
+					auto const position = logicalCenter(config_, global);
+					if (mapped.analytic) {
+						auto const prescribed = problemBoundary(config_)(position, at);
+						midGas.atStorage(cell) = gasSystem.conservedState(prescribed.hydro);
+						midRad.atStorage(cell) = prescribed.radiation;
+						return;
+					}
+					mesh::Coordinates source{};
+					for (int d = 0; d < ndim; ++d) source[d] =
+						(config_.mesh.boundary.periodic(d) ? global.coordinates[d] : mapped.source[d]) - block.coordinates[d] * n + ghosts;
+					midGas.atStorage(cell) = physics::transformBoundary(oldGas.atStorage(source), mapped.reflectionMask,
+						mapped.outflowLowerMask, mapped.outflowUpperMask, gasSystem, frame, position, at);
+					midRad.atStorage(cell) = physics::transformBoundary(oldRad.atStorage(source), mapped.reflectionMask,
+						mapped.outflowLowerMask, mapped.outflowUpperMask, radSystem, frame, position, at);
+				});
+			};
+			radiation::advanceCoupledPatch(gas, radiation, hydro::HydroSystem(config_.hydro),
+				radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
+					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}),
+				radiation::Opacity::from_value(config_.radiation.opacity), dt, work,
+				[&](auto const& cell, auto const& g, auto const& r) {
+					auto& target = destination(cell);
+					target.hydro = g;
+					target.radiation = r;
+					target.density = g.density();
+				}, physics::RotatingFrame(config_.frame.omega), time_, midpointBoundary, radiationMaterial_);
+			gasWork = std::move(work.hydro);
+		}
 		if constexpr (build::hydro) if (config_.hydroEnabled()) {
-			hydro::Solver::Workspace work;
-			hydro::Solver(hydro::HydroSystem(config_.hydro), physics::RotatingFrame(config_.frame.omega), time_).advanceInto(gas, dt, work, [&](auto const& cell, auto const& value) {
-				auto& target = destination(cell);
-				target.hydro = value;
-				hydro::HydroSystem(config_.hydro).synchronize(target.hydro);
-				target.density = value.density();
-			});
+			if (!coupled) {
+				hydro::Solver(hydro::HydroSystem(config_.hydro), physics::RotatingFrame(config_.frame.omega), time_).advanceInto(gas, dt, gasWork, [&](auto const& cell, auto const& value) {
+					auto& target = destination(cell);
+					target.hydro = value;
+					hydro::HydroSystem(config_.hydro).synchronize(target.hydro);
+					target.density = value.density();
+				});
+			}
 			if (config_.massFractions.enabled) {
 				auto read = [&](std::size_t s, auto const& cell) {
 					mesh::BlockLocation global{level, {}};
@@ -222,7 +274,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 					return average(global).species.at(s);
 				};
 				auto flux = composition::fluxes(config_.massFractions, layout, read,
-					[&](int d, auto const& face) { return work.fluxes[d][layout.faceIndex(d, face)].template get<0>(); });
+					[&](int d, auto const& face) { return gasWork.fluxes[d][layout.faceIndex(d, face)].template get<0>(); });
 				layout.forEachInterior([&](auto const& cell, std::size_t) {
 					auto& target = destination(cell);
 					for (std::size_t s = 0; s < flux.size(); ++s)
@@ -231,9 +283,10 @@ void Hierarchy::advanceOnce(units::Time dt) {
 				});
 			}
 		}
-		if constexpr (build::radiation) if (config_.radiationEnabled()) {
+		if constexpr (build::radiation) if (config_.radiationEnabled() && !coupled) {
 			radiation::Solver::Workspace work;
-			radiation::Solver(radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), physics::RotatingFrame(config_.frame.omega), time_)
+			radiation::Solver(radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
+				{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}), physics::RotatingFrame(config_.frame.omega), time_)
 				.advanceInto(radiation, dt, work, [&](auto const& cell, auto const& value) { destination(cell).radiation = value; });
 		}
 	}
@@ -317,7 +370,8 @@ Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
 			result.hydro, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, hydro::HydroSystem(config_.hydro), frame, position, time_);
 	if (build::radiation && config_.radiationEnabled())
 		result.radiation = physics::transformBoundary(result.radiation, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask,
-			radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c), frame, position, time_);
+			radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
+				{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}), frame, position, time_);
 	return result;
 }
 

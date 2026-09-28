@@ -2,15 +2,20 @@
 
 OctotigerII separates numerical fields, mesh geometry, and distributed execution.
 The current application supports adaptive Cartesian meshes, Euler hydro,
-uncoupled M1 radiation transport, and Newtonian gravity with open, periodic,
+M1 radiation with gray matter exchange, and Newtonian gravity with open, periodic,
 and reflecting boundaries.
 
 Start with [problem builds](../BUILDING.md), [storage and execution](../STORAGE.md),
 [the numerical conventions](numerics.md), [parallel gravity](parallel-fmm.md),
-[profiling](profiling.md), or the
+[radiation coupling](radiation-coupling.md),
+[radiating-star balances and validation](radiating-star-design.md), [profiling](profiling.md), or the
 [bibliography](../BIBLIOGRAPHY.md). The Modules, Classes, and Files pages provide
 API documentation and links to the source. Search accepts names such as
 `StoragePartition`, `RadiationSystem`, or `Runtime`.
+
+The [radiating-star research record](research/radiating-star-2026-09/README.md)
+preserves the earlier leaking-equilibrium equations, prototypes, reference
+solutions, and validation evidence for future work.
 
 ## Build and view
 

@@ -1,0 +1,8 @@
+OctotigerII 0.1.0 | serial fields | radiatingStar | 3D
+step    time[s]         level 0                 level 1                 level 2
+                                        (total/leafs)            (total/leafs)            (total/leafs)
+       0    0.000000e+00                     1/0                     8/0                   64/64
+       2    1.000000e+00                     1/0                     8/0                   64/64
+Analytic comparison: disabled (Analytic comparison disabled)
+gravity multipolePairs=3881640 directPairs=37864960 workerTasks=65 cellsPerLocality= 65536
+Completed 2 steps at t=1.000000e+00 s

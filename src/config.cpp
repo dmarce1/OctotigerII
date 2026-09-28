@@ -7,6 +7,8 @@
 #include <vector>
 #include "octotigerII/gravity/boundary.hpp"
 #include "octotigerII/problems.hpp"
+#include "octotigerII/problems/laneEmden.hpp"
+#include "octotigerII/problems/radiatingStarStructure.hpp"
 #include "octotigerII/verification/analytic.hpp"
 
 #ifdef OCTOTIGERII_WITH_HPX
@@ -94,7 +96,20 @@ namespace {
 			options("star.polytropicIndex", po::value<Real>(), "Polytropic index: 0 < n < 5 (default 1.5)");
 			options("star.atmosphereFraction", po::value<Real>(), "Ambient density divided by central density (default 1e-8)");
 		}
+		options("radiatingStar.centralGasFraction", po::value<Real>(), "Central gas pressure / total pressure of the radiating star (default 0.8)");
+		options("radiatingStar.rotationFraction", po::value<Real>(), "Radiating-star spin / spherical-reference breakup spin (default 0.2)");
+		options("radiatingStar.opticalDepthScale", po::value<Real>(), "Radiating-sphere kappa_0*rho_c*alpha unless radiation.opacity is supplied (default 240)");
+		options("radiatingStar.opacityCutoffFraction", po::value<Real>(), "Radiating-sphere reference density/rho_c where its envelope becomes transparent (default 0.016)");
+		options("radiatingStar.radialCells", po::value<int>(), "Radial resolution of the stellar reference solve (default 256)");
+		options("radiatingStar.angularPoints", po::value<int>(), "Angular quadrature points of the stellar reference solve (default 32)");
+		options("radiatingStar.multipoles", po::value<int>(), "Highest angular multipole of the stellar reference solve (default 12)");
+		options("radiatingStar.structureTolerance", po::value<Real>(), "Iteration tolerance of the stellar reference solve (default 1e-9)");
 		options("radiation.lightSpeedRatio", po::value<Real>(), "Radiation transport speed divided by c");
+		options("radiation.enabled", po::value<std::string>(), "Add radiation to a hydro problem: on/off (default off)");
+		options("radiation.closedBoundary", po::value<std::string>(), "Insulate radiation energy at a fixed free box boundary: on/off (default off)");
+		options("radiation.opacity", po::value<Real>(), "Equal gray absorption/emission opacity (cm^2/g); 0 disables exchange");
+		options("radiation.diagnosticLength", po::value<Real>(), "Physical length for nonfatal RSLA diagnostics (cm); 0 uses box width");
+		options("radiation.initialEnergyRatio", po::value<Real>(), "Added radiation energy divided by local source-equilibrium energy (default 1)");
 		options("gravity.multipoleOrder", po::value<int>(), "Gravity expansion order (1..10)");
 		options("gravity.openingAngle", po::value<Real>(), "Gravity opening angle");
 		options("gravity.timeIntegration", po::value<std::string>(), "Time-refined self-gravity: hierarchical (default) or conventional");
@@ -235,7 +250,20 @@ namespace {
 		readQuantity(values, "star.centralDensity", config.star.centralDensity);
 		readNumber(values, "star.polytropicIndex", config.star.polytropicIndex);
 		readNumber(values, "star.atmosphereFraction", config.star.atmosphereFraction);
+		readNumber(values, "radiatingStar.centralGasFraction", config.radiatingStar.centralGasFraction);
+		readNumber(values, "radiatingStar.rotationFraction", config.radiatingStar.rotationFraction);
+		readNumber(values, "radiatingStar.opticalDepthScale", config.radiatingStar.opticalDepthScale);
+		readNumber(values, "radiatingStar.opacityCutoffFraction", config.radiatingStar.opacityCutoffFraction);
+		readOption(values, "radiatingStar.radialCells", config.radiatingStar.radialCells);
+		readOption(values, "radiatingStar.angularPoints", config.radiatingStar.angularPoints);
+		readOption(values, "radiatingStar.multipoles", config.radiatingStar.multipoles);
+		readNumber(values, "radiatingStar.structureTolerance", config.radiatingStar.structureTolerance);
 		readNumber(values, "radiation.lightSpeedRatio", config.radiation.lightSpeedRatio, "radiation.light_speed_ratio");
+		readBoolean(values, "radiation.enabled", config.radiation.enabled);
+		readBoolean(values, "radiation.closedBoundary", config.radiation.closedBoundary);
+		readNumber(values, "radiation.opacity", config.radiation.opacity);
+		readNumber(values, "radiation.diagnosticLength", config.radiation.diagnosticLength);
+		readNumber(values, "radiation.initialEnergyRatio", config.radiation.initialEnergyRatio);
 		readOption(values, "gravity.multipoleOrder", config.gravity.multipoleOrder, "gravity.multipole_order");
 		readNumber(values, "gravity.openingAngle", config.gravity.openingAngle, "gravity.opening_angle");
 		readOption(values, "gravity.timeIntegration", config.gravity.timeIntegration);
@@ -249,6 +277,14 @@ namespace {
 }	 // namespace
 
 void Config::validate() const {
+	if (!std::isfinite(radiation.opacity) || radiation.opacity < 0 ||
+		!std::isfinite(radiation.diagnosticLength) || radiation.diagnosticLength < 0 ||
+		!std::isfinite(radiation.initialEnergyRatio) || radiation.initialEnergyRatio < 0)
+		throw std::invalid_argument("Radiation opacity, diagnosticLength, and initialEnergyRatio must be finite and nonnegative");
+	if (radiation.enabled && (!build::radiation || !hydroEnabled()))
+		throw std::invalid_argument("Adding radiation requires a hydro problem and OCTOII_WITH_RADIATION=ON");
+	if (radiation.opacity > 0 && (!hydroEnabled() || !radiationEnabled()))
+		throw std::invalid_argument("Radiation matter exchange requires both hydro and radiation");
 	if (gravity.timeIntegration != "hierarchical" && gravity.timeIntegration != "conventional")
 		throw std::invalid_argument("gravity.timeIntegration must be hierarchical or conventional");
 	if (gravity.energyTreatment != "mullen" && gravity.energyTreatment != "naive")
@@ -277,8 +313,10 @@ void Config::validate() const {
 		if (!units::finite(component)) throw std::invalid_argument("External acceleration must be finite");
 	}
 	if (!hydroEnabled() && hasExternalAcceleration()) throw std::invalid_argument("External acceleration requires hydro");
-	if (ndim != 3 && hasExternalAcceleration()) throw std::invalid_argument("Gravity requires a 3D build");
 	mesh.boundary.validate();
+	if (radiation.closedBoundary && (!radiationEnabled() || frame.omega != units::InverseTime{}
+		|| !mesh.boundary.all(physics::BoundaryCondition::Outflow)))
+		throw std::invalid_argument("radiation.closedBoundary requires radiation, a fixed grid, and outflow gas/gravity boundaries");
 	if (!units::finite(frame.omega)) throw std::invalid_argument("frame.omega must be finite");
 	if (frame.omega != units::InverseTime{}) {
 		if (ndim < 2) throw std::invalid_argument("Rotation about z requires at least two dimensions");
@@ -345,6 +383,7 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		throw std::invalid_argument("No problem specified. Set problem.name in an INI file or use --problem.name=<name>.");
 	problemDefaults(config);
 	bool lowerSet = false, upperSet = false, gammaSet = false, densitySet = false;
+	bool radiusSet = false, opacitySet = false, stopTimeSet = false, opacityProfileSet = false;
 	std::array<bool, ndim> centerSet{};
 	auto apply = [&](po::variables_map const& values) {
 		for (int d = 0; d < ndim; ++d) centerSet[d] = centerSet[d] || values.count(std::string("star.center.") + "xyz"[d]);
@@ -352,6 +391,10 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 		upperSet = upperSet || values.count("mesh.upper");
 		gammaSet = gammaSet || values.count("hydro.gamma");
 		densitySet = densitySet || values.count("amr.refineDensity");
+		radiusSet = radiusSet || values.count("star.radius");
+		opacitySet = opacitySet || values.count("radiation.opacity");
+		opacityProfileSet = opacityProfileSet || values.count("radiatingStar.opticalDepthScale") || values.count("radiatingStar.opacityCutoffFraction");
+		stopTimeSet = stopTimeSet || values.count("runtime.stopTime") || values.count("runtime.stop_time");
 		applySettings(config, values);
 	};
 	for (auto const& values : files) apply(values);
@@ -363,6 +406,26 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 			if (!centerSet[d]) config.star.center[d] = (config.mesh.lower + config.mesh.upper) / 2.0;
 		if (!gammaSet) config.hydro.gamma = config.problem == "rotatingStar" ? Real(5) / 3 : 1 + 1 / config.star.polytropicIndex;
 		if (!densitySet) config.amr.refineDensity = 0.01 * config.star.centralDensity;
+	}
+	if (config.problem == "radiating-sphere" || config.problem == "radiatingStar") {
+		if (radiusSet) throw std::invalid_argument("The radiating-star length scale is derived from centralDensity and centralGasFraction; do not also set star.radius");
+		problems::RadiatingStarEos const eos({config.star.polytropicIndex, config.star.centralDensity,
+			config.radiatingStar.centralGasFraction, config.hydro.meanMolecularWeight});
+		// The Lane-Emden reference fixes the physical scale; the rotating SCF
+		// determines its own equatorial and polar material surfaces.
+		config.star.radius = eos.scaleLength() * problems::LaneEmden(config.star.polytropicIndex).surface();
+		Real const halfWidth = config.problem == "radiatingStar" ? 1.2 : 2.0;
+		if (!lowerSet) config.mesh.lower = -halfWidth * config.star.radius;
+		if (!upperSet) config.mesh.upper = halfWidth * config.star.radius;
+		for (int d=0;d<ndim;++d) if (!centerSet[d]) config.star.center[d]=(config.mesh.lower+config.mesh.upper)/2.0;
+		if (!gammaSet) config.hydro.gamma=Real(5)/3;
+		if (!densitySet) config.amr.refineDensity=0.001*config.star.centralDensity;
+		if (config.problem == "radiatingStar") {
+			if (opacityProfileSet) throw std::invalid_argument("radiatingStar uses constant radiation.opacity; the opacity profile controls belong to radiating-sphere");
+			if (!opacitySet) config.radiation.opacity = 0.34;
+		} else if (!opacitySet) config.radiation.opacity=config.radiatingStar.opticalDepthScale
+			/(units::value(config.star.centralDensity)*units::value(eos.scaleLength()));
+		if (!stopTimeSet) config.runtime.stopTime=0.1/units::sqrt(constants::G*config.star.centralDensity);
 	}
 	config.validate();
 	return config;

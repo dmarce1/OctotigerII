@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "octotigerII/refinement/criteria.hpp"
 #include "octotigerII/subgrid/subgrid.hpp"
+#include "octotigerII/problems.hpp"
 
 namespace octotigerII::amr {
 
@@ -50,6 +51,7 @@ public:
 private:
 	void advanceOnce(units::Time dt);
 	Config config_;
+	ProblemRadiationMaterial radiationMaterial_;
 	units::Time time_{};
 	int blockBits_ = 0;
 	Values scale_;

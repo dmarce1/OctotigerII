@@ -23,8 +23,18 @@ public:
 	units::Action angularMomentumZ{}; ///< Inertial grid integral; excludes escaped angular momentum.
 	units::Density maximumDensity{};
 	BoundaryTransport boundary;
+	/// Cumulative prescribed energy added to Er; divide by chat/c for RSLA budgets.
+	units::Energy radiationSourceEnergy{};
 	ConservedTotals norm; ///< Sum of absolute cell contributions, component by component.
 	units::Energy gasGravityNorm{};
+	/// Gas plus radiation plus self-binding energy. RSLA weights radiation by c/chat.
+	units::Energy physicalTotalEnergy{}, rslaTotalEnergy{};
+	units::Energy physicalTotalEnergyNorm{}, rslaTotalEnergyNorm{};
+	/// Inertial gas momentum plus F/c^2 (physical) or F/(c*chat) (RSLA).
+	std::array<units::Momentum, ndim> physicalTotalMomentum{}, rslaTotalMomentum{};
+	std::array<units::Momentum, ndim> physicalTotalMomentumNorm{}, rslaTotalMomentumNorm{};
+	/// On-grid inertial moments only; no escaped angular momentum is included.
+	units::Action radiationAngularMomentumZ{}, physicalTotalAngularMomentumZ{}, rslaTotalAngularMomentumZ{};
 	/// Cumulative measured gravity-operator defect and actual energy jumps at regrids.
 	/// Diagnostic only: neither quantity is removed from the reported physical drift.
 	units::Energy gravityReciprocityDefect{}, gravityRegridEnergyChange{};
@@ -32,6 +42,8 @@ public:
 	units::Pressure minimumPressure{};
 	units::EnergyDensity minimumRadiationEnergy{};
 	Real maximumReducedFlux = 0;
+	/// Nonfatal local optical-depth and radiation transport timescale estimates.
+	Real maximumCellOpticalDepth = 0, maximumTrappingParameter = 0, maximumRslaCriterion = 0;
 };
 
 

@@ -1,0 +1,17 @@
+Internal ctest changing into directory: /tmp/octoii-radiation-hpx
+Test project /tmp/octoii-radiation-hpx
+    Start 167: 3d.radiationBoundaryChecks.RadiationBoundary.InsulationOverridesApAdvectionAndPreservesPressureFluxInProbes
+    Start 166: 3d.radiationBoundaryChecks.RadiationBoundary.OptionIsExplicitAndRejectsUnsupportedGeometry
+1/4 Test #166: 3d.radiationBoundaryChecks.RadiationBoundary.OptionIsExplicitAndRejectsUnsupportedGeometry .......................   Passed    0.06 sec
+    Start 168: 3d.radiationBoundaryChecks.RadiationBoundary.RealizabilityFallbackCannotReintroduceEnergyLeakage
+2/4 Test #167: 3d.radiationBoundaryChecks.RadiationBoundary.InsulationOverridesApAdvectionAndPreservesPressureFluxInProbes ......   Passed    0.08 sec
+    Start 169: 3d.radiationBoundaryChecks.RadiationBoundary.CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasBoundaries
+3/4 Test #168: 3d.radiationBoundaryChecks.RadiationBoundary.RealizabilityFallbackCannotReintroduceEnergyLeakage .................   Passed    0.04 sec
+4/4 Test #169: 3d.radiationBoundaryChecks.RadiationBoundary.CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasBoundaries ...   Passed    7.15 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Label Time Summary:
+integration    =   7.32 sec*proc (4 tests)
+
+Total Test time (real) =   7.26 sec

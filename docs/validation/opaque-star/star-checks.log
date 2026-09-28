@@ -1,0 +1,18 @@
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from RadiatingStar
+[ RUN      ] RadiatingStar.DefaultsUseFullLightSpeedUniformOpacityAndNoPhotonSource
+[       OK ] RadiatingStar.DefaultsUseFullLightSpeedUniformOpacityAndNoPhotonSource (16 ms)
+[ RUN      ] RadiatingStar.BoostedDiffusionMomentsHaveConsistentThermalAndMechanicalForces
+[       OK ] RadiatingStar.BoostedDiffusionMomentsHaveConsistentThermalAndMechanicalForces (15 ms)
+[ RUN      ] RadiatingStar.RejectsReducedLightSpeedLeakingWallsAndObsoleteOpacityProfiles
+[       OK ] RadiatingStar.RejectsReducedLightSpeedLeakingWallsAndObsoleteOpacityProfiles (3 ms)
+[ RUN      ] RadiatingStar.ShortEvolutionHasNoPhotonHeaterOrEscapingRadiationEnergy
+opaque rotating star cells=8 steps=3 time=6.49913 densityL1=0.00143074 meridionalRmsMach=0.00196068 radiationDrift=0.0198793 energyBudget=1.71377e-16 massBudget=0 negativeGasEnergyNorm=5.36512e-11 negativeGasEnergyMassFraction=1.71416e-09 maximumFlux=0.837711
+opaque rotating star cells=16 steps=6 time=6.49913 densityL1=0.00132959 meridionalRmsMach=0.00143041 radiationDrift=-0.000118049 energyBudget=1.46426e-16 massBudget=-1.17206e-16 negativeGasEnergyNorm=2.54128e-12 negativeGasEnergyMassFraction=1.94141e-10 maximumFlux=0.951343
+[       OK ] RadiatingStar.ShortEvolutionHasNoPhotonHeaterOrEscapingRadiationEnergy (9704 ms)
+[----------] 4 tests from RadiatingStar (9739 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (9739 ms total)
+[  PASSED  ] 4 tests.

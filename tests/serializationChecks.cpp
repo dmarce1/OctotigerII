@@ -35,6 +35,9 @@ void check() {
 	c.gravity.conserveRegridEnergy = false;
 	c.hydro.dualEnergy = {true, -0.5, 0.003, 0.2};
 	c.hydro.meanMolecularWeight = 0.6;
+	c.radiation.lightSpeedRatio = 0.25;
+	c.radiation.diagnosticLength = 7.5e8;
+	c.radiation.initialEnergyRatio = 0.3;
 	if (c.hydroEnabled() && build::massFractions) {
 		c.massFractions.enabled = true;
 		c.massFractions.species = composition::parseSpecies("gas:1:He=70%,O=30%;dye:2:A=0,Z=0");
@@ -42,6 +45,14 @@ void check() {
 	c.amr.refineDensity = units::Density::from_value(0.03);
 	c.star.radius = units::Length::from_value(8e8);
 	c.star.center[0] = units::Length::from_value(2e8);
+	c.radiatingStar.centralGasFraction = 0.7;
+	c.radiatingStar.rotationFraction = 0.15;
+	c.radiatingStar.opticalDepthScale = 321;
+	c.radiatingStar.opacityCutoffFraction = 0.021;
+	c.radiatingStar.radialCells = 192;
+	c.radiatingStar.angularPoints = 24;
+	c.radiatingStar.multipoles = 10;
+	c.radiatingStar.structureTolerance = 3e-9;
 	c.verification.directSamples = 23;
 	c.verification.directMaxPairs = 12345;
 	c.verification.gravityReference = "continuum";
@@ -50,6 +61,9 @@ void check() {
 	c.rayleighTaylor.perturbation = units::Velocity::from_value(0.031);
 	auto before = initialSnapshot(c, {0, {}});
 	// Round-trip all option types even in builds without hydro.
+	c.radiation.enabled = true;
+	c.radiation.closedBoundary = true;
+	c.radiation.opacity = 0.4;
 	c.hydro.acceleration[ndim - 1] = units::Acceleration::from_value(-0.17);
 	before.time = units::Time::from_value(0.125);
 	before.hydro = hydro::Fields(before.layout, before.cellWidth, before.lower);
@@ -112,12 +126,26 @@ void check() {
 	EXPECT_EQ(restored.hydro.dualEnergy.pressureThreshold, c.hydro.dualEnergy.pressureThreshold);
 	EXPECT_EQ(restored.hydro.dualEnergy.syncThreshold, c.hydro.dualEnergy.syncThreshold);
 	EXPECT_EQ(restored.hydro.meanMolecularWeight, c.hydro.meanMolecularWeight);
+	EXPECT_EQ(restored.radiation.enabled, c.radiation.enabled);
+	EXPECT_EQ(restored.radiation.closedBoundary, c.radiation.closedBoundary);
+	EXPECT_EQ(restored.radiation.opacity, c.radiation.opacity);
+	EXPECT_EQ(restored.radiation.lightSpeedRatio, c.radiation.lightSpeedRatio);
+	EXPECT_EQ(restored.radiation.diagnosticLength, c.radiation.diagnosticLength);
+	EXPECT_EQ(restored.radiation.initialEnergyRatio, c.radiation.initialEnergyRatio);
 	EXPECT_EQ(restored.amr.refineDensity, c.amr.refineDensity);
 	EXPECT_EQ(restored.star.radius, c.star.radius);
 	EXPECT_EQ(restored.star.center, c.star.center);
 	EXPECT_EQ(restored.star.centralDensity, c.star.centralDensity);
 	EXPECT_EQ(restored.star.polytropicIndex, c.star.polytropicIndex);
 	EXPECT_EQ(restored.star.atmosphereFraction, c.star.atmosphereFraction);
+	EXPECT_EQ(restored.radiatingStar.centralGasFraction, c.radiatingStar.centralGasFraction);
+	EXPECT_EQ(restored.radiatingStar.rotationFraction, c.radiatingStar.rotationFraction);
+	EXPECT_EQ(restored.radiatingStar.opticalDepthScale, c.radiatingStar.opticalDepthScale);
+	EXPECT_EQ(restored.radiatingStar.opacityCutoffFraction, c.radiatingStar.opacityCutoffFraction);
+	EXPECT_EQ(restored.radiatingStar.radialCells, c.radiatingStar.radialCells);
+	EXPECT_EQ(restored.radiatingStar.angularPoints, c.radiatingStar.angularPoints);
+	EXPECT_EQ(restored.radiatingStar.multipoles, c.radiatingStar.multipoles);
+	EXPECT_EQ(restored.radiatingStar.structureTolerance, c.radiatingStar.structureTolerance);
 	EXPECT_EQ(restored.rayleighTaylor.densityLower, c.rayleighTaylor.densityLower);
 	EXPECT_EQ(restored.rayleighTaylor.densityUpper, c.rayleighTaylor.densityUpper);
 	EXPECT_EQ(restored.rayleighTaylor.interfacePressure, c.rayleighTaylor.interfacePressure);

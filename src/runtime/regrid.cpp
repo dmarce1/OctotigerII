@@ -56,6 +56,7 @@ void Runtime::Impl::install(std::vector<mesh::BlockLocation> const& leaves, amr:
 
 void Runtime::Impl::recoverRegridEnergy(unsigned targetBank) {
 	if (!regridEnergyPending) return;
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
 	auto const& directory = fields->directory();
 	hydro::HydroSystem const gas(config.hydro);
 	for (auto const& block : topology->blocks()) {
@@ -72,6 +73,10 @@ void Runtime::Impl::recoverRegridEnergy(unsigned targetBank) {
 		}
 		directory.hydro.commit(block.interior, targetBank, output);
 	}
+#else
+	(void) targetBank;
+	throw std::logic_error("Gravity energy recovery requires hydro and gravity in this build");
+#endif
 }
 
 bool Runtime::regrid(units::Time nextStep, bool force) {

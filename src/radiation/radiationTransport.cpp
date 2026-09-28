@@ -6,15 +6,32 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include <string>
 
 
 namespace octotigerII::radiation {
 
 RadiationSystem::RadiationSystem(units::Velocity reducedLightSpeed)
-  : reducedLightSpeed_(reducedLightSpeed) {
+  : RadiationSystem(reducedLightSpeed, InsulatingBoundary{}) {}
+
+RadiationSystem::RadiationSystem(units::Velocity reducedLightSpeed, InsulatingBoundary boundary)
+  : reducedLightSpeed_(reducedLightSpeed), boundary_(boundary) {
 	if (!(reducedLightSpeed_ > units::Velocity{}) || !units::finite(reducedLightSpeed_)) {
 		throw std::invalid_argument("Reduced light speed must be positive and finite");
 	}
+	if (boundary_.enabled && (!(boundary_.upper > boundary_.lower)
+		|| !units::finite(boundary_.lower) || !units::finite(boundary_.upper)))
+		throw std::invalid_argument("An insulating radiation boundary needs finite ordered domain bounds");
+}
+
+bool RadiationSystem::closedEnergyFace(mesh::PhysicalCoordinates const& position, int normal, units::Length cellWidth) const {
+	if (!boundary_.enabled) return false;
+	// Account only for coordinate-arithmetic roundoff. The cell-width cap keeps
+	// a large coordinate offset from accidentally marking an interior face.
+	auto const scale = std::max({units::abs(position.at(normal)), units::abs(boundary_.lower), units::abs(boundary_.upper), cellWidth});
+	auto const tolerance = std::min(Real(64) * epsilonR * scale, Real(1e-6) * cellWidth);
+	return units::abs(position.at(normal) - boundary_.lower) <= tolerance
+		|| units::abs(position.at(normal) - boundary_.upper) <= tolerance;
 }
 
 units::Velocity RadiationSystem::reducedLightSpeed() const {
@@ -28,13 +45,31 @@ RadiationSystem::Reconstruction RadiationSystem::reconstructionVariables(State c
 }
 
 RadiationSystem::State RadiationSystem::conservedState(Reconstruction const& state) const {
-	return fromCalculationState(state);
+	// A slope trial outside the cone must reach the generic limiter unchanged.
+	// Put accepted states near the cone boundary slightly inside it, so the
+	// subsequent Hancock arithmetic and grid rotation do not turn roundoff
+	// into a first-order fallback. Check the physical round-trip because
+	// multiplication by c can move a trial across the tolerance boundary.
+	auto const physical = fromCalculationState(state);
+	auto const calculation = toCalculationState(physical);
+	auto const magnitude = Method::magnitude(calculation);
+	constexpr Real interiorMargin = Real(64) * epsilonR;
+	if (Method::admissible(calculation) && calculation[0] > units::EnergyDensity{} &&
+		magnitude > (Real(1) - interiorMargin) * calculation[0]) {
+		auto interior = calculation;
+		auto const factor = Real((Real(1) - interiorMargin) * calculation[0] / magnitude);
+		for (int i = 1; i < Reconstruction::size(); ++i) interior[i] *= factor;
+		return fromCalculationState(interior);
+	}
+	return physical;
 }
 
-RadiationSystem::Flux RadiationSystem::physicalFlux(State const& state, int normal, units::Velocity faceSpeed) const {
+RadiationSystem::Flux RadiationSystem::physicalFlux(State const& state, int normal, units::Velocity faceSpeed) const try {
 	auto result = fromCalculationFlux(Method::physicalFlux(toCalculationState(state), normal, reducedLightSpeed_).flux);
 	if (faceSpeed != units::Velocity{}) result -= advectiveFlux(state, faceSpeed);
 	return result;
+} catch (std::runtime_error const& error) {
+	throw std::runtime_error(std::string("Radiation physical face flux: ") + error.what());
 }
 
 RadiationSystem::Flux RadiationSystem::riemann(State const& left, State const& right, int normal, units::Velocity faceSpeed) const {
@@ -57,18 +92,29 @@ RadiationSystem::State RadiationSystem::reflected(State state, int normal) const
 }
 
 RadiationSystem::State RadiationSystem::outflow(State state, int normal, bool lower) const {
+	// The reflected extension supplies admissible virtual neighbors to the face
+	// limiter. The accepted face-energy constraint is imposed after AP matching;
+	// this ghost transform alone cannot suppress the material advective flux.
+	if (boundary_.enabled) return reflected(state, normal);
 	auto& flux = state.radiativeFlux(normal);
 	if (lower ? flux > units::EnergyFlux{} : flux < units::EnergyFlux{}) flux = {};
 	return state;
 }
 
-units::Velocity RadiationSystem::maximumSignalSpeed(State const& state, int normal, units::Velocity faceSpeed) const {
+units::Velocity RadiationSystem::maximumSignalSpeed(State const& state, int normal, units::Velocity faceSpeed) const try {
 	auto const waves = Method::physicalFlux(toCalculationState(state), normal, reducedLightSpeed_);
 	return std::max(units::abs(waves.minus - faceSpeed), units::abs(waves.plus - faceSpeed));
+} catch (std::runtime_error const& error) {
+	throw std::runtime_error(std::string("Radiation signal speed: ") + error.what());
 }
 
 bool RadiationSystem::admissible(State const& state) const {
 	return Method::admissible(toCalculationState(state));
+}
+
+bool RadiationSystem::admissibleInterpolation(State const& physical) const {
+	auto const state = toCalculationState(physical);
+	return finite(state) && state[0] >= units::EnergyDensity{} && Method::magnitude(state) <= state[0];
 }
 
 RadiationSystem::State RadiationSystem::correctRoundoff(State state, State const& updateScale) const {
@@ -76,55 +122,63 @@ RadiationSystem::State RadiationSystem::correctRoundoff(State state, State const
 }
 
 RadiationSystem::Flux RadiationSystem::limitFlux(
-	State const& left, State const& right, Flux const& highOrderFlux, int normal, units::TimePerLength stepOverCellWidth, units::Velocity faceSpeed) const {
+	State const& left, State const& right, Flux const& highOrderFlux, int normal, units::TimePerLength stepOverCellWidth,
+	units::Velocity faceSpeed, Flux const* correctedLowOrder, bool zeroEnergyFlux) const {
+	if (zeroEnergyFlux && (highOrderFlux.energy() != units::EnergyFlux{} || faceSpeed != units::Velocity{}))
+		throw std::invalid_argument("An insulating radiation face requires zero energy flux on a fixed grid");
 	if (stepOverCellWidth == units::TimePerLength{}) {
 		return highOrderFlux;
 	}
 	Flux const leftPhysical = physicalFlux(left, normal, faceSpeed);
 	Flux const rightPhysical = physicalFlux(right, normal, faceSpeed);
 	auto const factor = Real(2 * ndim) * stepOverCellWidth;
-	auto const tolerance = Method::roundoff * (left.energy() + right.energy());
 	auto validState = [&](State const& physical) {
-		auto const state = toCalculationState(physical);
-		if (Method::admissible(state)) {
-			return true;
-		}
-		if (!units::finite(state[0]) || state[0] < -tolerance) {
-			return false;
-		}
-		units::EnergyDensity magnitude{};
-		for (int field = 1; field < State::size(); ++field) {
-			if (!units::finite(state[field])) {
-				return false;
-			}
-			magnitude = units::hypot(magnitude, state[field]);
-		}
-		return magnitude - std::max(units::EnergyDensity{}, state[0]) <= tolerance;
+		// A tolerance based on the brighter neighbor can admit cone overshoot
+		// larger than the faint cell's complete update and its roundoff budget.
+		// Keep these convex face states inside the cone; the final summed update
+		// still has its own scale-aware roundoff repair.
+		return admissibleInterpolation(physical);
 	};
 	auto validFlux = [&](Flux const& flux) {
 		return validState(State(left - integratedFlux(flux - leftPhysical, factor))) && validState(State(right + integratedFlux(flux - rightPhysical, factor)));
 	};
-	if (validFlux(highOrderFlux)) {
+	auto roundoffValidFlux = [&](Flux const& flux) {
+		// A face flux can land just outside the exact cone when an input lies
+		// on its boundary. Match the update's local M1 roundoff
+		// allowance here without borrowing a tolerance from the other cell.
+		return admissible(State(left - integratedFlux(flux - leftPhysical, factor))) &&
+			admissible(State(right + integratedFlux(flux - rightPhysical, factor)));
+	};
+	if (validFlux(highOrderFlux) || roundoffValidFlux(highOrderFlux)) {
 		return highOrderFlux;
 	}
 
-	auto const speed = (reducedLightSpeed_ + units::abs(faceSpeed)) * (Real(1) + Method::roundoff);
-	Flux const lowOrderFlux = Flux(Real(0.5) * (leftPhysical + rightPhysical - advectiveFlux(right - left, speed)));
-	if (!validFlux(lowOrderFlux)) {
+	Flux lowFlux = lowOrderFlux(left, right, normal, faceSpeed);
+	if (zeroEnergyFlux) lowFlux.energy() = {};
+	if (correctedLowOrder && (validFlux(*correctedLowOrder) || roundoffValidFlux(*correctedLowOrder))) lowFlux = *correctedLowOrder;
+	if (zeroEnergyFlux && lowFlux.energy() != units::EnergyFlux{})
+		throw std::invalid_argument("Insulating radiation limiter received a leaking low-order flux");
+	if (!validFlux(lowFlux) && !roundoffValidFlux(lowFlux)) {
 		throw std::runtime_error("First-order M1 flux violates realizability at this timestep");
 	}
 	Real low = 0;
 	Real high = 1;
 	for (int iteration = 0; iteration < 56; ++iteration) {
 		Real const fraction = Real(0.5) * (low + high);
-		Flux const candidate = Flux(lowOrderFlux + fraction * (highOrderFlux - lowOrderFlux));
+		Flux const candidate = Flux(lowFlux + fraction * (highOrderFlux - lowFlux));
 		if (validFlux(candidate)) {
 			low = fraction;
 		} else {
 			high = fraction;
 		}
 	}
-	return Flux(lowOrderFlux + low * (highOrderFlux - lowOrderFlux));
+	return Flux(lowFlux + low * (highOrderFlux - lowFlux));
+}
+
+RadiationSystem::Flux RadiationSystem::lowOrderFlux(State const& left, State const& right, int normal, units::Velocity faceSpeed) const {
+	auto const speed = (reducedLightSpeed_ + units::abs(faceSpeed)) * (Real(1) + Method::roundoff);
+	return Flux(Real(0.5) * (physicalFlux(left, normal, faceSpeed) + physicalFlux(right, normal, faceSpeed)
+		- advectiveFlux(right - left, speed)));
 }
 
 RadiationSystem::State RadiationSystem::fromPhysical(units::EnergyDensity energyDensity, std::array<units::EnergyFlux, ndim> const& physicalFlux) {

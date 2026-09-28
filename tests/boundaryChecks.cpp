@@ -395,9 +395,8 @@ TEST(BoundaryRuntime, MixedAndAnalyticBoundariesAreIndependentOfDecomposition) {
 
 }	 // namespace
 
-#if OCTOTIGERII_HYDRO
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_NDIM >= 2
 TEST(RotatingBoundary, GasDiodeUsesMovingNormalAndPreservesInternalEnergy) {
-	if constexpr (ndim < 2) GTEST_SKIP();
 	hydro::HydroSystem gas;
 	hydro::PrimitiveState primitive{};
 	primitive.density() = units::Density::from_value(1);
@@ -415,9 +414,8 @@ TEST(RotatingBoundary, GasDiodeUsesMovingNormalAndPreservesInternalEnergy) {
 	EXPECT_TRUE(gas.admissible(ghost));
 }
 #endif
-#if OCTOTIGERII_RADIATION
+#if OCTOTIGERII_RADIATION && OCTOTIGERII_NDIM >= 2
 TEST(RotatingBoundary, VacuumExteriorRemainsRealizableAtFastMovingFace) {
-	if constexpr (ndim < 2) GTEST_SKIP();
 	radiation::RadiationSystem rad(units::Velocity::from_value(1));
 	radiation::RadiationSystem::State initial{};
 	initial.energy() = units::EnergyDensity::from_value(1);

@@ -112,6 +112,24 @@ remain. Analytic gravity is not implemented.
 See [periodic and reflecting gravity](gravity-images.md) for the image geometry,
 acceptance tests, Ewald kernels, potential conventions, and verification.
 
+## Radiation energy confinement
+
+`radiation.closedBoundary=on` adds a radiation-only insulating constraint to a
+fixed box with outflow hydro boundaries and isolated gravity. It reflects the
+normal radiation flux in the virtual neighbor and sets the accepted shared
+radiation energy face flux to zero **after** the optical-depth correction.
+Both high/low candidates and realizability fallback retain this constraint;
+reflecting the ghost flux alone would not suppress the AP material-advection
+term. Coarse/fine flux registers and boundary ledgers use that same accepted
+face flux.
+
+Gas outflow is unchanged. Radiation pressure transport remains active and can
+exchange momentum with the wall, so zero escaping energy does not mean zero
+wall force or torque. This option currently rejects a rotating grid and any
+non-outflow mesh boundary. It is distinct from `mesh.boundary=reflecting`,
+which also reflects hydro and changes gravity through image masses. The
+[opaque rotating-star benchmark](radiating-star-design.md) uses this option.
+
 ## Tests
 
 `boundaryChecks` covers face parsing, precedence, invalid pairs, inactive axes,
@@ -125,3 +143,7 @@ metadata. Run the focused checks from a configured build directory with:
 ```sh
 ctest --output-on-failure -R 'Boundary|GravityBoundaries|FiniteVolume'
 ```
+
+`radiationBoundaryChecks` exercises the insulating constraint in instantaneous
+and padded predictor fluxes, the realizability fallback, and coupled uniform
+and mixed-AMR evolution with regridding and energy/momentum ledgers.

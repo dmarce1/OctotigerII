@@ -1,10 +1,10 @@
 # Source file inventory
 
 This is a map of the maintained program source as of 2026-09-26, after the
-source reorganization. It covers 161 C++/Python/shell/CMake source files in the
-root, `bin/`, `cmake/`, `octotigerII/`, `src/`, and `tests/`, plus two
-build/documentation configuration files and 24 runnable input files: 187 file
-rows in all. It excludes prose documentation, generated build trees, vendored
+source reorganization and radiation-coupling work. It covers maintained
+C++/Python/shell/CMake source files in the root, `bin/`, `cmake/`,
+`octotigerII/`, `src/`, and `tests/`, plus build/documentation configuration
+and runnable input files. It excludes prose documentation, generated build trees, vendored
 packages, output, caches, and binaries. Paths are relative to the repository
 root. `octotigerII/` holds public declarations and inline implementations;
 `src/` holds compiled implementations and the private runtime header.
@@ -50,6 +50,8 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`bin/hydro_tests/Sod/CMakeLists.txt`](../bin/hydro_tests/Sod/CMakeLists.txt) | Registers the 1D/2D/3D Sod problem. |
 | [`bin/hydro_tests/Sod/problem.cpp`](../bin/hydro_tests/Sod/problem.cpp) | Initializes the planar shock tube and reference data. |
 | [`bin/radiation_tests/RadiationPulse/CMakeLists.txt`](../bin/radiation_tests/RadiationPulse/CMakeLists.txt) | Registers the 1D/2D/3D radiation pulse. |
+| [`bin/radiation_tests/MatterCoupling/CMakeLists.txt`](../bin/radiation_tests/MatterCoupling/CMakeLists.txt) | Registers the combined gas/radiation relaxation fixture. |
+| [`bin/radiation_tests/MatterCoupling/problem.cpp`](../bin/radiation_tests/MatterCoupling/problem.cpp) | Initializes smooth moving gas with radiation supplied by the selected source equilibrium. |
 | [`bin/radiation_tests/RadiationPulse/problem.cpp`](../bin/radiation_tests/RadiationPulse/problem.cpp) | Initializes a localized radiation pulse. |
 | [`bin/radiation_tests/Streaming/CMakeLists.txt`](../bin/radiation_tests/Streaming/CMakeLists.txt) | Registers the 1D/2D/3D radiation streaming problem. |
 | [`bin/radiation_tests/Streaming/problem.cpp`](../bin/radiation_tests/Streaming/problem.cpp) | Initializes directed radiation transport and reference state. |
@@ -89,6 +91,10 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`octotigerII/hydro/hydroSystem.hpp`](../octotigerII/hydro/hydroSystem.hpp) | Euler conserved/primitive states, HLLC fluxes, and positivity safeguards. |
 | [`octotigerII/hydro/dualEnergy.hpp`](../octotigerII/hydro/dualEnergy.hpp) | Entropy auxiliary conversion and synchronization rules. |
 | [`octotigerII/radiation/m1.hpp`](../octotigerII/radiation/m1.hpp) | M1 closure and HLL radiation solver in scaled calculation variables. |
+| [`octotigerII/radiation/matterCoupling.hpp`](../octotigerII/radiation/matterCoupling.hpp) | Typed local and transport-forced matter exchange interfaces. |
+| [`octotigerII/radiation/coupledPatch.hpp`](../octotigerII/radiation/coupledPatch.hpp) | Source-aware midpoint patch update used by shadows and diffusion regressions. |
+| [`octotigerII/radiation/diffusionFlux.hpp`](../octotigerII/radiation/diffusionFlux.hpp) | Thick-cell face flux interpolation and moving material source equilibrium. |
+| [`octotigerII/radiation/couplingDiagnostics.hpp`](../octotigerII/radiation/couplingDiagnostics.hpp) | Nonfatal optical-depth, trapping, and reduced-speed estimates. |
 | [`octotigerII/radiation/radiationTransport.hpp`](../octotigerII/radiation/radiationTransport.hpp) | Physical radiation state, moving-face flux adapter, and timestep estimate. |
 | [`octotigerII/composition/species.hpp`](../octotigerII/composition/species.hpp) | Material species, elements, mixtures, and fraction definitions. |
 | [`octotigerII/composition/transport.hpp`](../octotigerII/composition/transport.hpp) | Species and tracer transport driven by the hydro mass flux. |
@@ -149,6 +155,8 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`src/physics/finiteVolume.cpp`](../src/physics/finiteVolume.cpp) | Returns the displayed name of the finite-volume scheme. |
 | [`src/hydro/hydroSystem.cpp`](../src/hydro/hydroSystem.cpp) | Hydro state conversions, HLLC fluxes, characteristic speeds, and limiting. |
 | [`src/radiation/radiationTransport.cpp`](../src/radiation/radiationTransport.cpp) | Radiation M1 fluxes, HLL transport, and realizability limiting. |
+| [`src/radiation/matterCoupling.cpp`](../src/radiation/matterCoupling.cpp) | Conservative implicit gray source integration with safeguarded nonlinear solves. |
+| [`src/runtime/radiation.cpp`](../src/runtime/radiation.cpp) | Distributed coupled midpoint/source stages and interval rollback. |
 | [`src/composition/species.cpp`](../src/composition/species.cpp) | Periodic-table data, species parser, validation, and initial fractions. |
 | [`src/problems/laneEmden.cpp`](../src/problems/laneEmden.cpp) | Numerical Lane–Emden integration and interpolation. |
 | [`src/subgrid.cpp`](../src/subgrid.cpp) | Snapshot allocation and initialization support. |
@@ -214,6 +222,11 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`tests/partialGravityChecks.cpp`](../tests/partialGravityChecks.cpp) | Selected-source/target gravity solves for timestep rungs. |
 | [`tests/polytropeChecks.cpp`](../tests/polytropeChecks.cpp) | Polytrope initialization and equilibrium properties. |
 | [`tests/radiationChecks.cpp`](../tests/radiationChecks.cpp) | M1 radiation states, fluxes, and bounds. |
+| [`tests/radiationCouplingChecks.cpp`](../tests/radiationCouplingChecks.cpp) | Independent thermal/momentum relaxation, source order, dual energy, and stiff pressure balance. |
+| [`tests/radiationDiffusionChecks.cpp`](../tests/radiationDiffusionChecks.cpp) | Transparent/thick flux limits and evolved Fourier diffusion. |
+| [`tests/radiationConservationChecks.cpp`](../tests/radiationConservationChecks.cpp) | Combined physical/weighted budgets, CSV ledgers, and diagnostic Silo roundtrip. |
+| [`tests/radiationIntegrationChecks.cpp`](../tests/radiationIntegrationChecks.cpp) | Production coupling, temporal order, rotating/AMR/gravity conservation, and atomic failure checks. |
+| [`tests/radiationDepthChecks.cpp`](../tests/radiationDepthChecks.cpp) | Coupled predictor stability and conservation on three refinement levels. |
 | [`tests/rayleighTaylorChecks.cpp`](../tests/rayleighTaylorChecks.cpp) | Rayleigh–Taylor setup and evolution properties. |
 | [`tests/rotatingGravityChecks.cpp`](../tests/rotatingGravityChecks.cpp) | Balanced rotation work, mode conservation, AMR transitions, and temporal order. |
 | [`tests/rotatingStarChecks.cpp`](../tests/rotatingStarChecks.cpp) | SCF data, scaling, shape, initialization, and startup refinement. |
@@ -240,6 +253,7 @@ above and set their runnable defaults:
 | [`bin/hydro_tests/RayleighTaylor/inputs`](../bin/hydro_tests/RayleighTaylor/inputs) | Rayleigh–Taylor setup. |
 | [`bin/hydro_tests/Sod/inputs`](../bin/hydro_tests/Sod/inputs) | Sod shock tube setup. |
 | [`bin/radiation_tests/RadiationPulse/inputs`](../bin/radiation_tests/RadiationPulse/inputs) | Radiation pulse setup. |
+| [`bin/radiation_tests/MatterCoupling/inputs`](../bin/radiation_tests/MatterCoupling/inputs) | Combined gas/radiation relaxation setup. |
 | [`bin/radiation_tests/Streaming/inputs`](../bin/radiation_tests/Streaming/inputs) | Radiation streaming setup. |
 | [`bin/science/Collapse/inputs`](../bin/science/Collapse/inputs) | Collapse setup. |
 | [`bin/science/Polytrope/inputs`](../bin/science/Polytrope/inputs) | Polytrope setup. |
@@ -253,6 +267,7 @@ above and set their runnable defaults:
 | [`examples/mass-fractions.ini`](../examples/mass-fractions.ini) | Material fraction transport example. |
 | [`examples/polytrope.ini`](../examples/polytrope.ini) | Self-gravitating polytrope example. |
 | [`examples/radiation-pulse.ini`](../examples/radiation-pulse.ini) | Radiation pulse example. |
+| [`examples/radiation-matter.ini`](../examples/radiation-matter.ini) | Combined gray radiation/matter example. |
 | [`examples/rayleigh-taylor-amr.ini`](../examples/rayleigh-taylor-amr.ini) | Refined Rayleigh–Taylor example. |
 | [`examples/rotating-star.ini`](../examples/rotating-star.ini) | Corotating star with hierarchical gravity rungs. |
 | [`examples/rotating-star-inertial.ini`](../examples/rotating-star-inertial.ini) | Same star on a stationary grid. |

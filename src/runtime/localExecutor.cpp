@@ -62,6 +62,8 @@ LocalExecutor::LocalExecutor(Config config, std::vector<Subgrid> blocks, FieldDi
   , blocks_(std::move(blocks))
   , fields_(std::move(fields))
   , owner_(owner) {
+	radiationMaterial_ = problemRadiationMaterial(config_);
+	if (!radiationMaterial_) throw std::invalid_argument("Problem radiation material factory returned no evaluator");
 	if (config_.mesh.boundary.contains(physics::BoundaryCondition::Analytic)) {
 		auto evaluator = problemBoundary(config_);
 		if (build::hydro && config_.hydroEnabled()) {
@@ -137,6 +139,8 @@ PhaseResult LocalExecutor::run(Operation operation, units::Time dt, std::uint64_
 		pending.push_back(hpx::async(profiling::annotated([&, i] { return worker(operation, dt, generation, executors, workspaces_[i]); },
 			operation == Operation::Timestep	? "runtime.timestep.worker" :
 				operation == Operation::Advance ? "runtime.advance.worker" :
+				operation == Operation::PredictRadiationStep || operation == Operation::FinishRadiationStep ||
+					operation == Operation::ForecastRadiationStep || operation == Operation::CoupleRadiation ? "runtime.radiation_source.worker" :
 				operation == Operation::Reflux	? "runtime.reflux.worker" :
 												  "runtime.gravity_kick.worker")));
 	auto results = collect(pending);
@@ -146,6 +150,7 @@ PhaseResult LocalExecutor::run(Operation operation, units::Time dt, std::uint64_
 	PhaseResult result;
 	for (auto const& part : results) {
 		result.boundary += part.boundary;
+		result.radiationSourceEnergy += part.radiationSourceEnergy;
 		result.tasks.localTasks += part.tasks.localTasks;
 		result.tasks.stolenTasks += part.tasks.stolenTasks;
 		result.timestep = std::min(result.timestep, part.timestep);
@@ -216,6 +221,10 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 				if (build::radiation && config_.radiationEnabled()) copyFields(fields_.radiation, block.interior, source, destination);
 				if (build::gravity && config_.gravityEnabled()) copyFields(fields_.gravity, block.interior, source, destination);
 			}
+		} else if (operation == Operation::SaveRadiationStep || operation == Operation::PredictRadiationStep ||
+			operation == Operation::FinishRadiationStep || operation == Operation::ForecastRadiationStep ||
+			operation == Operation::RestoreRadiationStep || operation == Operation::CoupleRadiation) {
+			result.radiationSourceEnergy += radiationSource(block, operation, dt);
 		} else if (operation == Operation::ResetFlux) {
 			resetFlux(block);
 		} else if (operation == Operation::Timestep) {
@@ -231,7 +240,8 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 			auto const& plan = stolen ? *temporary : plans_.at(id);
 			if constexpr (build::hydro) if (config_.hydroEnabled()) {
 				workspace.hydro.advance(block, fields_.hydro, plan, hydro::HydroSystem(config_.hydro), bank_, dt, time_, hydroBoundary_,
-					fields_.hydroFlux, config_.amr.enabled, times_, source_.increment, source_.referenceStep, physics::RotatingFrame(config_.frame.omega));
+					fields_.hydroFlux, config_.amr.enabled, times_, source_.increment, source_.referenceStep, physics::RotatingFrame(config_.frame.omega),
+					source_.radiation.gas, nullptr, {}, 0, {}, source_.radiation.limiterInterval);
 				if (config_.massFractions.enabled || config_.gravityEnabled()) {
 					auto stored = fields_.massFlux.output(block.massFlux, 0);
 					for (int d = 0; d < ndim; ++d)
@@ -243,10 +253,28 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 				if (config_.massFractions.enabled && operation != Operation::Probe) advanceSpecies(block, plan, dt, workspace.hydro.ghosts);
 				result.boundary += workspace.hydro.boundaryTransport(block, config_.mesh.boundary, dt);
 			}
-			if constexpr (build::radiation) if (config_.radiationEnabled() && operation != Operation::Probe) {
-				workspace.radiation.advance(block, fields_.radiation, plan, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c),
-					bank_, dt, time_, radiationBoundary_, fields_.radiationFlux, config_.amr.enabled, times_, {}, {}, physics::RotatingFrame(config_.frame.omega));
+			bool const coupled = std::get<0>(source_.radiation.gas.fields).id != 0;
+			if constexpr (build::radiation) if (config_.radiationEnabled() && (operation != Operation::Probe || coupled)) {
+				workspace.radiation.advance(block, fields_.radiation, plan, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
+					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}),
+					bank_, dt, time_, radiationBoundary_, fields_.radiationFlux, config_.amr.enabled, times_, {}, {}, physics::RotatingFrame(config_.frame.omega),
+					source_.radiation.radiation, coupled ? &config_ : nullptr,
+					coupled && dt > units::Time{} ? source_.radiation.gas : fields_.hydro,
+					coupled && dt > units::Time{} ? 1 : bank_, hydroBoundary_, source_.radiation.limiterInterval, radiationMaterial_);
 				result.boundary += workspace.radiation.boundaryTransport(block, config_.mesh.boundary, dt);
+				if (operation == Operation::Probe && coupled) {
+					auto rate = source_.radiation.radiationRate.output(block.interior, 0);
+					block.layout.forEachInterior([&](auto const& cell, std::size_t i) {
+						radiation::RadiationSystem::Flux rhs{};
+						for (int d = 0; d < ndim; ++d) {
+							auto upper = cell; ++upper[d];
+							rhs += workspace.radiation.work.fluxes[d][block.layout.faceIndex(d, cell)] -
+								workspace.radiation.work.fluxes[d][block.layout.faceIndex(d, upper)];
+						}
+						rate.put(i, (source_.referenceStep / block.cellWidth) * rhs);
+					});
+					source_.radiation.radiationRate.commit(block.interior, 0, rate);
+				}
 			}
 			if (build::gravity && config_.gravityEnabled()) copyFields(fields_.gravity, block.interior, bank_);
 			if (fluxWeight_ > 0 && operation != Operation::Probe) accumulateFlux(block);
@@ -284,10 +312,22 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 		else
 			++result.tasks.localTasks;
 	};
+	auto processWithContext = [&](std::uint64_t id, bool stolen) {
+		try {
+			process(id, stolen);
+		} catch (std::runtime_error const& error) {
+			std::ostringstream context;
+			context.precision(17);
+			context << "Runtime block " << id << " level " << blocks_.at(id).location.level
+				<< " operation " << static_cast<int>(operation) << " time " << time_.value()
+				<< " dt " << dt.value() << " bank " << bank_ << ": " << error.what();
+			throw std::runtime_error(context.str());
+		}
+	};
 	for (;;) {
 		auto work = claim(generation);
 		if (work.empty()) break;
-		process(work.front(), false);
+		processWithContext(work.front(), false);
 	}
 #ifdef OCTOTIGERII_WITH_HPX
 	if (config_.runtime.workStealing)
@@ -296,7 +336,7 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 			for (;;) {
 				auto work = hpx::async<ClaimAction>(executors[donor], generation).get();
 				if (work.empty()) break;
-				process(work.front(), true);
+				processWithContext(work.front(), true);
 			}
 		}
 #else
@@ -460,6 +500,7 @@ units::Time LocalExecutor::timestep(Subgrid const& block, std::array<units::Velo
 }
 
 BoundaryTransport LocalExecutor::finishGravityEnergy(Subgrid const& block, std::vector<GravityWorkFace> const& plan, units::Time dt) {
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
 	auto const old = fields_.oldGravity.read(block.interior, 0).get();
 	auto const now = fields_.gravity.read(block.interior, bank_).get();
 	auto const mass = fields_.massFlux.read(block.massFlux, 0).get();
@@ -517,10 +558,22 @@ BoundaryTransport LocalExecutor::finishGravityEnergy(Subgrid const& block, std::
 	}
 	fields_.hydro.commit(block.interior, bank_ ^ 1, output);
 	return boundary;
+#else
+	(void) block; (void) plan; (void) dt;
+	throw std::logic_error("Gravity energy work requires hydro and gravity in this build");
+#endif
 }
 
 void LocalExecutor::kick(Subgrid const& block, units::Time dt, bool trackWork) {
+#if OCTOTIGERII_HYDRO
 	auto input = fields_.hydro.read(block.interior, bank_).get();
+	std::optional<storage::Columns<radiation::RadiationSystem::State>> radiationInitial, radiationMidpoint, radiationRate;
+	if (std::get<0>(source_.radiation.gas.fields).id &&
+		(!trackWork || config_.hasExternalAcceleration())) {
+		radiationInitial = source_.radiation.radiation.read(block.interior, 0).get();
+		radiationMidpoint = source_.radiation.radiation.read(block.interior, 1).get();
+		radiationRate = source_.radiation.radiationRate.read(block.interior, 0).get();
+	}
 	std::optional<storage::Columns<gravity::State>> gravity;
 	if (build::gravity && config_.gravityEnabled()) gravity = fields_.gravity.read(block.interior, bank_).get();
 	auto output = fields_.hydro.output(block.interior, bank_ ^ 1);
@@ -534,12 +587,15 @@ void LocalExecutor::kick(Subgrid const& block, units::Time dt, bool trackWork) {
 		}
 		for (std::size_t i = 0; i < block.interior.count; ++i) {
 			auto state = input.at(i);
+			auto const sourceImpulse = radiationInitial ? radiationMidpointImpulse(radiationInitial->at(i), radiationMidpoint->at(i),
+				radiationRate->at(i), dt / source_.radiation.referenceStep, config_.radiation.lightSpeedRatio) :
+				std::array<units::MomentumDensity, ndim>{};
 			std::array<units::Acceleration, ndim> self{};
 			if (gravity) {
 				for (int d = 0; d < ndim; ++d) self[d] = gravity->at(i).acceleration(d);
 				self = physics::RotatingFrame(config_.frame.omega).toInertial(self, time_);
 			}
-			units::EnergyDensity work{};
+			units::EnergyDensity work{}, sourceWork{};
 			for (int d = 0; d < ndim; ++d) {
 				auto const old = state.momentum(d);
 				auto acceleration = config_.hydro.acceleration[d];
@@ -547,9 +603,14 @@ void LocalExecutor::kick(Subgrid const& block, units::Time dt, bool trackWork) {
 				auto const impulse = dt * state.density() * acceleration;
 				state.momentum(d) += impulse;
 				work += impulse * (old + 0.5 * impulse) / state.density();
+				// Mullen replaces self-gravity kick work with midpoint mass-flux
+				// work, which already contains this source momentum. Only the
+				// external-force contribution remains additional in that mode.
+				sourceWork += dt * (trackWork ? config_.hydro.acceleration[d] : acceleration) * sourceImpulse[d];
 				if (trackWork) kickWork.data()[i] += dt * self[d] * (old + 0.5 * impulse);
 			}
 			state.totalEnergy() += work;
+			addRadiationForceWork(state, sourceWork, hydro::HydroSystem(config_.hydro), config_.hydro.dualEnergy.enabled);
 			if (!trackWork) hydro::HydroSystem(config_.hydro).synchronize(state);
 			if (!hydro::HydroSystem(config_.hydro).admissible(state)) throw std::runtime_error("Invalid gravity kick state");
 			output.put(i, state);
@@ -557,6 +618,10 @@ void LocalExecutor::kick(Subgrid const& block, units::Time dt, bool trackWork) {
 		if (trackWork) fields_.gravityKickWork.commit(block.interior, 0, kickWork);
 	}
 	fields_.hydro.commit(block.interior, bank_ ^ 1, output);
+#else
+	(void) block; (void) dt; (void) trackWork;
+	throw std::logic_error("Gravity kicks require hydro in this build");
+#endif
 }
 
 } // namespace octotigerII

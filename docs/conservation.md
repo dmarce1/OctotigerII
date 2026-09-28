@@ -25,8 +25,8 @@ The L1 scale avoids dividing by a cancelling signed sum such as net momentum.
 Including transported magnitude handles components initially zero. The supplied
 absolute columns also permit a different normalization in postprocessing.
 Radiation-flux integrals have units erg cm/s; divide by physical `c^2` for the
-usual radiation-momentum integral (the reduced-light-speed equation can change
-its relationship to exchange/source conservation).
+physical radiation-momentum integral. Radiation-matter coupling with a reduced
+light speed instead conserves a weighted combined momentum, described below.
 
 Boundary transport uses the actual time-centered MUSCL-Hancock numerical flux,
 multiplied by face area and the accepted timestep. Only leaf faces on physical
@@ -39,7 +39,56 @@ For signed vector components, `in` and `out` are the negative/positive parts of
 the outward flux of that component; they are not classifications by the sign of
 mass flow. Momentum transport includes pressure traction at reflecting walls.
 Analytic boundaries can supply inflow. Source terms (self gravity or imposed
-acceleration) can change boundary-corrected gas energy and momentum.
+acceleration, or radiation-matter exchange) can change boundary-corrected gas
+energy and momentum. Radiation energy and flux also exchange with the gas;
+their separate drift columns remain useful diagnostics, but are not invariants
+when coupling is active.
+
+## Gas, radiation, and gravity together
+
+When both hydro and radiation are enabled, new columns are appended after the
+existing columns. Write `w = c/chat = 1/radiation.lightSpeedRatio`. The on-grid
+combined quantities are
+
+    physical_total_energy = gas_energy + potential_energy + radiation_energy
+    rsla_total_energy = gas_energy + potential_energy + w * radiation_energy
+    physical_total_momentum = gas_momentum + radiation_flux_integral / c^2
+    rsla_total_momentum = gas_momentum + w * radiation_flux_integral / c^2
+
+Potential energy is zero when self gravity is disabled. The `physical_` values
+are the physical gas-plus-radiation quantities; the `rsla_` values are the
+invariants of the implemented reduced-speed exchange equations. They coincide
+when `chat=c`. With `chat<c`, conservation of the weighted quantities does not
+mean that physical energy and momentum are conserved by that approximation.
+
+Each combined energy/momentum has the same `grid`, `in`, `out`, `corrected`,
+`l1`, `norm`, and `drift_scaled` suffixes as the separate ledgers. Boundary
+contributions use the same sums and radiation weights as the corresponding
+grid quantity. Their `in` and `out` are sums of the existing signed-component
+ledgers, rather than a fresh sign split of the combined face flux. This leaves
+`corrected = grid + out - in` exact while providing a conservative magnitude
+scale even when components oppose one another. The `l1` scale similarly sums
+the absolute gas, radiation, and binding contributions before cancellation.
+The binding contribution retains its existing factor of one half on the grid
+and its full potential-transport weight at the boundary.
+
+The existing `angular_momentum_z_g_cm2_s_grid` remains gas-only. Additional
+grid columns report
+
+    radiation_angular_momentum_z = integral [x_inertial cross F/c^2]_z dV
+    physical_total_angular_momentum_z = gas_angular_momentum_z + radiation_angular_momentum_z
+    rsla_total_angular_momentum_z = gas_angular_momentum_z + w * radiation_angular_momentum_z
+
+These are inertial moments about the origin, including on a rotating mesh.
+They exclude angular momentum transported through the boundary. No angular
+momentum boundary ledger or claim of exact global angular-momentum conservation
+is implied by these grid integrals. Local paired radiation exchange conserves
+the weighted angular moment at the cell position; spatial transport and gravity
+must be assessed separately.
+
+The maximum cell optical depth, radiation trapping parameter, and RSLA
+criterion are also appended. Their definitions, Silo fields, and limitations
+are given in [radiation-coupling.md](radiation-coupling.md).
 
 ## Hydro plus gravity
 
@@ -64,7 +113,9 @@ The potential-energy `in` and `out` columns record the signed split of
 `dt*A*F_out*phibar_face` on physical boundaries. Combined energy has `grid`,
 `corrected`, `norm`, and `drift_scaled` columns; the corrected value adds both
 gas and potential outward transport and subtracts inward transport. It is the
-energy invariant for a fixed mesh and reciprocal self-potential operator.
+energy invariant for a fixed mesh and reciprocal self-potential operator when
+there is no radiation-matter exchange. With coupling, use the combined RSLA
+energy ledger above.
 Imposed acceleration, a nonreciprocal gravity operator, and changes of mesh
 with `gravity.conserveRegridEnergy=off` can cause drift. See [gravity-energy.md](gravity-energy.md) for the exact
 work formula and the distinction between this coupling and momentum kicks.
@@ -77,10 +128,11 @@ Mesh selection already enforces a maximum one-level jump across faces, edges,
 corners and periodic neighbors after refinement and coarsening. Hydro and
 radiation already apply a separate reflux phase: for each coarse face adjacent
 to fine leaves, the coarse-cell update is corrected with the area average of
-fine-face fluxes. With the current synchronized timestep, this is algebraically
-equivalent to replacing that coarse flux before taking its divergence. No
-subcycling is used; a future subcycled integrator must also time-integrate the
-fine flux register.
+fine-face fluxes. With a synchronized timestep, this is algebraically
+equivalent to replacing that coarse flux before taking its divergence. With
+time refinement, accepted fine fluxes are accumulated over the coarse interval
+before reflux. Gas and radiation have separate registers, and their combined
+budget uses both accepted transport contributions.
 
 ## Current block-size constraints
 

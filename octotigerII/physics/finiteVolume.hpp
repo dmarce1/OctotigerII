@@ -234,10 +234,26 @@ public:
 	template <typename Patch, typename Writer, typename PredictorState>
 	void advanceInto(Patch const& patch, units::Time stepSize, Workspace& workspace, Writer&& write, PredictorState&& predictorState,
 		bool hancock = true) const {
+		advanceInto(patch, stepSize, workspace, std::forward<Writer>(write), std::forward<PredictorState>(predictorState), hancock,
+			[](Flux const& flux, auto const&...) { return flux; });
+	}
+
+	/// Apply one shared correction to both high- and low-order face fluxes before
+	/// realizability limiting. Arguments are (flux, midpointCenterL/R, faceL/R,
+	/// storageL/R, axis, cellWidth, faceSpeed); vectors use the grid basis at the
+	/// stage midpoint. The conservative update and limiter use original states.
+	/// For a zero-step flux probe, limiterInterval can enforce admissibility of
+	/// the intended predictor interval without advancing geometry or publishing
+	/// an update. Positive steps always limit using their own stepSize.
+	template <typename Patch, typename Writer, typename PredictorState, typename FaceCorrector>
+	void advanceInto(Patch const& patch, units::Time stepSize, Workspace& workspace, Writer&& write,
+		PredictorState&& predictorState, bool hancock, FaceCorrector&& correctFaceFlux, units::Time limiterInterval = {}) const {
 		mesh::MeshLayout const& layout = patch.layout();
 		if (layout.ghostWidth() < 2) throw std::invalid_argument("MUSCL-Hancock needs two ghost cells");
 		// A zero interval evaluates instantaneous numerical fluxes for source predictors.
 		if (!(stepSize >= units::Time{}) || !units::finite(stepSize)) throw std::invalid_argument("MUSCL-Hancock timestep must be nonnegative and finite");
+		if (!(limiterInterval >= units::Time{}) || !units::finite(limiterInterval)) throw std::invalid_argument("Flux-probe limiter interval must be nonnegative and finite");
+		auto const limiterStep = stepSize > units::Time{} ? stepSize : limiterInterval;
 		auto& minus = workspace.minus;
 		auto& plus = workspace.plus;
 		for (int axis = 0; axis < ndim; ++axis) {
@@ -265,17 +281,46 @@ public:
 					right[axis] = layout.ghostWidth() + face[axis];
 					State const& leftState = plus[axis][layout.index(left)];
 					State const& rightState = minus[axis][layout.index(right)];
+					bool closedEnergyFace = false;
+					if constexpr (requires { system_.closedEnergyFace(facePosition(patch, face, axis), axis, patch.cellWidth()); }) {
+						closedEnergyFace = system_.closedEnergyFace(facePosition(patch, face, axis), axis, patch.cellWidth());
+						if (closedEnergyFace && frame_.active())
+							throw std::invalid_argument("An insulating radiation boundary requires a fixed grid");
+					}
 					Flux highOrderFlux;
+					auto correctedAndLimited = [&](State const& baseLeft, State const& baseRight, State const& centerLeft,
+						State const& centerRight, State const& faceLeft, State const& faceRight, units::Velocity speed) {
+						auto const correct = [&](Flux const& flux, State const& reconstructedLeft, State const& reconstructedRight) {
+							return correctFaceFlux(flux, centerLeft, centerRight, reconstructedLeft, reconstructedRight, left, right,
+								axis, patch.cellWidth(), speed);
+						};
+						auto high = correct(system_.riemann(faceLeft, faceRight, axis, speed), faceLeft, faceRight);
+						if constexpr (requires { system_.closedBoundary(); })
+							if (closedEnergyFace) high.energy() = {};
+						if constexpr (requires { system_.lowOrderFlux(baseLeft, baseRight, axis, speed); }) {
+							auto low = correct(system_.lowOrderFlux(baseLeft, baseRight, axis, speed), baseLeft, baseRight);
+							if constexpr (requires { system_.closedBoundary(); }) {
+								if (closedEnergyFace) low.energy() = {};
+								return system_.limitFlux(baseLeft, baseRight, high, axis, limiterStep / patch.cellWidth(), speed, &low, closedEnergyFace);
+							} else {
+								return system_.limitFlux(baseLeft, baseRight, high, axis, limiterStep / patch.cellWidth(), speed, &low);
+							}
+						} else {
+							return system_.limitFlux(baseLeft, baseRight, high, axis, limiterStep / patch.cellWidth(), speed);
+						}
+					};
 					if (!frame_.active()) {
-						highOrderFlux = system_.riemann(leftState, rightState, axis);
-						highOrderFlux = system_.limitFlux(patch.atStorage(left), patch.atStorage(right), highOrderFlux, axis, stepSize / patch.cellWidth());
+						highOrderFlux = correctedAndLimited(patch.atStorage(left), patch.atStorage(right),
+							predictorState(patch.atStorage(left), left), predictorState(patch.atStorage(right), right),
+							leftState, rightState, units::Velocity{});
 					} else {
 						auto const at = stageBegin_ + Real(0.5) * stepSize;
 						auto const speed = frame_.normalSpeed(facePosition(patch, face, axis), axis);
 						auto const l = frame_.toGridState(leftState, at), r = frame_.toGridState(rightState, at);
-						highOrderFlux = system_.riemann(l, r, axis, speed);
-						highOrderFlux = system_.limitFlux(frame_.toGridState(patch.atStorage(left), at),
-							frame_.toGridState(patch.atStorage(right), at), highOrderFlux, axis, stepSize / patch.cellWidth(), speed);
+						highOrderFlux = correctedAndLimited(frame_.toGridState(patch.atStorage(left), at),
+							frame_.toGridState(patch.atStorage(right), at),
+							frame_.toGridState(predictorState(patch.atStorage(left), left), at),
+							frame_.toGridState(predictorState(patch.atStorage(right), right), at), l, r, speed);
 						highOrderFlux = frame_.toInertialState(highOrderFlux, at);
 					}
 					fluxes[axis][layout.faceIndex(axis, face)] = highOrderFlux;
@@ -327,6 +372,15 @@ private:
 		int const ghostWidth = layout.ghostWidth();
 		auto const begin = mesh::filledCoordinates(ghostWidth - 1);
 		auto const end = mesh::filledCoordinates(ghostWidth + layout.cellsPerActiveDimension() + 1);
+		auto admissibleFace = [&](State const& state) {
+			// Select reconstruction and Hancock trials inside the exact domain
+			// when available. Their vector components will subsequently rotate;
+			// accepting the full cell-roundoff allowance here leaves no margin.
+			if constexpr (requires { system_.admissibleInterpolation(state); })
+				return system_.admissibleInterpolation(state);
+			else
+				return system_.admissible(state);
+		};
 
 		mesh::forEachCoordinate(begin, end, [&](mesh::Coordinates const& cell) {
 			std::size_t const cellIndex = layout.index(cell);
@@ -351,7 +405,7 @@ private:
 				for (int axis = 0; axis < ndim; ++axis) {
 					State const lower = system_.conservedState(center - Real(0.5) * fraction * slopes[axis]);
 					State const upper = system_.conservedState(center + Real(0.5) * fraction * slopes[axis]);
-					if (!system_.admissible(lower) || !system_.admissible(upper)) {
+					if (!admissibleFace(lower) || !admissibleFace(upper)) {
 						return false;
 					}
 				}
@@ -394,7 +448,7 @@ private:
 			for (int axis = 0; axis < ndim; ++axis) {
 				minus[axis][cellIndex] += predictor;
 				plus[axis][cellIndex] += predictor;
-				validPrediction = validPrediction && system_.admissible(minus[axis][cellIndex]) && system_.admissible(plus[axis][cellIndex]);
+				validPrediction = validPrediction && admissibleFace(minus[axis][cellIndex]) && admissibleFace(plus[axis][cellIndex]);
 			}
 			if (!validPrediction) {
 				for (int axis = 0; axis < ndim; ++axis) {

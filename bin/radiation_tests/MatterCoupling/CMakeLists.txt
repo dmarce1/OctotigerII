@@ -1,0 +1,1 @@
+octo_problem(radiation-matter DIMENSIONS 1 2 3 DEFAULT_DIMENSION 3 HYDRO RADIATION)

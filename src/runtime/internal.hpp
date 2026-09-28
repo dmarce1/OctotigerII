@@ -16,6 +16,8 @@
 #include "octotigerII/amr/hierarchy.hpp"
 #include "octotigerII/problems.hpp"
 #include "octotigerII/profiling.hpp"
+#include "octotigerII/radiation/matterCoupling.hpp"
+#include "octotigerII/radiation/diffusionFlux.hpp"
 #include "octotigerII/storage/registry.hpp"
 #include "octotigerII/subgrid/view.hpp"
 #include "octotigerII/verification/analytic.hpp"
@@ -119,6 +121,28 @@ namespace runtime_detail {
 		}
 	}
 
+	// Isolate the radiation source impulse from its accepted half-step
+	// transport drive. Stored radiation fluxes and gas momentum are inertial.
+	inline std::array<units::MomentumDensity, ndim> radiationMidpointImpulse(
+		radiation::RadiationSystem::State const& initial, radiation::RadiationSystem::State const& midpoint,
+		radiation::RadiationSystem::State const& transport, Real halfFraction, Real lightSpeedRatio) {
+		std::array<units::MomentumDensity, ndim> result;
+		for (int d = 0; d < ndim; ++d)
+			result[d] = -(midpoint.radiativeFlux(d) - initial.radiativeFlux(d)
+				- halfFraction * transport.radiativeFlux(d)) / (lightSpeedRatio * constants::c * constants::c);
+		return result;
+	}
+
+	// This cross work becomes kinetic energy when the paired source impulse
+	// is applied later. Until then it belongs to the raw drive's thermal
+	// energy, including when thermodynamics selects the entropy auxiliary.
+	inline void addRadiationForceWork(hydro::ConservedState& state, units::EnergyDensity work,
+		hydro::HydroSystem const& system, bool dualEnergy) {
+		if (work == units::EnergyDensity{}) return;
+		if (dualEnergy) state.auxiliary() = system.auxiliaryFromInternalEnergy(state.density(), system.internalEnergy(state) + work);
+		state.totalEnergy() += work;
+	}
+
 	template <typename System>
 	class SolverWorkspace {
 	public:
@@ -130,12 +154,16 @@ namespace runtime_detail {
 		void advance(Subgrid const& block, storage::ColumnHandle<State> const& fields, HaloPlan const& plan, System const& system, unsigned bank,
 			units::Time dt, units::Time time, physics::AnalyticBoundary<State> const& analytic, storage::ColumnHandle<typename System::Flux> const& fluxFields,
 			bool amr, std::vector<HaloTime> const& times = {},
-			storage::ColumnHandle<hydro::ConservedState> const& increment = {}, units::Time referenceStep = {}, physics::RotatingFrame const& frame = physics::RotatingFrame{}) {
+			storage::ColumnHandle<hydro::ConservedState> const& increment = {}, units::Time referenceStep = {}, physics::RotatingFrame const& frame = physics::RotatingFrame{},
+			storage::ColumnHandle<State> const& midpoint = {}, Config const* couplingConfig = nullptr,
+			storage::ColumnHandle<hydro::ConservedState> const& material = {}, unsigned materialBank = 0,
+			physics::AnalyticBoundary<hydro::ConservedState> const& materialBoundary = {}, units::Time limiterInterval = {},
+			ProblemRadiationMaterial const& radiationMaterial = {}) {
 			auto interior = fields.read(block.interior, bank).get();
 			readHalo(fields, plan, bank, ghosts, times);
 			std::vector<State> midpointGhosts;
 			if constexpr (std::is_same_v<System, hydro::HydroSystem>) {
-				if (referenceStep > units::Time{} && dt > units::Time{}) {
+				if (!std::get<0>(midpoint.fields).id && referenceStep > units::Time{} && dt > units::Time{}) {
 					std::vector<State> rates;
 					readHalo(increment, plan, 0, rates);
 					midpointGhosts = ghosts;
@@ -154,7 +182,47 @@ namespace runtime_detail {
 			{
 				profiling::Region profile(std::is_same_v<System, hydro::HydroSystem> ? "hydro.advance" : "radiation.advance");
 				auto writer = [&](mesh::Coordinates const& cell, State const& state) { output.put(block.layout.index(cell), state); };
-				if constexpr (std::is_same_v<System, hydro::HydroSystem>) {
+				auto advanceWith = [&](auto&& predictor, bool hancock) {
+					if constexpr (build::hydro && std::is_same_v<System, radiation::RadiationSystem>) {
+						if (couplingConfig && radiationMaterial) {
+							auto gasInterior = material.read(block.interior, materialBank).get();
+							std::vector<hydro::ConservedState> gasGhosts;
+							readHalo(material, plan, materialBank, gasGhosts,
+								std::get<0>(midpoint.fields).id && dt > units::Time{} ? std::vector<HaloTime>{} : times);
+							applyHaloBoundaries(plan, gasGhosts, hydro::HydroSystem(couplingConfig->hydro), time + dt / 2.0, materialBoundary, frame);
+							PatchView<hydro::ConservedState> gasInput(block, std::move(gasInterior), plan, gasGhosts);
+							Solver(system, frame, time).advanceInto(input, dt, work, writer, predictor, hancock,
+								[&](auto const& flux, auto const& centerLeft, auto const& centerRight, auto const& faceLeft, auto const& faceRight,
+									auto const& left, auto const& right, int axis, units::Length width, units::Velocity speed) {
+									auto const l = frame.toGridState(gasInput.atStorage(left), time + dt / 2.0);
+									auto const r = frame.toGridState(gasInput.atStorage(right), time + dt / 2.0);
+									radiation::MaterialVelocity vl{}, vr{};
+									for (int d = 0; d < ndim; ++d) { vl[d] = l.momentum(d) / l.density(); vr[d] = r.momentum(d) / r.density(); }
+									auto opacityAt = [&](mesh::Coordinates const& cell) {
+										auto position = block.lower;
+										for (int d = 0; d < ndim; ++d)
+											position[d] += (cell[d] - input.layout().ghostWidth() + Real(0.5)) * block.cellWidth;
+										return checkedRadiationMaterial(radiationMaterial, position, time + dt / 2.0).opacity;
+									};
+									return radiation::diffusionCorrectedFlux(system, flux, centerLeft, centerRight, faceLeft, faceRight,
+										l.density() * opacityAt(left), r.density() * opacityAt(right), vl, vr, axis, width, speed);
+								}, limiterInterval);
+							return;
+						}
+					}
+					Solver(system, frame, time).advanceInto(input, dt, work, writer, predictor, hancock,
+						[](auto const& flux, auto const&...) { return flux; }, limiterInterval);
+				};
+				if (std::get<0>(midpoint.fields).id && dt > units::Time{}) {
+					auto centers = midpoint.read(block.interior, 1).get();
+					std::vector<State> midGhosts;
+					readHalo(midpoint, plan, 1, midGhosts);
+					applyHaloBoundaries(plan, midGhosts, system, time + dt / 2.0, analytic, frame);
+					advanceWith([&](State, mesh::Coordinates const& cell) {
+						return input.layout().isInterior(cell) ? centers.at(block.layout.index(input.layout().interiorCoordinates(cell))) :
+							midGhosts.at(plan.ghostIndices.at(input.layout().index(cell)));
+					}, false);
+				} else if constexpr (std::is_same_v<System, hydro::HydroSystem>) {
 					if (referenceStep > units::Time{} && dt > units::Time{}) {
 						auto rates = increment.read(block.interior, 0).get();
 						Solver(system, frame, time).advanceInto(input, dt, work, writer, [&](State value, mesh::Coordinates const& cell) {
@@ -166,7 +234,7 @@ namespace runtime_detail {
 							if (!system.admissible(value)) throw std::runtime_error("Gravity midpoint predictor is inadmissible");
 							return value;
 						}, false);
-					} else Solver(system, frame, time).advanceInto(input, dt, work, writer);
+					} else advanceWith([](State value, mesh::Coordinates const&) { return value; }, true);
 					if (referenceStep > units::Time{} && dt == units::Time{}) {
 						auto rate = increment.output(block.interior, 0);
 						block.layout.forEachInterior([&](auto const& cell, std::size_t i) {
@@ -179,7 +247,7 @@ namespace runtime_detail {
 						});
 						increment.commit(block.interior, 0, rate);
 					}
-				} else Solver(system, frame, time).advanceInto(input, dt, work, writer);
+				} else advanceWith([](State value, mesh::Coordinates const&) { return value; }, true);
 			}
 			fields.commit(block.interior, bank ^ 1, output);
 			if (amr) {
@@ -231,13 +299,30 @@ namespace runtime_detail {
 		}
 	};
 
+	struct RadiationStepFields {
+		// Bank zero is the original state; bank one is the source prediction.
+		storage::ColumnHandle<hydro::ConservedState> gas;
+		storage::ColumnHandle<radiation::RadiationSystem::State> radiation;
+		storage::ColumnHandle<hydro::ConservedState> gasRate;
+		storage::ColumnHandle<radiation::RadiationSystem::State> radiationRate;
+		storage::ColumnHandle<gravity::State> gravity;
+		std::vector<storage::FieldHandle<units::Density>> species;
+		units::Time referenceStep{};
+		units::Time limiterInterval{};
+		bool gravityInRate = false;
+		template <typename Archive> void serialize(Archive& ar, unsigned) { ar & gas & radiation & gasRate & radiationRate & gravity & species & referenceStep & limiterInterval & gravityInRate; }
+	};
+
 	// All source predictor fields use bank zero. increment stores the RHS integrated
 	// over referenceStep, avoiding a dimensionless or untyped rate register.
 	struct SourcePredictor {
 		storage::ColumnHandle<hydro::ConservedState> increment;
 		units::Time referenceStep{};
 		storage::FieldHandle<units::EnergyDensity> rotationWork{};
-		template <typename Archive> void serialize(Archive& ar, unsigned) { ar & increment & referenceStep & rotationWork; }
+		RadiationStepFields radiation;
+		SourcePredictor(storage::ColumnHandle<hydro::ConservedState> value = {}, units::Time step = {})
+		  : increment(std::move(value)), referenceStep(step) {}
+		template <typename Archive> void serialize(Archive& ar, unsigned) { ar & increment & referenceStep & rotationWork & radiation; }
 	};
 
 	class Workspace {
@@ -250,13 +335,14 @@ namespace runtime_detail {
 	public:
 		SchedulingStatistics tasks;
 		BoundaryTransport boundary;
+		units::Energy radiationSourceEnergy{};
 		units::Time timestep = units::Time::from_value(std::numeric_limits<Real>::infinity());
 		std::array<units::Velocity, ndim> signalSpeed{};
 		std::map<int, units::Time> levelTimestep;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & tasks & timestep & signalSpeed & boundary & levelTimestep;
+			archive & tasks & timestep & signalSpeed & boundary & levelTimestep & radiationSourceEnergy;
 		}
 	};
 
@@ -271,7 +357,13 @@ namespace runtime_detail {
 		PrepareGravityEnergy,
 		FinishGravityEnergy,
 		KickTracked,
-		Kick
+		Kick,
+		SaveRadiationStep,
+		PredictRadiationStep,
+		FinishRadiationStep,
+		ForecastRadiationStep,
+		RestoreRadiationStep,
+		CoupleRadiation
 	};
 
 } // namespace runtime_detail
@@ -311,6 +403,7 @@ private:
 	Config config_;
 	physics::AnalyticBoundary<hydro::ConservedState> hydroBoundary_;
 	physics::AnalyticBoundary<radiation::RadiationSystem::State> radiationBoundary_;
+	ProblemRadiationMaterial radiationMaterial_;
 	std::vector<Subgrid> blocks_;
 	FieldDirectory fields_;
 	std::size_t owner_ = 0;
@@ -354,6 +447,7 @@ private:
 	BoundaryTransport finishGravityEnergy(Subgrid const& block, std::vector<GravityWorkFace> const& plan, units::Time dt);
 
 	void kick(Subgrid const& block, units::Time dt, bool trackWork = false);
+	units::Energy radiationSource(Subgrid const& block, Operation operation, units::Time dt);
 };
 
 class Runtime::Impl {
@@ -397,6 +491,7 @@ public:
 	units::Time gravityEnergyStart{};
 	SchedulingStatistics statistics;
 	BoundaryTransport boundary;
+	units::Energy radiationSourceEnergy{};
 	refinement::Criteria criteria;
 	std::unique_ptr<amr::Hierarchy> shadow;
 	std::uint64_t lastRegridStep = 0;
@@ -410,6 +505,7 @@ public:
 		unsigned predictorBank = ~0u;
 	};
 	std::vector<LevelState> levels;
+	std::optional<RadiationStepFields> coupledStep;
 
 	bool timeRefinement() const;
 	int coarsestLevel() const;

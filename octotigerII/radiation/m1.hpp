@@ -8,6 +8,9 @@
 #include <array>
 #include <cmath>
 #include <limits>
+#include <iomanip>
+#include <source_location>
+#include <sstream>
 #include <stdexcept>
 #include "octotigerII/math/FpeGuard.hpp"
 #include "octotigerII/units/state.hpp"
@@ -53,8 +56,17 @@ public:
 	}
 
 	/// Throw if the calculation state violates finiteness or the realizable cone.
-	static void checkState(State const& u) {
-		if (!admissible(u)) throw std::runtime_error("M1 requires finite E>=0 and |F|<=cE");
+	static void checkState(State const& u, std::source_location caller = std::source_location::current()) {
+		if (!admissible(u)) {
+			std::ostringstream error;
+			error << std::setprecision(17) << "M1 requires finite E>=0 and |F|<=cE: E=" << units::value(u[0]) << ", F/c=(";
+			for (int axis = 0; axis < ndim; ++axis)
+				error << (axis ? "," : "") << units::value(u[axis + 1]);
+			auto const norm = magnitude(u);
+			error << "), |F|/c=" << units::value(norm) << ", excess=" << units::value(norm - u[0])
+				<< ", caller=" << caller.function_name();
+			throw std::runtime_error(error.str());
+		}
 	}
 
 	/// Validate and project only tolerated cone overshoot back to its boundary.

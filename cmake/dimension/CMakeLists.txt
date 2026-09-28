@@ -37,6 +37,10 @@ endif()
 if(OCTOTIGERII_RADIATION)
 octo_library(octotigerIIRadiation${suffix} ${PROJECT_SOURCE_DIR}/src/radiation/radiationTransport.cpp)
 target_link_libraries(octotigerIIRadiation${suffix} PUBLIC octotigerIIPhysics${suffix})
+if(OCTOTIGERII_HYDRO)
+  target_sources(octotigerIIRadiation${suffix} PRIVATE ${PROJECT_SOURCE_DIR}/src/radiation/matterCoupling.cpp)
+  target_link_libraries(octotigerIIRadiation${suffix} PUBLIC octotigerIIHydro${suffix})
+endif()
 endif()
 octo_library(octotigerIIGravity${suffix} ${PROJECT_SOURCE_DIR}/src/gravity/gravityFields.cpp)
 if(OCTOTIGERII_GRAVITY)
@@ -45,7 +49,11 @@ endif()
 target_link_libraries(octotigerIIGravity${suffix} PUBLIC octotigerIIMesh${suffix} Threads::Threads)
 octo_library(octotigerIIComposition${suffix} ${PROJECT_SOURCE_DIR}/src/composition/species.cpp)
 target_link_libraries(octotigerIIComposition${suffix} PUBLIC octotigerIIMesh${suffix})
-octo_library(octotigerIISubgrid${suffix} ${PROJECT_SOURCE_DIR}/src/subgrid.cpp ${PROJECT_SOURCE_DIR}/src/topology.cpp ${PROJECT_SOURCE_DIR}/src/config.cpp ${PROJECT_SOURCE_DIR}/src/verification/solutions.cpp ${PROJECT_SOURCE_DIR}/src/problems/laneEmden.cpp ${problem_sources} "${CMAKE_CURRENT_BINARY_DIR}/problems.cpp")
+octo_library(octotigerIISubgrid${suffix} ${PROJECT_SOURCE_DIR}/src/subgrid.cpp ${PROJECT_SOURCE_DIR}/src/topology.cpp ${PROJECT_SOURCE_DIR}/src/config.cpp ${PROJECT_SOURCE_DIR}/src/verification/solutions.cpp ${PROJECT_SOURCE_DIR}/src/problems/laneEmden.cpp
+  ${PROJECT_SOURCE_DIR}/src/problems/radiatingStarStructure.cpp
+  ${PROJECT_SOURCE_DIR}/src/problems/radiatingStarAtmosphere.cpp
+  ${PROJECT_SOURCE_DIR}/src/problems/radiatingStarGasBarotrope.cpp
+  ${problem_sources} "${CMAKE_CURRENT_BINARY_DIR}/problems.cpp")
 target_link_libraries(octotigerIISubgrid${suffix} PUBLIC octotigerIIMesh${suffix} octotigerIIComposition${suffix})
 if(OCTOTIGERII_HYDRO)
   target_link_libraries(octotigerIISubgrid${suffix} PUBLIC octotigerIIHydro${suffix})
@@ -64,6 +72,7 @@ target_link_libraries(octotigerIIAmr${suffix} PUBLIC octotigerIISubgrid${suffix}
 octo_library(octotigerIIApplication${suffix} ${PROJECT_SOURCE_DIR}/src/runtime.cpp
   ${PROJECT_SOURCE_DIR}/src/runtime/localExecutor.cpp ${PROJECT_SOURCE_DIR}/src/runtime/stages.cpp
   ${PROJECT_SOURCE_DIR}/src/runtime/transport.cpp ${PROJECT_SOURCE_DIR}/src/runtime/gravity.cpp ${PROJECT_SOURCE_DIR}/src/runtime/regrid.cpp
+  ${PROJECT_SOURCE_DIR}/src/runtime/radiation.cpp
   ${PROJECT_SOURCE_DIR}/src/simulation.cpp ${PROJECT_SOURCE_DIR}/src/output.cpp
   ${PROJECT_SOURCE_DIR}/src/storage.cpp ${PROJECT_SOURCE_DIR}/src/verification/analytic.cpp)
 target_link_libraries(octotigerIIApplication${suffix} PUBLIC octotigerIISubgrid${suffix} octotigerIIAmr${suffix})

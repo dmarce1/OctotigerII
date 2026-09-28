@@ -34,7 +34,17 @@ BoundaryTransport Runtime::Impl::advanceLevel(std::vector<int> const& occupied, 
 		auto& state = levels.at(level);
 		state.begin = now;
 		state.end = now + step;
+		if (coupledStep) {
+			coupledStep->limiterInterval = step / 2.0;
+			phase(Operation::SaveRadiationStep, {}, level, now);
+			phase(Operation::Probe, {}, level, now);
+			phase(Operation::PredictRadiationStep, step, -1, now);
+		}
 		transported += phase(Operation::Advance, step, level, now, step / duration).boundary;
+		if (coupledStep) {
+			phase(Operation::ForecastRadiationStep, step, level, now);
+			state.predictorBank = 3;
+		}
 		state.pending = true;
 		if (index + 1 < occupied.size()) transported += advanceLevel(occupied, index + 1, now, step);
 		// Fine registers now cover precisely this coarse step. Reflux before
@@ -42,6 +52,10 @@ BoundaryTransport Runtime::Impl::advanceLevel(std::vector<int> const& occupied, 
 		phase(Operation::Reflux, step, level, now + step);
 		state.pending = false;
 		state.bank ^= 1;
+		if (coupledStep) {
+			phase(Operation::FinishRadiationStep, step, level, now + step);
+			state.bank ^= 1;
+		}
 		++statistics.levelSteps.at(level);
 		elapsed += fraction;
 	}
@@ -54,12 +68,25 @@ units::Time Runtime::stableTimestep() const {
 	if (impl_->regridEnergyPending) throw std::logic_error("Solve gravity after regridding before computing a timestep");
 	auto const result = impl_->phase(Operation::Timestep, {});
 	impl_->signalSpeed = result.signalSpeed;
-	return impl_->timeRefinement() ? result.levelTimestep.at(impl_->coarsestLevel()) : result.timestep;
+	if (!impl_->timeRefinement()) return result.timestep;
+	auto interval = result.levelTimestep.at(impl_->coarsestLevel());
+	if (impl_->config.hydroEnabled() && impl_->config.radiationEnabled() &&
+		(impl_->config.radiation.opacity > 0 || problemHasRadiationMaterial(impl_->config))) {
+		// Every leaf supplies source-aware midpoint data for coarse ghost
+		// averages, including fine leaves beyond immediate face neighbors.
+		// Their half-interval transport drives must respect their own CFL.
+		interval = std::min(interval, 2.0 * result.timestep);
+	}
+	return interval;
 }
 
 void Runtime::advance(units::Time dt) {
-	profiling::Elapsed profile("runtime.advance.wall_ns");
 	std::lock_guard guard(impl_->apiMutex);
+	advanceUnlocked(dt);
+}
+
+void Runtime::advanceUnlocked(units::Time dt) {
+	profiling::Elapsed profile("runtime.advance.wall_ns");
 	if (impl_->regridEnergyPending) throw std::logic_error("Solve gravity after regridding before advancing");
 	if (!(dt > units::Time{}) || !units::finite(dt) || impl_->time.time + dt == impl_->time.time) throw std::invalid_argument("Invalid step size");
 	if (dt > physics::RotatingFrame(impl_->config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))

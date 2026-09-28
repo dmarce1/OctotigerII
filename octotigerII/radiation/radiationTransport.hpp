@@ -21,6 +21,10 @@ namespace octotigerII::radiation {
 /// @ingroup numerics
 class RadiationSystem {
 public:
+	struct InsulatingBoundary {
+		bool enabled = false;
+		units::Length lower{}, upper{};
+	};
 
 	using Method = M1;
 	using State = units::ScalarVectorState<units::EnergyDensity, units::EnergyFlux>;
@@ -28,6 +32,11 @@ public:
 	using Flux = units::ScalarVectorState<units::EnergyFlux, units::EnergyFluxTransport>;
 
 	explicit RadiationSystem(units::Velocity reducedLightSpeed);
+	RadiationSystem(units::Velocity reducedLightSpeed, InsulatingBoundary boundary);
+	/// True only for a physical domain face, including faces inside a padded
+	/// predictor patch. The caller must use an inertial (nonrotating) mesh.
+	bool closedEnergyFace(mesh::PhysicalCoordinates const& position, int normal, units::Length cellWidth) const;
+	bool closedBoundary() const { return boundary_.enabled; }
 
 	/// Return the configured transport speed ĉ in cm/s.
 	units::Velocity reducedLightSpeed() const;
@@ -51,6 +60,8 @@ public:
 	State reflected(State, int normal) const;
 
 	/// Zero inward normal radiation flux; copy energy and tangential fluxes.
+	/// An insulating domain instead reflects normal F for the virtual neighbor;
+	/// the face solver separately constrains the accepted energy flux after AP.
 	State outflow(State, int normal, bool lower) const;
 
 	/// Return max |lambda-w_n| for M1 normal characteristic speeds computed with ĉ.
@@ -59,12 +70,22 @@ public:
 	/// Check finite E≥0 and |F|≤cE, with the M1 roundoff tolerance.
 	bool admissible(State const&) const;
 
+	/// Exact closed-cone test for conservative interpolation and face limiting.
+	/// Do not spend a cell's roundoff allowance while choosing a slope fraction.
+	bool admissibleInterpolation(State const&) const;
+
 	/// Repair only roundoff-sized violations in calculation variables; reject larger errors.
 	State correctRoundoff(State, State const& updateScale) const;
 
 	/// Use a common face blend and test both adjacent contributions against the M1 cone.
 	/// The low-order flux must already be admissible at the supplied timestep.
-	Flux limitFlux(State const&, State const&, Flux const&, int normal, units::TimePerLength stepOverCellWidth, units::Velocity faceSpeed = {}) const;
+	/// zeroEnergyFlux preserves the insulating constraint even if the corrected
+	/// low-order candidate is rejected and the limiter uses its own fallback.
+	Flux limitFlux(State const&, State const&, Flux const&, int normal, units::TimePerLength stepOverCellWidth,
+		units::Velocity faceSpeed = {}, Flux const* correctedLowOrder = nullptr, bool zeroEnergyFlux = false) const;
+
+	/// Global-speed Lax-Friedrichs face flux used by the realizability fallback.
+	Flux lowOrderFlux(State const&, State const&, int normal, units::Velocity faceSpeed = {}) const;
 
 	/// Form (E, F/c) using physical c, independent of the configured transport speed.
 	static Method::State toCalculationState(State const&);
@@ -90,6 +111,7 @@ public:
 private:
 
 	units::Velocity reducedLightSpeed_;
+	InsulatingBoundary boundary_;
 };
 
 

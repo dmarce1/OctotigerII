@@ -179,4 +179,24 @@ TEST_F(Options, DualEnergyIniAndCliPrecedence) {
 	EXPECT_EQ(c.hydro.dualEnergy.syncThreshold, 0.2);
 }
 
+TEST(OptionValues, RadiationMatterControlsValidateAndPreserveUncoupledDefaults) {
+	auto baseline = test::parseConfig({});
+	EXPECT_FALSE(baseline.radiation.enabled);
+	EXPECT_EQ(baseline.radiation.opacity, 0);
+	for (auto const* option : {"--radiation.opacity=-1", "--radiation.diagnosticLength=-1", "--radiation.initialEnergyRatio=-1",
+		"--radiation.opacity=nan", "--radiation.diagnosticLength=inf"})
+		EXPECT_THROW(test::parseConfig({option}), std::exception);
+	if constexpr (build::hydro && build::radiation) {
+		auto c = octotigerII::parseConfig({"--problem.name=sod", "--radiation.enabled=on", "--radiation.opacity=0.4",
+			"--radiation.diagnosticLength=1e8", "--radiation.initialEnergyRatio=0.5"});
+		EXPECT_TRUE(c.hydroEnabled());
+		EXPECT_TRUE(c.radiationEnabled());
+		EXPECT_EQ(c.radiation.opacity, 0.4);
+		EXPECT_EQ(c.radiation.diagnosticLength, 1e8);
+		EXPECT_EQ(c.radiation.initialEnergyRatio, 0.5);
+		EXPECT_THROW(octotigerII::parseConfig({"--problem.name=sod", "--radiation.opacity=0.4"}), std::invalid_argument);
+		EXPECT_THROW(octotigerII::parseConfig({"--problem.name=streaming", "--radiation.opacity=0.4"}), std::invalid_argument);
+	}
+}
+
 } // namespace

@@ -103,6 +103,11 @@ BoundaryTransport Runtime::boundaryTransport() const {
 	return impl_->boundary;
 }
 
+units::Energy Runtime::radiationSourceEnergy() const {
+	std::lock_guard guard(impl_->apiMutex);
+	return impl_->radiationSourceEnergy;
+}
+
 std::size_t Runtime::shadowCellCount() const {
 	std::lock_guard guard(impl_->apiMutex);
 	return impl_->shadow ? impl_->shadow->size() : 0;

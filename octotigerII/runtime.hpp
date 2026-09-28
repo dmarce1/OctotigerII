@@ -50,6 +50,8 @@ public:
 
 	/// Return the next synchronization interval. With eligible mixed-level AMR
 	/// this is the coarsest active level's CFL limit; finer levels subcycle.
+	/// Radiation-matter coupling additionally caps this interval at twice the
+	/// smallest leaf CFL limit, because all leaves supply half-step halo data.
 	/// Runs with uniform external acceleration use the global minimum.
 	units::Time stableTimestep() const;
 
@@ -67,8 +69,20 @@ public:
 	/// path restores the input. Global steps use the legacy stage sequence.
 	gravity::Statistics advanceGravity(units::Time dt);
 
+	/// Advance radiation-matter exchange with the accepted transport/gravity drive.
+	/// The complete interval is serialized and restores published fields on failure.
+	gravity::Statistics advanceCoupled(units::Time dt);
+
+	/// Local radiation-matter exchange only, without advancing physical time.
+	void coupleRadiation(units::Time dt);
+
 	/// Cumulative boundary transport from successfully published timesteps.
 	BoundaryTransport boundaryTransport() const;
+
+	/// Cumulative prescribed photon energy actually added to radiation Er.
+	/// Divide by chat/c for the corresponding source in the RSLA energy budget.
+	/// Predictor/forecast evaluations and failed intervals are excluded.
+	units::Energy radiationSourceEnergy() const;
 
 	/// Regrid at synchronization points. Predicted signal travel can exhaust
 	/// the buffer before amr.regridEvery. Returns whether leaves changed.
@@ -109,6 +123,12 @@ public:
 	static char const* backend();
 
 private:
+	void advanceUnlocked(units::Time dt);
+	gravity::Statistics advanceGravityUnlocked(units::Time dt);
+	gravity::Statistics solveGravityUnlocked();
+	void kickGravityUnlocked(units::Time dt);
+	void beginGravityEnergyUnlocked();
+	void finishGravityEnergyUnlocked(units::Time dt);
 	class Impl;
 	std::unique_ptr<Impl> impl_;
 };

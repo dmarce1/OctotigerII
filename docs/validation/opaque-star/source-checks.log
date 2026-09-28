@@ -1,0 +1,41 @@
+[==========] Running 16 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 16 tests from RadiationCoupling
+[ RUN      ] RadiationCoupling.ThermalEquilibriumRemainsStationaryForStiffSteps
+[       OK ] RadiationCoupling.ThermalEquilibriumRemainsStationaryForStiffSteps (0 ms)
+[ RUN      ] RadiationCoupling.LorentzBoostedLteRemainsStationaryForStiffSteps
+[       OK ] RadiationCoupling.LorentzBoostedLteRemainsStationaryForStiffSteps (0 ms)
+[ RUN      ] RadiationCoupling.BoostedTransverseDiffusionHasNoSpuriousThermalSource
+[ stiff moving LTE ] optical_interval=1e12 max_relative_thermal_drift=8.88178e-16 max_relative_Er_drift=3.33067e-15 max_flux_drift_over_cB=1.10222e-16 max_relative_transverse_diffusion_drift=7.78412e-06
+[       OK ] RadiationCoupling.BoostedTransverseDiffusionHasNoSpuriousThermalSource (0 ms)
+[ RUN      ] RadiationCoupling.StiffThermalRelaxationRecoversIndependentEquilibriumRoot
+[       OK ] RadiationCoupling.StiffThermalRelaxationRecoversIndependentEquilibriumRoot (0 ms)
+[ RUN      ] RadiationCoupling.GasDominatedCellDoesNotImposeArtificialRadiationFloor
+[       OK ] RadiationCoupling.GasDominatedCellDoesNotImposeArtificialRadiationFloor (0 ms)
+[ RUN      ] RadiationCoupling.ThermalRelaxationConvergesAtSecondOrder
+[       OK ] RadiationCoupling.ThermalRelaxationConvergesAtSecondOrder (3 ms)
+[ RUN      ] RadiationCoupling.MomentumRelaxationMatchesIndependentLinearSolution
+[       OK ] RadiationCoupling.MomentumRelaxationMatchesIndependentLinearSolution (2 ms)
+[ RUN      ] RadiationCoupling.MovingGasIncludesWorkAndFullM1Tensor
+[       OK ] RadiationCoupling.MovingGasIncludesWorkAndFullM1Tensor (0 ms)
+[ RUN      ] RadiationCoupling.ColdMovingPureBeamPreservesConeAndAbsorbsAtFirstOrderRate
+[       OK ] RadiationCoupling.ColdMovingPureBeamPreservesConeAndAbsorbsAtFirstOrderRate (1 ms)
+[ RUN      ] RadiationCoupling.HighKineticDualEnergyRetainsSourceHeating
+[       OK ] RadiationCoupling.HighKineticDualEnergyRetainsSourceHeating (0 ms)
+[ RUN      ] RadiationCoupling.JointThermalAndMomentumSolvePreservesTheRadiationCone
+[       OK ] RadiationCoupling.JointThermalAndMomentumSolvePreservesTheRadiationCone (0 ms)
+[ RUN      ] RadiationCoupling.ForcedStiffDiffusionBalancePreservesFlux
+[       OK ] RadiationCoupling.ForcedStiffDiffusionBalancePreservesFlux (0 ms)
+[ RUN      ] RadiationCoupling.ForcedDensityAndThermalDrivingConvergeAtSecondOrder
+[       OK ] RadiationCoupling.ForcedDensityAndThermalDrivingConvergeAtSecondOrder (2 ms)
+[ RUN      ] RadiationCoupling.ZeroOpacityAppliesOnlyTransportAndInvalidInputIsAtomic
+[       OK ] RadiationCoupling.ZeroOpacityAppliesOnlyTransportAndInvalidInputIsAtomic (0 ms)
+[ RUN      ] RadiationCoupling.UnrealizableThinForcingIsRejectedWithoutClipping
+[       OK ] RadiationCoupling.UnrealizableThinForcingIsRejectedWithoutClipping (1 ms)
+[ RUN      ] RadiationCoupling.BrightTransportIntoColdAtmosphereRemainsConservative
+[       OK ] RadiationCoupling.BrightTransportIntoColdAtmosphereRemainsConservative (0 ms)
+[----------] 16 tests from RadiationCoupling (11 ms total)
+
+[----------] Global test environment tear-down
+[==========] 16 tests from 1 test suite ran. (11 ms total)
+[  PASSED  ] 16 tests.

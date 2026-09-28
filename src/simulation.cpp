@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include "octotigerII/profiling.hpp"
 #include "octotigerII/verification/analytic.hpp"
+#include "octotigerII/radiation/couplingDiagnostics.hpp"
+#include "octotigerII/problems.hpp"
 
 namespace octotigerII {
 
@@ -12,6 +14,7 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 	profiling::Region profile("diagnostics");
 	if (snapshots.empty()) throw std::invalid_argument("Empty snapshot directory");
 	Diagnostics d, compensation;
+	auto const material = problemRadiationMaterial(c);
 	auto add = [](auto& sum, auto& error, auto value) {
 		auto const y = value - error;
 		auto const next = sum + y;
@@ -75,6 +78,18 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 					magnitude = units::hypot(magnitude, u.radiativeFlux(axis));
 				Real const f = u.energy() > units::EnergyDensity{} ? Real(magnitude / (constants::c * u.energy())) : 0;
 				d.maximumReducedFlux = std::max(d.maximumReducedFlux, f);
+				if constexpr (ndim >= 2) {
+					auto const x = physics::RotatingFrame(c.frame.omega).toInertial(block.layout.cellCenter(block.lower, block.cellWidth, cell), d.time);
+					add(d.radiationAngularMomentumZ, compensation.radiationAngularMomentumZ,
+						volume * (x[0] * u.radiativeFlux(1) - x[1] * u.radiativeFlux(0)) / (constants::c * constants::c));
+				}
+				if constexpr (build::hydro && build::radiation) if (c.hydroEnabled()) {
+					auto const prescribed = checkedRadiationMaterial(material, block.layout.cellCenter(block.lower, block.cellWidth, cell), d.time);
+					auto const indicators = radiation::couplingDiagnostics(block.hydro.values()[i], u, block.cellWidth, c, prescribed.opacity);
+					d.maximumCellOpticalDepth = std::max(d.maximumCellOpticalDepth, indicators.cellOpticalDepth);
+					d.maximumTrappingParameter = std::max(d.maximumTrappingParameter, indicators.trappingParameter);
+					d.maximumRslaCriterion = std::max(d.maximumRslaCriterion, indicators.rslaCriterion);
+				}
 			}
 			if (build::gravity && c.gravityEnabled())
 				if (!finite(block.gravity.values()[i])) throw std::runtime_error("Nonfinite gravity field");
@@ -87,6 +102,21 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 	if (!c.radiationEnabled()) d.minimumRadiationEnergy = {};
 	if (!units::finite(d.mass) || !units::finite(d.gasEnergy) || !units::finite(d.radiationEnergy)) throw std::runtime_error("Nonfinite global totals");
 	d.gasGravityEnergy = d.gasEnergy + d.potentialEnergy;
+	Real const weight = 1 / c.radiation.lightSpeedRatio;
+	d.physicalTotalEnergy = d.gasGravityEnergy + d.radiationEnergy;
+	d.rslaTotalEnergy = d.gasGravityEnergy + weight * d.radiationEnergy;
+	d.physicalTotalEnergyNorm = d.gasGravityNorm + d.norm.radiationEnergy;
+	d.rslaTotalEnergyNorm = d.gasGravityNorm + weight * d.norm.radiationEnergy;
+	for (int axis = 0; axis < ndim; ++axis) {
+		auto const radiationMomentum = d.radiationFlux[axis] / (constants::c * constants::c);
+		auto const radiationNorm = d.norm.radiationFlux[axis] / (constants::c * constants::c);
+		d.physicalTotalMomentum[axis] = d.momentum[axis] + radiationMomentum;
+		d.rslaTotalMomentum[axis] = d.momentum[axis] + weight * radiationMomentum;
+		d.physicalTotalMomentumNorm[axis] = d.norm.momentum[axis] + radiationNorm;
+		d.rslaTotalMomentumNorm[axis] = d.norm.momentum[axis] + weight * radiationNorm;
+	}
+	d.physicalTotalAngularMomentumZ = d.angularMomentumZ + d.radiationAngularMomentumZ;
+	d.rslaTotalAngularMomentumZ = d.angularMomentumZ + weight * d.radiationAngularMomentumZ;
 	if (!units::finite(d.gasGravityEnergy)) throw std::runtime_error("Nonfinite gravitational energy integral");
 	return d;
 }
@@ -147,7 +177,9 @@ RunResult run(Config const& c, Observer const& observer) {
 		}
 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
 			throw std::runtime_error("Timestep cannot advance physical time");
-		if (c.hydroEnabled() && c.gravityEnabled() && ((c.amr.enabled && c.timestep.refinement) || c.frame.omega != units::InverseTime{})) {
+		if (c.radiation.opacity > 0 || problemHasRadiationMaterial(c)) {
+			countGravity(runtime.advanceCoupled(dt));
+		} else if (c.hydroEnabled() && c.gravityEnabled() && ((c.amr.enabled && c.timestep.refinement) || c.frame.omega != units::InverseTime{})) {
 			countGravity(runtime.advanceGravity(dt));
 		} else {
 			if (c.hydroEnabled() && c.gravityEnabled()) runtime.beginGravityEnergy();
@@ -163,6 +195,7 @@ RunResult run(Config const& c, Observer const& observer) {
 		++result.steps;
 		result.final = diagnose(snapshots, c);
 		result.final.boundary = runtime.boundaryTransport();
+		result.final.radiationSourceEnergy = runtime.radiationSourceEnergy();
 		result.final.gravityReciprocityDefect = solverDefect;
 		result.final.gravityRegridEnergyChange = regridChange;
 		if (observer) observer(snapshots, result.steps, result.final);

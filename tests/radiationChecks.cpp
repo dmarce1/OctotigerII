@@ -1,6 +1,7 @@
 #include "testSupport.hpp"
 #include <gtest/gtest.h>
 #include <limits>
+#include "octotigerII/amr/interpolation.hpp"
 #include "octotigerII/radiation/radiationTransport.hpp"
 
 using namespace octotigerII;
@@ -141,12 +142,20 @@ TEST(Radiation, FluxLimiterPreservesRealizabilityAndPairConservation) {
 	u.energy() = units::EnergyDensity::from_value(1);
 	auto const physical = system.physicalFlux(u, 0);
 	auto high = physical;
-	high.energy() = units::EnergyFlux::from_value(1e20);
+	high.energy() = Real(10) * constants::c * u.energy();
+	high.radiativeFlux(0) = constants::c * high.energy();
 	auto const dtDx = Real(0.01 / ndim) / system.reducedLightSpeed();
 	auto const limited = system.limitFlux(u, u, high, 0, dtDx);
 	auto const delta = RadiationSystem::integratedFlux(limited - physical, Real(2 * ndim) * dtDx);
-	// The limiter allows roundoff at the cone boundary, which is canonicalized
-	// by the subsequent conservative update before admissibility is enforced.
+	// Admissible() itself allows relative roundoff. Face acceptance must be
+	// stricter so a summed update cannot inherit that full tolerance already.
+	for (auto const& face : {RadiationSystem::State(u - delta), RadiationSystem::State(u + delta)}) {
+		auto const calculation = RadiationSystem::toCalculationState(face);
+		EXPECT_GE(units::value(calculation[0]), 0);
+		EXPECT_LE(units::value(M1::magnitude(calculation)), units::value(calculation[0]));
+	}
+	// Face states are limited inside the cone; the subsequent conservative
+	// update still repairs rounding introduced when applying the shared flux.
 	auto const left = system.correctRoundoff(u - delta, componentAbs(delta));
 	auto const right = system.correctRoundoff(u + delta, componentAbs(delta));
 	EXPECT_TRUE(system.admissible(left));
@@ -154,4 +163,55 @@ TEST(Radiation, FluxLimiterPreservesRealizabilityAndPairConservation) {
 	test::expectStateNear(left + right, RadiationSystem::State(2.0 * u), 2e-12);
 	EXPECT_LT(units::value(limited.energy()), units::value(high.energy()));
 	test::expectStateNear(system.limitFlux(u, u, high, 0, {}), high, 0);
+}
+
+TEST(Radiation, ReconstructionCanonicalizesOnlyToleratedConeOvershoot) {
+	RadiationSystem const system(constants::c);
+	RadiationSystem::Reconstruction trial{};
+	trial[0] = units::EnergyDensity::from_value(1);
+	trial[1] = (1 + M1::roundoff / 2) * trial[0];
+	ASSERT_TRUE(M1::admissible(trial));
+	auto const reconstructed = RadiationSystem::toCalculationState(system.conservedState(trial));
+	EXPECT_EQ(reconstructed[0], trial[0]);
+	EXPECT_LE(units::value(M1::magnitude(reconstructed) - reconstructed[0]), 8 * epsilonR);
+	// F/c -> physical F -> F/c can lower the cone excess by one ulp. This
+	// trial is outside the preconversion tolerance but inside the tolerance
+	// actually checked by the slope limiter after the conversion.
+	trial[0] = units::EnergyDensity::from_value(1.998778093565802e-13);
+	trial[1] = units::EnergyDensity::from_value(1.9987780935676202e-13);
+	ASSERT_FALSE(M1::admissible(trial));
+	ASSERT_TRUE(system.admissible(RadiationSystem::fromCalculationState(trial)));
+	auto const converted = RadiationSystem::toCalculationState(system.conservedState(trial));
+	EXPECT_LE(units::value((M1::magnitude(converted) - converted[0]) / converted[0]), 8 * epsilonR);
+	// A physically invalid trial remains invalid so slope limiting can reject it.
+	trial[0] = units::EnergyDensity::from_value(1);
+	trial[1] = Real(1.001) * trial[0];
+	auto const invalid = system.conservedState(trial);
+	EXPECT_FALSE(system.admissible(invalid));
+	EXPECT_NEAR(units::value(invalid.radiativeFlux(0) / constants::c), 1.001, epsilonR);
+}
+
+TEST(Radiation, ConservativeInterpolationKeepsConeMarginForRotatedHalos) {
+	RadiationSystem const system(constants::c);
+	RadiationSystem::State center{};
+	center.energy() = units::EnergyDensity::from_value(1);
+	std::array<RadiationSystem::State, ndim> slopes{};
+	slopes[0].radiativeFlux(0) = Real(4) * constants::c * center.energy();
+	// Test child centers and the corner envelope used to limit coarse/fine halos.
+	for (Real radius : {Real(.25), Real(.5)}) {
+		RadiationSystem::State sum{};
+		for (int slot = 0; slot < (1 << ndim); ++slot) {
+			std::array<Real, ndim> offset{};
+			for (int d = 0; d < ndim; ++d) offset[d] = slot & (1 << d) ? radius : -radius;
+			auto const child = amr::interpolate(center, slopes, offset, system);
+			EXPECT_TRUE(system.admissibleInterpolation(child));
+			sum += child;
+			if constexpr (ndim >= 2) {
+				physics::RotatingFrame const frame(units::InverseTime::from_value(.3));
+				auto const rotated = frame.toGridState(child, units::Time::from_value(.7));
+				for (int axis = 0; axis < ndim; ++axis) EXPECT_NO_THROW(system.physicalFlux(rotated, axis));
+			}
+		}
+		test::expectStateNear(sum / Real(1 << ndim), center, 0);
+	}
 }

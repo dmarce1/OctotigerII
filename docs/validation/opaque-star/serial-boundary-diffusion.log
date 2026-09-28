@@ -1,0 +1,54 @@
+Internal ctest changing into directory: /tmp/octoii-radiation-serial
+Test project /tmp/octoii-radiation-serial
+      Start 159: 3d.radiationBoundaryChecks.RadiationBoundary.CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasBoundaries
+      Start 146: 3d.radiationDiffusionChecks.RadiationDiffusion.FixedMeshFourierDiffusionCoefficientHasCorrectOpaqueLimit
+ 1/22 Test #146: 3d.radiationDiffusionChecks.RadiationDiffusion.FixedMeshFourierDiffusionCoefficientHasCorrectOpaqueLimit .................   Passed    0.11 sec
+      Start 147: 3d.radiationDiffusionChecks.RadiationDiffusion.InstantaneousProbeLimitsSharpOpticalTransitionOverPredictorInterval
+ 2/22 Test #147: 3d.radiationDiffusionChecks.RadiationDiffusion.InstantaneousProbeLimitsSharpOpticalTransitionOverPredictorInterval .......   Passed    0.02 sec
+      Start 157: 3d.radiationBoundaryChecks.RadiationBoundary.InsulationOverridesApAdvectionAndPreservesPressureFluxInProbes
+ 3/22 Test #157: 3d.radiationBoundaryChecks.RadiationBoundary.InsulationOverridesApAdvectionAndPreservesPressureFluxInProbes ..............   Passed    0.01 sec
+      Start  25: 1d.radiationBoundaryChecks.RadiationBoundary.CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasBoundaries
+ 4/22 Test  #25: 1d.radiationBoundaryChecks.RadiationBoundary.CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasBoundaries ...........   Passed    0.01 sec
+      Start 156: 3d.radiationBoundaryChecks.RadiationBoundary.OptionIsExplicitAndRejectsUnsupportedGeometry
+ 5/22 Test #156: 3d.radiationBoundaryChecks.RadiationBoundary.OptionIsExplicitAndRejectsUnsupportedGeometry ...............................   Passed    0.00 sec
+      Start 145: 3d.radiationDiffusionChecks.RadiationDiffusion.ThinLimitPerturbationIsQuadraticInCellWidth
+ 6/22 Test #145: 3d.radiationDiffusionChecks.RadiationDiffusion.ThinLimitPerturbationIsQuadraticInCellWidth ...............................   Passed    0.00 sec
+      Start  23: 1d.radiationBoundaryChecks.RadiationBoundary.InsulationOverridesApAdvectionAndPreservesPressureFluxInProbes
+ 7/22 Test  #23: 1d.radiationBoundaryChecks.RadiationBoundary.InsulationOverridesApAdvectionAndPreservesPressureFluxInProbes ..............   Passed    0.00 sec
+      Start  22: 1d.radiationBoundaryChecks.RadiationBoundary.OptionIsExplicitAndRejectsUnsupportedGeometry
+ 8/22 Test  #22: 1d.radiationBoundaryChecks.RadiationBoundary.OptionIsExplicitAndRejectsUnsupportedGeometry ...............................   Passed    0.00 sec
+      Start 144: 3d.radiationDiffusionChecks.RadiationDiffusion.OpaquePressureIgnoresTransientHancockAnisotropy
+ 9/22 Test #144: 3d.radiationDiffusionChecks.RadiationDiffusion.OpaquePressureIgnoresTransientHancockAnisotropy ...........................   Passed    0.00 sec
+      Start 143: 3d.radiationDiffusionChecks.RadiationDiffusion.MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated
+10/22 Test #143: 3d.radiationDiffusionChecks.RadiationDiffusion.MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated ....................   Passed    0.00 sec
+      Start 158: 3d.radiationBoundaryChecks.RadiationBoundary.RealizabilityFallbackCannotReintroduceEnergyLeakage
+11/22 Test #158: 3d.radiationBoundaryChecks.RadiationBoundary.RealizabilityFallbackCannotReintroduceEnergyLeakage .........................   Passed    0.00 sec
+      Start 142: 3d.radiationDiffusionChecks.RadiationDiffusion.ZeroExtinctionPreservesEveryThinFluxComponentExactly
+12/22 Test #142: 3d.radiationDiffusionChecks.RadiationDiffusion.ZeroExtinctionPreservesEveryThinFluxComponentExactly ......................   Passed    0.00 sec
+      Start  24: 1d.radiationBoundaryChecks.RadiationBoundary.RealizabilityFallbackCannotReintroduceEnergyLeakage
+13/22 Test  #24: 1d.radiationBoundaryChecks.RadiationBoundary.RealizabilityFallbackCannotReintroduceEnergyLeakage .........................   Passed    0.00 sec
+      Start  13: 1d.radiationDiffusionChecks.RadiationDiffusion.ZeroExtinctionPreservesEveryThinFluxComponentExactly
+14/22 Test  #13: 1d.radiationDiffusionChecks.RadiationDiffusion.ZeroExtinctionPreservesEveryThinFluxComponentExactly ......................   Passed    0.00 sec
+      Start  14: 1d.radiationDiffusionChecks.RadiationDiffusion.MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated
+15/22 Test  #14: 1d.radiationDiffusionChecks.RadiationDiffusion.MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated ....................   Passed    0.00 sec
+      Start  15: 1d.radiationDiffusionChecks.RadiationDiffusion.OpaquePressureIgnoresTransientHancockAnisotropy
+16/22 Test  #15: 1d.radiationDiffusionChecks.RadiationDiffusion.OpaquePressureIgnoresTransientHancockAnisotropy ...........................   Passed    0.00 sec
+      Start  16: 1d.radiationDiffusionChecks.RadiationDiffusion.ThinLimitPerturbationIsQuadraticInCellWidth
+17/22 Test  #16: 1d.radiationDiffusionChecks.RadiationDiffusion.ThinLimitPerturbationIsQuadraticInCellWidth ...............................   Passed    0.00 sec
+      Start  17: 1d.radiationDiffusionChecks.RadiationDiffusion.FixedMeshFourierDiffusionCoefficientHasCorrectOpaqueLimit
+18/22 Test  #17: 1d.radiationDiffusionChecks.RadiationDiffusion.FixedMeshFourierDiffusionCoefficientHasCorrectOpaqueLimit .................   Passed    0.00 sec
+      Start  18: 1d.radiationDiffusionChecks.RadiationDiffusion.InstantaneousProbeLimitsSharpOpticalTransitionOverPredictorInterval
+19/22 Test  #18: 1d.radiationDiffusionChecks.RadiationDiffusion.InstantaneousProbeLimitsSharpOpticalTransitionOverPredictorInterval .......   Passed    0.00 sec
+      Start  19: 1d.radiationDiffusionChecks.RadiationDiffusion.TransitionOpticalDepthsRemainAdmissibleWithVaryingDensityAndTemperature
+20/22 Test  #19: 1d.radiationDiffusionChecks.RadiationDiffusion.TransitionOpticalDepthsRemainAdmissibleWithVaryingDensityAndTemperature ...   Passed    0.07 sec
+      Start  20: 1d.radiationDiffusionChecks.RadiationDiffusion.CoupledFourierModeDecaysAtThePhysicalEquilibriumDiffusionRate
+21/22 Test  #20: 1d.radiationDiffusionChecks.RadiationDiffusion.CoupledFourierModeDecaysAtThePhysicalEquilibriumDiffusionRate .............   Passed    0.01 sec
+22/22 Test #159: 3d.radiationBoundaryChecks.RadiationBoundary.CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasBoundaries ...........   Passed    3.18 sec
+
+100% tests passed, 0 tests failed out of 22
+
+Label Time Summary:
+integration    =   3.21 sec*proc (8 tests)
+unit           =   0.23 sec*proc (14 tests)
+
+Total Test time (real) =   3.20 sec

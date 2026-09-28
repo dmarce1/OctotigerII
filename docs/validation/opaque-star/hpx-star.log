@@ -1,0 +1,17 @@
+Internal ctest changing into directory: /tmp/octoii-radiation-hpx
+Test project /tmp/octoii-radiation-hpx
+    Start 210: 3d.radiatingStarChecks.RadiatingStar.DefaultsUseFullLightSpeedUniformOpacityAndNoPhotonSource
+    Start 211: 3d.radiatingStarChecks.RadiatingStar.BoostedDiffusionMomentsHaveConsistentThermalAndMechanicalForces
+1/4 Test #210: 3d.radiatingStarChecks.RadiatingStar.DefaultsUseFullLightSpeedUniformOpacityAndNoPhotonSource ..........   Passed    0.11 sec
+    Start 212: 3d.radiatingStarChecks.RadiatingStar.RejectsReducedLightSpeedLeakingWallsAndObsoleteOpacityProfiles
+2/4 Test #211: 3d.radiatingStarChecks.RadiatingStar.BoostedDiffusionMomentsHaveConsistentThermalAndMechanicalForces ...   Passed    0.15 sec
+    Start 213: 3d.radiatingStarChecks.RadiatingStar.ShortEvolutionHasNoPhotonHeaterOrEscapingRadiationEnergy
+3/4 Test #212: 3d.radiatingStarChecks.RadiatingStar.RejectsReducedLightSpeedLeakingWallsAndObsoleteOpacityProfiles ....   Passed    0.04 sec
+4/4 Test #213: 3d.radiatingStarChecks.RadiatingStar.ShortEvolutionHasNoPhotonHeaterOrEscapingRadiationEnergy ..........   Passed   13.59 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Label Time Summary:
+integration    =  13.90 sec*proc (4 tests)
+
+Total Test time (real) =  13.77 sec

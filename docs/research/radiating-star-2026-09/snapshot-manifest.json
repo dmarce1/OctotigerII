@@ -1,0 +1,732 @@
+{
+  "created": "2026-09-27",
+  "note": "Research snapshot; includes rejected intermediate solutions and unfinished prototypes. See README.md before using.",
+  "archive_sha256": "86b83c258b30738c6eda17c90299ec4d7adf38f91f0d6ddd095b0e34da6cbfcf",
+  "entries": [
+    {
+      "path": "scratch/radiating_star_2d.py",
+      "bytes": 8481,
+      "sha256": "112299ab0e1906f9437f31b0cd35f4161c4277ed833d48613bba55d34500cac3"
+    },
+    {
+      "path": "scratch/radiating_star_2d_17_0.0.npz",
+      "bytes": 25020,
+      "sha256": "d0ee2b94093e83914efdc92a810bca4e8b36f138cfa64aadde62c83755296b9c"
+    },
+    {
+      "path": "scratch/radiating_star_2d_result.npz",
+      "bytes": 51964,
+      "sha256": "9fb8be3e5ad86d4a76ac5acde8c33a22b5dd13380c2f0c9f876fa6eb0713dc7f"
+    },
+    {
+      "path": "scratch/radiating_star_analytic_jac.py",
+      "bytes": 3815,
+      "sha256": "b2612b4ceb9b15edb3fee06e0413a8a23fc427d5ac6fdcc5b974fb80d1a040a0"
+    },
+    {
+      "path": "scratch/radiating_star_audit_zero_reference_97.npz",
+      "bytes": 130068,
+      "sha256": "f4ed2375fdf3dd2110a8764154d74a838a39bd5858c4b623e716c25ebf7e05fa"
+    },
+    {
+      "path": "scratch/radiating_star_cut_audit.py",
+      "bytes": 4538,
+      "sha256": "3d4723bdbddc0f71c92e76929ff486dd9e66b7453d38ff5755a9117b1574eb9b"
+    },
+    {
+      "path": "scratch/radiating_star_cut_audit193.log",
+      "bytes": 2970,
+      "sha256": "f2cfce4fc442d639f4614570166b9fa4f79fc51f34b6a8757c28421ed58e8540"
+    },
+    {
+      "path": "scratch/radiating_star_defect_analytic25.log",
+      "bytes": 17641,
+      "sha256": "24c5d317f22771f2889334778d55d4cc4a18b1d41306dab6ac978ea0b44a7397"
+    },
+    {
+      "path": "scratch/radiating_star_defect_continue49.log",
+      "bytes": 9237,
+      "sha256": "c2ba46c6d3074020cd5f20c65b109ebd74a70e5b629f563b39c20de15ad8f0fc"
+    },
+    {
+      "path": "scratch/radiating_star_defect_direct.py",
+      "bytes": 5605,
+      "sha256": "c1cfbdc05e754c17287f8ae2c7ad819b8025df1f01de1bc70426a452e76ba28f"
+    },
+    {
+      "path": "scratch/radiating_star_defect_direct25.log",
+      "bytes": 21248,
+      "sha256": "1769bbfefa9c13f1f110c7ad29bd66f23d7bd76c0fe0180e8c881197a2cd18ef"
+    },
+    {
+      "path": "scratch/radiating_star_defect_direct49.log",
+      "bytes": 2796,
+      "sha256": "0fc84f743a83e0adf6fec870a60409495854e76d2e09df10e77f928a7effcf25"
+    },
+    {
+      "path": "scratch/radiating_star_defect_direct_continue25.log",
+      "bytes": 3502,
+      "sha256": "70fea9d9730862cdac8eb441970d910d189e05f4eae274fefae17cd6968e052a"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton.py",
+      "bytes": 5627,
+      "sha256": "c2eff40f381720d66c6ee0457a32ba3b3e71389f923bc119f43a4d01e75e7ac5"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton25.log",
+      "bytes": 11429,
+      "sha256": "c2b6ea9a3fd49322848cb21107e4c4722874058fae4652f62ad8161f41f0c879"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.0.npz",
+      "bytes": 51200,
+      "sha256": "aa224f1d3eed2063646ebeccc07ab788cbe2e8963fbfd4c36b779bb98724a2e6"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.01.npz",
+      "bytes": 51200,
+      "sha256": "65e4157aa9ffbc4beae3bc094a1eea5809bcb4f304fc4dab46ed5c187ccccd4a"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.03.npz",
+      "bytes": 56440,
+      "sha256": "01d3fa52e39936c333ea0c8c1cc2e75a257fde63b1c43bfaf78d87d687b9bbfd"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.06.npz",
+      "bytes": 56440,
+      "sha256": "9f2332eb7e35fc3adc396d066c8a10f9d565904217c923151998f45ba037dd4f"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.1.npz",
+      "bytes": 56440,
+      "sha256": "b151e38e127bafb8f8ea815ba3b7bcbcb6d024d0f0f421258cfd5a2eb278c21c"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.12.npz",
+      "bytes": 56440,
+      "sha256": "02f6ec93b7efd2ebf636634dd39c3ee748304a311b2717e69e90e13f111a274a"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.14.npz",
+      "bytes": 56440,
+      "sha256": "bb291953e15a63e956974638f8cce069355d930082d4f157fd8db2a3900ee37a"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.2.npz",
+      "bytes": 56440,
+      "sha256": "fd0a25a6adddd751a748f1081386b8a280efed5dacbac7efa2fde433cb9c9752"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_25_0.npz",
+      "bytes": 51200,
+      "sha256": "61eb06887f35808fa0e701f881b30eb64c28c87897ed467360009e7278275aac"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_49_0.1.npz",
+      "bytes": 212920,
+      "sha256": "420a88ba80bde52d13003af8ffebf48a64dffdadae1c8440b5759f10e0313d98"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_49_0.12.npz",
+      "bytes": 212920,
+      "sha256": "feecb361b52c421bc881cddf09ce3aeb68eaaf34e6880efd4a4224bfbe06d9af"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_49_0.14.npz",
+      "bytes": 212920,
+      "sha256": "ab7057bfa681431e7e3ec9c742535ca47e982649e3c701bbc2c90a972255a82e"
+    },
+    {
+      "path": "scratch/radiating_star_defect_newton_49_0.16.npz",
+      "bytes": 212920,
+      "sha256": "a00e53cb1172f35a9b6beaede14fc96378a9c6a98ed4191241fb1c002c98198b"
+    },
+    {
+      "path": "scratch/radiating_star_defect_refine49.npz",
+      "bytes": 96310,
+      "sha256": "5469774c607501f35985ffd5edc68ec5e2860d8573dc2f8436ad7ce4f0bce0b1"
+    },
+    {
+      "path": "scratch/radiating_star_defect_resume25.log",
+      "bytes": 22347,
+      "sha256": "03733e81c4d07ad4e962971943acb8e986d711a5778efd25cdc31a608e2a92c1"
+    },
+    {
+      "path": "scratch/radiating_star_flux_boundary.py",
+      "bytes": 4768,
+      "sha256": "d0193f4ecad7e4b51618b1267a20612a51a7d6204f2981fda08a37ac2e31c454"
+    },
+    {
+      "path": "scratch/radiating_star_flux_boundary25.log",
+      "bytes": 4227,
+      "sha256": "a072b5ff196a0ddee2c20b0a648deac4c43e8d925c6841d8fb3f8eed8dc692e0"
+    },
+    {
+      "path": "scratch/radiating_star_flux_boundary_25_0.npz",
+      "bytes": 51200,
+      "sha256": "8db972d68244dcb8beb866ed3ec004efe00314ec7eee6653ddd7b5603a46e4c5"
+    },
+    {
+      "path": "scratch/radiating_star_flux_newton.log",
+      "bytes": 5376,
+      "sha256": "bd11b2413a27eda3baa9179d42baf80bf54f085e4db1d59c3cf71138034e9dc9"
+    },
+    {
+      "path": "scratch/radiating_star_flux_newton.npz",
+      "bytes": 14624,
+      "sha256": "81d2891e3c6941eba18bcae099db35b291483eeb098c75eb0a192e338b40e6fa"
+    },
+    {
+      "path": "scratch/radiating_star_flux_newton.py",
+      "bytes": 4571,
+      "sha256": "a0dd023500bbad93204adee149427a341110106e3b084fa3486841e627e5a962"
+    },
+    {
+      "path": "scratch/radiating_star_flux_newton25.log",
+      "bytes": 14555,
+      "sha256": "ae6ff2d7da1a2fe203932a30cb2dba9429a3faacd308bf83ee862b56d6952109"
+    },
+    {
+      "path": "scratch/radiating_star_flux_newton25_best.log",
+      "bytes": 3680,
+      "sha256": "9b3789b532b94f731e5ac6914369bde56ab32203257808c7be704d6acf6b6071"
+    },
+    {
+      "path": "scratch/radiating_star_flux_newton_25_0.npz",
+      "bytes": 51200,
+      "sha256": "b726d9e7497e5e9e1021a369154ab8b4a6bd55a8878a509641e014c76a3fa3a4"
+    },
+    {
+      "path": "scratch/radiating_star_graded_audit.py",
+      "bytes": 4036,
+      "sha256": "7de4be7a431ca944c363ff3734aef65376a9b77c9713a41e61fc7c09c5885fb5"
+    },
+    {
+      "path": "scratch/radiating_star_graded_audit97.log",
+      "bytes": 8562,
+      "sha256": "afe67b9da075b49e57766f088e99bf5a4d09a7b601f46e10282e33c6c424788e"
+    },
+    {
+      "path": "scratch/radiating_star_graded_split_audit.py",
+      "bytes": 4523,
+      "sha256": "5597d581e339e220310db5d3ca6707a7bf2468825170d91343e45be8a7dfda7b"
+    },
+    {
+      "path": "scratch/radiating_star_graded_split_audit97.log",
+      "bytes": 4060,
+      "sha256": "299bfea5340933c5a914f3329318eb4437dbf5fe367673ef3f470ea3d54a4e0b"
+    },
+    {
+      "path": "scratch/radiating_star_integral.py",
+      "bytes": 2807,
+      "sha256": "3e4b3eb2dda472675dec6fb843550b2db9367d191f2f54a6d98963443e89a130"
+    },
+    {
+      "path": "scratch/radiating_star_integral25.log",
+      "bytes": 9925,
+      "sha256": "d2e59eb0d2f98d46c2e3f4c9b313a2719824fd677e26d7cb376f85d9906fd5e5"
+    },
+    {
+      "path": "scratch/radiating_star_integral49.log",
+      "bytes": 7102,
+      "sha256": "9ac06b6a4302391ea9f0eb9a89cd4400f765027a43b4e654370072116b14c08a"
+    },
+    {
+      "path": "scratch/radiating_star_integral_25_0.03.npz",
+      "bytes": 56440,
+      "sha256": "095638f1ebca582433a67b3028da4b37a7db1dcc9d17fe4c21a3537bbaf15d0d"
+    },
+    {
+      "path": "scratch/radiating_star_integral_25_0.06.npz",
+      "bytes": 56440,
+      "sha256": "24909ced325bd0bc5e7ac22ed4a2e6edcd7469e5ab453692892c4bdd8feee880"
+    },
+    {
+      "path": "scratch/radiating_star_integral_25_0.1.npz",
+      "bytes": 56440,
+      "sha256": "ca0299b7baa1e357c776e769a31382c3481b3e11d3034ff7a9fc183668e6c50c"
+    },
+    {
+      "path": "scratch/radiating_star_integral_25_0.14.npz",
+      "bytes": 56440,
+      "sha256": "f75e6a4d31cdf4ac77e2b1f894d861d35521fc5481721220ca1b5a32f77de6ef"
+    },
+    {
+      "path": "scratch/radiating_star_integral_49_0.03.npz",
+      "bytes": 212920,
+      "sha256": "1617e6bd399c3de21df330c8d41a1488dbf638569b69780f0c6ecad328820f4e"
+    },
+    {
+      "path": "scratch/radiating_star_integral_49_0.06.npz",
+      "bytes": 212920,
+      "sha256": "91b3f0caa6784a067ede76ae1cdacaafde099eca11948367ccfd84853897d17d"
+    },
+    {
+      "path": "scratch/radiating_star_integral_49_0.1.npz",
+      "bytes": 212920,
+      "sha256": "c423af662dafa91235198fd3581991cf7821aeed31d58621a2d8dec75d212ac4"
+    },
+    {
+      "path": "scratch/radiating_star_moving.npz",
+      "bytes": 336670,
+      "sha256": "05e51352bbb1c07f39ceb0453c6093cf6ec27406b3656c7c60db68aa8118097f"
+    },
+    {
+      "path": "scratch/radiating_star_moving_check.py",
+      "bytes": 1847,
+      "sha256": "2c1fddb76684ff0da18fad9673da030ab134d38bb9ca9eae0016e6293ad85890"
+    },
+    {
+      "path": "scratch/radiating_star_moving_driver.py",
+      "bytes": 1455,
+      "sha256": "b847225a335cde6c8ba8c032fd3669af532dd22b039410937a38096a8a3a942a"
+    },
+    {
+      "path": "scratch/radiating_star_newton_audit.log",
+      "bytes": 23928,
+      "sha256": "97b4e94be353b0daa09b341541bb368ab8f7e00370984532e412dddc563d4d92"
+    },
+    {
+      "path": "scratch/radiating_star_newton_audit.npz",
+      "bytes": 14624,
+      "sha256": "7be93ad6638a40a2a8715b661616196dcb1fb40012c2c7590a2acd4198e99b30"
+    },
+    {
+      "path": "scratch/radiating_star_newton_audit.py",
+      "bytes": 3354,
+      "sha256": "e832c3d3c6600762e60144d2ce90f24f0a58fa6b8240781e48716d64fb44b21b"
+    },
+    {
+      "path": "scratch/radiating_star_piecewise_audit.py",
+      "bytes": 4527,
+      "sha256": "ae4cf36dd1f61b6e6383b84453ad35642cfee67ce48ab522ec5958e493005965"
+    },
+    {
+      "path": "scratch/radiating_star_piecewise_audit193_spin1.log",
+      "bytes": 4077,
+      "sha256": "ca65705d3ae5ccbd3b95a703d9bc98d784922b95421a15cc1d51b5d8a1dce072"
+    },
+    {
+      "path": "scratch/radiating_star_piecewise_audit97.log",
+      "bytes": 4078,
+      "sha256": "deb28a012d1c470f51d0b8929e1ff817fe89e4c6099cd9efa9ff11282256db25"
+    },
+    {
+      "path": "scratch/radiating_star_piecewise_audit97_spin1.log",
+      "bytes": 4078,
+      "sha256": "f9dd4c237a77fee0926dc450effdbe41ff7ae113c9ef06f822e0fb178db4a39a"
+    },
+    {
+      "path": "scratch/radiating_star_piecewise_independent_audit.log",
+      "bytes": 9997,
+      "sha256": "e3bf7eeae6fb15ec08edca822d10813f2d2499d214c3b54c2f059444a7650c24"
+    },
+    {
+      "path": "scratch/radiating_star_piecewise_independent_audit.py",
+      "bytes": 6750,
+      "sha256": "78f1b3d2159bbe454df24a347ee198cf44553d0e51009f0376628517e82db5a7"
+    },
+    {
+      "path": "scratch/radiating_star_reference.inc",
+      "bytes": 7406583,
+      "sha256": "6950e97e0b2b98790319653d6fe4e5c1f887db8a4a22a6350b373dae97494c76"
+    },
+    {
+      "path": "scratch/radiating_star_reference_193_65_0.1_moving.npz",
+      "bytes": 1210627,
+      "sha256": "83d060cab95dd81504addae54b41355f00f1e2af21c059e8f184013323d214f3"
+    },
+    {
+      "path": "scratch/radiating_star_reference_moving193.log",
+      "bytes": 948,
+      "sha256": "166d4e3d2570b6b33d7b790b64e5d82d0971cb80ddbb85e188a2e15a3613faf5"
+    },
+    {
+      "path": "scratch/radiating_star_spherical193_extent4.log",
+      "bytes": 3387,
+      "sha256": "13918facc491598d1b4aa7e5f689927b3cba6be46a1f74a1b241f49b1cd4d016"
+    },
+    {
+      "path": "scratch/radiating_star_spherical25.log",
+      "bytes": 3432,
+      "sha256": "ef8f730833f3fc3503d9a0918d08e1b2fc6cad5d32f4f38fed8381ed864cbeb4"
+    },
+    {
+      "path": "scratch/radiating_star_spherical49.log",
+      "bytes": 5169,
+      "sha256": "e25daf24310d264d04f41f979de5cb2cbe239a45b46ef76c110d6edc9868f0a7"
+    },
+    {
+      "path": "scratch/radiating_star_spherical49_regular.log",
+      "bytes": 3700,
+      "sha256": "7f24f27e4c6bb314e559ec8310b7907116f6c0def32af3d9727c73f30906e85c"
+    },
+    {
+      "path": "scratch/radiating_star_spherical97.log",
+      "bytes": 3694,
+      "sha256": "52c9a7ccf4b8a68e20cd0d00905c8da133fb7c17107e7620014ba2cc445de67d"
+    },
+    {
+      "path": "scratch/radiating_star_spherical97_extent4.log",
+      "bytes": 3301,
+      "sha256": "b7b8537121127a9527ab028ce47257de01cd78bf9611e8a288563a8285344626"
+    },
+    {
+      "path": "scratch/radiating_star_spherical97_regular.log",
+      "bytes": 3694,
+      "sha256": "89889e088930d4f71472a880b718fe23c723675bf029578eb50656549ab461ca"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_193_33_0.1_extent4.npz",
+      "bytes": 513068,
+      "sha256": "8ebf2fd4185c69182cea1628c2ce4a7ebda52bfd1951e34656716538a7a133b1"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_193_33_0.2_extent4.npz",
+      "bytes": 513068,
+      "sha256": "eac99986295dc2487e2cbf8de8941c8b46efe704ccb19a7d1306dd01a1cd024c"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_25_9_0.03.npz",
+      "bytes": 19820,
+      "sha256": "b5e67496a9d2c8446c57d83524041c4f05ecc643d8072f2a39acdb47d84a5ee6"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_25_9_0.1.npz",
+      "bytes": 19820,
+      "sha256": "979c42051295d5ed432eed1bf7f83804b81e7643bfb0febf163db5f5c20297f9"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_49_17_0.03.npz",
+      "bytes": 68780,
+      "sha256": "e140bef63176fdbac5bb89bf9b00776adcc959b487ed92dc1b5209d89acd4bb3"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_49_17_0.1.npz",
+      "bytes": 68780,
+      "sha256": "ac9ceaf05093a7d2f7e75b38c4e05c989ba56cb7c4ac0cb8cd70e2c7da404ae5"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_49_17_0.2.npz",
+      "bytes": 68780,
+      "sha256": "07138b3df2c4035a90d6a69196583a95c161985c1d23faa5e5bf25571da97bee"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_97_17_0.1_extent4.npz",
+      "bytes": 134444,
+      "sha256": "267ca3b062cf47d6b248936fdf3a27c134431ddbd802a07ab59fe6ff7d6d7854"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_97_17_0.2_extent4.npz",
+      "bytes": 134444,
+      "sha256": "6626a9168da1acdf0baf436a5f791d5f2f13bf0c24c83eb0e8f234dbcf5251f8"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_97_33_0.1.npz",
+      "bytes": 258860,
+      "sha256": "7516cd4781cfe8a8d2db5a9a585a2c7c81764daaf334b789aa719a1fcbdf3408"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_97_33_0.2.npz",
+      "bytes": 258860,
+      "sha256": "240ce55d91b74d9a22487c878c8c5d8ef6a4cba1167a4d86590504f97d871d8f"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded.py",
+      "bytes": 8901,
+      "sha256": "b4dcd27e2154f636cb580440b9fee87fd876993950310daf4f6f8d4902520e9a"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded97.log",
+      "bytes": 3392,
+      "sha256": "f8e7a21807e0182dd7a55bb0418ada98eb640601b1df7d1af09b19169d89232d"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_97_33_0.1_extent4.npz",
+      "bytes": 258860,
+      "sha256": "e1fbf072e87002cbd5f425297dabced5a4432c94c68a52fdc0ebfa2cb621d1f8"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_97_33_0.2_extent4.npz",
+      "bytes": 258860,
+      "sha256": "f5ac0f28cfd2474842d1bfa5705ee39f4a8cfe3e123055212c979154eb3c57f7"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_lte.py",
+      "bytes": 8906,
+      "sha256": "8b6d86f5f02bf096e5d4509417ed4cea9c51ab664cce77323f2d636a44a8f652"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_lte193.log",
+      "bytes": 3478,
+      "sha256": "c95e903821fcab07b8d9a23363b68d85af9f6ae974809275531457890122e4af"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_lte97.log",
+      "bytes": 3393,
+      "sha256": "31e577cc62eed015158524dfd99e19988ab1b493c089f58d0611f4e6c115aa35"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_lte_193_65_0.1_extent4.npz",
+      "bytes": 1007660,
+      "sha256": "0d197b30647332129d4a3743eb3e22768626c4b320b195c685cb80858ac392a5"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_lte_193_65_0.2_extent4.npz",
+      "bytes": 1007660,
+      "sha256": "54af5d4933cb91188dd67ae2d58dd0ab2be9344258c4c9d0b2ab6deac2771f25"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_lte_97_33_0.1_extent4.npz",
+      "bytes": 258860,
+      "sha256": "f2116d6504483bb0cf5cbca5db61d30b9092a1221d13292f71fccca1fb0abd78"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_graded_lte_97_33_0.2_extent4.npz",
+      "bytes": 258860,
+      "sha256": "03e2bc675a94ba21db72c3e5ff7f0015f3cd9cb1f1e6d0fc7b827320410ead54"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_grid.py",
+      "bytes": 8056,
+      "sha256": "b05553b8d50831e2fe7772ecb732419fd6be240caaa35ace4dd3459d1387331c"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_independent_audit.py",
+      "bytes": 4183,
+      "sha256": "4718b9a935fcfc346860d1451cb65fd79828eb096f544f39c1958ea5b198fede"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_piecewise.py",
+      "bytes": 5630,
+      "sha256": "cf351a91cce5f2af385f9fe98867853f117b34353067efac25be22bd87333ba1"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_piecewise193_spin1.log",
+      "bytes": 1544,
+      "sha256": "0cec57ef856f4807ac9cfb60f84e25f90375985bcf6988d7c3e12fdc47dd4caa"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_piecewise97.log",
+      "bytes": 3396,
+      "sha256": "1faeec27f7c3d265309418b5ad87568b7d78be80ac11f4ccb96068a9ec5800f4"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_piecewise_193_65_0.1_extent4.npz",
+      "bytes": 1007660,
+      "sha256": "564e198b5874b81de6f9b930bf29234d25bfabe576e309b05db610d74c5bc14f"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_piecewise_97_33_0.1_extent4.npz",
+      "bytes": 258860,
+      "sha256": "a7032d4f30475fec0401904f7c9f4dd6c18ab39f738a39523cf8fa64c7710311"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_piecewise_97_33_0.2_extent4.npz",
+      "bytes": 258860,
+      "sha256": "9472a1fcc7df0687c96d5a25ae6296acc9d790c896577f624c598e43491b880b"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_piecewise_grid.py",
+      "bytes": 8922,
+      "sha256": "d3ae01e93d483a1ac7f310bf7404b7757742d1c68067e288d1b9e0a31fbf8be6"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_toroidal.py",
+      "bytes": 2452,
+      "sha256": "bd4368b1bff9d1106dee5411c3516ff60010c3da75d25df53ab7f8b762c7e66b"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_toroidal_audit.py",
+      "bytes": 2459,
+      "sha256": "0e82d9a445f2ad6275b9e904b093becdeff086f1aaf1f663338afcec6b93330a"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind.py",
+      "bytes": 8063,
+      "sha256": "9e9e48fe8bf55a37045f63c4c6cbd5d02a76b136c1110dcb840fa4ddae3de746"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind25.log",
+      "bytes": 3915,
+      "sha256": "9344c4c193987c26c1cff1329a4de83c0287c246fd55ea43478b9cf2d29cd912"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind49.log",
+      "bytes": 3701,
+      "sha256": "6f5cce8df52dac4e099b20c42fc37f65af448af1edcc5fe5c43a7be422e1b553"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind97.log",
+      "bytes": 3695,
+      "sha256": "628dd7fd088d3b5e06f76d9c5481a85b7e83944eff7233350528777dcf9427cf"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind_25_9_0.1.npz",
+      "bytes": 19820,
+      "sha256": "3ff9b07235741b4aea9ececfd5caf54639e67f2c3523dade33a95910756d445b"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind_25_9_0.2.npz",
+      "bytes": 19820,
+      "sha256": "1dfaefc446c7f7b3f9759ad1c911c28a68188effe82b4dc93a782f4d24f571a6"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind_49_17_0.1.npz",
+      "bytes": 68780,
+      "sha256": "fdd9630892ffa9a6736ab7fb9364fa9f28b89c7fef1240d4d7551944651e5186"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind_49_17_0.2.npz",
+      "bytes": 68780,
+      "sha256": "adb22f41fbbb4716b059fe1d9fe783f945852907240211751e697180bb58f1e6"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind_97_33_0.1.npz",
+      "bytes": 258860,
+      "sha256": "00768568db6df8156bd9fca5a54c88336dd0eb3f212d6cb69faa9cf8700204a6"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind_97_33_0.2.npz",
+      "bytes": 258860,
+      "sha256": "df1344e98a85e1e186a245ddb66e10529eef0952e72d2d867fb2b663b725bb54"
+    },
+    {
+      "path": "scratch/radiating_star_spherical_upwind_independent_audit.log",
+      "bytes": 9207,
+      "sha256": "ae8782c3b3ee865265d2be1facd7fde0bf9bda49f8c3f7b1d58e82b4b2b54ac2"
+    },
+    {
+      "path": "scratch/radiating_star_toroidal.py",
+      "bytes": 3191,
+      "sha256": "fa0336af44cef0bcf403be2e3477105042acf0ce4bca3b751850b1a8f9ba1938"
+    },
+    {
+      "path": "scratch/radiating_star_toroidal_result.npz",
+      "bytes": 48384,
+      "sha256": "8381137f4442129410b3ddf59a7970601d0f63aa5b02f287b0d352e5adf0b191"
+    },
+    {
+      "path": "scratch/radiating_star_upwind_audit.log",
+      "bytes": 4586,
+      "sha256": "db4a6c1e74db7dfbd357c7b6a6c6731edb24a9423072fff326d6a64e69c3a809"
+    },
+    {
+      "path": "scratch/radiating_star_upwind_audit97.log",
+      "bytes": 2310,
+      "sha256": "ac524a84fcaff424d56f1b0b0c3bff3bb841ed8d21580d98260216341cca6e5e"
+    },
+    {
+      "path": "scratch/radiating_star_upwind_common_audit.log",
+      "bytes": 10061,
+      "sha256": "d6b473b47d3afbab014578f1da33ed5763dab4111df8dc01be01f41fc2b9b8c9"
+    },
+    {
+      "path": "scratch/radiating_star_upwind_source_audit.log",
+      "bytes": 7119,
+      "sha256": "5d80cfd76c62d6dbf988ae130b6050bee14910f6b473c47696e18c0f5536c67d"
+    },
+    {
+      "path": "repository/tools/science/generate_radiating_star_reference.py",
+      "bytes": 14893,
+      "sha256": "d921832192b2742c5683886359d73c7739addf46ce738d6e4fde31ff467ca5ad"
+    },
+    {
+      "path": "repository/tools/science/radiating_star_rotation.py",
+      "bytes": 6917,
+      "sha256": "9e73aece76b26c42a74ac582ae131afdef6083da5b05f2f1b25b873134c6c035"
+    },
+    {
+      "path": "repository/tools/science/radiating_star_spherical.py",
+      "bytes": 5630,
+      "sha256": "cf351a91cce5f2af385f9fe98867853f117b34353067efac25be22bd87333ba1"
+    },
+    {
+      "path": "repository/tools/science/radiating_star_reference.md",
+      "bytes": 5558,
+      "sha256": "566806033bc6930343695c9bb1b9fe209d37bc847efb5c3e3002214703e5aac1"
+    },
+    {
+      "path": "repository/octotigerII/problems/radiatingStarAtmosphere.hpp",
+      "bytes": 3405,
+      "sha256": "e1f90e77b8b45842ae54f599795909fb93c735952a40bc208744e64cbeace430"
+    },
+    {
+      "path": "repository/octotigerII/problems/radiatingStarGasBarotrope.hpp",
+      "bytes": 2056,
+      "sha256": "f2bf5b1b0543bbeaa97d386cec0a5eefab5a20975b7a0a229fc985453cdf93a8"
+    },
+    {
+      "path": "repository/octotigerII/problems/radiatingStarReference.hpp",
+      "bytes": 4392,
+      "sha256": "75c1a83300a857690d88766a58533ae1f098cb043bf43449038a20cff3935574"
+    },
+    {
+      "path": "repository/octotigerII/problems/radiatingStarStructure.hpp",
+      "bytes": 4158,
+      "sha256": "47f66060369dc4934f6de742ba0828a156ee9d29f0f7f4236369f37becd2a52f"
+    },
+    {
+      "path": "repository/src/problems/radiatingStarAtmosphere.cpp",
+      "bytes": 18870,
+      "sha256": "abee2ab722bf5d94b4d0978238f1f6548b949b1446446bd7f4abcf0821f86935"
+    },
+    {
+      "path": "repository/src/problems/radiatingStarGasBarotrope.cpp",
+      "bytes": 7781,
+      "sha256": "6ac7013c125cdf2fdd92e2ac0a00d5de2d445c44c3aacb1ec1078dfc86cd08ba"
+    },
+    {
+      "path": "repository/src/problems/radiatingStarReference.cpp",
+      "bytes": 19570,
+      "sha256": "af53ff0bd8638e1940a083b5805104df5b8caeacbed8ea052509fb5d94d9d2dc"
+    },
+    {
+      "path": "repository/src/problems/radiatingStarStructure.cpp",
+      "bytes": 16671,
+      "sha256": "3f5e3ae2b8f3a51bc5b334b6ebfb30f5374eea9470a36e795f670d013aedc87d"
+    },
+    {
+      "path": "repository/tests/radiatingStarAtmosphereChecks.cpp",
+      "bytes": 5274,
+      "sha256": "04da43f07405fbf7a763c4e2c91fe89d73e917faf64addbb9b7515871523077b"
+    },
+    {
+      "path": "repository/tests/radiatingStarGasBarotropeChecks.cpp",
+      "bytes": 5815,
+      "sha256": "cde440d3f7db1ba2d4ca53d6d141a4c828e4f80a85d84b48095105fe11c1d76e"
+    },
+    {
+      "path": "repository/tests/radiatingStarStructureChecks.cpp",
+      "bytes": 5721,
+      "sha256": "d4c9a0bfb9269191f2034a7937ee161e68fbd7e1cd6d5000aef71e8d77c67ded"
+    },
+    {
+      "path": "repository/tests/radiatingStarRotationChecks.py",
+      "bytes": 5984,
+      "sha256": "cc30a0ce1afb3556f456f73f1510cf4fdc4c9c5c1daa8c7aba52749d72d46421"
+    },
+    {
+      "path": "scratch/opaque_star_scales.cpp",
+      "bytes": 2606,
+      "sha256": "d5c423e8f0f67e92374228de57726e2ae0ffab2634948681e5f2389815cff1cb"
+    },
+    {
+      "path": "scratch/opaque_star_scales.txt",
+      "bytes": 2485,
+      "sha256": "74f06c52ab3f327a386bd2934b7138a34fcbe82eef08b569b2b471869647d2d3"
+    },
+    {
+      "path": "scratch/radiating-star-atmosphere-tests.log",
+      "bytes": 1265,
+      "sha256": "3caa76cbceea918fa3766341e4fece5a3c4a45bd3981fec66d03801e0c0db976"
+    },
+    {
+      "path": "scratch/radiating-sphere-checks.log",
+      "bytes": 1191,
+      "sha256": "41f9cb0422be79793594ee6c2b01d8b540df60d2cc783bbcb792c68abc767162"
+    }
+  ]
+}

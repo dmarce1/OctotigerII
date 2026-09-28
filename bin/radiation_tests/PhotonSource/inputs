@@ -1,0 +1,4 @@
+[problem]
+name = photon-source
+[output]
+directory = output-photon-source

@@ -6,6 +6,14 @@
 namespace octotigerII {
 
 PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level, std::optional<units::Time> at, Real fluxWeight, SourcePredictor source) {
+	if (coupledStep && !std::get<0>(source.radiation.gas.fields).id) {
+		source.radiation = *coupledStep;
+		source.radiation.gravityInRate = config.gravityEnabled() && std::get<0>(source.increment.fields).id;
+		if (!std::get<0>(source.increment.fields).id) {
+			source.increment = coupledStep->gasRate;
+			source.referenceStep = coupledStep->referenceStep;
+		}
+	}
 	++dispatch;
 	auto const stageTime = at.value_or(time.time);
 	auto const stageBank = level >= 0 && !levels.empty() ? levels.at(level).bank : bank;
@@ -36,6 +44,7 @@ PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level,
 	PhaseResult result;
 	for (auto const& part : results) {
 		result.boundary += part.boundary;
+		result.radiationSourceEnergy += part.radiationSourceEnergy;
 		result.tasks.localTasks += part.tasks.localTasks;
 		result.tasks.stolenTasks += part.tasks.stolenTasks;
 		result.timestep = std::min(result.timestep, part.timestep);
@@ -49,6 +58,7 @@ PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level,
 	auto const expected = std::count_if(topology->blocks().begin(), topology->blocks().end(), [&](auto const& b) { return level < 0 || b.location.level == level; });
 	if (result.tasks.localTasks + result.tasks.stolenTasks != std::size_t(expected))
 		throw std::logic_error("Stage did not complete every output range");
+	if (operation == Operation::FinishRadiationStep) radiationSourceEnergy += result.radiationSourceEnergy;
 	statistics.localTasks += result.tasks.localTasks;
 	statistics.stolenTasks += result.tasks.stolenTasks;
 	return result;

@@ -1,0 +1,4 @@
+[problem]
+name = radiation-matter
+[output]
+directory = output-radiation-matter
