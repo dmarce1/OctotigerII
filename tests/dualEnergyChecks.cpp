@@ -166,7 +166,7 @@ TEST(DualEnergy, ColdPeriodicTransportConservesAuxiliaryWithoutSynchronization) 
 			before += u;
 		});
 		for (int step = 0; step < 5; ++step)
-			solver.advance(patch, solver.stableTimestep(patch, 0.3), physics::BoundaryConditions::periodic());
+			solver.advance(patch, solver.stableTimestep(patch, 0.3), finiteVolume::BoundaryConditions::periodic());
 		patch.layout().forEachInterior([&](auto const& cell, auto) {
 			auto const u = patch.atInterior(cell);
 			EXPECT_TRUE(gas.admissible(u));
@@ -189,7 +189,7 @@ TEST(DualEnergy, IndependentAuxiliarySurvivesAdvectionBetweenThresholds) {
 		before += u.auxiliary();
 	});
 	for (int step = 0; step < 4; ++step)
-		solver.advance(patch, solver.stableTimestep(patch, 0.3), physics::BoundaryConditions::periodic());
+		solver.advance(patch, solver.stableTimestep(patch, 0.3), finiteVolume::BoundaryConditions::periodic());
 	patch.layout().forEachInterior([&](auto const& cell, auto) {
 		auto const u = patch.atInterior(cell);
 		after += u.auxiliary();
@@ -232,7 +232,7 @@ TEST(DualEnergy, WarmOwningPatchSynchronizesAfterEveryStep) {
 	auto u = gas.conservedState(primitive(1, 1));
 	u.auxiliary() *= 0.5;
 	patch.layout().forEachInterior([&](auto const& cell, auto) { patch.atInterior(cell) = u; });
-	solver.advance(patch, solver.stableTimestep(patch, 0.3), physics::BoundaryConditions::periodic());
+	solver.advance(patch, solver.stableTimestep(patch, 0.3), finiteVolume::BoundaryConditions::periodic());
 	patch.layout().forEachInterior([&](auto const& cell, auto) {
 		relative(units::value(gas.internalEnergyFromAuxiliary(patch.atInterior(cell))), 2.5);
 	});

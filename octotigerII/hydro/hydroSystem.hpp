@@ -6,7 +6,7 @@
 #pragma once
 #include "octotigerII/mesh.hpp"
 #include "octotigerII/config.hpp"
-#include "octotigerII/physics/finiteVolume.hpp"
+#include "octotigerII/finiteVolume/solver.hpp"
 #include "octotigerII/hydro/whiteDwarfEos.hpp"
 #include "octotigerII/hydro/helmholtzClosure.hpp"
 #include "octotigerII/units/cgs.hpp"
@@ -141,6 +141,6 @@ inline HydroSystem::HydroSystem(Config const& config) : HydroSystem(config.hydro
         defaultAbar_ = c.first; defaultZbar_ = c.second;
     }
 }
-using Solver = physics::MusclHancock<HydroSystem>;
+using Solver = finiteVolume::MusclHancock<HydroSystem>;
 using Fields = mesh::PatchData<ConservedState>;
 }	 // namespace octotigerII::hydro

@@ -27,7 +27,7 @@ template <typename Writer>
 void advanceCoupledPatch(hydro::Fields const& gas, radiation::Fields const& rad,
 	hydro::HydroSystem const& gasSystem, RadiationSystem const& radSystem, Opacity opacity,
 	units::Time dt, CoupledPatchWorkspace& workspace, Writer&& write,
-	physics::RotatingFrame const& frame = physics::RotatingFrame{}, units::Time time = {},
+	finiteVolume::RotatingFrame const& frame = finiteVolume::RotatingFrame{}, units::Time time = {},
 	std::function<void(hydro::Fields&, radiation::Fields&, units::Time)> const& midpointBoundary = {},
 	ProblemRadiationMaterial const& prescribedMaterial = {}, OpacityLaw const& configuredLaw = {}) {
 	auto const& layout = gas.layout();

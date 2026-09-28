@@ -109,7 +109,7 @@ units::Energy LocalExecutor::radiationSource(Subgrid const& block, Operation ope
 				if (gravity) {
 					std::array<units::Acceleration, ndim> self{};
 					for (int d = 0; d < ndim; ++d) self[d] = gravity->at(i).acceleration(d);
-					self = physics::RotatingFrame(config_.frame.omega).toInertial(self, time_);
+					self = finiteVolume::RotatingFrame(config_.frame.omega).toInertial(self, time_);
 					for (int d = 0; d < ndim; ++d) acceleration[d] += self[d];
 				}
 				for (int d = 0; d < ndim; ++d) {
@@ -195,7 +195,7 @@ gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
 	if (impl_->gravityEnergyActive || impl_->regridEnergyPending || !impl_->levels.empty() || impl_->coupledStep ||
 		(config.gravityEnabled() && (!impl_->gravityReady || impl_->gravityTime != impl_->time.time)))
 		throw std::logic_error("Coupled advance requires a synchronized closed interval");
-	if (dt > physics::RotatingFrame(config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
+	if (dt > finiteVolume::RotatingFrame(config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
 		throw std::invalid_argument("Rotating-grid step exceeds the angular-phase limit");
 	if (!radiation::radiationCouplingEnabled(config) && !problemHasRadiationMaterial(config)) {
 		if (config.gravityEnabled()) { auto result=advanceGravityUnlocked(dt); impl_->applyEosFloor(); return result; }

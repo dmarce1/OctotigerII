@@ -77,7 +77,7 @@ TEST(RadiationConservation, PhysicalAndWeightedIntegralsUsePhysicalFluxAndInerti
 		if constexpr (ndim >= 2) {
 			Real gasAngular = 0, radiationAngular = 0;
 			block.layout.forEachInterior([&](auto const& cell, std::size_t) {
-				auto const x = physics::RotatingFrame(c.frame.omega).toInertial(
+				auto const x = finiteVolume::RotatingFrame(c.frame.omega).toInertial(
 					block.layout.cellCenter(block.lower, block.cellWidth, cell), block.time);
 				gasAngular += units::value(volume) * units::value(x[1]) * 4;
 				radiationAngular -= units::value(volume) * units::value(x[1]) * 6;

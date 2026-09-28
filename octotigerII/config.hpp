@@ -11,7 +11,7 @@
 #include "octotigerII/buildConfig.hpp"
 #include "octotigerII/hydro/dualEnergy.hpp"
 #include "octotigerII/composition/species.hpp"
-#include "octotigerII/physics/boundary.hpp"
+#include "octotigerII/finiteVolume/boundary.hpp"
 #include "octotigerII/units/constants.hpp"
 
 namespace octotigerII {
@@ -29,7 +29,7 @@ public:
 	public:
 		int cells = 16, level = 1;
 		units::Length lower{}, upper = units::Length::from_value(1);
-		physics::BoundaryConditions boundary;
+		finiteVolume::BoundaryConditions boundary;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {

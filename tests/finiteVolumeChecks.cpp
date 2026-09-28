@@ -4,7 +4,7 @@
 #include <limits>
 #include "octotigerII/buildConfig.hpp"
 #include "octotigerII/hydro/hydroSystem.hpp"
-#include "octotigerII/physics/finiteVolume.hpp"
+#include "octotigerII/finiteVolume/solver.hpp"
 #include "octotigerII/radiation/radiationTransport.hpp"
 
 using namespace octotigerII;
@@ -57,13 +57,13 @@ TYPED_TEST_SUITE(FiniteVolume, Systems);
 
 
 TYPED_TEST(FiniteVolume, UniformStateIsPreservedForEveryLimiter) {
-	for (auto limiter : {physics::Limiter::Minmod, physics::Limiter::VanLeer, physics::Limiter::MinmodTheta}) {
+	for (auto limiter : {finiteVolume::Limiter::Minmod, finiteVolume::Limiter::VanLeer, finiteVolume::Limiter::MinmodTheta}) {
 		auto patch = this->patch();
-		physics::MusclHancock<TypeParam> solver(this->system, limiter, 1.3);
+		finiteVolume::MusclHancock<TypeParam> solver(this->system, limiter, 1.3);
 		auto const dt = solver.stableTimestep(patch, 0.3);
 		ASSERT_GT(dt, units::Time{});
 		for (int i = 0; i < 4; ++i) {
-			auto result = solver.advance(patch, dt, physics::BoundaryConditions::periodic());
+			auto result = solver.advance(patch, dt, finiteVolume::BoundaryConditions::periodic());
 			EXPECT_NEAR(Real(result.timeInterval.duration() / dt), 1, 8 * epsilonR);
 			for (int d = 0; d < ndim; ++d) EXPECT_EQ(result.faceFluxes[d].size(), patch.layout().faceCount(d));
 		}
@@ -76,7 +76,7 @@ TYPED_TEST(FiniteVolume, UniformStateIsPreservedForEveryLimiter) {
 
 TYPED_TEST(FiniteVolume, PredictorTransformationUsesCellCentersAndPreservesUpdateBase) {
 	auto patch = this->patch();
-	physics::fillGhostCells(patch, physics::BoundaryConditions::periodic(), this->system);
+	finiteVolume::fillGhostCells(patch, finiteVolume::BoundaryConditions::periodic(), this->system);
 	auto const original = patch.values();
 	auto transform = [](typename TypeParam::State state, mesh::Coordinates const& storage) {
 		Real phase = 0;
@@ -87,9 +87,9 @@ TYPED_TEST(FiniteVolume, PredictorTransformationUsesCellCentersAndPreservesUpdat
 	mesh::forEachCoordinate(patch.layout().extents(), [&](auto const& storage) {
 		predictorPatch.atStorage(storage) = transform(patch.atStorage(storage), storage);
 	});
-	physics::MusclHancock<TypeParam> solver(this->system);
+	finiteVolume::MusclHancock<TypeParam> solver(this->system);
 	auto const dt = 0.01 * solver.stableTimestep(predictorPatch, 0.3);
-	typename physics::MusclHancock<TypeParam>::Workspace actualWorkspace, referenceWorkspace;
+	typename finiteVolume::MusclHancock<TypeParam>::Workspace actualWorkspace, referenceWorkspace;
 	auto actual = patch.values();
 	auto reference = predictorPatch.values();
 	solver.advanceInto(patch, dt, actualWorkspace,
@@ -113,7 +113,7 @@ TEST(FiniteVolumeMidpoint, NumericalFluxPredictorHasSecondOrderAtFixedMesh) {
 	// semidiscrete flux operator. The explicit-midpoint path must use that
 	// operator and must not apply a second Hancock time prediction afterward.
 	hydro::HydroSystem const gas(1.4);
-	physics::MusclHancock<hydro::HydroSystem> const solver(gas);
+	finiteVolume::MusclHancock<hydro::HydroSystem> const solver(gas);
 	using Patch = mesh::PatchData<hydro::ConservedState>;
 	auto integrate = [&](int steps) {
 		Patch patch(mesh::MeshLayout(8, 2), units::Length::from_value(0.25));
@@ -126,8 +126,8 @@ TEST(FiniteVolumeMidpoint, NumericalFluxPredictorHasSecondOrderAtFixedMesh) {
 		});
 		auto const dt = units::Time::from_value(0.04 / steps);
 		for (int step = 0; step < steps; ++step) {
-			physics::fillGhostCells(patch, physics::BoundaryConditions::periodic(), gas);
-			physics::MusclHancock<hydro::HydroSystem>::Workspace first, second;
+			finiteVolume::fillGhostCells(patch, finiteVolume::BoundaryConditions::periodic(), gas);
+			finiteVolume::MusclHancock<hydro::HydroSystem>::Workspace first, second;
 			solver.advanceInto(patch, {}, first, [](auto const&, auto const&) {});
 			auto midpoint = patch;
 			patch.layout().forEachInterior([&](auto const& cell, auto) {
@@ -138,7 +138,7 @@ TEST(FiniteVolumeMidpoint, NumericalFluxPredictorHasSecondOrderAtFixedMesh) {
 				}
 				midpoint.atInterior(cell) += (0.5 * dt / patch.cellWidth()) * divergence;
 			});
-			physics::fillGhostCells(midpoint, physics::BoundaryConditions::periodic(), gas);
+			finiteVolume::fillGhostCells(midpoint, finiteVolume::BoundaryConditions::periodic(), gas);
 			auto next = patch;
 			solver.advanceInto(patch, dt, second,
 				[&](auto const& cell, auto const& value) { next.atInterior(cell) = value; },
@@ -167,7 +167,7 @@ TEST(FiniteVolumeMidpoint, NumericalFluxPredictorHasSecondOrderAtFixedMesh) {
 
 
 TYPED_TEST(FiniteVolume, NonuniformPeriodicEvolutionConservesEveryComponent) {
-	for (auto limiter : {physics::Limiter::Minmod, physics::Limiter::VanLeer, physics::Limiter::MinmodTheta}) {
+	for (auto limiter : {finiteVolume::Limiter::Minmod, finiteVolume::Limiter::VanLeer, finiteVolume::Limiter::MinmodTheta}) {
 		auto patch = this->patch();
 		patch.layout().forEachInterior([&](auto const& cell, auto) {
 			Real phase = 0;
@@ -179,8 +179,8 @@ TYPED_TEST(FiniteVolume, NonuniformPeriodicEvolutionConservesEveryComponent) {
 			before += patch.atInterior(cell);
 			norm += componentAbs(patch.atInterior(cell));
 		});
-		physics::MusclHancock<TypeParam> solver(this->system, limiter, 1.3);
-		for (int i = 0; i < 4; ++i) solver.advance(patch, solver.stableTimestep(patch, 0.3), physics::BoundaryConditions::periodic());
+		finiteVolume::MusclHancock<TypeParam> solver(this->system, limiter, 1.3);
+		for (int i = 0; i < 4; ++i) solver.advance(patch, solver.stableTimestep(patch, 0.3), finiteVolume::BoundaryConditions::periodic());
 		patch.layout().forEachInterior([&](auto const& cell, auto) {
 			EXPECT_TRUE(this->system.admissible(patch.atInterior(cell)));
 			after += patch.atInterior(cell);
@@ -196,34 +196,34 @@ TYPED_TEST(FiniteVolume, NonuniformPeriodicEvolutionConservesEveryComponent) {
 
 
 TYPED_TEST(FiniteVolume, GhostRulesCoverFacesEdgesAndCorners) {
-	for (auto boundary : {physics::BoundaryCondition::Periodic, physics::BoundaryCondition::Outflow, physics::BoundaryCondition::Inflow,
-			 physics::BoundaryCondition::Reflecting}) {
+	for (auto boundary : {finiteVolume::BoundaryCondition::Periodic, finiteVolume::BoundaryCondition::Outflow, finiteVolume::BoundaryCondition::Inflow,
+			 finiteVolume::BoundaryCondition::Reflecting}) {
 		auto patch = this->patch();
 		patch.layout().forEachInterior([&](auto const& cell, auto) {
 			patch.atInterior(cell) = this->state(1 + mesh::linearIndex(cell, mesh::filledCoordinates(8)));
 		});
-		physics::BoundaryConditions boundaries;
+		finiteVolume::BoundaryConditions boundaries;
 		boundaries.lower.fill(boundary);
 		boundaries.upper.fill(boundary);
-		physics::fillGhostCells(patch, boundaries, this->system);
+		finiteVolume::fillGhostCells(patch, boundaries, this->system);
 		mesh::forEachCoordinate(patch.layout().extents(), [&](auto const& storage) {
 			mesh::Coordinates source{};
 			std::array<bool, ndim> reflect{};
 			for (int d = 0; d < ndim; ++d) {
 				int const x = storage[d] - 2;
 				reflect[d] = x < 0 || x >= 8;
-				if (boundary == physics::BoundaryCondition::Periodic)
+				if (boundary == finiteVolume::BoundaryCondition::Periodic)
 					source[d] = (x + 8) % 8;
-				else if (boundary == physics::BoundaryCondition::Outflow || boundary == physics::BoundaryCondition::Inflow)
+				else if (boundary == finiteVolume::BoundaryCondition::Outflow || boundary == finiteVolume::BoundaryCondition::Inflow)
 					source[d] = std::clamp(x, 0, 7);
 				else
 					source[d] = x < 0 ? -1 - x : x >= 8 ? 15 - x : x;
 			}
 			auto expected = patch.atInterior(source);
-			if (boundary == physics::BoundaryCondition::Reflecting)
+			if (boundary == finiteVolume::BoundaryCondition::Reflecting)
 				for (int d = 0; d < ndim; ++d)
 					if (reflect[d]) expected = this->system.reflected(expected, d);
-			if (boundary == physics::BoundaryCondition::Outflow)
+			if (boundary == finiteVolume::BoundaryCondition::Outflow)
 				for (int d = 0; d < ndim; ++d)
 					if (storage[d] < 2) {
 						if constexpr (std::is_same_v<TypeParam, hydro::HydroSystem>)
@@ -239,7 +239,7 @@ TYPED_TEST(FiniteVolume, GhostRulesCoverFacesEdgesAndCorners) {
 
 TYPED_TEST(FiniteVolume, CflScalesWithCellWidthAndRejectsInvalidInputs) {
 	auto patch = this->patch();
-	physics::MusclHancock<TypeParam> solver(this->system);
+	finiteVolume::MusclHancock<TypeParam> solver(this->system);
 	auto const dt = solver.stableTimestep(patch, 0.3);
 	mesh::PatchData<typename TypeParam::State> wider(patch.layout(), 2.0 * patch.cellWidth());
 	wider.values() = patch.values();
@@ -248,27 +248,27 @@ TYPED_TEST(FiniteVolume, CflScalesWithCellWidthAndRejectsInvalidInputs) {
 	for (Real cfl : {Real(0), Real(-1), Real(0.51), std::numeric_limits<Real>::quiet_NaN()})
 		EXPECT_THROW(solver.stableTimestep(patch, cfl), std::invalid_argument);
 	for (Real invalid : {Real(0), Real(-1), std::numeric_limits<Real>::infinity(), std::numeric_limits<Real>::quiet_NaN()}) {
-		EXPECT_THROW(solver.advance(patch, units::Time::from_value(invalid), physics::BoundaryConditions::periodic()), std::invalid_argument);
+		EXPECT_THROW(solver.advance(patch, units::Time::from_value(invalid), finiteVolume::BoundaryConditions::periodic()), std::invalid_argument);
 		EXPECT_EQ(patch.timeState().step, 0u);
 		patch.layout().forEachInterior([&](auto const& cell, auto) { test::expectStateNear(patch.atInterior(cell), this->state(), 0); });
 	}
 	auto shallow = this->patch(1);
-	EXPECT_THROW(solver.advance(shallow, dt, physics::BoundaryConditions::periodic()), std::invalid_argument);
-	EXPECT_THROW((physics::MusclHancock<TypeParam>(this->system, physics::Limiter::MinmodTheta, 0.9)), std::invalid_argument);
-	EXPECT_THROW((physics::MusclHancock<TypeParam>(this->system, physics::Limiter::MinmodTheta, 2.1)), std::invalid_argument);
+	EXPECT_THROW(solver.advance(shallow, dt, finiteVolume::BoundaryConditions::periodic()), std::invalid_argument);
+	EXPECT_THROW((finiteVolume::MusclHancock<TypeParam>(this->system, finiteVolume::Limiter::MinmodTheta, 0.9)), std::invalid_argument);
+	EXPECT_THROW((finiteVolume::MusclHancock<TypeParam>(this->system, finiteVolume::Limiter::MinmodTheta, 2.1)), std::invalid_argument);
 }
 
 
 TYPED_TEST(FiniteVolume, BoundaryUpdaterReceivesBeginningAndEndTimes) {
 	auto patch = this->patch();
-	physics::MusclHancock<TypeParam> solver(this->system);
+	finiteVolume::MusclHancock<TypeParam> solver(this->system);
 	auto const dt = solver.stableTimestep(patch, 0.3);
 	patch.timeState().time = units::Time::from_value(0.125);
 	auto const start = patch.timeState().time;
 	std::vector<units::Time> requested;
 	auto result = solver.advanceWithBoundaryUpdater(patch, dt, [&](auto& data, auto time) {
 		requested.push_back(time);
-		physics::fillGhostCells(data, physics::BoundaryConditions::periodic(), this->system);
+		finiteVolume::fillGhostCells(data, finiteVolume::BoundaryConditions::periodic(), this->system);
 	});
 	ASSERT_EQ(requested.size(), 2u);
 	EXPECT_EQ(requested[0], start);

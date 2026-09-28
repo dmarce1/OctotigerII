@@ -134,7 +134,7 @@ void problemDefaults(Config& config) {
 	config.frame.omega = {};
 	config.mesh.cells = 8;
 	config.mesh.level = 0;
-	config.mesh.boundary = physics::BoundaryConditions::uniform(physics::BoundaryCondition::Outflow);
+	config.mesh.boundary = finiteVolume::BoundaryConditions::uniform(finiteVolume::BoundaryCondition::Outflow);
 	config.amr.enabled = true;
 	config.amr.minLevel = 0;
 	config.amr.maxLevel = 4;
@@ -156,7 +156,7 @@ void validateProblem(Config const& config) {
 	if (config.radiation.opacityModel == "constant" && !(config.radiation.opacity + config.radiation.scatteringOpacity > 0))
 		throw std::invalid_argument("The opaque rotating star requires positive flux opacity");
 	if (config.frame.omega != units::InverseTime{}
-		|| !config.mesh.boundary.all(physics::BoundaryCondition::Outflow))
+		|| !config.mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The insulating rotating-star benchmark requires a fixed grid with outflow gas boundaries and isolated gravity");
 	if (!(config.star.atmosphereFraction > 0 && config.star.atmosphereFraction < 1e-3)
 		|| !std::isfinite(config.star.atmosphereFraction))

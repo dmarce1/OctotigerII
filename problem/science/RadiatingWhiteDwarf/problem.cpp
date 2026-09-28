@@ -135,7 +135,7 @@ void problemDefaults(Config& config) {
 	config.frame.omega={};
 	config.mesh.cells=8;
 	config.mesh.level=0;
-	config.mesh.boundary=physics::BoundaryConditions::uniform(physics::BoundaryCondition::Outflow);
+	config.mesh.boundary=finiteVolume::BoundaryConditions::uniform(finiteVolume::BoundaryCondition::Outflow);
 	config.amr.enabled=true;
 	config.amr.minLevel=0;
 	config.amr.maxLevel=4;
@@ -156,7 +156,7 @@ void validateProblem(Config const& config) {
 		!(config.radiation.opacity + config.radiation.scatteringOpacity > 0))
 		throw std::invalid_argument("The rotating WD requires full light speed, positive constant flux opacity, and a closed radiation boundary");
 	if(config.frame.omega!=units::InverseTime{} ||
-		!config.mesh.boundary.all(physics::BoundaryCondition::Outflow))
+		!config.mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The rotating WD uses an inertial grid and outflow gas boundaries");
 	if(!(config.star.atmosphereFraction>0 && config.star.atmosphereFraction<1e-3))
 		throw std::invalid_argument("Invalid WD numerical atmosphere fraction");

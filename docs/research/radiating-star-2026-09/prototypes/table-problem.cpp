@@ -117,7 +117,7 @@ void problemDefaults(Config& config) {
 	config.hydro.meanMolecularWeight = 0.6;
 	config.mesh.cells = 8;
 	config.mesh.level = 0;
-	config.mesh.boundary = physics::BoundaryConditions::uniform(physics::BoundaryCondition::Outflow);
+	config.mesh.boundary = finiteVolume::BoundaryConditions::uniform(finiteVolume::BoundaryCondition::Outflow);
 	config.amr.enabled = true;
 	config.amr.minLevel = 0;
 	config.amr.maxLevel = 5;
@@ -134,7 +134,7 @@ void validateProblem(Config const& config) {
 	if (!(config.star.atmosphereFraction > 0 && config.star.atmosphereFraction < 1e-3)
 		|| !std::isfinite(config.star.atmosphereFraction))
 		throw std::invalid_argument("Invalid radiating-star numerical atmosphere fraction");
-	if (!config.mesh.boundary.all(physics::BoundaryCondition::Outflow))
+	if (!config.mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The rotating radiating star requires outflow transport boundaries and isolated gravity");
 	for (auto center : config.star.center)
 		if (!units::finite(center)) throw std::invalid_argument("Nonfinite stellar center");

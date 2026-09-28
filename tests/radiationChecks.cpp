@@ -207,7 +207,7 @@ TEST(Radiation, ConservativeInterpolationKeepsConeMarginForRotatedHalos) {
 			EXPECT_TRUE(system.admissibleInterpolation(child));
 			sum += child;
 			if constexpr (ndim >= 2) {
-				physics::RotatingFrame const frame(units::InverseTime::from_value(.3));
+				finiteVolume::RotatingFrame const frame(units::InverseTime::from_value(.3));
 				auto const rotated = frame.toGridState(child, units::Time::from_value(.7));
 				for (int axis = 0; axis < ndim; ++axis) EXPECT_NO_THROW(system.physicalFlux(rotated, axis));
 			}

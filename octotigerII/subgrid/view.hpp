@@ -227,14 +227,14 @@ void readHalo(storage::FieldHandle<T> const& field, HaloPlan const& plan, unsign
 /// Analytic corners use the original position and take precedence over other faces.
 template <typename System>
 void applyHaloBoundaries(HaloPlan const& plan, std::vector<typename System::State>& ghosts, System const& system, units::Time time,
-	physics::AnalyticBoundary<typename System::State> const& analytic = {}, physics::RotatingFrame const& frame = physics::RotatingFrame{}) {
+	finiteVolume::AnalyticBoundary<typename System::State> const& analytic = {}, finiteVolume::RotatingFrame const& frame = finiteVolume::RotatingFrame{}) {
 	for (auto const& ghost : plan.analyticGhosts)
-		ghosts.at(ghost.destination) = physics::evaluateBoundary(analytic, ghost.position, time, system);
+		ghosts.at(ghost.destination) = finiteVolume::evaluateBoundary(analytic, ghost.position, time, system);
 	auto transform = [&](std::size_t i) {
 		ghosts.at(i) = frame.active()
-			? physics::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i),
+			? finiteVolume::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i),
 				system, frame, plan.boundaryPositions.at(i), time)
-			: physics::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i), system);
+			: finiteVolume::transformBoundary(ghosts.at(i), plan.reflectionMasks[i], plan.outflowLowerMasks.at(i), plan.outflowUpperMasks.at(i), system);
 	};
 	for (std::size_t i = plan.ghostCount; i < plan.reflectionMasks.size(); ++i)
 		transform(i);

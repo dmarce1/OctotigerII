@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <type_traits>
 
-namespace octotigerII::physics {
+namespace octotigerII::finiteVolume {
 
 /// Logical coordinates rotate about the inertial z axis at constant angular rate.
 /// All transformations are orthogonal changes of components, never velocity boosts.
@@ -89,4 +89,4 @@ private:
 	}
 };
 
-} // namespace octotigerII::physics
+} // namespace octotigerII::finiteVolume

@@ -185,9 +185,9 @@ TEST(Serialization, PerFaceBoundariesAndHaloPlansRoundTrip) {
 	auto c = test::parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=1"});
 	CartesianTopology topology(c, 2);
 	// Serialize all boundary kinds even in builds whose gravity policy disallows them.
-	c.mesh.boundary.lower[0] = physics::BoundaryCondition::Analytic;
-	c.mesh.boundary.upper[0] = physics::BoundaryCondition::Reflecting;
-	if (ndim > 1) c.mesh.boundary.lower[1] = c.mesh.boundary.upper[1] = physics::BoundaryCondition::Periodic;
+	c.mesh.boundary.lower[0] = finiteVolume::BoundaryCondition::Analytic;
+	c.mesh.boundary.upper[0] = finiteVolume::BoundaryCondition::Reflecting;
+	if (ndim > 1) c.mesh.boundary.lower[1] = c.mesh.boundary.upper[1] = finiteVolume::BoundaryCondition::Periodic;
 	auto plan = makeHaloPlan(c, topology.blocks(), 0);
 	std::vector<char> buffer;
 	{
@@ -229,7 +229,7 @@ TEST(Serialization, PerFaceBoundariesAndHaloPlansRoundTrip) {
 
 TEST(Serialization, InflowAndDirectionalOutflowMasksRoundTrip) {
 	auto c = test::parseConfig({"--mesh.periodic=off", "--mesh.cells=4", "--mesh.level=0"});
-	c.mesh.boundary.upper.fill(physics::BoundaryCondition::Inflow);
+	c.mesh.boundary.upper.fill(finiteVolume::BoundaryCondition::Inflow);
 	CartesianTopology topology(c, 1);
 	auto const plan = makeHaloPlan(c, topology.blocks(), 0);
 	std::vector<char> buffer;

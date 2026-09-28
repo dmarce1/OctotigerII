@@ -8,8 +8,8 @@ using namespace octotigerII;
 using namespace octotigerII::gravity;
 namespace {
 using V = diagonal::Vector;
-using B = physics::BoundaryConditions;
-using R = physics::BoundaryCondition;
+using B = finiteVolume::BoundaryConditions;
+using R = finiteVolume::BoundaryCondition;
 constexpr double pi = 3.14159265358979323846;
 std::array<double, 4> pair(V x, V periods) {
 	using std::hypot;

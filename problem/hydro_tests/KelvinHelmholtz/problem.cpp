@@ -20,7 +20,7 @@ verification::Reference problemReference([[maybe_unused]] Config const& c) {
 }
 
 void problemDefaults(Config& c) {
-	c.mesh.boundary = physics::BoundaryConditions::periodic();
+	c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
 	c.runtime.stopTime = units::Time::from_value(0.1);
 }
 

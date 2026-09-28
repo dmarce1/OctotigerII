@@ -3,7 +3,7 @@
 #include <iostream>
 #include "octotigerII/hydro/hydroSystem.hpp"
 #include "octotigerII/radiation/radiationTransport.hpp"
-#include "octotigerII/physics/frame.hpp"
+#include "octotigerII/finiteVolume/frame.hpp"
 
 using namespace octotigerII;
 
@@ -17,8 +17,8 @@ void uniformOnRotatingMesh(System const& system, typename System::State const& u
 	mesh::PatchData<typename System::State> patch(mesh::MeshLayout(6, 2), units::Length::from_value(1.0 / 3), lower);
 	std::fill(patch.values().begin(), patch.values().end(), uniform);
 	patch.timeState().time = units::Time::from_value(0.37);
-	physics::RotatingFrame const frame(units::InverseTime::from_value(0.8));
-	physics::MusclHancock<System> solver(system, frame);
+	finiteVolume::RotatingFrame const frame(units::InverseTime::from_value(0.8));
+	finiteVolume::MusclHancock<System> solver(system, frame);
 	for (int step = 0; step < 8; ++step) {
 		auto const dt = solver.stableTimestep(patch, 0.25);
 		EXPECT_LE(units::value(frame.omega() * dt), 0.1);
@@ -54,7 +54,7 @@ TEST(RotatingTransport, ZeroAngularVelocityMatchesExistingUpdateExactly) {
 	hydro::Solver::Workspace legacyWork, zeroWork;
 	auto legacy = patch, zero = patch;
 	hydro::Solver(gas).advanceInto(patch, dt, legacyWork, [&](auto const& cell, auto const& value) { legacy.atInterior(cell) = value; });
-	hydro::Solver(gas, physics::RotatingFrame{}, units::Time::from_value(42)).advanceInto(
+	hydro::Solver(gas, finiteVolume::RotatingFrame{}, units::Time::from_value(42)).advanceInto(
 		patch, dt, zeroWork, [&](auto const& cell, auto const& value) { zero.atInterior(cell) = value; });
 	patch.layout().forEachInterior([&](auto const& cell, auto) {
 		legacy.atInterior(cell).forEach([&](auto field, auto const& value) { EXPECT_EQ(value, zero.atInterior(cell).template get<field>()); });
@@ -94,7 +94,7 @@ TEST(RotatingTransport, UniformInertialHydroSurvivesChangingNormals) {
 TEST(RotatingTransport, CorotatingGasUsesRelativeCharacteristicSpeeds) {
 	if constexpr (ndim < 2) return;
 	hydro::HydroSystem const gas(1.4);
-	physics::RotatingFrame const frame(units::InverseTime::from_value(1));
+	finiteVolume::RotatingFrame const frame(units::InverseTime::from_value(1));
 	mesh::PhysicalCoordinates lower{};
 	lower.fill(units::Length::from_value(100));
 	mesh::PatchData<hydro::ConservedState> patch(mesh::MeshLayout(8, 2), units::Length::from_value(0.125), lower);
@@ -118,7 +118,7 @@ TEST(RotatingTransport, AdvectedEntropyPulseHasSecondOrderTemporalConvergence) {
 	// asymmetric shape also turns relative to the logical mesh. All support
 	// stays well inside the box, so prescribed ghost values are uniform.
 	hydro::HydroSystem const gas(1.4);
-	physics::RotatingFrame const frame(units::InverseTime::from_value(1.1));
+	finiteVolume::RotatingFrame const frame(units::InverseTime::from_value(1.1));
 	using Patch = mesh::PatchData<hydro::ConservedState>;
 	mesh::PhysicalCoordinates lower{};
 	lower.fill(units::Length::from_value(-1));

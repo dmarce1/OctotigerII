@@ -20,7 +20,7 @@ verification::Reference problemReference([[maybe_unused]] Config const& c) {
 	if (c.mesh.boundary.periodic(0)) {
 		reference.evaluate = {};
 		reference.reason = "The isolated Sod Riemann reference does not apply to periodic x boundaries";
-	} else if (c.mesh.boundary.lower[0] == physics::BoundaryCondition::Analytic && c.mesh.boundary.upper[0] == physics::BoundaryCondition::Analytic) {
+	} else if (c.mesh.boundary.lower[0] == finiteVolume::BoundaryCondition::Analytic && c.mesh.boundary.upper[0] == finiteVolume::BoundaryCondition::Analytic) {
 		reference.validUntil = units::Time::from_value(std::numeric_limits<Real>::infinity());
 	}
 	return reference;

@@ -23,8 +23,8 @@ verification::Reference problemReference(Config const&) {
 void problemDefaults(Config& c) {
 	c.mesh.lower = units::Length::from_value(-0.5);
 	c.mesh.upper = units::Length::from_value(0.5);
-	c.mesh.boundary = physics::BoundaryConditions::periodic();
-	c.mesh.boundary.lower[ndim - 1] = c.mesh.boundary.upper[ndim - 1] = physics::BoundaryCondition::Reflecting;
+	c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
+	c.mesh.boundary.lower[ndim - 1] = c.mesh.boundary.upper[ndim - 1] = finiteVolume::BoundaryCondition::Reflecting;
 	c.hydro.acceleration[ndim - 1] = units::Acceleration::from_value(-0.1);
 	c.runtime.stopTime = units::Time::from_value(10);
 }

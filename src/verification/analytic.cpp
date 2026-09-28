@@ -64,7 +64,7 @@ Reference reference(Config const& c, units::Time time) {
 		result.reason = "This analytic reference does not include external acceleration";
 	}
 	if (c.gravityEnabled() &&
-		(c.mesh.boundary.contains(physics::BoundaryCondition::Periodic) || c.mesh.boundary.contains(physics::BoundaryCondition::Reflecting))) {
+		(c.mesh.boundary.contains(finiteVolume::BoundaryCondition::Periodic) || c.mesh.boundary.contains(finiteVolume::BoundaryCondition::Reflecting))) {
 		result.evaluate = {};
 		result.reason = "Isolated continuum gravity reference is unavailable with image boundaries; use verification.gravityReference=direct";
 	}
@@ -82,7 +82,7 @@ std::vector<Field> sample(Snapshot const& b, [[maybe_unused]] Config const& c, R
 	std::vector<ExactState> exact;
 	b.layout.forEachInterior(
 		[&](mesh::Coordinates const& cell, std::size_t) {
-			auto const position = physics::RotatingFrame(c.frame.omega).toInertial(b.layout.cellCenter(b.lower, b.cellWidth, cell), b.time);
+			auto const position = finiteVolume::RotatingFrame(c.frame.omega).toInertial(b.layout.cellCenter(b.lower, b.cellWidth, cell), b.time);
 			exact.push_back(ref.evaluate(position, b.time));
 		});
 	auto field = [&](std::string name, std::string units, auto numerical, auto expected) {
@@ -122,7 +122,7 @@ std::vector<Field> sample(Snapshot const& b, [[maybe_unused]] Config const& c, R
 		for (int axis = 0; axis < ndim; ++axis)
 			field(
 				std::string("acceleration") + "XYZ"[axis], "cm/s^2", [&](std::size_t i) {
-					return physics::RotatingFrame(c.frame.omega).toInertialState(b.gravity.values()[i], b.time).acceleration(axis);
+					return finiteVolume::RotatingFrame(c.frame.omega).toInertialState(b.gravity.values()[i], b.time).acceleration(axis);
 				},
 				[axis](auto const& q) { return q.gravity.acceleration(axis); });
 	}

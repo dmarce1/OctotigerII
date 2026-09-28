@@ -180,7 +180,7 @@ TEST(HelmholtzHydro, AcceptedPatchFloorLedgerMatchesEnergyChange) {
     state.totalEnergy() *= 0.9;
     state.auxiliary() -= units::Density::from_value(1);
     layout.forEachInterior([&](auto const& cell, std::size_t) { patch.atInterior(cell) = state; });
-    auto const step = hydro::Solver(gas).advance(patch, units::Time::from_value(1e-12), physics::BoundaryConditions::periodic());
+    auto const step = hydro::Solver(gas).advance(patch, units::Time::from_value(1e-12), finiteVolume::BoundaryConditions::periodic());
     units::Energy change{};
     layout.forEachInterior([&](auto const& cell, std::size_t) {
         change += layout.cellMeasure(patch.cellWidth()) * (patch.atInterior(cell).totalEnergy() - state.totalEnergy());

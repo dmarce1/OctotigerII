@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "octotigerII/physics/finiteVolume.hpp"
+#include "octotigerII/finiteVolume/solver.hpp"
 
 using namespace octotigerII;
-using namespace octotigerII::physics;
+using namespace octotigerII::finiteVolume;
 
 namespace {
 

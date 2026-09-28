@@ -34,7 +34,7 @@ std::vector<storage::Locality> localities() {
 
 class Fixture {
 public:
-	Fixture(int cells, int level, int order, Real theta, int workers, int pattern, physics::BoundaryConditions boundaries = {})
+	Fixture(int cells, int level, int order, Real theta, int workers, int pattern, finiteVolume::BoundaryConditions boundaries = {})
 	  : config(test::parseConfig({"--mesh.cells=" + std::to_string(cells), "--mesh.level=" + std::to_string(level), "--output.enabled=off"}))
 	  , owners(localities())
 	  , topology(config, owners.size())
@@ -241,8 +241,8 @@ INSTANTIATE_TEST_SUITE_P(Regimes, PartitionedGravityCase,
 		std::tuple{2, 3, Real(0.5), 0}));
 
 TEST(PartitionedGravity, PeriodicAndReflectedImagesMatchSerialAcrossOwners) {
-	using B = physics::BoundaryConditions;
-	using R = physics::BoundaryCondition;
+	using B = finiteVolume::BoundaryConditions;
+	using R = finiteVolume::BoundaryCondition;
 	std::vector<B> cases;
 	B one;
 	one.lower[0] = one.upper[0] = R::Periodic;

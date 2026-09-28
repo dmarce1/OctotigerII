@@ -64,7 +64,7 @@ LocalExecutor::LocalExecutor(Config config, std::vector<Subgrid> blocks, FieldDi
   , owner_(owner) {
 	radiationMaterial_ = problemRadiationMaterial(config_);
 	if (!radiationMaterial_) throw std::invalid_argument("Problem radiation material factory returned no evaluator");
-	if (config_.mesh.boundary.contains(physics::BoundaryCondition::Analytic)) {
+	if (config_.mesh.boundary.contains(finiteVolume::BoundaryCondition::Analytic)) {
 		auto evaluator = problemBoundary(config_);
 		if (build::hydro && config_.hydroEnabled()) {
 			hydroBoundary_ = [evaluator, gas = hydro::HydroSystem(config_)](
@@ -298,7 +298,7 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 				std::get<0>(source_.increment.fields).id, bank_, times_, source_.radiation.cacheInitialGasInvalid);
 			if constexpr (build::hydro) if (config_.hydroEnabled()) {
 				workspace.hydro.advance(block, fields_.hydro, plan, hydro::HydroSystem(config_), bank_, dt, time_, hydroBoundary_,
-					fields_.hydroFlux, config_.amr.enabled, times_, source_.increment, source_.referenceStep, physics::RotatingFrame(config_.frame.omega),
+					fields_.hydroFlux, config_.amr.enabled, times_, source_.increment, source_.referenceStep, finiteVolume::RotatingFrame(config_.frame.omega),
 					source_.radiation.gas, nullptr, {}, 0, {}, source_.radiation.limiterInterval, {},
 					reuse && !source_.radiation.cacheInitialGasInvalid ? &cache->gas : nullptr, probe && !coupled);
 				if (config_.massFractions.enabled || config_.gravityEnabled()) {
@@ -315,7 +315,7 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 			if constexpr (build::radiation) if (config_.radiationEnabled() && (operation != Operation::Probe || coupled)) {
 				workspace.radiation.advance(block, fields_.radiation, plan, radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
 					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}),
-					bank_, dt, time_, radiationBoundary_, fields_.radiationFlux, config_.amr.enabled, times_, {}, {}, physics::RotatingFrame(config_.frame.omega),
+					bank_, dt, time_, radiationBoundary_, fields_.radiationFlux, config_.amr.enabled, times_, {}, {}, finiteVolume::RotatingFrame(config_.frame.omega),
 					source_.radiation.radiation, coupled ? &config_ : nullptr,
 					coupled && dt > units::Time{} ? source_.radiation.gas : fields_.hydro,
 					coupled && dt > units::Time{} ? 1 : bank_, hydroBoundary_, source_.radiation.limiterInterval, radiationMaterial_,
@@ -503,7 +503,7 @@ units::Time LocalExecutor::timestep(Subgrid const& block, std::array<units::Velo
 	auto result = units::Time::from_value(std::numeric_limits<Real>::infinity());
 	std::array<units::Velocity, ndim> blockSpeed{};
 	std::array<units::Acceleration, ndim> maximumAcceleration{};
-	physics::RotatingFrame const frame(config_.frame.omega);
+	finiteVolume::RotatingFrame const frame(config_.frame.omega);
 	auto const external = frame.toGrid(config_.hydro.acceleration, time_);
 	[[maybe_unused]] auto fieldStep = [&](auto const& fields, auto const& system) {
 		auto input = fields.read(block.interior, bank_).get();
@@ -664,7 +664,7 @@ void LocalExecutor::kick(Subgrid const& block, units::Time dt, bool trackWork) {
 			std::array<units::Acceleration, ndim> self{};
 			if (gravity) {
 				for (int d = 0; d < ndim; ++d) self[d] = gravity->at(i).acceleration(d);
-				self = physics::RotatingFrame(config_.frame.omega).toInertial(self, time_);
+				self = finiteVolume::RotatingFrame(config_.frame.omega).toInertial(self, time_);
 			}
 			units::EnergyDensity work{}, sourceWork{};
 			for (int d = 0; d < ndim; ++d) {

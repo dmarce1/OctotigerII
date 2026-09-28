@@ -163,7 +163,7 @@ Reference streamingReference(Config const& c) {
 	result.name = "Streaming translation";
 	for (int axis = 0; axis < ndim; ++axis) {
 		if (!c.mesh.boundary.periodic(axis) &&
-			!(c.mesh.boundary.lower[axis] == physics::BoundaryCondition::Analytic && c.mesh.boundary.upper[axis] == physics::BoundaryCondition::Analytic)) {
+			!(c.mesh.boundary.lower[axis] == finiteVolume::BoundaryCondition::Analytic && c.mesh.boundary.upper[axis] == finiteVolume::BoundaryCondition::Analytic)) {
 			result.reason = "Streaming reference requires paired periodic or paired analytic faces on each axis";
 			return result;
 		}

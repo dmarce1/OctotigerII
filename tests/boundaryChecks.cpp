@@ -16,8 +16,8 @@ using namespace octotigerII;
 
 namespace {
 
-using Rule = physics::BoundaryCondition;
-using Boundaries = physics::BoundaryConditions;
+using Rule = finiteVolume::BoundaryCondition;
+using Boundaries = finiteVolume::BoundaryConditions;
 
 TEST(BoundaryOptions, EveryActiveFaceAndPeriodicPairAreValidated) {
 	for (int axis = 0; axis < ndim; ++axis) {
@@ -196,7 +196,7 @@ TYPED_TEST(BoundaryTransport, OutflowClampsOnlyInwardNormalAndInflowCopiesBothSi
 					patch.layout().forEachInterior([&](auto cell, auto) { patch.atInterior(cell) = donor; });
 					auto boundaries = Boundaries::uniform(Rule::Inflow);
 					(lower ? boundaries.lower : boundaries.upper)[axis] = rule;
-					physics::fillGhostCells(patch, boundaries, this->system);
+					finiteVolume::fillGhostCells(patch, boundaries, this->system);
 					auto expected = donor;
 					bool const inward = lower ? scale == 2 : scale == 1;
 					if (rule == Rule::Outflow && inward) {
@@ -245,7 +245,7 @@ TYPED_TEST(BoundaryTransport, DistributedHaloMatchesIndependentDonorValuesOnEver
 			c.mesh.boundary.upper[normal] = upperRule;
 			if (upperRule == Rule::Inflow) c.mesh.boundary.lower[normal] = Rule::Outflow;
 			if (ndim > 1) c.mesh.boundary.lower[(normal + 1) % ndim] = c.mesh.boundary.upper[(normal + 1) % ndim] = Rule::Periodic;
-			physics::AnalyticBoundary<State> analytic = [&](auto const& x, auto time) {
+			finiteVolume::AnalyticBoundary<State> analytic = [&](auto const& x, auto time) {
 				Real scale = 50 + units::value(time);
 				for (int d = 0; d < ndim; ++d)
 					scale += (d + 1) * units::value(x[d]);
@@ -311,15 +311,15 @@ TYPED_TEST(BoundaryTransport, AnalyticPatchUsesCurrentTimeAndRejectsInvalidData)
 	mesh::PatchData<State> patch(mesh::MeshLayout(4, 2), units::Length::from_value(0.25));
 	patch.layout().forEachInterior([&](auto cell, auto) { patch.atInterior(cell) = this->state(1); });
 	auto const boundaries = Boundaries::uniform(Rule::Analytic);
-	EXPECT_THROW(physics::fillGhostCells(patch, boundaries, this->system), std::invalid_argument);
-	physics::AnalyticBoundary<State> invalid = [&](auto const&, auto) { return Real(-1) * this->state(1); };
-	EXPECT_THROW(physics::fillGhostCells(patch, boundaries, this->system, invalid), std::runtime_error);
+	EXPECT_THROW(finiteVolume::fillGhostCells(patch, boundaries, this->system), std::invalid_argument);
+	finiteVolume::AnalyticBoundary<State> invalid = [&](auto const&, auto) { return Real(-1) * this->state(1); };
+	EXPECT_THROW(finiteVolume::fillGhostCells(patch, boundaries, this->system, invalid), std::runtime_error);
 	std::vector<units::Time> times;
-	physics::AnalyticBoundary<State> evaluator = [&](auto const&, auto time) {
+	finiteVolume::AnalyticBoundary<State> evaluator = [&](auto const&, auto time) {
 		times.push_back(time);
 		return this->state(1);
 	};
-	physics::MusclHancock<TypeParam> solver(this->system);
+	finiteVolume::MusclHancock<TypeParam> solver(this->system);
 	auto const dt = solver.stableTimestep(patch, 0.25);
 	solver.advance(patch, dt, boundaries, evaluator);
 	EXPECT_EQ(times.front(), units::Time{});
@@ -337,7 +337,7 @@ TYPED_TEST(BoundaryTransport, ReflectingBoxConservesMassAndEnergy) {
 		return sum;
 	};
 	auto const before = total();
-	physics::MusclHancock<TypeParam> solver(this->system);
+	finiteVolume::MusclHancock<TypeParam> solver(this->system);
 	for (int i = 0; i < 5; ++i)
 		solver.advance(patch, solver.stableTimestep(patch, 0.2), Boundaries::uniform(Rule::Reflecting));
 	auto const after = total();
@@ -402,12 +402,12 @@ TEST(RotatingBoundary, GasDiodeUsesMovingNormalAndPreservesInternalEnergy) {
 	primitive.density() = units::Density::from_value(1);
 	primitive.pressure() = units::Pressure::from_value(2);
 	auto const initial = gas.conservedState(primitive);
-	physics::RotatingFrame frame(units::InverseTime::from_value(1));
+	finiteVolume::RotatingFrame frame(units::InverseTime::from_value(1));
 	mesh::PhysicalCoordinates x{};
 	x[0] = units::Length::from_value(1);
 	x[1] = units::Length::from_value(-2);
 	auto const at = units::Time::from_value(0.7);
-	auto const ghost = physics::transformBoundary(initial, 0, 0, 1, gas, frame, x, at);
+	auto const ghost = finiteVolume::transformBoundary(initial, 0, 0, 1, gas, frame, x, at);
 	auto const logical = frame.toGridState(ghost, at);
 	EXPECT_NEAR(units::value(logical.momentum(0) / logical.density()), 2, 1e-13);
 	EXPECT_NEAR(units::value(gas.internalEnergy(ghost)), units::value(gas.internalEnergy(initial)), 1e-13);
@@ -419,10 +419,10 @@ TEST(RotatingBoundary, VacuumExteriorRemainsRealizableAtFastMovingFace) {
 	radiation::RadiationSystem rad(units::Velocity::from_value(1));
 	radiation::RadiationSystem::State initial{};
 	initial.energy() = units::EnergyDensity::from_value(1);
-	physics::RotatingFrame frame(units::InverseTime::from_value(10));
+	finiteVolume::RotatingFrame frame(units::InverseTime::from_value(10));
 	mesh::PhysicalCoordinates x{};
 	x[1] = units::Length::from_value(-2);
-	auto const ghost = physics::transformBoundary(initial, 0, 0, 1, rad, frame, x, units::Time{});
+	auto const ghost = finiteVolume::transformBoundary(initial, 0, 0, 1, rad, frame, x, units::Time{});
 	EXPECT_TRUE(rad.admissible(ghost));
 	EXPECT_EQ(ghost.energy(), units::EnergyDensity{});
 	auto const flux = rad.riemann(initial, ghost, 0, frame.normalSpeed(x, 0));

@@ -8,10 +8,10 @@
 #include <stdexcept>
 #include <string>
 #include "octotigerII/mesh.hpp"
-#include "octotigerII/physics/frame.hpp"
+#include "octotigerII/finiteVolume/frame.hpp"
 
 
-namespace octotigerII::physics {
+namespace octotigerII::finiteVolume {
 
 
 enum class BoundaryCondition
@@ -197,4 +197,4 @@ typename System::State evaluateBoundary(AnalyticBoundary<typename System::State>
 }
 
 
-} // namespace octotigerII::physics
+} // namespace octotigerII::finiteVolume

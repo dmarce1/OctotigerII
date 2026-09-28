@@ -105,7 +105,7 @@ void problemDefaults(Config& c) {
 	c.hydro.meanMolecularWeight=0.6;
 	c.mesh.cells=8;
 	c.mesh.level=0;
-	c.mesh.boundary=physics::BoundaryConditions::uniform(physics::BoundaryCondition::Outflow);
+	c.mesh.boundary=finiteVolume::BoundaryConditions::uniform(finiteVolume::BoundaryCondition::Outflow);
 	c.amr.enabled=true;
 	c.amr.minLevel=0;
 	c.amr.maxLevel=5;
@@ -126,7 +126,7 @@ void validateProblem(Config const& c) {
 		|| !std::isfinite(c.star.atmosphereFraction) || c.radiatingStar.radialCells<64 || c.radiatingStar.radialCells>4096
 		|| !(c.radiatingStar.structureTolerance>0 && c.radiatingStar.structureTolerance<=1e-6))
 		throw std::invalid_argument("Invalid radiating-star atmosphere fraction, reference resolution, or tolerance");
-	if (!c.mesh.boundary.all(physics::BoundaryCondition::Outflow))
+	if (!c.mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The isolated radiating sphere requires outflow boundaries");
 	for (auto center:c.star.center) if(!units::finite(center)) throw std::invalid_argument("Nonfinite stellar center");
 	if(c.frame.omega!=units::InverseTime{} && (c.star.center[0]!=units::Length{} || c.star.center[1]!=units::Length{}))

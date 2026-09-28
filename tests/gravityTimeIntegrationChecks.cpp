@@ -159,10 +159,10 @@ TEST(GravityTimeIntegration, ConventionalSubcyclesAndConserves) {
 
 TEST(GravityTimeIntegration, PeriodicAndReflectingShellWorkConserves) {
 	for (auto const* method : {"hierarchical", "conventional"})
-		for (auto boundary : {physics::BoundaryCondition::Periodic, physics::BoundaryCondition::Reflecting}) {
-			describeCase(std::string(method) + (boundary == physics::BoundaryCondition::Periodic ? " periodic" : " reflecting"));
+		for (auto boundary : {finiteVolume::BoundaryCondition::Periodic, finiteVolume::BoundaryCondition::Reflecting}) {
+			describeCase(std::string(method) + (boundary == finiteVolume::BoundaryCondition::Periodic ? " periodic" : " reflecting"));
 			auto c = configuration(method, true);
-			c.mesh.boundary = physics::BoundaryConditions::uniform(boundary);
+			c.mesh.boundary = finiteVolume::BoundaryConditions::uniform(boundary);
 			bool refine = true;
 			Runtime runtime(c, {refinedOctant(refine)});
 			runtime.solveGravity();

@@ -98,7 +98,7 @@ namespace {
 		if (build::gravity && c.gravityEnabled()) {
 			field("potential", "cm^2/s^2", false, [&](std::size_t i, int) { return b.gravity.values()[i].potential(); });
 			field("acceleration", "cm/s^2", true, [&](std::size_t i, int axis) {
-				return physics::RotatingFrame(c.frame.omega).toInertialState(b.gravity.values()[i], b.time).acceleration(axis);
+				return finiteVolume::RotatingFrame(c.frame.omega).toInertialState(b.gravity.values()[i], b.time).acceleration(axis);
 			});
 		}
 

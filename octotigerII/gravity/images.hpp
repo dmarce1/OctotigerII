@@ -21,7 +21,7 @@ public:
 /// One reflecting wall gives one additional source copy. Orthogonal copies compose.
 class ImageGeometry {
 public:
-	ImageGeometry(physics::BoundaryConditions const& boundaries = {});
+	ImageGeometry(finiteVolume::BoundaryConditions const& boundaries = {});
 
 	bool active() const {
 		return images_.size() > 1 || periodic();

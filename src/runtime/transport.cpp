@@ -90,7 +90,7 @@ void Runtime::advanceUnlocked(units::Time dt) {
 	profiling::Elapsed profile("runtime.advance.wall_ns");
 	if (impl_->regridEnergyPending) throw std::logic_error("Solve gravity after regridding before advancing");
 	if (!(dt > units::Time{}) || !units::finite(dt) || impl_->time.time + dt == impl_->time.time) throw std::invalid_argument("Invalid step size");
-	if (dt > physics::RotatingFrame(impl_->config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
+	if (dt > finiteVolume::RotatingFrame(impl_->config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
 		throw std::invalid_argument("Rotating-grid step exceeds the angular-phase limit; use stableTimestep()");
 	if (!impl_->config.hydroEnabled() && !impl_->config.radiationEnabled()) throw std::logic_error("No transport fields to advance");
 	std::unique_ptr<amr::Hierarchy> nextShadow;

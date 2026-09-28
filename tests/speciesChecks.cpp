@@ -115,7 +115,7 @@ TEST(Species, NonuniformContactFluxesConserveEverySpecies) {
 }
 TEST(Species, RuntimeAndAMRPreserveCompositionAndMaterialMass) {
 	for (bool adaptive : {false, true}) {
-		auto c = config(); c.mesh.boundary = physics::BoundaryConditions::periodic();
+		auto c = config(); c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
 		c.amr.enabled = adaptive; c.amr.maxLevel = 2; c.amr.shadowTolerance = 0; c.amr.bufferCells = 0;
 		refinement::Criteria criteria{[](refinement::CellView const& cell) { return cell.center[0] < units::Length::from_value(0.2) && cell.level < 2 ? Real(2) : Real(0); }};
 		Runtime runtime(c, criteria);

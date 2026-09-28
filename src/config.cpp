@@ -219,13 +219,13 @@ namespace {
 		if (values.count("mesh.periodic")) {
 			bool periodic = false;
 			readBoolean(values, "mesh.periodic", periodic);
-			config.mesh.boundary = periodic ? physics::BoundaryConditions::periodic() : physics::BoundaryConditions{};
+			config.mesh.boundary = periodic ? finiteVolume::BoundaryConditions::periodic() : finiteVolume::BoundaryConditions{};
 		}
 		for (int axis = 0; axis < ndim; ++axis)
 			for (bool lower : {true, false}) {
 				auto const key = std::string("mesh.boundary.") + "xyz"[axis] + (lower ? "Lower" : "Upper");
 				if (values.count(key))
-					(lower ? config.mesh.boundary.lower : config.mesh.boundary.upper)[axis] = physics::parseBoundaryCondition(values[key].as<std::string>());
+					(lower ? config.mesh.boundary.lower : config.mesh.boundary.upper)[axis] = finiteVolume::parseBoundaryCondition(values[key].as<std::string>());
 			}
 		Real lower = units::value(config.mesh.lower), upper = units::value(config.mesh.upper);
 		readNumber(values, "mesh.lower", lower);
@@ -362,12 +362,12 @@ void Config::validate() const {
 	if (!hydroEnabled() && hasExternalAcceleration()) throw std::invalid_argument("External acceleration requires hydro");
 	mesh.boundary.validate();
 	if (radiation.closedBoundary && (!radiationEnabled() || frame.omega != units::InverseTime{}
-		|| !mesh.boundary.all(physics::BoundaryCondition::Outflow)))
+		|| !mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow)))
 		throw std::invalid_argument("radiation.closedBoundary requires radiation, a fixed grid, and outflow gas/gravity boundaries");
 	if (!units::finite(frame.omega)) throw std::invalid_argument("frame.omega must be finite");
 	if (frame.omega != units::InverseTime{}) {
 		if (ndim < 2) throw std::invalid_argument("Rotation about z requires at least two dimensions");
-		if (!mesh.boundary.all(physics::BoundaryCondition::Outflow))
+		if (!mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow))
 			throw std::invalid_argument("A rotating grid requires outflow (free) boundaries on every face");
 	}
 	if (gravityEnabled()) gravity::validateBoundaries(mesh.boundary);
@@ -386,7 +386,7 @@ void Config::validate() const {
 		!(timestep.cfl > 0 && timestep.cfl <= 0.5) || !(hydro.gamma > 1) || !(radiation.lightSpeedRatio > 0 && radiation.lightSpeedRatio <= 1) ||
 		runtime.maxSteps < 1 || output.every < 1 || runtime.workerTasks < 0)
 		throw std::invalid_argument("Invalid domain, timestep, gas, radiation, or output setting");
-	if (mesh.boundary.contains(physics::BoundaryCondition::Analytic) && !problemBoundary(*this))
+	if (mesh.boundary.contains(finiteVolume::BoundaryCondition::Analytic) && !problemBoundary(*this))
 		throw std::invalid_argument(std::string("Analytic boundary is not implemented for problem ") + problem);
 	if (gravity.multipoleOrder < 1 || gravity.multipoleOrder > 10 || !(gravity.openingAngle > 0 && gravity.openingAngle < 1 / sqrt(3.0)))
 		throw std::invalid_argument("Gravity requires order 1..10 and 0<openingAngle<1/sqrt(3)");

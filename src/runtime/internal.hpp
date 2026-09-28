@@ -151,16 +151,16 @@ namespace runtime_detail {
 		std::vector<State> ghosts;
 		std::vector<State> midpointGhosts, rawInitial, rateGhosts;
 		std::vector<hydro::ConservedState> materialGhosts;
-		using Solver = physics::MusclHancock<System>;
+		using Solver = finiteVolume::MusclHancock<System>;
 		typename Solver::Workspace work;
 
 		void advance(Subgrid const& block, storage::ColumnHandle<State> const& fields, HaloPlan const& plan, System const& system, unsigned bank,
-			units::Time dt, units::Time time, physics::AnalyticBoundary<State> const& analytic, storage::ColumnHandle<typename System::Flux> const& fluxFields,
+			units::Time dt, units::Time time, finiteVolume::AnalyticBoundary<State> const& analytic, storage::ColumnHandle<typename System::Flux> const& fluxFields,
 			bool amr, std::vector<HaloTime> const& times = {},
-			storage::ColumnHandle<hydro::ConservedState> const& increment = {}, units::Time referenceStep = {}, physics::RotatingFrame const& frame = physics::RotatingFrame{},
+			storage::ColumnHandle<hydro::ConservedState> const& increment = {}, units::Time referenceStep = {}, finiteVolume::RotatingFrame const& frame = finiteVolume::RotatingFrame{},
 			storage::ColumnHandle<State> const& midpoint = {}, Config const* couplingConfig = nullptr,
 			storage::ColumnHandle<hydro::ConservedState> const& material = {}, unsigned materialBank = 0,
-			physics::AnalyticBoundary<hydro::ConservedState> const& materialBoundary = {}, units::Time limiterInterval = {},
+			finiteVolume::AnalyticBoundary<hydro::ConservedState> const& materialBoundary = {}, units::Time limiterInterval = {},
 			ProblemRadiationMaterial const& radiationMaterial = {}, InitialHalo<State> const* cachedInitial = nullptr,
 			bool captureRawInitial = false, std::vector<hydro::ConservedState> const* sharedMaterialGhosts = nullptr) {
 			auto interior = fields.read(block.interior, bank).get();
@@ -278,7 +278,7 @@ namespace runtime_detail {
 			}
 		}
 
-		BoundaryTransport boundaryTransport(Subgrid const& block, physics::BoundaryConditions const& boundaries, units::Time dt) const {
+		BoundaryTransport boundaryTransport(Subgrid const& block, finiteVolume::BoundaryConditions const& boundaries, units::Time dt) const {
 			BoundaryTransport result;
 			int const n = block.layout.cellsPerActiveDimension();
 			// cellMeasure also supplies the unit transverse area in 1D/2D.
@@ -416,8 +416,8 @@ public:
 
 private:
 	Config config_;
-	physics::AnalyticBoundary<hydro::ConservedState> hydroBoundary_;
-	physics::AnalyticBoundary<radiation::RadiationSystem::State> radiationBoundary_;
+	finiteVolume::AnalyticBoundary<hydro::ConservedState> hydroBoundary_;
+	finiteVolume::AnalyticBoundary<radiation::RadiationSystem::State> radiationBoundary_;
 	ProblemRadiationMaterial radiationMaterial_;
 	std::vector<Subgrid> blocks_;
 	FieldDirectory fields_;

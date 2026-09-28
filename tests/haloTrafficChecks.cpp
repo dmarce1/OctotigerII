@@ -175,7 +175,7 @@ void compareCompactMidpoint(Subgrid const& block, HaloPlan const& plan, System c
 	std::vector<typename System::State> const& initialGhosts, std::vector<typename System::State> const& midpointGhosts,
 	units::Time time, units::Time dt, Corrector const& corrector) {
 	using State = typename System::State;
-	using Solver = physics::MusclHancock<System>;
+	using Solver = finiteVolume::MusclHancock<System>;
 	runtime_detail::InitialHalo<State> cache;
 	cache.save(block, plan, initialGhosts, true);
 	mesh::MeshLayout const padded(block.layout.cellsPerActiveDimension(), 2);
@@ -194,7 +194,7 @@ void compareCompactMidpoint(Subgrid const& block, HaloPlan const& plan, System c
 	typename Solver::Workspace fullWork, compactWork;
 	std::vector<State> fullResult(block.interior.count), compactResult(block.interior.count);
 	auto advance = [&](auto const& input, auto& work, auto& result) {
-		Solver(system, physics::RotatingFrame{}, time).advanceInto(input, dt, work,
+		Solver(system, finiteVolume::RotatingFrame{}, time).advanceInto(input, dt, work,
 			[&](auto const& cell, State const& value) { result[block.layout.index(cell)] = value; }, predict, false, corrector);
 	};
 	advance(full, fullWork, fullResult);
@@ -341,8 +341,8 @@ TEST(HaloTraffic, CompactInitialHaloMatchesFullMidpointCorrectorOnMixedLevelsAnd
 	auto config = parseConfig({"--problem.name=sod", "--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 	config.mesh.lower = units::Length{};
 	config.mesh.upper = units::Length::from_value(1);
-	config.mesh.boundary = physics::BoundaryConditions::uniform(physics::BoundaryCondition::Reflecting);
-	config.mesh.boundary.upper[0] = physics::BoundaryCondition::Analytic;
+	config.mesh.boundary = finiteVolume::BoundaryConditions::uniform(finiteVolume::BoundaryCondition::Reflecting);
+	config.mesh.boundary.upper[0] = finiteVolume::BoundaryCondition::Analytic;
 	config.amr.enabled = true;
 	config.amr.maxLevel = 2;
 	std::vector<mesh::BlockLocation> leaves;
@@ -369,7 +369,7 @@ TEST(HaloTraffic, CompactInitialHaloMatchesFullMidpointCorrectorOnMixedLevelsAnd
 		}
 		return value;
 	};
-	physics::AnalyticBoundary<hydro::ConservedState> gasState = [&](auto const& position, auto at) {
+	finiteVolume::AnalyticBoundary<hydro::ConservedState> gasState = [&](auto const& position, auto at) {
 		Real const value = profile(position, at);
 		hydro::PrimitiveState state;
 		state.density() = units::Density::from_value(2 + Real(.2) * value);
@@ -378,7 +378,7 @@ TEST(HaloTraffic, CompactInitialHaloMatchesFullMidpointCorrectorOnMixedLevelsAnd
 			state.velocity(d) = units::Velocity::from_value(1e7 * (d + 1) * (1 + Real(.1) * value) / ndim);
 		return gasSystem.conservedState(state);
 	};
-	physics::AnalyticBoundary<radiation::RadiationSystem::State> radiationState = [&](auto const& position, auto at) {
+	finiteVolume::AnalyticBoundary<radiation::RadiationSystem::State> radiationState = [&](auto const& position, auto at) {
 		Real const value = profile(position, at);
 		radiation::RadiationSystem::State state;
 		state.energy() = units::EnergyDensity::from_value(2 + Real(.3) * value);

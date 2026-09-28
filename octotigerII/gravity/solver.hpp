@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <vector>
 #include "octotigerII/gravity/gravityFields.hpp"
-#include "octotigerII/physics/boundary.hpp"
+#include "octotigerII/finiteVolume/boundary.hpp"
 #include "octotigerII/units/constants.hpp"
 
 namespace octotigerII::gravity {
@@ -48,5 +48,5 @@ public:
 /// Input and output are x-contiguous; cellsPerAxis must be a power of two.
 /// Far interactions use @ref ref_greengard1997 "Greengard and Rokhlin (1997)".
 Solution solve(std::vector<units::Density> const& density, int cellsPerAxis, units::Length cellWidth, int order = 5, Real openingAngle = 0.5,
-	physics::BoundaryConditions const& boundaries = {});
+	finiteVolume::BoundaryConditions const& boundaries = {});
 }	 // namespace octotigerII::gravity

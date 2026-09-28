@@ -69,7 +69,7 @@ TEST(RadiationDepth, SmoothMatterUsesReportedCflWithThreeLevels) {
 	auto c = parseConfig({"--problem.name=radiation-matter", "--output.enabled=off"});
 	// Periodicity connects the nested corner to every level-one block and
 	// balance then removes level one. Outflow retains the intended depth gap.
-	c.mesh.boundary = physics::BoundaryConditions{};
+	c.mesh.boundary = finiteVolume::BoundaryConditions{};
 	runThreeLevels(c);
 }
 

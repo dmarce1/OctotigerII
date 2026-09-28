@@ -26,7 +26,7 @@ Config configuration() {
 	c.amr.maxCellMass = {};
 	c.amr.bufferCells = 0;
 	c.amr.regridEvery = 1;
-	c.mesh.boundary = physics::BoundaryConditions::periodic();
+	c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
 	return c;
 }
 refinement::Criterion corner(Config const& c, bool* enabled = nullptr) {
@@ -296,9 +296,9 @@ TEST(Amr, AdaptiveFmmMatchesDirectAcrossMixedLevelsAndImages) {
 		c.mesh.boundary = {};
 		int const periodicAxes = boundary <= 3 ? boundary : (boundary == 4 ? 0 : boundary - 4);
 		for (int d = 0; d < periodicAxes; ++d)
-			c.mesh.boundary.lower[d] = c.mesh.boundary.upper[d] = physics::BoundaryCondition::Periodic;
-		if (boundary >= 4) c.mesh.boundary.lower[2] = physics::BoundaryCondition::Reflecting;
-		if (boundary == 6) c.mesh.boundary.upper[2] = physics::BoundaryCondition::Reflecting;
+			c.mesh.boundary.lower[d] = c.mesh.boundary.upper[d] = finiteVolume::BoundaryCondition::Periodic;
+		if (boundary >= 4) c.mesh.boundary.lower[2] = finiteVolume::BoundaryCondition::Reflecting;
+		if (boundary == 6) c.mesh.boundary.upper[2] = finiteVolume::BoundaryCondition::Reflecting;
 		Runtime runtime(c, {corner(c)});
 		std::set<int> levels;
 		for (auto const& block : runtime.snapshots())

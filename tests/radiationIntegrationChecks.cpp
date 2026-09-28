@@ -13,7 +13,7 @@ Config configuration(bool adaptive = false, Real ratio = 1, Real omega = 0) {
 	auto c = parseConfig({"--problem.name=radiation-matter", "--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 	c.radiation.lightSpeedRatio = ratio;
 	c.frame.omega = units::InverseTime::from_value(omega);
-	if (omega != 0) c.mesh.boundary = physics::BoundaryConditions{};
+	if (omega != 0) c.mesh.boundary = finiteVolume::BoundaryConditions{};
 	c.amr.enabled = adaptive;
 	c.amr.minLevel = 1;
 	c.amr.maxLevel = 2;

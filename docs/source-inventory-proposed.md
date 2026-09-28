@@ -80,13 +80,13 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`octotigerII/problems/rotatingStar.hpp`](../octotigerII/problems/rotatingStar.hpp) | Rotating-star SCF table access and physical scaling API. |
 | [`octotigerII/profiling.hpp`](../octotigerII/profiling.hpp) | Timing regions and HPX/APEX profiling adapters. |
 
-## Public headers: transport and physics
+## Public headers: finite-volume transport and physics models
 
 | File | Contents |
 |---|---|
-| [`octotigerII/physics/finiteVolume.hpp`](../octotigerII/physics/finiteVolume.hpp) | Generic unsplit MUSCL–Hancock reconstruction, flux integration, and slope limiting. |
-| [`octotigerII/physics/boundary.hpp`](../octotigerII/physics/boundary.hpp) | Face boundary types, ghost-state transforms, and rotating free-boundary rules. |
-| [`octotigerII/physics/frame.hpp`](../octotigerII/physics/frame.hpp) | Grid/inertial rotations, rigid mesh velocity, and rotation timestep limit. |
+| [`octotigerII/finiteVolume/solver.hpp`](../octotigerII/finiteVolume/solver.hpp) | Generic unsplit MUSCL–Hancock reconstruction, flux integration, and slope limiting. |
+| [`octotigerII/finiteVolume/boundary.hpp`](../octotigerII/finiteVolume/boundary.hpp) | Face boundary types, ghost-state transforms, and rotating free-boundary rules. |
+| [`octotigerII/finiteVolume/frame.hpp`](../octotigerII/finiteVolume/frame.hpp) | Grid/inertial rotations, rigid mesh velocity, and rotation timestep limit. |
 | [`octotigerII/hydro/hydroSystem.hpp`](../octotigerII/hydro/hydroSystem.hpp) | Euler conserved/primitive states, HLLC fluxes, and positivity safeguards. |
 | [`octotigerII/hydro/dualEnergy.hpp`](../octotigerII/hydro/dualEnergy.hpp) | Entropy auxiliary conversion and synchronization rules. |
 | [`octotigerII/radiation/m1.hpp`](../octotigerII/radiation/m1.hpp) | M1 closure and HLL radiation solver in scaled calculation variables. |
@@ -147,7 +147,7 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`src/main.cpp`](../src/main.cpp) | CLI/HPX startup, run invocation, progress table, and completion report. |
 | [`src/config.cpp`](../src/config.cpp) | Option definitions, INI/command-line merge, defaults, and cross-option validation. |
 | [`src/mesh.cpp`](../src/mesh.cpp) | Mesh indexing, block ancestry, cell geometry, and time-state methods. |
-| [`src/physics/finiteVolume.cpp`](../src/physics/finiteVolume.cpp) | Returns the displayed name of the finite-volume scheme. |
+| [`src/finiteVolume/solver.cpp`](../src/finiteVolume/solver.cpp) | Returns the displayed name of the finite-volume scheme. |
 | [`src/hydro/hydroSystem.cpp`](../src/hydro/hydroSystem.cpp) | Hydro state conversions, HLLC fluxes, characteristic speeds, and limiting. |
 | [`src/radiation/radiationTransport.cpp`](../src/radiation/radiationTransport.cpp) | Radiation M1 fluxes, HLL transport, and realizability limiting. |
 | [`src/composition/species.cpp`](../src/composition/species.cpp) | Periodic-table data, species parser, validation, and initial fractions. |
@@ -259,4 +259,3 @@ above and set their runnable defaults:
 | [`examples/rotating-star-inertial.ini`](../examples/rotating-star-inertial.ini) | Same star on a stationary grid. |
 | [`examples/sod.ini`](../examples/sod.ini) | Sod shock tube example. |
 | [`examples/streaming.ini`](../examples/streaming.ini) | Streaming radiation example. |
-

@@ -25,8 +25,8 @@ Config config(bool adaptive, int boundary, int order = 3, Real openingAngle = 0.
 	c.amr.enabled = adaptive;
 	c.gravity.multipoleOrder = order;
 	c.gravity.openingAngle = openingAngle;
-	if (boundary == 1) c.mesh.boundary = physics::BoundaryConditions::periodic();
-	if (boundary == 2) c.mesh.boundary.lower[0] = physics::BoundaryCondition::Reflecting;
+	if (boundary == 1) c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
+	if (boundary == 2) c.mesh.boundary.lower[0] = finiteVolume::BoundaryCondition::Reflecting;
 	return c;
 }
 

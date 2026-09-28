@@ -125,8 +125,8 @@ TEST(DirectReference, SingleMassSelfExclusionSamplingPolicyAndBlockOrder) {
 }
 
 TEST(DirectReference, ImageFieldsAndContinuumAvailabilityFollowBoundaries) {
-	using B = physics::BoundaryConditions;
-	using R = physics::BoundaryCondition;
+	using B = finiteVolume::BoundaryConditions;
+	using R = finiteVolume::BoundaryCondition;
 	for (int mode=0;mode<4;++mode) {
 		auto c=test::parseConfig({"--mesh.cells=4","--mesh.level=0","--runtime.stopTime=0","--output.enabled=off"});
 		if(mode==0) c.mesh.boundary.lower[0]=c.mesh.boundary.upper[0]=R::Periodic;

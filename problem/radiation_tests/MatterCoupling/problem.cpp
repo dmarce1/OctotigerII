@@ -16,7 +16,7 @@ void problemDefaults(Config& c) {
 	c.mesh.level = 0;
 	c.mesh.lower = units::Length::from_value(-5e7);
 	c.mesh.upper = units::Length::from_value(5e7);
-	c.mesh.boundary = physics::BoundaryConditions::periodic();
+	c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
 	c.hydro.gamma = Real(5) / 3;
 	c.radiation.enabled = true;
 	c.radiation.opacity = 1;

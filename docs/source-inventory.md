@@ -81,13 +81,13 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`octotigerII/problems/rotatingStar.hpp`](../octotigerII/problems/rotatingStar.hpp) | Rotating-star SCF table access and physical scaling API. |
 | [`octotigerII/profiling.hpp`](../octotigerII/profiling.hpp) | Timing regions and HPX/APEX profiling adapters. |
 
-## Public headers: transport and physics
+## Public headers: finite-volume transport and physics models
 
 | File | Contents |
 |---|---|
-| [`octotigerII/physics/finiteVolume.hpp`](../octotigerII/physics/finiteVolume.hpp) | Generic unsplit MUSCL–Hancock reconstruction, flux integration, and slope limiting. |
-| [`octotigerII/physics/boundary.hpp`](../octotigerII/physics/boundary.hpp) | Face boundary types, ghost-state transforms, and rotating free-boundary rules. |
-| [`octotigerII/physics/frame.hpp`](../octotigerII/physics/frame.hpp) | Grid/inertial rotations, rigid mesh velocity, and rotation timestep limit. |
+| [`octotigerII/finiteVolume/solver.hpp`](../octotigerII/finiteVolume/solver.hpp) | Generic unsplit MUSCL–Hancock reconstruction, flux integration, and slope limiting. |
+| [`octotigerII/finiteVolume/boundary.hpp`](../octotigerII/finiteVolume/boundary.hpp) | Face boundary types, ghost-state transforms, and rotating free-boundary rules. |
+| [`octotigerII/finiteVolume/frame.hpp`](../octotigerII/finiteVolume/frame.hpp) | Grid/inertial rotations, rigid mesh velocity, and rotation timestep limit. |
 | [`octotigerII/hydro/hydroSystem.hpp`](../octotigerII/hydro/hydroSystem.hpp) | Euler conserved/primitive states, HLLC fluxes, and positivity safeguards. |
 | [`octotigerII/hydro/dualEnergy.hpp`](../octotigerII/hydro/dualEnergy.hpp) | Entropy auxiliary conversion and synchronization rules. |
 | [`octotigerII/radiation/m1.hpp`](../octotigerII/radiation/m1.hpp) | M1 closure and HLL radiation solver in scaled calculation variables. |
@@ -152,7 +152,7 @@ conditions, boundary state, and analytic reference. Each adjacent
 | [`src/main.cpp`](../src/main.cpp) | CLI/HPX startup, run invocation, progress table with total/leaf subgrid counts by level, and completion report. |
 | [`src/config.cpp`](../src/config.cpp) | Option definitions, INI/command-line merge, defaults, and cross-option validation. |
 | [`src/mesh.cpp`](../src/mesh.cpp) | Mesh indexing, block ancestry, cell geometry, and time-state methods. |
-| [`src/physics/finiteVolume.cpp`](../src/physics/finiteVolume.cpp) | Returns the displayed name of the finite-volume scheme. |
+| [`src/finiteVolume/solver.cpp`](../src/finiteVolume/solver.cpp) | Returns the displayed name of the finite-volume scheme. |
 | [`src/hydro/hydroSystem.cpp`](../src/hydro/hydroSystem.cpp) | Hydro state conversions, HLLC fluxes, characteristic speeds, and limiting. |
 | [`src/radiation/radiationTransport.cpp`](../src/radiation/radiationTransport.cpp) | Radiation M1 fluxes, HLL transport, and realizability limiting. |
 | [`src/radiation/matterCoupling.cpp`](../src/radiation/matterCoupling.cpp) | Conservative implicit gray source integration with safeguarded nonlinear solves. |
@@ -301,7 +301,7 @@ above and set their runnable defaults:
   `cmake/Problems.cmake` discovers these manifests and generates the registry
   from `cmake/problems.cpp.in`; problem-specific physics stays in its module.
 - Most generic transport behavior is implemented in
-  `octotigerII/physics/finiteVolume.hpp`; its `.cpp` returns the scheme name.
+  `octotigerII/finiteVolume/solver.hpp`; its `.cpp` returns the scheme name.
   `src/gravity/gravityFields.cpp` likewise supplies a small translation unit
   for an inline field type. Header and implementation responsibilities are
   described individually above.

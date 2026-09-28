@@ -50,7 +50,7 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 				d.minimumDensity = std::min(d.minimumDensity, u.density());
 				d.maximumDensity = std::max(d.maximumDensity, u.density());
 				if constexpr (ndim >= 2) {
-					auto const x = physics::RotatingFrame(c.frame.omega).toInertial(block.layout.cellCenter(block.lower, block.cellWidth, cell), d.time);
+					auto const x = finiteVolume::RotatingFrame(c.frame.omega).toInertial(block.layout.cellCenter(block.lower, block.cellWidth, cell), d.time);
 					add(d.angularMomentumZ, compensation.angularMomentumZ, volume * (x[0] * u.momentum(1) - x[1] * u.momentum(0)));
 				}
 				d.minimumPressure = std::min(d.minimumPressure, gas.reconstructionVariables(u).pressure());
@@ -79,7 +79,7 @@ Diagnostics diagnose(std::vector<Snapshot> const& snapshots, Config const& c) {
 				Real const f = u.energy() > units::EnergyDensity{} ? Real(magnitude / (constants::c * u.energy())) : 0;
 				d.maximumReducedFlux = std::max(d.maximumReducedFlux, f);
 				if constexpr (ndim >= 2) {
-					auto const x = physics::RotatingFrame(c.frame.omega).toInertial(block.layout.cellCenter(block.lower, block.cellWidth, cell), d.time);
+					auto const x = finiteVolume::RotatingFrame(c.frame.omega).toInertial(block.layout.cellCenter(block.lower, block.cellWidth, cell), d.time);
 					add(d.radiationAngularMomentumZ, compensation.radiationAngularMomentumZ,
 						volume * (x[0] * u.radiativeFlux(1) - x[1] * u.radiativeFlux(0)) / (constants::c * constants::c));
 				}

@@ -28,7 +28,7 @@ namespace {
 		}
 		return box;
 	}
-	bool overlaps(Box const& a, Box const& b, physics::BoundaryConditions const& bc, bool touching = false) {
+	bool overlaps(Box const& a, Box const& b, finiteVolume::BoundaryConditions const& bc, bool touching = false) {
 		for (int d = 0; d < ndim; ++d) {
 			bool hit = false;
 			for (int shift = bc.periodic(d) ? -1 : 0; shift <= (bc.periodic(d) ? 1 : 0); ++shift) {

@@ -26,8 +26,8 @@ Config configuration(std::string problem) {
 void transport(std::string problem, bool adaptive) {
 	auto c = configuration(problem);
 	if (problem == "streaming") {
-		c.mesh.boundary.lower.fill(physics::BoundaryCondition::Analytic);
-		c.mesh.boundary.upper.fill(physics::BoundaryCondition::Analytic);
+		c.mesh.boundary.lower.fill(finiteVolume::BoundaryCondition::Analytic);
+		c.mesh.boundary.upper.fill(finiteVolume::BoundaryCondition::Analytic);
 	}
 	c.amr.enabled = adaptive;
 	c.amr.maxLevel = 2;
@@ -65,8 +65,8 @@ TEST(Conservation, HydroBoundaryFluxBalancesUniformAndAdaptiveMeshes) {
 }
 TEST(Conservation, ReflectingPressureTractionBalancesMomentum) {
 	auto c = configuration("sod");
-	c.mesh.boundary.lower.fill(physics::BoundaryCondition::Reflecting);
-	c.mesh.boundary.upper.fill(physics::BoundaryCondition::Reflecting);
+	c.mesh.boundary.lower.fill(finiteVolume::BoundaryCondition::Reflecting);
+	c.mesh.boundary.upper.fill(finiteVolume::BoundaryCondition::Reflecting);
 	Runtime runtime(c);
 	auto const before = diagnose(runtime.snapshots(), c);
 	runtime.advance(0.2 * runtime.stableTimestep());
@@ -85,7 +85,7 @@ TEST(Conservation, RadiationBoundaryFluxBalancesUniformAndAdaptiveMeshes) {
 TEST(Conservation, PeriodicBoundaryTransportIsZero) {
 	auto c = test::parseConfig({"--mesh.cells=4", "--mesh.level=1", "--output.enabled=off"});
 	if (!c.hydroEnabled() && !c.radiationEnabled()) GTEST_SKIP();
-	c.mesh.boundary = physics::BoundaryConditions::periodic();
+	c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
 	Runtime runtime(c);
 	auto const before = diagnose(runtime.snapshots(), c);
 	runtime.advance(0.2 * runtime.stableTimestep());

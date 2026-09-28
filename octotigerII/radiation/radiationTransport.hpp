@@ -6,7 +6,7 @@
 #pragma once
 #include <array>
 #include "octotigerII/mesh.hpp"
-#include "octotigerII/physics/finiteVolume.hpp"
+#include "octotigerII/finiteVolume/solver.hpp"
 #include "octotigerII/radiation/m1.hpp"
 #include "octotigerII/units/constants.hpp"
 
@@ -115,6 +115,6 @@ private:
 };
 
 
-using Solver = physics::MusclHancock<RadiationSystem>;
+using Solver = finiteVolume::MusclHancock<RadiationSystem>;
 using Fields = mesh::PatchData<RadiationSystem::State>;
 }	 // namespace octotigerII::radiation

@@ -102,7 +102,7 @@ TEST(RadiationDiffusion, FixedMeshFourierDiffusionCoefficientHasCorrectOpaqueLim
 		patch.layout().forEachInterior([&](auto const& cell, auto) {
 			patch.atInterior(cell) = state(1 + .05 * std::cos(wave * (cell[0] + .5)));
 		});
-		physics::fillGhostCells(patch, physics::BoundaryConditions::periodic(), system);
+		finiteVolume::fillGhostCells(patch, finiteVolume::BoundaryConditions::periodic(), system);
 		Real previousError = 1;
 		for (Real tau : {Real(10), Real(100), Real(1000), Real(10000)}) {
 			Solver::Workspace workspace;
@@ -160,7 +160,7 @@ TEST(RadiationDiffusion, InstantaneousProbeLimitsSharpOpticalTransitionOverPredi
 	patch.layout().forEachInterior([&](auto const& cell, auto) {
 		patch.atInterior(cell) = state(cell[0] < cells / 2 ? 1 : 1e-14);
 	});
-	physics::fillGhostCells(patch, physics::BoundaryConditions::periodic(), system);
+	finiteVolume::fillGhostCells(patch, finiteVolume::BoundaryConditions::periodic(), system);
 	auto const predictorInterval = (Real(.3) / ndim) * dx / constants::c;
 	auto correct = [&](auto const& flux, auto const& centerLeft, auto const& centerRight,
 		auto const& faceLeft, auto const& faceRight, auto const&, auto const&, int normal,
@@ -233,8 +233,8 @@ TEST(RadiationDiffusion, TransitionOpticalDepthsRemainAdmissibleWithVaryingDensi
 		auto const before = total();
 		auto const dt = Real(.3) * dx / radSystem.reducedLightSpeed();
 		for (int step = 0; step < 24; ++step) {
-			physics::fillGhostCells(gas, physics::BoundaryConditions::periodic(), gasSystem);
-			physics::fillGhostCells(rad, physics::BoundaryConditions::periodic(), radSystem);
+			finiteVolume::fillGhostCells(gas, finiteVolume::BoundaryConditions::periodic(), gasSystem);
+			finiteVolume::fillGhostCells(rad, finiteVolume::BoundaryConditions::periodic(), radSystem);
 			auto nextGas = gas;
 			auto nextRad = rad;
 			CoupledPatchWorkspace workspace;
@@ -279,8 +279,8 @@ TEST(RadiationDiffusion, CoupledFourierModeDecaysAtThePhysicalEquilibriumDiffusi
 			rad.radiativeFlux(0) = units::EnergyFlux::from_value(-units::value(constants::c) * derivative / (3 * extinction));
 		});
 		auto fill = [&](auto& g, auto& r) {
-			physics::fillGhostCells(g, physics::BoundaryConditions::periodic(), gasSystem);
-			physics::fillGhostCells(r, physics::BoundaryConditions::periodic(), radiationSystem);
+			finiteVolume::fillGhostCells(g, finiteVolume::BoundaryConditions::periodic(), gasSystem);
+			finiteVolume::fillGhostCells(r, finiteVolume::BoundaryConditions::periodic(), radiationSystem);
 		};
 		auto mode = [&]() {
 			long double amplitude = 0;

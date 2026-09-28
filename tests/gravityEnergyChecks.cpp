@@ -11,7 +11,7 @@ using namespace octotigerII;
 namespace {
 void exercise(bool species, bool adaptive, bool periodic) {
 	auto c = parseConfig({"--problem.name=collapse", "--mesh.cells=4", "--mesh.level=1", "--output.enabled=off", "--verification.analytic=off"});
-	if (periodic) c.mesh.boundary = physics::BoundaryConditions::periodic();
+	if (periodic) c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
 	c.massFractions.enabled = species;
 	if (species) c.massFractions.species = composition::parseSpecies("gas:0.7:He;oxygen:0.3:O;dye:0.4:A=0,Z=0");
 	c.amr.enabled = adaptive; c.amr.maxLevel = 2; c.amr.shadowTolerance = 0; c.amr.bufferCells = 0;

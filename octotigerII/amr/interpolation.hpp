@@ -1,7 +1,7 @@
 // Copyright (c) 2026 AUTHORS
 // Distributed under the Boost Software License, Version 1.0.
 #pragma once
-#include "octotigerII/physics/finiteVolume.hpp"
+#include "octotigerII/finiteVolume/solver.hpp"
 
 namespace octotigerII::amr {
 
@@ -9,7 +9,7 @@ template <typename State>
 State slope(State const& left, State const& center, State const& right) {
 	State result{};
 	center.forEach([&](auto i, auto value) {
-		result.template get<i>() = physics::limitedSlope(value - left.template get<i>(), right.template get<i>() - value, physics::Limiter::Minmod);
+		result.template get<i>() = finiteVolume::limitedSlope(value - left.template get<i>(), right.template get<i>() - value, finiteVolume::Limiter::Minmod);
 	});
 	return result;
 }

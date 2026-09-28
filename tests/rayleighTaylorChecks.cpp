@@ -26,8 +26,8 @@ TEST(RayleighTaylor, DefaultsAndPhysicalParameterValidation) {
 	EXPECT_FALSE(test::gravity);
 	for (int d = 0; d < ndim - 1; ++d)
 		EXPECT_TRUE(c.mesh.boundary.periodic(d));
-	EXPECT_EQ(c.mesh.boundary.lower[ndim - 1], physics::BoundaryCondition::Reflecting);
-	EXPECT_EQ(c.mesh.boundary.upper[ndim - 1], physics::BoundaryCondition::Reflecting);
+	EXPECT_EQ(c.mesh.boundary.lower[ndim - 1], finiteVolume::BoundaryCondition::Reflecting);
+	EXPECT_EQ(c.mesh.boundary.upper[ndim - 1], finiteVolume::BoundaryCondition::Reflecting);
 	EXPECT_LT(c.mesh.lower, units::Length{});
 	EXPECT_LT(c.hydro.acceleration[ndim - 1], units::Acceleration{});
 	for (auto argument : {"--rayleighTaylor.densityLower=0", "--rayleighTaylor.densityUpper=0.5", "--rayleighTaylor.interfacePressure=0.01",

@@ -17,7 +17,7 @@ void problemDefaults(Config& c) {
     c.mesh.level = 0;
     c.mesh.lower = units::Length::from_value(-5e7);
     c.mesh.upper = units::Length::from_value(5e7);
-    c.mesh.boundary = physics::BoundaryConditions::periodic();
+    c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
     c.runtime.stopTime = units::Time::from_value(0.01);
     c.amr.shadowTolerance = 0;
 }

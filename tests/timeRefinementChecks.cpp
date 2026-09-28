@@ -11,7 +11,7 @@ Config config(std::string const& problem = "sod") {
 	auto c = parseConfig({"--problem.name=" + problem, "--mesh.cells=8", "--mesh.level=1", "--output.enabled=off"});
 	c.amr.enabled = true; c.amr.maxLevel = 2; c.amr.minLevel = 1;
 	c.amr.shadowTolerance = 0; c.amr.bufferCells = 0;
-	c.mesh.boundary = physics::BoundaryConditions::periodic();
+	c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
 	return c;
 }
 refinement::Criterion left(Config const& c, bool& enabled) {
@@ -163,7 +163,7 @@ TEST(TimeRefinement, NestedThreeLevelRegistersConserve) {
 }
 TEST(TimeRefinement, OutflowBoundaryLedgerCoversEverySubstep) {
 	auto c = config(); c.mesh.cells = 4;
-	c.mesh.boundary = physics::BoundaryConditions::uniform(physics::BoundaryCondition::Outflow);
+	c.mesh.boundary = finiteVolume::BoundaryConditions::uniform(finiteVolume::BoundaryCondition::Outflow);
 	bool enabled = false;
 	Runtime runtime(c, {left(c, enabled)});
 	enabled = true; ASSERT_TRUE(runtime.regrid({}, true));

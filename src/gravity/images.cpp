@@ -3,9 +3,9 @@
 #include <limits>
 
 namespace octotigerII::gravity {
-ImageGeometry::ImageGeometry(physics::BoundaryConditions const& bc) {
+ImageGeometry::ImageGeometry(finiteVolume::BoundaryConditions const& bc) {
 	validateBoundaries(bc);
-	using Rule = physics::BoundaryCondition;
+	using Rule = finiteVolume::BoundaryCondition;
 	for (int axis = 0; axis < 3; ++axis) {
 		if (bc.periodic(axis)) periods_[axis] = 1;
 		bool const low = bc.lower[axis] == Rule::Reflecting;

@@ -23,7 +23,7 @@ void problemDefaults(Config& c) {
 	c.mesh.lower = units::Length::from_value(-3e10);
 	c.mesh.upper = units::Length::from_value(3e10);
 	c.runtime.stopTime = units::Time::from_value(0.4);
-	c.mesh.boundary = physics::BoundaryConditions::periodic();
+	c.mesh.boundary = finiteVolume::BoundaryConditions::periodic();
 }
 
 void validateProblem(Config const&) {}

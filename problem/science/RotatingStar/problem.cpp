@@ -102,7 +102,7 @@ void validateProblem(Config const& c) {
 		if (!units::finite(x)) throw std::invalid_argument("Rotating-star center must be finite");
 	if (c.star.polytropicIndex != Real(1.5) || std::abs(c.hydro.gamma - problems::RotatingStar::gamma) > 1e-12)
 		throw std::invalid_argument("The original rotating-star SCF model requires n=1.5 and hydro.gamma=5/3");
-	if (!c.mesh.boundary.all(physics::BoundaryCondition::Outflow))
+	if (!c.mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The isolated rotating-star benchmark requires outflow boundaries");
 	if (c.amr.enabled && c.amr.maxLevel >= 0 && c.amr.maxLevel <= 16 && c.mesh.cells > 0 &&
 		star.coreLength() < (c.mesh.upper - c.mesh.lower) / Real(c.mesh.cells * (1 << c.amr.maxLevel)))

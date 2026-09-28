@@ -68,7 +68,7 @@ TEST(PhotonHeating, PrescribedPhotonDriveHasCorrectReducedSpeedEnergyAndNoDirect
 					EXPECT_TRUE(gasSystem.admissible(updatedGas));
 					EXPECT_TRUE(radSystem.admissible(updatedRad));
 				}
-			}, physics::RotatingFrame{}, time, {}, material);
+			}, finiteVolume::RotatingFrame{}, time, {}, material);
 	}
 }
 

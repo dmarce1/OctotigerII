@@ -37,7 +37,7 @@ auto apCorrection(System const& system, radiation::MaterialVelocity const& veloc
 TEST(RadiationBoundary, OptionIsExplicitAndRejectsUnsupportedGeometry) {
 	auto config = configuration();
 	EXPECT_TRUE(config.radiation.closedBoundary);
-	EXPECT_TRUE(config.mesh.boundary.all(physics::BoundaryCondition::Outflow));
+	EXPECT_TRUE(config.mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow));
 	EXPECT_EQ(config.frame.omega, units::InverseTime{});
 	auto baseline = parseConfig({"--problem.name=radiation-matter", "--output.enabled=off"});
 	EXPECT_FALSE(baseline.radiation.closedBoundary);

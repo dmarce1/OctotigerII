@@ -19,7 +19,7 @@ mesh::PhysicalCoordinates logicalCenter(Config const& config, mesh::BlockLocatio
 template <typename System>
 units::Velocity meshSignalSpeed(System const& system, typename System::State const& state, int axis,
 	Config const& config, mesh::BlockLocation const& cell, units::Time time) {
-	physics::RotatingFrame const frame(config.frame.omega);
+	finiteVolume::RotatingFrame const frame(config.frame.omega);
 	auto const meshSpeed = frame.normalSpeed(logicalCenter(config, cell), axis);
 	auto result = system.maximumSignalSpeed(frame.toGridState(state, time), axis, meshSpeed);
 	if (frame.active() && axis < 2) {
@@ -120,7 +120,7 @@ void Hierarchy::advance(units::Time dt) {
 		units::InverseTime rate{};
 		for (auto v : speed) rate += v / width;
 		if (!(rate > units::InverseTime{}) || !units::finite(rate)) throw std::runtime_error("Invalid shadow CFL rate");
-		auto const limit = std::min(config_.timestep.cfl / rate, physics::RotatingFrame(config_.frame.omega).maximumTimestep());
+		auto const limit = std::min(config_.timestep.cfl / rate, finiteVolume::RotatingFrame(config_.frame.omega).maximumTimestep());
 		while (step > limit || step > remaining) step /= 2;
 		if (!(step > units::Time{}) || time_ + step == time_) throw std::runtime_error("Shadow timestep cannot advance time");
 		advanceOnce(step);
@@ -139,7 +139,7 @@ void Hierarchy::advanceGravity(units::Time dt) {
 		std::array<units::Velocity, ndim> speed{};
 		auto width = config_.mesh.upper - config_.mesh.lower;
 		units::Acceleration maximumAcceleration{};
-		auto const external = physics::RotatingFrame(config_.frame.omega).toGrid(config_.hydro.acceleration, time_);
+		auto const external = finiteVolume::RotatingFrame(config_.frame.omega).toGrid(config_.hydro.acceleration, time_);
 		for (auto const& [cell, value] : cells_) {
 			width = std::min(width, (config_.mesh.upper - config_.mesh.lower) / Real(std::uint64_t(1) << cell.level));
 			units::Acceleration acceleration{};
@@ -157,7 +157,7 @@ void Hierarchy::advanceGravity(units::Time dt) {
 		units::InverseTime rate{};
 		for (auto v : speed) rate += v / width;
 		if (!(rate > units::InverseTime{}) || !units::finite(rate)) throw std::runtime_error("Invalid shadow CFL rate");
-		auto limit = std::min(config_.timestep.cfl / rate, physics::RotatingFrame(config_.frame.omega).maximumTimestep());
+		auto limit = std::min(config_.timestep.cfl / rate, finiteVolume::RotatingFrame(config_.frame.omega).maximumTimestep());
 		if (maximumAcceleration > units::Acceleration{}) {
 			// Include the speed gained during the source step, using the same
 			// displacement and acceleration constraints as the physical cells.
@@ -218,7 +218,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 			auto midpointBoundary = [&](hydro::Fields& midGas, radiation::Fields& midRad, units::Time at) {
 				auto const oldGas = midGas;
 				auto const oldRad = midRad;
-				physics::RotatingFrame const frame(config_.frame.omega);
+				finiteVolume::RotatingFrame const frame(config_.frame.omega);
 				hydro::HydroSystem const gasSystem(config_);
 				radiation::RadiationSystem const radSystem(config_.radiation.lightSpeedRatio * constants::c,
 					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper});
@@ -240,9 +240,9 @@ void Hierarchy::advanceOnce(units::Time dt) {
 					mesh::Coordinates source{};
 					for (int d = 0; d < ndim; ++d) source[d] =
 						(config_.mesh.boundary.periodic(d) ? global.coordinates[d] : mapped.source[d]) - block.coordinates[d] * n + ghosts;
-					midGas.atStorage(cell) = physics::transformBoundary(oldGas.atStorage(source), mapped.reflectionMask,
+					midGas.atStorage(cell) = finiteVolume::transformBoundary(oldGas.atStorage(source), mapped.reflectionMask,
 						mapped.outflowLowerMask, mapped.outflowUpperMask, gasSystem, frame, position, at);
-					midRad.atStorage(cell) = physics::transformBoundary(oldRad.atStorage(source), mapped.reflectionMask,
+					midRad.atStorage(cell) = finiteVolume::transformBoundary(oldRad.atStorage(source), mapped.reflectionMask,
 						mapped.outflowLowerMask, mapped.outflowUpperMask, radSystem, frame, position, at);
 				});
 			};
@@ -255,13 +255,13 @@ void Hierarchy::advanceOnce(units::Time dt) {
 					target.hydro = g;
 					target.radiation = r;
 					target.density = g.density();
-				}, physics::RotatingFrame(config_.frame.omega), time_, midpointBoundary, radiationMaterial_,
+				}, finiteVolume::RotatingFrame(config_.frame.omega), time_, midpointBoundary, radiationMaterial_,
 				radiation::opacityLaw(config_, radiation::Opacity::from_value(config_.radiation.opacity)));
 			gasWork = std::move(work.hydro);
 		}
 		if constexpr (build::hydro) if (config_.hydroEnabled()) {
 			if (!coupled) {
-				hydro::Solver(hydro::HydroSystem(config_), physics::RotatingFrame(config_.frame.omega), time_).advanceInto(gas, dt, gasWork, [&](auto const& cell, auto const& value) {
+				hydro::Solver(hydro::HydroSystem(config_), finiteVolume::RotatingFrame(config_.frame.omega), time_).advanceInto(gas, dt, gasWork, [&](auto const& cell, auto const& value) {
 					auto& target = destination(cell);
 					target.hydro = value;
 					hydro::HydroSystem(config_).synchronize(target.hydro);
@@ -288,7 +288,7 @@ void Hierarchy::advanceOnce(units::Time dt) {
 		if constexpr (build::radiation) if (config_.radiationEnabled() && !coupled) {
 			radiation::Solver::Workspace work;
 			radiation::Solver(radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
-				{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}), physics::RotatingFrame(config_.frame.omega), time_)
+				{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}), finiteVolume::RotatingFrame(config_.frame.omega), time_)
 				.advanceInto(radiation, dt, work, [&](auto const& cell, auto const& value) { destination(cell).radiation = value; });
 		}
 	}
@@ -301,7 +301,7 @@ void Hierarchy::kick(units::Time dt) {
 	if (build::hydro && config_.hydroEnabled())
 		for (auto& [cell, value] : cells_) {
 			(void) cell;
-			auto const gravity = physics::RotatingFrame(config_.frame.omega).toInertialState(value.gravity, time_);
+			auto const gravity = finiteVolume::RotatingFrame(config_.frame.omega).toInertialState(value.gravity, time_);
 			for (int d = 0; d < ndim; ++d) {
 				auto const acceleration = config_.hydro.acceleration[d] + (config_.gravityEnabled() ? gravity.acceleration(d) : units::Acceleration{});
 				auto const impulse = dt * value.hydro.density() * acceleration;
@@ -344,7 +344,7 @@ void Hierarchy::refreshGravity(std::vector<Snapshot> const& leaves) {
 
 Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
 	auto const position = logicalCenter(config_, cell);
-	physics::RotatingFrame const frame(config_.frame.omega);
+	finiteVolume::RotatingFrame const frame(config_.frame.omega);
 	auto const mapped = config_.mesh.boundary.map(cell.coordinates, 1 << cell.level);
 	if (mapped.analytic) {
 		mesh::PhysicalCoordinates position{};
@@ -368,10 +368,10 @@ Hierarchy::Values Hierarchy::average(mesh::BlockLocation cell) const {
 	}
 	auto result = found->second;
 	if (build::hydro && config_.hydroEnabled())
-		result.hydro = physics::transformBoundary(
+		result.hydro = finiteVolume::transformBoundary(
 			result.hydro, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask, hydro::HydroSystem(config_), frame, position, time_);
 	if (build::radiation && config_.radiationEnabled())
-		result.radiation = physics::transformBoundary(result.radiation, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask,
+		result.radiation = finiteVolume::transformBoundary(result.radiation, mapped.reflectionMask, mapped.outflowLowerMask, mapped.outflowUpperMask,
 			radiation::RadiationSystem(config_.radiation.lightSpeedRatio * constants::c,
 				{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper}), frame, position, time_);
 	return result;
@@ -389,8 +389,8 @@ Hierarchy::Values Hierarchy::reconstructFrom(mesh::BlockLocation coarse, mesh::B
 		--left.coordinates[d];
 		++right.coordinates[d];
 		auto const a = average(left), b = average(right);
-		energySlopes[d] = physics::limitedSlope(center.gasGravityEnergy - a.gasGravityEnergy,
-			b.gasGravityEnergy - center.gasGravityEnergy, physics::Limiter::Minmod);
+		energySlopes[d] = finiteVolume::limitedSlope(center.gasGravityEnergy - a.gasGravityEnergy,
+			b.gasGravityEnergy - center.gasGravityEnergy, finiteVolume::Limiter::Minmod);
 		gasSlopes[d] = slope(a.hydro, center.hydro, b.hydro);
 		radiationSlopes[d] = slope(a.radiation, center.radiation, b.radiation);
 		offset[d] = (fine.coordinates[d] + 0.5) / ratio - (coarse.coordinates[d] + 0.5);
@@ -455,10 +455,10 @@ refinement::CellView Hierarchy::sample(mesh::BlockLocation block, mesh::Coordina
 		result.radiation.gradient[d] = (b.radiation - a.radiation) / (2.0 * result.width);
 		if (build::hydro && config_.hydroEnabled()) result.signalSpeed[d] = meshSignalSpeed(hydro::HydroSystem(config_), value.hydro, d, config_, cell, time_);
 		if (build::hydro && config_.hydroEnabled())
-			result.acceleration[d] = physics::RotatingFrame(config_.frame.omega).toGrid(config_.hydro.acceleration, time_)[d] + (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{});
+			result.acceleration[d] = finiteVolume::RotatingFrame(config_.frame.omega).toGrid(config_.hydro.acceleration, time_)[d] + (config_.gravityEnabled() ? value.gravity.acceleration(d) : units::Acceleration{});
 		if (build::radiation && config_.radiationEnabled()) {
 			auto speed = config_.radiation.lightSpeedRatio * constants::c
-				+ units::abs(physics::RotatingFrame(config_.frame.omega).normalSpeed(logicalCenter(config_, cell), d));
+				+ units::abs(finiteVolume::RotatingFrame(config_.frame.omega).normalSpeed(logicalCenter(config_, cell), d));
 			if (d < 2) speed += 0.5 * units::abs(config_.frame.omega) * result.width;
 			result.signalSpeed[d] = std::max(result.signalSpeed[d], speed);
 		}

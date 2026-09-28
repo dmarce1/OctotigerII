@@ -50,7 +50,7 @@ namespace {
 }	 // namespace
 
 Solution solve(
-	std::vector<units::Density> const& density, int n, units::Length cellWidth, int order, Real theta, physics::BoundaryConditions const& boundaries) {
+	std::vector<units::Density> const& density, int n, units::Length cellWidth, int order, Real theta, finiteVolume::BoundaryConditions const& boundaries) {
 	using std::hypot;
 	using std::isfinite;
 	using std::sqrt;

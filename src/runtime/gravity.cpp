@@ -138,7 +138,7 @@ void Runtime::Impl::gravitySourceRate(GravityInterval& interval, int level) {
 			auto value = prior.at(i) + correction[i];
 			std::array<units::Acceleration, ndim> acceleration;
 			for (int d = 0; d < ndim; ++d) acceleration[d] = force.at(i).acceleration(d);
-			acceleration = physics::RotatingFrame(config.frame.omega).toInertial(acceleration, interval.sourceTime);
+			acceleration = finiteVolume::RotatingFrame(config.frame.omega).toInertial(acceleration, interval.sourceTime);
 			for (int d = 0; d < ndim; ++d) {
 				value.momentum(d) += interval.duration * gas.at(i).density() * acceleration[d];
 				if (config.gravity.energyTreatment == "naive") value.totalEnergy() += interval.duration * gas.at(i).momentum(d) * acceleration[d];
@@ -195,7 +195,7 @@ void Runtime::Impl::provisionalGravity(GravityInterval& interval, GravityFrame& 
 					auto p = prior.at(i);
 					std::array<units::Acceleration, ndim> acceleration;
 					for (int d = 0; d < ndim; ++d) acceleration[d] = g.at(i).acceleration(d);
-					acceleration = physics::RotatingFrame(config.frame.omega).toInertial(acceleration, frame.begin + step / 2.0);
+					acceleration = finiteVolume::RotatingFrame(config.frame.omega).toInertial(acceleration, frame.begin + step / 2.0);
 					for (int d = 0; d < ndim; ++d) p.momentum(d) += (step / 2.0) * (old.at(i).density() + next.at(i).density()) * acceleration[d];
 					impulses.put(i, p);
 				}
@@ -211,7 +211,7 @@ void Runtime::Impl::provisionalGravity(GravityInterval& interval, GravityFrame& 
 			units::EnergyDensity sourceWork{};
 			std::array<units::Acceleration, ndim> acceleration;
 			for (int d = 0; d < ndim; ++d) acceleration[d] = force.at(i).acceleration(d);
-			acceleration = physics::RotatingFrame(config.frame.omega).toInertial(acceleration, frame.begin + step / 2.0);
+			acceleration = finiteVolume::RotatingFrame(config.frame.omega).toInertial(acceleration, frame.begin + step / 2.0);
 			for (int d = 0; d < ndim; ++d) {
 				value.momentum(d) += (step / 2.0) * (old.at(i).density() + value.density()) * acceleration[d];
 				if (config.gravity.energyTreatment == "naive") value.totalEnergy() += (step / 2.0) * acceleration[d] * (old.at(i).momentum(d) + value.momentum(d));
@@ -259,8 +259,8 @@ void Runtime::Impl::closeGravityFrame(GravityInterval& interval, GravityFrame& f
 			auto value = input.at(i);
 			std::array<units::Acceleration, ndim> ga, gb;
 			for (int d = 0; d < ndim; ++d) { ga[d] = oldForce.at(i).acceleration(d); gb[d] = newForce.at(i).acceleration(d); }
-			ga = physics::RotatingFrame(config.frame.omega).toInertial(ga, frame.begin);
-			gb = physics::RotatingFrame(config.frame.omega).toInertial(gb, frame.begin + frame.duration);
+			ga = finiteVolume::RotatingFrame(config.frame.omega).toInertial(ga, frame.begin);
+			gb = finiteVolume::RotatingFrame(config.frame.omega).toInertial(gb, frame.begin + frame.duration);
 			if (frame.rotation) work.work[i] += (frame.duration * config.frame.omega / 2.0)
 				* (rho.data()[i] * oldRotation->data()[i] + value.density() * newRotation->data()[i]);
 			if (!conventional || b.location.level == frame.level) for (int d = 0; d < ndim; ++d) {
@@ -394,7 +394,7 @@ gravity::Statistics Runtime::advanceGravity(units::Time dt) {
 gravity::Statistics Runtime::advanceGravityUnlocked(units::Time dt) {
 	if (!impl_->config.hydroEnabled() || !impl_->config.gravityEnabled()) throw std::logic_error("Coupled gravity requires self-gravitating gas");
 	if (!(dt > units::Time{}) || !units::finite(dt) || impl_->time.time + dt == impl_->time.time) throw std::invalid_argument("Invalid step size");
-	if (dt > physics::RotatingFrame(impl_->config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
+	if (dt > finiteVolume::RotatingFrame(impl_->config.frame.omega).maximumTimestep() * (1 + 64 * epsilonR))
 		throw std::invalid_argument("Rotating-grid step exceeds the angular-phase limit; use stableTimestep()");
 	if (!impl_->config.amr.enabled || !impl_->config.timestep.refinement || impl_->config.hasExternalAcceleration()) {
 		beginGravityEnergyUnlocked(); kickGravityUnlocked(dt / 2.0); advanceUnlocked(dt);

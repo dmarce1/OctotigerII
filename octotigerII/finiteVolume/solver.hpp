@@ -7,8 +7,8 @@
 #pragma once
 
 #include "octotigerII/mesh.hpp"
-#include "octotigerII/physics/boundary.hpp"
-#include "octotigerII/physics/frame.hpp"
+#include "octotigerII/finiteVolume/boundary.hpp"
+#include "octotigerII/finiteVolume/frame.hpp"
 #include "octotigerII/profiling.hpp"
 
 #include <algorithm>
@@ -20,7 +20,7 @@
 #include <vector>
 
 
-namespace octotigerII::physics {
+namespace octotigerII::finiteVolume {
 
 /// Return the implemented transport scheme name.
 std::string_view finiteVolumeSchemeName();
@@ -519,4 +519,4 @@ private:
 };
 
 
-}	 // namespace octotigerII::physics
+}	 // namespace octotigerII::finiteVolume
