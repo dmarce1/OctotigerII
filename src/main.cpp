@@ -6,6 +6,7 @@
 #include <vector>
 #include "octotigerII/mesh.hpp"
 #include "octotigerII/output.hpp"
+#include "octotigerII/profilingSnapshots.hpp"
 #include "octotigerII/verification/analytic.hpp"
 #ifdef OCTOTIGERII_WITH_HPX
 #include <hpx/hpx_init.hpp>
@@ -26,7 +27,9 @@ int application(std::vector<std::string> const& args) {
 		bool progressHeaderPrinted = false;
 		int const lastSubgridLevel = config.amr.enabled ? config.amr.maxLevel : config.mesh.level;
 		auto const result = octotigerII::run(config, [&](auto const& snapshots, int step, auto const& d) {
+			if (step == 0) std::clog << "Initialization: writing initial diagnostics and output\n";
 			output(snapshots, step, d);
+			if (step == 0) std::clog << "Initialization: initial output complete\n";
 			if (step == 0 || step % config.output.every == 0 || d.time >= config.runtime.stopTime) {
 				if (!progressHeaderPrinted) {
 					std::cout << std::left << std::setw(8) << "step" << std::setw(16) << "time[s]";
@@ -86,6 +89,7 @@ std::vector<std::string> applicationArguments;
 #ifdef OCTOTIGERII_WITH_HPX
 int hpx_main(int, char**) {
 	int const status = application(applicationArguments);
+	octotigerII::profiling::stopSnapshots();
 	hpx::finalize();
 	return status;
 }
@@ -105,7 +109,9 @@ int main(int argc, char** argv) {
 	}
 	int const runtimeCount = static_cast<int>(runtimeArguments.size());
 	runtimeArguments.push_back(nullptr);
-	return hpx::init(runtimeCount, runtimeArguments.data());
+	hpx::init_params init;
+	init.startup = octotigerII::profiling::startSnapshots;
+	return hpx::init(runtimeCount, runtimeArguments.data(), init);
 #else
 	return application(args);
 #endif

@@ -81,6 +81,57 @@ idle rates are available from this build. Queue wait-time measurements need
 additional HPX instrumentation (`HPX_WITH_THREAD_QUEUE_WAITTIME=ON`); that
 higher-overhead option is not enabled by this script.
 
+## Profiling snapshots while running
+
+With `profile.sh`, OctoII writes cumulative APEX snapshots every **60 wall-clock
+seconds** on every HPX locality, beginning before configuration parsing and SCF.
+This is independent of Silo output and works while a long timestep is running.
+The interval is an HPX scheduling target, not a hard real-time deadline; a busy
+worker pool can delay it. The application must be built with profiling and APEX.
+
+```bash
+export OCTOTIGERII_PROFILE_INTERVAL_SECONDS=60  # 0 disables periodic snapshots
+```
+
+Without the wrapper, set this variable explicitly to enable snapshots, and
+use a separate `APEX_OUTPUT_FILE_PATH` for each process as described above.
+Allowed values are 0 or 0.01..86400 seconds; short intervals are for testing.
+`APEX_DISABLE=1`, `APEX_FINAL_OUTPUT_ONLY=1`, or external TAU profiling disables
+these snapshots. Task-graph, task-tree, Hatchet, Jupyter, and scatterplot
+modes also disable them; asynchronous locality dumps support flat profiles.
+An HPX-free or profiling-disabled build does not start a timer.
+
+Each process saves the latest two completed files under its report directory:
+
+```text
+snapshots/locality-0/snapshot-00000001.profile
+snapshots/locality-0/snapshot-00000002.profile
+```
+
+These are TAU-format text profiles, including function timings and sampled
+counters. They accumulate from process startup; dumps do **not** reset totals,
+so do not sum snapshots together. Long regions still in progress may not appear
+until their timers stop or yield. Regular CSV and console summaries still come
+from normal APEX finalization. Periodic snapshots suppress screen/CSV
+reductions during the dump so independently scheduled localities do not enter
+MPI collectives or flood stdout with tables.
+
+A snapshot is copied to a `.pending` file and renamed only after the copy
+completes. The previous completed files are preserved until the new one is
+published. If Slurm or a signal kills the process, use the newest completed
+`.profile` file and ignore `.pending` files. This protects against process
+termination during a write; it does not promise durability through a storage
+or machine failure. Only measurements captured by the last completed snapshot
+survive. A run shorter than the first interval still needs normal finalization.
+
+Snapshot I/O failure prints a warning and disables further snapshots on that
+locality without stopping the scientific run. OctoII stops timers on every locality and waits for active dumps before
+requesting HPX finalization; a pre-shutdown hook provides additional cleanup.
+
+`profiling.snapshots.3d.1` and `.2` test cumulative files while OctoII is alive,
+kill it with SIGKILL and check the saved files, then verify normal finalization
+and the disabled setting on one and two localities.
+
 ## Instrumentation and interpretation
 
 | Names | Meaning |

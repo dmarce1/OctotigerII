@@ -208,3 +208,13 @@ endif()
 if(OCTOTIGERII_HYDRO AND OCTOTIGERII_RADIATION AND OCTOTIGERII_MASS_FRACTIONS)
   octo_test(helmholtzHydroChecks Application "unit;helmholtz")
 endif()
+
+if(Python3_Interpreter_FOUND AND OCTOTIGERII_WITH_HPX AND OCTOTIGERII_WITH_PROFILING
+    AND HPX_WITH_APEX AND OCTOTIGERII_HYDRO AND OCTOTIGERII_GRAVITY AND OCTOTIGERII_NDIM EQUAL 3)
+  foreach(count 1 2)
+    add_test(NAME profiling.snapshots.${suffix}.${count} COMMAND ${Python3_EXECUTABLE}
+      ${CMAKE_CURRENT_SOURCE_DIR}/profilingSnapshots.py $<TARGET_FILE:octoII-${suffix}> ${count})
+    set_tests_properties(profiling.snapshots.${suffix}.${count} PROPERTIES TIMEOUT 300
+      LABELS "profiling;integration" RUN_SERIAL TRUE)
+  endforeach()
+endif()

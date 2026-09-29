@@ -23,7 +23,7 @@ and the current handoff diagnostics.
 ## Update and build in the current compute session
 
 ```bash
-cd ~/workspace/OctotigerII
+cd /work/dmarce1/OctotigerII
 git pull --ff-only
 ./build.sh release -j 12
 ```
@@ -49,7 +49,7 @@ Inside the allocation, launch one HPX locality per node. HPX detects the
 Slurm hosts; there is no need to provide a nodefile or AGAS address.
 
 ```bash
-cd ~/workspace/OctotigerII
+cd /work/dmarce1/OctotigerII
 export OCTOTIGERII_PROFILE_DIR="$PWD/profiles/qb4-dwd-$SLURM_JOB_ID"
 srun -u -N 4 -n 4 --ntasks-per-node=1 -c 64 --cpu-bind=cores \
   ./profile.sh ./release/octoII-3d \
@@ -64,7 +64,11 @@ in the input starts evolution immediately afterward. Increase it on a later
 run if the first run leaves enough wall time. Use a distinct output directory
 for each run. The current code has no restart from Silo, so a job terminated
 at the allocation limit leaves its completed frames but cannot continue from
-the last frame. Let the process exit normally to collect complete APEX reports.
+the last frame. `profile.sh` now saves cumulative APEX snapshots every 60
+wall-clock seconds on every locality, including during SCF. A normal exit
+still produces the final reports; a walltime kill leaves the last completed
+snapshots. Change the interval with `OCTOTIGERII_PROFILE_INTERVAL_SECONDS`
+(0 disables periodic snapshots). See [profiling snapshots](profiling.md#profiling-snapshots-while-running).
 
 The output directory contains `scf.json`, `conservation.csv`, `frames.visit`,
 and numbered `frame_*.silo` files. `profile.sh` creates a separate APEX directory

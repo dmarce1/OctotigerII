@@ -2,6 +2,7 @@
  * @brief Runtime lifecycle, snapshots, and public bookkeeping.
  */
 #include "runtime/internal.hpp"
+#include <iostream>
 
 namespace octotigerII {
 
@@ -38,10 +39,13 @@ Runtime::Runtime(Config const& config, refinement::Criteria additionalCriteria)
 #endif
 	std::optional<amr::InitialMesh> startup;
 	if (config.amr.enabled) {
+		std::clog << "Initialization: selecting AMR mesh\n";
 		startup = amr::initializeMesh(config, impl_->criteria);
 		impl_->topology = std::make_unique<CartesianTopology>(config, impl_->localities.size(), startup->leaves);
 	} else
 		impl_->topology = std::make_unique<CartesianTopology>(config, impl_->localities.size());
+	std::clog << "Initialization: populating " << impl_->topology->blocks().size() << " leaf blocks on "
+		<< impl_->localities.size() << " localities\n";
 	impl_->fields = std::make_unique<FieldRepository>(config, impl_->topology->storageLayout(), impl_->localities);
 #ifdef OCTOTIGERII_WITH_HPX
 	std::vector<hpx::future<hpx::id_type>> pending;
@@ -56,13 +60,16 @@ Runtime::Runtime(Config const& config, refinement::Criteria additionalCriteria)
 	impl_->executor = std::make_unique<LocalExecutor>(config, impl_->topology->blocks(), impl_->fields->directory(), 0);
 	impl_->executor->initialize();
 #endif
+	std::clog << "Initialization: distributed fields populated\n";
 	if (startup) {
+		std::clog << "Initialization: gathering initial AMR hierarchy\n";
 		impl_->shadow = std::make_unique<amr::Hierarchy>(config, impl_->exportSnapshots());
 		impl_->regridInitialized = true;
 		impl_->signalSpeed = startup->signalSpeed;
 		for (int d = 0; d < ndim; ++d)
 			impl_->travelBudget[d] = config.amr.signalBuffer * startup->signalSpeed[d] * startup->timestep * Real(config.amr.regridEvery);
 	}
+	std::clog << "Initialization: mesh ready\n";
 }
 
 Runtime::~Runtime() = default;

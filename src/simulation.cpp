@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <iostream>
 #include <stdexcept>
 #include "octotigerII/profiling.hpp"
 #include "octotigerII/verification/analytic.hpp"
@@ -166,7 +167,11 @@ RunResult run(Config const& c, Observer const& observer) {
 		result.gravityWork.localityCells = work.localityCells;
 	};
 	[[maybe_unused]] auto solveGravity = [&] { countGravity(runtime.solveGravity()); };
-	if (build::gravity && c.gravityEnabled()) solveGravity();
+	if (build::gravity && c.gravityEnabled()) {
+		if (observer) std::clog << "Initialization: solving initial gravity\n";
+		solveGravity();
+	}
+	if (observer) std::clog << "Initialization: gathering snapshots and checking initial budgets\n";
 	auto snapshots = runtime.snapshots();
 	result.initial = diagnose(snapshots, c);
 	if (c.problem == "binary-scf") {

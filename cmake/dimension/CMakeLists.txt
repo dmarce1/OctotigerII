@@ -82,7 +82,8 @@ octo_library(octotigerIIApplication${suffix} ${PROJECT_SOURCE_DIR}/src/runtime.c
   ${PROJECT_SOURCE_DIR}/src/runtime/transport.cpp ${PROJECT_SOURCE_DIR}/src/runtime/gravity.cpp ${PROJECT_SOURCE_DIR}/src/runtime/regrid.cpp
   ${PROJECT_SOURCE_DIR}/src/runtime/radiation.cpp
   ${PROJECT_SOURCE_DIR}/src/simulation.cpp ${PROJECT_SOURCE_DIR}/src/output.cpp
-  ${PROJECT_SOURCE_DIR}/src/storage.cpp ${PROJECT_SOURCE_DIR}/src/verification/analytic.cpp)
+  ${PROJECT_SOURCE_DIR}/src/storage.cpp ${PROJECT_SOURCE_DIR}/src/verification/analytic.cpp
+  ${PROJECT_SOURCE_DIR}/src/profilingSnapshots.cpp)
 target_link_libraries(octotigerIIApplication${suffix} PUBLIC octotigerIISubgrid${suffix} octotigerIIAmr${suffix})
 if(OCTOTIGERII_GRAVITY)
   target_sources(octotigerIIApplication${suffix} PRIVATE ${PROJECT_SOURCE_DIR}/src/verification/directGravity.cpp ${PROJECT_SOURCE_DIR}/src/gravity/fieldSolver.cpp ${PROJECT_SOURCE_DIR}/src/gravity/adaptiveFieldSolver.cpp)
