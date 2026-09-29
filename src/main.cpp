@@ -60,7 +60,7 @@ int application(std::vector<std::string> const& args) {
 						  << std::setw(16) << octotigerII::units::value(d.time);
 				for (std::size_t level = 0; level < allSubgrids.size(); ++level)
 					std::cout << std::setw(24) << (std::to_string(allSubgrids[level].size()) + "/" + std::to_string(leaves[level]));
-				std::cout << '\n';
+				std::cout << '\n' << std::flush;
 			}
 		});
 		auto const comparison = octotigerII::verification::compare(result.snapshots, config);
