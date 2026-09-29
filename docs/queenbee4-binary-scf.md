@@ -5,15 +5,20 @@ the donor at L1 and evolves the ideal-gas n=1.5 polytropic binary for 0.2 of
 the **initial** orbital period. `scf.framesPerOrbit=100` writes at time zero
 and at each 0.01 initial orbit, producing 21 Silo frames if the run completes.
 The 128^3 uniform SCF box is two separations wide. The density-refined AMR
-evolution box is eight separations wide, with a 32^3 base mesh and 512^3
+evolution box is twelve separations wide, with a 32^3 base mesh and 1024^3
 finest equivalent spacing around the stars. Mass and shadow refinement are
 disabled; proper nesting and one buffer cell remain active.
 
-The eight-separation box gives 48 finest cells across the accretor's measured
-volume-equivalent diameter. A ten-separation box with the same levels would
-give about 38; one more binary refinement level would give about 77. The
-initial handoff passed locally with 0.36% reference and 0.25% hydro virial
-residuals. See [the validation record](validation/binary-scf.md).
+The shared-K constraint solves the accretor surface while retaining the donor
+at L1. Both stars use `P=K*rho^(5/3)`. The common dimensional K follows from
+the specified 0.6-solar-mass accretor and 3e9 cm separation; the input does not
+prescribe a composition-dependent electron-degeneracy constant.
+
+The box and maximum AMR level give 50.9 finest cells across the
+accretor's volume-equivalent diameter and 58.9 across the donor. The uniform
+reference has 37.7 and 43.6 cells across them; refining the hydro mesh does not recover missing reference detail.
+See [the validation record](validation/binary-scf.md) for both resolutions
+and the current handoff diagnostics.
 
 ## Update and build in the current compute session
 
@@ -53,7 +58,8 @@ srun -u -N 4 -n 4 --ntasks-per-node=1 -c 64 --cpu-bind=cores \
   --verification.analytic=off --hpx:threads=64
 ```
 
-SCF finishes before the first timestep; the positive `scf.evolveOrbits=0.2`
+Each locality constructs the same compact SCF reference independently; the
+evolution uses distributed AMR gravity and hydro. SCF finishes before the first timestep; the positive `scf.evolveOrbits=0.2`
 in the input starts evolution immediately afterward. Increase it on a later
 run if the first run leaves enough wall time. Use a distinct output directory
 for each run. The current code has no restart from Silo, so a job terminated
@@ -64,7 +70,7 @@ The output directory contains `scf.json`, `conservation.csv`, `frames.visit`,
 and numbered `frame_*.silo` files. `profile.sh` creates a separate APEX directory
 for each locality. Inspect the TAU-format `profile.*` files on all four nodes;
 the pinned APEX version can leave worker CSV files empty. SCF reports
-`scf.solve`, `scf.gravity_fft`, `scf.l1_search`, `scf.density_update`,
+`scf.solve`, `scf.gravity_fft`, `scf.l1_search`, `scf.common_k_constraint`, `scf.density_update`,
 `scf.mixing`, and `scf.handoff_block`. Existing regions cover FMM workers,
 hydro transport, diagnostics, and Silo output. The names are useful timing
 regions, not a timer around every individual function.
@@ -76,5 +82,6 @@ QueenBee4 has 64 CPU cores per ordinary compute node according to
 The one-locality-per-node `srun` launch follows
 [HPX's Slurm documentation](https://docs.hpx.dev/latest/html/manual/running_on_batch_systems.html).
 
-These are white-dwarf **polytropic proxies**. The ideal-gas structural model
-does not enforce a shared degeneracy constant or white-dwarf mass-radius law.
+These are nonrelativistic white-dwarf **polytropic proxies** with shared K.
+They do not include relativistic degeneracy or a thermal/composition-dependent
+white-dwarf EOS. Evolution uses ideal-gas gamma=5/3.

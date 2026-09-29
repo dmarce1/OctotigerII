@@ -111,10 +111,82 @@ star's actual Bernoulli balance must converge; the latter prevents a small
 preconditioned update from concealing an enthalpy error. No gradual alteration
 of the requested structural parameters was needed for the recorded run.
 
-## Compact q=0.7 DWD proxy and density AMR
+## Shared-K q=0.7 DWD model
 
-The [QueenBee4 DWD input](../../problem/science/BinaryScf/qb4-dwd.ini)
-uses n=1.5 ideal-gas polytropic proxies, a Roche-filling donor, a uniform
+The current DWD inputs use `scf.commonPolytropicK=on`: both stars have
+`P=K*rho^(5/3)`, the donor surface passes through L1, and the primary
+Bernoulli constant is solved from its mass at the common K. This replaces
+the independent pressure normalizations used in the historical model below.
+The physical scaling is 0.6 + 0.42 solar masses at separation 3e9 cm. The
+common K is an output of that scaling, not a prescribed degeneracy constant.
+
+The [reference resolution record](binary-scf/dwd-common-k-resolution.json)
+was produced by:
+
+```sh
+./release/3d/tests/binaryScfChecks-3d \
+  --gtest_also_run_disabled_tests --gtest_filter=BinaryScf.DISABLED_SharedKResolutionStudy \
+  --hpx:threads=2 --hpx:bind=none
+```
+
+| Reference cells per axis | Virial residual | Accretor diameter (cm) | Donor diameter (cm) | Common K (CGS) |
+| ---: | ---: | ---: | ---: | ---: |
+| 32 | 0.0670069 | 1.81526e9 | 2.07389e9 | 2.40277e12 |
+| 64 | 0.0174796 | 1.79367e9 | 2.06633e9 | 2.58170e12 |
+| 128 | 0.00442889 | 1.78967e9 | 2.06910e9 | 2.62709e12 |
+
+The diameters are volume-equivalent. On the 128^3 mesh, the primary/donor
+x extents are 1.89804e9 / 2.51490e9 cm, y extents are 1.80313e9 / 1.99294e9
+cm, and z extents are 1.70823e9 / 1.89804e9 cm. These cell-based surface
+measurements are quantized at the reference spacing. Geometry diagnostics
+exclude residual density tails outside the converged Bernoulli surface;
+the historical diameters below included those tails.
+
+At 128^3 the donor is 15.6% larger in volume-equivalent diameter, the
+primary enthalpy fill is 0.84065, and the donor fill is 1. The maximum
+component density residual is 6.895e-6 and the mass-weighted Bernoulli
+residual is 1.466e-6. Between 64^3 and 128^3, the primary diameter changes
+by 0.22%, the donor diameter by 0.13%, and K by 1.76%. The virial error
+falls by about four under each doubling. These are discrete equilibrium
+checks, not evidence of converged long-term mass transfer.
+
+The shared-K numerical test checks `P/rho^(5/3)` throughout both reference
+stars, their mass ratio, the larger donor, and the L1 surface condition.
+The gravity/hydro integration test now evolves a coarse shared-K q=0.7
+binary through its first step and checks mass and energy budgets.
+The numerical suite passes 12 tests in both HPX and serial builds; the HPX
+integration suite passes four and serialization passes three. The distributed
+integration suite also passes with two and three HPX localities on one host.
+
+The QueenBee4 preset uses a twelve-separation evolution box, block size 8,
+base level 2, maximum level 7, and density refinement only. Its finest
+spacing gives 50.9 / 58.9 cells across the primary/donor volume-equivalent
+diameters. The compact reference remains two initial separations wide,
+with 37.7 / 43.6 cells across those diameters. Hydro refinement cannot
+replace reference resolution; both are reported explicitly.
+
+The full preset's [time-zero AMR handoff](binary-scf/dwd-common-k-amr.json)
+passed on one local HPX locality with 1,523,712 active hydro cells. Native
+AMR gravity gives a virial residual of 0.00412104, compared with 0.00442889
+on the reference. The initial period is 88.1957 seconds. This run stopped
+at time zero; full-resolution evolution and QueenBee4 execution remain
+unverified. The stop-time-dependent mesh padding can change the initial
+leaf count when evolution is enabled.
+
+```sh
+./release/octoII-3d --config=problem/science/BinaryScf/qb4-dwd.ini \
+  --scf.evolveOrbits=0 --output.enabled=off \
+  --output.directory=/tmp/scf-common-k-amr --verification.analytic=off \
+  --hpx:threads=8 --hpx:bind=none
+```
+
+## Historical independent-K q=0.7 model and density AMR
+
+An earlier version of the QueenBee4 input used independent pressure
+normalizations for its two n=1.5 stars. It therefore did not represent the
+requested common-K DWD model: its lower-mass donor was slightly smaller.
+The measurements below are retained as a historical handoff check only.
+That version used a Roche-filling donor, a uniform
 128^3 SCF box two separations wide, and an evolution box eight separations
 wide. Its initial AMR grid has eight cells per block, base level 2, finest
 level 6, and density refinement only. The initial hydro handoff was run here

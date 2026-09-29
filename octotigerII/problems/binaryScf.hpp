@@ -17,6 +17,8 @@ public:
 		Real densityResidual = 0, bernoulliResidual = 0, virialResidual = 0;
 		Real maxStarBernoulliResidual = 0;
 		std::array<Real, 2> mass{}, coreMass{}, volume{}, center{}, bernoulli{}, centralDensity{};
+		std::array<Real, 2> fill{}, polytropicK{};
+		std::array<std::array<Real, 3>, 2> diameter{};
 		Real omega = 0, separation = 0, rotationCenter = 0, l1 = 0, l1Potential = 0;
 		Real kinetic = 0, potential = 0, pressureIntegral = 0, orbitalAngularMomentum = 0, spinAngularMomentum = 0;
 	};

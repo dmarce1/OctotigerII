@@ -175,3 +175,37 @@ TEST(BinaryScf, DISABLED_ResolutionStudy) {
 		previous = model->diagnostics().virialResidual;
 	}
 }
+
+TEST(BinaryScf, SharedPolytropicConstantProducesLargerRocheFillingDonor) {
+	auto c = coarseConfig({"--scf.cells=64", "--scf.referenceWidth=2", "--scf.massRatio=.7", "--scf.commonPolytropicK=on"});
+	auto const model = problems::BinaryScf::get(c);
+	auto const& d = model->diagnostics();
+	EXPECT_NEAR(d.polytropicK[0]/d.polytropicK[1],1,1e-13);
+	EXPECT_NEAR(d.mass[1]/d.mass[0],.7,1e-12);
+	EXPECT_GT(d.volume[1],d.volume[0]);
+	EXPECT_LT(d.fill[0],1);
+	EXPECT_NEAR(d.bernoulli[1],d.l1Potential,1e-14);
+	EXPECT_LT(d.densityResidual,c.scf.tolerance);
+	EXPECT_LT(d.maxStarBernoulliResidual,c.scf.tolerance);
+	// Verify P/rho^(5/3) throughout both stars, independently of diagnostics.
+	for (auto const& cell : model->cells()) if (cell.density > 1e-8)
+		EXPECT_NEAR(cell.pressure/std::pow(cell.density,Real(5)/3)/d.polytropicK[0],1,1e-12);
+	model->writeJson(std::cout); std::cout << '\n';
+	c.scf.coreIndex[0] = 3;
+	EXPECT_THROW(problems::BinaryScf::validate(c),std::invalid_argument);
+}
+
+TEST(BinaryScf, DISABLED_SharedKResolutionStudy) {
+	Real previous = 1;
+	for (int n : {32,64,128}) {
+		auto c = coarseConfig({"--scf.cells="+std::to_string(n), "--scf.referenceWidth=2", "--scf.massRatio=.7",
+			"--scf.primaryMass=1.193082e33", "--scf.separation=3e9", "--scf.commonPolytropicK=on"});
+		auto const model = problems::BinaryScf::get(c);
+		auto const& d = model->diagnostics();
+		EXPECT_GT(d.volume[1],d.volume[0]);
+		EXPECT_NEAR(d.polytropicK[0]/d.polytropicK[1],1,1e-13);
+		EXPECT_LT(d.virialResidual,.6*previous);
+		previous = d.virialResidual;
+		model->writeJson(std::cout); std::cout << '\n';
+	}
+}

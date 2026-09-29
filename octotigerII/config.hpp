@@ -138,10 +138,11 @@ public:
 		Real tolerance = 1e-5, relaxation = 0.4, virialTolerance = 0.05;
 		Real evolveOrbits = 0;
 		int framesPerOrbit = 0;
+		bool commonPolytropicK = false;
 		template <typename Archive> void serialize(Archive& a, unsigned) {
 			a & primaryMass & separation & massRatio & atmosphereFraction & referenceWidth & coreIndex & envelopeIndex
 				& interfaceFraction & densityJump & fill & cells & maxIterations & history & tolerance & relaxation & virialTolerance
-				& evolveOrbits & framesPerOrbit;
+				& evolveOrbits & framesPerOrbit & commonPolytropicK;
 		}
 	} scf;
 

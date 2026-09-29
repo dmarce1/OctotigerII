@@ -41,9 +41,10 @@ Other input files in the same directory:
   by [Kadam et al. (2018), section 2](https://arxiv.org/abs/1809.04884).
   Its masses and interface locations are illustrative, not a reproduction of
   that paper's particular binaries.
-* `dwd-polytropes.ini`: compact n=3/2 polytropic proxies. There is **no cold
-  degeneracy EOS, common degeneracy constant, or enforced white-dwarf mass-radius
-  relation**. Each star's pressure normalization is solved independently.
+* `dwd-polytropes.ini`: n=3/2 polytropes with a shared K and Roche-filling
+  donor. The accretor filling factor is solved from its mass at that same K.
+  The dimensional K follows from the chosen mass and separation; it is not
+  fixed to the electron-degeneracy value for a specified composition.
 * `qb4-dwd.ini`: q=0.7 DWD proxy with a Roche-filling donor, compact SCF
   reference, density AMR, and timed orbital output. See the
   [QueenBee4 instructions](queenbee4-binary-scf.md).
@@ -60,6 +61,7 @@ All dimensional inputs use CGS.
 | `scf.primaryMass` | Primary mass, excluding atmosphere (default 1.98847e33 g) |
 | `scf.massRatio` | Donor mass / primary mass (default 1) |
 | `scf.separation` | Final separation of the two mass centers (default 1e11 cm) |
+| `scf.commonPolytropicK` | Share K between identical single polytropes; solve primary fill (default off) |
 | `scf.referenceWidth` | Uniform SCF box width / separation, in [1.5,10]; default 3 |
 | `scf.primary.coreIndex`, `scf.donor.coreIndex` | Positive, finite core structural indices |
 | `scf.primary.envelopeIndex`, `scf.donor.envelopeIndex` | Positive, finite envelope structural indices |
@@ -81,6 +83,16 @@ H_s = C_s - Phi_eff
 Thus `fill` is neither a radius fraction nor a volume filling fraction. Both
 fill values below one give a detached binary. Both equal to one give marginal
 contact at L1; overcontact/shared-envelope models are not supported.
+
+With `scf.commonPolytropicK=on`, both stars must have the same structural
+index and no density jump. The donor fill remains prescribed. At each gravity
+iteration, the solver uses `rho=A*H^n`, fixes A from the donor mass, and solves
+the primary surface constant to recover the primary mass at that same A.
+Thus both stars have `K=A^(-1/n)/(n+1)`. The primary fill is an output;
+`scf.primary.fill` only seeds the starting density in this mode. A primary
+that cannot fit within its lobe is rejected. For n=3/2, isolated stars with
+this barotrope recover `R proportional to K M^(-1/3)`; binary tides modify
+the radii. Ideal-gas evolution still uses gamma=5/3.
 
 The core mass fractions are **outputs**, rather than independently imposed
 constraints. Adjust the interface density fractions to select core sizes.
@@ -184,8 +196,10 @@ the expected total mass. The uniform atmosphere is added once, is separately
 tracked, and is included in the hydro gravity solve and subsequent budgets.
 
 `scf.json` separates the reference diagnostics from the hydro-mesh diagnostics.
-It reports each star's volume-equivalent diameter, useful for checking how
-many cells span the accretor in both meshes.
+It reports each star's volume-equivalent diameter, x/y/z extents of occupied
+cells inside its Bernoulli surface, solved filling factor, and (for single
+polytropes) K in CGS. Surface widths are resolved only to the reference cell
+spacing. These distinguish tidal elongation from volume-equivalent size.
 Conservation of mass under transfer does not imply conservation of its binding
 energy or preservation of local hydrostatic balance. A finer AMR mesh cannot
 recover structure missing from the uniform reference. Check both resolutions.
@@ -201,7 +215,8 @@ The orbital-cadence integration test checks three Silo frames at exact initial
 period fractions even when `output.every` would suppress intermediate frames.
 
 When profiling is enabled, APEX names the synchronous `scf.solve`,
-`scf.gravity_fft`, `scf.l1_search`, `scf.density_update`, `scf.mixing`, and
+`scf.gravity_fft`, `scf.l1_search`, `scf.common_k_constraint`,
+`scf.density_update`, `scf.mixing`, and
 `scf.handoff_block`
 regions. The existing runtime regions cover FMM workers, hydro transport,
 diagnostics, and Silo writing. See [profiling](profiling.md); wrap each HPX

@@ -108,6 +108,7 @@ namespace {
 		options("scf.massRatio", po::value<Real>(), "Donor / primary mass");
 		options("scf.separation", po::value<Real>(), "Final distance between stellar mass centers (cm)");
 		options("scf.atmosphereFraction", po::value<Real>(), "Atmosphere density and pressure in SCF reference units");
+		options("scf.commonPolytropicK", po::value<std::string>(), "Shared K for identical single polytropes; solves primary fill (on/off)");
 		options("scf.referenceWidth", po::value<Real>(), "Uniform SCF box width / initial binary separation (default 3)");
 		options("scf.cells", po::value<int>(), "Uniform reference cells per axis (power of two, 16..128)");
 		options("scf.maxIterations", po::value<int>(), "Maximum SCF updates; unconverged models are rejected");
@@ -297,6 +298,7 @@ namespace {
 		readQuantity(values, "scf.separation", config.scf.separation);
 		readNumber(values, "scf.massRatio", config.scf.massRatio);
 		readNumber(values, "scf.atmosphereFraction", config.scf.atmosphereFraction);
+		readBoolean(values, "scf.commonPolytropicK", config.scf.commonPolytropicK);
 		readNumber(values, "scf.referenceWidth", config.scf.referenceWidth);
 		readOption(values, "scf.cells", config.scf.cells);
 		readOption(values, "scf.maxIterations", config.scf.maxIterations);

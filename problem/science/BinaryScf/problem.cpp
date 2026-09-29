@@ -35,8 +35,8 @@ void validateProblem(Config const& c) {
 	}
 }
 void initializeProblem(Snapshot& data, Config const& c, bool) {
-	profiling::Region handoffProfile("scf.handoff_block");
 	auto const model = problems::BinaryScf::get(c);
+	profiling::Region handoffProfile("scf.handoff_block");
 	hydro::HydroSystem const gas(c);
 	if (c.massFractions.enabled) for (int s = 0; s < 5; ++s) data.species.emplace_back(data.layout, data.cellWidth, data.lower);
 	data.layout.forEachInterior([&](mesh::Coordinates const& cell, std::size_t i) {

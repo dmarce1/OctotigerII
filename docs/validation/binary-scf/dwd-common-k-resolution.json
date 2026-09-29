@@ -1,0 +1,200 @@
+[
+  {
+    "cells_per_axis": 32,
+    "iterations": 19,
+    "reference_width_in_separations": 2,
+    "density_tolerance": 1e-05,
+    "relaxation": 0.4,
+    "history": 4,
+    "hydro_gamma": 1.6666666666666667,
+    "length_unit_cm": 3041373646.420374,
+    "density_unit_g_cm3": 72095.78577585891,
+    "atmosphere_density_g_cm3": 7.209578577585891e-06,
+    "atmosphere_pressure_dyn_cm2": 320896543923.10724,
+    "density_residual": 8.914505479659594e-06,
+    "bernoulli_residual": 1.370315963463364e-06,
+    "max_star_bernoulli_residual": 1.6110303150519393e-06,
+    "virial_residual": 0.06700687770463071,
+    "virial_tolerance": 1,
+    "separation_cm": 3000000000,
+    "omega_rad_s": 0.07128856778966484,
+    "l1_x_cm": 358206109.5417853,
+    "kinetic_energy_erg": 1.2277753843974386e+49,
+    "potential_energy_erg": -1.43853116664294e+50,
+    "pressure_integral_erg": 3.6552820260196966e+49,
+    "orbital_angular_momentum_g_cm2_s": 3.1519680842615414e+50,
+    "spin_angular_momentum_g_cm2_s": 2.9255443166263084e+49,
+    "stars": [
+      {
+        "diameter_xyz_cm": [
+          1710772676.1114602,
+          1900858529.0127337,
+          1900858529.0127337
+        ],
+        "polytropic_K_cgs": 2402767249608.987,
+        "mass_g": 1.193082e+33,
+        "core_mass_fraction": 0.9093221067264602,
+        "volume_equivalent_diameter_cm": 1815258737.756188,
+        "center_x_cm": -1235294117.6470587,
+        "central_density_g_cm3": 1954709.3427954672,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 0.8209907494451283,
+        "bernoulli_cm2_s2": -1.1128002619196011e+17
+      },
+      {
+        "diameter_xyz_cm": [
+          2471116087.7165537,
+          1900858529.0127337,
+          1900858529.0127337
+        ],
+        "polytropic_K_cgs": 2402767249608.9854,
+        "mass_g": 8.351573999999999e+32,
+        "core_mass_fraction": 0.9079190320834329,
+        "volume_equivalent_diameter_cm": 2073894019.6602855,
+        "center_x_cm": 1764705882.3529413,
+        "central_density_g_cm3": 994131.6504123614,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 1,
+        "bernoulli_cm2_s2": -90804063314179792
+      }
+    ]
+  },
+  {
+    "cells_per_axis": 64,
+    "iterations": 20,
+    "reference_width_in_separations": 2,
+    "density_tolerance": 1e-05,
+    "relaxation": 0.4,
+    "history": 4,
+    "hydro_gamma": 1.6666666666666667,
+    "length_unit_cm": 3037742537.6581635,
+    "density_unit_g_cm3": 72354.62998386247,
+    "atmosphere_density_g_cm3": 7.235462998386247e-06,
+    "atmosphere_pressure_dyn_cm2": 322433607873.3854,
+    "density_residual": 8.434368845869682e-06,
+    "bernoulli_residual": 1.7435255561343996e-06,
+    "max_star_bernoulli_residual": 2.5019490027833062e-06,
+    "virial_residual": 0.017479562630038387,
+    "virial_tolerance": 1,
+    "separation_cm": 3000000000,
+    "omega_rad_s": 0.07125107430136587,
+    "l1_x_cm": 358588890.029774,
+    "kinetic_energy_erg": 1.2226112000621335e+49,
+    "potential_energy_erg": -1.5027225361784925e+50,
+    "pressure_integral_erg": 4.1064445449312124e+49,
+    "orbital_angular_momentum_g_cm2_s": 3.150310339097764e+50,
+    "spin_angular_momentum_g_cm2_s": 2.8152900381781383e+49,
+    "stars": [
+      {
+        "diameter_xyz_cm": [
+          1898589086.0363522,
+          1708730177.432717,
+          1708730177.432717
+        ],
+        "polytropic_K_cgs": 2581698547260.734,
+        "mass_g": 1.193082e+33,
+        "core_mass_fraction": 0.8985411356937028,
+        "volume_equivalent_diameter_cm": 1793666410.1657147,
+        "center_x_cm": -1235294117.6470587,
+        "central_density_g_cm3": 2273086.6040510237,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 0.8362643303188599,
+        "bernoulli_cm2_s2": -1.125878530200762e+17
+      },
+      {
+        "diameter_xyz_cm": [
+          2468165811.847258,
+          2088447994.6399875,
+          1898589086.0363522
+        ],
+        "polytropic_K_cgs": 2581698547260.734,
+        "mass_g": 8.351573999999999e+32,
+        "core_mass_fraction": 0.8962761609033713,
+        "volume_equivalent_diameter_cm": 2066328489.2888222,
+        "center_x_cm": 1764705882.3529413,
+        "central_density_g_cm3": 1096154.1571553983,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 1,
+        "bernoulli_cm2_s2": -90741062488201216
+      }
+    ]
+  },
+  {
+    "cells_per_axis": 128,
+    "iterations": 26,
+    "reference_width_in_separations": 2,
+    "density_tolerance": 1e-05,
+    "relaxation": 0.4,
+    "history": 4,
+    "hydro_gamma": 1.6666666666666667,
+    "length_unit_cm": 3036858319.1217036,
+    "density_unit_g_cm3": 72417.84920045767,
+    "atmosphere_density_g_cm3": 7.241784920045767e-06,
+    "atmosphere_pressure_dyn_cm2": 322809293905.95435,
+    "density_residual": 6.8946750187955774e-06,
+    "bernoulli_residual": 1.4658545311696263e-06,
+    "max_star_bernoulli_residual": 1.533844053473808e-06,
+    "virial_residual": 0.004428890463531127,
+    "virial_tolerance": 1,
+    "separation_cm": 3000000000,
+    "omega_rad_s": 0.0712413781874675,
+    "l1_x_cm": 358738247.08085334,
+    "kinetic_energy_erg": 1.2212123707504377e+49,
+    "potential_energy_erg": -1.5208924521703759e+50,
+    "pressure_integral_erg": 4.233047039809382e+49,
+    "orbital_angular_momentum_g_cm2_s": 3.149881633030344e+50,
+    "spin_angular_momentum_g_cm2_s": 2.7849777742088103e+49,
+    "stars": [
+      {
+        "diameter_xyz_cm": [
+          1898036449.4510648,
+          1803134626.9785116,
+          1708232804.5059583
+        ],
+        "polytropic_K_cgs": 2627091583268.847,
+        "mass_g": 1.193082e+33,
+        "core_mass_fraction": 0.8949655515305013,
+        "volume_equivalent_diameter_cm": 1789668398.1212573,
+        "center_x_cm": -1235294117.6470587,
+        "central_density_g_cm3": 2389607.176094451,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 0.8406504920388812,
+        "bernoulli_cm2_s2": -1.1297888804463403e+17
+      },
+      {
+        "diameter_xyz_cm": [
+          2514898295.5226607,
+          1992938271.923618,
+          1898036449.4510648
+        ],
+        "polytropic_K_cgs": 2627091583268.8467,
+        "mass_g": 8.351573999999999e+32,
+        "core_mass_fraction": 0.8909532085516494,
+        "volume_equivalent_diameter_cm": 2069100636.3535926,
+        "center_x_cm": 1764705882.3529413,
+        "central_density_g_cm3": 1122422.2691024626,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 1,
+        "bernoulli_cm2_s2": -90726815446115920
+      }
+    ]
+  }
+]

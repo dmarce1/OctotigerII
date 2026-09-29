@@ -1,0 +1,35 @@
+{
+"problem": "binary-scf",
+"ndim": 3,
+"reference": {
+  "cells_per_axis": 128,
+  "iterations": 26,
+  "reference_width_in_separations": 2,
+  "density_tolerance": 1.0000000000000001e-05,
+  "relaxation": 0.40000000000000002,
+  "history": 4,
+  "hydro_gamma": 1.6666666666666667,
+  "length_unit_cm": 3036858319.1217036,
+  "density_unit_g_cm3": 72417.849200457669,
+  "atmosphere_density_g_cm3": 7.2417849200457671e-06,
+  "atmosphere_pressure_dyn_cm2": 322809293905.95435,
+  "density_residual": 6.8946750187955774e-06,
+  "bernoulli_residual": 1.4658545311696263e-06,
+  "max_star_bernoulli_residual": 1.5338440534738081e-06,
+  "virial_residual": 0.0044288904635311271,
+  "virial_tolerance": 0.050000000000000003,
+  "separation_cm": 3000000000,
+  "omega_rad_s": 0.071241378187467494,
+  "l1_x_cm": 358738247.08085334,
+  "kinetic_energy_erg": 1.2212123707504377e+49,
+  "potential_energy_erg": -1.5208924521703759e+50,
+  "pressure_integral_erg": 4.2330470398093818e+49,
+  "orbital_angular_momentum_g_cm2_s": 3.1498816330303442e+50,
+  "spin_angular_momentum_g_cm2_s": 2.7849777742088103e+49,
+  "stars": [
+    {"diameter_xyz_cm": [1898036449.4510648, 1803134626.9785116, 1708232804.5059583], "polytropic_K_cgs": 2627091583268.8472, "mass_g": 1.193082e+33, "core_mass_fraction": 0.89496555153050128, "volume_equivalent_diameter_cm": 1789668398.1212573, "center_x_cm": -1235294117.6470587, "central_density_g_cm3": 2389607.176094451, "core_index": 1.5, "envelope_index": 1.5, "interface_density_fraction": 0.10000000000000001, "density_jump": 1, "fill": 0.8406504920388812, "bernoulli_cm2_s2": -1.1297888804463403e+17},
+    {"diameter_xyz_cm": [2514898295.5226607, 1992938271.9236181, 1898036449.4510648], "polytropic_K_cgs": 2627091583268.8467, "mass_g": 8.351573999999999e+32, "core_mass_fraction": 0.89095320855164939, "volume_equivalent_diameter_cm": 2069100636.3535926, "center_x_cm": 1764705882.3529413, "central_density_g_cm3": 1122422.2691024626, "core_index": 1.5, "envelope_index": 1.5, "interface_density_fraction": 0.10000000000000001, "density_jump": 1, "fill": 1, "bernoulli_cm2_s2": -90726815446115920}
+  ]
+},
+"hydro_mesh": {"mass_g": 2.0282397378727146e+33, "virial_residual": 0.0041210417422631448, "angular_momentum_g_cm2_s": 3.4292697209244615e+50}
+}

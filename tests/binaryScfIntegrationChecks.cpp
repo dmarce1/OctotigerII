@@ -5,7 +5,7 @@
 using namespace octotigerII;
 
 TEST(BinaryScfIntegration, RotatingBinaryEntersGravityHydroWithClosedMassAndEnergyBudgets) {
-	auto c = test::parseConfig({"--scf.cells=16", "--scf.primary.fill=.9", "--scf.donor.fill=1", "--scf.virialTolerance=1",
+	auto c = test::parseConfig({"--scf.cells=32", "--scf.referenceWidth=2", "--scf.commonPolytropicK=on", "--scf.massRatio=.7", "--scf.donor.fill=1", "--scf.virialTolerance=1",
 		"--mesh.cells=8", "--mesh.level=1", "--gravity.multipoleOrder=3", "--output.enabled=off"});
 	c.runtime.stopTime = .001 / problems::BinaryScf::get(c)->angularVelocity();
 	auto const result = run(c);

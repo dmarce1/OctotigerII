@@ -48,6 +48,7 @@ void check() {
 	c.scf.primaryMass = units::Mass::from_value(3e33);
 	c.scf.separation = units::Length::from_value(7e10);
 	c.scf.referenceWidth = 2.2;
+	c.scf.commonPolytropicK = true;
 	c.scf.massRatio = .6;
 	c.scf.coreIndex = {3, 2.7}; c.scf.envelopeIndex = {1.5, 1.2};
 	c.scf.interfaceFraction = {.12,.4}; c.scf.densityJump = {2,1.1}; c.scf.fill = {.95,1};
@@ -123,6 +124,7 @@ void check() {
 	EXPECT_EQ(restored.scf.primaryMass, c.scf.primaryMass);
 	EXPECT_EQ(restored.scf.separation, c.scf.separation);
 	EXPECT_EQ(restored.scf.referenceWidth, c.scf.referenceWidth);
+	EXPECT_EQ(restored.scf.commonPolytropicK, c.scf.commonPolytropicK);
 	EXPECT_EQ(restored.scf.massRatio, c.scf.massRatio);
 	EXPECT_EQ(restored.scf.coreIndex, c.scf.coreIndex);
 	EXPECT_EQ(restored.scf.envelopeIndex, c.scf.envelopeIndex);

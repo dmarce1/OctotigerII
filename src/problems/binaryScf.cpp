@@ -126,6 +126,8 @@ void BinaryScf::validate(Config const& c) {
 	if (p.cells < 16 || p.cells > 128 || (p.cells & (p.cells - 1)) || p.maxIterations < 1 || p.history < 0 || p.history > 6 ||
 		p.tolerance >= 0.1 || p.relaxation > 1 || p.atmosphereFraction >= 1e-3)
 		throw std::invalid_argument("SCF requires power-of-two cells=16..128, iterations>0, tolerance<0.1, relaxation<=1, atmosphereFraction<1e-3");
+	if (p.commonPolytropicK && (p.coreIndex[0] != p.coreIndex[1] || p.coreIndex != p.envelopeIndex || p.densityJump != Pair{1,1}))
+		throw std::invalid_argument("commonPolytropicK requires identical single-polytrope indices and no density jumps");
 	for (int s = 0; s < 2; ++s) {
 		Bipolytrope const eos(p.coreIndex[s], p.envelopeIndex[s], p.interfaceFraction[s], p.densityJump[s], 1, 1);
 		if (!(p.fill[s] > 0 && p.fill[s] <= 1) || !std::isfinite(p.fill[s]))
@@ -227,6 +229,43 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 			eos[s] = std::make_unique<Bipolytrope>(p.coreIndex[s], p.envelopeIndex[s], p.interfaceFraction[s], p.densityJump[s],
 				peakDensity[s], bernoulli[s] - minimum[s]);
 		}
+		if (p.commonPolytropicK) {
+			// rho = A H^n, A = [(n+1)K]^-n. The donor surface fixes A
+			// through its mass. Solve the primary Bernoulli constant at that
+			// same A, rather than assigning an independent pressure scale.
+			profiling::Region constraintProfile("scf.common_k_constraint");
+			Real const n = p.coreIndex[0];
+			std::array<std::vector<Real>, 2> support{std::vector<Real>(count),std::vector<Real>(count)};
+			for (std::size_t i = 0; i < count; ++i) {
+				int const s = positions[i][0] < l1 ? 0 : 1;
+				support[s][i] = std::max(Real(0), (s == 0 ? l1phi : bernoulli[1])-effective[i]);
+			}
+			for (int s = 0; s < 2; ++s) retainLobe(support[s], peaks[s], n_);
+			Real donorIntegral = 0;
+			std::vector<Real> primaryPotential;
+			for (std::size_t i = 0; i < count; ++i) {
+				if (support[1][i] > 0) donorIntegral += std::pow(support[1][i],n)*dv;
+				if (support[0][i] > 0) primaryPotential.push_back(effective[i]);
+			}
+			Real const amplitude = target[1]/donorIntegral;
+			auto primaryMass = [&](Real C) {
+				Real sum = 0;
+				for (Real phi : primaryPotential) sum += std::pow(std::max(Real(0),C-phi),n)*dv;
+				return amplitude*sum;
+			};
+			if (!std::isfinite(amplitude) || !(amplitude > 0) || primaryMass(l1phi) < target[0]*(1-1e-12))
+				throw std::runtime_error("Shared-K primary cannot fit inside its Roche lobe at this donor fill and mass ratio");
+			Real lo = minimum[0], hi = l1phi;
+			for (int j = 0; j < 48; ++j) {
+				Real const mid = (lo+hi)/2;
+				if (primaryMass(mid) < target[0]) lo = mid; else hi = mid;
+			}
+			bernoulli[0] = (lo+hi)/2;
+			for (int s = 0; s < 2; ++s) {
+				Real const h = bernoulli[s]-minimum[s];
+				eos[s] = std::make_unique<Bipolytrope>(n,n,p.interfaceFraction[s],1,amplitude*std::pow(h,n),h);
+			}
+		}
 		auto next = rho;
 		{
 			profiling::Region densityProfile("scf.density_update");
@@ -260,6 +299,10 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 		diagnostics_.l1 = l1;
 		diagnostics_.l1Potential = l1phi;
 		diagnostics_.bernoulli = bernoulli;
+		for (int s = 0; s < 2; ++s) {
+			diagnostics_.fill[s] = (bernoulli[s]-minimum[s])/(l1phi-minimum[s]);
+			diagnostics_.polytropicK[s] = eos[s]->pressure(peakDensity[s])/std::pow(peakDensity[s],1+1/p.coreIndex[s]);
+		}
 		diagnostics_.orbitalAngularMomentum = orbitalJ;
 		if (iteration % 20 == 0) std::clog << "SCF iteration=" << iteration << " densityResidual=" << residual << " enthalpyResidual=" << enthalpyResidual << " separation=" << separation << " omega=" << omega << '\n';
 		if (!std::isfinite(residual) || !std::isfinite(enthalpyResidual)) throw std::runtime_error("SCF generated a nonfinite residual");
@@ -284,11 +327,19 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 	// No density/energy change follows this diagnostic pass.
 	cells_.resize(count);
 	Real hError = 0, hNorm = 0;
+	std::array<Vector,2> lowerBound{}, upperBound{};
+	for (int s = 0; s < 2; ++s) for (int a = 0; a < 3; ++a) { lowerBound[s][a] = std::numeric_limits<Real>::infinity(); upperBound[s][a] = -lowerBound[s][a]; }
 	for (std::size_t i = 0; i < count; ++i) {
 		auto& cell = cells_[i];
 		for (int s = 0; s < 2; ++s) {
 			Real const r = rho[s][i], core = r * eos[s]->coreFraction(r);
-			if (r > 0) diagnostics_.volume[s] += dv;
+			if (r > 0 && effective[i] < diagnostics_.bernoulli[s]) {
+				diagnostics_.volume[s] += dv;
+				for (int a = 0; a < 3; ++a) {
+					lowerBound[s][a] = std::min(lowerBound[s][a],positions[i][a]-.5*width_);
+					upperBound[s][a] = std::max(upperBound[s][a],positions[i][a]+.5*width_);
+				}
+			}
 			cell.density += r;
 			cell.pressure += eos[s]->pressure(r);
 			cell.partial[2*s] = core;
@@ -305,6 +356,7 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 		diagnostics_.potential += .5 * cell.density * phi[i] * dv;
 		diagnostics_.pressureIntegral += cell.pressure * dv;
 	}
+	for (int s = 0; s < 2; ++s) for (int a = 0; a < 3; ++a) diagnostics_.diameter[s][a] = upperBound[s][a]-lowerBound[s][a];
 	diagnostics_.bernoulliResidual = hError / hNorm;
 	diagnostics_.virialResidual = std::abs(2 * diagnostics_.kinetic + diagnostics_.potential + 3 * diagnostics_.pressureIntegral) / std::abs(diagnostics_.potential);
 	if (!std::isfinite(diagnostics_.virialResidual) || diagnostics_.virialResidual > p.virialTolerance)
@@ -326,7 +378,7 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 std::shared_ptr<BinaryScf const> BinaryScf::get(Config const& c) {
 	validate(c);
 	auto const& p = c.scf;
-	std::vector<Real> key{units::value(p.primaryMass), units::value(p.separation), p.massRatio, p.atmosphereFraction, p.referenceWidth,
+	std::vector<Real> key{units::value(p.primaryMass), units::value(p.separation), p.massRatio, p.atmosphereFraction, p.referenceWidth, Real(p.commonPolytropicK),
 		Real(p.cells), Real(p.maxIterations), Real(p.history), p.tolerance, p.relaxation, p.virialTolerance};
 	for (auto const& pair : {p.coreIndex, p.envelopeIndex, p.interfaceFraction, p.densityJump, p.fill}) key.insert(key.end(), pair.begin(), pair.end());
 #ifdef OCTOTIGERII_WITH_HPX
@@ -431,12 +483,15 @@ void BinaryScf::writeJson(std::ostream& out) const {
 		<< ",\n  \"orbital_angular_momentum_g_cm2_s\": " << d.orbitalAngularMomentum*angularUnit
 		<< ",\n  \"spin_angular_momentum_g_cm2_s\": " << d.spinAngularMomentum*angularUnit << ",\n  \"stars\": [\n";
 	for (int s = 0; s < 2; ++s) {
-		out << "    {\"mass_g\": " << d.mass[s]*massUnit << ", \"core_mass_fraction\": " << d.coreMass[s]/d.mass[s]
+		out << "    {\"diameter_xyz_cm\": [" << d.diameter[s][0]*length << ", " << d.diameter[s][1]*length << ", " << d.diameter[s][2]*length << "]";
+		if (p.coreIndex[s] == p.envelopeIndex[s] && p.densityJump[s] == 1)
+			out << ", \"polytropic_K_cgs\": " << d.polytropicK[s]*units::value(pressure_)/std::pow(units::value(density_),1+1/p.coreIndex[s]);
+		out << ", \"mass_g\": " << d.mass[s]*massUnit << ", \"core_mass_fraction\": " << d.coreMass[s]/d.mass[s]
 			<< ", \"volume_equivalent_diameter_cm\": " << 2*std::cbrt(3*d.volume[s]/(4*std::numbers::pi))*length
 			<< ", \"center_x_cm\": " << (d.center[s]-d.rotationCenter)*length << ", \"central_density_g_cm3\": " << d.centralDensity[s]*units::value(density_)
 			<< ", \"core_index\": " << p.coreIndex[s] << ", \"envelope_index\": " << p.envelopeIndex[s]
 			<< ", \"interface_density_fraction\": " << p.interfaceFraction[s] << ", \"density_jump\": " << p.densityJump[s]
-			<< ", \"fill\": " << p.fill[s] << ", \"bernoulli_cm2_s2\": " << d.bernoulli[s]*energyUnit/massUnit << '}' << (s == 0 ? ",\n" : "\n");
+			<< ", \"fill\": " << d.fill[s] << ", \"bernoulli_cm2_s2\": " << d.bernoulli[s]*energyUnit/massUnit << '}' << (s == 0 ? ",\n" : "\n");
 	}
 	out << "  ]\n}";
 }
