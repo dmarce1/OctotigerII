@@ -12,6 +12,9 @@
 #include "octotigerII/radiation/couplingDiagnostics.hpp"
 #include "octotigerII/verification/analytic.hpp"
 #include "octotigerII/problems.hpp"
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
+#include "octotigerII/problems/binaryScf.hpp"
+#endif
 
 namespace octotigerII {
 
@@ -334,6 +337,18 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 		<< ',' << units::value(d.radiationSourceEnergy / config_.radiation.lightSpeedRatio);
 	conservation_ << '\n';
 	conservation_.flush();
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
+	if (step == 0 && config_.problem == "binary-scf") {
+		std::ofstream report;
+		report.exceptions(std::ios::badbit | std::ios::failbit);
+		report.open(std::filesystem::path(config_.output.directory) / "scf.json");
+		report << "{\n\"problem\": \"binary-scf\",\n\"ndim\": 3,\n\"reference\": ";
+		problems::BinaryScf::get(config_)->writeJson(report);
+		report << ",\n\"hydro_mesh\": {\"mass_g\": " << units::value(d.mass)
+			<< ", \"virial_residual\": " << std::abs(Real((2.0*d.kineticEnergy+d.potentialEnergy+3*(config_.hydro.gamma-1)*d.thermalEnergy)/d.potentialEnergy))
+			<< ", \"angular_momentum_g_cm2_s\": " << units::value(d.angularMomentumZ) << "}\n}\n";
+	}
+#endif
 	if (!config_.output.enabled) return;
 	if (step != 0 && step % config_.output.every != 0 && d.time < config_.runtime.stopTime) return;
 	std::ostringstream base;

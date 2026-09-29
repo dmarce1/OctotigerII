@@ -1,0 +1,23 @@
+{
+"reference": {
+  "cells_per_axis": 64,
+  "iterations": 139,
+  "density_residual": 9.5757072830115085e-06,
+  "bernoulli_residual": 2.2605845993364429e-06,
+  "virial_residual": 0.031667914740431576,
+  "virial_tolerance": 0.050000000000000003,
+  "separation_cm": 100000000000,
+  "omega_rad_s": 0.00047867565009560221,
+  "l1_x_cm": 12071446850.136816,
+  "kinetic_energy_erg": 1.0374095556485679e+48,
+  "potential_energy_erg": -1.1421485624235761e+49,
+  "pressure_integral_erg": 2.9949906266604205e+48,
+  "orbital_angular_momentum_g_cm2_s": 3.9193089350701257e+51,
+  "spin_angular_momentum_g_cm2_s": 4.15190032827562e+50,
+  "stars": [
+    {"mass_g": 1.9884699999999999e+33, "core_mass_fraction": 0.90013735887689461, "center_x_cm": -41176470588.235298, "central_density_g_cm3": 65.276308824096276, "core_index": 1.5, "envelope_index": 1.5, "interface_density_fraction": 0.10000000000000001, "density_jump": 1, "fill": 0.90000000000000002, "bernoulli_cm2_s2": -5061436698478179},
+    {"mass_g": 1.3919289999999996e+33, "core_mass_fraction": 0.89976249859096269, "center_x_cm": 58823529411.764709, "central_density_g_cm3": 47.660580462922596, "core_index": 1.5, "envelope_index": 1.5, "interface_density_fraction": 0.10000000000000001, "density_jump": 1, "fill": 1, "bernoulli_cm2_s2": -4546484058185610}
+  ]
+},
+"hydro_mesh": {"mass_g": 3.3803990091270744e+33, "virial_residual": 0.031480298322530811, "angular_momentum_g_cm2_s": 4.3348405971220712e+51}
+}

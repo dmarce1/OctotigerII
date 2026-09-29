@@ -1,0 +1,12 @@
+# Semi-detached, unequal-mass n=3/2 binary. CGS throughout.
+problem.name = binary-scf
+scf.primaryMass = 1.98847e33
+scf.massRatio = 0.7
+scf.separation = 1e11
+scf.primary.fill = 0.9
+scf.donor.fill = 1
+scf.cells = 64
+scf.tolerance = 1e-5
+scf.virialTolerance = 0.05
+runtime.stopTime = 0
+output.directory = output/binary-scf

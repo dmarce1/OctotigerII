@@ -7,6 +7,9 @@
 #include "octotigerII/verification/analytic.hpp"
 #include "octotigerII/radiation/couplingDiagnostics.hpp"
 #include "octotigerII/problems.hpp"
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
+#include "octotigerII/problems/binaryScf.hpp"
+#endif
 
 namespace octotigerII {
 
@@ -166,6 +169,21 @@ RunResult run(Config const& c, Observer const& observer) {
 	if (build::gravity && c.gravityEnabled()) solveGravity();
 	auto snapshots = runtime.snapshots();
 	result.initial = diagnose(snapshots, c);
+	if (c.problem == "binary-scf") {
+		auto const& d = result.initial;
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
+		auto const model = problems::BinaryScf::get(c);
+		auto const width = c.mesh.upper-c.mesh.lower;
+		auto const expectedMass = c.scf.primaryMass*(1+c.scf.massRatio)
+			+ c.scf.atmosphereFraction*model->densityUnit()*width*width*width;
+		if (std::abs(Real(d.mass/expectedMass)-1) > c.scf.tolerance)
+			throw std::runtime_error("SCF hydro domain truncates stellar mass; enlarge mesh.lower/upper");
+#endif
+		Real const virial = std::abs(Real((2.0*d.kineticEnergy + d.potentialEnergy + 3*(c.hydro.gamma-1)*d.thermalEnergy)/d.potentialEnergy));
+		if (!std::isfinite(virial) || virial > c.scf.virialTolerance)
+			throw std::runtime_error("SCF hydro-mesh virial residual=" + std::to_string(virial)
+				+ " exceeds scf.virialTolerance; improve mesh resolution before evolution");
+	}
 	result.final = result.initial;
 	if (observer) observer(snapshots, 0, result.initial);
 	units::Energy solverDefect{}, regridChange{};

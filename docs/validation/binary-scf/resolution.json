@@ -1,0 +1,128 @@
+[
+  {
+    "cells_per_axis": 32,
+    "iterations": 34,
+    "density_residual": 8.630312074547824e-06,
+    "bernoulli_residual": 1.6632052058646224e-06,
+    "virial_residual": 0.13827485158042666,
+    "virial_tolerance": 1,
+    "separation_cm": 100000000000,
+    "omega_rad_s": 0.0005191719730368049,
+    "l1_x_cm": -503303031.0165609,
+    "kinetic_energy_erg": 1.4764024525691102e+48,
+    "potential_energy_erg": -1.4989301149699335e+49,
+    "pressure_integral_erg": 3.3212842842640404e+48,
+    "orbital_angular_momentum_g_cm2_s": 5.1617894661224765e+51,
+    "spin_angular_momentum_g_cm2_s": 5.257380940928925e+50,
+    "stars": [
+      {
+        "mass_g": 1.98847e+33,
+        "core_mass_fraction": 0.9174609003143996,
+        "center_x_cm": -50000000000,
+        "central_density_g_cm3": 81.58193478724041,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 0.8,
+        "bernoulli_cm2_s2": -6271334279459752
+      },
+      {
+        "mass_g": 1.98847e+33,
+        "core_mass_fraction": 0.9384262577421341,
+        "center_x_cm": 50000000000,
+        "central_density_g_cm3": 44.203006596727384,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 1,
+        "bernoulli_cm2_s2": -5371688222657171
+      }
+    ]
+  },
+  {
+    "cells_per_axis": 64,
+    "iterations": 78,
+    "density_residual": 7.291226146815309e-06,
+    "bernoulli_residual": 1.5829832901362788e-06,
+    "virial_residual": 0.04301376483346048,
+    "virial_tolerance": 1,
+    "separation_cm": 100000000000,
+    "omega_rad_s": 0.0005185824942513757,
+    "l1_x_cm": -551565204.9288605,
+    "kinetic_energy_erg": 1.457691452131689e+48,
+    "potential_energy_erg": -1.6868165200540948e+49,
+    "pressure_integral_erg": 4.4090730017231796e+48,
+    "orbital_angular_momentum_g_cm2_s": 5.155928661720166e+51,
+    "spin_angular_momentum_g_cm2_s": 4.659018793821183e+50,
+    "stars": [
+      {
+        "mass_g": 1.98847e+33,
+        "core_mass_fraction": 0.9130800787711504,
+        "center_x_cm": -50000000000,
+        "central_density_g_cm3": 141.87551770635105,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 0.8,
+        "bernoulli_cm2_s2": -6796869034694284
+      },
+      {
+        "mass_g": 1.98847e+33,
+        "core_mass_fraction": 0.9002872891034744,
+        "center_x_cm": 50000000000,
+        "central_density_g_cm3": 52.956797133615076,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 1,
+        "bernoulli_cm2_s2": -5358881601945735
+      }
+    ]
+  },
+  {
+    "cells_per_axis": 128,
+    "iterations": 27,
+    "density_residual": 7.929267427455922e-06,
+    "bernoulli_residual": 1.8923287772272146e-06,
+    "virial_residual": 0.01189385974070535,
+    "virial_tolerance": 1,
+    "separation_cm": 100000000000,
+    "omega_rad_s": 0.0005184100668650324,
+    "l1_x_cm": -558892261.4918739,
+    "kinetic_energy_erg": 1.4514312654504643e+48,
+    "potential_energy_erg": -1.7696275502160043e+49,
+    "pressure_integral_erg": 4.860978650834513e+48,
+    "orbital_angular_momentum_g_cm2_s": 5.154214328295552e+51,
+    "spin_angular_momentum_g_cm2_s": 4.453345933820759e+50,
+    "stars": [
+      {
+        "mass_g": 1.98847e+33,
+        "core_mass_fraction": 0.9016522054055461,
+        "center_x_cm": -50000000000,
+        "central_density_g_cm3": 179.743723157313,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 0.8,
+        "bernoulli_cm2_s2": -7061171294901703
+      },
+      {
+        "mass_g": 1.98847e+33,
+        "core_mass_fraction": 0.8934676829673898,
+        "center_x_cm": 50000000000,
+        "central_density_g_cm3": 55.27759415233384,
+        "core_index": 1.5,
+        "envelope_index": 1.5,
+        "interface_density_fraction": 0.1,
+        "density_jump": 1,
+        "fill": 1,
+        "bernoulli_cm2_s2": -5356193290937935
+      }
+    ]
+  }
+]

@@ -45,6 +45,13 @@ void check() {
 	c.amr.refineDensity = units::Density::from_value(0.03);
 	c.star.radius = units::Length::from_value(8e8);
 	c.star.center[0] = units::Length::from_value(2e8);
+	c.scf.primaryMass = units::Mass::from_value(3e33);
+	c.scf.separation = units::Length::from_value(7e10);
+	c.scf.massRatio = .6;
+	c.scf.coreIndex = {3, 2.7}; c.scf.envelopeIndex = {1.5, 1.2};
+	c.scf.interfaceFraction = {.12,.4}; c.scf.densityJump = {2,1.1}; c.scf.fill = {.95,1};
+	c.scf.cells = 128; c.scf.history = 3; c.scf.maxIterations = 777;
+	c.scf.tolerance = 3e-6; c.scf.virialTolerance = .02; c.scf.relaxation = .3; c.scf.atmosphereFraction = 2e-10;
 	c.radiatingStar.centralGasFraction = 0.7;
 	c.radiatingStar.rotationFraction = 0.15;
 	c.radiatingStar.opticalDepthScale = 321;
@@ -111,6 +118,21 @@ void check() {
 		archive & restored & after & restoredGas & restoredRad;
 	}
 	EXPECT_EQ(restored.timestep.refinement, c.timestep.refinement);
+	EXPECT_EQ(restored.scf.primaryMass, c.scf.primaryMass);
+	EXPECT_EQ(restored.scf.separation, c.scf.separation);
+	EXPECT_EQ(restored.scf.massRatio, c.scf.massRatio);
+	EXPECT_EQ(restored.scf.coreIndex, c.scf.coreIndex);
+	EXPECT_EQ(restored.scf.envelopeIndex, c.scf.envelopeIndex);
+	EXPECT_EQ(restored.scf.interfaceFraction, c.scf.interfaceFraction);
+	EXPECT_EQ(restored.scf.densityJump, c.scf.densityJump);
+	EXPECT_EQ(restored.scf.fill, c.scf.fill);
+	EXPECT_EQ(restored.scf.cells, c.scf.cells);
+	EXPECT_EQ(restored.scf.history, c.scf.history);
+	EXPECT_EQ(restored.scf.maxIterations, c.scf.maxIterations);
+	EXPECT_EQ(restored.scf.tolerance, c.scf.tolerance);
+	EXPECT_EQ(restored.scf.virialTolerance, c.scf.virialTolerance);
+	EXPECT_EQ(restored.scf.relaxation, c.scf.relaxation);
+	EXPECT_EQ(restored.scf.atmosphereFraction, c.scf.atmosphereFraction);
 	EXPECT_TRUE(restored.mesh.lower == c.mesh.lower && restored.mesh.upper == c.mesh.upper && restored.runtime.stopTime == c.runtime.stopTime);
 	EXPECT_TRUE(restored.randomSeed == c.randomSeed && restored.verification.gravityReference == c.verification.gravityReference &&
 		restored.verification.directSamples == c.verification.directSamples && restored.verification.directMaxPairs == c.verification.directMaxPairs);

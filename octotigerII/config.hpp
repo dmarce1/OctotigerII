@@ -127,6 +127,21 @@ public:
 		}
 	} star;
 
+	class BinaryScfOptions {
+	public:
+		units::Mass primaryMass = units::Mass::from_value(1.98847e33);
+		units::Length separation = units::Length::from_value(1e11);
+		Real massRatio = 1, atmosphereFraction = 1e-10;
+		std::array<Real, 2> coreIndex{1.5, 1.5}, envelopeIndex{1.5, 1.5};
+		std::array<Real, 2> interfaceFraction{0.1, 0.1}, densityJump{1, 1}, fill{0.8, 1};
+		int cells = 64, maxIterations = 1000, history = 4;
+		Real tolerance = 1e-5, relaxation = 0.4, virialTolerance = 0.05;
+		template <typename Archive> void serialize(Archive& a, unsigned) {
+			a & primaryMass & separation & massRatio & atmosphereFraction & coreIndex & envelopeIndex
+				& interfaceFraction & densityJump & fill & cells & maxIterations & history & tolerance & relaxation & virialTolerance;
+		}
+	} scf;
+
 	/// Controls of the constructed gas+radiation stellar reference. The gas EOS
 	/// remains gamma=5/3; star.polytropicIndex describes only the structure.
 	class RadiatingStarOptions {
@@ -244,7 +259,7 @@ public:
 	/// Serialize this value with its compile-time quantity types preserved.
 	template <typename Archive>
 	void serialize(Archive& archive, unsigned) {
-		archive & massFractions & problem & randomSeed & mesh & frame & amr & runtime & timestep & hydro & rayleighTaylor & star & radiatingStar & radiation & gravity & output & verification;
+		archive & massFractions & problem & randomSeed & mesh & frame & amr & runtime & timestep & hydro & rayleighTaylor & star & scf & radiatingStar & radiation & gravity & output & verification;
 	}
 };
 

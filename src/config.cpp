@@ -10,6 +10,9 @@
 #include "octotigerII/problems/laneEmden.hpp"
 #include "octotigerII/problems/radiatingStarStructure.hpp"
 #include "octotigerII/problems/whiteDwarfStructure.hpp"
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
+#include "octotigerII/problems/binaryScf.hpp"
+#endif
 #include "octotigerII/verification/analytic.hpp"
 
 #ifdef OCTOTIGERII_WITH_HPX
@@ -100,6 +103,24 @@ namespace {
 			options("star.centralDensity", po::value<Real>(), "Central density (g/cm^3)");
 			options("star.polytropicIndex", po::value<Real>(), "Polytropic index: 0 < n < 5 (default 1.5)");
 			options("star.atmosphereFraction", po::value<Real>(), "Ambient density divided by central density (default 1e-8)");
+		}
+		options("scf.primaryMass", po::value<Real>(), "Primary mass (g)");
+		options("scf.massRatio", po::value<Real>(), "Donor / primary mass");
+		options("scf.separation", po::value<Real>(), "Final distance between stellar mass centers (cm)");
+		options("scf.atmosphereFraction", po::value<Real>(), "Atmosphere density and pressure in SCF reference units");
+		options("scf.cells", po::value<int>(), "Uniform reference cells per axis (power of two, 16..128)");
+		options("scf.maxIterations", po::value<int>(), "Maximum SCF updates; unconverged models are rejected");
+		options("scf.history", po::value<int>(), "Anderson mixing history, 0 disables acceleration (default 4; maximum 6)");
+		options("scf.tolerance", po::value<Real>(), "Undamped mass-weighted L1 density residual");
+		options("scf.virialTolerance", po::value<Real>(), "Maximum reference and hydro-mesh |2T+W+3 integral P dV|/|W| (default .05)");
+		options("scf.relaxation", po::value<Real>(), "Fraction of the SCF density correction applied each iteration");
+		for (auto star : {"primary", "donor"}) {
+			auto const prefix = std::string("scf.") + star + ".";
+			options((prefix + "coreIndex").c_str(), po::value<Real>(), "Core structural polytropic index (>0)");
+			options((prefix + "envelopeIndex").c_str(), po::value<Real>(), "Envelope structural polytropic index (>0)");
+			options((prefix + "interfaceFraction").c_str(), po::value<Real>(), "Core-side interface density / central density, in (0,1]");
+			options((prefix + "densityJump").c_str(), po::value<Real>(), "Core-side / envelope-side interface density, >=1");
+			options((prefix + "fill").c_str(), po::value<Real>(), "Enthalpy filling factor, in (0,1]; 1 fills the Roche lobe");
 		}
 		options("radiatingStar.centralGasFraction", po::value<Real>(), "Central gas pressure / total pressure of the radiating star (default 0.8)");
 		options("radiatingStar.rotationFraction", po::value<Real>(), "Radiating-star spin / spherical-reference breakup spin (default 0.2)");
@@ -269,6 +290,24 @@ namespace {
 		readQuantity(values, "star.centralDensity", config.star.centralDensity);
 		readNumber(values, "star.polytropicIndex", config.star.polytropicIndex);
 		readNumber(values, "star.atmosphereFraction", config.star.atmosphereFraction);
+		readQuantity(values, "scf.primaryMass", config.scf.primaryMass);
+		readQuantity(values, "scf.separation", config.scf.separation);
+		readNumber(values, "scf.massRatio", config.scf.massRatio);
+		readNumber(values, "scf.atmosphereFraction", config.scf.atmosphereFraction);
+		readOption(values, "scf.cells", config.scf.cells);
+		readOption(values, "scf.maxIterations", config.scf.maxIterations);
+		readOption(values, "scf.history", config.scf.history);
+		readNumber(values, "scf.tolerance", config.scf.tolerance);
+		readNumber(values, "scf.virialTolerance", config.scf.virialTolerance);
+		readNumber(values, "scf.relaxation", config.scf.relaxation);
+		for (int s = 0; s < 2; ++s) {
+			auto const prefix = std::string("scf.") + (s == 0 ? "primary." : "donor.");
+			readNumber(values, (prefix + "coreIndex").c_str(), config.scf.coreIndex[s]);
+			readNumber(values, (prefix + "envelopeIndex").c_str(), config.scf.envelopeIndex[s]);
+			readNumber(values, (prefix + "interfaceFraction").c_str(), config.scf.interfaceFraction[s]);
+			readNumber(values, (prefix + "densityJump").c_str(), config.scf.densityJump[s]);
+			readNumber(values, (prefix + "fill").c_str(), config.scf.fill[s]);
+		}
 		readNumber(values, "radiatingStar.centralGasFraction", config.radiatingStar.centralGasFraction);
 		readNumber(values, "radiatingStar.rotationFraction", config.radiatingStar.rotationFraction);
 		readNumber(values, "radiatingStar.opticalDepthScale", config.radiatingStar.opticalDepthScale);
@@ -431,9 +470,12 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 	problemDefaults(config);
 	bool lowerSet = false, upperSet = false, gammaSet = false, densitySet = false;
 	bool radiusSet = false, opacitySet = false, stopTimeSet = false, opacityProfileSet = false;
+	bool frameSet = false, levelSet = false;
 	std::array<bool, ndim> centerSet{};
 	auto apply = [&](po::variables_map const& values) {
 		for (int d = 0; d < ndim; ++d) centerSet[d] = centerSet[d] || values.count(std::string("star.center.") + "xyz"[d]);
+		frameSet = frameSet || values.count("frame.omega");
+		levelSet = levelSet || values.count("mesh.level");
 		lowerSet = lowerSet || values.count("mesh.lower");
 		upperSet = upperSet || values.count("mesh.upper");
 		gammaSet = gammaSet || values.count("hydro.gamma");
@@ -447,6 +489,10 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 	for (auto const& values : files) apply(values);
 	apply(commandValues);
 	if (config.radiation.opacityModel == "ionized-gas" && !opacitySet) config.radiation.opacity = 0;
+	if (config.problem == "binary-scf") {
+		if (!lowerSet) config.mesh.lower = -2.0 * config.scf.separation;
+		if (!upperSet) config.mesh.upper = 2.0 * config.scf.separation;
+	}
 	if (config.problem == "polytrope" || config.problem == "rotatingStar") {
 		if (!lowerSet) config.mesh.lower = -2.0 * config.star.radius;
 		if (!upperSet) config.mesh.upper = 2.0 * config.star.radius;
@@ -499,6 +545,20 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 			star.sphericalRadius()*star.sphericalRadius()*star.sphericalRadius()/(constants::G*star.mass()));
 	}
 	config.validate();
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
+	if (config.problem == "binary-scf") {
+		auto const model = problems::BinaryScf::get(config);
+		if (!lowerSet) config.mesh.lower = -1.5 * model->lengthUnit();
+		if (!upperSet) config.mesh.upper = 1.5 * model->lengthUnit();
+		if (!frameSet) config.frame.omega = model->angularVelocity();
+		if (!densitySet) config.amr.refineDensity = .01 * std::max(model->diagnostics().centralDensity[0],model->diagnostics().centralDensity[1])*model->densityUnit();
+		if (!levelSet) {
+			config.mesh.level = 0;
+			while (config.mesh.cells * (1 << config.mesh.level) < config.scf.cells) ++config.mesh.level;
+		}
+		config.validate();
+	}
+#endif
 	return config;
 }
 

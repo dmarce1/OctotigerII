@@ -63,7 +63,11 @@ See [BUILDING.md](BUILDING.md) for module switches, manifests, dependencies, and
 | `collapse` | `science/Collapse` | 3 |
 | `polytrope` | `science/Polytrope` | 3 |
 | `rotatingStar` | `science/RotatingStar` | 3 |
+| `binary-scf` | `science/BinaryScf` | 3 |
 | `radiating-sphere` | `science/RadiatingSphere` | 3 |
+
+[Binary SCF](docs/binary-scf.md) constructs detached and Roche-lobe-filling
+bipolytropic binaries for ideal-gas hydro with gamma=5/3 and self-gravity.
 
 [Polytrope](docs/polytrope.md) initializes an isolated Lane–Emden star with hydro,
 gravity, a configurable radius and center, and density-based AMR.
