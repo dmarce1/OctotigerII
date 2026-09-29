@@ -1,6 +1,7 @@
 #include "octotigerII/problems/binaryScf.hpp"
 #include "octotigerII/problems/bipolytrope.hpp"
 #include "octotigerII/gravity/isolatedPotential.hpp"
+#include "octotigerII/profiling.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -9,6 +10,7 @@
 #include <limits>
 #include <mutex>
 #include <numeric>
+#include <numbers>
 #include <sstream>
 #include <stdexcept>
 #ifdef OCTOTIGERII_WITH_HPX
@@ -115,8 +117,12 @@ void BinaryScf::validate(Config const& c) {
 	if (!(p.primaryMass > units::Mass{}) || !units::finite(p.primaryMass) ||
 		!(p.separation > units::Length{}) || !units::finite(p.separation))
 		throw std::invalid_argument("SCF masses and separation must be finite and positive");
-	for (auto v : {p.massRatio, p.atmosphereFraction, p.tolerance, p.relaxation, p.virialTolerance})
+	for (auto v : {p.massRatio, p.atmosphereFraction, p.referenceWidth, p.tolerance, p.relaxation, p.virialTolerance})
 		if (!(v > 0) || !std::isfinite(v)) throw std::invalid_argument("SCF controls must be finite and positive");
+	if (p.referenceWidth < 1.5 || p.referenceWidth > 10)
+		throw std::invalid_argument("SCF referenceWidth must lie in [1.5,10]");
+	if (!(p.evolveOrbits >= 0) || !std::isfinite(p.evolveOrbits) || p.framesPerOrbit < 0 || p.framesPerOrbit > 10000)
+		throw std::invalid_argument("SCF requires nonnegative finite evolveOrbits and framesPerOrbit=0..10000");
 	if (p.cells < 16 || p.cells > 128 || (p.cells & (p.cells - 1)) || p.maxIterations < 1 || p.history < 0 || p.history > 6 ||
 		p.tolerance >= 0.1 || p.relaxation > 1 || p.atmosphereFraction >= 1e-3)
 		throw std::invalid_argument("SCF requires power-of-two cells=16..128, iterations>0, tolerance<0.1, relaxation<=1, atmosphereFraction<1e-3");
@@ -127,9 +133,10 @@ void BinaryScf::validate(Config const& c) {
 	}
 }
 
-BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), width_(0), lower_(-1.5), atmosphere_(c.scf.atmosphereFraction) {
+BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), width_(0), lower_(-.5*c.scf.referenceWidth), atmosphere_(c.scf.atmosphereFraction) {
+	profiling::Region scfProfile("scf.solve");
 	validate(c);
-	width_ = 3.0/n_;
+	width_ = c.scf.referenceWidth/n_;
 	auto const& p = c.scf;
 	std::size_t const count = std::size_t(n_) * n_ * n_;
 	Real const dv = width_ * width_ * width_;
@@ -177,7 +184,10 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 		Real const omega = orbitalJ / inertia;
 		std::vector<Real> sources(count);
 		for (std::size_t i = 0; i < count; ++i) sources[i] = rho[0][i] + rho[1][i];
-		phi = potential(sources);
+		{
+			profiling::Region gravityProfile("scf.gravity_fft");
+			phi = potential(sources);
+		}
 		reflectSymmetry(phi,n_);
 		for (std::size_t i = 0; i < count; ++i) {
 			effective[i] = phi[i] - .5 * omega * omega * (std::pow(positions[i][0] - axis, 2) + positions[i][1] * positions[i][1]);
@@ -185,6 +195,9 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 		// Independent point-mass evaluation on the symmetry axis avoids moving
 		// the Roche saddle when the reference grid is translated by a fraction
 		// of a cell. The central grid plane contains no source-cell centers.
+		Real l1, l1phi;
+		{
+		profiling::Region saddleProfile("scf.l1_search");
 		auto axisPotential = [&](Real x) {
 			Real value = -.5*omega*omega*(x-axis)*(x-axis);
 			for (std::size_t i = 0; i < count; ++i) if (sources[i] > 0)
@@ -199,7 +212,8 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 			if (fl < fr) { lo = left; left = right; fl = fr; right = lo+ratio*(hi-lo); fr = axisPotential(right); }
 			else { hi = right; right = left; fr = fl; left = hi-ratio*(hi-lo); fl = axisPotential(left); }
 		}
-		Real const l1 = (lo+hi)/2, l1phi = axisPotential(l1);
+		l1 = (lo+hi)/2; l1phi = axisPotential(l1);
+		}
 		Pair minimum{std::numeric_limits<Real>::infinity(), std::numeric_limits<Real>::infinity()}, bernoulli{};
 		for (std::size_t i = 0; i < count; ++i) {
 			int const s = positions[i][0] < l1 ? 0 : 1;
@@ -214,9 +228,12 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 				peakDensity[s], bernoulli[s] - minimum[s]);
 		}
 		auto next = rho;
-		for (std::size_t i = 0; i < count; ++i) for (int s = 0; s < 2; ++s)
-			next[s][i] = ((positions[i][0] < l1) == (s == 0)) ? eos[s]->updateDensity(bernoulli[s] - effective[i],rho[s][i]) : 0;
-		for (int s = 0; s < 2; ++s) retainLobe(next[s], peaks[s], n_);
+		{
+			profiling::Region densityProfile("scf.density_update");
+			for (std::size_t i = 0; i < count; ++i) for (int s = 0; s < 2; ++s)
+				next[s][i] = ((positions[i][0] < l1) == (s == 0)) ? eos[s]->updateDensity(bernoulli[s] - effective[i],rho[s][i]) : 0;
+			for (int s = 0; s < 2; ++s) retainLobe(next[s], peaks[s], n_);
+		}
 		residual = 0;
 		Real enthalpyResidual = 0;
 		for (int s = 0; s < 2; ++s) {
@@ -248,6 +265,7 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 		if (!std::isfinite(residual) || !std::isfinite(enthalpyResidual)) throw std::runtime_error("SCF generated a nonfinite residual");
 		if (residual < p.tolerance && enthalpyResidual < p.tolerance) { converged = true; break; }
 		if (iteration == p.maxIterations) break;
+		profiling::Region mixingProfile("scf.mixing");
 		std::vector<Real> x(2*count), f(2*count);
 		for (int s = 0; s < 2; ++s) {
 			Real const nextMass = std::accumulate(next[s].begin(), next[s].end(), Real(0))*dv;
@@ -270,6 +288,7 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 		auto& cell = cells_[i];
 		for (int s = 0; s < 2; ++s) {
 			Real const r = rho[s][i], core = r * eos[s]->coreFraction(r);
+			if (r > 0) diagnostics_.volume[s] += dv;
 			cell.density += r;
 			cell.pressure += eos[s]->pressure(r);
 			cell.partial[2*s] = core;
@@ -307,7 +326,7 @@ BinaryScf::BinaryScf(Config const& c) : parameters_(c.scf), n_(c.scf.cells), wid
 std::shared_ptr<BinaryScf const> BinaryScf::get(Config const& c) {
 	validate(c);
 	auto const& p = c.scf;
-	std::vector<Real> key{units::value(p.primaryMass), units::value(p.separation), p.massRatio, p.atmosphereFraction,
+	std::vector<Real> key{units::value(p.primaryMass), units::value(p.separation), p.massRatio, p.atmosphereFraction, p.referenceWidth,
 		Real(p.cells), Real(p.maxIterations), Real(p.history), p.tolerance, p.relaxation, p.virialTolerance};
 	for (auto const& pair : {p.coreIndex, p.envelopeIndex, p.interfaceFraction, p.densityJump, p.fill}) key.insert(key.end(), pair.begin(), pair.end());
 #ifdef OCTOTIGERII_WITH_HPX
@@ -324,6 +343,7 @@ std::shared_ptr<BinaryScf const> BinaryScf::get(Config const& c) {
 }
 
 units::InverseTime BinaryScf::angularVelocity() const { return diagnostics_.omega * units::sqrt(constants::G * density_); }
+units::Time BinaryScf::orbitalPeriod() const { return (2 * std::numbers::pi) / angularVelocity(); }
 
 BinaryScf::Cell BinaryScf::sample(mesh::PhysicalCoordinates const& physical) const {
 	Vector x{};
@@ -396,6 +416,7 @@ void BinaryScf::writeJson(std::ostream& out) const {
 	Real const energyUnit = units::value(constants::G)*massUnit*massUnit/length;
 	Real const angularUnit = massUnit*length*length*units::value(units::sqrt(constants::G*density_));
 	out << std::setprecision(17) << "{\n  \"cells_per_axis\": " << n_ << ",\n  \"iterations\": " << d.iterations
+		<< ",\n  \"reference_width_in_separations\": " << p.referenceWidth
 		<< ",\n  \"density_tolerance\": " << p.tolerance << ",\n  \"relaxation\": " << p.relaxation << ",\n  \"history\": " << p.history
 		<< ",\n  \"hydro_gamma\": " << Real(5)/3 << ",\n  \"length_unit_cm\": " << length
 		<< ",\n  \"density_unit_g_cm3\": " << units::value(density_) << ",\n  \"atmosphere_density_g_cm3\": " << atmosphere_*units::value(density_)
@@ -411,6 +432,7 @@ void BinaryScf::writeJson(std::ostream& out) const {
 		<< ",\n  \"spin_angular_momentum_g_cm2_s\": " << d.spinAngularMomentum*angularUnit << ",\n  \"stars\": [\n";
 	for (int s = 0; s < 2; ++s) {
 		out << "    {\"mass_g\": " << d.mass[s]*massUnit << ", \"core_mass_fraction\": " << d.coreMass[s]/d.mass[s]
+			<< ", \"volume_equivalent_diameter_cm\": " << 2*std::cbrt(3*d.volume[s]/(4*std::numbers::pi))*length
 			<< ", \"center_x_cm\": " << (d.center[s]-d.rotationCenter)*length << ", \"central_density_g_cm3\": " << d.centralDensity[s]*units::value(density_)
 			<< ", \"core_index\": " << p.coreIndex[s] << ", \"envelope_index\": " << p.envelopeIndex[s]
 			<< ", \"interface_density_fraction\": " << p.interfaceFraction[s] << ", \"density_jump\": " << p.densityJump[s]

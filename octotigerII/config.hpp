@@ -131,14 +131,17 @@ public:
 	public:
 		units::Mass primaryMass = units::Mass::from_value(1.98847e33);
 		units::Length separation = units::Length::from_value(1e11);
-		Real massRatio = 1, atmosphereFraction = 1e-10;
+		Real massRatio = 1, atmosphereFraction = 1e-10, referenceWidth = 3;
 		std::array<Real, 2> coreIndex{1.5, 1.5}, envelopeIndex{1.5, 1.5};
 		std::array<Real, 2> interfaceFraction{0.1, 0.1}, densityJump{1, 1}, fill{0.8, 1};
 		int cells = 64, maxIterations = 1000, history = 4;
 		Real tolerance = 1e-5, relaxation = 0.4, virialTolerance = 0.05;
+		Real evolveOrbits = 0;
+		int framesPerOrbit = 0;
 		template <typename Archive> void serialize(Archive& a, unsigned) {
-			a & primaryMass & separation & massRatio & atmosphereFraction & coreIndex & envelopeIndex
-				& interfaceFraction & densityJump & fill & cells & maxIterations & history & tolerance & relaxation & virialTolerance;
+			a & primaryMass & separation & massRatio & atmosphereFraction & referenceWidth & coreIndex & envelopeIndex
+				& interfaceFraction & densityJump & fill & cells & maxIterations & history & tolerance & relaxation & virialTolerance
+				& evolveOrbits & framesPerOrbit;
 		}
 	} scf;
 

@@ -96,6 +96,7 @@ higher-overhead option is not enabled by this script.
 | `transport.signal_speed`, `gravity.kick` | Synchronous timestep and gravity-source work |
 | `verification.*`, `diagnostics`, `output.*` | Reference calculations, error norms, diagnostics, Silo and JSON output |
 | `gravity.serial.*` | Separate serial reference FMM used by verification tests |
+| `scf.solve`, `scf.gravity_fft`, `scf.l1_search`, `scf.density_update`, `scf.mixing`, `scf.handoff_block` | Synchronous binary SCF construction, major phases, and per-block hydro transfer; construction repeats on each locality |
 | `*.wall_ns` | Sampled elapsed wall time in nanoseconds, including waits and child tasks |
 | `gravity.multipole_pairs`, `gravity.direct_pairs`, `gravity.worker_tasks` | Root-locality samples of global work counts per completed solve |
 

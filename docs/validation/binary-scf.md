@@ -111,6 +111,32 @@ star's actual Bernoulli balance must converge; the latter prevents a small
 preconditioned update from concealing an enthalpy error. No gradual alteration
 of the requested structural parameters was needed for the recorded run.
 
+## Compact q=0.7 DWD proxy and density AMR
+
+The [QueenBee4 DWD input](../../problem/science/BinaryScf/qb4-dwd.ini)
+uses n=1.5 ideal-gas polytropic proxies, a Roche-filling donor, a uniform
+128^3 SCF box two separations wide, and an evolution box eight separations
+wide. Its initial AMR grid has eight cells per block, base level 2, finest
+level 6, and density refinement only. The initial hydro handoff was run here
+on one HPX locality with evolution stopped at time zero; it has **not** been
+timed or evolved on QueenBee4.
+
+| Quantity | Measured value |
+| --- | ---: |
+| Initial orbital period | 88.09114 s |
+| SCF iterations | 19 |
+| Accretor diameter | 2.25434e9 cm |
+| Accretor width on SCF / finest hydro mesh | 47.4 / 48.1 cells |
+| Donor width on SCF / finest hydro mesh | 45.5 / 46.2 cells |
+| Reference / hydro virial residual | 0.003621 / 0.002526 |
+| Active hydro cells | 1,294,336 |
+
+See [dwd-compact-amr.json](binary-scf/dwd-compact-amr.json) for the reference
+and native gravity diagnostics. The two-separation reference contained both
+lobes without hitting its boundary in this case. These are volume-equivalent
+diameters measured from occupied reference cells; the Roche distortion means
+the width along a particular axis differs.
+
 ## Reproduce
 
 ```sh

@@ -108,12 +108,15 @@ namespace {
 		options("scf.massRatio", po::value<Real>(), "Donor / primary mass");
 		options("scf.separation", po::value<Real>(), "Final distance between stellar mass centers (cm)");
 		options("scf.atmosphereFraction", po::value<Real>(), "Atmosphere density and pressure in SCF reference units");
+		options("scf.referenceWidth", po::value<Real>(), "Uniform SCF box width / initial binary separation (default 3)");
 		options("scf.cells", po::value<int>(), "Uniform reference cells per axis (power of two, 16..128)");
 		options("scf.maxIterations", po::value<int>(), "Maximum SCF updates; unconverged models are rejected");
 		options("scf.history", po::value<int>(), "Anderson mixing history, 0 disables acceleration (default 4; maximum 6)");
 		options("scf.tolerance", po::value<Real>(), "Undamped mass-weighted L1 density residual");
 		options("scf.virialTolerance", po::value<Real>(), "Maximum reference and hydro-mesh |2T+W+3 integral P dV|/|W| (default .05)");
 		options("scf.relaxation", po::value<Real>(), "Fraction of the SCF density correction applied each iteration");
+		options("scf.evolveOrbits", po::value<Real>(), "Evolve this many initial orbital periods after SCF (default 0)");
+		options("scf.framesPerOrbit", po::value<int>(), "Silo frames per initial orbit, timed from SCF omega (default 0: output.every steps)");
 		for (auto star : {"primary", "donor"}) {
 			auto const prefix = std::string("scf.") + star + ".";
 			options((prefix + "coreIndex").c_str(), po::value<Real>(), "Core structural polytropic index (>0)");
@@ -294,12 +297,15 @@ namespace {
 		readQuantity(values, "scf.separation", config.scf.separation);
 		readNumber(values, "scf.massRatio", config.scf.massRatio);
 		readNumber(values, "scf.atmosphereFraction", config.scf.atmosphereFraction);
+		readNumber(values, "scf.referenceWidth", config.scf.referenceWidth);
 		readOption(values, "scf.cells", config.scf.cells);
 		readOption(values, "scf.maxIterations", config.scf.maxIterations);
 		readOption(values, "scf.history", config.scf.history);
 		readNumber(values, "scf.tolerance", config.scf.tolerance);
 		readNumber(values, "scf.virialTolerance", config.scf.virialTolerance);
 		readNumber(values, "scf.relaxation", config.scf.relaxation);
+		readNumber(values, "scf.evolveOrbits", config.scf.evolveOrbits);
+		readOption(values, "scf.framesPerOrbit", config.scf.framesPerOrbit);
 		for (int s = 0; s < 2; ++s) {
 			auto const prefix = std::string("scf.") + (s == 0 ? "primary." : "donor.");
 			readNumber(values, (prefix + "coreIndex").c_str(), config.scf.coreIndex[s]);
@@ -490,6 +496,8 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 	apply(commandValues);
 	if (config.radiation.opacityModel == "ionized-gas" && !opacitySet) config.radiation.opacity = 0;
 	if (config.problem == "binary-scf") {
+		if (stopTimeSet && config.runtime.stopTime > units::Time{} && config.scf.evolveOrbits > 0)
+			throw std::invalid_argument("Use either a positive runtime.stopTime or scf.evolveOrbits, not both");
 		if (!lowerSet) config.mesh.lower = -2.0 * config.scf.separation;
 		if (!upperSet) config.mesh.upper = 2.0 * config.scf.separation;
 	}
@@ -548,9 +556,11 @@ Config parseConfig(std::vector<std::string> const& arguments) {
 #if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
 	if (config.problem == "binary-scf") {
 		auto const model = problems::BinaryScf::get(config);
-		if (!lowerSet) config.mesh.lower = -1.5 * model->lengthUnit();
-		if (!upperSet) config.mesh.upper = 1.5 * model->lengthUnit();
+		if (!lowerSet) config.mesh.lower = -.5 * config.scf.referenceWidth * model->lengthUnit();
+		if (!upperSet) config.mesh.upper = .5 * config.scf.referenceWidth * model->lengthUnit();
 		if (!frameSet) config.frame.omega = model->angularVelocity();
+		if (config.scf.evolveOrbits > 0)
+			config.runtime.stopTime = config.scf.evolveOrbits * model->orbitalPeriod();
 		if (!densitySet) config.amr.refineDensity = .01 * std::max(model->diagnostics().centralDensity[0],model->diagnostics().centralDensity[1])*model->densityUnit();
 		if (!levelSet) {
 			config.mesh.level = 0;

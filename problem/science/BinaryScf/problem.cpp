@@ -1,5 +1,6 @@
 #include "octotigerII/problems.hpp"
 #include "octotigerII/problems/binaryScf.hpp"
+#include "octotigerII/profiling.hpp"
 #include "octotigerII/verification/analytic.hpp"
 #include "octotigerII/subgrid/subgrid.hpp"
 
@@ -34,6 +35,7 @@ void validateProblem(Config const& c) {
 	}
 }
 void initializeProblem(Snapshot& data, Config const& c, bool) {
+	profiling::Region handoffProfile("scf.handoff_block");
 	auto const model = problems::BinaryScf::get(c);
 	hydro::HydroSystem const gas(c);
 	if (c.massFractions.enabled) for (int s = 0; s < 5; ++s) data.species.emplace_back(data.layout, data.cellWidth, data.lower);

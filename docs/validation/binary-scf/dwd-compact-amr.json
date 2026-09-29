@@ -1,0 +1,35 @@
+{
+"problem": "binary-scf",
+"ndim": 3,
+"reference": {
+  "cells_per_axis": 128,
+  "iterations": 19,
+  "reference_width_in_separations": 2,
+  "density_tolerance": 1.0000000000000001e-05,
+  "relaxation": 0.40000000000000002,
+  "history": 4,
+  "hydro_gamma": 1.6666666666666667,
+  "length_unit_cm": 3044077531.0580597,
+  "density_unit_g_cm3": 71903.840350327911,
+  "atmosphere_density_g_cm3": 7.1903840350327916e-06,
+  "atmosphere_pressure_dyn_cm2": 319757923950.112,
+  "density_residual": 5.3695627145798663e-06,
+  "bernoulli_residual": 9.3751681932339564e-07,
+  "max_star_bernoulli_residual": 1.1695735846302811e-06,
+  "virial_residual": 0.0036207640373452903,
+  "virial_tolerance": 0.050000000000000003,
+  "separation_cm": 3000000000,
+  "omega_rad_s": 0.071325958823604957,
+  "l1_x_cm": 362020241.16317058,
+  "kinetic_energy_erg": 1.2401810990390707e+49,
+  "potential_energy_erg": -1.409226673763529e+50,
+  "pressure_integral_erg": 3.8536265889829473e+49,
+  "orbital_angular_momentum_g_cm2_s": 3.1536212994862397e+50,
+  "spin_angular_momentum_g_cm2_s": 3.2388147648384446e+49,
+  "stars": [
+    {"mass_g": 1.193082e+33, "core_mass_fraction": 0.8934430726421424, "volume_equivalent_diameter_cm": 2254339350.2793641, "center_x_cm": -1235294117.6470587, "central_density_g_cm3": 1611556.8271933277, "core_index": 1.5, "envelope_index": 1.5, "interface_density_fraction": 0.10000000000000001, "density_jump": 1, "fill": 0.90000000000000002, "bernoulli_cm2_s2": -1.0226973042860733e+17},
+    {"mass_g": 8.351573999999999e+32, "core_mass_fraction": 0.89088854322409317, "volume_equivalent_diameter_cm": 2163664535.6307435, "center_x_cm": 1764705882.3529413, "central_density_g_cm3": 1128597.2200314328, "core_index": 1.5, "envelope_index": 1.5, "interface_density_fraction": 0.10000000000000001, "density_jump": 1, "fill": 1, "bernoulli_cm2_s2": -90869596490668960}
+  ]
+},
+"hydro_mesh": {"mass_g": 2.0282394993998783e+33, "virial_residual": 0.0025257535823839296, "angular_momentum_g_cm2_s": 3.4786239323499946e+50}
+}

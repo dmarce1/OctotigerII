@@ -16,7 +16,7 @@ public:
 		int iterations = 0;
 		Real densityResidual = 0, bernoulliResidual = 0, virialResidual = 0;
 		Real maxStarBernoulliResidual = 0;
-		std::array<Real, 2> mass{}, coreMass{}, center{}, bernoulli{}, centralDensity{};
+		std::array<Real, 2> mass{}, coreMass{}, volume{}, center{}, bernoulli{}, centralDensity{};
 		Real omega = 0, separation = 0, rotationCenter = 0, l1 = 0, l1Potential = 0;
 		Real kinetic = 0, potential = 0, pressureIntegral = 0, orbitalAngularMomentum = 0, spinAngularMomentum = 0;
 	};
@@ -34,6 +34,7 @@ public:
 	Cell average(mesh::PhysicalCoordinates const& center, units::Length width) const;
 	Diagnostics const& diagnostics() const { return diagnostics_; }
 	units::InverseTime angularVelocity() const;
+	units::Time orbitalPeriod() const;
 	Real cellWidth() const { return width_; } // reference, dimensionless
 	std::vector<Cell> const& cells() const { return cells_; }
 	int resolution() const { return n_; }

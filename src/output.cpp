@@ -238,6 +238,10 @@ namespace {
 
 Output::Output(Config const& c)
   : config_(c) {
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
+	if (c.problem == "binary-scf" && c.scf.framesPerOrbit > 0)
+		orbitalOutputInterval_ = problems::BinaryScf::get(c)->orbitalPeriod() / Real(c.scf.framesPerOrbit);
+#endif
 	std::filesystem::create_directories(c.output.directory);
 	conservation_.exceptions(std::ios::badbit | std::ios::failbit);
 	conservation_.open(std::filesystem::path(c.output.directory) / "conservation.csv");
@@ -350,11 +354,18 @@ void Output::operator()(std::vector<Snapshot> const& patches, int step, Diagnost
 	}
 #endif
 	if (!config_.output.enabled) return;
-	if (step != 0 && step % config_.output.every != 0 && d.time < config_.runtime.stopTime) return;
+	if (step != 0 && orbitalOutputInterval_ > units::Time{} &&
+		units::abs(d.time - lastSiloTime_) <= 1e-8 * orbitalOutputInterval_) return;
+	if (step != 0 && d.time < config_.runtime.stopTime) {
+		if (orbitalOutputInterval_ > units::Time{}) {
+			if (d.time + 1e-12 * orbitalOutputInterval_ < Real(frame_) * orbitalOutputInterval_) return;
+		} else if (step % config_.output.every != 0) return;
+	}
 	std::ostringstream base;
 	base << "frame_" << std::setfill('0') << std::setw(6) << frame_++ << ".silo";
 	std::string const filename = (std::filesystem::path(config_.output.directory) / base.str()).string();
 	writeSilo(patches, config_, filename, step, d.time);
+	lastSiloTime_ = d.time;
 	series_ << base.str() << '\n';
 	series_.flush();
 	auto const comparison = verification::compare(patches, config_);

@@ -1,5 +1,6 @@
 #include "testSupport.hpp"
 #include "octotigerII/problems/binaryScf.hpp"
+#include "octotigerII/output.hpp"
 #include "octotigerII/simulation.hpp"
 using namespace octotigerII;
 
@@ -29,4 +30,25 @@ TEST(BinaryScfIntegration, CoarseHydroMeshCannotBypassTheVirialGate) {
 	auto c = test::parseConfig({"--scf.cells=32", "--scf.massRatio=.7", "--scf.primary.fill=.9", "--scf.virialTolerance=.2", "--mesh.cells=4",
 		"--mesh.level=1", "--output.enabled=off", "--gravity.multipoleOrder=3"});
 	EXPECT_THROW(run(c), std::runtime_error);
+}
+
+TEST(BinaryScfIntegration, OrbitalOutputCadenceAdvancesAndWritesAtPhysicalTimes) {
+	test::TemporaryDirectory directory;
+	auto c = test::parseConfig({"--scf.cells=16", "--scf.primary.fill=.9", "--scf.virialTolerance=1",
+		"--scf.evolveOrbits=.0002", "--scf.framesPerOrbit=10000", "--mesh.cells=8", "--mesh.level=1",
+		"--output.every=100000", "--gravity.multipoleOrder=3"});
+	c.output.directory = directory.path.string();
+	auto const cadence = problems::BinaryScf::get(c)->orbitalPeriod() / Real(c.scf.framesPerOrbit);
+	EXPECT_NEAR(Real(c.runtime.stopTime / cadence), 2, 1e-12);
+	Output output(c);
+	auto const result = run(c, [&](auto const& snapshots, int step, auto const& d) { output(snapshots, step, d); });
+	EXPECT_EQ(result.final.time, c.runtime.stopTime);
+	std::ifstream series(directory.path / "frames.visit");
+	ASSERT_TRUE(series);
+	std::string frame;
+	int count = 0;
+	while (std::getline(series, frame)) ++count;
+	EXPECT_EQ(count, 3);
+	EXPECT_TRUE(std::filesystem::exists(directory.path / "frame_000002.silo"));
+	EXPECT_FALSE(std::filesystem::exists(directory.path / "frame_000003.silo"));
 }

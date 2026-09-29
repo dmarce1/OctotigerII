@@ -6,11 +6,14 @@ structural indices. Evolution uses **gamma = 5/3**, irrespective of those indice
 Radiation, Helmholtz, asynchronous rotation, and a shared envelope are excluded.
 
 The initial implementation uses a **uniform reference mesh**, followed by
-conservative transfer to the evolution mesh. It does not iterate on distributed
-AMR leaves. Construction runs once per process and is cached across block
-initializations; multiple HPX localities currently repeat the reference solve.
-Evolution uses the ordinary distributed gravity and hydro machinery, including
-AMR when requested.
+conservative transfer to the evolution mesh. `scf.referenceWidth` sets the
+reference box width in units of the separation, independently of the larger
+evolution box. The reference must still contain both stellar lobes; an occupied
+boundary cell is rejected. SCF does not iterate on distributed AMR leaves.
+Construction runs once per process and is cached across block initializations;
+multiple HPX localities currently repeat the reference solve. Evolution uses
+the ordinary distributed gravity and hydro machinery, including AMR when
+requested.
 
 ## Run
 
@@ -23,8 +26,12 @@ cmake --build release --target octoII-3d -j 4
 The supplied input constructs an unequal-mass semi-detached binary and stops
 at time zero. `scf.json` reports the reference solution and the populated hydro
 mesh; `conservation.csv` records the usual budgets. Silo output is unchanged.
-Set `runtime.stopTime` in seconds to evolve the binary. The reported angular
-velocity gives the initial orbital period, `2*pi/omega`.
+Set `scf.evolveOrbits=1` to evolve for one initial orbital period directly
+after construction. This sets the stop time from the converged
+`2*pi/omega`; alternatively set a positive `runtime.stopTime` in seconds. Do not
+specify both positive controls. `scf.framesPerOrbit=100` writes 100 evenly spaced Silo frames per initial
+orbit, plus the frame at time zero. The evolution timestep is clipped to each
+output time, so this is a physical-time cadence rather than a step count.
 
 Other input files in the same directory:
 
@@ -37,6 +44,9 @@ Other input files in the same directory:
 * `dwd-polytropes.ini`: compact n=3/2 polytropic proxies. There is **no cold
   degeneracy EOS, common degeneracy constant, or enforced white-dwarf mass-radius
   relation**. Each star's pressure normalization is solved independently.
+* `qb4-dwd.ini`: q=0.7 DWD proxy with a Roche-filling donor, compact SCF
+  reference, density AMR, and timed orbital output. See the
+  [QueenBee4 instructions](queenbee4-binary-scf.md).
 
 The HPX-free executable accepts the same inputs without the `--hpx:` options.
 Radiation and mass fractions can both be disabled at build time.
@@ -50,11 +60,14 @@ All dimensional inputs use CGS.
 | `scf.primaryMass` | Primary mass, excluding atmosphere (default 1.98847e33 g) |
 | `scf.massRatio` | Donor mass / primary mass (default 1) |
 | `scf.separation` | Final separation of the two mass centers (default 1e11 cm) |
+| `scf.referenceWidth` | Uniform SCF box width / separation, in [1.5,10]; default 3 |
 | `scf.primary.coreIndex`, `scf.donor.coreIndex` | Positive, finite core structural indices |
 | `scf.primary.envelopeIndex`, `scf.donor.envelopeIndex` | Positive, finite envelope structural indices |
 | `scf.primary.interfaceFraction`, `scf.donor.interfaceFraction` | Core-side interface density / central density, in (0,1] |
 | `scf.primary.densityJump`, `scf.donor.densityJump` | Core-side / envelope-side interface density, at least 1 |
 | `scf.primary.fill`, `scf.donor.fill` | Enthalpy filling factors, in (0,1]; default .8 and 1 |
+| `scf.evolveOrbits` | Stop after this many initial orbital periods; default 0 |
+| `scf.framesPerOrbit` | Timed Silo frames per initial orbit; 0 uses `output.every` steps |
 
 **`scf.donor.fill=1` puts the donor surface at the inner Lagrange saddle.**
 For star s the surface Bernoulli constant is
@@ -171,6 +184,8 @@ the expected total mass. The uniform atmosphere is added once, is separately
 tracked, and is included in the hydro gravity solve and subsequent budgets.
 
 `scf.json` separates the reference diagnostics from the hydro-mesh diagnostics.
+It reports each star's volume-equivalent diameter, useful for checking how
+many cells span the accretor in both meshes.
 Conservation of mass under transfer does not imply conservation of its binding
 energy or preservation of local hydrostatic balance. A finer AMR mesh cannot
 recover structure missing from the uniform reference. Check both resolutions.
@@ -182,6 +197,15 @@ results. Unit tests cover analytic single-polytrope limits, interface matching,
 `dH=dP/rho`, isolated gravity, independent indices, Roche filling, material mass
 closure, energy initialization, failure gates, and configuration serialization.
 Integration tests exercise the first gravity/hydro step and its budgets.
+The orbital-cadence integration test checks three Silo frames at exact initial
+period fractions even when `output.every` would suppress intermediate frames.
+
+When profiling is enabled, APEX names the synchronous `scf.solve`,
+`scf.gravity_fft`, `scf.l1_search`, `scf.density_update`, `scf.mixing`, and
+`scf.handoff_block`
+regions. The existing runtime regions cover FMM workers, hydro transport,
+diagnostics, and Silo writing. See [profiling](profiling.md); wrap each HPX
+locality with `profile.sh` to keep its report separate.
 
 The resolution study is explicitly opt-in:
 

@@ -25,6 +25,8 @@ private:
 	Config config_;
 	std::ofstream series_, conservation_;
 	int frame_ = 0;
+	units::Time orbitalOutputInterval_{};
+	units::Time lastSiloTime_{};
 	Diagnostics initial_;
 	bool haveInitial_ = false;
 };

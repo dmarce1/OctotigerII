@@ -185,17 +185,30 @@ RunResult run(Config const& c, Observer const& observer) {
 				+ " exceeds scf.virialTolerance; improve mesh resolution before evolution");
 	}
 	result.final = result.initial;
+	units::Time orbitalOutputInterval{}, nextOrbitalFrame{};
+	int nextOrbitalFrameIndex = 1;
+#if OCTOTIGERII_HYDRO && OCTOTIGERII_GRAVITY
+	if (c.problem == "binary-scf" && c.output.enabled && c.scf.framesPerOrbit > 0) {
+		orbitalOutputInterval = problems::BinaryScf::get(c)->orbitalPeriod() / Real(c.scf.framesPerOrbit);
+		nextOrbitalFrame = orbitalOutputInterval;
+	}
+#endif
 	if (observer) observer(snapshots, 0, result.initial);
 	units::Energy solverDefect{}, regridChange{};
 	while (result.final.time < c.runtime.stopTime) {
 		if (result.steps >= c.runtime.maxSteps) throw std::runtime_error("Maximum steps reached before requested stop time");
-		auto dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
+		auto limitedTimestep = [&] {
+			auto limit = c.runtime.stopTime - result.final.time;
+			if (orbitalOutputInterval > units::Time{}) limit = std::min(limit, nextOrbitalFrame - result.final.time);
+			return std::min(runtime.stableTimestep(), limit);
+		};
+		auto dt = limitedTimestep();
 		if (runtime.regrid(dt)) {
 			if (build::gravity && c.gravityEnabled()) solveGravity();
 			snapshots = runtime.snapshots();
 			if (c.hydroEnabled() && c.gravityEnabled())
 				regridChange += diagnose(snapshots, c).gasGravityEnergy - result.final.gasGravityEnergy;
-			dt = std::min(runtime.stableTimestep(), c.runtime.stopTime - result.final.time);
+			dt = limitedTimestep();
 		}
 		if (!(dt > units::Time{}) || !units::finite(dt) || result.final.time + dt == result.final.time)
 			throw std::runtime_error("Timestep cannot advance physical time");
@@ -223,6 +236,10 @@ RunResult run(Config const& c, Observer const& observer) {
 		result.final.gravityReciprocityDefect = solverDefect;
 		result.final.gravityRegridEnergyChange = regridChange;
 		if (observer) observer(snapshots, result.steps, result.final);
+		if (orbitalOutputInterval > units::Time{} &&
+			result.final.time + 1e-12 * orbitalOutputInterval >= nextOrbitalFrame) {
+			nextOrbitalFrame = Real(++nextOrbitalFrameIndex) * orbitalOutputInterval;
+		}
 	}
 	result.snapshots = std::move(snapshots);
 	return result;
