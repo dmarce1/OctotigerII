@@ -1,4 +1,4 @@
-#!/usr/problem/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 if (($# == 0)) || [[ "$1" == --help || "$1" == -h ]]; then

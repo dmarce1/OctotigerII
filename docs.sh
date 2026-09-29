@@ -1,4 +1,4 @@
-#!/usr/problem/env bash
+#!/usr/bin/env bash
 # Build the reference manual without configuring or compiling the application.
 set -euo pipefail
 project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
