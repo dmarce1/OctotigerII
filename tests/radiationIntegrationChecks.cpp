@@ -59,11 +59,11 @@ void transport(bool adaptive, Real ratio, Real omega) {
 	Runtime runtime(c, criteria);
 	if (adaptive) {
 		std::set<int> levels;
-		for (auto const& b : runtime.snapshots()) levels.insert(b.location.level);
+		for (auto const& b : runtime.snapshots()) { levels.insert(b.location.level); }
 		ASSERT_EQ(levels.size(), 2u);
 	}
 	auto const before = diagnose(runtime.snapshots(), c);
-	for (int i = 0; i < 3; ++i) runtime.advanceCoupled(0.2 * runtime.stableTimestep());
+	for (int i = 0; i < 3; ++i) { runtime.advanceCoupled(0.2 * runtime.stableTimestep()); }
 	auto const after = diagnose(runtime.snapshots(), c);
 	budget(before, after, runtime.boundaryTransport(), c);
 	EXPECT_GT(std::abs(Real((after.radiationEnergy - before.radiationEnergy) / before.radiationEnergy)), 1e-5);
@@ -80,7 +80,7 @@ void transport(bool adaptive, Real ratio, Real omega) {
 }
 
 TEST(RadiationIntegration, PhysicalAndReducedSpeedConserveOnPeriodicGrid) {
-	for (auto ratio : {Real(1), Real(0.2)}) transport(false, ratio, 0);
+	for (auto ratio : {Real(1), Real(0.2)}) { transport(false, ratio, 0); }
 }
 
 TEST(RadiationIntegration, CoupledTransportConvergesAtSecondOrderInTime) {
@@ -96,7 +96,7 @@ TEST(RadiationIntegration, CoupledTransportConvergesAtSecondOrderInTime) {
 		auto const interval = 0.4 * initial.stableTimestep();
 		auto solve = [&](int steps) {
 			Runtime runtime(c, criteria);
-			for (int i = 0; i < steps; ++i) runtime.advanceCoupled(interval / Real(steps));
+			for (int i = 0; i < steps; ++i) { runtime.advanceCoupled(interval / Real(steps)); }
 			return runtime.snapshots();
 		};
 		auto const reference = solve(64);
@@ -105,12 +105,13 @@ TEST(RadiationIntegration, CoupledTransportConvergesAtSecondOrderInTime) {
 			auto const result = solve(1 << resolution);
 			ASSERT_EQ(result.size(), reference.size());
 			Real norm = 0;
-			for (std::size_t b = 0; b < result.size(); ++b)
+			for (std::size_t b = 0; b < result.size(); ++b) {
 				for (std::size_t i = 0; i < result[b].radiation.values().size(); ++i) {
 					Real const exact = units::value(reference[b].radiation.values()[i].energy());
 					errors[resolution] += std::abs(units::value(result[b].radiation.values()[i].energy()) - exact);
 					norm += std::abs(exact);
 				}
+			}
 			errors[resolution] /= norm;
 		}
 		std::cout << "coupled temporal errors adaptive=" << adaptive << ": " << errors[0] << ' ' << errors[1] << ' ' << errors[2] << '\n';
@@ -149,7 +150,7 @@ TEST(RadiationIntegration, ExternalAccelerationIncludesRadiationMomentumInItsWor
 		hydro::HydroSystem const gas(c.hydro);
 		for (auto const& state : first.hydro.values()) {
 			auto thermal = state.totalEnergy();
-			for (int d = 0; d < ndim; ++d) thermal -= state.momentum(d) * state.momentum(d) / (2.0 * state.density());
+			for (int d = 0; d < ndim; ++d) { thermal -= state.momentum(d) * state.momentum(d) / (2.0 * state.density()); }
 			EXPECT_LT(thermal, c.hydro.dualEnergy.pressureThreshold * state.totalEnergy());
 		}
 		Number const temperatureFactor = (c.hydro.gamma - 1) * c.hydro.meanMolecularWeight
@@ -202,13 +203,13 @@ TEST(RadiationIntegration, ExternalAccelerationIncludesRadiationMomentumInItsWor
 				};
 				Number const h = units::value(interval) / Number(steps);
 				auto add = [](State value, State const& rate, Number dt) {
-					for (std::size_t j = 0; j < value.size(); ++j) value[j] += dt * rate[j];
+					for (std::size_t j = 0; j < value.size(); ++j) { value[j] += dt * rate[j]; }
 					return value;
 				};
 				for (int i = 0; i < steps; ++i) {
 					auto const k1 = rhs(state), k2 = rhs(add(state, k1, h / 2)),
 						k3 = rhs(add(state, k2, h / 2)), k4 = rhs(add(state, k3, h));
-					for (int j = 0; j <= work; ++j) state[j] += h * (k1[j] + 2 * k2[j] + 2 * k3[j] + k4[j]) / 6;
+					for (int j = 0; j <= work; ++j) { state[j] += h * (k1[j] + 2 * k2[j] + 2 * k3[j] + k4[j]) / 6; }
 				}
 				totalWork += state[work];
 			}
@@ -222,7 +223,7 @@ TEST(RadiationIntegration, ExternalAccelerationIncludesRadiationMomentumInItsWor
 			Runtime runtime(c);
 			runtime.coupleRadiation(units::Time::from_value(1));
 			runtime.kickGravity(boost);
-			for (int i = 0; i < steps; ++i) runtime.advanceCoupled(interval / Real(steps));
+			for (int i = 0; i < steps; ++i) { runtime.advanceCoupled(interval / Real(steps)); }
 			auto const snapshots = runtime.snapshots();
 			ASSERT_EQ(snapshots.size(), 1u);
 			Number gain = 0;
@@ -246,7 +247,7 @@ TEST(RadiationIntegration, MixedLevelSubcyclingAndRegriddingConserve) {
 
 #if OCTOTIGERII_NDIM >= 2
 TEST(RadiationIntegration, RotatingGridConservesInertialCombinedBudgets) {
-	for (auto omega : {Real(-0.01), Real(0.01)}) transport(false, 1, omega);
+	for (auto omega : {Real(-0.01), Real(0.01)}) { transport(false, 1, omega); }
 }
 #endif
 
@@ -260,11 +261,12 @@ TEST(RadiationIntegration, ZeroOpacityMatchesUncoupledTransportExactly) {
 	auto const a = baseline.snapshots(), b = coupled.snapshots();
 	ASSERT_EQ(a.size(), b.size());
 	std::size_t differences = 0;
-	for (std::size_t block = 0; block < a.size(); ++block)
+	for (std::size_t block = 0; block < a.size(); ++block) {
 		for (std::size_t i = 0; i < a[block].hydro.values().size(); ++i) {
 			a[block].hydro.values()[i].forEach([&](auto field, auto value) { differences += value != b[block].hydro.values()[i].template get<field>(); });
 			a[block].radiation.values()[i].forEach([&](auto field, auto value) { differences += value != b[block].radiation.values()[i].template get<field>(); });
 		}
+	}
 	EXPECT_EQ(differences, 0u);
 }
 
@@ -324,16 +326,17 @@ TEST(RadiationIntegration, AddedEquilibriumRadiationHasNoLocalExchange) {
 	runtime.coupleRadiation(units::Time::from_value(1));
 	auto const after = runtime.snapshots();
 	ASSERT_EQ(before.size(), after.size());
-	for (std::size_t b = 0; b < before.size(); ++b)
+	for (std::size_t b = 0; b < before.size(); ++b) {
 		for (std::size_t i = 0; i < before[b].hydro.values().size(); ++i) {
 			test::expectStateNear(before[b].hydro.values()[i], after[b].hydro.values()[i], 3e-13);
 			test::expectStateNear(before[b].radiation.values()[i], after[b].radiation.values()[i], 3e-13);
 		}
+	}
 }
 
 #if OCTOTIGERII_GRAVITY
 TEST(RadiationIntegration, GasRadiationGravityConserveAcrossAllSchedules) {
-	for (auto ratio : {Real(1), Real(0.2)}) for (auto const* method : {"global", "hierarchical", "conventional", "rotating-hierarchical"}) {
+	for (auto ratio : {Real(1), Real(0.2)}) { for (auto const* method : {"global", "hierarchical", "conventional", "rotating-hierarchical"}) {
 		bool const rotating = std::string(method) == "rotating-hierarchical";
 		if (rotating && (ndim < 2 || ratio != 1)) continue;
 		std::cout << "coupled gravity case ratio=" << ratio << " method=" << method << '\n';
@@ -348,13 +351,13 @@ TEST(RadiationIntegration, GasRadiationGravityConserveAcrossAllSchedules) {
 		bool refine = true;
 		refinement::Criteria criteria{[&](refinement::CellView const& cell) {
 			bool lower = true;
-			for (auto x : cell.center) lower = lower && x < units::Length{};
+			for (auto x : cell.center) { lower = lower && x < units::Length{}; }
 			return refine && lower && cell.level < 2 ? Real(2) : Real(0);
 		}};
 		Runtime runtime(c, criteria);
 		runtime.solveGravity();
 		auto const before = diagnose(runtime.snapshots(), c);
-		for (int i = 0; i < 2; ++i) runtime.advanceCoupled(0.1 * runtime.stableTimestep());
+		for (int i = 0; i < 2; ++i) { runtime.advanceCoupled(0.1 * runtime.stableTimestep()); }
 		budget(before, diagnose(runtime.snapshots(), c), runtime.boundaryTransport(), c, false);
 		refine = false;
 		runtime.regrid(units::Time{}, true);
@@ -365,6 +368,7 @@ TEST(RadiationIntegration, GasRadiationGravityConserveAcrossAllSchedules) {
 		runtime.solveGravity();
 		runtime.advanceCoupled(0.1 * runtime.stableTimestep());
 		budget(before, diagnose(runtime.snapshots(), c), runtime.boundaryTransport(), c, false);
+	}
 	}
 }
 #endif

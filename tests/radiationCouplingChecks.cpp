@@ -41,7 +41,7 @@ void invariants(hydro::ConservedState const& beforeGas, RadiationSystem::State c
 
 TEST(RadiationCoupling, ThermalEquilibriumRemainsStationaryForStiffSteps) {
 	hydro::HydroSystem system;
-	for (Real ratio : {1.0, 0.125}) for (Real depth : {1e-6, 1.0, 1e9}) {
+	for (Real ratio : {1.0, 0.125}) { for (Real depth : {1e-6, 1.0, 1e9}) {
 		auto gas = gasState(system);
 		auto rad = radiationState();
 		auto const beforeGas = gas;
@@ -50,6 +50,7 @@ TEST(RadiationCoupling, ThermalEquilibriumRemainsStationaryForStiffSteps) {
 		test::expectStateNear(gas, beforeGas, 2e-13);
 		test::expectStateNear(rad, beforeRad, 2e-13);
 		invariants(beforeGas, beforeRad, gas, rad, ratio);
+	}
 	}
 }
 
@@ -107,7 +108,7 @@ TEST(RadiationCoupling, AnalyticOpacityPreservesStreamingConeWithLargePlanckMean
 
 TEST(RadiationCoupling, LorentzBoostedLteRemainsStationaryForStiffSteps) {
 	hydro::HydroSystem system;
-	for (Real ratio : {1.0, 0.125}) for (Real beta : {0.001, 0.05}) for (Real depth : {1e-6, 1.0, 1e9}) {
+	for (Real ratio : {1.0, 0.125}) { for (Real beta : {0.001, 0.05}) { for (Real depth : {1e-6, 1.0, 1e9}) {
 		SCOPED_TRACE(ratio);
 		SCOPED_TRACE(beta);
 		SCOPED_TRACE(depth);
@@ -127,6 +128,8 @@ TEST(RadiationCoupling, LorentzBoostedLteRemainsStationaryForStiffSteps) {
 		test::expectStateNear(rad, beforeRad, 3e-12);
 		invariants(beforeGas, beforeRad, gas, rad, ratio);
 	}
+	}
+	}
 }
 
 TEST(RadiationCoupling, BoostedTransverseDiffusionHasNoSpuriousThermalSource) {
@@ -139,7 +142,7 @@ TEST(RadiationCoupling, BoostedTransverseDiffusionHasNoSpuriousThermalSource) {
 		{1, 1e-7}, {1, 1e-3}, {1e6, 1e-7}, {1e6, 1e-3},
 		{1e9, 1e-9}, {1e9, 1e-7}, {1e12, 1e-12}, {1e12, 1e-9}}};
 	Real largestThermalError = 0, largestRadiationError = 0, largestFluxError = 0, largestDiffusionDrift = 0;
-	for (bool oblique : {false, true}) for (Real beta : {0.001, 0.05}) for (auto const& parameters : cases) {
+	for (bool oblique : {false, true}) { for (Real beta : {0.001, 0.05}) { for (auto const& parameters : cases) {
 		Real const depth = parameters[0], diffusionFraction = parameters[1];
 		SCOPED_TRACE(oblique);
 		SCOPED_TRACE(beta);
@@ -151,7 +154,7 @@ TEST(RadiationCoupling, BoostedTransverseDiffusionHasNoSpuriousThermalSource) {
 		diffusionDirection[0] = -velocityDirection[1];
 		diffusionDirection[1] = velocityDirection[0];
 		auto primitive = system.reconstructionVariables(gasState(system));
-		for (int d = 0; d < ndim; ++d) primitive.velocity(d) = (beta * velocityDirection[d]) * constants::c;
+		for (int d = 0; d < ndim; ++d) { primitive.velocity(d) = (beta * velocityDirection[d]) * constants::c; }
 		auto gas = system.conservedState(primitive);
 		auto const thermal = system.internalEnergy(gas);
 		auto const t = units::value(system.temperature(gas));
@@ -165,9 +168,10 @@ TEST(RadiationCoupling, BoostedTransverseDiffusionHasNoSpuriousThermalSource) {
 		auto const transversePressure = ((1 - f2) / (1 + std::sqrt(4 - 3 * f2))) * comovingEnergy;
 		RadiationSystem::State rad;
 		rad.energy() = gammaSquared * (comovingEnergy + beta * beta * transversePressure);
-		for (int d = 0; d < ndim; ++d)
+		for (int d = 0; d < ndim; ++d) {
 			rad.radiativeFlux(d) = gammaSquared * (comovingEnergy + transversePressure) * primitive.velocity(d)
 				+ (gamma * diffusionDirection[d]) * comovingFlux;
+		}
 		auto const beforeGas = gas;
 		auto const beforeRad = rad;
 		hydro::ConservedState gasDrive{};
@@ -201,6 +205,8 @@ TEST(RadiationCoupling, BoostedTransverseDiffusionHasNoSpuriousThermalSource) {
 			largestDiffusionDrift = std::max(largestDiffusionDrift, Real(std::abs(transverseDrift) / units::value(gamma * comovingFlux)));
 		}
 	}
+	}
+	}
 	// Stiffness must not amplify the equilibrium rounding errors. The flux
 	// bound is on the natural cB scale: an arbitrarily tiny diffusion component
 	// embedded in oblique advective flux cannot have uniform relative accuracy.
@@ -214,7 +220,7 @@ TEST(RadiationCoupling, BoostedTransverseDiffusionHasNoSpuriousThermalSource) {
 
 TEST(RadiationCoupling, StiffThermalRelaxationRecoversIndependentEquilibriumRoot) {
 	hydro::HydroSystem system;
-	for (Real ratio : {1.0, 0.125}) for (Real radiationFactor : {0.0, 0.01, 100.0}) {
+	for (Real ratio : {1.0, 0.125}) { for (Real radiationFactor : {0.0, 0.01, 100.0}) {
 		auto gas = gasState(system);
 		auto rad = radiationState(radiationFactor);
 		auto const beforeGas = gas;
@@ -232,6 +238,7 @@ TEST(RadiationCoupling, StiffThermalRelaxationRecoversIndependentEquilibriumRoot
 		EXPECT_TRUE(system.admissible(gas));
 		EXPECT_TRUE(RadiationSystem(ratio * constants::c).admissible(rad));
 		invariants(beforeGas, beforeRad, gas, rad, ratio);
+	}
 	}
 }
 
@@ -270,7 +277,7 @@ TEST(RadiationCoupling, ThermalRelaxationConvergesAtSecondOrder) {
 		for (int steps : {16, 32, 64}) {
 			auto gas = initialGas;
 			auto rad = initialRad;
-			for (int n = 0; n < steps; ++n) couple(gas, rad, system, Opacity::from_value(opacityValue), ratio, interval(0.5 / steps, ratio));
+			for (int n = 0; n < steps; ++n) { couple(gas, rad, system, Opacity::from_value(opacityValue), ratio, interval(0.5 / steps, ratio)); }
 			Real const error = std::abs(units::value(rad.energy()) - reference);
 			if (previous > 0) { EXPECT_GT(previous / error, 3.7); }
 			previous = error;
@@ -289,7 +296,7 @@ TEST(RadiationCoupling, MomentumRelaxationMatchesIndependentLinearSolution) {
 		auto const beforeRad = rad;
 		Real const feedback = 4 * units::value(rad.energy()) / (3 * density * ratio * std::pow(units::value(constants::c), 2));
 		Real const expectedFraction = (feedback + std::exp(-(1 + feedback))) / (1 + feedback);
-		for (int n = 0; n < 256; ++n) couple(gas, rad, system, Opacity::from_value(opacityValue), ratio, interval(1.0 / 256, ratio));
+		for (int n = 0; n < 256; ++n) { couple(gas, rad, system, Opacity::from_value(opacityValue), ratio, interval(1.0 / 256, ratio)); }
 		EXPECT_NEAR(Real(rad.radiativeFlux(0) / beforeRad.radiativeFlux(0)), expectedFraction, 3e-7);
 		EXPECT_GT(gas.momentum(0), units::MomentumDensity{});
 		invariants(beforeGas, beforeRad, gas, rad, ratio);
@@ -319,7 +326,7 @@ TEST(RadiationCoupling, MovingGasIncludesWorkAndFullM1Tensor) {
 
 TEST(RadiationCoupling, ColdMovingPureBeamPreservesConeAndAbsorbsAtFirstOrderRate) {
 	hydro::HydroSystem system;
-	for (Real ratio : {1.0, 0.125}) for (Real beta : {0.001, 0.01}) for (Real depth : {1e-4, 0.1, 10.0}) {
+	for (Real ratio : {1.0, 0.125}) { for (Real beta : {0.001, 0.01}) { for (Real depth : {1e-4, 0.1, 10.0}) {
 		SCOPED_TRACE(ratio);
 		SCOPED_TRACE(beta);
 		SCOPED_TRACE(depth);
@@ -347,6 +354,8 @@ TEST(RadiationCoupling, ColdMovingPureBeamPreservesConeAndAbsorbsAtFirstOrderRat
 		}
 		invariants(beforeGas, beforeRad, gas, rad, ratio);
 	}
+	}
+	}
 }
 
 TEST(RadiationCoupling, HighKineticDualEnergyRetainsSourceHeating) {
@@ -370,7 +379,7 @@ TEST(RadiationCoupling, HighKineticDualEnergyRetainsSourceHeating) {
 
 TEST(RadiationCoupling, JointThermalAndMomentumSolvePreservesTheRadiationCone) {
 	hydro::HydroSystem system;
-	for (Real ratio : {1.0, 0.125}) for (Real depth : {0.1, 10.0, 1e9}) for (Real factor : {0.001, 1000.0}) {
+	for (Real ratio : {1.0, 0.125}) { for (Real depth : {0.1, 10.0, 1e9}) { for (Real factor : {0.001, 1000.0}) {
 		auto gas = gasState(system);
 		auto rad = radiationState(factor);
 		rad.radiativeFlux(0) = constants::c * rad.energy();
@@ -381,11 +390,13 @@ TEST(RadiationCoupling, JointThermalAndMomentumSolvePreservesTheRadiationCone) {
 		EXPECT_TRUE(RadiationSystem(ratio * constants::c).admissible(rad));
 		invariants(beforeGas, beforeRad, gas, rad, ratio);
 	}
+	}
+	}
 }
 
 TEST(RadiationCoupling, ForcedStiffDiffusionBalancePreservesFlux) {
 	hydro::HydroSystem system;
-	for (Real ratio : {1.0, 0.125}) for (Real depth : {1.0, 1e4, 1e8}) {
+	for (Real ratio : {1.0, 0.125}) { for (Real depth : {1.0, 1e4, 1e8}) {
 		auto gas = gasState(system);
 		auto rad = radiationState();
 		rad.radiativeFlux(0) = 1e-8 * constants::c * rad.energy();
@@ -404,6 +415,7 @@ TEST(RadiationCoupling, ForcedStiffDiffusionBalancePreservesFlux) {
 		test::expectStateNear(rad, beforeRad, 2e-8);
 		EXPECT_NEAR(units::value(gas.momentum(0)), 0, 1e-9 * std::max(Real(1), units::value(units::abs(gasDrive.momentum(0)))));
 		invariants(hydro::ConservedState(beforeGas + gasDrive), RadiationSystem::State(beforeRad + radDrive), gas, rad, ratio);
+	}
 	}
 }
 
@@ -437,9 +449,10 @@ TEST(RadiationCoupling, ForcedDensityAndThermalDrivingConvergeAtSecondOrder) {
 	for (int steps : {16, 32, 64}) {
 		auto gas = initialGas;
 		auto rad = initialRad;
-		for (int n = 0; n < steps; ++n)
+		for (int n = 0; n < steps; ++n) {
 			coupleForced(gas, rad, gasDrive / Real(steps), radDrive / Real(steps), system,
 				Opacity::from_value(opacityValue), ratio, interval(0.5 / steps, ratio));
+		}
 		Real const error = std::abs(units::value(rad.energy()) - reference);
 		if (previous > 0) { EXPECT_GT(previous / error, 3.7); }
 		previous = error;

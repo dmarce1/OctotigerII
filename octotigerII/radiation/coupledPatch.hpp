@@ -37,7 +37,7 @@ void advanceCoupledPatch(hydro::Fields const& gas, radiation::Fields const& rad,
 	if (!(dt > units::Time{}) || !units::finite(dt)) throw std::invalid_argument("Coupled patch timestep must be positive and finite");
 	Real const ratio = radSystem.reducedLightSpeed() / constants::c;
 	auto extendedLower = gas.lower();
-	for (auto& x : extendedLower) x -= 2.0 * gas.cellWidth();
+	for (auto& x : extendedLower) { x -= 2.0 * gas.cellWidth(); }
 	mesh::MeshLayout extendedLayout(layout.cellsPerActiveDimension() + 4, 2);
 	hydro::Fields extendedGas(extendedLayout, gas.cellWidth(), extendedLower);
 	radiation::Fields extendedRad(extendedLayout, rad.cellWidth(), extendedLower);
@@ -48,8 +48,9 @@ void advanceCoupledPatch(hydro::Fields const& gas, radiation::Fields const& rad,
 	radiation::Fields midpointRad = rad;
 	auto materialAt = [&](auto const& patch, mesh::Coordinates const& storageCell, units::Time at) {
 		auto position = patch.lower();
-		for (int d = 0; d < ndim; ++d)
+		for (int d = 0; d < ndim; ++d) {
 			position[d] += (storageCell[d] - patch.layout().ghostWidth() + Real(0.5)) * patch.cellWidth();
+		}
 		return prescribedMaterial ? checkedRadiationMaterial(prescribedMaterial, position, at) : RadiationMaterial{opacity, {}};
 	};
 	auto lawAt = [&](RadiationMaterial const& material) {

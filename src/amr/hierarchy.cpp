@@ -224,11 +224,12 @@ void Hierarchy::advanceOnce(units::Time dt) {
 					{config_.radiation.closedBoundary, config_.mesh.lower, config_.mesh.upper});
 				mesh::forEachCoordinate(layout.extents(), [&](auto const& cell) {
 					mesh::BlockLocation global{level, {}};
-					for (int d = 0; d < ndim; ++d) global.coordinates[d] = block.coordinates[d] * n + cell[d] - ghosts;
+					for (int d = 0; d < ndim; ++d) { global.coordinates[d] = block.coordinates[d] * n + cell[d] - ghosts; }
 					auto const mapped = config_.mesh.boundary.map(global.coordinates, 1 << level);
 					bool exterior = false;
-					for (int d = 0; d < ndim; ++d) exterior = exterior || (!config_.mesh.boundary.periodic(d) &&
+					for (int d = 0; d < ndim; ++d) { exterior = exterior || (!config_.mesh.boundary.periodic(d) &&
 						(global.coordinates[d] < 0 || global.coordinates[d] >= (1 << level)));
+					}
 					if (!exterior) return;
 					auto const position = logicalCenter(config_, global);
 					if (mapped.analytic) {
@@ -238,8 +239,9 @@ void Hierarchy::advanceOnce(units::Time dt) {
 						return;
 					}
 					mesh::Coordinates source{};
-					for (int d = 0; d < ndim; ++d) source[d] =
+					for (int d = 0; d < ndim; ++d) { source[d] =
 						(config_.mesh.boundary.periodic(d) ? global.coordinates[d] : mapped.source[d]) - block.coordinates[d] * n + ghosts;
+					}
 					midGas.atStorage(cell) = finiteVolume::transformBoundary(oldGas.atStorage(source), mapped.reflectionMask,
 						mapped.outflowLowerMask, mapped.outflowUpperMask, gasSystem, frame, position, at);
 					midRad.atStorage(cell) = finiteVolume::transformBoundary(oldRad.atStorage(source), mapped.reflectionMask,

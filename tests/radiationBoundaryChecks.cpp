@@ -73,15 +73,16 @@ TEST(RadiationBoundary, InsulationOverridesApAdvectionAndPreservesPressureFluxIn
 			bool const boundary = face[axis] == 0 || face[axis] == 4;
 			if (boundary) EXPECT_EQ(flux.energy(), units::EnergyFlux{});
 			else EXPECT_EQ(flux.energy(), openWork.fluxes[axis][index].energy());
-			for (int d = 0; d < ndim; ++d)
+			for (int d = 0; d < ndim; ++d) {
 				EXPECT_EQ(flux.radiativeFlux(d), openWork.fluxes[axis][index].radiativeFlux(d));
+			}
 			if (axis == 0) EXPECT_GT(openWork.fluxes[axis][index].energy(), units::EnergyFlux{});
 		});
 	}
 	// Predictor patches extend beyond the physical box. Constraint detection
 	// must use physical face coordinates rather than their patch-edge indices.
 	mesh::PhysicalCoordinates lower{};
-	for (auto& x : lower) x = -2.0 * width;
+	for (auto& x : lower) { x = -2.0 * width; }
 	radiation::Fields padded(mesh::MeshLayout(8, 2), width, lower);
 	std::fill(padded.values().begin(), padded.values().end(), state);
 	radiation::Solver(closed).advanceInto(padded, {}, closedWork, discard, unchanged, false, apCorrection(closed, velocity), dt);
@@ -127,11 +128,11 @@ TEST(RadiationBoundary, CoupledRuntimeClosesEnergyAndMomentumLedgersWithFreeGasB
 		Runtime runtime(config, criteria);
 		if (adaptive) {
 			std::set<int> levels;
-			for (auto const& block : runtime.snapshots()) levels.insert(block.location.level);
+			for (auto const& block : runtime.snapshots()) { levels.insert(block.location.level); }
 			ASSERT_EQ(levels.size(), 2u);
 		}
 		auto const before = diagnose(runtime.snapshots(), config);
-		for (int step = 0; step < 3; ++step) runtime.advanceCoupled(Real(.2) * runtime.stableTimestep());
+		for (int step = 0; step < 3; ++step) { runtime.advanceCoupled(Real(.2) * runtime.stableTimestep()); }
 		if (adaptive) {
 			// Exercise the shadow predictor and regridding boundary path as well.
 			refine = false;

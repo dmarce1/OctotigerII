@@ -33,7 +33,7 @@ TEST(RadiatingSphere, InitializesPhysicalMomentsAndFrozenMaterialWithConsistentG
 		auto const opacity=material(position,{}),later=material(position,units::Time::from_value(100));
 		EXPECT_EQ(opacity.opacity,later.opacity);EXPECT_EQ(opacity.photonPower,later.photonPower);
 		EXPECT_GE(value(opacity.opacity),0);EXPECT_GE(value(opacity.photonPower),0);
-		for(int d=0;d<ndim;++d)EXPECT_EQ(a.hydro.velocity(d),units::Velocity{});
+		for(int d=0;d<ndim;++d) {EXPECT_EQ(a.hydro.velocity(d),units::Velocity{}); }
 		if(x<3.5){
 			auto const temperature=a.hydro.pressure()*c.hydro.meanMolecularWeight*constants::atomicMassUnit/(a.hydro.density()*constants::boltzmann);
 			EXPECT_NEAR(Real(a.radiation.energy()/(constants::radiation*boost::units::pow<4>(temperature))),1,3e-13);
@@ -97,10 +97,11 @@ TEST(RadiatingSphere, EvolvedDriftDecreasesWithMeshSpacingAndAccountsForSourceEn
 		r.radiationDrift=Real((after.radiationEnergy-before.radiationEnergy)/before.radiationEnergy);
 		long double densityChange=0,densityNorm=0;
 		ASSERT_EQ(initial.size(),snapshots.size());
-		for(std::size_t b=0;b<initial.size();++b)for(std::size_t i=0;i<initial[b].hydro.values().size();++i){
+		for(std::size_t b=0;b<initial.size();++b) {for(std::size_t i=0;i<initial[b].hydro.values().size();++i){
 			Real const volume=std::pow(value(initial[b].cellWidth),ndim);
 			densityChange+=std::abs(value(snapshots[b].hydro.values()[i].density()-initial[b].hydro.values()[i].density()))*volume;
 			densityNorm+=value(initial[b].hydro.values()[i].density())*volume;
+		}
 		}
 		r.densityDrift=densityChange/densityNorm;
 		std::cout<<"radiating sphere cells="<<(8<<resolution)<<" steps="<<r.steps<<" time="<<value(interval)

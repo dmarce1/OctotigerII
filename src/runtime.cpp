@@ -139,7 +139,7 @@ void Runtime::Impl::applyEosFloor() {
     for (auto const& block : topology->blocks()) {
         auto output=fields->directory().hydro.output(block.interior,bank);
         auto const& values=repaired[blockIndex++];
-        for (std::size_t i=0;i<values.size();++i) output.put(i,values[i]);
+        for (std::size_t i=0;i<values.size();++i) { output.put(i,values[i]); }
         fields->directory().hydro.commit(block.interior,bank,output);
     }
     eosFloorEnergy += added; eosFloorCells += count;

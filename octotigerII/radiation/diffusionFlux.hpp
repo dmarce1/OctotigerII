@@ -26,7 +26,7 @@ inline RadiationSystem::State materialEquilibriumMoments(units::EnergyDensity en
 	Real const fluxFactor = Real(4) / (Real(3) + beta2);
 	RadiationSystem::State state{};
 	state.energy() = energy;
-	for (int d = 0; d < ndim; ++d) state.radiativeFlux(d) = energy * velocity[d] * fluxFactor;
+	for (int d = 0; d < ndim; ++d) { state.radiativeFlux(d) = energy * velocity[d] * fluxFactor; }
 	M1::checkState(RadiationSystem::toCalculationState(state));
 	return state;
 }
@@ -76,7 +76,7 @@ inline RadiationSystem::Flux diffusionCorrectedFlux(RadiationSystem const& syste
 	Real const thinWeight = tau > 1 ? small : Real(1) - small;
 	Real const thickWeight = tau > 1 ? Real(1) - small : small;
 	MaterialVelocity velocity{};
-	for (int d = 0; d < ndim; ++d) velocity[d] = Real(0.5) * (velocityLeft[d] + velocityRight[d]);
+	for (int d = 0; d < ndim; ++d) { velocity[d] = Real(0.5) * (velocityLeft[d] + velocityRight[d]); }
 	auto const meanEnergy = Real(0.5) * (faceLeft.energy() + faceRight.energy());
 	auto const equilibrium = materialEquilibriumMoments(meanEnergy, velocity);
 	auto const equilibriumFlux = system.physicalFlux(equilibrium, normal, faceSpeed);

@@ -36,8 +36,8 @@ radiation::RadiationSystem::State radiationState() {
 
 Snapshot snapshot(Config const& c) {
 	auto block = initialSnapshot(c, {});
-	for (auto& gas : block.hydro.values()) gas = gasState(c);
-	for (auto& rad : block.radiation.values()) rad = radiationState();
+	for (auto& gas : block.hydro.values()) { gas = gasState(c); }
+	for (auto& rad : block.radiation.values()) { rad = radiationState(); }
 	return block;
 }
 
@@ -45,7 +45,7 @@ std::vector<std::string> split(std::string const& line) {
 	std::vector<std::string> values;
 	std::istringstream input(line);
 	std::string value;
-	while (std::getline(input, value, ',')) values.push_back(value);
+	while (std::getline(input, value, ',')) { values.push_back(value); }
 	return values;
 }
 }
@@ -121,7 +121,7 @@ TEST(RadiationConservation, CombinedCsvUsesBothBoundaryLedgersWithoutChangingLeg
 	auto const names = split(header), values = split(row);
 	ASSERT_EQ(names.size(), values.size());
 	std::map<std::string, Real> fields;
-	for (std::size_t i = 0; i < names.size(); ++i) ASSERT_TRUE(fields.emplace(names[i], std::stod(values[i])).second);
+	for (std::size_t i = 0; i < names.size(); ++i) { ASSERT_TRUE(fields.emplace(names[i], std::stod(values[i])).second); }
 	EXPECT_LT(header.find("radiation_energy_erg_grid"), header.find("physical_total_energy_erg_grid"));
 	near(fields.at("physical_total_energy_erg_in"), 18);
 	near(fields.at("physical_total_energy_erg_out"), 23);
@@ -205,6 +205,6 @@ TEST(RadiationCouplingDiagnostics, SiloFieldsRoundTripAtNonfatalLargeValues) {
 		ASSERT_EQ(field->centering, DB_ZONECENT);
 		ASSERT_EQ(field->nels, int(block.layout.interiorCellCount()));
 		ASSERT_EQ(field->nvals, 1);
-		for (int i = 0; i < field->nels; ++i) near(static_cast<double const*>(field->vals[0])[i], value);
+		for (int i = 0; i < field->nels; ++i) { near(static_cast<double const*>(field->vals[0])[i], value); }
 	}
 }

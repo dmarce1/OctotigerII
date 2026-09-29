@@ -93,13 +93,14 @@ TEST(RadiatingStarStructure, RotationIsSelfConsistentAndVirialErrorConverges) {
 
 TEST(RadiatingStarStructure, InteriorHasPositiveHeatingAndThePhysicalDiffusionFlux) {
 	RadiatingStarStructure star({});
-	for (Real mu : {0.,0.25,0.5,0.75,1.}) for (Real fraction : {0.,0.2,0.4,0.6,0.8,0.95}) {
+	for (Real mu : {0.,0.25,0.5,0.75,1.}) { for (Real fraction : {0.,0.2,0.4,0.6,0.8,0.95}) {
 		auto const r = fraction*star.equatorialRadius();
 		auto const q = star.sample(r*std::sqrt(1-mu*mu),r*mu);
 		if (q.thermodynamics.density == units::Density{}) continue;
 		auto const d = star.diffusion(q,0.34);
 		EXPECT_GT(d.heating,0);
 		EXPECT_GE(d.fluxFactor,0);
+	}
 	}
 	for (Real fraction : {0.2,0.4,0.6}) {
 		auto const r = fraction*star.equatorialRadius(), h = 1e-5*star.equatorialRadius();

@@ -49,7 +49,7 @@ int main() {
                     report.negativeElectronCompressibilityNodes == 0,
                 "Generated table sign diagnostics");
         Eos eos(path.string(), g);
-        for (double d : {1e4, 1.618e4, 4.72e4, 1e5})
+        for (double d : {1e4, 1.618e4, 4.72e4, 1e5}) {
             for (double t : {1e7, 1.337e7, 6.82e7, 1e8}) {
                 const auto q = eos.evaluate(2 * d, t, 12, 6);
                 const auto reference = detail::direct(d, t);
@@ -62,6 +62,7 @@ int main() {
                 require(q.det > 0 && q.gam1 > 0 && q.cs > 0, "Stable thermodynamics");
                 close(q.ptot, q.pgas + q.prad, 1e-14, "Photon decomposition");
             }
+        }
         // Compare an actual centered perturbation to the returned derivative.
         const double rho1 = 60000, t1 = 2.718e7, h = 1e-5;
         auto q = eos.evaluate(rho1, t1, 12, 6);

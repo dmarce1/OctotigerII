@@ -28,8 +28,9 @@ void validateProblem(Config const& c) {
 }
 void initializeProblem(Snapshot& data, Config const& c, bool) {
     hydro::HydroSystem gas(c);
-    for (int s = 0; s < 2; ++s)
+    for (int s = 0; s < 2; ++s) {
         data.species.emplace_back(data.layout, data.cellWidth, data.lower);
+    }
     data.layout.forEachInterior([&](auto const& cell, std::size_t i) {
         auto const x = data.layout.cellCenter(data.lower, data.cellWidth, cell);
         Real const phase = 2 * piR * Real((x[0] - c.mesh.lower) / (c.mesh.upper - c.mesh.lower));
@@ -45,8 +46,9 @@ void initializeProblem(Snapshot& data, Config const& c, bool) {
         primitive.nuclei() = composition.nuclei() / rho;
         primitive.electrons() = composition.electrons() / rho;
         data.hydro.values()[i] = gas.conservedState(primitive);
-        for (int s = 0; s < 2; ++s)
+        for (int s = 0; s < 2; ++s) {
             data.species[s].values()[i] = species[s];
+        }
     });
 }
 }    // namespace octotigerII::helmholtz_advection

@@ -74,15 +74,17 @@ namespace runtime_detail {
 	template <typename State>
 	void exportFields(storage::ColumnHandle<State> const& field, storage::Range range, unsigned bank, mesh::PatchData<State>& patch) {
 		auto input = field.read(range, bank).get();
-		for (std::size_t i = 0; i < range.count; ++i)
+		for (std::size_t i = 0; i < range.count; ++i) {
 			patch.values()[i] = input.at(i);
+		}
 	}
 
 	template <typename State>
 	void initializeFields(storage::ColumnHandle<State> const& field, storage::Range range, mesh::PatchData<State> const& patch) {
 		auto output = field.output(range, 0);
-		for (std::size_t i = 0; i < range.count; ++i)
+		for (std::size_t i = 0; i < range.count; ++i) {
 			output.put(i, patch.values()[i]);
+		}
 		field.commit(range, 0, output);
 	}
 
@@ -91,8 +93,9 @@ namespace runtime_detail {
 		if (destination == ~0u) destination = bank ^ 1;
 		auto input = field.read(range, bank).get();
 		auto output = field.output(range, destination);
-		for (std::size_t i = 0; i < range.count; ++i)
+		for (std::size_t i = 0; i < range.count; ++i) {
 			output.put(i, input.at(i));
+		}
 		field.commit(range, destination, output);
 	}
 
@@ -128,9 +131,10 @@ namespace runtime_detail {
 		radiation::RadiationSystem::State const& initial, radiation::RadiationSystem::State const& midpoint,
 		radiation::RadiationSystem::State const& transport, Real halfFraction, Real lightSpeedRatio) {
 		std::array<units::MomentumDensity, ndim> result;
-		for (int d = 0; d < ndim; ++d)
+		for (int d = 0; d < ndim; ++d) {
 			result[d] = -(midpoint.radiativeFlux(d) - initial.radiativeFlux(d)
 				- halfFraction * transport.radiativeFlux(d)) / (lightSpeedRatio * constants::c * constants::c);
+		}
 		return result;
 	}
 
@@ -212,8 +216,9 @@ namespace runtime_detail {
 									for (int d = 0; d < ndim; ++d) { vl[d] = l.momentum(d) / l.density(); vr[d] = r.momentum(d) / r.density(); }
 									auto extinctionAt = [&](mesh::Coordinates const& cell, hydro::ConservedState const& state) {
 										auto position = block.lower;
-										for (int d = 0; d < ndim; ++d)
+										for (int d = 0; d < ndim; ++d) {
 											position[d] += (cell[d] - input.layout().ghostWidth() + Real(0.5)) * block.cellWidth;
+										}
 										auto const opacity = checkedRadiationMaterial(radiationMaterial, position, time + dt / 2.0).opacity;
 										return state.density() * radiation::opacityLaw(*couplingConfig, opacity).evaluate(state, gasSystem).fluxExtinction;
 									};
@@ -265,7 +270,7 @@ namespace runtime_detail {
 			if (amr) {
 				auto flux = fluxFields.output(block.boundaryFlux, 0);
 				int const n = block.layout.cellsPerActiveDimension();
-				for (int axis = 0; axis < ndim; ++axis)
+				for (int axis = 0; axis < ndim; ++axis) {
 					for (bool upper : {false, true}) {
 						auto extents = mesh::filledCoordinates(n);
 						extents[axis] = 1;
@@ -274,6 +279,7 @@ namespace runtime_detail {
 							flux.put(boundaryFluxIndex(n, axis, upper, face), work.fluxes[axis][block.layout.faceIndex(axis, face)]);
 						});
 					}
+				}
 				fluxFields.commit(block.boundaryFlux, 0, flux);
 			}
 		}
@@ -299,10 +305,10 @@ namespace runtime_detail {
 						if constexpr (std::is_same_v<System, hydro::HydroSystem>) {
 							add(q.template get<0>(), result.inward.mass, result.outward.mass);
 							add(q.totalEnergy(), result.inward.gasEnergy, result.outward.gasEnergy);
-							for (int d = 0; d < ndim; ++d) add(q.momentum(d), result.inward.momentum[d], result.outward.momentum[d]);
+							for (int d = 0; d < ndim; ++d) { add(q.momentum(d), result.inward.momentum[d], result.outward.momentum[d]); }
 						} else {
 							add(q.template get<0>(), result.inward.radiationEnergy, result.outward.radiationEnergy);
-							for (int d = 0; d < ndim; ++d) add(q.radiativeFlux(d), result.inward.radiationFlux[d], result.outward.radiationFlux[d]);
+							for (int d = 0; d < ndim; ++d) { add(q.radiativeFlux(d), result.inward.radiationFlux[d], result.outward.radiationFlux[d]); }
 						}
 					});
 				}

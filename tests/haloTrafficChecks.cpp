@@ -61,9 +61,9 @@ void expectCounts(HaloReadStatistics const& counts, std::uint64_t fields, std::u
 HaloReadStatistics allLocalityHaloStatistics() {
 #ifdef OCTOTIGERII_WITH_HPX
 	std::vector<hpx::future<HaloReadStatistics>> pending;
-	for (auto const& locality : hpx::find_all_localities()) pending.push_back(hpx::async<HaloTrafficSnapshotAction>(locality));
+	for (auto const& locality : hpx::find_all_localities()) { pending.push_back(hpx::async<HaloTrafficSnapshotAction>(locality)); }
 	HaloReadStatistics result;
-	for (auto& snapshot : pending) result += snapshot.get();
+	for (auto& snapshot : pending) { result += snapshot.get(); }
 	return result;
 #else
 	return haloReadStatistics();
@@ -76,10 +76,11 @@ TEST(HaloTraffic, CountsRequestedRangesAndTimeEndpoints) {
 	storage::Layout layout(std::vector<std::size_t>(placement.size(), 6), placement.size());
 	storage::PartitionSet store(placement);
 	storage::Field<units::Density> field(layout, store, 3);
-	for (unsigned bank = 0; bank < 3; ++bank) for (auto const& range : layout.ranges()) {
+	for (unsigned bank = 0; bank < 3; ++bank) { for (auto const& range : layout.ranges()) {
 		auto output = field.handle().output(range, bank);
-		for (std::size_t i = 0; i < range.count; ++i) output.data()[i] = units::Density::from_value(10 * bank + i);
+		for (std::size_t i = 0; i < range.count; ++i) { output.data()[i] = units::Density::from_value(10 * bank + i); }
 		field.handle().commit(range, bank, output);
+	}
 	}
 	auto const halo = plan(layout);
 	std::vector<units::Density> ghosts;
@@ -117,8 +118,9 @@ TEST(HaloTraffic, ExpandsDerivedColumnsIntoTheirActualSourceReads) {
 	auto handle = fields.handle();
 	for (auto const& range : layout.ranges()) {
 		auto output = handle.output(range, 0);
-		for (std::size_t i = 0; i < range.count; ++i)
+		for (std::size_t i = 0; i < range.count; ++i) {
 			output.put(i, State(units::Density::from_value(2), units::EnergyDensity::from_value(3)));
+		}
 		handle.commit(range, 0, output);
 	}
 	// Shift ownership to exercise derived sources on different localities.
@@ -199,20 +201,22 @@ void compareCompactMidpoint(Subgrid const& block, HaloPlan const& plan, System c
 	};
 	advance(full, fullWork, fullResult);
 	advance(compact, compactWork, compactResult);
-	for (std::size_t i = 0; i < fullResult.size(); ++i) test::expectStateNear(compactResult[i], fullResult[i], 0);
+	for (std::size_t i = 0; i < fullResult.size(); ++i) { test::expectStateNear(compactResult[i], fullResult[i], 0); }
 	for (int axis = 0; axis < ndim; ++axis) {
 		ASSERT_EQ(compactWork.fluxes[axis].size(), fullWork.fluxes[axis].size());
-		for (std::size_t i = 0; i < fullWork.fluxes[axis].size(); ++i)
+		for (std::size_t i = 0; i < fullWork.fluxes[axis].size(); ++i) {
 			test::expectStateNear(compactWork.fluxes[axis][i], fullWork.fluxes[axis][i], 0);
+		}
 	}
 	mesh::forEachCoordinate(padded.extents(), [&](auto const& cell) {
 		if (padded.isInterior(cell)) return;
 		bool firstLayer = true;
-		for (auto coordinate : cell) firstLayer = firstLayer && coordinate > 0 && coordinate < padded.cellsPerActiveDimension() + 3;
+		for (auto coordinate : cell) { firstLayer = firstLayer && coordinate > 0 && coordinate < padded.cellsPerActiveDimension() + 3; }
 		test::expectStateNear(compact.atStorage(cell), firstLayer ? full.atStorage(cell) : State{}, 0);
 	});
-	for (std::size_t i = plan.ghostCount; i < compactGhosts.size(); ++i)
+	for (std::size_t i = plan.ghostCount; i < compactGhosts.size(); ++i) {
 		test::expectStateNear(compactGhosts[i], State{}, 0);
+	}
 }
 
 void coupledCacheCheck(bool openingKick) {
@@ -303,11 +307,12 @@ void coupledCacheCheck(bool openingKick) {
 				ASSERT_FALSE(snapshots.empty());
 				auto const& gas = snapshots.front().hydro.values().front();
 				auto const& radiation = snapshots.front().radiation.values().front();
-				for (auto const& block : snapshots)
+				for (auto const& block : snapshots) {
 					for (std::size_t i = 0; i < block.hydro.values().size(); ++i) {
 						test::expectStateNear(block.hydro.values()[i], gas, 0);
 						test::expectStateNear(block.radiation.values()[i], radiation, 0);
 					}
+				}
 			}
 		}
 		auto const result = runtime.snapshots();
@@ -348,7 +353,7 @@ TEST(HaloTraffic, CompactInitialHaloMatchesFullMidpointCorrectorOnMixedLevelsAnd
 	std::vector<mesh::BlockLocation> leaves;
 	for (int slot = 0; slot < (1 << ndim); ++slot) {
 		auto const child = mesh::BlockLocation{}.child(slot);
-		if (slot == 0) for (int sub = 0; sub < (1 << ndim); ++sub) leaves.push_back(child.child(sub));
+		if (slot == 0) for (int sub = 0; sub < (1 << ndim); ++sub) { leaves.push_back(child.child(sub)); }
 		else leaves.push_back(child);
 	}
 	auto const placement = owners();
@@ -374,19 +379,21 @@ TEST(HaloTraffic, CompactInitialHaloMatchesFullMidpointCorrectorOnMixedLevelsAnd
 		hydro::PrimitiveState state;
 		state.density() = units::Density::from_value(2 + Real(.2) * value);
 		state.pressure() = units::Pressure::from_value(2e16 * (1 + Real(.1) * value));
-		for (int d = 0; d < ndim; ++d)
+		for (int d = 0; d < ndim; ++d) {
 			state.velocity(d) = units::Velocity::from_value(1e7 * (d + 1) * (1 + Real(.1) * value) / ndim);
+		}
 		return gasSystem.conservedState(state);
 	};
 	finiteVolume::AnalyticBoundary<radiation::RadiationSystem::State> radiationState = [&](auto const& position, auto at) {
 		Real const value = profile(position, at);
 		radiation::RadiationSystem::State state;
 		state.energy() = units::EnergyDensity::from_value(2 + Real(.3) * value);
-		for (int d = 0; d < ndim; ++d)
+		for (int d = 0; d < ndim; ++d) {
 			state.radiativeFlux(d) = Real(.03) * (d + 1) / ndim * constants::c * state.energy();
+		}
 		return state;
 	};
-	for (auto const& block : topology.blocks()) for (unsigned bank = 0; bank < 2; ++bank) {
+	for (auto const& block : topology.blocks()) { for (unsigned bank = 0; bank < 2; ++bank) {
 		auto gasOutput = gas.handle().output(block.interior, bank);
 		auto radiationOutput = radiation.handle().output(block.interior, bank);
 		block.layout.forEachInterior([&](auto const& cell, std::size_t i) {
@@ -396,6 +403,7 @@ TEST(HaloTraffic, CompactInitialHaloMatchesFullMidpointCorrectorOnMixedLevelsAnd
 		});
 		gas.handle().commit(block.interior, bank, gasOutput);
 		radiation.handle().commit(block.interior, bank, radiationOutput);
+	}
 	}
 	std::size_t prolongations = 0, reflections = 0, analytic = 0;
 	for (auto const& block : topology.blocks()) {

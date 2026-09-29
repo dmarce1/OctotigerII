@@ -98,7 +98,7 @@ int main() {
     std::cout << "D,T,double_bits,long_double_bits,double_cv_entropy,double_cv_energy,"
                  "long_double_cv_entropy,long_double_cv_energy,long_double_entropy,"
                  "sommerfeld_cv,kT_over_fermi_energy\n" << std::setprecision(18);
-    for (long double d : {1e6L,1e9L,1e12L,1e15L})
+    for (long double d : {1e6L,1e9L,1e12L,1e15L}) {
         for (long double t : {1e3L,1e4L,1e6L,1e8L}) {
             auto b = experiment::baseline::direct(d,t);
             auto q = direct(d,t);
@@ -111,6 +111,7 @@ int main() {
                 << std::numeric_limits<long double>::digits << ',' << t*b.st << ',' << b.cvEnergy
                 << ',' << t*q.st << ',' << q.cvEnergy << ',' << q.s << ',' << cv << ',' << kerg*t/ef << '\n';
         }
+    }
 }
 '''
 (out/'probe.cpp').write_text(probe)

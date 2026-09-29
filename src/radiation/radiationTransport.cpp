@@ -58,7 +58,7 @@ RadiationSystem::State RadiationSystem::conservedState(Reconstruction const& sta
 		magnitude > (Real(1) - interiorMargin) * calculation[0]) {
 		auto interior = calculation;
 		auto const factor = Real((Real(1) - interiorMargin) * calculation[0] / magnitude);
-		for (int i = 1; i < Reconstruction::size(); ++i) interior[i] *= factor;
+		for (int i = 1; i < Reconstruction::size(); ++i) { interior[i] *= factor; }
 		return fromCalculationState(interior);
 	}
 	return physical;
@@ -184,8 +184,9 @@ RadiationSystem::Flux RadiationSystem::lowOrderFlux(State const& left, State con
 RadiationSystem::State RadiationSystem::fromPhysical(units::EnergyDensity energyDensity, std::array<units::EnergyFlux, ndim> const& physicalFlux) {
 	State result{};
 	result.energy() = energyDensity;
-	for (int axis = 0; axis < ndim; ++axis)
+	for (int axis = 0; axis < ndim; ++axis) {
 		result.radiativeFlux(axis) = physicalFlux[axis];
+	}
 	Method::checkState(toCalculationState(result));
 	return result;
 }
@@ -193,32 +194,36 @@ RadiationSystem::State RadiationSystem::fromPhysical(units::EnergyDensity energy
 std::array<units::EnergyFlux, ndim> RadiationSystem::toPhysicalFlux(State const& state) {
 	Method::checkState(toCalculationState(state));
 	std::array<units::EnergyFlux, ndim> result{};
-	for (int axis = 0; axis < ndim; ++axis)
+	for (int axis = 0; axis < ndim; ++axis) {
 		result[axis] = state.radiativeFlux(axis);
+	}
 	return result;
 }
 
 RadiationSystem::Method::State RadiationSystem::toCalculationState(State const& state) {
 	Method::State result{};
 	result[0] = state.energy();
-	for (int axis = 0; axis < ndim; ++axis)
+	for (int axis = 0; axis < ndim; ++axis) {
 		result[axis + 1] = state.radiativeFlux(axis) / constants::c;
+	}
 	return result;
 }
 
 RadiationSystem::State RadiationSystem::fromCalculationState(Method::State const& state) {
 	State result{};
 	result.energy() = state[0];
-	for (int axis = 0; axis < ndim; ++axis)
+	for (int axis = 0; axis < ndim; ++axis) {
 		result.radiativeFlux(axis) = constants::c * state[axis + 1];
+	}
 	return result;
 }
 
 RadiationSystem::Flux RadiationSystem::fromCalculationFlux(Method::Flux const& flux) {
 	Flux result{};
 	result.energy() = flux[0];
-	for (int axis = 0; axis < ndim; ++axis)
+	for (int axis = 0; axis < ndim; ++axis) {
 		result.radiativeFlux(axis) = constants::c * flux[axis + 1];
+	}
 	return result;
 }
 

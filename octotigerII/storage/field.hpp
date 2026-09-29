@@ -116,7 +116,7 @@ public:
 	Future<Buffer<T>> read(Range range, unsigned bank) const {
 		if (!sumSources.empty()) {
 			std::vector<Future<Buffer<T>>> pending;
-			for (auto const& source : sumSources) pending.push_back(source.read(range, bank));
+			for (auto const& source : sumSources) { pending.push_back(source.read(range, bank)); }
 			auto sum = [range, weights = sumWeights](auto reads) {
 				Buffer<T> result(range.count);
 				std::fill_n(result.data(), range.count, T{});
@@ -125,7 +125,7 @@ public:
 				for (auto& read : reads) {
 					try {
 						auto values = read.get();
-						for (std::size_t i = 0; i < range.count; ++i) result.data()[i] += values.data()[i] * (weights.empty() ? Real(1) : weights.at(sourceIndex));
+						for (std::size_t i = 0; i < range.count; ++i) { result.data()[i] += values.data()[i] * (weights.empty() ? Real(1) : weights.at(sourceIndex)); }
 					} catch (...) { if (!error) error = std::current_exception(); }
 					++sourceIndex;
 				}

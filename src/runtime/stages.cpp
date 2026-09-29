@@ -30,16 +30,18 @@ PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level,
 	}
 	if (cacheOwners.size() != topology->blocks().size()) {
 		cacheOwners.resize(topology->blocks().size());
-		for (auto const& block : topology->blocks()) cacheOwners[block.id] = block.interior.partition;
+		for (auto const& block : topology->blocks()) { cacheOwners[block.id] = block.interior.partition; }
 	}
 	std::vector<std::vector<std::uint64_t>> cachedWork(localities.size());
 	if (operation == Operation::Advance && source.referenceStep > units::Time{})
-		for (auto const& block : topology->blocks()) if (level < 0 || block.location.level == level)
+		for (auto const& block : topology->blocks()) { if (level < 0 || block.location.level == level)
 			cachedWork.at(cacheOwners[block.id]).push_back(block.id);
+		}
 #ifdef OCTOTIGERII_WITH_HPX
 	std::vector<hpx::future<void>> starts;
-	for (std::size_t i = 0; i < executors.size(); ++i)
+	for (std::size_t i = 0; i < executors.size(); ++i) {
 		starts.push_back(hpx::async<LocalExecutor::BeginAction>(executors[i], dispatch, stageBank, stageTime, level, haloTimes, fluxWeight, source, operation, std::move(cachedWork[i])));
+	}
 	finish(starts);
 	std::vector<hpx::future<PhaseResult>> pending;
 	for (auto const& id : executors)
@@ -52,7 +54,7 @@ PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level,
 	PhaseResult result;
 	for (std::size_t i = 0; i < results.size(); ++i) {
 		auto const& part = results[i];
-		for (auto id : part.cachedBlocks) cacheOwners.at(id) = i;
+		for (auto id : part.cachedBlocks) { cacheOwners.at(id) = i; }
 		result.boundary += part.boundary;
 		result.radiationSourceEnergy += part.radiationSourceEnergy;
 		result.tasks.localTasks += part.tasks.localTasks;

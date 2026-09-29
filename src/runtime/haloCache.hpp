@@ -48,9 +48,10 @@ struct BlockHaloCache {
 		std::vector<HaloTime> const& times, bool unchangedBankCopy) const {
 		if (time != at || referenceStep != reference || rateId != rate || (!unchangedBankCopy && bank != inputBank)
 			|| donors.size() != times.size()) return false;
-		for (std::size_t i = 0; i < times.size(); ++i)
+		for (std::size_t i = 0; i < times.size(); ++i) {
 			if (donors[i].bank != times[i].bank || donors[i].fraction != times[i].fraction || donors[i].nextBank != times[i].nextBank)
 				return false;
+		}
 		return true;
 	}
 };

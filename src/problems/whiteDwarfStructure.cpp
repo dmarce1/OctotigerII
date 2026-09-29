@@ -86,7 +86,7 @@ WhiteDwarfStructure::WhiteDwarfStructure(Parameters p)
 	std::vector<Real> polynomials;
 	for(int k=0;k<angles;++k){
 		legendre(mu_[k],p.maxMultipole,polynomials);
-		for(int l=0;l<modes;++l)legendre_[k*modes+l]=polynomials[2*l];
+		for(int l=0;l<modes;++l) {legendre_[k*modes+l]=polynomials[2*l]; }
 	}
 	std::vector<Real> density(count*angles),next(density.size());
 	for(int j=0;j<count;++j){
@@ -101,7 +101,7 @@ WhiteDwarfStructure::WhiteDwarfStructure(Parameters p)
 				ratio=densityRatio(a.h+(b.h-a.h)*(r-a.r)/(b.r-a.r));
 			}
 		}
-		for(int k=0;k<angles;++k)density[j*angles+k]=ratio;
+		for(int k=0;k<angles;++k) {density[j*angles+k]=ratio; }
 	}
 	bool converged=false;
 	for(int iteration=0;iteration<p.maxIterations;++iteration){
@@ -111,7 +111,7 @@ WhiteDwarfStructure::WhiteDwarfStructure(Parameters p)
 			bool outside=false;
 			for(int j=0;j<count;++j){
 				Real phi=0;
-				for(int l=0;l<modes;++l)phi+=coefficients_[j*modes+l]*legendre_[k*modes+l];
+				for(int l=0;l<modes;++l) {phi+=coefficients_[j*modes+l]*legendre_[k*modes+l]; }
 				Real const r=j*step_,h=1+centralPotential_-phi+
 					Real(.5)*omegaSquared_*r*r*(1-mu_[k]*mu_[k]);
 				if(h<=0)outside=true;
@@ -134,7 +134,7 @@ WhiteDwarfStructure::WhiteDwarfStructure(Parameters p)
 		Real const r=j*step_,radialWeight=(j==0||j==count-1?.5:1)*step_*r*r;
 		for(int k=0;k<angles;++k){
 			Real phi=0;
-			for(int l=0;l<modes;++l)phi+=coefficients_[j*modes+l]*legendre_[k*modes+l];
+			for(int l=0;l<modes;++l) {phi+=coefficients_[j*modes+l]*legendre_[k*modes+l]; }
 			Real const ratio=density[j*angles+k],rotation=omegaSquared_*r*r*(1-mu_[k]*mu_[k]);
 			if(ratio>1e-12){
 				auto const h=cold_.enthalpy(p.centralDensity*ratio)*(1+p.thermalPressureFraction);
@@ -159,7 +159,7 @@ void WhiteDwarfStructure::poisson(std::vector<Real> const& density) {
 		int const l=2*mode;
 		for(int j=0;j<count;++j){
 			q[j]=0;
-			for(int k=0;k<angles;++k)q[j]+=angularWeights_[k]*density[j*angles+k]*legendre_[k*modes+mode];
+			for(int k=0;k<angles;++k) {q[j]+=angularWeights_[k]*density[j*angles+k]*legendre_[k*modes+mode]; }
 		}
 		if(l>0)q[0]=0;
 		interior[0]=0;
@@ -213,13 +213,14 @@ WhiteDwarfStructure::Potential WhiteDwarfStructure::potential(Real r,Real mu) co
 Real WhiteDwarfStructure::surface(Real mu) const {
 	auto h=[&](Real r){return 1+centralPotential_-potential(r,mu).value+
 		Real(.5)*omegaSquared_*r*r*(1-mu*mu);};
-	for(int j=1;j<=parameters_.radialCells;++j)if(h(j*step_)<=0){
+	for(int j=1;j<=parameters_.radialCells;++j) {if(h(j*step_)<=0){
 		Real lower=(j-1)*step_,upper=j*step_;
 		for(int iteration=0;iteration<64;++iteration){
 			Real const mid=(lower+upper)/2;
 			if(h(mid)>0)lower=mid;else upper=mid;
 		}
 		return (lower+upper)/2;
+	}
 	}
 	throw std::runtime_error("Rotating white dwarf has no closed surface in the SCF domain");
 }
@@ -265,8 +266,9 @@ std::array<units::EnergyFlux,2> WhiteDwarfStructure::diffusionFlux(State const& 
 	Real const dEdH=4*value(state.radiationEnergy)/
 		((1+parameters_.thermalPressureFraction)*value(derivative))*logarithmicSlope;
 	Real const factor=value(constants::c)/(3*opacityCgs*value(state.density));
-	for(int axis=0;axis<2;++axis)
+	for(int axis=0;axis<2;++axis) {
 		result[axis]=units::EnergyFlux::from_value(factor*dEdH*value(state.effectivePotentialGradient[axis]));
+	}
 	return result;
 }
 

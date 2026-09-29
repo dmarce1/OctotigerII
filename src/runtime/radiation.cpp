@@ -10,7 +10,7 @@ void copyBetween(storage::ColumnHandle<State> const& from, unsigned source,
 	storage::ColumnHandle<State> const& to, unsigned destination, storage::Range range) {
 	auto input = from.read(range, source).get();
 	auto output = to.output(range, destination);
-	for (std::size_t i = 0; i < range.count; ++i) output.put(i, input.at(i));
+	for (std::size_t i = 0; i < range.count; ++i) { output.put(i, input.at(i)); }
 	to.commit(range, destination, output);
 }
 
@@ -24,15 +24,16 @@ struct CouplingStorage {
 	  : store(localities), gas(cells, store, "coupling.gas", false, 2), gasRate(cells, store, "coupling.gasRate", false, 1),
 		radiation(cells, store, "coupling.radiation", false, 2), radiationRate(cells, store, "coupling.radiationRate", false, 1),
 		gravity(cells, store, "coupling.gravity", false, 1) {
-		for (std::size_t i = 0; i < speciesCount; ++i)
+		for (std::size_t i = 0; i < speciesCount; ++i) {
 			species.push_back(std::make_unique<storage::Field<units::Density>>(cells, store, 1, "coupling.species"));
+		}
 	}
 	RadiationStepFields handles(units::Time dt) const {
 		RadiationStepFields result;
 		result.gas = gas.handle(); result.gasRate = gasRate.handle();
 		result.radiation = radiation.handle(); result.radiationRate = radiationRate.handle();
 		result.gravity = gravity.handle(); result.referenceStep = dt; result.limiterInterval = dt / 2.0;
-		for (auto const& field : species) result.species.push_back(field->handle());
+		for (auto const& field : species) { result.species.push_back(field->handle()); }
 		return result;
 	}
 };
@@ -108,9 +109,9 @@ units::Energy LocalExecutor::radiationSource(Subgrid const& block, Operation ope
 				auto acceleration = config_.hydro.acceleration;
 				if (gravity) {
 					std::array<units::Acceleration, ndim> self{};
-					for (int d = 0; d < ndim; ++d) self[d] = gravity->at(i).acceleration(d);
+					for (int d = 0; d < ndim; ++d) { self[d] = gravity->at(i).acceleration(d); }
 					self = finiteVolume::RotatingFrame(config_.frame.omega).toInertial(self, time_);
-					for (int d = 0; d < ndim; ++d) acceleration[d] += self[d];
+					for (int d = 0; d < ndim; ++d) { acceleration[d] += self[d]; }
 				}
 				for (int d = 0; d < ndim; ++d) {
 					dg.momentum(d) += (dt / 2.0) * g.density() * acceleration[d];
@@ -160,7 +161,7 @@ units::Energy LocalExecutor::radiationSource(Subgrid const& block, Operation ope
 	fields_.hydro.commit(block.interior, outputBank, gasOutput);
 	fields_.radiation.commit(block.interior, outputBank, radOutput);
 	if (config_.gravityEnabled()) copyFields(fields_.gravity, block.interior, inputBank, outputBank);
-	for (auto const& species : fields_.species) copyScalar(species, block.interior, inputBank, outputBank);
+	for (auto const& species : fields_.species) { copyScalar(species, block.interior, inputBank, outputBank); }
 	return injected;
 #else
 	(void) block; (void) operation; (void) dt;

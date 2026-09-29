@@ -52,7 +52,7 @@ std::shared_ptr<Model const> model(Config const& config) {
 
 verification::ExactState state(Config const& config, Model const& star,
 	mesh::PhysicalCoordinates position, Real probeScale = 1) {
-	for (int axis = 0; axis < ndim; ++axis) position[axis] -= config.star.center[axis];
+	for (int axis = 0; axis < ndim; ++axis) { position[axis] -= config.star.center[axis]; }
 	auto const R = units::hypot(position[0], position[1]);
 	auto const profile = star.sample(R / probeScale, position[2] / probeScale);
 	auto const floor = star.eos().atDensity(config.star.atmosphereFraction * config.star.centralDensity);
@@ -81,10 +81,10 @@ verification::ExactState state(Config const& config, Model const& star,
 	// the comoving flux there; never add the formal div(F) as a photon heater.
 	auto const E0 = matter.radiationEnergy;
 	units::EnergyFlux norm{};
-	for (auto flux : comovingFlux) norm = units::hypot(norm, flux);
+	for (auto flux : comovingFlux) { norm = units::hypot(norm, flux); }
 	auto const maximumFlux = (1 - 32 * epsilonR) * constants::c * E0;
 	if (norm > maximumFlux) {
-		for (auto& flux : comovingFlux) flux *= Real(maximumFlux / norm);
+		for (auto& flux : comovingFlux) { flux *= Real(maximumFlux / norm); }
 		norm = maximumFlux;
 	}
 	Real const f = Real(norm / (constants::c * E0));
@@ -100,9 +100,10 @@ verification::ExactState state(Config const& config, Model const& star,
 	// The azimuthal velocity is perpendicular to the meridional M1 flux.
 	// This exact boost keeps the retained mixed-frame local thermal source zero.
 	result.radiation.energy() = boost2 * (E0 + beta2 * transversePressure);
-	for (int axis = 0; axis < ndim; ++axis)
+	for (int axis = 0; axis < ndim; ++axis) {
 		result.radiation.radiativeFlux(axis) = boost * comovingFlux[axis]
 			+ boost2 * (E0 + transversePressure) * result.hydro.velocity(axis);
+	}
 	result.gravity.potential() = profile.potential;
 	result.gravity.acceleration(0) = -nx * profile.potentialGradient[0];
 	result.gravity.acceleration(1) = -ny * profile.potentialGradient[0];
@@ -161,8 +162,9 @@ void validateProblem(Config const& config) {
 	if (!(config.star.atmosphereFraction > 0 && config.star.atmosphereFraction < 1e-3)
 		|| !std::isfinite(config.star.atmosphereFraction))
 		throw std::invalid_argument("Invalid radiating-star numerical atmosphere fraction");
-	for (auto center : config.star.center)
+	for (auto center : config.star.center) {
 		if (!units::finite(center)) throw std::invalid_argument("Nonfinite stellar center");
+	}
 	auto const star = model(config);
 	for (int axis = 0; axis < ndim; ++axis) {
 		auto const radius = axis == 2 ? star->polarRadius() : star->equatorialRadius();

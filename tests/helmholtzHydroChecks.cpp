@@ -24,7 +24,7 @@ TEST(HelmholtzHydro, InversionsSoundSpeedAndPhotonExclusion) {
         Config::HydroOptions options;
         options.eos = "helmholtz";
         hydro::HydroSystem gas(options, gasOnly);
-        for (double rho : {1e-5, 1e3, 1e6})
+        for (double rho : {1e-5, 1e3, 1e6}) {
             for (double t : {1e5, 1e7, 1e9}) {
                 SCOPED_TRACE(rho);
                 SCOPED_TRACE(t);
@@ -41,6 +41,7 @@ TEST(HelmholtzHydro, InversionsSoundSpeedAndPhotonExclusion) {
                 auto fromEntropy = gas.internalEnergyFromAuxiliary(state);
                 EXPECT_NEAR(units::value(fromEntropy / state.totalEnergy()), 1, 2e-8);
             }
+        }
     }
 }
 TEST(HelmholtzHydro, AdiabaticSoundSpeedMatchesEntropyDerivative) {
@@ -93,7 +94,7 @@ TEST(HelmholtzHydro, SpeciesDetermineCompositionAndTracersAreExcluded) {
 TEST(HelmholtzHydro, RadiationLteAndRelaxationConserveEnergy) {
     auto c = config(true);
     hydro::HydroSystem gas(c);
-    for (double ratio : {1.0, 0.1})
+    for (double ratio : {1.0, 0.1}) {
         for (double factor : {1.0, 0.5, 2.0}) {
             auto state = gas.stateFromTemperature(units::Density::from_value(1e-5), units::Temperature::from_value(1e6), 12, 6);
             radiation::RadiationSystem::State rad;
@@ -104,6 +105,7 @@ TEST(HelmholtzHydro, RadiationLteAndRelaxationConserveEnergy) {
             EXPECT_TRUE(gas.admissible(state));
             if (factor == 1) EXPECT_NEAR(units::value(gas.temperature(state)) / 1e6, 1, 1e-9);
         }
+    }
     Config::HydroOptions options;
     options.eos = "helmholtz";
     hydro::HydroSystem photons(options, false);
@@ -122,11 +124,12 @@ TEST(HelmholtzHydro, CoupledRuntimeUsesSpeciesAndClosesBudget) {
     auto snapshots = runtime.snapshots();
     auto after = diagnose(snapshots, c);
     EXPECT_NEAR(units::value(after.rslaTotalEnergy - before.rslaTotalEnergy - runtime.eosFloorEnergy()), 0, 2e-11 * units::value(before.rslaTotalEnergy));
-    for (auto const& block : snapshots)
+    for (auto const& block : snapshots) {
         block.layout.forEachInterior([&](auto const&, std::size_t i) {
             auto const& state = block.hydro.values()[i];
             EXPECT_NEAR(units::value(state.nuclei()), units::value(block.species[0].values()[i] / 12.0 + block.species[1].values()[i] / 16.0), 1e-12);
         });
+    }
 }
 
 TEST(HelmholtzHydro, AmrSubcyclingAndRegridPreserveSpeciesAndEnergy) {
@@ -145,13 +148,15 @@ TEST(HelmholtzHydro, AmrSubcyclingAndRegridPreserveSpeciesAndEnergy) {
     Runtime runtime(c, criteria);
     auto totals = [&]() {
         std::array<units::Mass, 2> result{};
-        for (auto const& block : runtime.snapshots())
+        for (auto const& block : runtime.snapshots()) {
             block.layout.forEachInterior([&](auto const&, std::size_t i) {
-                for (int s = 0; s < 2; ++s)
+                for (int s = 0; s < 2; ++s) {
                     result[s] += block.layout.cellMeasure(block.cellWidth) * block.species[s].values()[i];
+                }
                 auto const& state = block.hydro.values()[i];
                 EXPECT_NEAR(units::value(state.nuclei()), units::value(block.species[0].values()[i] / 12.0 + block.species[1].values()[i] / 16.0), 1e-10);
             });
+        }
         return result;
     };
     auto initial = diagnose(runtime.snapshots(), c);
@@ -159,14 +164,16 @@ TEST(HelmholtzHydro, AmrSubcyclingAndRegridPreserveSpeciesAndEnergy) {
     runtime.advanceCoupled(std::min(runtime.stableTimestep(), units::Time::from_value(1e-5)));
     auto final = diagnose(runtime.snapshots(), c);
     auto after = totals();
-    for (int s = 0; s < 2; ++s)
+    for (int s = 0; s < 2; ++s) {
         EXPECT_NEAR(Real(after[s] / mass[s]), 1, 2e-12);
+    }
     EXPECT_NEAR(Real((final.rslaTotalEnergy - runtime.eosFloorEnergy()) / initial.rslaTotalEnergy), 1, 2e-11);
     refine = false;
     runtime.regrid(units::Time{}, true);
     after = totals();
-    for (int s = 0; s < 2; ++s)
+    for (int s = 0; s < 2; ++s) {
         EXPECT_NEAR(Real(after[s] / mass[s]), 1, 2e-12);
+    }
     EXPECT_THROW(runtime.advanceCoupled(units::Time::from_value(-1)), std::invalid_argument);
     EXPECT_EQ(runtime.eosFloorEnergy(), units::Energy{});
 }

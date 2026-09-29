@@ -49,7 +49,7 @@ std::shared_ptr<Model const> model(Config const& c) {
 
 units::Length radius(Config const& c, mesh::PhysicalCoordinates const& position) {
 	units::Length result{};
-	for (int d=0; d<ndim; ++d) result=units::hypot(result,position[d]-c.star.center[d]);
+	for (int d=0; d<ndim; ++d) { result=units::hypot(result,position[d]-c.star.center[d]); }
 	return result;
 }
 
@@ -128,12 +128,13 @@ void validateProblem(Config const& c) {
 		throw std::invalid_argument("Invalid radiating-star atmosphere fraction, reference resolution, or tolerance");
 	if (!c.mesh.boundary.all(finiteVolume::BoundaryCondition::Outflow))
 		throw std::invalid_argument("The isolated radiating sphere requires outflow boundaries");
-	for (auto center:c.star.center) if(!units::finite(center)) throw std::invalid_argument("Nonfinite stellar center");
+	for (auto center:c.star.center) { if(!units::finite(center)) throw std::invalid_argument("Nonfinite stellar center"); }
 	if(c.frame.omega!=units::InverseTime{} && (c.star.center[0]!=units::Length{} || c.star.center[1]!=units::Length{}))
 		throw std::invalid_argument("A stationary radiating sphere on a rotating grid must be centered on the grid rotation axis; its prescribed source and opacity use grid coordinates");
 	auto star=model(c);
-	for (int d=0;d<ndim;++d) if(c.star.center[d]-star->surfaceRadius()<=c.mesh.lower || c.star.center[d]+star->surfaceRadius()>=c.mesh.upper)
+	for (int d=0;d<ndim;++d) { if(c.star.center[d]-star->surfaceRadius()<=c.mesh.lower || c.star.center[d]+star->surfaceRadius()>=c.mesh.upper)
 		throw std::invalid_argument("The complete radiating star must fit inside the domain");
+	}
 	if (c.star.atmosphereFraction*c.star.centralDensity<units::Density::from_value(1e-14))
 		throw std::invalid_argument("Radiating-star numerical atmosphere falls below the hydro density floor");
 }

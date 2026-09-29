@@ -30,8 +30,8 @@ TEST(RadiationDiffusion, ZeroExtinctionPreservesEveryThinFluxComponentExactly) {
 TEST(RadiationDiffusion, MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated) {
 	// The faster case checks the algebraic manifold's subluminal domain only;
 	// it is not a claim that the nonrelativistic evolution is accurate there.
-	for (Real velocityScale : {Real(.03), Real(.6)})
-	for (Real ratio : {Real(1), Real(.1)}) for (Real tau : {Real(.01), Real(10), Real(1e8)}) {
+	for (Real velocityScale : {Real(.03), Real(.6)}) {
+	for (Real ratio : {Real(1), Real(.1)}) { for (Real tau : {Real(.01), Real(10), Real(1e8)}) {
 		RadiationSystem const system(ratio * constants::c);
 		MaterialVelocity velocity{};
 		Real beta2 = 0;
@@ -43,8 +43,9 @@ TEST(RadiationDiffusion, MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated)
 		auto const equilibrium = materialEquilibriumMoments(units::EnergyDensity::from_value(2), velocity);
 		auto const emission = equilibrium.energy() * (Real(3) * (1 - beta2) / (3 + beta2));
 		auto thermalBalance = equilibrium.energy() - emission;
-		for (int d = 0; d < ndim; ++d)
+		for (int d = 0; d < ndim; ++d) {
 			thermalBalance -= velocity[d] * equilibrium.radiativeFlux(d) / (constants::c * constants::c);
+		}
 		EXPECT_NEAR(units::value(thermalBalance), 0, 2e-14);
 		for (int normal = 0; normal < ndim; ++normal) {
 			auto const w = Real(.012) * constants::c;
@@ -56,10 +57,12 @@ TEST(RadiationDiffusion, MovingSourceEquilibriumAndAleAdvectionAreNotAttenuated)
 			// Independent momentum-source check: F_n=(aT^4 delta_nj+P_nj)v_j.
 			auto const pressure = M1::physicalFlux(RadiationSystem::toCalculationState(equilibrium), normal, constants::c);
 			auto sourceEquilibrium = emission * velocity[normal];
-			for (int d = 0; d < ndim; ++d) sourceEquilibrium += pressure.flux[d + 1] * (velocity[d] / constants::c);
+			for (int d = 0; d < ndim; ++d) { sourceEquilibrium += pressure.flux[d + 1] * (velocity[d] / constants::c); }
 			EXPECT_NEAR(units::value(sourceEquilibrium / constants::c),
 				units::value(equilibrium.radiativeFlux(normal) / constants::c), 2e-14);
 		}
+	}
+	}
 	}
 }
 
@@ -122,9 +125,11 @@ TEST(RadiationDiffusion, FixedMeshFourierDiffusionCoefficientHasCorrectOpaqueLim
 			solver.advanceInto(patch, dt, limited,
 				[&](auto const&, auto const& u) { EXPECT_TRUE(system.admissible(u)); },
 				[](auto const& u, auto const&) { return u; }, false, correct);
-			for (int axis = 0; axis < ndim; ++axis)
-				for (std::size_t face = 0; face < workspace.fluxes[axis].size(); ++face)
+			for (int axis = 0; axis < ndim; ++axis) {
+				for (std::size_t face = 0; face < workspace.fluxes[axis].size(); ++face) {
 					test::expectStateNear(limited.fluxes[axis][face], workspace.fluxes[axis][face], 0);
+				}
+			}
 			Real projection = 0, norm = 0, energyRate = 0;
 			patch.layout().forEachInterior([&](auto const& cell, auto) {
 				auto upper = cell; ++upper[0];
@@ -203,7 +208,7 @@ TEST(RadiationDiffusion, TransitionOpticalDepthsRemainAdmissibleWithVaryingDensi
 	constexpr int cells = 16;
 	auto const dx = units::Length::from_value(Real(1) / cells);
 	hydro::HydroSystem const gasSystem(Real(5) / 3, units::Density::from_value(1e-30), units::Pressure::from_value(1e-30));
-	for (Real ratio : {Real(1), Real(.1)}) for (Real tau : {Real(.03), Real(.3), Real(1), Real(3)}) {
+	for (Real ratio : {Real(1), Real(.1)}) { for (Real tau : {Real(.03), Real(.3), Real(1), Real(3)}) {
 		RadiationSystem const radSystem(ratio * constants::c);
 		auto const opacity = Opacity::from_value(tau / (1e-17 * units::value(dx)));
 		hydro::Fields gas(mesh::MeshLayout(cells, 4), dx);
@@ -250,6 +255,7 @@ TEST(RadiationDiffusion, TransitionOpticalDepthsRemainAdmissibleWithVaryingDensi
 		}
 		EXPECT_NEAR(Real((total() - before) / before), 0, 5e-13);
 	}
+	}
 }
 
 TEST(RadiationDiffusion, CoupledFourierModeDecaysAtThePhysicalEquilibriumDiffusionRate) {
@@ -260,7 +266,7 @@ TEST(RadiationDiffusion, CoupledFourierModeDecaysAtThePhysicalEquilibriumDiffusi
 	Real const equilibriumE = units::value(constants::radiation) * std::pow(temperature, 4);
 	Real const equilibriumU = rho * units::value(constants::boltzmann / constants::atomicMassUnit) * temperature / (gasSystem.adiabaticIndex() - 1);
 	Real const wave = Real(2) * piR / cells;
-	for (Real ratio : {Real(1), Real(.1)}) for (Real tau : {Real(10), Real(100), Real(1000)}) {
+	for (Real ratio : {Real(1), Real(.1)}) { for (Real tau : {Real(10), Real(100), Real(1000)}) {
 		RadiationSystem const radiationSystem(ratio * constants::c);
 		hydro::Fields gas(mesh::MeshLayout(cells, 4), dx);
 		Fields radiation(mesh::MeshLayout(cells, 4), dx);
@@ -320,6 +326,7 @@ TEST(RadiationDiffusion, CoupledFourierModeDecaysAtThePhysicalEquilibriumDiffusi
 		std::cout << "coupled Fourier tau=" << tau << " ratio=" << ratio << " decay/exact=" << measured / expected << '\n';
 		EXPECT_NEAR(measured / expected, 1, tau == 10 ? .025 : .01);
 		EXPECT_NEAR(Real((total() - total0) / total0), 0, 5e-13);
+	}
 	}
 }
 #endif

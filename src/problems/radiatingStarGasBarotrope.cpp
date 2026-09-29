@@ -42,8 +42,9 @@ RadiatingStarGasBarotrope::RadiatingStarGasBarotrope(Parameters parameters)
 		if (i) {
 			Real const midpoint=(table_[i-1].x+x)/2, half=(x-table_[i-1].x)/2;
 			long double integral=0;
-			for (std::size_t k=0;k<nodes.size();++k)
+			for (std::size_t k=0;k<nodes.size();++k) {
 				integral+=weights[k]*(coreDerivative(midpoint-half*nodes[k])+coreDerivative(midpoint+half*nodes[k]));
+			}
 			accumulated+=half*integral;
 		}
 		table_[i]={x,static_cast<Real>(accumulated),coreDerivative(x)};

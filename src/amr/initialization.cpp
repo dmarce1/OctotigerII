@@ -39,8 +39,9 @@ InitialMesh initializeMesh(Config const& config, refinement::Criteria const& cri
 			return result;
 		}
 		candidate.clear();
-		for (auto const& leaf : selected.leaves)
+		for (auto const& leaf : selected.leaves) {
 			candidate.push_back(initialize(config, leaf));
+		}
 	}
 }
 

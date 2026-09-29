@@ -22,16 +22,19 @@ std::array<Field *, 21> Table::fields() {
 }
 Table::Table(Grid g) : grid(g) {
     validateGrid(g);
-    for (auto *a : fields())
+    for (auto *a : fields()) {
         a->resize(g.densityPoints, g.temperaturePoints);
+    }
     const auto axis = [](int n, double lo, double hi, std::vector<double> &x, std::vector<double> &h,
                          std::vector<double> &h2, std::vector<double> &inv, std::vector<double> &inv2,
                          std::vector<double> &inv3) {
-        for (auto *a : {&x, &h, &h2, &inv, &inv2, &inv3})
+        for (auto *a : {&x, &h, &h2, &inv, &inv2, &inv3}) {
             a->resize(n + 1);
+        }
         const double step = (hi - lo) / (n - 1);
-        for (int i = 1; i <= n; ++i)
+        for (int i = 1; i <= n; ++i) {
             x[i] = std::pow(10.0, lo + (i - 1) * step);
+        }
         for (int i = 1; i < n; ++i) {
             h[i] = x[i + 1] - x[i];
             if (!(h[i] > 0))
@@ -55,23 +58,27 @@ Eos::Eos(const std::string &path, Grid grid) {
     if (!in)
         throw std::runtime_error("Cannot open Helmholtz table: " + path);
     const auto fields = table->fields();
-    for (auto block : {std::pair{0, 9}, std::pair{9, 13}, std::pair{13, 17}, std::pair{17, 21}})
-        for (int j = 1; j <= grid.temperaturePoints; ++j)
-            for (int i = 1; i <= grid.densityPoints; ++i)
+    for (auto block : {std::pair{0, 9}, std::pair{9, 13}, std::pair{13, 17}, std::pair{17, 21}}) {
+        for (int j = 1; j <= grid.temperaturePoints; ++j) {
+            for (int i = 1; i <= grid.densityPoints; ++i) {
                 for (int k = block.first; k < block.second; ++k) {
                     // Accept both E and Fortran D exponents. Require the entire token.
                     std::string token;
                     if (!(in >> token))
                         throw std::runtime_error("Truncated Helmholtz table: " + path);
-                    for (char &c : token)
+                    for (char &c : token) {
                         if (c == 'D' || c == 'd')
                             c = 'e';
+                    }
                     std::size_t used{};
                     const double v = std::stod(token, &used);
                     if (used != token.size() || !std::isfinite(v))
                         throw std::runtime_error("Invalid Helmholtz table value: " + path);
                     (*fields[k])(i, j) = v;
                 }
+            }
+        }
+    }
     std::string extra;
     if (in >> extra)
         throw std::runtime_error("Extra data in Helmholtz table; check grid dimensions: " + path);
@@ -123,23 +130,27 @@ GenerationReport generateTable(const std::string &path, Grid grid, double step) 
             table.xfd(i, j) = q.nd;
             table.xft(i, j) = q.nt;
             table.xfdt(i, j) = q.ndt;
-            for (auto *f : fields)
+            for (auto *f : fields) {
                 if (!std::isfinite((*f)(i, j)))
                     throw std::runtime_error("Nonfinite generated table entry at D=" + std::to_string(d) +
                                              ", T=" + std::to_string(t));
+            }
         }
     }
     // Complete calculation before opening the output, so a solver failure
     // cannot replace an existing table with a partial numerical result.
     std::ofstream out(path);
     out << std::scientific << std::setprecision(17);
-    for (auto block : {std::pair{0, 9}, std::pair{9, 13}, std::pair{13, 17}, std::pair{17, 21}})
-        for (int j = 1; j <= grid.temperaturePoints; ++j)
+    for (auto block : {std::pair{0, 9}, std::pair{9, 13}, std::pair{13, 17}, std::pair{17, 21}}) {
+        for (int j = 1; j <= grid.temperaturePoints; ++j) {
             for (int i = 1; i <= grid.densityPoints; ++i) {
-                for (int k = block.first; k < block.second; ++k)
+                for (int k = block.first; k < block.second; ++k) {
                     out << (*fields[k])(i, j) << ' ';
+                }
                 out << '\n';
             }
+        }
+    }
     out.close();
     if (!out)
         throw std::runtime_error("Failed writing Helmholtz table: " + path);

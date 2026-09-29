@@ -23,12 +23,12 @@ void runThreeLevels(Config c) {
 	c.validate();
 	Runtime runtime(c, {[c](refinement::CellView const& cell) {
 		bool corner = true;
-		for (auto x : cell.center) corner = corner && x < c.mesh.lower + 0.15 * (c.mesh.upper - c.mesh.lower);
+		for (auto x : cell.center) { corner = corner && x < c.mesh.lower + 0.15 * (c.mesh.upper - c.mesh.lower); }
 		return corner && cell.level < 3 ? Real(2) : Real(0);
 	}});
 	if (c.gravityEnabled()) runtime.solveGravity();
 	std::set<int> levels;
-	for (auto const& block : runtime.snapshots()) levels.insert(block.location.level);
+	for (auto const& block : runtime.snapshots()) { levels.insert(block.location.level); }
 	ASSERT_EQ(levels, (std::set<int>{1, 2, 3}));
 	auto const before = diagnose(runtime.snapshots(), c);
 	for (int step = 0; step < 2; ++step) {
@@ -53,8 +53,8 @@ void runThreeLevels(Config c) {
 		EXPECT_NEAR(Real((after.rslaTotalEnergy + energyFlux - before.rslaTotalEnergy) / before.rslaTotalEnergyNorm), 0, 4e-12);
 		EXPECT_NEAR(Real((after.mass + boundary.outward.mass - boundary.inward.mass - before.mass) / before.mass), 0, 4e-12);
 		for (auto const& block : runtime.snapshots()) {
-			for (auto const& gas : block.hydro.values()) EXPECT_TRUE(hydro::HydroSystem(c.hydro).admissible(gas));
-			for (auto const& rad : block.radiation.values()) EXPECT_TRUE(radiation::RadiationSystem(c.radiation.lightSpeedRatio * constants::c).admissible(rad));
+			for (auto const& gas : block.hydro.values()) { EXPECT_TRUE(hydro::HydroSystem(c.hydro).admissible(gas)); }
+			for (auto const& rad : block.radiation.values()) { EXPECT_TRUE(radiation::RadiationSystem(c.radiation.lightSpeedRatio * constants::c).admissible(rad)); }
 		}
 	}
 	auto const steps = runtime.statistics().levelSteps;
@@ -79,7 +79,7 @@ TEST(RadiationDepth, StellarSurfaceUsesReportedCflWithThreeLevels) {
 		"--radiation.initialEnergyRatio=0.5", "--verification.analytic=off", "--output.enabled=off"});
 	// Place stellar structure inside the nested corner refinement, so the
 	// deepest predictor is exercised by physical gradients rather than vacuum.
-	for (auto& center : c.star.center) center = c.mesh.lower + 0.15 * (c.mesh.upper - c.mesh.lower);
+	for (auto& center : c.star.center) { center = c.mesh.lower + 0.15 * (c.mesh.upper - c.mesh.lower); }
 	runThreeLevels(c);
 }
 #endif
