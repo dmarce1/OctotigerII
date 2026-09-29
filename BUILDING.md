@@ -21,8 +21,12 @@ ctest --test-dir ~/workspace/OctotigerII/release --output-on-failure -j 2
 ```
 
 To build HPX locally first, use `~/workspace/OctotigerII/build.sh release -j 12`.
-The helper shares dependencies under `packages/TYPE` and builds all dimensions
-in `TYPE/`. `--problem`, `--ndim`, and `--tests-only` are no longer build options.
+The helper uses an installed HDF5-enabled Silo if available, otherwise builds
+Silo 4.12.1 under `packages/TYPE/silo`. HDF5 must be available first; on a
+cluster, load a compatible HDF5 module before running the helper. To select an
+existing Silo installation, set `Silo_ROOT` to its prefix. The helper shares
+dependencies under `packages/TYPE` and builds all dimensions in `TYPE/`.
+`--problem`, `--ndim`, and `--tests-only` are no longer build options.
 Use a fresh directory when migrating from an old problem-specific build.
 The old `OCTOTIGERII_PROBLEM` and `OCTOTIGERII_NDIM` cache choices are rejected.
 

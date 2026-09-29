@@ -12,7 +12,9 @@ Requires a C++20 compiler, CMake, and Git. Uses installed Boost and hwloc,
 tries environment modules when available, then lets HPX fetch missing ones.
 HPX also fetches Asio and APEX. HPX APEX support and Octo-II profiling
 are enabled by default. No system packages are installed or changed.
-Install Silo with HDF5; set CC, CXX, CMAKE_PREFIX_PATH, and Silo_ROOT as needed.
+Uses installed Silo with HDF5, or builds Silo locally when it is missing.
+Load an HDF5 module if needed; set CC, CXX, CMAKE_PREFIX_PATH, and Silo_ROOT
+to select existing installations.
 On clusters, load your preferred compiler module first. To select particular
 dependency modules, set OCTOTIGERII_BOOST_MODULE and OCTOTIGERII_HWLOC_MODULE.
 EOF
@@ -78,7 +80,13 @@ trap 'rm -rf -- "$probe_dir"' EXIT
 cat > "$probe_dir/CMakeLists.txt" <<'EOF'
 cmake_minimum_required(VERSION 3.18)
 project(octotiger_dependency_probe C CXX)
-if(CHECK_BOOST)
+if(CHECK_SILO)
+    find_path(Silo_INCLUDE_DIR NAMES silo.h HINTS "${Silo_ROOT}" PATH_SUFFIXES include)
+    find_library(Silo_LIBRARY NAMES siloh5 HINTS "${Silo_ROOT}" PATH_SUFFIXES lib lib64)
+    if(NOT Silo_INCLUDE_DIR OR NOT Silo_LIBRARY)
+        message(FATAL_ERROR "Silo headers or HDF5-enabled library not found")
+    endif()
+elseif(CHECK_BOOST)
     find_package(Boost 1.71 QUIET)
     if(NOT Boost_FOUND)
         message(FATAL_ERROR "Boost 1.71+ not found")
@@ -110,23 +118,34 @@ if ! type module >/dev/null 2>&1 && [[ -r /etc/profile.d/modules.sh ]]; then
 fi
 
 dependency_args=()
+silo_args=()
 refresh_dependency_roots() {
     local boost_root="${Boost_ROOT:-${BOOST_ROOT:-${EBROOTBOOST:-}}}"
     local hwloc_root="${Hwloc_ROOT:-${HWLOC_ROOT:-${EBROOTHWLOC:-}}}"
+    local silo_root="${Silo_ROOT:-${SILO_ROOT:-${EBROOTSILO:-}}}"
     dependency_args=()
+    silo_args=()
     [[ -z "$boost_root" ]] || dependency_args+=("-DBoost_ROOT=$boost_root")
     [[ -z "$hwloc_root" ]] || dependency_args+=("-DHwloc_ROOT=$hwloc_root")
+    [[ -z "$silo_root" ]] || silo_args+=("-DSilo_ROOT=$silo_root")
 }
 
 probe_dependency() {
     local requested="$1"
+    local check_boost="$requested"
+    local check_silo=OFF
+    if [[ "$requested" == SILO ]]; then
+        check_boost=OFF
+        check_silo=ON
+    fi
     rm -rf -- "$probe_dir/build"
     refresh_prefix_path
     refresh_dependency_roots
     cmake -S "$probe_dir" -B "$probe_dir/build" \
-        "-DCHECK_BOOST=$requested" \
+        "-DCHECK_BOOST=$check_boost" \
+        "-DCHECK_SILO=$check_silo" \
         "-DCMAKE_PREFIX_PATH=$cmake_prefix_path" \
-        "${compiler_args[@]}" "${dependency_args[@]}" \
+        "${compiler_args[@]}" "${dependency_args[@]}" "${silo_args[@]}" \
         > "$probe_dir/log" 2>&1
 }
 
@@ -153,6 +172,45 @@ if ! probe_dependency OFF; then
 fi
 refresh_prefix_path
 refresh_dependency_roots
+
+if ! probe_dependency SILO; then
+    if type module >/dev/null 2>&1; then
+        module load "${OCTOTIGERII_SILO_MODULE:-silo}" || true
+    fi
+    if ! probe_dependency SILO; then
+        silo_dir="$project_dir/packages/$build_dir_name/silo"
+        silo_src="$silo_dir/src"
+        silo_build="$silo_dir/build"
+        silo_install="$silo_dir/install"
+        if [[ ! -d "$silo_src/.git" ]]; then
+            [[ ! -e "$silo_src" ]] || { printf 'Existing Silo source is not a Git checkout: %s\n' "$silo_src" >&2; exit 1; }
+            mkdir -p "$silo_dir"
+            git clone --branch 4.12.1 --depth 1 https://github.com/LLNL/Silo.git "$silo_src"
+        fi
+        [[ "$(git -C "$silo_src" describe --tags --exact-match HEAD 2>/dev/null)" == 4.12.1 ]] || {
+            printf 'Expected Silo 4.12.1 in %s\n' "$silo_src" >&2
+            exit 1
+        }
+        printf 'Building Silo %s in %s\n' "$build_type" "$silo_dir"
+        cmake -S "$silo_src" -B "$silo_build" \
+            "-DCMAKE_BUILD_TYPE=$build_type" \
+            "-DCMAKE_INSTALL_PREFIX=$silo_install" \
+            -DSILO_ENABLE_HDF5=ON \
+            -DSILO_ENABLE_FORTRAN=OFF \
+            -DSILO_ENABLE_BROWSER=OFF \
+            -DSILO_ENABLE_SILOCK=OFF \
+            -DSILO_ENABLE_ZFP=OFF \
+            -DBUILD_TESTING=OFF \
+            "-DCMAKE_PREFIX_PATH=$cmake_prefix_path" \
+            "${native_arch_args[@]}" \
+            "${compiler_args[@]}"
+        cmake --build "$silo_build" --parallel "$jobs"
+        cmake --install "$silo_build"
+        [[ -f "$silo_install/include/silo.h" ]] || { printf 'Silo header missing from %s\n' "$silo_install" >&2; exit 1; }
+        silo_args=("-DSilo_ROOT=$silo_install")
+        cmake_prefix_path="$silo_install${cmake_prefix_path:+;$cmake_prefix_path}"
+    fi
+fi
 
 if [[ ! -d "$hpx_src/.git" ]]; then
     [[ ! -e "$hpx_src" ]] || { printf 'Existing HPX source is not a Git checkout: %s\n' "$hpx_src" >&2; exit 1; }
@@ -225,6 +283,6 @@ cmake -S "$project_dir" -B "$octo_build" \
     -DOCTOTIGERII_BUILD_TESTS=ON \
     "${physics_args[@]}" \
     "${native_arch_args[@]}" \
-    "${compiler_args[@]}" "${dependency_args[@]}"
+    "${compiler_args[@]}" "${dependency_args[@]}" "${silo_args[@]}"
 cmake --build "$octo_build" --parallel "$jobs"
 printf 'Executables: %s/octoII-{1d,2d,3d}; octoII -> octoII-3d\n' "$octo_build"
