@@ -12,9 +12,10 @@ Requires a C++20 compiler, CMake, and Git. Uses installed Boost and hwloc,
 tries environment modules when available, then lets HPX fetch missing ones.
 HPX also fetches Asio and APEX. HPX APEX support and Octo-II profiling
 are enabled by default. No system packages are installed or changed.
-Uses installed Silo with HDF5, or builds Silo locally when it is missing.
-Load an HDF5 module if needed; set CC, CXX, CMAKE_PREFIX_PATH, and Silo_ROOT
-to select existing installations.
+Uses installed HDF5 and Silo when available, or builds them locally.
+Set OCTOTIGERII_BUILD_HDF5=ON to force a local HDF5 build, for example when
+the cluster's HDF5 module uses a different compiler. Set CC, CXX,
+CMAKE_PREFIX_PATH, HDF5_ROOT, and Silo_ROOT to select installations.
 On clusters, load your preferred compiler module first. To select particular
 dependency modules, set OCTOTIGERII_BOOST_MODULE and OCTOTIGERII_HWLOC_MODULE.
 EOF
@@ -55,9 +56,11 @@ done
 
 # CMake arguments use semicolons; environment modules may update this path.
 cmake_prefix_path=
+local_prefix_path=
 refresh_prefix_path() {
     cmake_prefix_path="${CMAKE_PREFIX_PATH:-}"
     cmake_prefix_path="${cmake_prefix_path//:/;}"
+    cmake_prefix_path="${local_prefix_path:+$local_prefix_path;}$cmake_prefix_path"
 }
 
 # Use one compiler pair for both CMake projects, including repeated builds.
@@ -80,7 +83,12 @@ trap 'rm -rf -- "$probe_dir"' EXIT
 cat > "$probe_dir/CMakeLists.txt" <<'EOF'
 cmake_minimum_required(VERSION 3.18)
 project(octotiger_dependency_probe C CXX)
-if(CHECK_SILO)
+if(CHECK_HDF5)
+    find_package(HDF5 QUIET COMPONENTS C)
+    if(NOT HDF5_FOUND)
+        message(FATAL_ERROR "HDF5 C headers or library not found")
+    endif()
+elseif(CHECK_SILO)
     find_path(Silo_INCLUDE_DIR NAMES silo.h HINTS "${Silo_ROOT}" PATH_SUFFIXES include)
     find_library(Silo_LIBRARY NAMES siloh5 HINTS "${Silo_ROOT}" PATH_SUFFIXES lib lib64)
     if(NOT Silo_INCLUDE_DIR OR NOT Silo_LIBRARY)
@@ -119,24 +127,34 @@ fi
 
 dependency_args=()
 silo_args=()
+hdf5_args=()
+silo_hdf5_args=()
+local_hdf5_install=
 refresh_dependency_roots() {
     local boost_root="${Boost_ROOT:-${BOOST_ROOT:-${EBROOTBOOST:-}}}"
     local hwloc_root="${Hwloc_ROOT:-${HWLOC_ROOT:-${EBROOTHWLOC:-}}}"
     local silo_root="${Silo_ROOT:-${SILO_ROOT:-${EBROOTSILO:-}}}"
+    local hdf5_root="${local_hdf5_install:-${HDF5_ROOT:-${EBROOTHDF5:-}}}"
     dependency_args=()
     silo_args=()
+    hdf5_args=()
+    silo_hdf5_args=()
     [[ -z "$boost_root" ]] || dependency_args+=("-DBoost_ROOT=$boost_root")
     [[ -z "$hwloc_root" ]] || dependency_args+=("-DHwloc_ROOT=$hwloc_root")
     [[ -z "$silo_root" ]] || silo_args+=("-DSilo_ROOT=$silo_root")
+    [[ -z "$hdf5_root" ]] || hdf5_args+=("-DHDF5_ROOT=$hdf5_root")
+    [[ -z "$hdf5_root" ]] || silo_hdf5_args+=("-DSILO_HDF5_DIR=$hdf5_root")
 }
 
 probe_dependency() {
     local requested="$1"
     local check_boost="$requested"
     local check_silo=OFF
-    if [[ "$requested" == SILO ]]; then
+    local check_hdf5=OFF
+    if [[ "$requested" == SILO || "$requested" == HDF5 ]]; then
         check_boost=OFF
-        check_silo=ON
+        [[ "$requested" != SILO ]] || check_silo=ON
+        [[ "$requested" != HDF5 ]] || check_hdf5=ON
     fi
     rm -rf -- "$probe_dir/build"
     refresh_prefix_path
@@ -144,8 +162,9 @@ probe_dependency() {
     cmake -S "$probe_dir" -B "$probe_dir/build" \
         "-DCHECK_BOOST=$check_boost" \
         "-DCHECK_SILO=$check_silo" \
+        "-DCHECK_HDF5=$check_hdf5" \
         "-DCMAKE_PREFIX_PATH=$cmake_prefix_path" \
-        "${compiler_args[@]}" "${dependency_args[@]}" "${silo_args[@]}" \
+        "${compiler_args[@]}" "${dependency_args[@]}" "${silo_args[@]}" "${hdf5_args[@]}" \
         > "$probe_dir/log" 2>&1
 }
 
@@ -173,11 +192,56 @@ fi
 refresh_prefix_path
 refresh_dependency_roots
 
-if ! probe_dependency SILO; then
+if [[ "${OCTOTIGERII_BUILD_HDF5:-OFF}" == ON ]] || ! probe_dependency HDF5; then
+    hdf5_dir="$project_dir/packages/$build_dir_name/hdf5"
+    hdf5_src="$hdf5_dir/src"
+    hdf5_build="$hdf5_dir/build"
+    hdf5_install="$hdf5_dir/install"
+    if [[ ! -d "$hdf5_src/.git" ]]; then
+        [[ ! -e "$hdf5_src" ]] || { printf 'Existing HDF5 source is not a Git checkout: %s\n' "$hdf5_src" >&2; exit 1; }
+        mkdir -p "$hdf5_dir"
+        git clone --branch hdf5_1.14.6 --depth 1 https://github.com/HDFGroup/hdf5.git "$hdf5_src"
+    fi
+    git -C "$hdf5_src" tag --points-at HEAD | grep -Fxq hdf5_1.14.6 || {
+        printf 'Expected HDF5 1.14.6 in %s\n' "$hdf5_src" >&2
+        exit 1
+    }
+    printf 'Building HDF5 %s in %s\n' "$build_type" "$hdf5_dir"
+    cmake -S "$hdf5_src" -B "$hdf5_build" \
+        "-DCMAKE_BUILD_TYPE=$build_type" \
+        "-DCMAKE_INSTALL_PREFIX=$hdf5_install" \
+        -DHDF5_INSTALL_LIB_DIR=lib \
+        -DBUILD_SHARED_LIBS=ON \
+        -DBUILD_STATIC_LIBS=OFF \
+        -DHDF5_ENABLE_PARALLEL=OFF \
+        -DHDF5_ENABLE_SZIP_SUPPORT=OFF \
+        -DHDF5_ENABLE_Z_LIB_SUPPORT=ON \
+        -DHDF5_BUILD_HL_LIB=OFF \
+        -DHDF5_BUILD_CPP_LIB=OFF \
+        -DHDF5_BUILD_FORTRAN=OFF \
+        -DHDF5_BUILD_TOOLS=OFF \
+        -DHDF5_BUILD_EXAMPLES=OFF \
+        -DBUILD_TESTING=OFF \
+        "${native_arch_args[@]}" \
+        "${compiler_args[@]}"
+    cmake --build "$hdf5_build" --parallel "$jobs"
+    cmake --install "$hdf5_build"
+    [[ -f "$hdf5_install/include/hdf5.h" && -f "$hdf5_install/lib/libhdf5.so" ]] || {
+        printf 'HDF5 header or library missing from %s\n' "$hdf5_install" >&2
+        exit 1
+    }
+    local_hdf5_install="$hdf5_install"
+    local_prefix_path="$hdf5_install${local_prefix_path:+;$local_prefix_path}"
+    refresh_prefix_path
+    refresh_dependency_roots
+fi
+
+if [[ -z "$local_hdf5_install" ]] && ! probe_dependency SILO; then
     if type module >/dev/null 2>&1; then
         module load "${OCTOTIGERII_SILO_MODULE:-silo}" || true
     fi
-    if ! probe_dependency SILO; then
+fi
+if [[ -n "$local_hdf5_install" ]] || ! probe_dependency SILO; then
         silo_dir="$project_dir/packages/$build_dir_name/silo"
         silo_src="$silo_dir/src"
         silo_build="$silo_dir/build"
@@ -203,13 +267,13 @@ if ! probe_dependency SILO; then
             -DBUILD_TESTING=OFF \
             "-DCMAKE_PREFIX_PATH=$cmake_prefix_path" \
             "${native_arch_args[@]}" \
-            "${compiler_args[@]}"
+            "${compiler_args[@]}" "${hdf5_args[@]}" "${silo_hdf5_args[@]}"
         cmake --build "$silo_build" --parallel "$jobs"
         cmake --install "$silo_build"
         [[ -f "$silo_install/include/silo.h" ]] || { printf 'Silo header missing from %s\n' "$silo_install" >&2; exit 1; }
         silo_args=("-DSilo_ROOT=$silo_install")
-        cmake_prefix_path="$silo_install${cmake_prefix_path:+;$cmake_prefix_path}"
-    fi
+        local_prefix_path="$silo_install${local_prefix_path:+;$local_prefix_path}"
+        refresh_prefix_path
 fi
 
 if [[ ! -d "$hpx_src/.git" ]]; then
@@ -283,6 +347,6 @@ cmake -S "$project_dir" -B "$octo_build" \
     -DOCTOTIGERII_BUILD_TESTS=ON \
     "${physics_args[@]}" \
     "${native_arch_args[@]}" \
-    "${compiler_args[@]}" "${dependency_args[@]}" "${silo_args[@]}"
+    "${compiler_args[@]}" "${dependency_args[@]}" "${silo_args[@]}" "${hdf5_args[@]}"
 cmake --build "$octo_build" --parallel "$jobs"
 printf 'Executables: %s/octoII-{1d,2d,3d}; octoII -> octoII-3d\n' "$octo_build"
