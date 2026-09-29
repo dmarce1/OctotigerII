@@ -287,6 +287,7 @@ fi
 }
 
 printf 'Building HPX %s in %s\n' "$build_type" "$hpx_dir"
+# QueenBee4 reported ENOMEM while mapping HPX coroutine stacks.
 cmake -S "$hpx_src" -B "$hpx_build" \
     "-DCMAKE_BUILD_TYPE=$build_type" \
     "-DCMAKE_INSTALL_PREFIX=$hpx_install" \
@@ -294,6 +295,7 @@ cmake -S "$hpx_src" -B "$hpx_build" \
     -DHPX_WITH_DISTRIBUTED_RUNTIME=ON \
     -DHPX_WITH_NETWORKING=ON \
     -DHPX_WITH_PARCELPORT_TCP=ON \
+    -DHPX_WITH_THREAD_STACK_MMAP=OFF \
     -DHPX_WITH_MALLOC=system \
     -DHPX_WITH_TESTS=OFF \
     -DHPX_WITH_EXAMPLES=OFF \
