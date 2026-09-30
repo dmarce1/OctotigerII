@@ -89,12 +89,61 @@ appear in `logs/qb4-dwd-JOBID/srun-JOBID.0-task-0.err` and include the active
 gravity/transport stage, physical substep time and duration, parent interval
 fraction, and elapsed wall time. A smaller value reports only that time level
 and coarser. The default `-1` disables progress lines.
+Gravity source-rate assembly additionally reports completed and total block
+counts after a completed block at least every 30 seconds. These counts tell
+whether the long coordinator pass advances through distinct blocks.
 
 `--timestep.coarseLevel=5` groups spatial levels 0 through 5 at the smallest
 CFL/acceleration limit among them, with levels 6 and 7 subcycling above that
 group. The default `0` retains the original schedule. Compare equal physical
 intervals when measuring this option: fewer HOLD shells may help, but the
 grouped coarse cells advance more frequently. See [time refinement](time-refinement.md).
+
+### HPX diagnostic builds
+
+`./build.sh release --hpx-debug`, `./build.sh relwithdebinfo`, and
+`./build.sh debug` enable the pinned HPX 1.11.0 diagnostic preset. It defaults
+off for Release and on for RelWithDebInfo and Debug; `--hpx-debug` and
+`--no-hpx-debug` override either default. Enabled builds use separate
+`release-hpxdebug`, `relwithdebinfo-hpxdebug`, or `debug-hpxdebug`
+directories and matching `packages/` directories, preserving ordinary builds.
+
+The preset enables `HPX_WITH_VERIFY_LOCKS`,
+`HPX_WITH_VERIFY_LOCKS_BACKTRACE`,
+`HPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION`,
+`HPX_WITH_THREAD_DEBUG_INFO`,
+`HPX_WITH_SPINLOCK_DEADLOCK_DETECTION`,
+`HPX_WITH_THREAD_DESCRIPTION_FULL`,
+`HPX_WITH_THREAD_QUEUE_WAITTIME`, `HPX_WITH_THREAD_IDLE_RATES`,
+`HPX_WITH_THREAD_CREATION_AND_CLEANUP_RATES`,
+`HPX_WITH_THREAD_STEALING_COUNTS`, `HPX_WITH_COROUTINE_COUNTERS`,
+`HPX_WITH_PARCELPORT_COUNTERS`, and `HPX_WITH_PARCELPORT_ACTION_COUNTERS`.
+`HPX_WITH_STACKTRACES` stays on and `HPX_WITH_THREAD_STACK_MMAP` stays off.
+The build checks these CMake cache values before compiling. This preset is
+expensive, particularly the backtraces captured at lock registration and
+thread suspension. Suspended-thread backtraces require explicit inspection;
+they are not automatically printed when a future waits a long time.
+Sanitizers and Valgrind require separate compatible builds and tools.
+
+For a diagnostic batch run, add these HPX runtime settings to the executable
+arguments (one `--hpx:ini=` per setting):
+
+```text
+--hpx:ini=hpx.lock_detection=1
+--hpx:ini=hpx.throw_on_held_lock=1
+--hpx:ini=hpx.minimal_deadlock_detection=1
+--hpx:ini=hpx.spinlock_deadlock_detection=1
+--hpx:ini=hpx.spinlock_deadlock_detection_limit=10000000
+--hpx:ini=hpx.logging.level=3
+--hpx:ini=hpx.logging.destination=cerr
+```
+
+Lock verification detects suspension of an HPX thread while holding a
+registered lock; it does not detect every future dependency cycle. Minimal
+deadlock detection may stay quiet while parcels or other tasks keep running.
+The warning log level avoids the volume of the full HPX debug log. See the
+pinned source and [HPX runtime configuration](https://docs.hpx.dev/latest/html/manual/launching_and_configuring_hpx_applications.html);
+the hosted documentation may describe a newer patch release.
 
 ## Postmortem: job 1060438, 2026-09-29
 
@@ -150,15 +199,26 @@ blocks. A localized stall, repeated work, or extremely slow finite work cannot
 yet be distinguished. The cluster performance impact of coarse time grouping
 has not been measured.
 
-The next diagnostic run should retain Release optimization and the mmap-off
-build, enable progress through level 7, and use a shorter wall limit. First
-keep `timestep.coarseLevel=0` to locate the original slow stage. Then compare
-grouping on the same mesh over the same physical interval. If a stage remains
-active too long, collect its current block index and outstanding transfers or
-sample process stacks while the job is alive. If the field-assembly hypothesis
-is confirmed, prioritize owned-block execution, batched neighbor reads, and
-eliminating duplicate endpoint reads. Changing the time schedule alone does
-not establish that the communication cost has been fixed.
+The first diagnostic rerun retained Release optimization and the mmap-off
+build, enabled progress through level 7, and kept `timestep.coarseLevel=0` to
+locate the original slow stage. For future performance comparisons, hold the
+mesh and physical interval fixed when changing coarse time grouping. If the
+field-assembly hypothesis is confirmed, prioritize owned-block execution,
+batched neighbor reads, and eliminating duplicate endpoint reads. Changing
+the time schedule alone does not establish that the communication cost has
+been fixed.
+
+The subsequent diagnostic job 1062078 used the new stage logs with the
+original coarse time setting. It timed out after one hour without finishing
+its first step. The last reported stage was `initial-gravity-source-rate`,
+entered at `wall_s=1362.341`; no later stage was recorded. In one pair of
+APEX snapshots, locality 3's `potentialRead` count rose from 33,157 to
+35,461, while the coordinator's receive-side `schedule_parcel` count rose
+from about 3.047 to 3.142 million. This localizes the long interval to
+source-rate assembly and shows continuing remote reads. It does not prove
+that every block eventually completes. The next diagnostic build enables
+lock checks and block progress to distinguish a lock violation, a block-local
+wait, and a slow but finite pass.
 
 The evidence remains under `/work/dmarce1/OctotigerII/{logs,profiles,output}/qb4-dwd-1060438`
 on QueenBee4. The compared snapshot pairs are 239/240 on localities 0, 2, and 3,

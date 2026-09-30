@@ -137,6 +137,10 @@ the accepted duration after applying the CFL limit.
 
 The gravity path also reports preparation before the first substep, including
 scratch allocation, the initial flux probe, and gravity source-rate assembly.
+During gravity source-rate assembly, it reports `blocks_done` and
+`blocks_total` after a completed block at least every 30 seconds, and once
+at the end. If a block waits indefinitely on a future, the completed count
+stops at the preceding block; the line does not identify the specific future.
 These are progress messages, not additional Silo frames or global conservation
 records: intermediate levels can be at different physical times. A failure
 can roll back substeps already reported as done within the current coarse step.

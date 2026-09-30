@@ -75,16 +75,17 @@ Runtime::Runtime(Config const& config, refinement::Criteria additionalCriteria)
 Runtime::~Runtime() = default;
 
 std::size_t Runtime::size() const {
+	std::lock_guard guard(impl_->apiGate);
 	return impl_->topology->blocks().size();
 }
 
 std::uint64_t Runtime::generation() const {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	return impl_->generation;
 }
 
 SchedulingStatistics Runtime::statistics() const {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	return impl_->statistics;
 }
 
@@ -98,28 +99,28 @@ char const* Runtime::backend() {
 
 std::vector<Snapshot> Runtime::snapshots() const {
 	profiling::Elapsed profile("runtime.snapshots.wall_ns");
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	auto result = impl_->exportSnapshots();
 	// The current adapter and contiguous placement preserve directory order.
-	if (result.size() != size()) throw std::logic_error("Incomplete snapshot directory");
+	if (result.size() != impl_->topology->blocks().size()) throw std::logic_error("Incomplete snapshot directory");
 	return result;
 }
 
 BoundaryTransport Runtime::boundaryTransport() const {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	return impl_->boundary;
 }
 
 units::Energy Runtime::radiationSourceEnergy() const {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	return impl_->radiationSourceEnergy;
 }
 
 units::Energy Runtime::eosFloorEnergy() const {
-    std::lock_guard guard(impl_->apiMutex); return impl_->eosFloorEnergy;
+    std::lock_guard guard(impl_->apiGate); return impl_->eosFloorEnergy;
 }
 std::uint64_t Runtime::eosFloorCells() const {
-    std::lock_guard guard(impl_->apiMutex); return impl_->eosFloorCells;
+    std::lock_guard guard(impl_->apiGate); return impl_->eosFloorCells;
 }
 void Runtime::Impl::applyEosFloor() {
 #if OCTOTIGERII_HYDRO
@@ -155,7 +156,7 @@ void Runtime::Impl::applyEosFloor() {
 }
 
 std::size_t Runtime::shadowCellCount() const {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	return impl_->shadow ? impl_->shadow->size() : 0;
 }
 

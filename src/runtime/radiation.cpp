@@ -170,7 +170,7 @@ units::Energy LocalExecutor::radiationSource(Subgrid const& block, Operation ope
 }
 
 void Runtime::coupleRadiation(units::Time dt) {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	if (!impl_->config.hydroEnabled() || !impl_->config.radiationEnabled() || dt < units::Time{} || !units::finite(dt))
 		throw std::invalid_argument("Local radiation exchange requires hydro, radiation, and a finite nonnegative interval");
 	if (impl_->gravityEnergyActive || impl_->regridEnergyPending || !impl_->levels.empty())
@@ -189,7 +189,7 @@ void Runtime::coupleRadiation(units::Time dt) {
 }
 
 gravity::Statistics Runtime::advanceCoupled(units::Time dt) {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	auto const& config = impl_->config;
 	if (!config.hydroEnabled() || !config.radiationEnabled() || !(dt > units::Time{}) || !units::finite(dt) || impl_->time.time + dt == impl_->time.time)
 		throw std::invalid_argument("Coupled advance requires hydro, radiation, and a positive finite interval");

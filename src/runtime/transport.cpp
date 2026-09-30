@@ -94,7 +94,7 @@ BoundaryTransport Runtime::Impl::advanceLevel(std::vector<int> const& occupied, 
 
 units::Time Runtime::stableTimestep() const {
 	profiling::Elapsed profile("runtime.timestep.wall_ns");
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	if (impl_->regridEnergyPending) throw std::logic_error("Solve gravity after regridding before computing a timestep");
 	auto const result = impl_->phase(Operation::Timestep, {});
 	impl_->signalSpeed = result.signalSpeed;
@@ -111,7 +111,7 @@ units::Time Runtime::stableTimestep() const {
 }
 
 void Runtime::advance(units::Time dt) {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	advanceUnlocked(dt);
 	if (!impl_->gravityEnergyActive && !impl_->coupledStep) impl_->applyEosFloor();
 }

@@ -117,6 +117,14 @@ void Runtime::Impl::assemblePredictor(GravityInterval& interval, GravityFrame co
 }
 
 void Runtime::Impl::gravitySourceRate(GravityInterval& interval, int level) {
+	int const progressLevel = level < 0 ? coarsestLevel() : level;
+	bool const showProgress = progressLevel <= config.runtime.progressLevel;
+	auto const& blocks = topology->blocks();
+	std::size_t const total = std::count_if(blocks.begin(), blocks.end(), [&](auto const& b) {
+		return level < 0 || config.timestep.timeLevel(b.location.level) >= level;
+	});
+	std::size_t completed = 0;
+	auto lastReport = std::chrono::steady_clock::now();
 	for (auto const& b : topology->blocks()) if (level < 0 || config.timestep.timeLevel(b.location.level) >= level) {
 		auto work = gravity::fluxWork(b, interval.plans[b.id], interval.predictor.handle(), 0,
 			fields->directory().massFlux, 0, interval.duration, true);
@@ -150,6 +158,15 @@ void Runtime::Impl::gravitySourceRate(GravityInterval& interval, int level) {
 			out.put(i, value);
 		}
 		interval.rate.handle().commit(b.interior, 0, out);
+		++completed;
+		if (showProgress) {
+			auto const now = std::chrono::steady_clock::now();
+			if (now - lastReport >= std::chrono::seconds(30) || completed == total) {
+				reportProgress(progressLevel, "gravity-source-rate-blocks", interval.sourceTime,
+					interval.duration, 0, -1, completed, total);
+				lastReport = now;
+			}
+		}
 	}
 }
 
@@ -407,7 +424,7 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 #endif
 
 gravity::Statistics Runtime::advanceGravity(units::Time dt) {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	auto result = advanceGravityUnlocked(dt);
 	impl_->applyEosFloor();
 	return result;
@@ -497,7 +514,7 @@ gravity::Statistics Runtime::advanceGravityUnlocked(units::Time dt) {
 }
 
 void Runtime::kickGravity(units::Time dt) {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	kickGravityUnlocked(dt);
 }
 
@@ -518,7 +535,7 @@ void Runtime::kickGravityUnlocked(units::Time dt) {
 }
 
 void Runtime::beginGravityEnergy() {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	beginGravityEnergyUnlocked();
 }
 
@@ -552,7 +569,7 @@ void Runtime::beginGravityEnergyUnlocked() {
 }
 
 void Runtime::finishGravityEnergy(units::Time dt) {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	finishGravityEnergyUnlocked(dt);
 	impl_->applyEosFloor();
 }
@@ -600,7 +617,7 @@ void Runtime::finishGravityEnergyUnlocked(units::Time dt) {
 }
 
 gravity::Statistics Runtime::solveGravity() {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	return solveGravityUnlocked();
 }
 
@@ -634,9 +651,10 @@ gravity::Statistics Runtime::solveGravityUnlocked() {
 }
 
 void Runtime::setGravity(std::vector<std::vector<gravity::State>> const& fields) {
-	std::lock_guard guard(impl_->apiMutex);
-	if (!impl_->config.gravityEnabled() || fields.size() != size()) throw std::invalid_argument("Gravity directory size/field mismatch");
-	for (std::size_t b = 0; b < size(); ++b) {
+	std::lock_guard guard(impl_->apiGate);
+	auto const blockCount = impl_->topology->blocks().size();
+	if (!impl_->config.gravityEnabled() || fields.size() != blockCount) throw std::invalid_argument("Gravity directory size/field mismatch");
+	for (std::size_t b = 0; b < blockCount; ++b) {
 		if (fields[b].size() != impl_->topology->blocks()[b].interior.count) throw std::invalid_argument("Gravity block size mismatch");
 		for (auto const& value : fields[b])
 			if (!finite(value)) throw std::invalid_argument("Nonfinite gravity assignment");
@@ -644,7 +662,7 @@ void Runtime::setGravity(std::vector<std::vector<gravity::State>> const& fields)
 	// This is a synchronized source-field publication, with no live readers.
 	// Fill the other bank first so a failed transfer cannot corrupt published data.
 	auto const& directory = impl_->fields->directory();
-	for (std::size_t b = 0; b < size(); ++b) {
+	for (std::size_t b = 0; b < blockCount; ++b) {
 		auto const range = impl_->topology->blocks()[b].interior;
 		if (impl_->config.hydroEnabled())
 			copyFields(directory.hydro, range, impl_->bank);

@@ -30,7 +30,7 @@ public:
 // Owns fields, mesh metadata, and one scheduler per locality. No subgrid
 // component owns numerical state. API calls are serialized stage operations.
 /// Coordinates field storage and one executor per locality.
-/// Public stage operations are serialized by an API mutex. Each update reads an
+/// Public stage operations are serialized by an API gate. Each update reads an
 /// immutable bank and writes the other; publication follows completion of all work
 /// and writebacks. Exceptions leave the published bank and time unchanged.
 /// See @ref ref_kaiser2014 "Kaiser et al. (2014)" for the HPX execution model.

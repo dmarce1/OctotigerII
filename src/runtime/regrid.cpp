@@ -81,7 +81,7 @@ void Runtime::Impl::recoverRegridEnergy(unsigned targetBank) {
 }
 
 bool Runtime::regrid(units::Time nextStep, bool force) {
-	std::lock_guard guard(impl_->apiMutex);
+	std::lock_guard guard(impl_->apiGate);
 	auto const& config = impl_->config;
 	if (!config.amr.enabled) return false;
 	if (impl_->gravityEnergyActive) throw std::logic_error("Cannot regrid inside a gravity energy step");

@@ -3,9 +3,14 @@ set -euo pipefail
 
 usage() {
     cat <<'EOF'
-Usage: ./build.sh [release|debug|relwithdebinfo] [-j JOBS] [-DOCTOII_WITH_HYDRO=OFF ...]
+Usage: ./build.sh [release|debug|relwithdebinfo] [--hpx-debug|--no-hpx-debug] [-j JOBS] [-DOCTOII_WITH_HYDRO=OFF ...]
 
 Build octoII-1d, octoII-2d, octoII-3d and the octoII link in TYPE/.
+HPX diagnostics default OFF for release, ON for debug and relwithdebinfo.
+--hpx-debug enables HPX lock verification, lock/suspension backtraces, thread
+debug information, spinlock detection, and scheduling counters. Diagnostic
+builds use TYPE-hpxdebug/ and packages/TYPE-hpxdebug/, keeping normal builds.
+--no-hpx-debug disables those options and uses TYPE/.
 HYDRO, RADIATION and GRAVITY are all ON by default.
 All C and C++ targets are optimized for the build host with -march=native.
 Requires a C++20 compiler, CMake, and Git. Uses installed Boost and hwloc,
@@ -24,12 +29,15 @@ EOF
 physics_args=()
 build_type=Release
 build_dir_name=release
+hpx_debug=
 jobs="${SLURM_CPUS_PER_TASK:-$(getconf _NPROCESSORS_ONLN 2>/dev/null || printf '2')}"
 while (($#)); do
     case "$1" in
         release|Release) build_type=Release; build_dir_name=release ;;
         debug|Debug) build_type=Debug; build_dir_name=debug ;;
         relwithdebinfo|RelWithDebInfo) build_type=RelWithDebInfo; build_dir_name=relwithdebinfo ;;
+        --hpx-debug) hpx_debug=ON ;;
+        --no-hpx-debug) hpx_debug=OFF ;;
         -DOCTOII_WITH_HYDRO=*|-DOCTOII_WITH_RADIATION=*|-DOCTOII_WITH_GRAVITY=*) physics_args+=("$1") ;;
         -j|--jobs)
             (($# >= 2)) || { usage >&2; exit 2; }
@@ -42,6 +50,10 @@ while (($#)); do
     shift
 done
 [[ "$jobs" =~ ^[1-9][0-9]*$ ]] || { printf 'Invalid job count: %s\n' "$jobs" >&2; exit 2; }
+if [[ -z "$hpx_debug" ]]; then
+    if [[ "$build_type" == Release ]]; then hpx_debug=OFF; else hpx_debug=ON; fi
+fi
+if [[ "$hpx_debug" == ON ]]; then build_dir_name+="-hpxdebug"; fi
 
 project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 hpx_dir="$project_dir/packages/$build_dir_name/hpx"
@@ -287,6 +299,7 @@ fi
 }
 
 printf 'Building HPX %s in %s\n' "$build_type" "$hpx_dir"
+printf 'HPX diagnostics: %s\n' "$hpx_debug"
 # QueenBee4 reported ENOMEM while mapping HPX coroutine stacks.
 cmake -S "$hpx_src" -B "$hpx_build" \
     "-DCMAKE_BUILD_TYPE=$build_type" \
@@ -296,6 +309,20 @@ cmake -S "$hpx_src" -B "$hpx_build" \
     -DHPX_WITH_NETWORKING=ON \
     -DHPX_WITH_PARCELPORT_TCP=ON \
     -DHPX_WITH_THREAD_STACK_MMAP=OFF \
+    "-DHPX_WITH_VERIFY_LOCKS=$hpx_debug" \
+    "-DHPX_WITH_VERIFY_LOCKS_BACKTRACE=$hpx_debug" \
+    "-DHPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION=$hpx_debug" \
+    "-DHPX_WITH_THREAD_DEBUG_INFO=$hpx_debug" \
+    "-DHPX_WITH_SPINLOCK_DEADLOCK_DETECTION=$hpx_debug" \
+    "-DHPX_WITH_THREAD_DESCRIPTION_FULL=$hpx_debug" \
+    "-DHPX_WITH_THREAD_QUEUE_WAITTIME=$hpx_debug" \
+    "-DHPX_WITH_THREAD_IDLE_RATES=$hpx_debug" \
+    "-DHPX_WITH_THREAD_CREATION_AND_CLEANUP_RATES=$hpx_debug" \
+    "-DHPX_WITH_THREAD_STEALING_COUNTS=$hpx_debug" \
+    "-DHPX_WITH_COROUTINE_COUNTERS=$hpx_debug" \
+    "-DHPX_WITH_PARCELPORT_COUNTERS=$hpx_debug" \
+    "-DHPX_WITH_PARCELPORT_ACTION_COUNTERS=$hpx_debug" \
+    -DHPX_WITH_STACKTRACES=ON \
     -DHPX_WITH_MALLOC=system \
     -DHPX_WITH_TESTS=OFF \
     -DHPX_WITH_EXAMPLES=OFF \
@@ -307,6 +334,20 @@ cmake -S "$hpx_src" -B "$hpx_build" \
     "-DCMAKE_PREFIX_PATH=$cmake_prefix_path" \
     "${native_arch_args[@]}" \
     "${compiler_args[@]}" "${dependency_args[@]}"
+for option in HPX_WITH_VERIFY_LOCKS HPX_WITH_VERIFY_LOCKS_BACKTRACE \
+              HPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION HPX_WITH_THREAD_DEBUG_INFO \
+              HPX_WITH_SPINLOCK_DEADLOCK_DETECTION HPX_WITH_THREAD_DESCRIPTION_FULL \
+              HPX_WITH_THREAD_QUEUE_WAITTIME HPX_WITH_THREAD_IDLE_RATES \
+              HPX_WITH_THREAD_CREATION_AND_CLEANUP_RATES HPX_WITH_THREAD_STEALING_COUNTS \
+              HPX_WITH_COROUTINE_COUNTERS HPX_WITH_PARCELPORT_COUNTERS \
+              HPX_WITH_PARCELPORT_ACTION_COUNTERS; do
+    grep -Fx "$option:BOOL=$hpx_debug" "$hpx_build/CMakeCache.txt" >/dev/null || {
+        printf 'HPX diagnostic option did not take effect: %s=%s\n' "$option" "$hpx_debug" >&2
+        exit 1
+    }
+done
+grep -Fx 'HPX_WITH_STACKTRACES:BOOL=ON' "$hpx_build/CMakeCache.txt" >/dev/null
+grep -Fx 'HPX_WITH_THREAD_STACK_MMAP:BOOL=OFF' "$hpx_build/CMakeCache.txt" >/dev/null
 # The APEX revision fetched by HPX 1.11.0 uses uint64_t in gzstream.hpp
 # without including <cstdint>. Apply the missing include after FetchContent
 # has populated the source, including on fresh builds.

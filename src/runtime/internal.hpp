@@ -34,11 +34,39 @@
 #include <hpx/serialization/map.hpp>
 #include <hpx/runtime_distributed/find_all_localities.hpp>
 #include <hpx/runtime_local/get_os_thread_count.hpp>
+#include <hpx/synchronization/binary_semaphore.hpp>
 #include <hpx/synchronization/mutex.hpp>
 #endif
 
 namespace octotigerII {
 namespace runtime_detail {
+
+// Public Runtime calls must remain exclusive while their HPX futures suspend.
+// A semaphore is a permit, not a registered held lock at suspension points.
+class RuntimeApiGate {
+public:
+	void lock() {
+#ifdef OCTOTIGERII_WITH_HPX
+		permit_.acquire();
+#else
+		permit_.lock();
+#endif
+	}
+	void unlock() {
+#ifdef OCTOTIGERII_WITH_HPX
+		permit_.release();
+#else
+		permit_.unlock();
+#endif
+	}
+
+private:
+#ifdef OCTOTIGERII_WITH_HPX
+	hpx::binary_semaphore permit_{1};
+#else
+	std::mutex permit_;
+#endif
+};
 
 
 // Drain every task even on failure: input storage cannot be recycled while
@@ -506,11 +534,7 @@ public:
 #else
 	std::unique_ptr<LocalExecutor> executor;
 #endif
-#ifdef OCTOTIGERII_WITH_HPX
-	mutable hpx::mutex apiMutex;
-#else
-	mutable std::mutex apiMutex;
-#endif
+	mutable RuntimeApiGate apiGate;
 	unsigned bank = 0;
 	std::uint64_t generation = 0;
 	std::uint64_t dispatch = 0;
@@ -546,7 +570,8 @@ public:
 	std::vector<int> occupiedTimeLevels() const;
 	void completeLevelStep(int level);
 	std::chrono::steady_clock::time_point progressOrigin = std::chrono::steady_clock::now();
-	void reportProgress(int level, char const* event, units::Time at, units::Time dt, Real fraction, double elapsedSeconds = -1) const;
+	void reportProgress(int level, char const* event, units::Time at, units::Time dt, Real fraction,
+		double elapsedSeconds = -1, std::size_t blocksDone = 0, std::size_t blocksTotal = 0) const;
 
 
 	std::vector<Snapshot> exportSnapshots(std::optional<unsigned> requestedBank = {}, std::optional<mesh::TimeState> requestedTime = {}) const;

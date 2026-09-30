@@ -8,7 +8,7 @@
 namespace octotigerII {
 
 void Runtime::Impl::reportProgress(int level, char const* event, units::Time at, units::Time dt,
-	Real fraction, double elapsedSeconds) const {
+	Real fraction, double elapsedSeconds, std::size_t blocksDone, std::size_t blocksTotal) const {
 	if (level > config.runtime.progressLevel) return;
 	// Only the coordinator calls this, outside worker kernels. Flush each line
 	// so a batch-job timeout still leaves the last entered stage in its log.
@@ -20,6 +20,7 @@ void Runtime::Impl::reportProgress(int level, char const* event, units::Time at,
 		<< " time_s=" << units::value(at) << " dt_s=" << units::value(dt)
 		<< " parent_fraction=" << fraction;
 	if (elapsedSeconds >= 0) line << std::fixed << std::setprecision(3) << " substep_wall_s=" << elapsedSeconds;
+	if (blocksTotal != 0) line << " blocks_done=" << blocksDone << " blocks_total=" << blocksTotal;
 	std::clog << line.str() << std::endl;
 }
 
