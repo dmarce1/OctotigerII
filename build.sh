@@ -7,7 +7,7 @@ Usage: ./build.sh [release|debug|relwithdebinfo] [--hpx-debug|--no-hpx-debug] [-
 
 Build octoII-1d, octoII-2d, octoII-3d and the octoII link in TYPE/.
 HPX diagnostics default OFF for release, ON for debug and relwithdebinfo.
---hpx-debug enables HPX lock verification, lock/suspension backtraces, thread
+--hpx-debug enables HPX lock verification, lock backtraces, thread
 debug information, spinlock detection, and scheduling counters. Diagnostic
 builds use TYPE-hpxdebug/ and packages/TYPE-hpxdebug/, keeping normal builds.
 --no-hpx-debug disables those options and uses TYPE/.
@@ -311,7 +311,7 @@ cmake -S "$hpx_src" -B "$hpx_build" \
     -DHPX_WITH_THREAD_STACK_MMAP=OFF \
     "-DHPX_WITH_VERIFY_LOCKS=$hpx_debug" \
     "-DHPX_WITH_VERIFY_LOCKS_BACKTRACE=$hpx_debug" \
-    "-DHPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION=$hpx_debug" \
+    -DHPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION=OFF \
     "-DHPX_WITH_THREAD_DEBUG_INFO=$hpx_debug" \
     "-DHPX_WITH_SPINLOCK_DEADLOCK_DETECTION=$hpx_debug" \
     "-DHPX_WITH_THREAD_DESCRIPTION_FULL=$hpx_debug" \
@@ -335,7 +335,7 @@ cmake -S "$hpx_src" -B "$hpx_build" \
     "${native_arch_args[@]}" \
     "${compiler_args[@]}" "${dependency_args[@]}"
 for option in HPX_WITH_VERIFY_LOCKS HPX_WITH_VERIFY_LOCKS_BACKTRACE \
-              HPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION HPX_WITH_THREAD_DEBUG_INFO \
+              HPX_WITH_THREAD_DEBUG_INFO \
               HPX_WITH_SPINLOCK_DEADLOCK_DETECTION HPX_WITH_THREAD_DESCRIPTION_FULL \
               HPX_WITH_THREAD_QUEUE_WAITTIME HPX_WITH_THREAD_IDLE_RATES \
               HPX_WITH_THREAD_CREATION_AND_CLEANUP_RATES HPX_WITH_THREAD_STEALING_COUNTS \
@@ -346,6 +346,7 @@ for option in HPX_WITH_VERIFY_LOCKS HPX_WITH_VERIFY_LOCKS_BACKTRACE \
         exit 1
     }
 done
+grep -Fx 'HPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION:BOOL=OFF' "$hpx_build/CMakeCache.txt" >/dev/null
 grep -Fx 'HPX_WITH_STACKTRACES:BOOL=ON' "$hpx_build/CMakeCache.txt" >/dev/null
 grep -Fx 'HPX_WITH_THREAD_STACK_MMAP:BOOL=OFF' "$hpx_build/CMakeCache.txt" >/dev/null
 # The APEX revision fetched by HPX 1.11.0 uses uint64_t in gzstream.hpp

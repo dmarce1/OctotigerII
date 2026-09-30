@@ -110,7 +110,6 @@ directories and matching `packages/` directories, preserving ordinary builds.
 
 The preset enables `HPX_WITH_VERIFY_LOCKS`,
 `HPX_WITH_VERIFY_LOCKS_BACKTRACE`,
-`HPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION`,
 `HPX_WITH_THREAD_DEBUG_INFO`,
 `HPX_WITH_SPINLOCK_DEADLOCK_DETECTION`,
 `HPX_WITH_THREAD_DESCRIPTION_FULL`,
@@ -120,9 +119,12 @@ The preset enables `HPX_WITH_VERIFY_LOCKS`,
 `HPX_WITH_PARCELPORT_COUNTERS`, and `HPX_WITH_PARCELPORT_ACTION_COUNTERS`.
 `HPX_WITH_STACKTRACES` stays on and `HPX_WITH_THREAD_STACK_MMAP` stays off.
 The build checks these CMake cache values before compiling. This preset is
-expensive, particularly the backtraces captured at lock registration and
-thread suspension. Suspended-thread backtraces require explicit inspection;
-they are not automatically printed when a future waits a long time.
+expensive, particularly the backtraces captured at lock registration.
+`HPX_WITH_THREAD_BACKTRACE_ON_SUSPENSION` stays off: in pinned HPX 1.11.0,
+enabling it fails to compile `thread_helpers.cpp` because `reset_backtrace`
+expects `thread_id_type` but receives `thread_id_ref_type`. Even after a source
+fix, suspended-thread backtraces require explicit inspection; they are not
+automatically printed when a future waits a long time.
 Sanitizers and Valgrind require separate compatible builds and tools.
 
 For a diagnostic batch run, add these HPX runtime settings to the executable
