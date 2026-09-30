@@ -1,10 +1,21 @@
 #include <gtest/gtest.h>
 #include "octotigerII/math/Vector.hpp"
+#include "octotigerII/math/compensatedSum.hpp"
 #include "octotigerII/units/state.hpp"
 
 using namespace octotigerII;
 
 namespace {
+
+TEST(CompensatedSum, RecoversSmallContributionsAcrossCancellation) {
+	CompensatedSum sum;
+	sum.add(1e16);
+	for (int i = 0; i < 1001; ++i) sum.add(1);
+	sum.add(-1e16);
+	EXPECT_EQ(sum.value(), 1001);
+	sum.add(-1001);
+	EXPECT_EQ(sum.value(), 0);
+}
 
 TEST(VectorMath, InitializationArithmeticAndDotProduct) {
 	Vector<double, 3> zero;

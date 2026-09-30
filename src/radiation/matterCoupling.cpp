@@ -11,11 +11,11 @@
 
 namespace octotigerII::radiation {
 namespace {
-using Number = long double;
+using Number = Real;
 constexpr int count = ndim + 1;
 using Vector = std::array<Number, count>;
 using Matrix = std::array<Vector, count>;
-constexpr Number gamma = 0.2928932188134524755991556378951509607L;
+constexpr Number gamma = 0.2928932188134524755991556378951509607;
 
 Number norm(Vector const& x) {
 	Number value = 0;
@@ -42,7 +42,7 @@ struct Problem {
         q.electrons() = material.electrons() + Real(time)*(finalMaterial.electrons()-material.electrons());
         return q;
     }
-    Number tolerance() const { return system->helmholtz() ? 2e-12L : 256 * std::numeric_limits<Number>::epsilon(); }
+    Number tolerance() const { return system->helmholtz() ? 2e-12 : 256 * std::numeric_limits<Number>::epsilon(); }
 
 	Number density(Number time) const { return rho + time * (finalRho - rho); }
 	Number baselineVelocity(int d, Number time) const {
@@ -115,7 +115,7 @@ struct Problem {
 		// energy faster than momentum and drive |F| beyond cE. Recover the
 		// Planck flux scale continuously as the reduced flux approaches one.
 		Number const extinction = diffusionExtinction + streamingCorrection * f2;
-		Number const temperatureSlope = opacities.ionizedGas ? -3.5L / temperature : 0;
+		Number const temperatureSlope = opacities.ionizedGas ? -3.5 / temperature : 0;
 		Number const absorptionSlope = temperatureSlope * absorption;
 		Number const diffusionSlope = temperatureSlope * Number(units::value(coefficients.rosselandAbsorption)) / referenceOpacity;
 		Vector result{};
@@ -152,7 +152,7 @@ struct Problem {
 				}
 				Number const dExtinction = dDiffusion + (streamingCorrection > 0
 					? (dAbsorption - dDiffusion) * f2 + streamingCorrection * dFluxSquared : 0);
-				Number const dRoot = -1.5L * dFluxSquared / root;
+				Number const dRoot = -1.5 * dFluxSquared / root;
 				Number const dIsotropic = (dEnergy * (1 - f2) - x[0] * dFluxSquared - isotropic * dRoot) / (root + 1);
 				Number const dDirected = (3 * dEnergy - directed * dRoot) / (root + 2);
 				(*derivative)[0][column] = dAbsorption * (emission - x[0])

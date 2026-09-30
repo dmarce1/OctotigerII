@@ -37,6 +37,26 @@ TEST(DualEnergy, ArbitraryNonzeroExponentAndAdiabaticCompression) {
 	}
 }
 
+TEST(DualEnergy, RepresentableEntropyPowersSurviveIntermediateOverflowAndUnderflow) {
+	Config::HydroOptions options;
+	options.gamma = 2;
+	for (Real alpha : {Real(-0.5), Real(0.25), Real(0.5), Real(1), Real(2)}) {
+		options.dualEnergy.exponent = alpha;
+		HydroSystem gas(options);
+		for (int sign : {-1, 1}) {
+			// rho^gamma = 2^(+/-1200) is outside double's range, while
+			// u = 2^(+/-900) and A = 2^(+/-[600 - 300 alpha]) are normal.
+			ConservedState state;
+			state.density() = units::Density::from_value(std::ldexp(Real(1), sign * 600));
+			auto const thermal = units::EnergyDensity::from_value(std::ldexp(Real(1), sign * 900));
+			state.auxiliary() = gas.auxiliaryFromInternalEnergy(state.density(), thermal);
+			Real const expected = std::ldexp(Real(1), sign * int(600 - 300 * alpha));
+			relative(units::value(state.auxiliary()), expected);
+			relative(units::value(gas.internalEnergyFromAuxiliary(state)), units::value(thermal));
+		}
+	}
+}
+
 TEST(DualEnergy, PressureTemperatureAndSynchronizationUseIndependentThresholds) {
 	Config::HydroOptions options;
 	options.meanMolecularWeight = 0.6;

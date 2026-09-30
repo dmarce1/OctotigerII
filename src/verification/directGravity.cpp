@@ -10,6 +10,7 @@
 #include "octotigerII/gravity/ewald.hpp"
 #include "octotigerII/gravity/images.hpp"
 #include "octotigerII/profiling.hpp"
+#include "octotigerII/math/compensatedSum.hpp"
 
 namespace octotigerII::verification {
 
@@ -173,7 +174,7 @@ Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config c
 	auto coordinates = [&](std::size_t id) { return cells.at(id).center; };
 	for (auto const target : result.targetIndices) {
 		auto const x = coordinates(target);
-		std::array<long double, 4> sum{};
+		std::array<CompensatedSum, 4> sum{};
 		for (auto const source : sources) {
 			auto const y = coordinates(source);
 			if (images.active()) {
@@ -183,11 +184,11 @@ Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config c
 					if (r != gravity::diagonal::Offset{}) gravity::diagonal::addDirect(local, units::value(masses[source]), r, units::value(h));
 					if (images.periodic()) gravity::ewald::addDirect(local, units::value(masses[source]), r, images.periods(n), units::value(h));
 				}
-				sum[0] += units::value(constants::G) * local[0];
+				sum[0].add(units::value(constants::G) * local[0]);
 				for (int d = 0; d < 3; ++d) {
 					std::array<int, 3> e{};
 					e[d] = 1;
-					sum[d + 1] -= units::value(constants::G) * gravity::diagonal::derivative(local, e[0], e[1], e[2]) / units::value(h);
+					sum[d + 1].add(-units::value(constants::G) * gravity::diagonal::derivative(local, e[0], e[1], e[2]) / units::value(h));
 				}
 				continue;
 			}
@@ -195,15 +196,15 @@ Comparison compareDirectGravity(std::vector<Snapshot> const& snapshots, Config c
 			std::array<units::Length, 3> const r{h * Real(x[0] - y[0]), h * Real(x[1] - y[1]), h * Real(x[2] - y[2])};
 			auto const distance = units::sqrt(r[0] * r[0] + r[1] * r[1] + r[2] * r[2]);
 			auto const potential = -constants::G * masses[source] / distance;
-			sum[0] += units::value(potential);
+			sum[0].add(units::value(potential));
 			for (int d = 0; d < 3; ++d)
-				sum[d + 1] += units::value(potential * r[d] / (distance * distance));
+				sum[d + 1].add(units::value(potential * r[d] / (distance * distance)));
 		}
 		fields[0].numerical.push_back(units::value(numerical[target]->potential()));
 		for (int d = 0; d < 3; ++d)
 			fields[d + 1].numerical.push_back(units::value(numerical[target]->acceleration(d)));
 		for (int f = 0; f < 4; ++f)
-			fields[f].exact.push_back(static_cast<Real>(sum[f]));
+			fields[f].exact.push_back(sum[f].value());
 	}
 	for (auto const& field : fields)
 		result.fields.push_back(directErrorNorm(field, result.totalCells));

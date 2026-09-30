@@ -112,7 +112,8 @@ The reference uses the current snapshot density, cell mass `rho*dx^3`, isolated
 as the solver. Every selected target is summed against **all nonzero sources**;
 only the targets are sampled. Vacuum target cells remain in the population.
 No continuum density approximation or FMM operator enters the reference sum.
-CGS contributions are accumulated in `long double` to reduce summation roundoff.
+CGS contributions use compensated `Real` (`double`) summation to reduce
+accumulation roundoff without platform-dependent extended precision.
 
 | Option | Default | Meaning |
 | --- | --- | --- |

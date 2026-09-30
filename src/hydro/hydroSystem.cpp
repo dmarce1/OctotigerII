@@ -13,12 +13,15 @@ namespace octotigerII::hydro {
 
 namespace {
 	// Logarithmic arithmetic avoids intermediate powers overflowing even when
-	// their final product is representable. Long double also handles tiny alpha.
-	Real positiveExp(long double logarithm) {
-		if (!std::isfinite(logarithm) || logarithm < std::log(static_cast<long double>(std::numeric_limits<Real>::min())) ||
-			logarithm > std::log(static_cast<long double>(std::numeric_limits<Real>::max())))
+	// their final product is representable. Use the same precision as the state.
+	Real positiveExp(Real logarithm) {
+		if (!std::isfinite(logarithm) || logarithm < std::log(std::numeric_limits<Real>::min()) ||
+			logarithm > std::log(std::numeric_limits<Real>::max()))
 			throw std::runtime_error("Dual-energy value outside the positive floating-point range; choose a less extreme exponent");
-		return static_cast<Real>(std::exp(logarithm));
+		Real const result = std::exp(logarithm);
+		if (!std::isnormal(result))
+			throw std::runtime_error("Dual-energy value outside the positive floating-point range; choose a less extreme exponent");
+		return result;
 	}
 }
 
@@ -139,9 +142,9 @@ units::Density HydroSystem::auxiliaryFromInternalEnergy(units::Density rho, unit
 	if (helmholtz_) { State state; state.density()=rho; return auxiliaryFromInternalEnergy(state,u); }
 	if (!(rho > units::Density{}) || !(u > units::EnergyDensity{}) || !units::finite(rho) || !units::finite(u))
 		throw std::invalid_argument("Dual energy requires finite positive density and internal energy");
-	long double const logRho = std::log(static_cast<long double>(units::value(rho)));
-	long double const logU = std::log(static_cast<long double>(units::value(u)));
-	return units::Density::from_value(positiveExp(logRho + static_cast<long double>(dualEnergy_.exponent) * (logU - adiabaticIndex_ * logRho)));
+	Real const logRho = std::log(units::value(rho));
+	Real const logU = std::log(units::value(u));
+	return units::Density::from_value(positiveExp(logRho + dualEnergy_.exponent * (logU - adiabaticIndex_ * logRho)));
 }
 
 units::EnergyDensity HydroSystem::internalEnergyFromAuxiliary(State const& state) const {
@@ -153,8 +156,8 @@ units::EnergyDensity HydroSystem::internalEnergyFromAuxiliary(State const& state
 	if (!(state.density() > units::Density{}) || !(state.auxiliary() > units::Density{}) ||
 		!units::finite(state.density()) || !units::finite(state.auxiliary()))
 		throw std::invalid_argument("Dual energy requires finite positive density and auxiliary density");
-	long double const logRho = std::log(static_cast<long double>(units::value(state.density())));
-	long double const logA = std::log(static_cast<long double>(units::value(state.auxiliary())));
+	Real const logRho = std::log(units::value(state.density()));
+	Real const logA = std::log(units::value(state.auxiliary()));
 	return units::EnergyDensity::from_value(positiveExp(adiabaticIndex_ * logRho + (logA - logRho) / dualEnergy_.exponent));
 }
 

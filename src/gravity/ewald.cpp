@@ -7,15 +7,16 @@
 #include <shared_mutex>
 #include <stdexcept>
 #include "octotigerII/profiling.hpp"
+#include "octotigerII/math/Real.hpp"
 #ifdef OCTOTIGERII_WITH_HPX
 #include <hpx/synchronization/shared_mutex.hpp>
 #endif
 
 namespace octotigerII::gravity::ewald {
 namespace {
-	using Scalar = long double;
+	using Scalar = Real;
 	using Vector = std::array<Scalar, 3>;
-	constexpr Scalar pi = 3.141592653589793238462643383279502884L;
+	constexpr Scalar pi = piR;
 	int index(int x, int y, int z) {
 		int const n = x + y + z;
 		return n * n + (z == 0 ? x : n + 1 + x);
@@ -41,7 +42,7 @@ namespace {
 		using std::cos;
 		std::vector<std::pair<Scalar, Scalar>> result;
 		for (int i = 0; i < n; ++i) {
-			Scalar z = cos(pi * (i + 0.75L) / (n + 0.5L)), dp = 0;
+			Scalar z = cos(pi * (i + 0.75) / (n + 0.5)), dp = 0;
 			for (int it = 0; it < 80; ++it) {
 				Scalar p = 1, previous = 0;
 				for (int j = 1; j <= n; ++j) {

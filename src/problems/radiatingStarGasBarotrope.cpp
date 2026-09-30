@@ -1,4 +1,5 @@
 #include "octotigerII/problems/radiatingStarGasBarotrope.hpp"
+#include "octotigerII/math/compensatedSum.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -36,18 +37,19 @@ RadiatingStarGasBarotrope::RadiatingStarGasBarotrope(Parameters parameters)
 	// limiting error. Exact endpoint slopes retain the matched envelope derivative.
 	int const cells=std::max(1,static_cast<int>(std::ceil((upper-lower)/0.002)));
 	table_.resize(cells+1);
-	long double accumulated=cutoffH_;
+	CompensatedSum accumulated;
+	accumulated.add(cutoffH_);
 	for (int i=0;i<=cells;++i) {
 		Real const x=lower+(upper-lower)*Real(i)/cells;
 		if (i) {
 			Real const midpoint=(table_[i-1].x+x)/2, half=(x-table_[i-1].x)/2;
-			long double integral=0;
+			CompensatedSum integral;
 			for (std::size_t k=0;k<nodes.size();++k) {
-				integral+=weights[k]*(coreDerivative(midpoint-half*nodes[k])+coreDerivative(midpoint+half*nodes[k]));
+				integral.add(weights[k]*(coreDerivative(midpoint-half*nodes[k])+coreDerivative(midpoint+half*nodes[k])));
 			}
-			accumulated+=half*integral;
+			accumulated.add(half*integral.value());
 		}
-		table_[i]={x,static_cast<Real>(accumulated),coreDerivative(x)};
+		table_[i]={x,accumulated.value(),coreDerivative(x)};
 		if (i) {
 			// This sufficient monotonicity condition also rejects nonrepresentable
 			// increments. No extrapolation or nonmonotone inverse is accepted.

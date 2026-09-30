@@ -40,8 +40,9 @@ of a dimensionless ratio using fixed references rho0=1 g/cm^3 and u0=1 erg/cm^3:
 This has exactly the requested numerical value when the inputs are expressed in
 CGS. The stored A has density units, its flux has mass-flux units, and its
 primitive A/rho is dimensionless. There is no selectable code-unit scale.
-Logarithmic conversion avoids intermediate power overflow. Exponents that make
-a required value fall outside the positive normal floating-point range fail
+Logarithmic conversion uses `Real` (`double`) throughout and avoids intermediate
+power overflow. Exponents that make a required value fall outside the positive
+normal floating-point range fail
 explicitly instead of silently clipping the entropy. Extremely small exponents
 also lose thermal information through roundoff even though the continuum inverse
 exists; order-unity exponents are the useful numerical choices.
