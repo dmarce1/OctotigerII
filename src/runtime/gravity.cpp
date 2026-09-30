@@ -20,10 +20,10 @@ void Runtime::Impl::partialGravity(GravityInterval& interval, storage::ColumnHan
 	gravity::FieldSolveRequest request;
 	request.output = output; request.outputBank = outputBank;
 	for (auto const& b : topology->blocks()) {
-		auto const& state = levels.at(b.location.level);
+		auto const& state = levels.at(config.timestep.timeLevel(b.location.level));
 		Real alpha = 0;
 		if (state.pending) alpha = std::clamp(Real((at - state.begin) / (state.end - state.begin)), Real(0), Real(1));
-		bool const selected = b.location.level >= minimumLevel;
+		bool const selected = config.timestep.timeLevel(b.location.level) >= minimumLevel;
 		request.sources.push_back({state.bank, state.predictorBank == ~0u ? (state.bank ^ 1) : state.predictorBank,
 			selected ? 1 - alpha : 0, selected ? alpha : 0});
 		request.targets.push_back(fullTargets || selected);
@@ -117,7 +117,7 @@ void Runtime::Impl::assemblePredictor(GravityInterval& interval, GravityFrame co
 }
 
 void Runtime::Impl::gravitySourceRate(GravityInterval& interval, int level) {
-	for (auto const& b : topology->blocks()) if (level < 0 || b.location.level >= level) {
+	for (auto const& b : topology->blocks()) if (level < 0 || config.timestep.timeLevel(b.location.level) >= level) {
 		auto work = gravity::fluxWork(b, interval.plans[b.id], interval.predictor.handle(), 0,
 			fields->directory().massFlux, 0, interval.duration, true);
 		auto prior = interval.rate.handle().read(b.interior, 0).get();
@@ -130,7 +130,7 @@ void Runtime::Impl::gravitySourceRate(GravityInterval& interval, int level) {
 			fine /= Real(face.fineFluxes.size());
 			correction[face.cell] += (Real(face.sign) * interval.duration / b.cellWidth) * (fine - coarse.at(face.coarseFlux));
 		}
-		auto gas = fields->directory().hydro.read(b.interior, levels.at(b.location.level).bank).get();
+		auto gas = fields->directory().hydro.read(b.interior, levels.at(config.timestep.timeLevel(b.location.level)).bank).get();
 		auto force = interval.predictor.handle().read(b.interior, 0).get();
 		std::optional<storage::Buffer<units::VelocitySquared>> rotation;
 		if (interval.rotation) rotation = interval.predictorRotation->handle().read(b.interior, 0).get();
@@ -156,7 +156,7 @@ void Runtime::Impl::gravitySourceRate(GravityInterval& interval, int level) {
 void Runtime::Impl::provisionalGravity(GravityInterval& interval, GravityFrame& frame, units::Time step) {
 	auto const& directory = fields->directory();
 	bool const conventional = config.gravity.timeIntegration == "conventional";
-	for (auto const& b : topology->blocks()) if (b.location.level == frame.level) {
+	for (auto const& b : topology->blocks()) if (config.timestep.timeLevel(b.location.level) == frame.level) {
 		auto const bank = levels.at(frame.level).bank;
 		auto const old = directory.hydro.read(b.interior, bank).get();
 		auto const next = directory.hydro.read(b.interior, bank ^ 1).get();
@@ -236,13 +236,13 @@ void Runtime::Impl::closeGravityFrame(GravityInterval& interval, GravityFrame& f
 			frame.flux.handle(), 0, frame.duration);
 		interval.boundary += work.boundary;
 		auto const deferred = interval.deferred.handle().read(b.interior, 0).get();
-		if (b.location.level < frame.level) {
+		if (config.timestep.timeLevel(b.location.level) < frame.level) {
 			auto out = interval.deferred.handle().output(b.interior, 0);
 			for (std::size_t i = 0; i < b.interior.count; ++i) out.data()[i] = deferred.data()[i] + work.work[i];
 			interval.deferred.handle().commit(b.interior, 0, out);
 			continue;
 		}
-		auto const bank = levels.at(b.location.level).bank;
+		auto const bank = levels.at(config.timestep.timeLevel(b.location.level)).bank;
 		auto input = directory.hydro.read(b.interior, bank).get();
 		auto output = directory.hydro.output(b.interior, bank);
 		auto const rho = frame.density.handle().read(b.interior, 0).get();
@@ -263,14 +263,14 @@ void Runtime::Impl::closeGravityFrame(GravityInterval& interval, GravityFrame& f
 			gb = finiteVolume::RotatingFrame(config.frame.omega).toInertial(gb, frame.begin + frame.duration);
 			if (frame.rotation) work.work[i] += (frame.duration * config.frame.omega / 2.0)
 				* (rho.data()[i] * oldRotation->data()[i] + value.density() * newRotation->data()[i]);
-			if (!conventional || b.location.level == frame.level) for (int d = 0; d < ndim; ++d) {
+			if (!conventional || config.timestep.timeLevel(b.location.level) == frame.level) for (int d = 0; d < ndim; ++d) {
 				auto const dp = (frame.duration / 2.0) * (rho.data()[i] * ga[d]
 					+ value.density() * gb[d]) - impulse.at(i).momentum(d);
 				if (config.gravity.energyTreatment == "naive") value.totalEnergy() += dp * (value.momentum(d) + 0.5 * dp) / value.density();
 				value.momentum(d) += dp;
 			}
 			if (config.gravity.energyTreatment == "mullen") value.totalEnergy() += work.work[i] - applied.data()[i]
-				+ (b.location.level == frame.level ? deferred.data()[i] : units::EnergyDensity{});
+				+ (config.timestep.timeLevel(b.location.level) == frame.level ? deferred.data()[i] : units::EnergyDensity{});
 			hydro::HydroSystem const gas(config);
 			gas.synchronize(value);
 			if (!gas.admissible(value)) throw std::runtime_error("Gravity shell correction produced an inadmissible state");
@@ -288,18 +288,25 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 	Real elapsed = 0;
 	while (elapsed < 1) {
 		auto const now = begin + elapsed * duration;
+		reportProgress(level, "cfl", now, fraction * duration, elapsed);
 		auto const limit = phase(Operation::Timestep, {}, level, now);
 		for (int d = 0; d < ndim; ++d) signalSpeed[d] = std::max(signalSpeed[d], limit.signalSpeed[d]);
 		while (fraction * duration > limit.timestep || fraction > 1 - elapsed) fraction /= 2;
 		auto const step = fraction * duration;
 		if (!(step > units::Time{}) || now + step == now) throw std::runtime_error("Gravity level timestep cannot advance time");
+		auto const started = std::chrono::steady_clock::now();
+		auto report = [&](char const* event) { reportProgress(level, event, now, step, elapsed,
+			std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count()); };
+		report("begin");
 		GravityFrame frame(level, now, step, interval.cells, interval.faces, interval.store, bool(interval.rotation));
 		int const nextLevel = index + 1 < occupied.size() ? occupied[index + 1] : -1;
+		report("opening-gravity");
 		shellGravity(interval, frame, 0, nextLevel, now);
 		if (config.gravity.timeIntegration == "conventional") partialGravity(interval, frame.force.handle(), 0, 0, now, true,
 			frame.rotation ? frame.rotation->force.handle() : storage::FieldHandle<units::VelocitySquared>{});
+		report("frame-fields");
 		for (auto const& b : topology->blocks()) {
-			auto const old = fields->directory().hydro.read(b.interior, levels.at(b.location.level).bank).get();
+			auto const old = fields->directory().hydro.read(b.interior, levels.at(config.timestep.timeLevel(b.location.level)).bank).get();
 			auto rho = frame.density.handle().output(b.interior, 0);
 			auto impulse = frame.impulse.handle().output(b.interior, 0);
 			auto work = frame.appliedWork.handle().output(b.interior, 0);
@@ -308,31 +315,37 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 			std::fill_n(flux.data(), b.massFlux.count, units::MassFlux{});
 			frame.density.handle().commit(b.interior, 0, rho); frame.impulse.handle().commit(b.interior, 0, impulse);
 			frame.appliedWork.handle().commit(b.interior, 0, work); frame.flux.handle().commit(b.massFlux, 0, flux);
-			if (b.location.level == level) {
+			if (config.timestep.timeLevel(b.location.level) == level) {
 				auto pending = interval.deferred.handle().output(b.interior, 0);
 				std::fill_n(pending.data(), b.interior.count, units::EnergyDensity{});
 				interval.deferred.handle().commit(b.interior, 0, pending);
 			}
 		}
 		interval.stack.push_back(&frame);
+		report("predictor");
 		assemblePredictor(interval, frame);
 		if (coupledStep) {
 			coupledStep->limiterInterval = step / 2.0;
 			phase(Operation::SaveRadiationStep, {}, level, now);
 		}
+		report("flux-probes");
 		for (std::size_t j = index; j < occupied.size(); ++j)
 			phase(Operation::Probe, {}, occupied[j], now, 0, {interval.rate.handle(), interval.duration});
+		report("gravity-source-rate");
 		gravitySourceRate(interval, level);
 		if (coupledStep) phase(Operation::PredictRadiationStep, step, -1, now, 0, {interval.rate.handle(), interval.duration});
 		auto& state = levels.at(level);
 		state.begin = now; state.end = now + step;
+		report("transport");
 		interval.boundary += phase(Operation::Advance, step, level, now, step / duration,
 			{interval.rate.handle(), interval.duration}).boundary;
+		report("provisional-gravity");
 		provisionalGravity(interval, frame, step);
 		// The halo forecast uses the accepted initial numerical RHS. The raw
 		// coarse transport endpoint has not been refluxed and is only O(H)
 		// accurate at a refinement boundary, even with a midpoint flux.
-		for (auto const& b : topology->blocks()) { if (!coupledStep && b.location.level == level) {
+		report("halo-predictor");
+		for (auto const& b : topology->blocks()) { if (!coupledStep && config.timestep.timeLevel(b.location.level) == level) {
 			auto old = fields->directory().hydro.read(b.interior, state.bank).get();
 			auto rate = interval.rate.handle().read(b.interior, 0).get();
 			auto out = fields->directory().hydro.output(b.interior, 3);
@@ -356,12 +369,18 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 		if (coupledStep) phase(Operation::ForecastRadiationStep, step, level, now);
 		state.predictorBank = 3;
 		state.pending = true;
-		if (nextLevel >= 0) advanceGravityLevel(interval, occupied, index + 1, now, step);
+		if (nextLevel >= 0) {
+			report("finer-levels");
+			advanceGravityLevel(interval, occupied, index + 1, now, step);
+		}
+		report("reflux");
 		phase(Operation::RefluxTracked, step, level, now + step);
 		state.pending = false; state.bank ^= 1;
+		report("closing-gravity");
 		shellGravity(interval, frame, 1, nextLevel, now + step);
 		if (config.gravity.timeIntegration == "conventional") partialGravity(interval, frame.force.handle(), 1, 0, now + step, true,
 			frame.rotation ? frame.rotation->force.handle() : storage::FieldHandle<units::VelocitySquared>{});
+		report("close-gravity-frame");
 		closeGravityFrame(interval, frame);
 		if (coupledStep) {
 			phase(Operation::FinishRadiationStep, step, level, now + step);
@@ -369,18 +388,20 @@ void Runtime::Impl::advanceGravityLevel(GravityInterval& interval, std::vector<i
 		}
 		interval.stack.pop_back();
 		// A physical full field is retained for the next local CFL estimate.
-		for (auto const& b : topology->blocks()) if (b.location.level >= level) {
+		report("publish-gravity");
+		for (auto const& b : topology->blocks()) if (config.timestep.timeLevel(b.location.level) >= level) {
 			auto g = frame.nested.handle().read(b.interior, 1).get();
 			std::vector<storage::Columns<gravity::State>> ancestors;
 			for (auto const* f : interval.stack) ancestors.push_back(f->shell.handle().read(b.interior, 0).get());
-			auto out = fields->directory().gravity.output(b.interior, levels.at(b.location.level).bank);
+			auto out = fields->directory().gravity.output(b.interior, levels.at(config.timestep.timeLevel(b.location.level)).bank);
 			for (std::size_t i = 0; i < b.interior.count; ++i) {
 				auto value = g.at(i); for (auto const& a : ancestors) value += a.at(i); out.put(i, value);
 			}
-			fields->directory().gravity.commit(b.interior, levels.at(b.location.level).bank, out);
+			fields->directory().gravity.commit(b.interior, levels.at(config.timestep.timeLevel(b.location.level)).bank, out);
 		}
-		++statistics.levelSteps.at(level);
+		completeLevelStep(level);
 		elapsed += fraction;
+		report("done");
 	}
 }
 #endif
@@ -411,16 +432,17 @@ gravity::Statistics Runtime::advanceGravityUnlocked(units::Time dt) {
 	profiling::Elapsed profile("runtime.gravity_time_integration.wall_ns");
 	auto const savedStatistics = impl_->statistics;
 	auto const savedSpeed = impl_->signalSpeed;
-	std::vector<int> occupied;
-	for (auto const& b : impl_->topology->blocks()) occupied.push_back(b.location.level);
-	std::sort(occupied.begin(), occupied.end()); occupied.erase(std::unique(occupied.begin(), occupied.end()), occupied.end());
+	auto const occupied = impl_->occupiedTimeLevels();
 	impl_->statistics.levelSteps.resize(occupied.back() + 1);
+	impl_->reportProgress(occupied.front(), "interval-backup", impl_->time.time, dt, 0);
 	impl_->phase(Operation::Backup, {});
 	impl_->levels.assign(occupied.back() + 1, {impl_->bank, {}, {}, false});
 	try {
+		impl_->reportProgress(occupied.front(), "interval-fields", impl_->time.time, dt, 0);
 		Impl::GravityInterval interval(*impl_, dt);
 		// Initialize all halo source rates before the first coarse forecast. Later
 		// inactive rates are old by O(H), sufficient for a midpoint state to O(H²).
+		impl_->reportProgress(occupied.front(), "initial-predictor", impl_->time.time, dt, 0);
 		for (auto const& b : impl_->topology->blocks()) {
 			auto g = impl_->fields->directory().gravity.read(b.interior, impl_->bank).get();
 			auto out = interval.predictor.handle().output(b.interior, 0);
@@ -428,6 +450,7 @@ gravity::Statistics Runtime::advanceGravityUnlocked(units::Time dt) {
 			interval.predictor.handle().commit(b.interior, 0, out);
 		}
 		if (interval.rotation) {
+			impl_->reportProgress(occupied.front(), "initial-rotation-work", impl_->time.time, dt, 0);
 			if (!impl_->gravitySolver) impl_->gravitySolver = std::make_unique<gravity::FieldSolver>(impl_->config,
 				impl_->topology->blocks(), impl_->fields->directory(), impl_->localities);
 			gravity::FieldSolveRequest request;
@@ -436,14 +459,18 @@ gravity::Statistics Runtime::advanceGravityUnlocked(units::Time dt) {
 				std::get<0>(impl_->fields->directory().hydro.fields), interval.predictor.handle(), 0, *interval.rotation,
 				interval.predictorRotation->handle(), 0, impl_->config.mesh.upper - impl_->config.mesh.lower));
 		}
+		impl_->reportProgress(occupied.front(), "initial-flux-probe", impl_->time.time, dt, 0);
 		impl_->phase(Operation::Probe, {}, -1, {}, 0, {interval.rate.handle(), interval.duration});
+		impl_->reportProgress(occupied.front(), "initial-gravity-source-rate", impl_->time.time, dt, 0);
 		impl_->gravitySourceRate(interval, -1);
 		std::unique_ptr<amr::Hierarchy> nextShadow;
 		if (impl_->shadow) {
+			impl_->reportProgress(occupied.front(), "shadow", impl_->time.time, dt, 0);
 			nextShadow = std::make_unique<amr::Hierarchy>(*impl_->shadow);
 			nextShadow->advanceGravity(dt);
 		}
 		impl_->advanceGravityLevel(interval, occupied, 0, impl_->time.time, dt, true);
+		impl_->reportProgress(occupied.front(), "normalize", impl_->time.time, dt, 1);
 		impl_->phase(Operation::Normalize, {});
 		auto nextTime = impl_->time; nextTime.completeStep(dt);
 		if (nextShadow) {

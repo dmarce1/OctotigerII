@@ -62,6 +62,65 @@ TEST(TimeRefinement, DisabledPathUsesFineCflAndNoSubcycles) {
 	EXPECT_TRUE(global.statistics().levelSteps.empty());
 	conserved(initial, diagnose(global.snapshots(), c));
 }
+
+TEST(TimeRefinement, GroupingAllLevelsUsesFineCflAndMatchesGlobalTransport) {
+	auto c = config(); c.mesh.cells = 4;
+	// The selected time level need not itself contain spatial leaves.
+	c.timestep.coarseLevel = 4;
+	bool enabled = false;
+	Runtime grouped(c, {left(c, enabled)});
+	auto globalConfig = c; globalConfig.timestep.refinement = false;
+	Runtime global(globalConfig, {left(c, enabled)});
+	enabled = true;
+	ASSERT_TRUE(grouped.regrid({}, true)); ASSERT_TRUE(global.regrid({}, true));
+	std::set<int> levels;
+	for (auto const& b : grouped.snapshots()) levels.insert(b.location.level);
+	ASSERT_EQ(levels, (std::set<int>{1, 2}));
+	EXPECT_EQ(grouped.stableTimestep(), global.stableTimestep());
+	auto const before = diagnose(grouped.snapshots(), c);
+	for (int step = 0; step < 3; ++step) {
+		auto const dt = 0.2 * std::min(grouped.stableTimestep(), global.stableTimestep());
+		grouped.advance(dt); global.advance(dt);
+	}
+	auto const actual = grouped.snapshots(), reference = global.snapshots();
+	ASSERT_EQ(actual.size(), reference.size());
+	for (std::size_t b = 0; b < actual.size(); ++b)
+		for (std::size_t i = 0; i < actual[b].hydro.values().size(); ++i)
+			actual[b].hydro.values()[i].forEach([&](auto f, auto value) {
+				auto const expected = reference[b].hydro.values()[i].template get<f>();
+				EXPECT_NEAR(units::value(value - expected), 0, 2e-13 * std::max(Real(1), units::value(units::abs(expected))));
+			});
+	auto const counts = grouped.statistics().levelSteps;
+	EXPECT_EQ(counts.at(1), 3u); EXPECT_EQ(counts.at(2), 3u);
+	conserved(before, diagnose(actual, c));
+	// The common group may itself need several CFL-limited substeps. Its
+	// internal spatial interfaces must use matching substep fluxes.
+	grouped.advance(1.8 * grouped.stableTimestep());
+	auto const splitCounts = grouped.statistics().levelSteps;
+	EXPECT_GT(splitCounts.at(1), counts.at(1) + 1);
+	EXPECT_EQ(splitCounts.at(1), splitCounts.at(2));
+	conserved(before, diagnose(grouped.snapshots(), c));
+}
+
+TEST(TimeRefinement, GroupedCoarseLevelsKeepFineSubcyclingAndRegridConservation) {
+	auto c = config(); c.mesh.cells = 4; c.mesh.level = 2; c.amr.minLevel = 2; c.amr.maxLevel = 4;
+	c.timestep.coarseLevel = 3;
+	bool enabled = true;
+	Runtime runtime(c, {[&](auto const& cell) {
+		return enabled && cell.center[0] < c.mesh.lower + 0.08 * (c.mesh.upper - c.mesh.lower) && cell.level < 4 ? Real(2) : Real(0);
+	}});
+	std::set<int> levels;
+	for (auto const& b : runtime.snapshots()) levels.insert(b.location.level);
+	ASSERT_EQ(levels, (std::set<int>{2, 3, 4}));
+	auto const initial = diagnose(runtime.snapshots(), c);
+	for (int step = 0; step < 3; ++step) runtime.advance(0.1 * runtime.stableTimestep());
+	auto const counts = runtime.statistics().levelSteps;
+	EXPECT_EQ(counts.at(2), 3u); EXPECT_EQ(counts.at(3), 3u); EXPECT_EQ(counts.at(4), 6u);
+	conserved(initial, diagnose(runtime.snapshots(), c));
+	enabled = false; ASSERT_TRUE(runtime.regrid({}, true));
+	runtime.advance(0.1 * runtime.stableTimestep());
+	conserved(initial, diagnose(runtime.snapshots(), c));
+}
 #if OCTOTIGERII_RADIATION
 TEST(TimeRefinement, RadiationSubcyclesAndConserves) {
 	auto c = config("streaming"); bool enabled = false;

@@ -116,15 +116,27 @@ std::array<Real, 3> error(std::vector<Snapshot> const& actual, std::vector<Snaps
 	return result;
 }
 
-void temporalConvergence(std::string const& method) {
-	auto const c = configuration(method);
+void temporalConvergence(std::string const& method, int coarseLevel = 0) {
+	auto c = configuration(method);
+	c.timestep.coarseLevel = coarseLevel;
 	bool refine = true;
-	Runtime initial(c, {refinedOctant(refine)});
+	refinement::Criterion criterion = refinedOctant(refine);
+	if (coarseLevel > 0) {
+		c.amr.maxLevel = 3;
+		criterion = [c](refinement::CellView const& cell) {
+			bool corner = true;
+			for (auto x : cell.center) corner = corner && x < c.mesh.lower + 0.15 * (c.mesh.upper - c.mesh.lower);
+			return corner && cell.level < 3 ? Real(2) : Real(0);
+		};
+	}
+	Runtime initial(c, {criterion});
 	initial.solveGravity();
-	expectMixed(initial);
+	std::set<int> levels;
+	for (auto const& b : initial.snapshots()) levels.insert(b.location.level);
+	ASSERT_EQ(levels, (coarseLevel > 0 ? std::set<int>{1, 2, 3} : std::set<int>{1, 2}));
 	auto const stop = 0.6 * initial.stableTimestep();
 	auto integrate = [&](int steps) {
-		Runtime runtime(c, {refinedOctant(refine)});
+		Runtime runtime(c, {criterion});
 		runtime.solveGravity();
 		auto const dt = stop / Real(steps);
 		for (int i = 0; i < steps; ++i) runtime.advanceGravity(dt);
@@ -360,6 +372,53 @@ TEST(GravityTimeIntegration, FineCflCanRequireMoreThanTwoSubsteps) {
 		expectConservation(runtime, c, before);
 	}
 }
+
+TEST(GravityTimeIntegration, GroupedCoarseLevelsSubcycleAndConserve) {
+	for (auto const* method : {"hierarchical", "conventional"}) {
+		auto c = configuration(method, true);
+		c.amr.maxLevel = 3; c.timestep.coarseLevel = 2;
+		Runtime runtime(c, {[c](refinement::CellView const& cell) {
+			bool corner = true;
+			for (auto x : cell.center) corner = corner && x < c.mesh.lower + 0.15 * (c.mesh.upper - c.mesh.lower);
+			return corner && cell.level < 3 ? Real(2) : Real(0);
+		}});
+		runtime.solveGravity();
+		std::set<int> levels;
+		for (auto const& b : runtime.snapshots()) levels.insert(b.location.level);
+		ASSERT_EQ(levels, (std::set<int>{1, 2, 3}));
+		auto const before = diagnose(runtime.snapshots(), c);
+		for (int step = 0; step < 2; ++step) {
+			runtime.advanceGravity(0.1 * runtime.stableTimestep());
+			expectConservation(runtime, c, before);
+		}
+		auto const counts = runtime.statistics().levelSteps;
+		EXPECT_EQ(counts.at(1), 2u); EXPECT_EQ(counts.at(2), 2u); EXPECT_EQ(counts.at(3), 4u);
+	}
+}
+
+TEST(GravityTimeIntegration, GroupingAboveFinestLevelUsesOneStableConservativeStep) {
+	for (auto const* method : {"hierarchical", "conventional"}) {
+		auto c = configuration(method, true); c.timestep.coarseLevel = 4;
+		bool refine = true;
+		Runtime runtime(c, {refinedOctant(refine)});
+		runtime.solveGravity();
+		expectMixed(runtime);
+		auto globalConfig = c; globalConfig.timestep.refinement = false;
+		Runtime global(globalConfig, {refinedOctant(refine)});
+		global.solveGravity();
+		EXPECT_EQ(runtime.stableTimestep(), global.stableTimestep());
+		auto const before = diagnose(runtime.snapshots(), c);
+		runtime.advanceGravity(0.1 * runtime.stableTimestep());
+		runtime.advanceGravity(1.1 * runtime.stableTimestep());
+		expectConservation(runtime, c, before);
+		auto const counts = runtime.statistics().levelSteps;
+		EXPECT_GE(counts.at(1), 3u); EXPECT_EQ(counts.at(1), counts.at(2));
+		refine = false; ASSERT_TRUE(runtime.regrid({}, true)); runtime.solveGravity();
+		expectConservation(runtime, c, before);
+	}
+}
+
+TEST(GravityTimeIntegration, GroupedHoldSmoothTemporalConvergence) { temporalConvergence("hierarchical", 2); }
 
 TEST(GravityTimeIntegration, HierarchicalSmoothTemporalConvergence) { temporalConvergence("hierarchical"); }
 TEST(GravityTimeIntegration, ConventionalSmoothTemporalConvergence) { temporalConvergence("conventional"); }

@@ -6,7 +6,8 @@ kick/transport/solve/kick sequence.
 
 This implementation applies to mixed-level AMR hydro and/or radiation transport,
 including material partial densities, tracers, and self-gravitating gas. All
-active cells at a given spatial level advance together. Uniform meshes have one
+active cells at a given time level advance together. By default time levels
+equal spatial levels. Uniform meshes have one
 timestep and do not gain temporal subcycling. Runs with imposed uniform external
 acceleration retain global stepping, both with and without self-gravity.
 
@@ -16,6 +17,7 @@ energy and regrid controls:
 ```ini
 [timestep]
 refinement = on
+coarseLevel = 0
 
 [gravity]
 timeIntegration = hierarchical
@@ -27,20 +29,36 @@ conserveRegridEnergy = on
 the full source force for each active level at that level's own cadence, using
 time-interpolated inactive sources. The hierarchical schedule assigns slow-slow
 and slow-fast interactions to the slower level's interval and recurses on
-fast-fast interactions. The bins are shared by spatial level; this is not an
+fast-fast interactions. The bins are shared by time level; this is not an
 independent timestep choice for every cell. These schedules have one cadence
 on a uniform mesh. Disabling AMR or timestep refinement selects the global
 reference path regardless of `gravity.timeIntegration`.
 
 ## Timesteps
 
-`Runtime::stableTimestep()` returns the CFL limit of the coarsest occupied level
+`timestep.coarseLevel = n` groups spatial levels `0..n` into a common time
+level `n`. Finer spatial levels retain their own time levels. Equivalently,
+`timeLevel = max(spatialLevel, n)`. The default `0` preserves the original
+schedule. The option accepts `0..16` and is inactive when timestep refinement
+is disabled. The selected level need not contain leaves; selecting at or above
+the finest occupied spatial level gives one common timestep on the AMR mesh.
+
+`Runtime::stableTimestep()` returns the minimum CFL/acceleration limit over
+all blocks in the coarsest occupied time level
 when time refinement applies. Signal-speed maxima still include every level for
 the AMR travel/buffer checks. The caller may shorten the synchronization interval,
 for example to reach the requested output or stopping time.
 
-For each parent interval, the next finer spatial level starts with half its
-parent's step (or 1/2^k for a gap of k spatial levels). Before **every** substep,
+For example, with `coarseLevel=5`, spatial levels `0..5` advance together,
+level 6 starts at half their step, and level 7 starts at a quarter of it.
+The common step respects the tightest limit anywhere in levels `0..5`.
+Grouping can reduce the number of HOLD shells, gravity solves, and whole-mesh
+source-work passes, at the cost of more frequent coarse-cell transport.
+Its benefit depends on the occupied levels and their CFL limits; it must be
+measured for the workload.
+
+For each parent interval, the next finer time level starts with half its
+parent's step (or 1/2^k for a gap of k time levels). Before **every** substep,
 the runtime reduces the CFL limit over all blocks on that level. It halves the
 step repeatedly until the limit is met. Thus 1/2, 1/4, 1/8, and smaller ratios are
 supported. A level may shrink its step during the parent interval; it does not
@@ -80,6 +98,10 @@ integral against the sum of fine flux integrals over exactly the same interval.
 Area averaging is retained at coarse/fine faces. Hydro, radiation, and species
 use the same interval accounting. Coarse corrections are applied only after
 all finer levels have reached that coarse endpoint.
+At a spatial coarse/fine interface whose two sides share one time level,
+reflux uses the fine side's current substep flux. The accumulated interval
+register is used only across different time levels. This distinction also
+applies when the common coarse group subdivides an oversized caller interval.
 
 A third state bank (bank 2) retains the published state during an entire
 synchronization interval. If any phase fails, all tasks/transfers are drained and the checkpoint
@@ -91,8 +113,33 @@ tighter fine CFL limit is handled by further subdivision before its next step.
 Regridding, snapshots, and output remain synchronized operations. Shadow states
 used for AMR error estimation are separately CFL-subcycled over the interval.
 `Runtime::statistics().levelSteps[level]` counts accepted transport steps for
-each level on the refinement path. Snapshot step counters describe global
+each spatial level on the refinement path. Occupied spatial levels in one
+time group receive equal counts. Snapshot step counters describe global
 synchronization intervals.
+
+## Progress inside a synchronization interval
+
+Set `runtime.progressLevel = n` to print progress for time levels `n` and
+coarser. The default `-1` disables these lines. For the QueenBee4 level-7
+case, `--runtime.progressLevel=7` exposes every substep; `5` hides finer
+substeps. Choose a value at least as large as `timestep.coarseLevel` to see
+the grouped coarse steps.
+
+Progress is flushed to the coordinator's standard error stream, so it appears
+in task 0's Slurm `.err` log with the supplied batch script. Lines identify the
+coarse step, time level, active stage, substep start time and duration in seconds,
+and completed fraction of the containing parent interval. `wall_s` is elapsed
+wall time since runtime construction; `substep_wall_s` includes waits and finer
+descendants. `stage=done` confirms that the substep's reflux and gravity closure
+have finished. Earlier stage lines identify work about to begin, rather than
+claiming its completion. The `cfl` line carries a trial duration; `begin` carries
+the accepted duration after applying the CFL limit.
+
+The gravity path also reports preparation before the first substep, including
+scratch allocation, the initial flux probe, and gravity source-rate assembly.
+These are progress messages, not additional Silo frames or global conservation
+records: intermediate levels can be at different physical times. A failure
+can roll back substeps already reported as done within the current coarse step.
 
 ## Finite-volume gravity coupling
 
@@ -165,6 +212,55 @@ mode currently carries a speedup or scaling claim; performance must be
 evaluated separately from conservation and temporal accuracy.
 
 ## Gravity coupling validation
+
+### Coarse time grouping, 2026-09-30
+
+The grouped schedule passed the following local checks:
+
+| Build and scope | Passed |
+|---|---:|
+| Serial, 1D option parsing and validation | 44 |
+| Serial, 1D time refinement | 11 |
+| Serial, 1D grouped and existing mixed-level radiation integration | 2 |
+| Serial, full 3D gravity time integration suite | 15 |
+| HPX, two localities, 1D time refinement | 11 |
+| HPX, two localities, 1D grouped and existing mixed-level radiation integration | 2 |
+| HPX, two localities, 3D grouped and nested gravity conservation | 3 |
+
+Grouping tests cover common CFL selection, partial grouping with finer
+subcycling, a selected coarse time level above the finest spatial level,
+subdivision of an oversized common interval, spatial-level step counts,
+conservation, and synchronized regridding. Both hierarchical and conventional
+gravity schedules are exercised. In the smooth fixed-mesh grouped HOLD test,
+spatial levels 1 and 2 share time level 2 while spatial level 3 subcycles.
+The observed orders for two successive timestep halvings were:
+
+| Field | First halving | Second halving |
+|---|---:|---:|
+| Density | 2.04328 | 2.08299 |
+| Momentum | 2.04390 | 2.08380 |
+| Gas energy | 2.04349 | 2.08304 |
+
+These support second-order time accuracy for this smooth fixed-mesh test.
+They do not establish a speedup or cluster scaling. A serial Polytrope
+application smoke run also completed a coarse step and emitted flushed stage
+lines with `runtime.progressLevel=2` and `timestep.coarseLevel=2`.
+
+The distributed checks can be reproduced after building the named test targets:
+
+```bash
+python3 tests/distributed.py release/1d/tests/timeRefinementChecks-1d
+python3 tests/distributed.py release/1d/tests/radiationIntegrationChecks-1d \
+  --gtest_filter='RadiationIntegration.GroupedCoarseLevelsSubcycleAndConserve:RadiationIntegration.MixedLevelSubcyclingAndRegriddingConserve'
+python3 tests/distributed.py release/3d/tests/gravityTimeIntegrationChecks-3d \
+  --gtest_filter='GravityTimeIntegration.GroupedCoarseLevelsSubcycleAndConserve:GravityTimeIntegration.GroupingAboveFinestLevelUsesOneStableConservativeStep:GravityTimeIntegration.NestedThreeLevelShellAndFluxRegistersConserve'
+```
+
+The serial temporal gate is
+`GravityTimeIntegration.GroupedHoldSmoothTemporalConvergence` in
+`gravityTimeIntegrationChecks-3d`.
+
+### Previous coupling validation
 
 Smooth fixed-mesh temporal regressions give observed orders of approximately
 2.04–2.09 for density, momentum, and gas energy in both integration modes.

@@ -2,8 +2,26 @@
  * @brief Stage dispatch and completion before field publication.
  */
 #include "internal.hpp"
+#include <iomanip>
+#include <iostream>
 
 namespace octotigerII {
+
+void Runtime::Impl::reportProgress(int level, char const* event, units::Time at, units::Time dt,
+	Real fraction, double elapsedSeconds) const {
+	if (level > config.runtime.progressLevel) return;
+	// Only the coordinator calls this, outside worker kernels. Flush each line
+	// so a batch-job timeout still leaves the last entered stage in its log.
+	std::ostringstream line;
+	line << "AMR progress wall_s=" << std::fixed << std::setprecision(3)
+		<< std::chrono::duration<double>(std::chrono::steady_clock::now() - progressOrigin).count()
+		<< " coarse_step=" << time.step + 1 << " time_level=" << level << " stage=" << event
+		<< std::scientific << std::setprecision(12)
+		<< " time_s=" << units::value(at) << " dt_s=" << units::value(dt)
+		<< " parent_fraction=" << fraction;
+	if (elapsedSeconds >= 0) line << std::fixed << std::setprecision(3) << " substep_wall_s=" << elapsedSeconds;
+	std::clog << line.str() << std::endl;
+}
 
 PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level, std::optional<units::Time> at, Real fluxWeight, SourcePredictor source) {
 	if (coupledStep && !std::get<0>(source.radiation.gas.fields).id) {
@@ -18,7 +36,10 @@ PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level,
 	auto const stageTime = at.value_or(time.time);
 	auto const stageBank = level >= 0 && !levels.empty() ? levels.at(level).bank : bank;
 	std::vector<HaloTime> haloTimes;
-	for (auto const& state : levels) {
+	// Halo plans retain spatial donor levels. Expand each time group's state
+	// so grouped coarse donors all expose the same bank and time fraction.
+	for (std::size_t spatial = 0; spatial < levels.size(); ++spatial) {
+		auto const& state = levels.at(config.timestep.timeLevel(int(spatial)));
 		Real alpha = 0;
 		if (state.pending) {
 			alpha = (stageTime - state.begin) / (state.end - state.begin);
@@ -34,7 +55,7 @@ PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level,
 	}
 	std::vector<std::vector<std::uint64_t>> cachedWork(localities.size());
 	if (operation == Operation::Advance && source.referenceStep > units::Time{})
-		for (auto const& block : topology->blocks()) { if (level < 0 || block.location.level == level)
+		for (auto const& block : topology->blocks()) { if (level < 0 || config.timestep.timeLevel(block.location.level) == level)
 			cachedWork.at(cacheOwners[block.id]).push_back(block.id);
 		}
 #ifdef OCTOTIGERII_WITH_HPX
@@ -67,7 +88,7 @@ PhaseResult Runtime::Impl::phase(Operation operation, units::Time dt, int level,
 		for (int d = 0; d < ndim; ++d)
 			result.signalSpeed[d] = std::max(result.signalSpeed[d], part.signalSpeed[d]);
 	}
-	auto const expected = std::count_if(topology->blocks().begin(), topology->blocks().end(), [&](auto const& b) { return level < 0 || b.location.level == level; });
+	auto const expected = std::count_if(topology->blocks().begin(), topology->blocks().end(), [&](auto const& b) { return level < 0 || config.timestep.timeLevel(b.location.level) == level; });
 	if (result.tasks.localTasks + result.tasks.stolenTasks != std::size_t(expected))
 		throw std::logic_error("Stage did not complete every output range");
 	if (operation == Operation::FinishRadiationStep) radiationSourceEnergy += result.radiationSourceEnergy;

@@ -83,6 +83,22 @@ TEST(RadiationIntegration, PhysicalAndReducedSpeedConserveOnPeriodicGrid) {
 	for (auto ratio : {Real(1), Real(0.2)}) { transport(false, ratio, 0); }
 }
 
+TEST(RadiationIntegration, GroupedCoarseLevelsSubcycleAndConserve) {
+	auto c = configuration(true, 0.2);
+	c.mesh.level = 2; c.amr.minLevel = 2; c.amr.maxLevel = 4; c.timestep.coarseLevel = 3;
+	Runtime runtime(c, {[c](refinement::CellView const& cell) {
+		return cell.center[0] < c.mesh.lower + 0.08 * (c.mesh.upper - c.mesh.lower) && cell.level < 4 ? Real(2) : Real(0);
+	}});
+	std::set<int> levels;
+	for (auto const& b : runtime.snapshots()) levels.insert(b.location.level);
+	ASSERT_EQ(levels, (std::set<int>{2, 3, 4}));
+	auto const before = diagnose(runtime.snapshots(), c);
+	for (int step = 0; step < 2; ++step) runtime.advanceCoupled(0.1 * runtime.stableTimestep());
+	budget(before, diagnose(runtime.snapshots(), c), runtime.boundaryTransport(), c);
+	auto const counts = runtime.statistics().levelSteps;
+	EXPECT_EQ(counts.at(2), 2u); EXPECT_EQ(counts.at(3), 2u); EXPECT_EQ(counts.at(4), 4u);
+}
+
 TEST(RadiationIntegration, CoupledTransportConvergesAtSecondOrderInTime) {
 	for (bool adaptive : {false, true}) {
 		std::cout << "coupled temporal case adaptive=" << adaptive << '\n';

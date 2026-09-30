@@ -69,9 +69,11 @@ namespace {
 		options("runtime.stopTime", po::value<Real>(), "Stop time (s)");
 		options("runtime.maxSteps", po::value<int>(), "Maximum number of steps");
 		options("runtime.workerTasks", po::value<int>(), "Maximum concurrent tasks; 0 uses worker count");
+		options("runtime.progressLevel", po::value<int>(), "Log AMR substeps at this level and coarser (-1 disables; default -1)");
 		options("runtime.workStealing", po::value<std::string>(), "Remote work stealing: on/off");
 		options("timestep.cfl", po::value<Real>(), "Courant factor");
 		options("timestep.refinement", po::value<std::string>(), "Dyadic level time refinement: on/off (default on; transport and self-gravity without external acceleration)");
+		options("timestep.coarseLevel", po::value<int>(), "Spatial levels 0..N share the minimum CFL timestep; finer levels subcycle (default 0)");
 		options("massFractions.enabled", po::value<std::string>(), "Material partial densities and massless tracers: on/off (default off)");
 		options("massFractions.species", po::value<std::string>(), "Semicolon-separated name:initialFraction:element, A=mass,Z=number, or He=70%,O=30% definitions");
 		options("hydro.gamma", po::value<Real>(), "Ideal-gas adiabatic index");
@@ -264,10 +266,12 @@ namespace {
 		config.runtime.stopTime = units::Time::from_value(stopTime);
 		readOption(values, "runtime.maxSteps", config.runtime.maxSteps, "runtime.max_steps");
 		readOption(values, "runtime.workerTasks", config.runtime.workerTasks, "runtime.worker_tasks");
+		readOption(values, "runtime.progressLevel", config.runtime.progressLevel);
 		readBoolean(values, "runtime.workStealing", config.runtime.workStealing, "runtime.work_stealing");
 
 		readNumber(values, "timestep.cfl", config.timestep.cfl);
 		readBoolean(values, "timestep.refinement", config.timestep.refinement);
+		readOption(values, "timestep.coarseLevel", config.timestep.coarseLevel);
 		readNumber(values, "hydro.gamma", config.hydro.gamma);
 		readNumber(values, "hydro.meanMolecularWeight", config.hydro.meanMolecularWeight);
 		readOption(values, "hydro.eos", config.hydro.eos);
@@ -403,6 +407,10 @@ void Config::validate() const {
 	if (hydro.eos == "helmholtz" && hydro.dualEnergy.exponent != 1)
 		throw std::invalid_argument("Helmholtz advects EOS entropy directly; dualEnergy.exponent must be 1");
 	if (randomSeed < 0) throw std::invalid_argument("randomSeed must be nonnegative");
+	if (timestep.coarseLevel < 0 || timestep.coarseLevel > 16)
+		throw std::invalid_argument("timestep.coarseLevel must be in 0..16");
+	if (runtime.progressLevel < -1 || runtime.progressLevel > 16)
+		throw std::invalid_argument("runtime.progressLevel must be -1 (disabled) or a time level in 0..16");
 	for (auto component : hydro.acceleration) {
 		if (!units::finite(component)) throw std::invalid_argument("External acceleration must be finite");
 	}

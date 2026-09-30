@@ -28,11 +28,16 @@ void LocalExecutor::reflux(Subgrid const& block, std::vector<FluxCorrection> con
 	if (!plan.empty()) coarseFlux = fluxFields.read(block.boundaryFlux, 0).get();
 	auto current = fields.read(block.interior, bank_ ^ 1).get();
 	std::vector<State> corrections(block.interior.count);
+	// Reflux plans require 2:1 spatial balance. A finer neighbor in the same
+	// time group supplies this substep's raw flux, not an interval register
+	// that may also contain earlier substeps of the common coarse interval.
+	unsigned const fineBank = !times_.empty() &&
+		config_.timestep.timeLevel(block.location.level + 1) > config_.timestep.timeLevel(block.location.level);
 	for (auto const& face : plan) {
 		typename System::Flux fine{};
 		std::vector<storage::PendingColumns<typename System::Flux>> pending;
 		for (auto const& range : face.fineFluxes)
-			pending.push_back(fluxFields.read(range, times_.empty() ? 0 : 1));
+			pending.push_back(fluxFields.read(range, fineBank));
 		std::exception_ptr error;
 		for (auto& read : pending) {
 			try {
@@ -166,12 +171,12 @@ void LocalExecutor::begin(std::uint64_t generation, unsigned bank, units::Time t
 	allowStealing_ = !cachedAdvance;
 	active_.clear();
 	if (cachedAdvance) active_ = std::move(cachedWork);
-	else for (auto id : owned_) { if (level < 0 || blocks_[id].location.level == level) active_.push_back(id); }
+	else for (auto id : owned_) { if (level < 0 || config_.timestep.timeLevel(blocks_[id].location.level) == level) active_.push_back(id); }
 	// Phases have drained before begin. Invalidate on rollback and before a
 	// replacement probe, including caches held here for remotely owned blocks.
 	if (operation == Operation::Probe || operation == Operation::Backup || operation == Operation::Restore ||
 		operation == Operation::RestoreRadiationStep || operation == Operation::Normalize)
-		for (auto const& block : blocks_) { if (level < 0 || block.location.level == level)
+		for (auto const& block : blocks_) { if (level < 0 || config_.timestep.timeLevel(block.location.level) == level)
 			if (blockCaches_[block.id]) cachePool_.push_back(std::move(blockCaches_[block.id]));
 		}
 	next_ = 0;
@@ -284,7 +289,7 @@ PhaseResult LocalExecutor::worker(Operation operation, units::Time dt, std::uint
 		} else if (operation == Operation::Timestep) {
 			auto const dt = timestep(block, result.signalSpeed);
 			result.timestep = std::min(result.timestep, dt);
-			auto [where, inserted] = result.levelTimestep.emplace(block.location.level, dt);
+			auto [where, inserted] = result.levelTimestep.emplace(config_.timestep.timeLevel(block.location.level), dt);
 			if (!inserted) where->second = std::min(where->second, dt);
 		} else if (operation == Operation::Advance || operation == Operation::Probe) {
 			// Owned plans are immutable. Stolen plans have only metadata and
@@ -481,13 +486,15 @@ void LocalExecutor::advanceSpecies(Subgrid const& block, HaloPlan const& plan, u
 
 void LocalExecutor::refluxSpecies(Subgrid const& block, std::vector<FluxCorrection> const& plan, units::Time dt) {
 	if (plan.empty()) return;
+	unsigned const fineBank = !times_.empty() &&
+		config_.timestep.timeLevel(block.location.level + 1) > config_.timestep.timeLevel(block.location.level);
 	for (std::size_t s = 0; s < fields_.species.size(); ++s) {
 		auto coarse = fields_.speciesFlux[s].read(block.boundaryFlux, 0).get();
 		auto current = fields_.species[s].read(block.interior, bank_ ^ 1).get();
 		std::vector<units::Density> correction(block.interior.count);
 		for (auto const& face : plan) {
 			units::MassFlux fine{};
-			for (auto const& range : face.fineFluxes) fine += fields_.speciesFlux[s].read(range, times_.empty() ? 0 : 1).get().data()[0];
+			for (auto const& range : face.fineFluxes) fine += fields_.speciesFlux[s].read(range, fineBank).get().data()[0];
 			fine /= Real(face.fineFluxes.size());
 			correction[face.cell] += (Real(face.sign) * dt / block.cellWidth) * (fine - coarse.data()[face.coarseFlux]);
 		}

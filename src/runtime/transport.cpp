@@ -12,9 +12,27 @@ bool Runtime::Impl::timeRefinement() const {
 }
 
 int Runtime::Impl::coarsestLevel() const {
-	int result = config.amr.maxLevel;
-	for (auto const& b : topology->blocks()) result = std::min(result, b.location.level);
+	int result = std::numeric_limits<int>::max();
+	for (auto const& b : topology->blocks()) result = std::min(result, config.timestep.timeLevel(b.location.level));
 	return result;
+}
+
+std::vector<int> Runtime::Impl::occupiedTimeLevels() const {
+	std::vector<int> result;
+	for (auto const& b : topology->blocks()) result.push_back(config.timestep.timeLevel(b.location.level));
+	std::sort(result.begin(), result.end());
+	result.erase(std::unique(result.begin(), result.end()), result.end());
+	return result;
+}
+
+void Runtime::Impl::completeLevelStep(int level) {
+	// Keep the public statistics indexed by spatial level, including every
+	// occupied level in the common coarse timestep group exactly once.
+	std::uint32_t completed = 0;
+	for (auto const& b : topology->blocks())
+		if (config.timestep.timeLevel(b.location.level) == level) completed |= std::uint32_t(1) << b.location.level;
+	for (std::size_t spatial = 0; spatial < statistics.levelSteps.size(); ++spatial)
+		if (completed & (std::uint32_t(1) << spatial)) ++statistics.levelSteps[spatial];
 }
 
 BoundaryTransport Runtime::Impl::advanceLevel(std::vector<int> const& occupied, std::size_t index,
@@ -26,29 +44,40 @@ BoundaryTransport Runtime::Impl::advanceLevel(std::vector<int> const& occupied, 
 	BoundaryTransport transported;
 	while (elapsed < 1) {
 		auto const now = begin + elapsed * duration;
+		reportProgress(level, "cfl", now, fraction * duration, elapsed);
 		auto const limit = phase(Operation::Timestep, {}, level, now);
 		for (int d = 0; d < ndim; ++d) signalSpeed[d] = std::max(signalSpeed[d], limit.signalSpeed[d]);
 		while (fraction * duration > limit.timestep || fraction > 1 - elapsed) fraction /= 2;
 		auto const step = fraction * duration;
 		if (!(step > units::Time{}) || now + step == now) throw std::runtime_error("Level timestep cannot advance time");
+		auto const started = std::chrono::steady_clock::now();
+		auto report = [&](char const* event) { reportProgress(level, event, now, step, elapsed,
+			std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count()); };
+		report("begin");
 		auto& state = levels.at(level);
 		state.begin = now;
 		state.end = now + step;
 		if (coupledStep) {
+			report("radiation-predictor");
 			coupledStep->limiterInterval = step / 2.0;
 			phase(Operation::SaveRadiationStep, {}, level, now);
 			phase(Operation::Probe, {}, level, now);
 			phase(Operation::PredictRadiationStep, step, -1, now);
 		}
+		report("transport");
 		transported += phase(Operation::Advance, step, level, now, step / duration).boundary;
 		if (coupledStep) {
 			phase(Operation::ForecastRadiationStep, step, level, now);
 			state.predictorBank = 3;
 		}
 		state.pending = true;
-		if (index + 1 < occupied.size()) transported += advanceLevel(occupied, index + 1, now, step);
+		if (index + 1 < occupied.size()) {
+			report("finer-levels");
+			transported += advanceLevel(occupied, index + 1, now, step);
+		}
 		// Fine registers now cover precisely this coarse step. Reflux before
 		// publishing the coarse endpoint and resetting the child's registers.
+		report("reflux");
 		phase(Operation::Reflux, step, level, now + step);
 		state.pending = false;
 		state.bank ^= 1;
@@ -56,8 +85,9 @@ BoundaryTransport Runtime::Impl::advanceLevel(std::vector<int> const& occupied, 
 			phase(Operation::FinishRadiationStep, step, level, now + step);
 			state.bank ^= 1;
 		}
-		++statistics.levelSteps.at(level);
+		completeLevelStep(level);
 		elapsed += fraction;
+		report("done");
 	}
 	return transported;
 }
@@ -101,10 +131,7 @@ void Runtime::advanceUnlocked(units::Time dt) {
 	if (impl_->timeRefinement() && !impl_->config.gravityEnabled()) {
 		auto const statistics = impl_->statistics;
 		auto const speed = impl_->signalSpeed;
-		std::vector<int> occupied;
-		for (auto const& b : impl_->topology->blocks()) occupied.push_back(b.location.level);
-		std::sort(occupied.begin(), occupied.end());
-		occupied.erase(std::unique(occupied.begin(), occupied.end()), occupied.end());
+		auto const occupied = impl_->occupiedTimeLevels();
 		impl_->statistics.levelSteps.resize(occupied.back() + 1);
 		impl_->phase(Operation::Backup, {});
 		impl_->levels.assign(occupied.back() + 1, {impl_->bank, {}, {}, false});

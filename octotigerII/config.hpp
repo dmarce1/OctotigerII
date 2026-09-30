@@ -64,11 +64,13 @@ public:
 	public:
 		units::Time stopTime = units::Time::from_value(0.2);
 		int maxSteps = 100000, workerTasks = 0;
+		/// Log each substep at this AMR level and all coarser levels; -1 disables it.
+		int progressLevel = -1;
 		bool workStealing = true;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & stopTime & maxSteps & workerTasks & workStealing;
+			archive & stopTime & maxSteps & workerTasks & progressLevel & workStealing;
 		}
 	} runtime;
 
@@ -76,10 +78,16 @@ public:
 	public:
 		Real cfl = 0.4;
 		bool refinement = true;
+		/// Spatial levels 0..coarseLevel share one time level and its minimum CFL.
+		int coarseLevel = 0;
+
+		int timeLevel(int spatialLevel) const {
+			return refinement ? std::max(coarseLevel, spatialLevel) : spatialLevel;
+		}
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
-			archive & cfl & refinement;
+			archive & cfl & refinement & coarseLevel;
 		}
 	} timestep;
 

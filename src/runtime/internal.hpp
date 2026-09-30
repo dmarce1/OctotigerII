@@ -7,6 +7,7 @@
 #include "octotigerII/runtime.hpp"
 #include "octotigerII/composition/transport.hpp"
 #include <algorithm>
+#include <chrono>
 #include <exception>
 #include <limits>
 #include <map>
@@ -542,6 +543,10 @@ public:
 
 	bool timeRefinement() const;
 	int coarsestLevel() const;
+	std::vector<int> occupiedTimeLevels() const;
+	void completeLevelStep(int level);
+	std::chrono::steady_clock::time_point progressOrigin = std::chrono::steady_clock::now();
+	void reportProgress(int level, char const* event, units::Time at, units::Time dt, Real fraction, double elapsedSeconds = -1) const;
 
 
 	std::vector<Snapshot> exportSnapshots(std::optional<unsigned> requestedBank = {}, std::optional<mesh::TimeState> requestedTime = {}) const;

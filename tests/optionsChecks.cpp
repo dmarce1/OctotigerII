@@ -70,6 +70,21 @@ TEST_F(Options, GravityTimeIntegrationControls) {
 	EXPECT_NE(helpText().find("gravity.timeIntegration"), std::string::npos);
 }
 
+TEST_F(Options, CoarseTimeLevelAndProgressControls) {
+	auto const defaults = test::parseConfig({});
+	EXPECT_EQ(defaults.timestep.coarseLevel, 0);
+	EXPECT_EQ(defaults.runtime.progressLevel, -1);
+	{ std::ofstream out(first); out << "timestep.coarseLevel=3\nruntime.progressLevel=5\n"; }
+	auto const ini = test::parseConfig({"--config=" + first});
+	EXPECT_EQ(ini.timestep.coarseLevel, 3);
+	EXPECT_EQ(ini.runtime.progressLevel, 5);
+	auto const override = test::parseConfig({"--config=" + first, "--timestep.coarseLevel=4", "--runtime.progressLevel=-1"});
+	EXPECT_EQ(override.timestep.coarseLevel, 4);
+	EXPECT_EQ(override.runtime.progressLevel, -1);
+	for (auto option : {"--timestep.coarseLevel=-1", "--timestep.coarseLevel=17", "--runtime.progressLevel=-2", "--runtime.progressLevel=17"})
+		EXPECT_THROW(test::parseConfig({option}), std::invalid_argument);
+}
+
 
 TEST_F(Options, CliOverridesIniRegardlessOfArgumentOrder) {
 	auto const c = test::parseConfig({"--gravity.multipoleOrder=5", "--config=" + first, "--gravity.openingAngle=0.5", "--runtime.workStealing=on"});

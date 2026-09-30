@@ -85,6 +85,8 @@ function(octo_test name module labels)
             DisabledTimeRefinementMatchesGlobalComposition
             NaiveSubcyclesAndRegridEnergyOptionRemainsIndependent
             NestedThreeLevelShellAndFluxRegistersConserve
+            GroupedCoarseLevelsSubcycleAndConserve
+            GroupingAboveFinestLevelUsesOneStableConservativeStep
             FineCflCanRequireMoreThanTwoSubsteps)
           add_test(NAME distributed.${target}.${case}.${count} COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/distributed.py $<TARGET_FILE:${target}>)
