@@ -137,6 +137,7 @@ arguments (one `--hpx:ini=` per setting):
 ```text
 --hpx:ini=hpx.lock_detection=1
 --hpx:ini=hpx.throw_on_held_lock=1
+--hpx:ini=hpx.trace_depth=0
 --hpx:ini=hpx.minimal_deadlock_detection=1
 --hpx:ini=hpx.spinlock_deadlock_detection=1
 --hpx:ini=hpx.spinlock_deadlock_detection_limit=10000000
@@ -147,6 +148,11 @@ arguments (one `--hpx:ini=` per setting):
 Lock verification detects suspension of an HPX thread while holding a
 registered lock; it does not detect every future dependency cycle. Minimal
 deadlock detection may stay quiet while parcels or other tasks keep running.
+On QueenBee4 with GCC 13.2, automatic lock backtraces crashed in
+`_Unwind_Backtrace` during the 3D grouped-coarse-level gravity check. Setting
+`hpx.trace_depth=0` avoided that crash while retaining lock verification;
+the same check passed on one and two localities with that setting. Use GDB
+for explicit stack inspection when automatic unwinding is unreliable.
 The warning log level avoids the volume of the full HPX debug log. See the
 pinned source and [HPX runtime configuration](https://docs.hpx.dev/latest/html/manual/launching_and_configuring_hpx_applications.html);
 the hosted documentation may describe a newer patch release.
