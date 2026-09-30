@@ -112,7 +112,6 @@ The preset enables `HPX_WITH_VERIFY_LOCKS`,
 `HPX_WITH_VERIFY_LOCKS_BACKTRACE`,
 `HPX_WITH_THREAD_DEBUG_INFO`,
 `HPX_WITH_SPINLOCK_DEADLOCK_DETECTION`,
-`HPX_WITH_THREAD_DESCRIPTION_FULL`,
 `HPX_WITH_THREAD_QUEUE_WAITTIME`, `HPX_WITH_THREAD_IDLE_RATES`,
 `HPX_WITH_THREAD_CREATION_AND_CLEANUP_RATES`,
 `HPX_WITH_THREAD_STEALING_COUNTS`, `HPX_WITH_COROUTINE_COUNTERS`,
@@ -125,6 +124,11 @@ enabling it fails to compile `thread_helpers.cpp` because `reset_backtrace`
 expects `thread_id_type` but receives `thread_id_ref_type`. Even after a source
 fix, suspended-thread backtraces require explicit inspection; they are not
 automatically printed when a future waits a long time.
+`HPX_WITH_THREAD_DESCRIPTION_FULL` also stays off: pinned HPX 1.11.0 fails
+to compile distributed actions with GCC 13.2 when it tries to take the
+address of the overloaded `Action::invoker` in `async_implementations.hpp`.
+The standard thread descriptions still work with APEX, and
+`HPX_WITH_THREAD_DEBUG_INFO` remains enabled for minimal deadlock detection.
 Sanitizers and Valgrind require separate compatible builds and tools.
 
 For a diagnostic batch run, add these HPX runtime settings to the executable
