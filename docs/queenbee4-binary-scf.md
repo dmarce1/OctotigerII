@@ -182,6 +182,20 @@ an unused predictor, including gravity conservation and regridding. The
 stage timings above are diagnostic measurements, not a measured whole-step
 speedup from this change.
 
+The job started at 10:14:48 and ended at 12:15:05 America/Chicago with
+Slurm state `TIMEOUT` (allocation elapsed 02:00:17). The task was cancelled
+by the time limit; the per-locality logs contained no held-lock violation,
+deadlock error, or segmentation fault. The first coarse step did not finish.
+Level 7 completed three substeps taking approximately 786, 774, and 768
+wall-clock seconds. Its step sizes were 0.015625, 0.00390625, and 0.00390625
+seconds. The next substep began at level-local time 0.0234375 seconds with
+`dt=0.0001220703125` seconds, 128 times smaller than its first step, and was
+still in the closing gravity work when the job timed out. Coarser levels
+were still awaiting their children; this is not a synchronized output time.
+The next numerical investigation should record the limiting cell and
+separate its signal-speed and acceleration timestep constraints. The
+existing logs do not identify the cause of the timestep reduction.
+
 ## Postmortem: job 1060438, 2026-09-29
 
 The four-node run used commit `1eb13ce0756fdb08520288b5cf76b98f39f26e94`
