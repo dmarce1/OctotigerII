@@ -51,12 +51,13 @@ public:
 		int minLevel = -1, maxLevel = 6, regridEvery = 4, bufferCells = 1;
 		units::Mass maxCellMass{};
 		units::Density refineDensity{};
+		units::Velocity refineSpeed{};
 		Real shadowTolerance = 0.05, shadowFloor = 1e-8, coarsenFactor = 0.25, signalBuffer = 1;
 
 		template <typename Archive>
 		void serialize(Archive& archive, unsigned) {
 			archive & enabled & hydro & radiation & minLevel & maxLevel & regridEvery & bufferCells;
-			archive & maxCellMass & refineDensity & shadowTolerance & shadowFloor & coarsenFactor & signalBuffer;
+			archive & maxCellMass & refineDensity & refineSpeed & shadowTolerance & shadowFloor & coarsenFactor & signalBuffer;
 		}
 	} amr;
 

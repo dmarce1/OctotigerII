@@ -61,6 +61,15 @@ private:
 	units::Density threshold_;
 };
 
+/// Grid-frame speed tagging, useful for constant-density vortical flows.
+class SpeedCriterion {
+public:
+	explicit SpeedCriterion(units::Velocity threshold) : threshold_(threshold) {}
+	Real operator()(CellView const& cell) const;
+private:
+	units::Velocity threshold_;
+};
+
 class ShadowCriterion {
 public:
 	explicit ShadowCriterion(Config::AmrOptions const& options)

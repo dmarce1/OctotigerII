@@ -1,0 +1,7 @@
+problem.name=gresho
+mesh.cells=8
+mesh.level=3
+runtime.stopTime=3
+verification.analytic=on
+output.directory=output/gresho
+output.every=10

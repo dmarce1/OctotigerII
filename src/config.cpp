@@ -49,6 +49,7 @@ namespace {
 		options("amr.maxLevel", po::value<int>(), "Finest allowed block level (default 6)");
 		options("amr.regridEvery", po::value<int>(), "Maximum synchronized timesteps between regrids (default 4)");
 		options("amr.refineDensity", po::value<Real>(), "Refine cells above this density (g/cm^3); 0 disables density refinement");
+		options("amr.refineSpeed", po::value<Real>(), "Refine gas faster than this speed (cm/s); 0 disables speed refinement");
 		options("amr.maxCellMass", po::value<Real>(), "Maximum mass per active cell (g); 0 disables mass refinement");
 		options("amr.shadowTolerance", po::value<Real>(), "Relative fine/shadow difference; 0 disables shadow refinement");
 		options("amr.shadowFloor", po::value<Real>(), "Normalization floor as a fraction of each field's maximum magnitude");
@@ -239,6 +240,7 @@ namespace {
 		readOption(values, "amr.bufferCells", config.amr.bufferCells);
 		readQuantity(values, "amr.maxCellMass", config.amr.maxCellMass);
 		readQuantity(values, "amr.refineDensity", config.amr.refineDensity);
+		readQuantity(values, "amr.refineSpeed", config.amr.refineSpeed);
 		readNumber(values, "amr.shadowTolerance", config.amr.shadowTolerance);
 		readNumber(values, "amr.shadowFloor", config.amr.shadowFloor);
 		readNumber(values, "amr.coarsenFactor", config.amr.coarsenFactor);
@@ -432,11 +434,14 @@ void Config::validate() const {
 	int const minimumLevel = amr.minLevel < 0 ? mesh.level : amr.minLevel;
 	if (amr.minLevel < -1 || minimumLevel > mesh.level || amr.maxLevel < minimumLevel || amr.maxLevel > 16 || (amr.enabled && amr.maxLevel < mesh.level) ||
 		amr.regridEvery < 1 || amr.bufferCells < 0 || !(amr.maxCellMass >= units::Mass{}) || !units::finite(amr.maxCellMass) || !(amr.refineDensity >= units::Density{}) || !units::finite(amr.refineDensity) ||
+		!(amr.refineSpeed >= units::Velocity{}) || !units::finite(amr.refineSpeed) ||
 		!isfinite(amr.shadowTolerance) || amr.shadowTolerance < 0 || !isfinite(amr.shadowFloor) || amr.shadowFloor <= 0 || !isfinite(amr.coarsenFactor) ||
 		!(amr.coarsenFactor > 0 && amr.coarsenFactor < 1) || !isfinite(amr.signalBuffer) || amr.signalBuffer < 1)
 		throw std::invalid_argument("Invalid AMR levels, criteria, buffering, or regrid interval");
 	if (amr.enabled && (amr.maxCellMass > units::Mass{} || amr.refineDensity > units::Density{}) && !hydroEnabled() && !gravityEnabled())
 		throw std::invalid_argument("Mass/density refinement requires a density field");
+	if (amr.enabled && amr.refineSpeed > units::Velocity{} && !hydroEnabled())
+		throw std::invalid_argument("Speed refinement requires hydro");
 	if (!(mesh.upper > mesh.lower) || !units::finite(mesh.upper - mesh.lower) || !(runtime.stopTime >= units::Time{}) ||
 		!(timestep.cfl > 0 && timestep.cfl <= 0.5) || !(hydro.gamma > 1) || !(radiation.lightSpeedRatio > 0 && radiation.lightSpeedRatio <= 1) ||
 		runtime.maxSteps < 1 || output.every < 1 || runtime.workerTasks < 0)

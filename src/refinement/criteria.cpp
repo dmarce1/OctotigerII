@@ -5,6 +5,18 @@
 
 namespace octotigerII::refinement {
 
+Real SpeedCriterion::operator()(CellView const& cell) const {
+	if (threshold_ <= units::Velocity{} || !cell.hasHydro) return 0;
+	auto const& state = cell.hydro.value;
+	if (state.density() <= units::Density{}) return 0;
+	Real squared = 0;
+	for (int d = 0; d < ndim; ++d) {
+		Real const component = state.momentum(d) / (state.density() * threshold_);
+		squared += component * component;
+	}
+	return std::sqrt(squared);
+}
+
 Real ShadowCriterion::operator()(CellView const& cell) const {
 	if (options_.shadowTolerance == 0) return 0;
 	Real error = 0;
@@ -21,7 +33,7 @@ Real ShadowCriterion::operator()(CellView const& cell) const {
 }
 
 Criteria makeCriteria(Config const& config) {
-	return {MassCriterion(config.amr.maxCellMass), DensityCriterion(config.amr.refineDensity), ShadowCriterion(config.amr)};
+	return {MassCriterion(config.amr.maxCellMass), DensityCriterion(config.amr.refineDensity), SpeedCriterion(config.amr.refineSpeed), ShadowCriterion(config.amr)};
 }
 
 Real score(CellView const& cell, Criteria const& criteria) {
