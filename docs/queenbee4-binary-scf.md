@@ -157,6 +157,31 @@ The warning log level avoids the volume of the full HPX debug log. See the
 pinned source and [HPX runtime configuration](https://docs.hpx.dev/latest/html/manual/launching_and_configuring_hpx_applications.html);
 the hosted documentation may describe a newer patch release.
 
+### Diagnostic evidence: job 1062249, 2026-09-30
+
+This four-node run used `da4f19a`, RelWithDebInfo with HPX diagnostics,
+`hpx.trace_depth=0`, `runtime.stopTime=0.25`, `scf.evolveOrbits=0`,
+`runtime.progressLevel=7`, and `timestep.coarseLevel=0`.
+Its exact submitted script is in `logs/qb4-dwd-1062249/submitted-job.sh`.
+The locality-0 progress log showed the initial gravity source-rate loop
+complete all 4,656 post-regrid blocks in 303.920 seconds, from
+`wall_s=780.064` to `1083.984`. The subsequent `shadow` stage lasted
+588.268 seconds before level-3 `begin` at `wall_s=1672.252`.
+No held-lock violation was reported through that checkpoint. This proves
+progress through those stages in this run; it does not exclude a later
+deadlock or establish the cause of the earlier timeout.
+
+The shadow stage copied and advanced the serial auxiliary hierarchy even
+though the input set `amr.shadowTolerance=0`. The runtime now omits that
+persistent predictor when the built-in shadow criterion is disabled and
+there are no custom criteria. Mesh selection and conservative transfer
+still construct the temporary hierarchies they need. Custom criteria
+retain the predictor because their field samples can inspect evolved
+shadow values. Regression checks compare physical evolution with and without
+an unused predictor, including gravity conservation and regridding. The
+stage timings above are diagnostic measurements, not a measured whole-step
+speedup from this change.
+
 ## Postmortem: job 1060438, 2026-09-29
 
 The four-node run used commit `1eb13ce0756fdb08520288b5cf76b98f39f26e94`

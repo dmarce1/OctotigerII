@@ -29,6 +29,9 @@ Runtime::Runtime(Config const& config, refinement::Criteria additionalCriteria)
   : impl_(std::make_unique<Impl>()) {
 	config.validate();
 	impl_->config = config;
+	// Custom criteria can inspect evolved shadow fields independently of the
+	// built-in shadow-error tolerance, so conservatively retain their predictor.
+	impl_->evolveShadow = config.amr.shadowTolerance > 0 || !additionalCriteria.empty();
 	impl_->criteria = refinement::makeCriteria(config);
 	for (auto& criterion : additionalCriteria)
 		impl_->criteria.push_back(std::move(criterion));
@@ -62,8 +65,10 @@ Runtime::Runtime(Config const& config, refinement::Criteria additionalCriteria)
 #endif
 	std::clog << "Initialization: distributed fields populated\n";
 	if (startup) {
-		std::clog << "Initialization: gathering initial AMR hierarchy\n";
-		impl_->shadow = std::make_unique<amr::Hierarchy>(config, impl_->exportSnapshots());
+		if (impl_->evolveShadow) {
+			std::clog << "Initialization: gathering initial AMR hierarchy\n";
+			impl_->shadow = std::make_unique<amr::Hierarchy>(config, impl_->exportSnapshots());
+		}
 		impl_->regridInitialized = true;
 		impl_->signalSpeed = startup->signalSpeed;
 		for (int d = 0; d < ndim; ++d)

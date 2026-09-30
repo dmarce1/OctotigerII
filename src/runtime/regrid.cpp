@@ -124,6 +124,9 @@ bool Runtime::regrid(units::Time nextStep, bool force) {
 			throw std::logic_error("Energy-conserving regrid requires synchronized gravity on the old mesh");
 		impl_->install(leaves, source);
 	}
+	// Mesh transfer needs a hierarchy even without error-based refinement,
+	// but only shadow-error or custom criteria need an independently evolved copy.
+	if (!impl_->evolveShadow) nextShadow.reset();
 	impl_->shadow = std::move(nextShadow);
 	impl_->lastRegridStep = impl_->time.step;
 	impl_->regridInitialized = true;

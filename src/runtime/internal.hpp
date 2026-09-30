@@ -552,6 +552,7 @@ public:
 	void applyEosFloor();
 	refinement::Criteria criteria;
 	std::unique_ptr<amr::Hierarchy> shadow;
+	bool evolveShadow = false;
 	std::uint64_t lastRegridStep = 0;
 	std::array<units::Velocity, ndim> signalSpeed{};
 	std::array<units::Length, ndim> travel{}, travelBudget{};

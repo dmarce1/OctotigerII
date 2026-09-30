@@ -87,6 +87,37 @@ TEST(Amr, MortonDestinationAndConservativeRefineCoarsen) {
 	compareTotals(initial, diagnose(runtime.snapshots(), c));
 }
 
+TEST(Amr, DisabledShadowMatchesEvolutionWithUnusedPredictor) {
+	if constexpr (!test::hydro && !test::radiation) {
+		GTEST_SKIP();
+	} else {
+		auto c = configuration();
+		Runtime disabled(c);
+		// Custom criteria retain a predictor because their field samples expose it.
+		Runtime reference(c, {[](refinement::CellView const&) { return Real(0); }});
+		EXPECT_EQ(disabled.shadowCellCount(), 0u);
+		EXPECT_GT(reference.shadowCellCount(), 0u);
+		for (int step = 0; step < 2; ++step) {
+			auto const dt = 0.1 * std::min(disabled.stableTimestep(), reference.stableTimestep());
+			disabled.advance(dt);
+			reference.advance(dt);
+			EXPECT_EQ(disabled.regrid(dt, true), reference.regrid(dt, true));
+			EXPECT_EQ(disabled.shadowCellCount(), 0u);
+			EXPECT_GT(reference.shadowCellCount(), 0u);
+			auto const actual = disabled.snapshots(), expected = reference.snapshots();
+			ASSERT_EQ(actual.size(), expected.size());
+			compareTotals(diagnose(actual, c), diagnose(expected, c));
+			for (std::size_t b = 0; b < actual.size(); ++b) {
+				EXPECT_EQ(actual[b].location, expected[b].location);
+				for (std::size_t i = 0; i < actual[b].layout.interiorCellCount(); ++i) {
+					if constexpr (test::hydro) test::expectStateNear(actual[b].hydro.values()[i], expected[b].hydro.values()[i]);
+					if constexpr (test::radiation) test::expectStateNear(actual[b].radiation.values()[i], expected[b].radiation.values()[i]);
+				}
+			}
+		}
+	}
+}
+
 TEST(Amr, FailedCriterionPreservesPublishedMeshAndState) {
 	auto c = configuration();
 	bool fail = false;

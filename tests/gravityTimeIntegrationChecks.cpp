@@ -396,6 +396,28 @@ TEST(GravityTimeIntegration, GroupedCoarseLevelsSubcycleAndConserve) {
 	}
 }
 
+TEST(GravityTimeIntegration, DisabledShadowPreservesGravityEvolution) {
+	for (auto const* method : {"hierarchical", "conventional"}) {
+		describeCase(method);
+		auto const c = configuration(method);
+		Runtime disabled(c), reference(c, {[](refinement::CellView const&) { return Real(0); }});
+		EXPECT_EQ(disabled.shadowCellCount(), 0u);
+		EXPECT_GT(reference.shadowCellCount(), 0u);
+		disabled.solveGravity(); reference.solveGravity();
+		auto const initial = diagnose(disabled.snapshots(), c);
+		auto const dt = 0.1 * std::min(disabled.stableTimestep(), reference.stableTimestep());
+		disabled.advanceGravity(dt); reference.advanceGravity(dt);
+		expectConservation(disabled, c, initial);
+		auto const actual = disabled.snapshots(), expected = reference.snapshots();
+		ASSERT_EQ(actual.size(), expected.size());
+		for (std::size_t b = 0; b < actual.size(); ++b) {
+			EXPECT_EQ(actual[b].location, expected[b].location);
+			for (std::size_t i = 0; i < actual[b].hydro.values().size(); ++i)
+				test::expectStateNear(actual[b].hydro.values()[i], expected[b].hydro.values()[i]);
+		}
+	}
+}
+
 TEST(GravityTimeIntegration, GroupingAboveFinestLevelUsesOneStableConservativeStep) {
 	for (auto const* method : {"hierarchical", "conventional"}) {
 		auto c = configuration(method, true); c.timestep.coarseLevel = 4;
